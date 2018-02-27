@@ -12,13 +12,5 @@ MonoBehaviour:
   m_Name: Floor
   m_EditorClassIdentifier: 
   m_Sprites:
-  - sprite: {fileID: 21300002, guid: a3b1f10b01e2be74a88d31a02ca5757c, type: 3}
+  - sprite: {fileID: 21300002, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
     probability: 1
-  - sprite: {fileID: 21300016, guid: a3b1f10b01e2be74a88d31a02ca5757c, type: 3}
-    probability: 1
-  - sprite: {fileID: 21300020, guid: a3b1f10b01e2be74a88d31a02ca5757c, type: 3}
-    probability: 4
-  - sprite: {fileID: 21300038, guid: a3b1f10b01e2be74a88d31a02ca5757c, type: 3}
-    probability: 1
-  - sprite: {fileID: 21300032, guid: a3b1f10b01e2be74a88d31a02ca5757c, type: 3}
-    probability: 3

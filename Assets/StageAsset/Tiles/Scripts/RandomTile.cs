@@ -10,7 +10,7 @@ using UnityEditor;
 [CreateAssetMenu]
 public class RandomTile : TileBase {
     public SpriteArray[] m_Sprites;
-    Vector3Int m_position;
+    Vector3Int mPosition;
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {
@@ -18,7 +18,7 @@ public class RandomTile : TileBase {
         Random.InitState(position.GetHashCode());
         int total = m_Sprites.Sum(x => x.probability);
         tileData.colliderType = Tile.ColliderType.None;
-        m_position = position;
+        mPosition = position;
 
         float randomPoint = Random.value * total;
         for (int i = 0; i < m_Sprites.Length; i++)
@@ -39,7 +39,7 @@ public class RandomTile : TileBase {
 
     public Vector3Int GetPosition()
     {
-        return m_position;
+        return mPosition;
     }
 
     [System.Serializable]

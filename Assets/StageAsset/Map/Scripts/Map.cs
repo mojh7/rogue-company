@@ -15,7 +15,6 @@ namespace Maps
         public GameObject[] m_monsterRoom;
         public GameObject[] m_itemRoom;
         public GameObject[] m_eventRoom;
-
         GameObject passageObj;
         Tilemap passageTileMap;
 
@@ -24,8 +23,8 @@ namespace Maps
         List<GameObject> roomList;
 
         int mapSize = 20;
-        int width = 3;
-        int height = 3;
+        int width = 4;
+        int height = 4;
 
         public static Map GetInstance()
         {
@@ -36,13 +35,19 @@ namespace Maps
 
             return instance;
         }
-
         private void Start()
         {
             InitMap();
             CreateRoom();
         }
-
+        public int GetWidht()
+        {
+            return width;
+        }
+        public int GetHeight()
+        {
+            return height;
+        }
         void InitMap()
         {
             roomArr = new Room[width, height];
@@ -50,7 +55,7 @@ namespace Maps
             {
                 for (int j = 0; j < height; j++)
                 {
-                    roomArr[i, j] = new Room(null, new Vector3(i * mapSize, j * mapSize), false);
+                    roomArr[i, j] = new Room(null, new Point(i, j), new Vector3(i * mapSize, j * mapSize), RoomType.NONE);
                 }
             }
             roomList = new List<GameObject>();
@@ -64,31 +69,28 @@ namespace Maps
             passageObj.AddComponent<CompositeCollider2D>();
             passageTileMap = passageObj.GetComponent<Tilemap>();
         }
-
         void CreateRoom()
         {
             ResetRoom();
-            int roomNum = UnityEngine.Random.Range(7, 10);
+            int roomNum = UnityEngine.Random.Range(width*height-width, width * height);
             SetRoom(roomNum);
         }
-
         void ResetRoom()
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    roomArr[i, j].isRoom = false;
+                    roomArr[i, j].isRoom = RoomType.NONE;
                 }
             }
         }
-
         void SetRoom(int _roomNum)
         {
             _roomNum -= 2;
             roomList.Add(m_startRoom);
             roomList.Add(m_endRoom);
-
+            Room startRoom = null;
             for (int i = 0; i < _roomNum; i++)
             {
                 roomList.Add(m_monsterRoom[0]);
@@ -106,67 +108,271 @@ namespace Maps
                     GameObject roomObj = roomList[i * height + j];
                     if (roomObj == null)
                     {
+                        roomArr[i, j].isRoom = RoomType.NONE;
+                        roomArr[i, j].SetObject();
                         continue;
                     }
-                    roomArr[i, j].isRoom = true;
+                    if (roomObj == m_startRoom)
+                    {
+                        roomArr[i, j].isRoom = RoomType.START;
+                        startRoom = roomArr[i, j];
+                    }
+                    else if (roomObj == m_endRoom)
+                    {
+                        roomArr[i, j].isRoom = RoomType.END;
+                    }
+                    else
+                    {
+                        roomArr[i, j].isRoom = RoomType.OTHER;
+                    }
                     GameObject obj = LoadRoom(roomObj);
                     roomArr[i, j].SetObject(obj);
                     obj.transform.parent = transform;
-                    obj.transform.position = roomArr[i, j].m_position;
+                    obj.transform.position = roomArr[i, j].mPosition;
                 }
             }
             ConnectRoom();
+            LinkAllRoom(startRoom);
         }
-
         void ConnectRoom()
         {
-            for (int i = 0; i < width; i++)
+            Room room = null;
+            List<Room> rooms = new List<Room>();
+            int x = 0, y = 0;
+            for (x = 0; x < width; x++)
             {
-                for (int j = 0; j < height; j++)
+                for (y = 0; y < height; y++)
                 {
-                    if (!roomArr[i, j].isRoom)
-                        continue;
-                    if (i <= width - 2)
+                    if (roomArr[x, y].isRoom == RoomType.START)
                     {
-                        if (roomArr[i + 1, j].isRoom)
-                        {
-                            MakePassage(roomArr[i, j], roomArr[i + 1, j], true);
-                        }
+                        room = roomArr[x, y];
+                        break;
                     }
-                    if (j <= height - 2)
+                }
+                if (room != null)
+                    break;
+            }
+            rooms.Add(room);
+            while (true)
+            {
+                bool isConnected = false;
+                Direction direction;
+                for (int i = 0; i < room.mDoor.Count; i++)
+                {
+                    int j = 0, k = 0;
+                    direction = room.mDoor[i].mDirection;
+                    switch (direction)
                     {
-                        if (roomArr[i, j + 1].isRoom)
+                        case Direction.LEFT:
+                            j = -1;
+                            break;
+                        case Direction.RIGHT:
+                            j = 1;
+                            break;
+                        case Direction.TOP:
+                            k = 1;
+                            break;
+                        case Direction.DOWN:
+                            k = -1;
+                            break;
+                    }
+                    if (roomArr[x + j,y + k].isLinked && UnityEngine.Random.Range(0, 10) <= 8)
+                        continue;
+
+                    if (roomArr[x + j, y + k].isRoom == RoomType.END) // 연결할 방이 엔딩 방일 경우
+                    {
+                        if (roomArr[x + j, y + k].isLinked)
+                            continue;
+                        else
                         {
-                            MakePassage(roomArr[i, j], roomArr[i, j + 1], false);
+                            if (room.isRoom == RoomType.START) // 현재 방이 첫번째 방일 경우
+                            {
+                                continue;
+                            }
+                            else // 현재 방이 첫번째 방이 아닐 경우 연결해야함
+                            {
+                                LinkRoom(room, roomArr[x + j, y + k], direction);
+                            }
+                        }
+
+                    }
+                    else // 연결할 방이 평범한 방일 경우
+                    {
+                        LinkRoom(room, roomArr[x + j, y + k], direction);
+                        room = roomArr[x + j, y + k];
+                        rooms.Add(room);
+                    }
+                    isConnected = true;
+                    break;
+                }
+
+                if (!isConnected)
+                {              
+                    rooms.Remove(room);
+                    if (room.mConfirmDoorList.Count == 1 && room.isRoom == RoomType.NONE)
+                    {
+                        room = BackLink(room);
+                    }
+                    else
+                    {
+                        ShuffleList(rooms);
+                        while (rooms.Count >= 0)
+                        {
+                            if (rooms.Count == 0)
+                            {
+                                return;
+                            }
+                            if (rooms[0].mDoor.Count == 0)
+                            {
+                                rooms.RemoveAt(0);
+                            }
+                            else
+                            {
+                                room = rooms[0];
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            MakePassageWall();
+                x = room.mPoint.x;
+                y = room.mPoint.y;
+            } // 트리 모양으로 연걸.
         }
-
-        void MakePassage(Room A, Room B, bool isHorizon)
+        void LinkRoom(Room A, Room B, Direction direction)
         {
-            if (isHorizon)
+            A.isLinked = true;
+            B.isLinked = true;
+            for(int i = 0; i < A.mDoor.Count; i++)
             {
-                Debug.DrawLine(A.m_door[1].m_position, B.m_door[0].m_position, Color.blue, 1000);
-                WorkGird(A.m_door[1].m_position, B.m_door[0].m_position);
-                A.m_doorList.Add(A.m_door[1].m_position);
-                B.m_doorList.Add(B.m_door[0].m_position);
-                A.SetDoor(A.m_door[1].m_position);
-                B.SetDoor(B.m_door[0].m_position);
+                if(A.mDoor[i].mDirection == direction)
+                {
+                    A.mConfirmDoorList.Add(A.mDoor[i]);
+                    A.mDoor.RemoveAt(i);
+                    break;
+                }
             }
-            else
+            Direction reverseDir = Direction.DOWN;
+            switch (direction)
             {
-                Debug.DrawLine(A.m_door[2].m_position, B.m_door[3].m_position, Color.blue, 1000);
-                WorkGird(A.m_door[2].m_position, B.m_door[3].m_position);
-                A.m_doorList.Add(A.m_door[2].m_position);
-                B.m_doorList.Add(B.m_door[3].m_position);
-                A.SetDoor(A.m_door[2].m_position);
-                B.SetDoor(B.m_door[3].m_position);
+                case Direction.LEFT:
+                    reverseDir = Direction.RIGHT;
+                    break;
+                case Direction.RIGHT:
+                    reverseDir = Direction.LEFT;
+                    break;
+                case Direction.TOP:
+                    reverseDir = Direction.DOWN;
+                    break;
+                case Direction.DOWN:
+                    reverseDir = Direction.TOP;
+                    break;
+            }
+            for (int i = 0; i < B.mDoor.Count; i++)
+            {
+                if (B.mDoor[i].mDirection == reverseDir)
+                {
+                    B.mConfirmDoorList.Add(B.mDoor[i]);
+                    B.mDoor.RemoveAt(i);
+                    break;
+                }
+            }
+        } //방 연결
+        Room BackLink(Room A)
+        {
+            Direction direction = A.mConfirmDoorList[0].mDirection; 
+
+            Direction reverseDir = Direction.DOWN;
+            Room B = null;
+
+            switch (direction)
+            {
+                case Direction.LEFT:
+                    reverseDir = Direction.RIGHT;
+                    B = roomArr[A.mPoint.x - 1, A.mPoint.y];
+                    break;
+                case Direction.RIGHT:
+                    reverseDir = Direction.LEFT;
+                    B = roomArr[A.mPoint.x + 1, A.mPoint.y];
+                    break;
+                case Direction.TOP:
+                    reverseDir = Direction.DOWN;
+                    B = roomArr[A.mPoint.x, A.mPoint.y + 1];
+                    break;
+                case Direction.DOWN:
+                    reverseDir = Direction.TOP;
+                    B = roomArr[A.mPoint.x, A.mPoint.y - 1];
+                    break;
+            }
+
+            for (int i = 0; i < B.mConfirmDoorList.Count; i++)
+            {
+                if (B.mConfirmDoorList[i].mDirection == reverseDir)
+                {
+                    B.mConfirmDoorList.RemoveAt(i);
+                    break;
+                }
+            }
+
+            return B;
+        } // 방 뒤로가기.
+        void LinkAllRoom(Room room)
+        {
+            room.visited = true;
+            Direction direction;
+            int j, k;
+            for (int i = 0; i < room.mConfirmDoorList.Count; i++)
+            {
+                j = 0;
+                k = 0;
+                if (room.mConfirmDoorList[i].visited)
+                    continue;
+                direction = room.mConfirmDoorList[i].mDirection;
+                room.mConfirmDoorList[i].visited = true;
+                switch (direction)
+                {
+                    case Direction.LEFT:
+                        j = -1;
+                        break;
+                    case Direction.RIGHT:
+                        j = 1;
+                        break;
+                    case Direction.TOP:
+                        k = 1;
+                        break;
+                    case Direction.DOWN:
+                        k = -1;
+                        break;
+                }
+                Debug.DrawLine(room.mPosition, roomArr[room.mPoint.x + j, room.mPoint.y + k].mPosition, Color.red, 10000);
+                LinkAllRoom(roomArr[room.mPoint.x + j, room.mPoint.y + k]);
             }
         }
 
+        void MakeCorridor(Room A, Room B)
+        {
+
+        }
+        //void MakePassage(Room A, Room B, bool isHorizon)
+        //{
+        //    if (isHorizon)
+        //    {
+        //        Debug.DrawLine(A.mDoor[1].mPosition, B.mDoor[0].mPosition, Color.blue, 1000);
+        //        WorkGird(A.mDoor[1].mPosition, B.mDoor[0].mPosition);
+        //        A.m_doorList.Add(A.mDoor[1].mPosition);
+        //        B.m_doorList.Add(B.mDoor[0].mPosition);
+        //        A.SetDoor(A.mDoor[1].mPosition);
+        //        B.SetDoor(B.mDoor[0].mPosition);
+        //    }
+        //    else
+        //    {
+        //        Debug.DrawLine(A.mDoor[2].mPosition, B.mDoor[3].mPosition, Color.blue, 1000);
+        //        WorkGird(A.mDoor[2].mPosition, B.mDoor[3].mPosition);
+        //        A.m_doorList.Add(A.mDoor[2].mPosition);
+        //        B.m_doorList.Add(B.mDoor[3].mPosition);
+        //        A.SetDoor(A.mDoor[2].mPosition);
+        //        B.SetDoor(B.mDoor[3].mPosition);
+        //    }
+        //}
         void WorkGird(Vector3Int p1, Vector3Int p2)
         {
             int dx = p1.x - p2.x, dy = p1.y - p2.y;
@@ -203,7 +409,6 @@ namespace Maps
             }
             passageTileMap.SetTile(new Vector3Int(p.x, p.y, 0), floorTile);
         }
-
         void MakePassageWall()
         {
             TileBase wallTile = TileManager.GetInstance().wallTile;
@@ -229,7 +434,6 @@ namespace Maps
                 }
             }
         }
-
         void ShuffleList<T>(List<T> list)
         {
             int n = list.Count;
@@ -243,50 +447,73 @@ namespace Maps
                 list[n] = value;
             }
         }
-
         GameObject LoadRoom(GameObject _obj)
         {
             return UnityEngine.Object.Instantiate(_obj);
         }
+    }
 
+    enum RoomType
+    {
+        START, END, OTHER, NONE
+    }
+
+    enum Direction
+    {
+        LEFT, RIGHT, TOP, DOWN
     }
 
     class Room
     {
-        GameObject m_roomObj;
-        public Vector3 m_position;
-        public bool isRoom;
-        public Door[] m_door; // LEFT, RIGHT, UP, DOWN 
-        public List<Vector3Int> m_doorList;
+        GameObject mRoomObj;
+        public Point mPoint;
+        public Vector3 mPosition;
+        public RoomType isRoom;
+        public List<Door> mDoor; // LEFT, RIGHT, UP, DOWN 
+        public List<Door> mConfirmDoorList;
         public bool isLinked;
+        public bool visited;
 
-        public Room(GameObject _roomObj, Vector3 _position, bool _isRoom)
+        public Room(GameObject _roomObj, Point _point, Vector3 _position, RoomType _isRoom)
         {
-            m_roomObj = _roomObj;
-            m_position = _position;
+            mRoomObj = _roomObj;
+            mPoint = _point;
+            mPosition = _position;
             isRoom = _isRoom;
-            m_door = new Door[4];
-            m_doorList = new List<Vector3Int>();
+            mDoor = new List<Door>();
+            mConfirmDoorList = new List<Door>();
             isLinked = false;
+            visited = false;
         }
         public GameObject GetObject()
         {
-            return m_roomObj;
+            return mRoomObj;
         }
         public void SetObject(GameObject _roomObj)
         {
-            m_roomObj = _roomObj;
+            mRoomObj = _roomObj;
             SetDoorTile();
+        }
+        public void SetObject()
+        {
+            if (mPoint.x != 0) 
+                mDoor.Add(new Door(null, Vector3Int.zero, Direction.LEFT));
+            if(mPoint.x!=Map.GetInstance().GetWidht()-1)
+                mDoor.Add(new Door(null, Vector3Int.zero, Direction.RIGHT));
+            if (mPoint.y != Map.GetInstance().GetHeight() - 1)
+                mDoor.Add(new Door(null, Vector3Int.zero, Direction.TOP));
+            if (mPoint.y != 0)
+                mDoor.Add(new Door(null, Vector3Int.zero, Direction.DOWN));
         }
         public void SetDoor(Vector3Int _position)
         {
-            Tilemap tilemap = m_roomObj.GetComponent<Tilemap>();
+            Tilemap tilemap = mRoomObj.GetComponent<Tilemap>();
             TileBase doorTile = TileManager.GetInstance().doorTile;
-            tilemap.SetTile(new Vector3Int(_position.x - (int)m_position.x, _position.y - (int)m_position.y, 0), doorTile);
+            tilemap.SetTile(new Vector3Int(_position.x - (int)mPosition.x, _position.y - (int)mPosition.y, 0), doorTile);
         }
         void SetDoorTile()
         {
-            Tilemap tilemap = m_roomObj.GetComponent<Tilemap>();
+            Tilemap tilemap = mRoomObj.GetComponent<Tilemap>();
             BoundsInt size = tilemap.cellBounds;
             TileBase wallTile = TileManager.GetInstance().wallTile;
             foreach (var position in tilemap.cellBounds.allPositionsWithin)
@@ -297,22 +524,22 @@ namespace Maps
                 {
                     if (tile.name == "Door")
                     {
-                        Vector3Int vector3 = new Vector3Int(position.x + (int)m_position.x, position.y + (int)m_position.y, 0);
-                        if (tilemap.GetTile(new Vector3Int(position.x - 1, position.y, 0)) == null)
+                        Vector3Int vector3 = new Vector3Int(position.x + (int)mPosition.x, position.y + (int)mPosition.y, 0);
+                        if (tilemap.GetTile(new Vector3Int(position.x - 1, position.y, 0)) == null && mPoint.x != 0)
                         {
-                            m_door[0] = new Door(tile,vector3,Direction.LEFT);
+                            mDoor.Add(new Door(tile,vector3,Direction.LEFT));
                         }
-                        else if (tilemap.GetTile(new Vector3Int(position.x + 1, position.y, 0)) == null)
+                        else if (tilemap.GetTile(new Vector3Int(position.x + 1, position.y, 0)) == null && mPoint.x != Map.GetInstance().GetWidht() - 1)
                         {
-                            m_door[1] = new Door(tile, vector3, Direction.RIGHT);
+                            mDoor.Add(new Door(tile, vector3, Direction.RIGHT));
                         }
-                        else if (tilemap.GetTile(new Vector3Int(position.x, position.y + 1, 0)) == null)
+                        else if (tilemap.GetTile(new Vector3Int(position.x, position.y + 1, 0)) == null && mPoint.y != Map.GetInstance().GetHeight() - 1)
                         {
-                            m_door[2] = new Door(tile, vector3, Direction.TOP);
+                            mDoor.Add(new Door(tile, vector3, Direction.TOP));
                         }
-                        else
+                        else if(tilemap.GetTile(new Vector3Int(position.x, position.y - 1, 0)) == null && mPoint.y != 0)
                         {
-                            m_door[3] = new Door(tile, vector3, Direction.DOWN);
+                            mDoor.Add(new Door(tile, vector3, Direction.DOWN));
                         }
                         tilemap.SetTile(new Vector3Int(position.x, position.y, 0), wallTile);
                     }
@@ -323,16 +550,17 @@ namespace Maps
 
     class Door
     {
-        public TileBase m_tile;
-        public Vector3Int m_position;
-        public Direction m_direction;
-        public int weight;
+        public TileBase mTile;
+        public Vector3Int mPosition;
+        public Direction mDirection;
+        public bool visited;
 
         public Door(TileBase _tile, Vector3Int _positon, Direction _direction)
         {
-            m_tile = _tile;
-            m_position = _positon;
-            m_direction = _direction;
+            mTile = _tile;
+            mPosition = _positon;
+            mDirection = _direction;
+            visited = false;
         }
     }
 
@@ -344,135 +572,6 @@ namespace Maps
         {
             x = _x;
             y = _y;
-        }
-    }
-
-    enum Direction
-    {
-        LEFT, RIGHT, TOP, DOWN
-    }
-
-    class Heap<T> where T : IHeapItem<T>
-    {
-
-        T[] items;
-        int currentItemCount;
-
-        public Heap(int maxHeapSize)
-        {
-            items = new T[maxHeapSize];
-        }
-
-        public void Add(T item)
-        {
-            item.HeapIndex = currentItemCount;
-            items[currentItemCount] = item;
-            SortUp(item);
-            currentItemCount++;
-        }
-
-        public T RemoveFirst()
-        {
-            T firstItem = items[0];
-            currentItemCount--;
-            items[0] = items[currentItemCount];
-            items[0].HeapIndex = 0;
-            SortDown(items[0]);
-            return firstItem;
-        }
-
-        public void UpdateItem(T item)
-        {
-            SortUp(item);
-        }
-
-        public int Count
-        {
-            get
-            {
-                return currentItemCount;
-            }
-        }
-
-        public bool Contains(T item)
-        {
-            return Equals(items[item.HeapIndex], item);
-        }
-
-        void SortDown(T item)
-        {
-            while (true)
-            {
-                int childIndexLeft = item.HeapIndex * 2 + 1;
-                int childIndexRight = item.HeapIndex * 2 + 2;
-                int swapIndex = 0;
-
-                if (childIndexLeft < currentItemCount)
-                {
-                    swapIndex = childIndexLeft;
-
-                    if (childIndexRight < currentItemCount)
-                    {
-                        if (items[childIndexLeft].CompareTo(items[childIndexRight]) < 0)
-                        {
-                            swapIndex = childIndexRight;
-                        }
-                    }
-
-                    if (item.CompareTo(items[swapIndex]) < 0)
-                    {
-                        Swap(item, items[swapIndex]);
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                }
-                else
-                {
-                    return;
-                }
-
-            }
-        }
-
-        void SortUp(T item)
-        {
-            int parentIndex = (item.HeapIndex - 1) / 2;
-
-            while (true)
-            {
-                T parentItem = items[parentIndex];
-                if (item.CompareTo(parentItem) > 0)
-                {
-                    Swap(item, parentItem);
-                }
-                else
-                {
-                    break;
-                }
-
-                parentIndex = (item.HeapIndex - 1) / 2;
-            }
-        }
-
-        void Swap(T itemA, T itemB)
-        {
-            items[itemA.HeapIndex] = itemB;
-            items[itemB.HeapIndex] = itemA;
-            int itemAIndex = itemA.HeapIndex;
-            itemA.HeapIndex = itemB.HeapIndex;
-            itemB.HeapIndex = itemAIndex;
-        }
-    }
-
-    interface IHeapItem<T> : IComparable<T>
-    {
-        int HeapIndex
-        {
-            get;
-            set;
         }
     }
 }

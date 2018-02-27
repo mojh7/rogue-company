@@ -12,7 +12,7 @@ public class DoorTile : TileBase
 {
     enum DoorDir { LEFT, RIGHT, UP, DOWN };
 
-    Vector3Int m_position;
+    Vector3Int mPosition;
     public Sprite[] m_WallSprite;
     public Sprite[] m_DoorSprite;
     DoorDir doorDir;
@@ -29,7 +29,7 @@ public class DoorTile : TileBase
         TileBase rightTile = tilemap.GetTile(new Vector3Int(position.x + 1, position.y, 0));
         TileBase upTile = tilemap.GetTile(new Vector3Int(position.x, position.y + 1, 0));
         TileBase downTile = tilemap.GetTile(new Vector3Int(position.x, position.y - 1, 0));
-        m_position = position;
+        mPosition = position;
         if (null == leftTile) // 왼쪽 타일이 null
         {
             doorDir = DoorDir.LEFT;
@@ -90,6 +90,6 @@ public class DoorTile : TileBase
 
     public Vector3Int GetPosition()
     {
-        return m_position;
+        return mPosition;
     }
 }

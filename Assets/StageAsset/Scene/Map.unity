@@ -224,15 +224,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a950f3bbe7bb5498c35fa4a74b2040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_startRoom: {fileID: 1748424077388560, guid: 01670d2d40bdbda4ba3e0c46f5e8a25d,
+  m_startRoom: {fileID: 1471049685113566, guid: 01670d2d40bdbda4ba3e0c46f5e8a25d,
     type: 2}
-  m_endRoom: {fileID: 1426710033758954, guid: 3553e3ee57492444c98d719e04d1e527, type: 2}
+  m_endRoom: {fileID: 1822509330374612, guid: 3553e3ee57492444c98d719e04d1e527, type: 2}
   m_monsterRoom:
-  - {fileID: 1903117397745084, guid: d541d31e3859b6b4b951d3524feab23e, type: 2}
+  - {fileID: 1057404929942762, guid: d541d31e3859b6b4b951d3524feab23e, type: 2}
   m_itemRoom:
-  - {fileID: 1903117397745084, guid: d541d31e3859b6b4b951d3524feab23e, type: 2}
+  - {fileID: 1471049685113566, guid: 01670d2d40bdbda4ba3e0c46f5e8a25d, type: 2}
   m_eventRoom:
-  - {fileID: 1903117397745084, guid: d541d31e3859b6b4b951d3524feab23e, type: 2}
+  - {fileID: 1471049685113566, guid: 01670d2d40bdbda4ba3e0c46f5e8a25d, type: 2}
 --- !u!156049354 &572565053
 Grid:
   m_ObjectHideFlags: 0

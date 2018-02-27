@@ -10,21 +10,21 @@ public class ObjectTile : TileBase
 {
     public Sprite m_Sprite;
     public GameObject m_gameObject;
-    Vector3Int m_position;
+    Vector3Int mPosition;
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {
         if (m_gameObject == null)
             return;
         tileData.colliderType = Tile.ColliderType.None;
-        m_position = position;
+        mPosition = position;
 
         tileData.sprite = m_Sprite;
     }
 
     public Vector3Int GetPosition()
     {
-        return m_position;
+        return mPosition;
     }
 
     public GameObject GetGameObject()

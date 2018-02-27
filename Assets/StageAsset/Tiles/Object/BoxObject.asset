@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: BoxObject
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300002, guid: 0a3b75bcf5e62254e8aec227f318e7c9, type: 3}
-  m_gameObject: {fileID: 1870782658440752, guid: e086e6c86074e0c4e854618818a7b598,
+  m_gameObject: {fileID: 1748424077388560, guid: 01670d2d40bdbda4ba3e0c46f5e8a25d,
     type: 2}
