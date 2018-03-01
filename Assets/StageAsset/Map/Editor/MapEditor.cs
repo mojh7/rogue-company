@@ -22,8 +22,8 @@ public class MapEditor : EditorWindow
     void OnGUI()
     {
         obj = (GameObject)EditorGUILayout.ObjectField("Map", obj, typeof(GameObject));
-        width = EditorGUILayout.IntField("width", 30);
-        height = EditorGUILayout.IntField("height", 30);
+        width = EditorGUILayout.IntField("width", width);
+        height = EditorGUILayout.IntField("height", height);
 
         if (GUILayout.Button("Show Boundary 30 duration"))
         {

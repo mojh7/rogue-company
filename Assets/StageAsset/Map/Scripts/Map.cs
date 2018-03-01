@@ -10,22 +10,37 @@ namespace Maps
     {
         private static Map instance;
 
-        public GameObject m_startRoom;
-        public GameObject m_endRoom;
-        public GameObject[] m_monsterRoom;
-        public GameObject[] m_itemRoom;
-        public GameObject[] m_eventRoom;
-        GameObject passageObj;
-        Tilemap passageTileMap;
+        public GameObject mStartRoom;
+        public GameObject mEndRoom;
+        public GameObject[] mMonsterRoom;
+        public GameObject[] mItemRoom;
+        public GameObject[] mEventRoom;
+        public GameObject mDoorObjet;
+        public Tilemap corridorTileMap;
 
-        Queue<Point> passagePositions;
+        Queue<Point> corridorPoint;
         Room[,] roomArr;
+        int[,] mapArr; // 0 = none , 1 = floor , 2 = wall, 3 = door
         List<GameObject> roomList;
 
         int mapSize = 20;
         int width = 4;
         int height = 4;
 
+        private void Start()
+        {
+            InitMap();
+            CreateRoom();
+        }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                ResetRoom();
+                CreateRoom();
+            }
+        }
+        #region GetSet
         public static Map GetInstance()
         {
             if (!instance)
@@ -35,22 +50,33 @@ namespace Maps
 
             return instance;
         }
-        private void Start()
+        public int GetSize() { return mapSize; }
+        public int GetWidth() { return width; }
+        public int GetHeight() { return height; }
+        public void SetMapArr(int i,int j,TileBase tile)
         {
-            InitMap();
-            CreateRoom();
+            if(tile.name == "Floor")
+            {
+                mapArr[i, j] = 1;
+            }
+            else if(tile.name == "Wall")
+            {
+                mapArr[i, j] = 2;
+            }
+            else if (tile.name == "Door")
+            {
+                mapArr[i, j] = 3;
+            }
+            else
+            {
+                mapArr[i, j] = 0;
+            }
         }
-        public int GetWidht()
-        {
-            return width;
-        }
-        public int GetHeight()
-        {
-            return height;
-        }
+        #endregion
         void InitMap()
         {
             roomArr = new Room[width, height];
+            mapArr = new int[width * mapSize, height * mapSize];
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -59,41 +85,51 @@ namespace Maps
                 }
             }
             roomList = new List<GameObject>();
-            passagePositions = new Queue<Point>();
-            passageObj = new GameObject();
-            passageObj.name = "Passage";
-            passageObj.transform.parent = transform;
-            passageObj.AddComponent<TilemapRenderer>();
-            passageObj.AddComponent<TilemapCollider2D>().usedByComposite = true;
-            passageObj.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-            passageObj.AddComponent<CompositeCollider2D>();
-            passageTileMap = passageObj.GetComponent<Tilemap>();
-        }
+            corridorPoint = new Queue<Point>();
+        } // 초반 데이터 초기화
+        #region CreateRoom
         void CreateRoom()
         {
             ResetRoom();
             int roomNum = UnityEngine.Random.Range(width*height-width, width * height);
             SetRoom(roomNum);
-        }
+            MakeCorridorWall();
+            MakeDoor();
+        } // 방을 만드는 함수. 너비 * 높이 - 너비 ~ 너비 * 높이 사이의 갯수의 방을 만듬
         void ResetRoom()
         {
+            roomList.Clear();
+            corridorPoint.Clear();
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    roomArr[i, j].isRoom = RoomType.NONE;
+                    roomArr[i, j].ResetAll();
                 }
             }
-        }
+            for(int i = 0; i < width * mapSize; i++)
+            {
+                for(int j=0; j < height * mapSize; j++)
+                {
+                    mapArr[i, j] = 0; // 0 = none
+                }
+            }
+            Transform[] childList = GetComponentsInChildren<Transform>();
+            corridorTileMap.ClearAllTiles();
+            for (int i = 2; i < childList.Length; i++)
+            {
+                Destroy(childList[i].gameObject);
+            }
+        } // 모든 방의 데이터 초기화
         void SetRoom(int _roomNum)
         {
             _roomNum -= 2;
-            roomList.Add(m_startRoom);
-            roomList.Add(m_endRoom);
+            roomList.Add(mStartRoom);
+            roomList.Add(mEndRoom);
             Room startRoom = null;
             for (int i = 0; i < _roomNum; i++)
             {
-                roomList.Add(m_monsterRoom[0]);
+                roomList.Add(mMonsterRoom[0]);
             }
             for (int i = roomList.Count; i < width * height; i++)
             {
@@ -108,22 +144,22 @@ namespace Maps
                     GameObject roomObj = roomList[i * height + j];
                     if (roomObj == null)
                     {
-                        roomArr[i, j].isRoom = RoomType.NONE;
+                        roomArr[i, j].mRoomType = RoomType.NONE;
                         roomArr[i, j].SetObject();
                         continue;
                     }
-                    if (roomObj == m_startRoom)
+                    if (roomObj == mStartRoom)
                     {
-                        roomArr[i, j].isRoom = RoomType.START;
+                        roomArr[i, j].mRoomType = RoomType.START;
                         startRoom = roomArr[i, j];
                     }
-                    else if (roomObj == m_endRoom)
+                    else if (roomObj == mEndRoom)
                     {
-                        roomArr[i, j].isRoom = RoomType.END;
+                        roomArr[i, j].mRoomType = RoomType.END;
                     }
                     else
                     {
-                        roomArr[i, j].isRoom = RoomType.OTHER;
+                        roomArr[i, j].mRoomType = RoomType.OTHER;
                     }
                     GameObject obj = LoadRoom(roomObj);
                     roomArr[i, j].SetObject(obj);
@@ -133,7 +169,7 @@ namespace Maps
             }
             ConnectRoom();
             LinkAllRoom(startRoom);
-        }
+        } // 방 생성 시 방 개수를 입력하여 방 배치.
         void ConnectRoom()
         {
             Room room = null;
@@ -143,18 +179,23 @@ namespace Maps
             {
                 for (y = 0; y < height; y++)
                 {
-                    if (roomArr[x, y].isRoom == RoomType.START)
+                    SortDoorList(x, y, roomArr[x, y].mDoor);
+                    if (roomArr[x, y].mRoomType == RoomType.START)
                     {
                         room = roomArr[x, y];
-                        break;
                     }
                 }
-                if (room != null)
-                    break;
             }
             rooms.Add(room);
+            if(room == null)
+            {
+                Debug.Log("A");
+            }
+
             while (true)
             {
+                x = room.mPoint.x;
+                y = room.mPoint.y;
                 bool isConnected = false;
                 Direction direction;
                 for (int i = 0; i < room.mDoor.Count; i++)
@@ -176,16 +217,18 @@ namespace Maps
                             k = -1;
                             break;
                     }
-                    if (roomArr[x + j,y + k].isLinked && UnityEngine.Random.Range(0, 10) <= 8)
-                        continue;
-
-                    if (roomArr[x + j, y + k].isRoom == RoomType.END) // 연결할 방이 엔딩 방일 경우
+                    if (roomArr[x + j,y + k].isLinked) //이미 연결되었을 경우 20퍼센트 확률로 연결하여 사이클 생성
+                    {
+                        if(roomArr[x + j, y + k].mRoomType == RoomType.NONE || UnityEngine.Random.Range(0, 10) >= 2)
+                            continue;
+                    }
+                    if (roomArr[x + j, y + k].mRoomType == RoomType.END) // 연결할 방이 엔딩 방일 경우
                     {
                         if (roomArr[x + j, y + k].isLinked)
                             continue;
                         else
                         {
-                            if (room.isRoom == RoomType.START) // 현재 방이 첫번째 방일 경우
+                            if (room.mRoomType == RoomType.START) // 현재 방이 첫번째 방일 경우
                             {
                                 continue;
                             }
@@ -208,10 +251,10 @@ namespace Maps
 
                 if (!isConnected)
                 {              
-                    rooms.Remove(room);
-                    if (room.mConfirmDoorList.Count == 1 && room.isRoom == RoomType.NONE)
+                    rooms.Remove(room); // 연결이 안됬을 경우 더이상 연결할 방이 없다는 뜻이므로 연결 가능한 룸 리스트에서 삭제
+                    if (room.mConfirmDoorList.Count == 1 && room.mRoomType == RoomType.NONE) // 만약 none 방이고 다른 방과 연결되어 있지 않다면 뒤로 돌아가 삭제
                     {
-                        room = BackLink(room);
+                        room = BackLink(room);// 뒤로 돌아가 삭제하고 연결된 방을 리턴함.
                     }
                     else
                     {
@@ -234,10 +277,8 @@ namespace Maps
                         }
                     }
                 }
-                x = room.mPoint.x;
-                y = room.mPoint.y;
             } // 트리 모양으로 연걸.
-        }
+        } // 방을 데이터 상으로 연결
         void LinkRoom(Room A, Room B, Direction direction)
         {
             A.isLinked = true;
@@ -276,7 +317,7 @@ namespace Maps
                     break;
                 }
             }
-        } //방 연결
+        } // 두개의 방 연결.
         Room BackLink(Room A)
         {
             Direction direction = A.mConfirmDoorList[0].mDirection; 
@@ -314,20 +355,17 @@ namespace Maps
             }
 
             return B;
-        } // 방 뒤로가기.
+        } // 쓸모없는 방 삭제를 위한 함수
         void LinkAllRoom(Room room)
         {
             room.visited = true;
             Direction direction;
             int j, k;
-            for (int i = 0; i < room.mConfirmDoorList.Count; i++)
+            for (int i = 0; i < room.mConfirmDoorList.Count; i++) // room에 연결된 Door 리스트를 확인하여 링크.
             {
                 j = 0;
                 k = 0;
-                if (room.mConfirmDoorList[i].visited)
-                    continue;
                 direction = room.mConfirmDoorList[i].mDirection;
-                room.mConfirmDoorList[i].visited = true;
                 switch (direction)
                 {
                     case Direction.LEFT:
@@ -343,97 +381,178 @@ namespace Maps
                         k = -1;
                         break;
                 }
-                Debug.DrawLine(room.mPosition, roomArr[room.mPoint.x + j, room.mPoint.y + k].mPosition, Color.red, 10000);
+                if (roomArr[room.mPoint.x + j, room.mPoint.y + k].visited)
+                    continue;
                 LinkAllRoom(roomArr[room.mPoint.x + j, room.mPoint.y + k]);
+                MakeCorridor(room);
             }
-        }
-
-        void MakeCorridor(Room A, Room B)
+        } // 모든 방 실제로 연결
+        void MakeCorridor(Room A)
         {
-
-        }
-        //void MakePassage(Room A, Room B, bool isHorizon)
-        //{
-        //    if (isHorizon)
-        //    {
-        //        Debug.DrawLine(A.mDoor[1].mPosition, B.mDoor[0].mPosition, Color.blue, 1000);
-        //        WorkGird(A.mDoor[1].mPosition, B.mDoor[0].mPosition);
-        //        A.m_doorList.Add(A.mDoor[1].mPosition);
-        //        B.m_doorList.Add(B.mDoor[0].mPosition);
-        //        A.SetDoor(A.mDoor[1].mPosition);
-        //        B.SetDoor(B.mDoor[0].mPosition);
-        //    }
-        //    else
-        //    {
-        //        Debug.DrawLine(A.mDoor[2].mPosition, B.mDoor[3].mPosition, Color.blue, 1000);
-        //        WorkGird(A.mDoor[2].mPosition, B.mDoor[3].mPosition);
-        //        A.m_doorList.Add(A.mDoor[2].mPosition);
-        //        B.m_doorList.Add(B.mDoor[3].mPosition);
-        //        A.SetDoor(A.mDoor[2].mPosition);
-        //        B.SetDoor(B.mDoor[3].mPosition);
-        //    }
-        //}
-        void WorkGird(Vector3Int p1, Vector3Int p2)
-        {
-            int dx = p1.x - p2.x, dy = p1.y - p2.y;
-            int nx = Mathf.Abs(dx), ny = Mathf.Abs(dy);
-            int sign_x = dx < 0 ? 1 : -1, sign_y = dy < 0 ? 1 : -1;
-            Point p = new Point(p1.x, p1.y);
+            Direction direction,reverseDir = Direction.DOWN;
+            int j, k;
+            int x = A.mPoint.x;
+            int y = A.mPoint.y;
+            Vector3Int bPos = Vector3Int.zero;
             TileBase floorTile = TileManager.GetInstance().floorTile;
-            passageTileMap.SetTile(new Vector3Int(p.x, p.y, 0), floorTile);
-            int ix, iy;
-            for (ix = 0, iy = 0; ix < nx - 1 || iy < ny - 1;)
+
+            for (int i = 0; i < A.mConfirmDoorList.Count; i++)
             {
-                if ((0.5 + ix) / nx < (0.5 + iy) / ny)
+                j = 0;k = 0;
+                direction = A.mConfirmDoorList[i].mDirection;
+                switch (direction)
                 {
-                    p.x += sign_x;
-                    ix++;
+                    case Direction.LEFT:
+                        j = -1;
+                        reverseDir = Direction.RIGHT;
+                        break;
+                    case Direction.RIGHT:
+                        j = 1;
+                        reverseDir = Direction.LEFT;
+                        break;
+                    case Direction.TOP:
+                        k = 1;
+                        reverseDir = Direction.DOWN;
+                        break;
+                    case Direction.DOWN:
+                        k = -1;
+                        reverseDir = Direction.TOP;
+                        break;
+                }
+                foreach(Door bDoor in roomArr[x + j, y + k].mConfirmDoorList)
+                {
+                    if (bDoor.mDirection == reverseDir)
+                    {
+                        bPos = bDoor.mPosition;
+                        break;
+                    }
+                }
+                Vector3Int midPos = new Vector3Int((bPos.x + A.mConfirmDoorList[i].mPosition.x)/2, (bPos.y + A.mConfirmDoorList[i].mPosition.y)/2, 0); // 중간 점
+                if (Direction.LEFT == direction || Direction.RIGHT == direction)
+                {
+                    foreach (int index in Range(midPos.x, A.mConfirmDoorList[i].mPosition.x))
+                    {
+                        corridorPoint.Enqueue(new Point(index, A.mConfirmDoorList[i].mPosition.y));
+                        corridorTileMap.SetTile(new Vector3Int(index, A.mConfirmDoorList[i].mPosition.y, 0), floorTile);
+                        Map.GetInstance().SetMapArr(index, A.mConfirmDoorList[i].mPosition.y, floorTile);
+                    }
+                    foreach (int index in Range(bPos.y, A.mConfirmDoorList[i].mPosition.y))
+                    {
+                        corridorPoint.Enqueue(new Point(midPos.x, index));
+                        corridorTileMap.SetTile(new Vector3Int(midPos.x, index, 0), floorTile);
+                        Map.GetInstance().SetMapArr(midPos.x, index, floorTile);
+                    }
+                    foreach (int index in Range(bPos.x, midPos.x))
+                    {
+                        corridorPoint.Enqueue(new Point(index, bPos.y));
+                        corridorTileMap.SetTile(new Vector3Int(index, bPos.y, 0), floorTile);
+                        Map.GetInstance().SetMapArr(index, bPos.y, floorTile);
+                    }
                 }
                 else
                 {
-                    p.y += sign_y;
-                    iy++;
-                }
-                passageTileMap.SetTile(new Vector3Int(p.x, p.y, 0), floorTile);
-                passagePositions.Enqueue(new Point(p.x, p.y));
+                    foreach (int index in Range(midPos.y, A.mConfirmDoorList[i].mPosition.y))
+                    {
+                        corridorPoint.Enqueue(new Point(A.mConfirmDoorList[i].mPosition.x, index));
+                        corridorTileMap.SetTile(new Vector3Int(A.mConfirmDoorList[i].mPosition.x, index, 0), floorTile);
+                        Map.GetInstance().SetMapArr(A.mConfirmDoorList[i].mPosition.x, index, floorTile);
+                    }
+                    foreach (int index in Range(bPos.x, A.mConfirmDoorList[i].mPosition.x))
+                    {
+                        corridorPoint.Enqueue(new Point(index, midPos.y));
+                        corridorTileMap.SetTile(new Vector3Int(index, midPos.y, 0), floorTile);
+                        Map.GetInstance().SetMapArr(index, midPos.y, floorTile);
+                    }
+                    foreach (int index in Range(midPos.y, bPos.y))
+                    {
+                        corridorPoint.Enqueue(new Point(bPos.x, index));
+                        corridorTileMap.SetTile(new Vector3Int(bPos.x, index, 0), floorTile);
+                        Map.GetInstance().SetMapArr(bPos.x, index, floorTile);
+                    }
+                } 
             }
-            if ((0.5 + ix) / nx < (0.5 + iy) / ny)
-            {
-                p.x += sign_x;
-                ix++;
-            }
-            else
-            {
-                p.y += sign_y;
-                iy++;
-            }
-            passageTileMap.SetTile(new Vector3Int(p.x, p.y, 0), floorTile);
-        }
-        void MakePassageWall()
+        } // 문, 복도 만들기
+        void MakeCorridorWall()
         {
             TileBase wallTile = TileManager.GetInstance().wallTile;
-
-            while (passagePositions.Count > 0)
+            while (corridorPoint.Count>0)
             {
-                Point p = passagePositions.Dequeue();
-                if (passageTileMap.GetTile(new Vector3Int(p.x - 1, p.y, 0)) == null)
+                Point point = corridorPoint.Dequeue();
+                int x = point.x;
+                int y = point.y;
+
+                for(int i = -1; i <= 1; i++)
                 {
-                    passageTileMap.SetTile(new Vector3Int(p.x - 1, p.y, 0), wallTile);
+                    for(int j = -1; j <= 1; j++)
+                    {
+                        if (x + i < 0 || x + i > mapSize * width || y + j < 0 || y + j > mapSize * height)
+                            continue;
+                        if (mapArr[x + i, y + j] == 0)
+                        {
+                            mapArr[x + i, y + j] = 1;
+                            corridorTileMap.SetTile(new Vector3Int(x + i, y + j, 0), wallTile);
+                        }
+                    }
                 }
-                if (passageTileMap.GetTile(new Vector3Int(p.x + 1, p.y, 0)) == null)
+            }
+        } // 복도 벽 만들기
+        void MakeDoor()
+        {
+            for(int i = 0; i < width; i++)
+            {
+                for(int j = 0; j < height; j++)
                 {
-                    passageTileMap.SetTile(new Vector3Int(p.x + 1, p.y, 0), wallTile);
+                    if (roomArr[i,j].mRoomType != RoomType.NONE)
+                    {
+                        for (int k = 0; k < roomArr[i, j].mConfirmDoorList.Count; k++)
+                        {
+                            GameObject obj = LoadRoom(mDoorObjet);
+                            obj.transform.parent = roomArr[i, j].GetObject().transform;
+                            roomArr[i, j].mConfirmDoorList[k].SetObject(obj);
+                            roomArr[i, j].SetDoor(roomArr[i, j].mConfirmDoorList[k].mPosition);
+                        }
+                    }//문 생성
                 }
-                if (passageTileMap.GetTile(new Vector3Int(p.x, p.y + 1, 0)) == null)
+            }
+        } // 문 오브젝트 생성
+        void SortDoorList(int x, int y, List<Door> door)
+        {
+            int w = 0, h = 0;
+            for (int i = 0; i < door.Count - 1; i++)
+            {
+                for (int j = i + 1; j < door.Count; j++)
                 {
-                    passageTileMap.SetTile(new Vector3Int(p.x, p.y + 1, 0), wallTile);
-                }
-                if (passageTileMap.GetTile(new Vector3Int(p.x, p.y - 1, 0)) == null)
-                {
-                    passageTileMap.SetTile(new Vector3Int(p.x, p.y - 1, 0), wallTile);
+                    w = 0; h = 0;
+                    switch (door[i].mDirection)
+                    {
+                        case Direction.LEFT:
+                            w = -1;
+                            break;
+                        case Direction.RIGHT:
+                            w = 1;
+                            break;
+                        case Direction.TOP:
+                            h = 1;
+                            break;
+                        case Direction.DOWN:
+                            h = -1;
+                            break;
+                    }
+                    if (roomArr[x + w, y + h].mRoomType == RoomType.NONE)
+                    {
+                        Door temp = door[i];
+                        door[i] = door[j];
+                        door[j] = temp;
+                    }
                 }
             }
         }
+        #endregion
+        #region Others
+        GameObject LoadRoom(GameObject _obj)
+        {
+            return UnityEngine.Object.Instantiate(_obj);
+        } // 오브젝트 복사 소환
         void ShuffleList<T>(List<T> list)
         {
             int n = list.Count;
@@ -446,11 +565,21 @@ namespace Maps
                 list[k] = list[n];
                 list[n] = value;
             }
-        }
-        GameObject LoadRoom(GameObject _obj)
+        } //리스트 셔플
+        IEnumerable<int> Range(int start, int stop)
         {
-            return UnityEngine.Object.Instantiate(_obj);
-        }
+            if (start <= stop)
+            {
+                for (int i = start; i <= stop; i++)
+                    yield return i;
+            }
+            else
+            {
+                for (int i = start; i >= stop; i--)
+                    yield return i;
+            }
+        } // int range 사이의 값을 순회하여 반환해줌.
+        #endregion
     }
 
     enum RoomType
@@ -463,83 +592,103 @@ namespace Maps
         LEFT, RIGHT, TOP, DOWN
     }
 
+    public class MapManager : MonoBehaviour
+    {
+        Map map;
+    }
+
     class Room
     {
-        GameObject mRoomObj;
+        GameObject mObj;
         public Point mPoint;
         public Vector3 mPosition;
-        public RoomType isRoom;
+        public RoomType mRoomType;
         public List<Door> mDoor; // LEFT, RIGHT, UP, DOWN 
         public List<Door> mConfirmDoorList;
         public bool isLinked;
         public bool visited;
+        public bool isClear;
+
 
         public Room(GameObject _roomObj, Point _point, Vector3 _position, RoomType _isRoom)
         {
-            mRoomObj = _roomObj;
+            mObj = _roomObj;
             mPoint = _point;
             mPosition = _position;
-            isRoom = _isRoom;
-            mDoor = new List<Door>();
-            mConfirmDoorList = new List<Door>();
+            mRoomType = _isRoom;
+            mDoor = new List<Door>(4);
+            mConfirmDoorList = new List<Door>(4);
             isLinked = false;
             visited = false;
+            isClear = false;
+        }
+        public void ResetAll()
+        {
+            mRoomType = RoomType.NONE;
+            mDoor.Clear();
+            mConfirmDoorList.Clear();
+            isLinked = false;
+            visited = false;
+            isClear = false;
         }
         public GameObject GetObject()
         {
-            return mRoomObj;
+            return mObj;
         }
-        public void SetObject(GameObject _roomObj)
+        public void SetObject(GameObject _obj)
         {
-            mRoomObj = _roomObj;
+            mObj = _obj;
             SetDoorTile();
         }
         public void SetObject()
         {
+            int mapSize = Map.GetInstance().GetSize();
+            Vector3Int pos = new Vector3Int((int)(mPosition.x + mapSize / 2), (int)(mPosition.y + mapSize / 2), 0);
+
             if (mPoint.x != 0) 
-                mDoor.Add(new Door(null, Vector3Int.zero, Direction.LEFT));
-            if(mPoint.x!=Map.GetInstance().GetWidht()-1)
-                mDoor.Add(new Door(null, Vector3Int.zero, Direction.RIGHT));
+                mDoor.Add(new Door( pos, Direction.LEFT));
+            if(mPoint.x!=Map.GetInstance().GetWidth()-1)
+                mDoor.Add(new Door( pos, Direction.RIGHT));
             if (mPoint.y != Map.GetInstance().GetHeight() - 1)
-                mDoor.Add(new Door(null, Vector3Int.zero, Direction.TOP));
+                mDoor.Add(new Door( pos, Direction.TOP));
             if (mPoint.y != 0)
-                mDoor.Add(new Door(null, Vector3Int.zero, Direction.DOWN));
+                mDoor.Add(new Door( pos, Direction.DOWN));
         }
         public void SetDoor(Vector3Int _position)
         {
-            Tilemap tilemap = mRoomObj.GetComponent<Tilemap>();
-            TileBase doorTile = TileManager.GetInstance().doorTile;
-            tilemap.SetTile(new Vector3Int(_position.x - (int)mPosition.x, _position.y - (int)mPosition.y, 0), doorTile);
+            Tilemap tilemap = mObj.GetComponent<Tilemap>();
+            tilemap.SetTile(new Vector3Int(_position.x - (int)mPosition.x, _position.y - (int)mPosition.y, 0), null);
         }
         void SetDoorTile()
         {
-            Tilemap tilemap = mRoomObj.GetComponent<Tilemap>();
+            Tilemap tilemap = mObj.GetComponent<Tilemap>();
             BoundsInt size = tilemap.cellBounds;
             TileBase wallTile = TileManager.GetInstance().wallTile;
             foreach (var position in tilemap.cellBounds.allPositionsWithin)
             {
                 TileBase tile = tilemap.GetTile(position);
-
                 if (null != tile)
                 {
+                    Map.GetInstance().SetMapArr(position.x + (int)mPosition.x, position.y + (int)mPosition.y, tile);
+
                     if (tile.name == "Door")
                     {
                         Vector3Int vector3 = new Vector3Int(position.x + (int)mPosition.x, position.y + (int)mPosition.y, 0);
                         if (tilemap.GetTile(new Vector3Int(position.x - 1, position.y, 0)) == null && mPoint.x != 0)
                         {
-                            mDoor.Add(new Door(tile,vector3,Direction.LEFT));
+                            mDoor.Add(new Door(vector3,Direction.LEFT));
                         }
-                        else if (tilemap.GetTile(new Vector3Int(position.x + 1, position.y, 0)) == null && mPoint.x != Map.GetInstance().GetWidht() - 1)
+                        else if (tilemap.GetTile(new Vector3Int(position.x + 1, position.y, 0)) == null && mPoint.x != Map.GetInstance().GetWidth() - 1)
                         {
-                            mDoor.Add(new Door(tile, vector3, Direction.RIGHT));
+                            mDoor.Add(new Door(vector3, Direction.RIGHT));
                         }
                         else if (tilemap.GetTile(new Vector3Int(position.x, position.y + 1, 0)) == null && mPoint.y != Map.GetInstance().GetHeight() - 1)
                         {
-                            mDoor.Add(new Door(tile, vector3, Direction.TOP));
+                            mDoor.Add(new Door(vector3, Direction.TOP));
                         }
                         else if(tilemap.GetTile(new Vector3Int(position.x, position.y - 1, 0)) == null && mPoint.y != 0)
                         {
-                            mDoor.Add(new Door(tile, vector3, Direction.DOWN));
+                            mDoor.Add(new Door(vector3, Direction.DOWN));
                         }
                         tilemap.SetTile(new Vector3Int(position.x, position.y, 0), wallTile);
                     }
@@ -550,17 +699,28 @@ namespace Maps
 
     class Door
     {
-        public TileBase mTile;
         public Vector3Int mPosition;
         public Direction mDirection;
-        public bool visited;
+        GameObject mObj;
+        bool isOpen;
 
-        public Door(TileBase _tile, Vector3Int _positon, Direction _direction)
+        public Door(Vector3Int _positon, Direction _direction)
         {
-            mTile = _tile;
             mPosition = _positon;
             mDirection = _direction;
-            visited = false;
+            isOpen = false;
+        }
+
+        public void SetObject(GameObject _obj)
+        {
+            mObj = _obj;
+            mObj.transform.position = new Vector3(mPosition.x+0.5f,mPosition.y+0.5f,0);
+        }
+
+        public void ToggleDoor()
+        {
+            isOpen = !isOpen;
+            mObj.GetComponent<BoxCollider2D>().enabled = isOpen;
         }
     }
 
