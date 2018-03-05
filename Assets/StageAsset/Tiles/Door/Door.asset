@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Name: Door
   m_EditorClassIdentifier: 
   m_WallSprite:
-  - {fileID: 21300000, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
-  - {fileID: 21300000, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
-  - {fileID: 21300000, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
-  - {fileID: 21300000, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300058, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300044, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300044, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300044, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
   m_DoorSprite:
-  - {fileID: 21300030, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
-  - {fileID: 21300030, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
-  - {fileID: 21300030, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
-  - {fileID: 21300030, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300044, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300044, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300044, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}
+  - {fileID: 21300044, guid: 7a4503ff05299324992fe6e14e5dcfdf, type: 3}

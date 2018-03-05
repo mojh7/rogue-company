@@ -203,8 +203,11 @@ GameObject:
   m_Component:
   - component: {fileID: 572565054}
   - component: {fileID: 572565053}
-  - component: {fileID: 572565052}
   - component: {fileID: 572565055}
+  - component: {fileID: 572565052}
+  - component: {fileID: 572565058}
+  - component: {fileID: 572565057}
+  - component: {fileID: 572565056}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -215,23 +218,14 @@ GameObject:
 --- !u!114 &572565052
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114368316831748824, guid: 9d17067a2ca6fe24fb1307a08e15101d,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 572565051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2a950f3bbe7bb5498c35fa4a74b2040, type: 3}
+  m_Script: {fileID: 11500000, guid: ab15589b86571734297f7ab599d9d54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mStartRoom: {fileID: 1783193219811714, guid: 01670d2d40bdbda4ba3e0c46f5e8a25d, type: 2}
-  mEndRoom: {fileID: 1532753955162836, guid: 3553e3ee57492444c98d719e04d1e527, type: 2}
-  mMonsterRoom:
-  - {fileID: 1022941604153910, guid: 0f7ff1e835e560445a5931c9365fb3fd, type: 2}
-  mItemRoom: []
-  mEventRoom: []
-  mDoorObjet: {fileID: 1621907169259594, guid: 1c6d0e18cd5c12b4f8bdcf68783d3703, type: 2}
-  corridorTileMap: {fileID: 1415329783}
 --- !u!156049354 &572565053
 Grid:
   m_ObjectHideFlags: 0
@@ -254,8 +248,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1415329778}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -273,45 +266,12 @@ MonoBehaviour:
   floorTile: {fileID: 11400000, guid: 9c4c0b6c779fe6b4ba968bfbbb24a053, type: 2}
   doorTile: {fileID: 11400000, guid: d8ded170dcb6b434b852085fd3be505f, type: 2}
   wallTile: {fileID: 11400000, guid: e07a5cd7662d7544dad00a252d482d89, type: 2}
---- !u!1 &1415329777
-GameObject:
+--- !u!19719996 &572565056
+TilemapCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1415329778}
-  - component: {fileID: 1415329783}
-  - component: {fileID: 1415329782}
-  - component: {fileID: 1415329781}
-  - component: {fileID: 1415329780}
-  - component: {fileID: 1415329779}
-  m_Layer: 0
-  m_Name: Corridor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1415329778
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1415329777}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 572565054}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!66 &1415329779
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1415329777}
+  m_GameObject: {fileID: 572565051}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -319,41 +279,12 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1415329782}
-    m_ColliderPaths: []
-  m_CompositePaths:
-    m_Paths: []
-  m_VertexDistance: 0.0005
---- !u!50 &1415329780
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1415329777}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!483693784 &1415329781
+--- !u!483693784 &572565057
 TilemapRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1415329777}
+  m_GameObject: {fileID: 572565051}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -387,25 +318,12 @@ TilemapRenderer:
   m_MaxFrameAge: 16
   m_SortOrder: 0
   m_MaskInteraction: 0
---- !u!19719996 &1415329782
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1415329777}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 1
-  m_Offset: {x: 0, y: 0}
---- !u!1839735485 &1415329783
+--- !u!1839735485 &572565058
 Tilemap:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1415329777}
+  m_GameObject: {fileID: 572565051}
   m_Enabled: 1
   m_Tiles: {}
   m_AnimatedTiles: {}
