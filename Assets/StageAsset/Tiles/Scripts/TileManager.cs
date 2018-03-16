@@ -16,10 +16,11 @@ public class TileManager : MonoBehaviour {
         return instance;
     }
 
+    public Tilemap floorTileMap;
+    public Tilemap wallTileMap;
 
-    public TileBase floorTile;
-    public TileBase doorTile;
-    public TileBase wallTile;
+    public RandomTile floorTile;
+    public TileBase []wallTile;
 
     
 }

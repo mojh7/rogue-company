@@ -98,9 +98,9 @@ namespace UnityEditor
 				switch (tile.m_TilingRules[index].m_Output)
 				{
 					case RuleTile.TilingRule.OutputSprite.Random:
-						return k_DefaultElementHeight + k_SingleLineHeight*(tile.m_TilingRules[index].m_Sprites.Length + 3) + k_PaddingBetweenRules;
+						return k_DefaultElementHeight + k_SingleLineHeight*(tile.m_TilingRules[index].mSprites.Length + 3) + k_PaddingBetweenRules;
 					case RuleTile.TilingRule.OutputSprite.Animation:
-						return k_DefaultElementHeight + k_SingleLineHeight*(tile.m_TilingRules[index].m_Sprites.Length + 2) + k_PaddingBetweenRules;
+						return k_DefaultElementHeight + k_SingleLineHeight*(tile.m_TilingRules[index].mSprites.Length + 2) + k_PaddingBetweenRules;
 				}
 			}
 			return k_DefaultElementHeight + k_PaddingBetweenRules;
@@ -237,7 +237,7 @@ namespace UnityEditor
 
 		private void SpriteOnGUI(Rect rect, RuleTile.TilingRule tilingRule)
 		{
-			tilingRule.m_Sprites[0] = EditorGUI.ObjectField(new Rect(rect.xMax - rect.height, rect.yMin, rect.height, rect.height), tilingRule.m_Sprites[0], typeof (Sprite), false) as Sprite;
+			tilingRule.mSprites[0] = EditorGUI.ObjectField(new Rect(rect.xMax - rect.height, rect.yMin, rect.height, rect.height), tilingRule.mSprites[0], typeof (Sprite), false) as Sprite;
 		}
 
 		private static void RuleInspectorOnGUI(Rect rect, RuleTile.TilingRule tilingRule)
@@ -275,14 +275,14 @@ namespace UnityEditor
 			{
 				GUI.Label(new Rect(rect.xMin, y, k_LabelWidth, k_SingleLineHeight), "Size");
 				EditorGUI.BeginChangeCheck();
-				int newLength = EditorGUI.DelayedIntField(new Rect(rect.xMin + k_LabelWidth, y, rect.width - k_LabelWidth, k_SingleLineHeight), tilingRule.m_Sprites.Length);
+				int newLength = EditorGUI.DelayedIntField(new Rect(rect.xMin + k_LabelWidth, y, rect.width - k_LabelWidth, k_SingleLineHeight), tilingRule.mSprites.Length);
 				if (EditorGUI.EndChangeCheck())
-					Array.Resize(ref tilingRule.m_Sprites, Math.Max(newLength, 1));
+					Array.Resize(ref tilingRule.mSprites, Math.Max(newLength, 1));
 				y += k_SingleLineHeight;
 
-				for (int i = 0; i < tilingRule.m_Sprites.Length; i++)
+				for (int i = 0; i < tilingRule.mSprites.Length; i++)
 				{
-					tilingRule.m_Sprites[i] = EditorGUI.ObjectField(new Rect(rect.xMin + k_LabelWidth, y, rect.width - k_LabelWidth, k_SingleLineHeight), tilingRule.m_Sprites[i], typeof(Sprite), false) as Sprite;
+					tilingRule.mSprites[i] = EditorGUI.ObjectField(new Rect(rect.xMin + k_LabelWidth, y, rect.width - k_LabelWidth, k_SingleLineHeight), tilingRule.mSprites[i], typeof(Sprite), false) as Sprite;
 					y += k_SingleLineHeight;
 				}
 			}

@@ -8,28 +8,21 @@ using UnityEditor;
 [CreateAssetMenu]
 public class ObjectTile : TileBase
 {
-    public Sprite m_Sprite;
-    public GameObject m_gameObject;
+    public CustomObject mCustomObject;
     Vector3Int mPosition;
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {
-        if (m_gameObject == null)
+        if (mCustomObject == null)
             return;
         tileData.colliderType = Tile.ColliderType.None;
         mPosition = position;
 
-        tileData.sprite = m_Sprite;
+        tileData.sprite = mCustomObject.sprite;
     }
 
     public Vector3Int GetPosition()
     {
         return mPosition;
     }
-
-    public GameObject GetGameObject()
-    {
-        return m_gameObject;
-    }
-
 }

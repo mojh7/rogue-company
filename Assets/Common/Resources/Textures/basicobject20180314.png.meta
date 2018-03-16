@@ -1,200 +1,158 @@
 fileFormatVersion: 2
-guid: efe97de13739fd0469402d2531a1473b
-timeCreated: 1512233857
+guid: 65a834a28f185294b83fb009b33e3c37
+timeCreated: 1521163579
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: character_0
-    21300002: character_1
-    21300004: character_2
-    21300006: character_3
-    21300008: character_4
-    21300010: character_5
-    21300012: character_6
-    21300014: character_7
-    21300016: character_8
-    21300018: character_9
-    21300020: character_10
-    21300022: character_11
-    21300024: character_12
-    21300026: character_13
-    21300028: character_14
-    21300030: character_15
-    21300032: character_16
-    21300034: character_17
-    21300036: character_18
-    21300038: character_19
-    21300040: character_20
-    21300042: character_21
-    21300044: character_22
-    21300046: character_23
-    21300048: character_24
-    21300050: character_25
-    21300052: character_26
-    21300054: character_27
-    21300056: character_28
-    21300058: character_29
-    21300060: character_30
-    21300062: character_31
-    21300064: character_32
-    21300066: character_33
-    21300068: character_34
-    21300070: character_35
-    21300072: character_36
-    21300074: character_37
-    21300076: character_38
-    21300078: character_39
-    21300080: character_40
-    21300082: character_41
-    21300084: character_42
-    21300086: character_43
-    21300088: character_44
-    21300090: character_45
-    21300092: character_46
-    21300094: character_47
-    21300096: character_48
-    21300098: character_49
-    21300100: character_50
-    21300102: character_51
-    21300104: character_52
-    21300106: character_53
-    21300108: character_54
-    21300110: character_55
-    21300112: character_56
-    21300114: character_57
-    21300116: character_58
-    21300118: character_59
-    21300120: character_60
-    21300122: character_61
-    21300124: character_62
-    21300126: character_63
-    21300128: character_64
-    21300130: character_65
-    21300132: character_66
-    21300134: character_67
-    21300136: character_68
-    21300138: character_69
-    21300140: character_70
-    21300142: character_71
-    21300144: character_72
-    21300146: character_73
-    21300148: character_74
-    21300150: character_75
-    21300152: character_76
-    21300154: character_77
-    21300156: character_78
-    21300158: character_79
-    21300160: character_80
-    21300162: character_81
-    21300164: character_82
-    21300166: character_83
-    21300168: character_84
-    21300170: character_85
-    21300172: character_86
-    21300174: character_87
-    21300176: character_88
-    21300178: character_89
-    21300180: character_90
-    21300182: character_91
-    21300184: character_92
-    21300186: character_93
-    21300188: character_94
-    21300190: character_95
-    21300192: character_96
-    21300194: character_97
-    21300196: character_98
-    21300198: character_99
-    21300200: character_100
-    21300202: character_101
-    21300204: character_102
-    21300206: character_103
-    21300208: character_104
-    21300210: character_105
-    21300212: character_106
-    21300214: character_107
-    21300216: character_108
-    21300218: character_109
-    21300220: character_110
-    21300222: character_111
-    21300224: character_112
-    21300226: character_113
-    21300228: character_114
-    21300230: character_115
-    21300232: character_116
-    21300234: character_117
-    21300236: character_118
-    21300238: character_119
-    21300240: character_120
-    21300242: character_121
-    21300244: character_122
-    21300246: character_123
-    21300248: character_124
-    21300250: character_125
-    21300252: character_126
-    21300254: character_127
-    21300256: character_128
-    21300258: character_129
-    21300260: character_130
-    21300262: character_131
-    21300264: character_132
-    21300266: character_133
-    21300268: character_134
-    21300270: character_135
-    21300272: character_136
-    21300274: character_137
-    21300276: character_138
-    21300278: character_139
-    21300280: character_140
-    21300282: character_141
-    21300284: character_142
-    21300286: character_143
-    21300288: character_144
-    21300290: character_145
-    21300292: character_146
-    21300294: character_147
-    21300296: character_148
-    21300298: character_149
-    21300300: character_150
-    21300302: character_151
-    21300304: character_152
-    21300306: character_153
-    21300308: character_154
-    21300310: character_155
-    21300312: character_156
-    21300314: character_157
-    21300316: character_158
-    21300318: character_159
-    21300320: character_160
-    21300322: character_161
-    21300324: character_162
-    21300326: character_163
-    21300328: character_164
-    21300330: character_165
-    21300332: character_166
-    21300334: character_167
-    21300336: character_168
-    21300338: character_169
-    21300340: character_170
-    21300342: character_171
-    21300344: character_172
-    21300346: character_173
-    21300348: character_174
-    21300350: character_175
-    21300352: character_176
-    21300354: character_177
-    21300356: character_178
-    21300358: character_179
-    21300360: character_180
-    21300362: character_181
-    21300364: character_182
-    21300366: character_183
-    21300368: character_184
-    21300370: character_185
-    21300372: character_186
-    21300374: character_187
-    21300376: character_188
-    21300378: character_189
-    21300380: character_190
+    21300000: basicobject20180314_0
+    21300002: basicobject20180314_1
+    21300004: basicobject20180314_2
+    21300006: basicobject20180314_3
+    21300008: basicobject20180314_4
+    21300010: basicobject20180314_5
+    21300012: basicobject20180314_6
+    21300014: basicobject20180314_7
+    21300016: basicobject20180314_8
+    21300018: basicobject20180314_9
+    21300020: basicobject20180314_10
+    21300022: basicobject20180314_11
+    21300024: basicobject20180314_12
+    21300026: basicobject20180314_13
+    21300028: basicobject20180314_14
+    21300030: basicobject20180314_15
+    21300032: basicobject20180314_16
+    21300034: basicobject20180314_17
+    21300036: basicobject20180314_18
+    21300038: basicobject20180314_19
+    21300040: basicobject20180314_20
+    21300042: basicobject20180314_21
+    21300044: basicobject20180314_22
+    21300046: basicobject20180314_23
+    21300048: basicobject20180314_24
+    21300050: basicobject20180314_25
+    21300052: basicobject20180314_26
+    21300054: basicobject20180314_27
+    21300056: basicobject20180314_28
+    21300058: basicobject20180314_29
+    21300060: basicobject20180314_30
+    21300062: basicobject20180314_31
+    21300064: basicobject20180314_32
+    21300066: basicobject20180314_33
+    21300068: basicobject20180314_34
+    21300070: basicobject20180314_35
+    21300072: basicobject20180314_36
+    21300074: basicobject20180314_37
+    21300076: basicobject20180314_38
+    21300078: basicobject20180314_39
+    21300080: basicobject20180314_40
+    21300082: basicobject20180314_41
+    21300084: basicobject20180314_42
+    21300086: basicobject20180314_43
+    21300088: basicobject20180314_44
+    21300090: basicobject20180314_45
+    21300092: basicobject20180314_46
+    21300094: basicobject20180314_47
+    21300096: basicobject20180314_48
+    21300098: basicobject20180314_49
+    21300100: basicobject20180314_50
+    21300102: basicobject20180314_51
+    21300104: basicobject20180314_52
+    21300106: basicobject20180314_53
+    21300108: basicobject20180314_54
+    21300110: basicobject20180314_55
+    21300112: basicobject20180314_56
+    21300114: basicobject20180314_57
+    21300116: basicobject20180314_58
+    21300118: basicobject20180314_59
+    21300120: basicobject20180314_60
+    21300122: basicobject20180314_61
+    21300124: basicobject20180314_62
+    21300126: basicobject20180314_63
+    21300128: basicobject20180314_64
+    21300130: basicobject20180314_65
+    21300132: basicobject20180314_66
+    21300134: basicobject20180314_67
+    21300136: basicobject20180314_68
+    21300138: basicobject20180314_69
+    21300140: basicobject20180314_70
+    21300142: basicobject20180314_71
+    21300144: basicobject20180314_72
+    21300146: basicobject20180314_73
+    21300148: basicobject20180314_74
+    21300150: basicobject20180314_75
+    21300152: basicobject20180314_76
+    21300154: basicobject20180314_77
+    21300156: basicobject20180314_78
+    21300158: basicobject20180314_79
+    21300160: basicobject20180314_80
+    21300162: basicobject20180314_81
+    21300164: basicobject20180314_82
+    21300166: basicobject20180314_83
+    21300168: basicobject20180314_84
+    21300170: basicobject20180314_85
+    21300172: basicobject20180314_86
+    21300174: basicobject20180314_87
+    21300176: basicobject20180314_88
+    21300178: basicobject20180314_89
+    21300180: basicobject20180314_90
+    21300182: basicobject20180314_91
+    21300184: basicobject20180314_92
+    21300186: basicobject20180314_93
+    21300188: basicobject20180314_94
+    21300190: basicobject20180314_95
+    21300192: basicobject20180314_96
+    21300194: basicobject20180314_97
+    21300196: basicobject20180314_98
+    21300198: basicobject20180314_99
+    21300200: basicobject20180314_100
+    21300202: basicobject20180314_101
+    21300204: basicobject20180314_102
+    21300206: basicobject20180314_103
+    21300208: basicobject20180314_104
+    21300210: basicobject20180314_105
+    21300212: basicobject20180314_106
+    21300214: basicobject20180314_107
+    21300216: basicobject20180314_108
+    21300218: basicobject20180314_109
+    21300220: basicobject20180314_110
+    21300222: basicobject20180314_111
+    21300224: basicobject20180314_112
+    21300226: basicobject20180314_113
+    21300228: basicobject20180314_114
+    21300230: basicobject20180314_115
+    21300232: basicobject20180314_116
+    21300234: basicobject20180314_117
+    21300236: basicobject20180314_118
+    21300238: basicobject20180314_119
+    21300240: basicobject20180314_120
+    21300242: basicobject20180314_121
+    21300244: basicobject20180314_122
+    21300246: basicobject20180314_123
+    21300248: basicobject20180314_124
+    21300250: basicobject20180314_125
+    21300252: basicobject20180314_126
+    21300254: basicobject20180314_127
+    21300256: basicobject20180314_128
+    21300258: basicobject20180314_129
+    21300260: basicobject20180314_130
+    21300262: basicobject20180314_131
+    21300264: basicobject20180314_132
+    21300266: basicobject20180314_133
+    21300268: basicobject20180314_134
+    21300270: basicobject20180314_135
+    21300272: basicobject20180314_136
+    21300274: basicobject20180314_137
+    21300276: basicobject20180314_138
+    21300278: basicobject20180314_139
+    21300280: basicobject20180314_140
+    21300282: basicobject20180314_141
+    21300284: basicobject20180314_142
+    21300286: basicobject20180314_143
+    21300288: basicobject20180314_144
+    21300290: basicobject20180314_145
+    21300292: basicobject20180314_146
+    21300294: basicobject20180314_147
+    21300296: basicobject20180314_148
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -222,12 +180,12 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -237,7 +195,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -265,15 +223,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
   - buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -287,13 +236,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: character_0
+      name: basicobject20180314_0
       rect:
         serializedVersion: 2
-        x: 164
-        y: 484
-        width: 15
-        height: 17
+        x: 31
+        y: 669
+        width: 41
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -301,13 +250,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_1
+      name: basicobject20180314_1
       rect:
         serializedVersion: 2
-        x: 193
-        y: 471
-        width: 15
-        height: 21
+        x: 95
+        y: 668
+        width: 41
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,12 +264,1216 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_2
+      name: basicobject20180314_2
       rect:
         serializedVersion: 2
-        x: 222
-        y: 471
+        x: 175
+        y: 667
+        width: 41
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_3
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 666
+        width: 41
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_4
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 660
         width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_5
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 660
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_6
+      rect:
+        serializedVersion: 2
+        x: 721
+        y: 660
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_7
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 658
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_8
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 658
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_9
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 658
+        width: 62
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_10
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 662
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_11
+      rect:
+        serializedVersion: 2
+        x: 913
+        y: 660
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_12
+      rect:
+        serializedVersion: 2
+        x: 929
+        y: 660
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_13
+      rect:
+        serializedVersion: 2
+        x: 973
+        y: 660
+        width: 30
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_14
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 660
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_15
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 659
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_16
+      rect:
+        serializedVersion: 2
+        x: 1045
+        y: 659
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_17
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 661
+        width: 33
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_18
+      rect:
+        serializedVersion: 2
+        x: 1155
+        y: 659
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_19
+      rect:
+        serializedVersion: 2
+        x: 1171
+        y: 659
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_20
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 661
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_21
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 591
+        width: 42
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_22
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 591
+        width: 42
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_23
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 591
+        width: 33
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_24
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 592
+        width: 44
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_25
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 592
+        width: 44
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_26
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 592
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_27
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 592
+        width: 4
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_28
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 623
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_29
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 623
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_30
+      rect:
+        serializedVersion: 2
+        x: 721
+        y: 623
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_31
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 621
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_32
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 621
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_33
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 621
+        width: 62
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_34
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 625
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_35
+      rect:
+        serializedVersion: 2
+        x: 913
+        y: 623
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_36
+      rect:
+        serializedVersion: 2
+        x: 929
+        y: 623
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_37
+      rect:
+        serializedVersion: 2
+        x: 973
+        y: 623
+        width: 30
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_38
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 623
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_39
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 622
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_40
+      rect:
+        serializedVersion: 2
+        x: 1045
+        y: 622
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_41
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 624
+        width: 33
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_42
+      rect:
+        serializedVersion: 2
+        x: 1155
+        y: 622
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_43
+      rect:
+        serializedVersion: 2
+        x: 1171
+        y: 622
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_44
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 624
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_45
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 589
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_46
+      rect:
+        serializedVersion: 2
+        x: 706
+        y: 589
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_47
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 589
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_48
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 587
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_49
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 587
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_50
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 587
+        width: 62
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_51
+      rect:
+        serializedVersion: 2
+        x: 886
+        y: 591
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_52
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 589
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_53
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 589
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_54
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 589
+        width: 30
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_55
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 589
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_56
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 588
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_57
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 588
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_58
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 590
+        width: 33
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_59
+      rect:
+        serializedVersion: 2
+        x: 1156
+        y: 588
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_60
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 588
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_61
+      rect:
+        serializedVersion: 2
+        x: 1221
+        y: 590
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_62
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 545
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_63
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 544
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_64
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 544
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_65
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 545
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_66
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 545
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_67
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 543
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_68
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 506
+        width: 45
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_69
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 505
+        width: 45
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_70
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 506
+        width: 45
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_71
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 505
+        width: 45
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_72
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 504
+        width: 46
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_73
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 503
+        width: 46
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_74
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 504
+        width: 46
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_75
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 503
+        width: 46
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_76
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 512
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_77
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 512
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_78
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 512
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_79
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 510
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_80
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 513
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_81
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 508
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_82
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 480
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_83
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 480
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_84
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 480
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_85
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 483
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_86
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 481
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_87
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 482
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_88
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 437
+        width: 24
         height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -329,11 +1482,179 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_3
+      name: basicobject20180314_89
       rect:
         serializedVersion: 2
-        x: 252
-        y: 488
+        x: 63
+        y: 436
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_90
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 435
+        width: 26
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_91
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 434
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_92
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 439
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_93
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 439
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_94
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 439
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_95
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 438
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_96
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 438
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_97
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 438
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_98
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 438
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_99
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 438
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_100
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 438
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_101
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 438
         width: 11
         height: 17
       alignment: 0
@@ -343,12 +1664,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_4
+      name: basicobject20180314_102
       rect:
         serializedVersion: 2
-        x: 277
-        y: 483
-        width: 17
+        x: 390
+        y: 438
+        width: 8
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -357,12 +1678,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_5
+      name: basicobject20180314_103
       rect:
         serializedVersion: 2
-        x: 310
-        y: 483
-        width: 13
+        x: 402
+        y: 438
+        width: 10
         height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -371,110 +1692,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_6
+      name: basicobject20180314_104
       rect:
         serializedVersion: 2
-        x: 340
-        y: 483
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_7
-      rect:
-        serializedVersion: 2
-        x: 371
-        y: 485
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_8
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 483
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_9
-      rect:
-        serializedVersion: 2
-        x: 429
-        y: 490
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_10
-      rect:
-        serializedVersion: 2
-        x: 490
-        y: 485
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_11
-      rect:
-        serializedVersion: 2
-        x: 165
-        y: 454
-        width: 15
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_12
-      rect:
-        serializedVersion: 2
-        x: 250
-        y: 455
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_13
-      rect:
-        serializedVersion: 2
-        x: 280
-        y: 453
-        width: 17
+        x: 416
+        y: 437
+        width: 11
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -483,13 +1706,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_14
+      name: basicobject20180314_105
       rect:
         serializedVersion: 2
-        x: 310
-        y: 453
-        width: 13
-        height: 20
+        x: 430
+        y: 437
+        width: 8
+        height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -497,26 +1720,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_15
+      name: basicobject20180314_106
       rect:
         serializedVersion: 2
-        x: 339
-        y: 454
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_16
-      rect:
-        serializedVersion: 2
-        x: 370
-        y: 453
-        width: 13
+        x: 442
+        y: 437
+        width: 10
         height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -525,13 +1734,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_17
+      name: basicobject20180314_107
       rect:
         serializedVersion: 2
-        x: 400
-        y: 453
-        width: 13
-        height: 19
+        x: 455
+        y: 437
+        width: 11
+        height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -539,13 +1748,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_18
+      name: basicobject20180314_108
       rect:
         serializedVersion: 2
-        x: 428
-        y: 466
-        width: 17
-        height: 12
+        x: 469
+        y: 437
+        width: 8
+        height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -553,13 +1762,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_19
+      name: basicobject20180314_109
       rect:
         serializedVersion: 2
-        x: 459
-        y: 468
-        width: 15
-        height: 12
+        x: 481
+        y: 437
+        width: 10
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -567,68 +1776,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_20
+      name: basicobject20180314_110
       rect:
         serializedVersion: 2
-        x: 194
-        y: 444
-        width: 13
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_21
-      rect:
-        serializedVersion: 2
-        x: 221
-        y: 444
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_22
-      rect:
-        serializedVersion: 2
-        x: 479
-        y: 459
-        width: 4
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_23
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 434
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_24
-      rect:
-        serializedVersion: 2
-        x: 463
-        y: 434
-        width: 13
+        x: 785
+        y: 438
+        width: 6
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -637,69 +1790,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_25
+      name: basicobject20180314_111
       rect:
         serializedVersion: 2
-        x: 492
-        y: 446
-        width: 15
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_26
-      rect:
-        serializedVersion: 2
-        x: 165
-        y: 426
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_27
-      rect:
-        serializedVersion: 2
-        x: 195
-        y: 416
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_28
-      rect:
-        serializedVersion: 2
-        x: 222
-        y: 417
-        width: 17
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_29
-      rect:
-        serializedVersion: 2
-        x: 251
-        y: 426
+        x: 806
+        y: 436
         width: 16
-        height: 14
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -707,180 +1804,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_30
+      name: basicobject20180314_112
       rect:
         serializedVersion: 2
-        x: 283
-        y: 425
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_31
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 423
-        width: 16
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_32
-      rect:
-        serializedVersion: 2
-        x: 342
-        y: 424
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_33
-      rect:
-        serializedVersion: 2
-        x: 372
-        y: 423
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_34
-      rect:
-        serializedVersion: 2
-        x: 403
-        y: 423
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_35
-      rect:
-        serializedVersion: 2
-        x: 168
+        x: 37
         y: 400
-        width: 15
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_36
-      rect:
-        serializedVersion: 2
-        x: 372
-        y: 395
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_37
-      rect:
-        serializedVersion: 2
-        x: 433
-        y: 402
-        width: 13
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_38
-      rect:
-        serializedVersion: 2
-        x: 463
-        y: 412
-        width: 13
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_39
-      rect:
-        serializedVersion: 2
-        x: 490
-        y: 409
-        width: 18
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_40
-      rect:
-        serializedVersion: 2
-        x: 194
-        y: 388
-        width: 15
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_41
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 388
-        width: 13
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_42
-      rect:
-        serializedVersion: 2
-        x: 255
-        y: 399
-        width: 8
+        width: 7
         height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -889,13 +1818,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_43
+      name: basicobject20180314_113
       rect:
         serializedVersion: 2
-        x: 280
-        y: 393
-        width: 17
-        height: 13
+        x: 67
+        y: 399
+        width: 9
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -903,96 +1832,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_44
+      name: basicobject20180314_114
       rect:
         serializedVersion: 2
-        x: 312
-        y: 393
-        width: 14
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_45
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 392
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_46
-      rect:
-        serializedVersion: 2
-        x: 401
-        y: 393
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_47
-      rect:
-        serializedVersion: 2
-        x: 165
+        x: 36
         y: 370
-        width: 18
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_48
-      rect:
-        serializedVersion: 2
-        x: 251
-        y: 368
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_49
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 369
-        width: 16
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_50
-      rect:
-        serializedVersion: 2
-        x: 463
-        y: 382
-        width: 13
+        width: 8
         height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -1001,432 +1846,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_51
+      name: basicobject20180314_115
       rect:
         serializedVersion: 2
-        x: 195
-        y: 359
-        width: 15
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_52
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 360
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_53
-      rect:
-        serializedVersion: 2
-        x: 312
-        y: 363
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_54
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 363
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_55
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 363
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_56
-      rect:
-        serializedVersion: 2
-        x: 401
-        y: 363
-        width: 16
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_57
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 363
-        width: 14
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_58
-      rect:
-        serializedVersion: 2
-        x: 490
-        y: 372
-        width: 18
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_59
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 342
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_60
-      rect:
-        serializedVersion: 2
-        x: 196
-        y: 332
-        width: 15
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_61
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 332
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_62
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 335
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_63
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 333
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_64
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 335
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_65
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 333
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_66
-      rect:
-        serializedVersion: 2
-        x: 462
-        y: 349
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_67
-      rect:
-        serializedVersion: 2
-        x: 257
-        y: 341
-        width: 4
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_68
-      rect:
-        serializedVersion: 2
-        x: 402
-        y: 333
-        width: 15
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_69
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 332
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_70
-      rect:
-        serializedVersion: 2
-        x: 490
-        y: 335
-        width: 18
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_71
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 313
-        width: 13
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_72
-      rect:
-        serializedVersion: 2
-        x: 196
-        y: 304
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_73
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 304
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_74
-      rect:
-        serializedVersion: 2
-        x: 251
-        y: 309
-        width: 16
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_75
-      rect:
-        serializedVersion: 2
-        x: 283
-        y: 306
-        width: 13
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_76
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 303
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_77
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 302
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_78
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 303
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_79
-      rect:
-        serializedVersion: 2
-        x: 402
-        y: 303
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_80
-      rect:
-        serializedVersion: 2
-        x: 433
-        y: 303
-        width: 13
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_81
-      rect:
-        serializedVersion: 2
-        x: 460
-        y: 310
-        width: 20
+        x: 66
+        y: 370
+        width: 10
         height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -1435,13 +1860,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_82
+      name: basicobject20180314_116
       rect:
         serializedVersion: 2
-        x: 487
-        y: 302
-        width: 23
-        height: 24
+        x: 35
+        y: 317
+        width: 14
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1449,13 +1874,55 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_83
+      name: basicobject20180314_117
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 318
+        width: 13
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_118
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 319
+        width: 8
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_119
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 317
+        width: 14
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_120
       rect:
         serializedVersion: 2
         x: 167
-        y: 286
-        width: 18
-        height: 21
+        y: 318
+        width: 13
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1463,11 +1930,81 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_84
+      name: basicobject20180314_121
       rect:
         serializedVersion: 2
-        x: 227
-        y: 282
+        x: 196
+        y: 318
+        width: 10
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_122
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 245
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_123
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 244
+        width: 30
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_124
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 243
+        width: 35
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_125
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 245
+        width: 31
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_126
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 211
         width: 6
         height: 5
       alignment: 0
@@ -1477,432 +2014,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_85
+      name: basicobject20180314_127
       rect:
         serializedVersion: 2
-        x: 252
-        y: 277
-        width: 13
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_86
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 275
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_87
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 273
-        width: 14
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_88
-      rect:
-        serializedVersion: 2
-        x: 342
-        y: 273
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_89
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 273
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_90
-      rect:
-        serializedVersion: 2
-        x: 402
-        y: 273
-        width: 16
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_91
-      rect:
-        serializedVersion: 2
-        x: 460
-        y: 281
-        width: 20
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_92
-      rect:
-        serializedVersion: 2
-        x: 194
-        y: 257
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_93
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 273
-        width: 15
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_94
-      rect:
-        serializedVersion: 2
-        x: 489
-        y: 261
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_95
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 247
-        width: 11
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_96
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 249
-        width: 16
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_97
-      rect:
-        serializedVersion: 2
-        x: 283
-        y: 246
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_98
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 247
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_99
-      rect:
-        serializedVersion: 2
-        x: 342
-        y: 245
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_100
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 243
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_101
-      rect:
-        serializedVersion: 2
-        x: 403
-        y: 249
-        width: 19
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_102
-      rect:
-        serializedVersion: 2
-        x: 431
-        y: 243
-        width: 15
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_103
-      rect:
-        serializedVersion: 2
-        x: 460
-        y: 250
-        width: 20
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_104
-      rect:
-        serializedVersion: 2
-        x: 195
-        y: 230
-        width: 15
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_105
-      rect:
-        serializedVersion: 2
-        x: 250
-        y: 217
-        width: 18
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_106
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 214
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_107
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 213
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_108
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 213
-        width: 13
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_109
-      rect:
-        serializedVersion: 2
-        x: 404
-        y: 222
-        width: 18
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_110
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 219
-        width: 17
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_111
-      rect:
-        serializedVersion: 2
-        x: 460
-        y: 221
-        width: 20
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_112
-      rect:
-        serializedVersion: 2
-        x: 492
-        y: 224
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_113
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 202
-        width: 15
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_114
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 219
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_115
-      rect:
-        serializedVersion: 2
-        x: 319
-        y: 220
-        width: 4
+        x: 47
+        y: 186
+        width: 8
         height: 4
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -1911,13 +2028,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_116
+      name: basicobject20180314_128
       rect:
         serializedVersion: 2
-        x: 194
-        y: 174
+        x: 122
+        y: 167
         width: 15
-        height: 21
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1925,96 +2042,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_117
+      name: basicobject20180314_129
       rect:
         serializedVersion: 2
-        x: 223
-        y: 139
-        width: 16
-        height: 59
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_118
-      rect:
-        serializedVersion: 2
-        x: 253
-        y: 186
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_119
-      rect:
-        serializedVersion: 2
-        x: 283
-        y: 185
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_120
-      rect:
-        serializedVersion: 2
-        x: 317
-        y: 189
-        width: 7
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_121
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 184
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_122
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 183
-        width: 13
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_123
-      rect:
-        serializedVersion: 2
-        x: 403
-        y: 191
-        width: 18
+        x: 41
+        y: 146
+        width: 12
         height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -2023,13 +2056,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_124
+      name: basicobject20180314_130
       rect:
         serializedVersion: 2
-        x: 432
-        y: 193
-        width: 16
-        height: 12
+        x: 57
+        y: 146
+        width: 11
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2037,11 +2070,95 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_125
+      name: basicobject20180314_131
       rect:
         serializedVersion: 2
-        x: 460
-        y: 194
+        x: 73
+        y: 146
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_132
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 146
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_133
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 146
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_134
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 146
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_135
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 123
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_136
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 124
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_137
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 124
         width: 20
         height: 16
       alignment: 0
@@ -2051,181 +2168,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_126
+      name: basicobject20180314_138
       rect:
         serializedVersion: 2
-        x: 487
-        y: 193
-        width: 23
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_127
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 157
-        width: 18
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_128
-      rect:
-        serializedVersion: 2
-        x: 283
-        y: 157
-        width: 13
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_129
-      rect:
-        serializedVersion: 2
-        x: 315
-        y: 157
-        width: 10
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_130
-      rect:
-        serializedVersion: 2
-        x: 342
-        y: 155
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_131
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 153
-        width: 13
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_132
-      rect:
-        serializedVersion: 2
-        x: 404
-        y: 160
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_133
-      rect:
-        serializedVersion: 2
-        x: 433
-        y: 161
-        width: 16
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_134
-      rect:
-        serializedVersion: 2
-        x: 464
-        y: 166
-        width: 15
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_135
-      rect:
-        serializedVersion: 2
-        x: 489
-        y: 150
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_136
-      rect:
-        serializedVersion: 2
-        x: 194
-        y: 145
-        width: 15
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_137
-      rect:
-        serializedVersion: 2
-        x: 194
-        y: 118
-        width: 15
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_138
-      rect:
-        serializedVersion: 2
-        x: 282
+        x: 100
         y: 124
-        width: 14
-        height: 19
+        width: 20
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2233,12 +2182,26 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_139
+      name: basicobject20180314_139
       rect:
         serializedVersion: 2
-        x: 313
+        x: 124
+        y: 127
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_140
+      rect:
+        serializedVersion: 2
+        x: 146
         y: 125
-        width: 13
+        width: 24
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -2247,40 +2210,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_140
+      name: basicobject20180314_141
       rect:
         serializedVersion: 2
-        x: 342
-        y: 123
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_141
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 123
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_142
-      rect:
-        serializedVersion: 2
-        x: 403
-        y: 123
-        width: 13
+        x: 174
+        y: 124
+        width: 26
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -2289,152 +2224,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_143
+      name: basicobject20180314_142
       rect:
         serializedVersion: 2
-        x: 433
-        y: 130
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_144
-      rect:
-        serializedVersion: 2
-        x: 467
-        y: 136
-        width: 11
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_145
-      rect:
-        serializedVersion: 2
-        x: 487
-        y: 122
+        x: 203
+        y: 123
         width: 23
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_146
-      rect:
-        serializedVersion: 2
-        x: 253
-        y: 123
-        width: 17
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_147
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 90
-        width: 15
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_148
-      rect:
-        serializedVersion: 2
-        x: 227
-        y: 105
-        width: 5
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_149
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 95
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_150
-      rect:
-        serializedVersion: 2
-        x: 283
-        y: 93
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_151
-      rect:
-        serializedVersion: 2
-        x: 312
-        y: 94
-        width: 15
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_152
-      rect:
-        serializedVersion: 2
-        x: 343
-        y: 93
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_153
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 93
-        width: 14
         height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -2443,195 +2238,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_154
+      name: basicobject20180314_143
       rect:
         serializedVersion: 2
-        x: 402
-        y: 93
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_155
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 93
-        width: 15
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_156
-      rect:
-        serializedVersion: 2
-        x: 461
-        y: 101
-        width: 15
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_157
-      rect:
-        serializedVersion: 2
-        x: 487
-        y: 83
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_158
-      rect:
-        serializedVersion: 2
-        x: 194
-        y: 62
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_159
-      rect:
-        serializedVersion: 2
-        x: 226
-        y: 73
-        width: 7
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_160
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 69
-        width: 16
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_161
-      rect:
-        serializedVersion: 2
-        x: 283
-        y: 63
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_162
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 63
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_163
-      rect:
-        serializedVersion: 2
-        x: 342
-        y: 64
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_164
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 63
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_165
-      rect:
-        serializedVersion: 2
-        x: 402
-        y: 63
-        width: 15
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_166
-      rect:
-        serializedVersion: 2
-        x: 433
-        y: 63
-        width: 13
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_167
-      rect:
-        serializedVersion: 2
-        x: 458
+        x: 43
         y: 70
+        width: 13
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_144
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 70
+        width: 13
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: basicobject20180314_145
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 71
         width: 18
-        height: 12
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2639,293 +2280,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_168
+      name: basicobject20180314_146
       rect:
         serializedVersion: 2
-        x: 195
-        y: 34
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_169
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 38
-        width: 11
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_170
-      rect:
-        serializedVersion: 2
-        x: 250
-        y: 36
-        width: 17
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_171
-      rect:
-        serializedVersion: 2
-        x: 313
-        y: 35
-        width: 15
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_172
-      rect:
-        serializedVersion: 2
-        x: 344
-        y: 34
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_173
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 33
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_174
-      rect:
-        serializedVersion: 2
-        x: 462
-        y: 41
-        width: 15
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_175
-      rect:
-        serializedVersion: 2
-        x: 491
-        y: 50
-        width: 15
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_176
-      rect:
-        serializedVersion: 2
-        x: 283
-        y: 33
-        width: 13
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_177
-      rect:
-        serializedVersion: 2
-        x: 402
-        y: 33
-        width: 15
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_178
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 33
-        width: 15
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_179
-      rect:
-        serializedVersion: 2
-        x: 166
-        y: 5
-        width: 17
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_180
-      rect:
-        serializedVersion: 2
-        x: 198
-        y: 11
-        width: 9
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_181
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 9
-        width: 16
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_182
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 3
-        width: 14
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_183
-      rect:
-        serializedVersion: 2
-        x: 286
-        y: 3
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_184
-      rect:
-        serializedVersion: 2
-        x: 316
-        y: 3
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_185
-      rect:
-        serializedVersion: 2
-        x: 346
-        y: 3
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_186
-      rect:
-        serializedVersion: 2
-        x: 375
-        y: 3
-        width: 15
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_187
-      rect:
-        serializedVersion: 2
-        x: 405
-        y: 3
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: character_188
-      rect:
-        serializedVersion: 2
-        x: 431
-        y: 2
+        x: 122
+        y: 71
         width: 18
-        height: 15
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2933,13 +2294,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_189
+      name: basicobject20180314_147
       rect:
         serializedVersion: 2
-        x: 463
-        y: 2
-        width: 16
-        height: 19
+        x: 173
+        y: 68
+        width: 14
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2947,13 +2308,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: character_190
+      name: basicobject20180314_148
       rect:
         serializedVersion: 2
-        x: 494
-        y: 13
-        width: 11
-        height: 12
+        x: 196
+        y: 68
+        width: 13
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

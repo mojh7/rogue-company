@@ -9,8 +9,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 399ea1d05e5c18b489e41723d9f004d1, type: 3}
-  m_Name: BoxObject
+  m_Name: Chair
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300002, guid: 0a3b75bcf5e62254e8aec227f318e7c9, type: 3}
-  m_gameObject: {fileID: 1748424077388560, guid: 01670d2d40bdbda4ba3e0c46f5e8a25d,
-    type: 2}
+  mCustomObject: {fileID: 11400000, guid: ebb5a34b3f70d774298935a62ce562b5, type: 2}

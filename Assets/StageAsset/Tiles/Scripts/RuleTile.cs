@@ -16,7 +16,7 @@ namespace UnityEngine
 		public class TilingRule
 		{
 			public Neighbor[] m_Neighbors;
-			public Sprite[] m_Sprites;
+			public Sprite[] mSprites;
 			public float m_AnimationSpeed;
 			public float m_PerlinScale;
 			public Transform m_RuleTransform;
@@ -28,7 +28,7 @@ namespace UnityEngine
 			{
 				m_Output = OutputSprite.Single;
 				m_Neighbors = new Neighbor[8];
-				m_Sprites = new Sprite[1];
+				mSprites = new Sprite[1];
 				m_AnimationSpeed = 1f;
 				m_PerlinScale = 0.5f;
 				m_ColliderType = Tile.ColliderType.Sprite;
@@ -60,11 +60,11 @@ namespace UnityEngine
 					{
 							case TilingRule.OutputSprite.Single:
 							case TilingRule.OutputSprite.Animation:
-								tileData.sprite = rule.m_Sprites[0];
+								tileData.sprite = rule.mSprites[0];
 							break;
 							case TilingRule.OutputSprite.Random:
-								int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, rule.m_PerlinScale, 100000f) * rule.m_Sprites.Length), 0, rule.m_Sprites.Length - 1);
-								tileData.sprite = rule.m_Sprites[index];
+								int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, rule.m_PerlinScale, 100000f) * rule.mSprites.Length), 0, rule.mSprites.Length - 1);
+								tileData.sprite = rule.mSprites[index];
 								if (rule.m_RandomTransform != TilingRule.Transform.Fixed)
 									transform = ApplyRandomTransform(rule.m_RandomTransform, transform, rule.m_PerlinScale, position);
 							break;
@@ -88,7 +88,7 @@ namespace UnityEngine
 				Matrix4x4 transform = Matrix4x4.identity;
 				if (RuleMatches(rule, position, tilemap, ref transform) && rule.m_Output == TilingRule.OutputSprite.Animation)
 				{
-					tileAnimationData.animatedSprites = rule.m_Sprites;
+					tileAnimationData.animatedSprites = rule.mSprites;
 					tileAnimationData.animationSpeed = rule.m_AnimationSpeed;
 					return true;
 				}

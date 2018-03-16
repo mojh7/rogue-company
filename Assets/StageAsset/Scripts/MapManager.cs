@@ -9,6 +9,7 @@ namespace Map
     {
         private static MapManager instance;
         Map map;
+        public int width, height, size, num, area;
         public static MapManager Getinstance()
         {
             if(instance == null)
@@ -20,138 +21,291 @@ namespace Map
 
         private void Start()
         {
-            map = new Map(10, 10, 3);
-
-            //map.Generate();
+            map = new Map(width, height, size, num, area);
         }
 
         private void Update()
         {
-            if (Input.anyKeyDown)
-            {
-                GetComponent<Tilemap>().ClearAllTiles();
+            if (Input.GetKeyDown(KeyCode.A))
                 map.Generate();
-            }
         }
-
     }
 
     class Map
     {
         Rect mainRect;
-        Queue<Rect> rects, halls, blocks, rooms;
-        const int MinSplittableArea = 9;
+        Queue<Rect> rects, blocks;
+        List<Rect> halls, rooms;
+        List<Room> necessaryBlocks, necessaryRooms;
+        Tilemap wallTileMap, floorTilemap;
         const float MaxHallRate = 0.2f;
+        int MinumRoomArea = 4;
+        int MaxRoomNum;
         int TotalHallArea = 0;
+        int width;
+        int height;
         int size;
 
-        public Map(int _width,int _height,int _size)
+        public Map(int _width,int _height,int _size, int _num, int _area)
         {
             mainRect = new Rect(0, 0, _width, _height);
+            width = _width;
+            height = _height;
             size = _size;
+            MaxRoomNum = _num;
+            MinumRoomArea = _area;
             rects = new Queue<Rect>();
-            halls = new Queue<Rect>();
             blocks = new Queue<Rect>();
-            rooms = new Queue<Rect>();
-        }
+            halls = new List<Rect>(_width * _height);
+            rooms = new List<Rect> (_width * _height);
+            necessaryBlocks = new List<Room>(_width * _height);
+            necessaryRooms = new List<Room>(_width * _height);
+            floorTilemap = TileManager.GetInstance().floorTileMap;
+            wallTileMap = TileManager.GetInstance().wallTileMap;
+        } // 생성자
+
+        public void Generate() 
+        {
+            CreateMap();
+            DrawTile();
+
+            LinkAllRects();
+            if(rooms.Count>0)
+                LinkDoor(rooms[0]);
+        } // office creates
 
         void RefreshData()
         {
             rects.Clear();
             halls.Clear();
             blocks.Clear();
+            rooms.Clear();
+            necessaryBlocks.Clear();
             TotalHallArea = 0;
-        }
+        } // 데이터 초기화
 
-        public void Generate()
+        void NecessaryRoomSet()
+        {
+            Room room = new Room(0, 0, 3, 3);
+
+            necessaryBlocks.Add(room);
+        } // 필수 방 세팅
+
+        bool CreateMap()
         {
             Random.InitState((int)System.DateTime.Now.Ticks);
             RefreshData();
             rects.Enqueue(mainRect);
 
-            while(rects.Count > 0 && ((float)TotalHallArea / mainRect.area < MaxHallRate))
+            NecessaryRoomSet();
+            RectToBlock();
+            bool success = BlockToRoom();
+
+            return success;
+        } // 맵 만들기 (실패 시 false 리턴)
+
+        void RectToBlock()
+        {
+            Rect rect;
+
+            while (rects.Count > 0 && ((float)TotalHallArea / mainRect.area < MaxHallRate))
             {
-                Rect rect;
                 rect = rects.Dequeue();
-                if (rect.area > MinSplittableArea)
+                if (rect.area > MinumRoomArea)
                     SplitHall(rect);
-                else blocks.Enqueue(rect);
+                else blocks.Enqueue(rect);  
             }
+
             while (rects.Count > 0)
             {
-                blocks.Enqueue(rects.Dequeue());
+                rect = rects.Dequeue();
+                if(rect.area > 1)
+                    blocks.Enqueue(rect);
             }
-            while (blocks.Count > 0)
+
+        } // Rects -> Blocks;
+
+        bool BlockToRoom()
+        {
+            for(int i = 0; i < necessaryBlocks.Count; i++)
             {
-                Rect block;
+                necessaryRooms.Add(necessaryBlocks[i]);
+            }
+            Rect block;
+            while (blocks.Count > 0 && rooms.Count < MaxRoomNum)
+            {
                 block = blocks.Dequeue();
-                if (block.area > 2)
+                if ((block.area > MinumRoomArea || block.width / block.height >= 3 || block.height / block.width >= 3) && !FitRectCheck(block,necessaryRooms))
                     SplitBlock(block);
                 else
-                    rooms.Enqueue(block);
+                    rooms.Add(block);
             }
-            FillTile();
-        }
+            if (necessaryRooms.Count > 0)
+                return false;
 
-        void FillTile()
-        {
-            Tilemap tilemap = MapManager.Getinstance().GetComponent<Tilemap>();
-            TileBase floor = TileManager.GetInstance().floorTile;
-            TileBase wall = TileManager.GetInstance().wallTile;
-
-            //while (blocks.Count > 0)
-            //{
-            //    Rect rect;
-            //    rect = blocks.Dequeue();
-
-            //    for (int i = rect.x; i < rect.x + rect.width; i++)
-            //    {
-            //        for (int j = rect.y; j < rect.y + rect.height; j++)
-            //        {
-            //            tilemap.SetTile(new Vector3Int(i, j, 0), wall);
-            //        }
-            //    }
-            //}
-            while (rooms.Count > 0)
+            while (blocks.Count > 0)
             {
-                Rect rect;
-                rect = rooms.Dequeue();
-                rect.DrawLine();
+                block = blocks.Dequeue();
+                halls.Add(block);
             }
-        }
+            return true;
+        } // Blocks -> Rooms;
+
+        void DrawTile()
+        {
+            RandomTile floor = TileManager.GetInstance().floorTile;
+            TileBase []wall = TileManager.GetInstance().wallTile;
+            Rect rect;
+            floorTilemap.ClearAllTiles();
+            wallTileMap.ClearAllTiles();
+
+            for (int i = 0; i < width * size; i++)
+            {
+                for (int j = 0; j < height * size; j++)
+                {
+                    floorTilemap.SetTile(new Vector3Int(i, j, 0), floor);
+                    if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
+                    {
+                        if(i == 0 & j == 0)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[0]);
+                        else if(i == 0 && j == height * size - 1)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[5]);
+                        else if (i == width * size - 1 && j == 0)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[2]);
+                        else if (i == width * size -1 && j == height * size - 1)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[7]);
+                        else if (i == 0)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[3]);
+                        else if(j == 0)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[1]);
+                        else if(i == width * size - 1)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[4]);
+                        else
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[6]);
+                    }
+                }
+            }
+
+            for (int index=0; index < halls.Count; index++)
+            {
+                rect = halls[index];
+                for (int x = rect.x; x < rect.x + rect.width; x++)
+                {
+                    for (int y = rect.y; y < rect.y + rect.height; y++)
+                    {
+                        for (int i = 0; i < size; i++)
+                        {
+                            for (int j = 0; j < size; j++)
+                            {
+                                floorTilemap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), floor);
+                            }
+                        }
+                    }
+                }
+            }
+            for(int index=0; index < rooms.Count; index++)
+            {
+                rect = rooms[index];
+                rect.DrawLine();
+                for (int x = rect.x; x < rect.x + rect.width; x++)
+                {
+                    for (int y = rect.y; y < rect.y + rect.height; y++)
+                    {
+                        for (int i = 0; i < size; i++)
+                        {
+                            for (int j = 0; j < size; j++)
+                            {
+                                if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
+                                {
+                                    if (size * x + i == rect.x * size & size * y + j == rect.y * size)
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[0]);
+                                    else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
+                                    else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[2]);
+                                    else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
+                                    else if (size * x + i == rect.x * size)
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
+                                    else if (size * y + j == rect.y * size)
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[1]);
+                                    else if (size * x + i == (rect.x + rect.width) * size - 1)
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
+                                    else
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } // 바닥 타일, 벽 타일 드로잉
+
+        bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Room> _list)
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
+                if ((_rectA.width >= _list[i].width && _rectA.height >= _list[i].height) || (_rectB.width >= _list[i].width && _rectB.height >= _list[i].height))
+                {
+                    return true;
+                }
+            }
+            for (int i = 0; i < _list.Count; i++)
+            {
+                if (_currentRect.width >= _list[i].width && _currentRect.height >= _list[i].height)
+                {
+                    necessaryRooms.Add(_list[i]);
+                    _list.RemoveAt(i);
+                    return false;
+                }
+            }
+            return true;
+        } // check Rects for fit necessary Room
+
+        bool FitRectCheck(Rect _rect, List<Room> _list)
+        {
+            for (int i = 0; i < _list.Count; i++)
+            {
+                if (_rect.width == _list[i].width && _rect.height == _list[i].height)
+                {
+                    _list.RemoveAt(i);
+                    return true;
+                }
+            }
+            return false;
+        } // check blocks for fit necessary Room
 
         void SplitHall(Rect _currentRect)
         {
             Rect hall = null;
 
-            if (CoinFlip(80))
+            Rect rect_a = null, rect_b = null;
+            RandomBlockSplit(_currentRect, out rect_a, out hall, out rect_b);
+
+            if (FitRectCheck(_currentRect, rect_a, rect_b, necessaryBlocks))
             {
-                Rect rect_a = null, rect_b = null;
-                RandomSplit(_currentRect, out rect_a, out hall, out rect_b);
                 rects.Enqueue(rect_a);
                 rects.Enqueue(rect_b);
+                halls.Add(hall);
+                TotalHallArea += hall.area;
             }
             else
             {
-                Rect rect_a = null;
-                RandomSplit(_currentRect, out rect_a, out hall);
-                rects.Enqueue(rect_a);
+                blocks.Enqueue(_currentRect);
             }
 
-            halls.Enqueue(hall);
-            TotalHallArea += hall.area;
-        }
+        } // split rects -> rects & halls
 
         void SplitBlock(Rect _currentBlock)
         {
             Rect block_a = null;
             Rect block_b = null;
-            RandomSplit(_currentBlock, out block_a, out block_b);
+            RandomRoomSplit(_currentBlock, out block_a, out block_b);
             blocks.Enqueue(block_a);
             blocks.Enqueue(block_b);
-        }
+        } // split blocks -> blocks
 
-        void RandomSplit(Rect _currentRect, out Rect _rectA, out Rect _hall, out Rect _rectB)
+        void RandomBlockSplit(Rect _currentRect, out Rect _rectA, out Rect _hall, out Rect _rectB)
         {
             bool flag = true;
 
@@ -173,7 +327,7 @@ namespace Map
 
             if(flag)
             {
-                int x1 = _currentRect.x + _currentRect.width * Random.Range(3, 8) /10;
+                int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(4, 7) /10);
                 int x2 = x1 + 1;
                 _rectA = new Rect(_currentRect.x, _currentRect.y, x1 - _currentRect.x, _currentRect.height);
                 _hall = new Rect(_rectA.x + _rectA.width, _currentRect.y, 1, _currentRect.height);
@@ -181,63 +335,16 @@ namespace Map
             }
             else
             {
-                int y1 = _currentRect.y + _currentRect.height * Random.Range(3, 8) / 10;
+                int y1 = (int)((_currentRect.y + 0.5f) + _currentRect.height * (float)Random.Range(4, 7) / 10);
                 int y2 = y1 + 1;
                 _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, y1 - _currentRect.y);
                 _hall = new Rect(_currentRect.x, _rectA.y + _rectA.height, _currentRect.width, 1);
                 _rectB = new Rect(_currentRect.x, _hall.y + _hall.height, _currentRect.width, _currentRect.height - _rectA.height - _hall.height);
             }
-        }
 
-        void RandomSplit(Rect _currentRect, out Rect _rectA, out Rect _hall)
-        {
-            bool flag = true;
+        } // split 덩어리 and 홀 and 덩어리
 
-            if (_currentRect.width > _currentRect.height)
-            {
-                flag = true;
-            }
-            else if (_currentRect.width < _currentRect.height)
-            {
-                flag = false;
-            }
-            else
-            {
-                if (CoinFlip(50))
-                    flag = true;
-                else
-                    flag = false;
-            }
-
-            if (flag)
-            {
-                if(CoinFlip(50)) // left
-                {
-                    _hall = new Rect(_currentRect.x, _currentRect.y, 1, _currentRect.height);
-                    _rectA = new Rect(_hall.x + 1, _currentRect.y, _currentRect.width - _hall.width, _currentRect.height);
-                }
-                else // right
-                {
-                    _hall = new Rect(_currentRect.x + _currentRect.width - 1, _currentRect.y, 1, _currentRect.height);
-                    _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width - _hall.width, _currentRect.height);
-                }
-            }
-            else
-            {
-                if (CoinFlip(50)) // down
-                {
-                    _hall = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, 1);
-                    _rectA = new Rect(_currentRect.x, _hall.y + 1, _currentRect.width, _currentRect.height - _hall.height);
-                }
-                else // up
-                {
-                    _hall = new Rect(_currentRect.x, _currentRect.y + _currentRect.height - 1, _currentRect.width, 1);
-                    _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, _currentRect.height - _hall.height);
-                }
-            }
-        }
-
-        void RandomBlockSplit(Rect _currentBlock, out Rect _blockA,out Rect _blockB)
+        bool RandomRoomSplit(Rect _currentBlock, out Rect _blockA,out Rect _blockB) 
         {
             bool flag = true;
 
@@ -260,24 +367,124 @@ namespace Map
             
             if(flag) // 가로
             {
-                int width = _currentBlock.width * Random.Range(3, 8) / 10;
-
+                int width = (int)((_currentBlock.width + 0.5f) * (float)Random.Range(4, 7) / 10);
                 _blockA = new Rect(_currentBlock.x, _currentBlock.y, width, _currentBlock.height);
                 _blockB = new Rect(_currentBlock.x + width, _currentBlock.y, _currentBlock.width - width, _currentBlock.height);
             }
             else
             {
-                int heigt = _currentBlock.width * Random.Range(3, 8) / 10;
+                int height = (int)((_currentBlock.height + 0.5f) * (float)Random.Range(4, 7) / 10);
+                _blockA = new Rect(_currentBlock.x, _currentBlock.y, _currentBlock.width, height);
+                _blockB = new Rect(_currentBlock.x, _currentBlock.y + height, _currentBlock.width, _currentBlock.height - height);
+            }
+            return true;
+        } // split 방 and 방
 
-                _blockA = new Rect(_currentBlock.x, _currentBlock.y, _currentBlock.width, heigt);
-                _blockB = new Rect(_currentBlock.x, _currentBlock.y + heigt, _currentBlock.width, _currentBlock.height - heigt);
+        void LinkAllRects() // 모든 Rects(Rooms and Halls) 연결
+        {
+            for(int i = 0; i < rooms.Count - 1; i++)
+            {
+                for (int k = 0; k < halls.Count; k++)
+                {
+                    LinkRects(rooms[i], halls[k]);
+                }
+                for (int j = i + 1; j < rooms.Count; j++)
+                {
+                    LinkRects(rooms[i], rooms[j]);
+                }
             }
         }
+
+        void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
+        {
+            if((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width)/2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
+            {
+                _rectA.EdgeRect(_rectB);
+            }
+            else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) &&(Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
+            {
+                _rectA.EdgeRect(_rectB);
+            }
+        }
+
+        void LinkDoor(Rect _rect)
+        {
+            _rect.visited = true;
+
+            for (int i = 0; i < _rect.edgeRect.Count; i++)
+            {
+                if (!_rect.edgeRect[i].visited)
+                {
+                    DrawDoorTile(_rect, _rect.edgeRect[i]);
+                    bool connected = _rect.ConnectEdge(_rect.edgeRect[i]);
+                    if (!connected)
+                        return;
+                    LinkDoor(_rect.edgeRect[i]);
+                }
+            }
+        } // 신장 트리 연결 & loop
+
+        void DrawDoorTile(Rect _rectA,Rect _rectB)
+        {
+            if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
+            {
+                float mainY = _rectA.midY;
+                float subY = _rectB.midY;
+                int y;
+
+                if (_rectA.height >= _rectB.height)
+                {
+                    y = Random.Range(_rectB.y * size + 1, (_rectB.y + _rectB.height) * size - 1);
+                }
+                else
+                {
+                    y = Random.Range(_rectA.y * size + 1, (_rectA.y + _rectA.height) * size - 1);
+                }
+
+                if (_rectA.midX > _rectB.midX) // 오른쪽
+                {
+                    wallTileMap.SetTile(new Vector3Int(_rectA.x * size, y, 0), null);
+                    wallTileMap.SetTile(new Vector3Int(_rectA.x * size - 1, y, 0), null);
+                }
+                else // 왼쪽
+                {
+                    wallTileMap.SetTile(new Vector3Int(_rectB.x * size, y, 0), null);
+                    wallTileMap.SetTile(new Vector3Int(_rectB.x * size - 1, y, 0), null);
+                }
+            } // 가로로 붙음
+            else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
+            {
+                float mainX = _rectA.midX;
+                float subX = _rectB.midX;
+                int x;
+
+                if (_rectA.width >= _rectB.width)
+                {
+                    x = Random.Range(_rectB.x * size + 1, (_rectB.x + _rectB.width) * size - 1);
+                }
+                else
+                {
+                    x = Random.Range(_rectA.x * size + 1, (_rectA.x + _rectA.width) * size - 1);
+                }
+
+                if (_rectA.midY > _rectB.midY) // 위쪽
+                {
+                    wallTileMap.SetTile(new Vector3Int(x, _rectA.y * size, 0), null);
+                    wallTileMap.SetTile(new Vector3Int(x, _rectA.y * size - 1, 0), null);
+                }
+                else // 아래쪽
+                {
+                    wallTileMap.SetTile(new Vector3Int(x, _rectB.y * size, 0), null);
+                    wallTileMap.SetTile(new Vector3Int(x, _rectB.y * size - 1, 0), null);
+                }
+           
+            } // 세로로 붙음
+        } // Door 부분 타일 floor로 변경
 
         bool CoinFlip(int percent)
         {
             return Random.Range(0, 100) < percent;
-        }
+        } // 코인 플립 확률에 따른 yes or no 반환
     }
 
     class Rect
@@ -287,6 +494,11 @@ namespace Map
         public readonly int width;
         public readonly int height;
         public readonly int area;
+        public readonly float midX, midY;
+        public bool visited;
+        public List<Rect> edgeRect;
+        public List<Rect> connectedRect;
+
         public Rect(int _x,int _y,int _width,int _height)
         {
             x = _x;
@@ -294,7 +506,33 @@ namespace Map
             width = _width;
             height = _height;
             area = width * height;
+            midX = x + (float)width / 2;
+            midY = y + (float)height / 2;
+            visited = false;
+            edgeRect = new List<Rect>();
+            connectedRect = new List<Rect>();
         }
+
+        public void EdgeRect(Rect _rect)
+        {
+            if (!edgeRect.Contains(_rect) && _rect != this)
+            {
+                edgeRect.Add(_rect);
+                _rect.edgeRect.Add(this);
+            }
+        }
+
+        public bool ConnectEdge(Rect _rect)
+        {
+            if (!connectedRect.Contains(_rect) && _rect != this)
+            {
+                connectedRect.Add(_rect);
+                _rect.connectedRect.Add(this);
+                return true;
+            }
+            return false;
+        }
+
         public void DrawLine()
         {
             Debug.DrawLine(new Vector2(x, y), new Vector2(x, y + height), Color.red, 1000);
@@ -304,6 +542,15 @@ namespace Map
         }
     }
 
+    class Room : Rect
+    {
+        public Room(int _x, int _y, int _width, int _height) : base(_x, _y, _width, _height) { }
+    }
+
+    class Hall : Rect
+    {
+        public Hall(int _x, int _y, int _width, int _height) : base(_x, _y, _width, _height) { }
+    }
 
 }
 

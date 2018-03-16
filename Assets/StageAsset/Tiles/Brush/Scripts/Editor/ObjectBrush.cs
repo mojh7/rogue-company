@@ -31,7 +31,7 @@ namespace UnityEditor
                 else
                 {
                     tilemap.SetTile(position, tilebase);
-                    GameObject prefab = objectTile.GetGameObject();
+                    GameObject prefab = new GameObject();
                     GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
                     Undo.RegisterCreatedObjectUndo((Object)instance, "Paint Prefabs");
                     if (instance != null)
