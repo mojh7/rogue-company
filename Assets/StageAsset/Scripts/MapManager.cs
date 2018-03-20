@@ -8,8 +8,9 @@ namespace Map
     public class MapManager : MonoBehaviour
     {
         private static MapManager instance;
+        public GameObject roomObjects;
         Map map;
-        public int width, height, size, num, area;
+        public int width, height, size, num, area, floor;
         public static MapManager Getinstance()
         {
             if(instance == null)
@@ -21,7 +22,8 @@ namespace Map
 
         private void Start()
         {
-            map = new Map(width, height, size, num, area);
+            RoomSetManager.GetInstance().Init();
+            map = new Map(width, height, size, num, area, floor, roomObjects);
         }
 
         private void Update()
@@ -45,8 +47,10 @@ namespace Map
         int width;
         int height;
         int size;
+        int floor;
+        GameObject roomObjects;
 
-        public Map(int _width,int _height,int _size, int _num, int _area)
+        public Map(int _width,int _height,int _size, int _num, int _area,int _floor, GameObject _roomObjects)
         {
             mainRect = new Rect(0, 0, _width, _height);
             width = _width;
@@ -54,6 +58,8 @@ namespace Map
             size = _size;
             MaxRoomNum = _num;
             MinumRoomArea = _area;
+            floor = _floor;
+            roomObjects = _roomObjects;
             rects = new Queue<Rect>();
             blocks = new Queue<Rect>();
             halls = new List<Rect>(_width * _height);
@@ -70,8 +76,11 @@ namespace Map
             DrawTile();
 
             LinkAllRects();
-            if(rooms.Count>0)
+            if (rooms.Count > 0)
+            {
                 LinkDoor(rooms[0]);
+                AssignAllRoom();
+            }
         } // office creates
 
         void RefreshData()
@@ -82,6 +91,15 @@ namespace Map
             rooms.Clear();
             necessaryBlocks.Clear();
             TotalHallArea = 0;
+            Transform[] childList = roomObjects.GetComponentsInChildren<Transform>(true);
+            if (childList != null)
+            {
+                for (int i = 0; i < childList.Length; i++)
+                {
+                    if (childList[i] != roomObjects.transform)
+                        Object.Destroy(childList[i].gameObject);
+                }
+            }
         } // 데이터 초기화
 
         void NecessaryRoomSet()
@@ -154,31 +172,32 @@ namespace Map
         void DrawTile()
         {
             RandomTile floor = TileManager.GetInstance().floorTile;
-            TileBase []wall = TileManager.GetInstance().wallTile;
+            TileBase[] wall = TileManager.GetInstance().wallTile;
             Rect rect;
             floorTilemap.ClearAllTiles();
             wallTileMap.ClearAllTiles();
+            List<Vector3Int> vector3Int = new List<Vector3Int>();
 
-            for (int i = 0; i < width * size; i++)
+            for (int i = 0; i < width * size; i++) // 전체 맵 그리기
             {
                 for (int j = 0; j < height * size; j++)
                 {
                     floorTilemap.SetTile(new Vector3Int(i, j, 0), floor);
                     if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
                     {
-                        if(i == 0 & j == 0)
-                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[0]);
-                        else if(i == 0 && j == height * size - 1)
+                        if (i == 0 & j == 0)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[1]);
+                        else if (i == 0 && j == height * size - 1)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[5]);
                         else if (i == width * size - 1 && j == 0)
-                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[2]);
-                        else if (i == width * size -1 && j == height * size - 1)
+                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[1]);
+                        else if (i == width * size - 1 && j == height * size - 1)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[7]);
                         else if (i == 0)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[3]);
-                        else if(j == 0)
+                        else if (j == 0)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[1]);
-                        else if(i == width * size - 1)
+                        else if (i == width * size - 1)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[4]);
                         else
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[6]);
@@ -186,7 +205,7 @@ namespace Map
                 }
             }
 
-            for (int index=0; index < halls.Count; index++)
+            for (int index = 0; index < halls.Count; index++)
             {
                 rect = halls[index];
                 for (int x = rect.x; x < rect.x + rect.width; x++)
@@ -202,11 +221,11 @@ namespace Map
                         }
                     }
                 }
-            }
-            for(int index=0; index < rooms.Count; index++)
+            } // 홀 그리기
+
+            for (int index = 0; index < rooms.Count; index++) 
             {
                 rect = rooms[index];
-                rect.DrawLine();
                 for (int x = rect.x; x < rect.x + rect.width; x++)
                 {
                     for (int y = rect.y; y < rect.y + rect.height; y++)
@@ -218,17 +237,25 @@ namespace Map
                                 if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
                                 {
                                     if (size * x + i == rect.x * size & size * y + j == rect.y * size)
+                                    {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[0]);
+                                        vector3Int.Add(new Vector3Int(size * x + i, size * y + j, 0));
+                                    }
                                     else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
                                     else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
+                                    {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[2]);
+                                        vector3Int.Add(new Vector3Int(size * x + i, size * y + j, 0));
+                                    }
                                     else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
                                     else if (size * x + i == rect.x * size)
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
                                     else if (size * y + j == rect.y * size)
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[1]);
+                                    {
+                                        vector3Int.Add(new Vector3Int(size * x + i, size * y + j, 0));
+                                    }
                                     else if (size * x + i == (rect.x + rect.width) * size - 1)
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
                                     else
@@ -238,7 +265,16 @@ namespace Map
                         }
                     }
                 }
-            }
+            } // 방그리기
+
+            for (int index = 0; index < vector3Int.Count; index++) 
+            { 
+                if (wallTileMap.GetTile(new Vector3Int(vector3Int[index].x, vector3Int[index].y - 1, 0)) == null)
+                {
+                    wallTileMap.SetTile(vector3Int[index], wall[1]);
+                }
+            } // 벽 그리기
+
         } // 바닥 타일, 벽 타일 드로잉
 
         bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Room> _list)
@@ -434,11 +470,11 @@ namespace Map
 
                 if (_rectA.height >= _rectB.height)
                 {
-                    y = Random.Range(_rectB.y * size + 1, (_rectB.y + _rectB.height) * size - 1);
+                    y = Random.Range(_rectB.y * size + 2, (_rectB.y + _rectB.height) * size - 2);
                 }
                 else
                 {
-                    y = Random.Range(_rectA.y * size + 1, (_rectA.y + _rectA.height) * size - 1);
+                    y = Random.Range(_rectA.y * size + 2, (_rectA.y + _rectA.height) * size - 2);
                 }
 
                 if (_rectA.midX > _rectB.midX) // 오른쪽
@@ -460,11 +496,11 @@ namespace Map
 
                 if (_rectA.width >= _rectB.width)
                 {
-                    x = Random.Range(_rectB.x * size + 1, (_rectB.x + _rectB.width) * size - 1);
+                    x = Random.Range(_rectB.x * size + 2, (_rectB.x + _rectB.width) * size - 2);
                 }
                 else
                 {
-                    x = Random.Range(_rectA.x * size + 1, (_rectA.x + _rectA.width) * size - 1);
+                    x = Random.Range(_rectA.x * size + 2, (_rectA.x + _rectA.width) * size - 2);
                 }
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
@@ -480,6 +516,66 @@ namespace Map
            
             } // 세로로 붙음
         } // Door 부분 타일 floor로 변경
+
+        void AssignAllRoom()
+        {
+            RoomSetManager roomSetManager = RoomSetManager.GetInstance();
+
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                RoomSet roomSet = roomSetManager.LoadRoomSet(rooms[i].width, rooms[i].height, 1);
+                GameObject obj = AssignRoom(roomSet);
+                obj.name = "Room";
+                obj.transform.position = new Vector3(rooms[i].x * size, rooms[i].y * size);
+                obj.transform.parent = roomObjects.transform;
+            }
+        } // 모든 룸 셋 배치
+
+        GameObject AssignRoom(RoomSet _roomSet)
+        {
+            if (_roomSet == null)
+                return null;
+            GameObject roomObj = new GameObject();
+            for(int i=0;i< _roomSet.objectDatas.Count; i++)
+            {
+                GameObject gameObject = DataToObject(_roomSet.objectDatas[i]);
+                gameObject.transform.parent = roomObj.transform;
+            }
+            return roomObj;
+        } // 룸 셋 배치
+
+        GameObject DataToObject(ObjectData _objectData)
+        {
+            GameObject gameObject = new GameObject();
+
+            switch (_objectData.objectType)
+            {
+                case ObjectType.UNBREAKABLE:
+                    gameObject.AddComponent<UnbreakableBox>().sprite = _objectData.sprite;
+                    gameObject.GetComponent<UnbreakableBox>().Init();
+                    break;
+                case ObjectType.BREAKABLE:
+                    gameObject.AddComponent<BreakalbeBox>().sprite = _objectData.sprite;
+                    gameObject.GetComponent<BreakalbeBox>().Init();
+                    break;
+                case ObjectType.CHAIR:
+                    gameObject.AddComponent<Chair>().sprite = _objectData.sprite;
+                    gameObject.GetComponent<Chair>().Init();
+                    break;
+                case ObjectType.ITEMBOX:
+                    gameObject.AddComponent<ItemBox>().sprite = _objectData.sprite;
+                    gameObject.GetComponent<ItemBox>().Init();
+                    break;
+                case ObjectType.VENDINMACHINE:
+                    gameObject.AddComponent<VendingMachine>().sprite = _objectData.sprite;
+                    gameObject.GetComponent<VendingMachine>().Init();
+                    break;
+            }
+
+            gameObject.transform.position = _objectData.position;
+
+            return gameObject;
+        } // Data -> 오브젝트 만들기
 
         bool CoinFlip(int percent)
         {

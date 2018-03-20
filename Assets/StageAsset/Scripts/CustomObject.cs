@@ -2,46 +2,92 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { MOVED, EVENT, BLOCK }
+public enum ObjectType { UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE }
 
 public class CustomObject : MonoBehaviour {
 
-    public readonly float x;
-    public readonly float y;
+    public Vector3 position;
+    public ObjectType objectType;
     public Sprite sprite;
+    public bool isActive;
 
-    public void Init(Sprite _sprite)
+    public virtual void Init()
     {
-        sprite = _sprite;
-        SetObject();
+        gameObject.AddComponent<SpriteRenderer>().sprite = sprite;
+        gameObject.AddComponent<BoxCollider2D>();
     }
 
-    public void SetObject()
+    public void SetPosition()
     {
-        GetComponent<SpriteRenderer>().sprite = sprite;
+        position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
     }
 
-    virtual protected void Active() { }
+    public virtual void Active() { }
 }
 
-public class WheelChair : CustomObject
+public class UnbreakableBox : CustomObject
 {
-
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.UNBREAKABLE;
+    }
+    public override void Active()
+    {
+        Debug.Log("Unbreakalbe");
+    }
 }
 
-public class NoWheelChair : CustomObject
+public class BreakalbeBox : CustomObject
 {
-
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.BREAKABLE;
+    }
+    public override void Active()
+    {
+        Debug.Log("BreakalbeBox");
+    }
 }
 
 public class VendingMachine : CustomObject
 {
-
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.VENDINMACHINE;
+    }
+    public override void Active()
+    {
+        Debug.Log("VendingMachine");
+    }
 }
 
-public class Block : CustomObject
+public class Chair : CustomObject
 {
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.CHAIR;
+    }
+    public override void Active()
+    {
+        Debug.Log("Chair");
+    }
+}
 
+public class ItemBox : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.ITEMBOX;
+    }
+    public override void Active()
+    {
+        Debug.Log("ItemBox");
+    }
 }
 
 

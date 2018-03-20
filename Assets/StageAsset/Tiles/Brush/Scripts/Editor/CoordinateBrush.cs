@@ -15,7 +15,6 @@ namespace UnityEditor
             base.Paint(grid, brushTarget, zPosition);
             Tilemap tilemap = brushTarget.GetComponent<Tilemap>();
             TileBase tilebase = tilemap.GetTile(position);
-            ObjectTile objectTile = tilebase as ObjectTile;
         }
         
         public override void Erase(GridLayout grid, GameObject brushTarget, Vector3Int position)

@@ -7,10 +7,11 @@ using UnityEngine.Tilemaps;
 public class MapEditor : EditorWindow
 {
     int width, height,size;
-    string name;
+    string roomName;
     GameObject obj;
     GameObject roomObj;
     ObjectType objectType;
+    RoomType roomType;
     Sprite objectSprite;
     [MenuItem("Custom/Map")]
 
@@ -18,7 +19,6 @@ public class MapEditor : EditorWindow
     {
         // 윈도우 생성
         MapEditor window = (MapEditor)EditorWindow.GetWindow(typeof(MapEditor));
-
     }
  
 
@@ -27,30 +27,25 @@ public class MapEditor : EditorWindow
         BeginWindows();
         obj = Object.FindObjectOfType<Map.MapManager>().gameObject;
         EndWindows();
+        roomName = EditorGUILayout.TextField("roomName", roomName);
         width = EditorGUILayout.IntField("width", width);
         height = EditorGUILayout.IntField("height", height);
+        roomType = (RoomType)EditorGUILayout.EnumPopup("RoomType", roomType);
         size = EditorGUILayout.IntField("size", size);
-        name = EditorGUILayout.TextField("name", name);
-        if (GUILayout.Button("Show Boundary 30 duration"))
-        {
-            DrawBoundary();
-        }
-        if (GUILayout.Button("Create Tilemap"))
+        if (GUILayout.Button("Create Room"))
         {
             CreateTilemap();
         }
-        if (GUILayout.Button("Save Tilemap"))
-        {
-            SaveTilemap();
-        }
-        if (GUILayout.Button("Remove Tilemap"))
+        if (GUILayout.Button("Remove Room"))
         {
             RemoveTilemap();
         }
         objectType = (ObjectType)EditorGUILayout.EnumPopup("ObjectType", objectType);
         objectSprite = (Sprite)EditorGUILayout.ObjectField("ObjectSprite", objectSprite, typeof(Sprite), allowSceneObjects: true);
-        if(GUILayout.Button("Create Object"))
+        if (GUILayout.Button("Create Object"))
             CreateObject();
+        if (GUILayout.Button("Save Roomset"))
+            SaveRoomset();
     }
 
     void CreateObject()
@@ -60,21 +55,50 @@ public class MapEditor : EditorWindow
         GameObject gameObject = new GameObject();
         gameObject.name = "Object";
         gameObject.transform.parent = roomObj.transform;
-        gameObject.AddComponent<SpriteRenderer>();
+
         switch (objectType)
         {
-            case ObjectType.BLOCK:
-                gameObject.AddComponent<Block>().Init(objectSprite);
+            case ObjectType.UNBREAKABLE:
+                gameObject.AddComponent<UnbreakableBox>().sprite = objectSprite;
+                gameObject.GetComponent<UnbreakableBox>().Init();
                 break;
-            case ObjectType.EVENT:
-                gameObject.AddComponent<Block>().Init(objectSprite);
+            case ObjectType.BREAKABLE:
+                gameObject.AddComponent<BreakalbeBox>().sprite = objectSprite;
+                gameObject.GetComponent<BreakalbeBox>().Init();
                 break;
-            case ObjectType.MOVED:
-                gameObject.AddComponent<Block>().Init(objectSprite);
+            case ObjectType.CHAIR:
+                gameObject.AddComponent<Chair>().sprite = objectSprite;
+                gameObject.GetComponent<Chair>().Init();
+                break;
+            case ObjectType.ITEMBOX:
+                gameObject.AddComponent<ItemBox>().sprite = objectSprite;
+                gameObject.GetComponent<ItemBox>().Init();
+                break;
+            case ObjectType.VENDINMACHINE:
+                gameObject.AddComponent<VendingMachine>().sprite = objectSprite;
+                gameObject.GetComponent<VendingMachine>().Init();
                 break;
         }
     }
-    
+
+    void SaveRoomset()
+    {
+        if (obj == null || roomObj == null || size == 0 || width == 0 || height == 0)
+            return;
+        RoomSet roomSet = new RoomSet(width, height,roomType);
+
+        foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
+        {
+            if (child.GetComponent<CustomObject>() != null)
+            {
+                CustomObject customObject = child.GetComponent<CustomObject>();
+                customObject.SetPosition();
+                roomSet.Add(new ObjectData(customObject.position, customObject.sprite, customObject.objectType));
+            }
+        }
+        RoomSetManager.GetInstance().SaveRoomSet(roomName, roomSet);
+    }
+
     void CreateTilemap()
     {
         if (obj == null || size == 0 || width == 0 || height == 0)
@@ -130,40 +154,11 @@ public class MapEditor : EditorWindow
             }
         }
     }
-    
-    void SaveTilemap()
-    {
-        if (obj == null || roomObj == null || size == 0 || width == 0 || height == 0 || name == "")
-            return;
-        RoomSet roomSet = new RoomSet(width, height);
-
-        foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
-        {
-            roomSet.Add(child.GetComponent<CustomObject>());
-        }
-
-    }
-
-    void RoomsetToDate()
-    {
-
-    }
  
     void RemoveTilemap()
     {
         if (obj == null || roomObj == null)
             return;
-        Tilemap tilemap = roomObj.GetComponent<Tilemap>();
-        tilemap.ClearAllTiles();
-    }
-
-    void DrawBoundary()
-    {
-        Debug.DrawLine(Vector2.zero, new Vector2(0, height * size), Color.blue , 30);
-        Debug.DrawLine(new Vector2(0, height * size), new Vector2(width * size, height * size), Color.blue, 30);
-        Debug.DrawLine(new Vector2(width * size, height * size), new Vector2(width * size, 0), Color.blue, 30);
-        Debug.DrawLine(new Vector2(width * size, 0), Vector2.zero, Color.blue, 30);
-        Debug.DrawLine(new Vector2(width * size, height * size), Vector2.zero, Color.blue, 30);
-        Debug.DrawLine(new Vector2(width * size, 0), new Vector2(0, height * size), Color.blue, 30);
+        DestroyImmediate(roomObj);
     }
 }
