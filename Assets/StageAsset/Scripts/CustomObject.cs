@@ -13,13 +13,17 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Init()
     {
-        gameObject.AddComponent<SpriteRenderer>().sprite = sprite;
-        gameObject.AddComponent<BoxCollider2D>();
+        gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
     public void SetPosition()
     {
         position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
+    }
+
+    public void Dispose()
+    {
+        Destroy(this);
     }
 
     public virtual void Active() { }

@@ -8,9 +8,10 @@ namespace Map
     public class MapManager : MonoBehaviour
     {
         private static MapManager instance;
-        public GameObject roomObjects;
-        Map map;
+        public ObjectPool objectPool;
+
         public int width, height, size, num, area, floor;
+        Map map;
         public static MapManager Getinstance()
         {
             if(instance == null)
@@ -23,7 +24,7 @@ namespace Map
         private void Start()
         {
             RoomSetManager.GetInstance().Init();
-            map = new Map(width, height, size, num, area, floor, roomObjects);
+            map = new Map(width, height, size, num, area, floor, objectPool);
         }
 
         private void Update()
@@ -37,7 +38,7 @@ namespace Map
     {
         Rect mainRect;
         Queue<Rect> rects, blocks;
-        List<Rect> halls, rooms;
+        List<Room> halls, rooms;
         List<Room> necessaryBlocks, necessaryRooms;
         Tilemap wallTileMap, floorTilemap;
         const float MaxHallRate = 0.2f;
@@ -48,9 +49,9 @@ namespace Map
         int height;
         int size;
         int floor;
-        GameObject roomObjects;
+        ObjectPool objectPool;
 
-        public Map(int _width,int _height,int _size, int _num, int _area,int _floor, GameObject _roomObjects)
+        public Map(int _width,int _height,int _size, int _num, int _area,int _floor, ObjectPool _objectPool)
         {
             mainRect = new Rect(0, 0, _width, _height);
             width = _width;
@@ -59,11 +60,11 @@ namespace Map
             MaxRoomNum = _num;
             MinumRoomArea = _area;
             floor = _floor;
-            roomObjects = _roomObjects;
+            objectPool = _objectPool;
             rects = new Queue<Rect>();
             blocks = new Queue<Rect>();
-            halls = new List<Rect>(_width * _height);
-            rooms = new List<Rect> (_width * _height);
+            halls = new List<Room>(_width * _height);
+            rooms = new List<Room> (_width * _height);
             necessaryBlocks = new List<Room>(_width * _height);
             necessaryRooms = new List<Room>(_width * _height);
             floorTilemap = TileManager.GetInstance().floorTileMap;
@@ -85,21 +86,22 @@ namespace Map
 
         void RefreshData()
         {
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                for (int j = 0; j < rooms[i].customObjects.Length; j++)
+                {
+                    rooms[i].customObjects[j].GetComponent<CustomObject>().Dispose();
+                }
+            }
+            objectPool.Deactivation();
+
             rects.Clear();
             halls.Clear();
             blocks.Clear();
             rooms.Clear();
             necessaryBlocks.Clear();
             TotalHallArea = 0;
-            Transform[] childList = roomObjects.GetComponentsInChildren<Transform>(true);
-            if (childList != null)
-            {
-                for (int i = 0; i < childList.Length; i++)
-                {
-                    if (childList[i] != roomObjects.transform)
-                        Object.Destroy(childList[i].gameObject);
-                }
-            }
+      
         } // 데이터 초기화
 
         void NecessaryRoomSet()
@@ -153,10 +155,13 @@ namespace Map
             while (blocks.Count > 0 && rooms.Count < MaxRoomNum)
             {
                 block = blocks.Dequeue();
-                if ((block.area > MinumRoomArea || block.width / block.height >= 3 || block.height / block.width >= 3) && !FitRectCheck(block,necessaryRooms))
+                if ((block.area > MinumRoomArea || block.width / block.height >= 3 || block.height / block.width >= 3) && !FitRectCheck(block, necessaryRooms))
                     SplitBlock(block);
                 else
-                    rooms.Add(block);
+                {
+                    rooms.Add(new Room(block));
+                    block.Dispose();
+                }
             }
             if (necessaryRooms.Count > 0)
                 return false;
@@ -164,7 +169,8 @@ namespace Map
             while (blocks.Count > 0)
             {
                 block = blocks.Dequeue();
-                halls.Add(block);
+                halls.Add(new Room(block));
+                block.Dispose();
             }
             return true;
         } // Blocks -> Rooms;
@@ -322,8 +328,9 @@ namespace Map
             {
                 rects.Enqueue(rect_a);
                 rects.Enqueue(rect_b);
-                halls.Add(hall);
+                halls.Add(new Room(hall));
                 TotalHallArea += hall.area;
+                hall.Dispose();
             }
             else
             {
@@ -524,29 +531,27 @@ namespace Map
             for (int i = 0; i < rooms.Count; i++)
             {
                 RoomSet roomSet = roomSetManager.LoadRoomSet(rooms[i].width, rooms[i].height, 1);
-                GameObject obj = AssignRoom(roomSet);
-                obj.name = "Room";
-                obj.transform.position = new Vector3(rooms[i].x * size, rooms[i].y * size);
-                obj.transform.parent = roomObjects.transform;
+                roomSet.x = rooms[i].x;
+                roomSet.y = rooms[i].y;
+                rooms[i].customObjects = AssignRoom(roomSet);
             }
         } // 모든 룸 셋 배치
 
-        GameObject AssignRoom(RoomSet _roomSet)
+        GameObject[] AssignRoom(RoomSet _roomSet)
         {
             if (_roomSet == null)
                 return null;
-            GameObject roomObj = new GameObject();
+            GameObject[] customObjects = new GameObject[_roomSet.objectDatas.Count];
             for(int i=0;i< _roomSet.objectDatas.Count; i++)
             {
-                GameObject gameObject = DataToObject(_roomSet.objectDatas[i]);
-                gameObject.transform.parent = roomObj.transform;
+                customObjects[i] = DataToObject(_roomSet.x * size, _roomSet.y * size, _roomSet.objectDatas[i]);
             }
-            return roomObj;
+            return customObjects;
         } // 룸 셋 배치
 
-        GameObject DataToObject(ObjectData _objectData)
+        GameObject DataToObject(int _x,int _y,ObjectData _objectData)
         {
-            GameObject gameObject = new GameObject();
+            GameObject gameObject = objectPool.GetPooledObject();
 
             switch (_objectData.objectType)
             {
@@ -571,8 +576,7 @@ namespace Map
                     gameObject.GetComponent<VendingMachine>().Init();
                     break;
             }
-
-            gameObject.transform.position = _objectData.position;
+            gameObject.transform.position = new Vector3(_x + _objectData.position.x, _y + _objectData.position.y);
 
             return gameObject;
         } // Data -> 오브젝트 만들기
@@ -636,15 +640,26 @@ namespace Map
             Debug.DrawLine(new Vector2(x + width, y + height), new Vector2(x + width, y), Color.red, 1000);
             Debug.DrawLine(new Vector2(x + width, y), new Vector2(x, y), Color.red, 1000);
         }
+
+        public void Dispose()
+        {
+            System.GC.Collect();
+        }
     }
 
     class Room : Rect
     {
+        public GameObject[] customObjects;
+
+        public Room(Rect _rect) : base(_rect.x, _rect.y, _rect.width, _rect.height) { }
+
         public Room(int _x, int _y, int _width, int _height) : base(_x, _y, _width, _height) { }
     }
 
     class Hall : Rect
     {
+        public Hall(Rect _rect) : base(_rect.x, _rect.y, _rect.width, _rect.height) { }
+
         public Hall(int _x, int _y, int _width, int _height) : base(_x, _y, _width, _height) { }
     }
 

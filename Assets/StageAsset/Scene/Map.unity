@@ -121,6 +121,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 162180389}
+  - component: {fileID: 162180390}
   m_Layer: 0
   m_Name: Rooms
   m_TagString: Untagged
@@ -141,6 +142,21 @@ Transform:
   m_Father: {fileID: 572565054}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &162180390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162180388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be8661bf4c0c864ea41a9f718e9a6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObject: {fileID: 1832046738814270, guid: dece55cd74b3a82448bb0a09bbc09a1b,
+    type: 2}
+  pooledAmount: 20
+  willGrow: 1
 --- !u!1 &185554562
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,7 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab15589b86571734297f7ab599d9d54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomObjects: {fileID: 162180388}
+  objectPool: {fileID: 162180390}
   width: 10
   height: 10
   size: 7

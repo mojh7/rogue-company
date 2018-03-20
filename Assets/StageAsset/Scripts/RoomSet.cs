@@ -6,6 +6,8 @@ public enum RoomType { MONSTER, EVENT, BOSS, STORE }
 
 public class RoomSet : ScriptableObject
 {
+    public int x;
+    public int y;
     public int width;
     public int height;
     public List<ObjectData> objectDatas;
