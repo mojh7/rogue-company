@@ -11,11 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: 1x1 Monster
   m_EditorClassIdentifier: 
+  x: 5
+  y: 2
   width: 1
   height: 1
   objectDatas:
   - position: {x: 2.5, y: 3, z: 3}
     sprite: {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
     isActive: 0
-    objectType: 0
+    objectType: 1
   roomType: 0

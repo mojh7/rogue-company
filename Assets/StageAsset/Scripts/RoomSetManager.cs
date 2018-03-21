@@ -7,6 +7,8 @@ using System.IO;
 public class RoomSetManager : MonoBehaviour {
 
     static private RoomSetManager instance;
+
+    public Sprite[] doorSprites;
     public RoomSet[] roomSetArr;
     List<RoomSetGroup> roomSetGroup;
     

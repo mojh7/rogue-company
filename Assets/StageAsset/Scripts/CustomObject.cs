@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE }
+public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE }
 
 public class CustomObject : MonoBehaviour {
 
@@ -94,4 +94,15 @@ public class ItemBox : CustomObject
     }
 }
 
+public class Door : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.DOOR;
+    }
+    public override void Active()
+    {
+    }
+}
 

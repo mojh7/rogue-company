@@ -122,6 +122,8 @@ GameObject:
   m_Component:
   - component: {fileID: 162180389}
   - component: {fileID: 162180390}
+  - component: {fileID: 162180392}
+  - component: {fileID: 162180391}
   m_Layer: 0
   m_Name: Rooms
   m_TagString: Untagged
@@ -157,6 +159,40 @@ MonoBehaviour:
     type: 2}
   pooledAmount: 20
   willGrow: 1
+--- !u!114 &162180391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162180388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa5f53455748374b89f0e321a3ef35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &162180392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162180388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a16bc2495408cbf42bd59b24b5569946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorSprites:
+  - {fileID: 21300186, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+  - {fileID: 21300166, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+  roomSetArr:
+  - {fileID: 11400000, guid: 93468a11ced6f694e96bf48e98429271, type: 2}
+  - {fileID: 11400000, guid: 9abbc6ebb484427498af81118b1c5da8, type: 2}
+  - {fileID: 11400000, guid: e710c91b5106a25429e901d69cbba3d7, type: 2}
+  - {fileID: 11400000, guid: b43119e9847095e4fa4b65184cc860a8, type: 2}
+  - {fileID: 11400000, guid: a0052261ff36e3f4aa48d9784f270018, type: 2}
+  - {fileID: 11400000, guid: d0288f55c09d7284eb685bf3e51fedda, type: 2}
+  - {fileID: 11400000, guid: 74ff504e5bb644246b2d0e809198987f, type: 2}
+  - {fileID: 11400000, guid: 6586a55b586e6904db091375b84a90ed, type: 2}
 --- !u!1 &185554562
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,12 +547,11 @@ GameObject:
   m_Component:
   - component: {fileID: 572565054}
   - component: {fileID: 572565053}
-  - component: {fileID: 572565055}
   - component: {fileID: 572565058}
   - component: {fileID: 572565057}
   - component: {fileID: 572565056}
+  - component: {fileID: 572565055}
   - component: {fileID: 572565052}
-  - component: {fileID: 572565059}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -683,25 +718,6 @@ Tilemap:
     e32: 0
     e33: 1
   m_TileRefreshArray: []
---- !u!114 &572565059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 572565051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a16bc2495408cbf42bd59b24b5569946, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomSetArr:
-  - {fileID: 11400000, guid: 93468a11ced6f694e96bf48e98429271, type: 2}
-  - {fileID: 11400000, guid: 9abbc6ebb484427498af81118b1c5da8, type: 2}
-  - {fileID: 11400000, guid: e710c91b5106a25429e901d69cbba3d7, type: 2}
-  - {fileID: 11400000, guid: b43119e9847095e4fa4b65184cc860a8, type: 2}
-  - {fileID: 11400000, guid: a0052261ff36e3f4aa48d9784f270018, type: 2}
-  - {fileID: 11400000, guid: d0288f55c09d7284eb685bf3e51fedda, type: 2}
-  - {fileID: 11400000, guid: 74ff504e5bb644246b2d0e809198987f, type: 2}
 --- !u!1 &1632917436
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,8 +38,8 @@ namespace Map
     {
         Rect mainRect;
         Queue<Rect> rects, blocks;
-        List<Room> halls, rooms;
-        List<Room> necessaryBlocks, necessaryRooms;
+        List<Rect> halls, rooms;
+        List<Rect> necessaryBlocks, necessaryRooms;
         Tilemap wallTileMap, floorTilemap;
         const float MaxHallRate = 0.2f;
         int MinumRoomArea = 4;
@@ -63,24 +63,26 @@ namespace Map
             objectPool = _objectPool;
             rects = new Queue<Rect>();
             blocks = new Queue<Rect>();
-            halls = new List<Room>(_width * _height);
-            rooms = new List<Room> (_width * _height);
-            necessaryBlocks = new List<Room>(_width * _height);
-            necessaryRooms = new List<Room>(_width * _height);
+            halls = new List<Rect>(_width * _height);
+            rooms = new List<Rect> (_width * _height);
+            necessaryBlocks = new List<Rect>(_width * _height);
+            necessaryRooms = new List<Rect>(_width * _height);
             floorTilemap = TileManager.GetInstance().floorTileMap;
             wallTileMap = TileManager.GetInstance().wallTileMap;
         } // 생성자
 
+        #region MakeMap
         public void Generate() 
         {
             CreateMap();
-            DrawTile();
 
-            LinkAllRects();
             if (rooms.Count > 0)
             {
+                LinkAllRects();
+                DrawTile();
                 LinkDoor(rooms[0]);
                 AssignAllRoom();
+                RoomManager.Getinstance().SetRoomList(rooms);
             }
         } // office creates
 
@@ -89,9 +91,9 @@ namespace Map
             for (int i = 0; i < rooms.Count; i++)
             {
                 for (int j = 0; j < rooms[i].customObjects.Length; j++)
-                {
                     rooms[i].customObjects[j].GetComponent<CustomObject>().Dispose();
-                }
+                for (int j = 0; j < rooms[i].doorObjects.Count; j++)
+                    rooms[i].doorObjects[j].GetComponent<CustomObject>().Dispose();
             }
             objectPool.Deactivation();
 
@@ -106,7 +108,7 @@ namespace Map
 
         void NecessaryRoomSet()
         {
-            Room room = new Room(0, 0, 3, 3);
+            Rect room = new Rect(0, 0, 3, 3);
 
             necessaryBlocks.Add(room);
         } // 필수 방 세팅
@@ -159,8 +161,8 @@ namespace Map
                     SplitBlock(block);
                 else
                 {
-                    rooms.Add(new Room(block));
-                    block.Dispose();
+                    block.isRoom = true;
+                    rooms.Add(block);
                 }
             }
             if (necessaryRooms.Count > 0)
@@ -169,8 +171,8 @@ namespace Map
             while (blocks.Count > 0)
             {
                 block = blocks.Dequeue();
-                halls.Add(new Room(block));
-                block.Dispose();
+                block.isRoom = false;
+                halls.Add(block);
             }
             return true;
         } // Blocks -> Rooms;
@@ -182,7 +184,6 @@ namespace Map
             Rect rect;
             floorTilemap.ClearAllTiles();
             wallTileMap.ClearAllTiles();
-            List<Vector3Int> vector3Int = new List<Vector3Int>();
 
             for (int i = 0; i < width * size; i++) // 전체 맵 그리기
             {
@@ -232,40 +233,78 @@ namespace Map
             for (int index = 0; index < rooms.Count; index++) 
             {
                 rect = rooms[index];
-                for (int x = rect.x; x < rect.x + rect.width; x++)
-                {
-                    for (int y = rect.y; y < rect.y + rect.height; y++)
+                bool downExist = false;
+                for(int e = 0; e < rect.edgeRect.Count; e++)
+                {            
+                    if ((Mathf.Abs(rect.midX - rect.edgeRect[e].midX) < (float)(rect.width + rect.edgeRect[e].width) / 2) && (Mathf.Abs(rect.midY - rect.edgeRect[e].midY) == (float)(rect.height + rect.edgeRect[e].height) / 2))
                     {
-                        for (int i = 0; i < size; i++)
+                        if (rect.midY > rect.edgeRect[e].midY && rect.isRoom && rect.edgeRect[e].isRoom) // 위쪽
+                            downExist = true;
+                    } // 세로로 붙음
+                }
+                if (downExist)
+                {
+                    for (int x = rect.x; x < rect.x + rect.width; x++)
+                    {
+                        for (int y = rect.y; y < rect.y + rect.height; y++)
                         {
-                            for (int j = 0; j < size; j++)
+                            for (int i = 0; i < size; i++)
                             {
-                                if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
+                                for (int j = 0; j < size; j++)
                                 {
-                                    if (size * x + i == rect.x * size & size * y + j == rect.y * size)
+                                    if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
                                     {
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[0]);
-                                        vector3Int.Add(new Vector3Int(size * x + i, size * y + j, 0));
+                                        if (size * x + i == rect.x * size & size * y + j == rect.y * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
+                                        else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
+                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
+                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
+                                        else if (size * x + i == rect.x * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
+                                        else if (size * y + j == rect.y * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), null);
+                                        else if (size * x + i == (rect.x + rect.width) * size - 1)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
+                                        else
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
                                     }
-                                    else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
-                                    else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for (int x = rect.x; x < rect.x + rect.width; x++)
+                    {
+                        for (int y = rect.y; y < rect.y + rect.height; y++)
+                        {
+                            for (int i = 0; i < size; i++)
+                            {
+                                for (int j = 0; j < size; j++)
+                                {
+                                    if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
                                     {
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[2]);
-                                        vector3Int.Add(new Vector3Int(size * x + i, size * y + j, 0));
+                                        if (size * x + i == rect.x * size & size * y + j == rect.y * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[0]);
+                                        else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
+                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[2]);
+                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
+                                        else if (size * x + i == rect.x * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
+                                        else if (size * y + j == rect.y * size)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[1]);
+                                        else if (size * x + i == (rect.x + rect.width) * size - 1)
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
+                                        else
+                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
                                     }
-                                    else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
-                                    else if (size * x + i == rect.x * size)
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
-                                    else if (size * y + j == rect.y * size)
-                                    {
-                                        vector3Int.Add(new Vector3Int(size * x + i, size * y + j, 0));
-                                    }
-                                    else if (size * x + i == (rect.x + rect.width) * size - 1)
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
-                                    else
-                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
                                 }
                             }
                         }
@@ -273,17 +312,9 @@ namespace Map
                 }
             } // 방그리기
 
-            for (int index = 0; index < vector3Int.Count; index++) 
-            { 
-                if (wallTileMap.GetTile(new Vector3Int(vector3Int[index].x, vector3Int[index].y - 1, 0)) == null)
-                {
-                    wallTileMap.SetTile(vector3Int[index], wall[1]);
-                }
-            } // 벽 그리기
-
         } // 바닥 타일, 벽 타일 드로잉
 
-        bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Room> _list)
+        bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Rect> _list)
         {
             for (int i = 0; i < _list.Count; i++)
             {
@@ -304,7 +335,7 @@ namespace Map
             return true;
         } // check Rects for fit necessary Room
 
-        bool FitRectCheck(Rect _rect, List<Room> _list)
+        bool FitRectCheck(Rect _rect, List<Rect> _list)
         {
             for (int i = 0; i < _list.Count; i++)
             {
@@ -328,9 +359,9 @@ namespace Map
             {
                 rects.Enqueue(rect_a);
                 rects.Enqueue(rect_b);
-                halls.Add(new Room(hall));
+                hall.isRoom = false;
+                halls.Add(hall);
                 TotalHallArea += hall.area;
-                hall.Dispose();
             }
             else
             {
@@ -458,10 +489,10 @@ namespace Map
             {
                 if (!_rect.edgeRect[i].visited)
                 {
-                    DrawDoorTile(_rect, _rect.edgeRect[i]);
-                    bool connected = _rect.ConnectEdge(_rect.edgeRect[i]);
-                    if (!connected)
-                        return;
+                    DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
+                    //bool connected = _rect.ConnectEdge(_rect.edgeRect[i]); // 사이클용인데 hall때문에 싸이클의 역할이 무의미해짐
+                    //if (!connected)
+                    //    return;
                     LinkDoor(_rect.edgeRect[i]);
                 }
             }
@@ -469,6 +500,7 @@ namespace Map
 
         void DrawDoorTile(Rect _rectA,Rect _rectB)
         {
+            GameObject obj = null;
             if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
             {
                 float mainY = _rectA.midY;
@@ -488,11 +520,19 @@ namespace Map
                 {
                     wallTileMap.SetTile(new Vector3Int(_rectA.x * size, y, 0), null);
                     wallTileMap.SetTile(new Vector3Int(_rectA.x * size - 1, y, 0), null);
+                    if (_rectB.isRoom) // 이미지에 따라 수정해야함
+                        obj = CreateDoorObject(_rectA.x * size, y + 0.5f, true);
+                    else
+                        obj = CreateDoorObject(_rectA.x * size, y + 0.5f, true);
                 }
                 else // 왼쪽
                 {
                     wallTileMap.SetTile(new Vector3Int(_rectB.x * size, y, 0), null);
                     wallTileMap.SetTile(new Vector3Int(_rectB.x * size - 1, y, 0), null);
+                    if (_rectA.isRoom) // 이미지에 따라 수정해야함
+                        obj = CreateDoorObject(_rectB.x * size, y + 0.5f, true);
+                    else
+                        obj = CreateDoorObject(_rectB.x * size, y + 0.5f, true);
                 }
             } // 가로로 붙음
             else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
@@ -514,15 +554,41 @@ namespace Map
                 {
                     wallTileMap.SetTile(new Vector3Int(x, _rectA.y * size, 0), null);
                     wallTileMap.SetTile(new Vector3Int(x, _rectA.y * size - 1, 0), null);
+                    if(_rectB.isRoom) // 아래에 있는 방이 Room 일 경우 한칸 아래 설치
+                        obj = CreateDoorObject(x + 0.5f, _rectA.y * size - 0.5f, false);
+                    else
+                        obj = CreateDoorObject(x + 0.5f, _rectA.y * size + 0.5f, false);
                 }
                 else // 아래쪽
                 {
                     wallTileMap.SetTile(new Vector3Int(x, _rectB.y * size, 0), null);
                     wallTileMap.SetTile(new Vector3Int(x, _rectB.y * size - 1, 0), null);
+                    if (_rectA.isRoom) // 위에 있는 방이 Room 일 경우 한칸 아래 설치
+                        obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 0.5f, false);
+                    else
+                        obj = CreateDoorObject(x + 0.5f, _rectB.y * size + 0.5f, false);
                 }
            
             } // 세로로 붙음
+
+            _rectA.doorObjects.Add(obj);
+            _rectB.doorObjects.Add(obj);
+
         } // Door 부분 타일 floor로 변경
+
+        GameObject CreateDoorObject(float x,float y,bool isHorizon)
+        {
+            GameObject obj = objectPool.GetPooledObject();
+            obj.AddComponent<Door>();
+            if (isHorizon)
+                obj.GetComponent<Door>().sprite = RoomSetManager.GetInstance().doorSprites[0];
+            else
+                obj.GetComponent<Door>().sprite = RoomSetManager.GetInstance().doorSprites[1];
+            obj.GetComponent<Door>().Init();
+            obj.transform.position = new Vector3(x, y, y);
+
+            return obj;
+        } // Door Object 생성
 
         void AssignAllRoom()
         {
@@ -542,7 +608,7 @@ namespace Map
             if (_roomSet == null)
                 return null;
             GameObject[] customObjects = new GameObject[_roomSet.objectDatas.Count];
-            for(int i=0;i< _roomSet.objectDatas.Count; i++)
+            for (int i = 0; i < _roomSet.objectDatas.Count; i++)
             {
                 customObjects[i] = DataToObject(_roomSet.x * size, _roomSet.y * size, _roomSet.objectDatas[i]);
             }
@@ -556,30 +622,36 @@ namespace Map
             switch (_objectData.objectType)
             {
                 case ObjectType.UNBREAKABLE:
-                    gameObject.AddComponent<UnbreakableBox>().sprite = _objectData.sprite;
+                    gameObject.AddComponent<UnbreakableBox>();
+                    gameObject.GetComponent<UnbreakableBox>().sprite = _objectData.sprite;
                     gameObject.GetComponent<UnbreakableBox>().Init();
                     break;
                 case ObjectType.BREAKABLE:
-                    gameObject.AddComponent<BreakalbeBox>().sprite = _objectData.sprite;
+                    gameObject.AddComponent<BreakalbeBox>();
+                    gameObject.GetComponent<BreakalbeBox>().sprite = _objectData.sprite;
                     gameObject.GetComponent<BreakalbeBox>().Init();
                     break;
                 case ObjectType.CHAIR:
-                    gameObject.AddComponent<Chair>().sprite = _objectData.sprite;
+                    gameObject.AddComponent<Chair>();
+                    gameObject.GetComponent<Chair>().sprite = _objectData.sprite;
                     gameObject.GetComponent<Chair>().Init();
                     break;
                 case ObjectType.ITEMBOX:
-                    gameObject.AddComponent<ItemBox>().sprite = _objectData.sprite;
+                    gameObject.AddComponent<ItemBox>();
+                    gameObject.GetComponent<ItemBox>().sprite = _objectData.sprite;
                     gameObject.GetComponent<ItemBox>().Init();
                     break;
                 case ObjectType.VENDINMACHINE:
-                    gameObject.AddComponent<VendingMachine>().sprite = _objectData.sprite;
+                    gameObject.AddComponent<VendingMachine>();
+                    gameObject.GetComponent<VendingMachine>().sprite = _objectData.sprite;
                     gameObject.GetComponent<VendingMachine>().Init();
                     break;
             }
-            gameObject.transform.position = new Vector3(_x + _objectData.position.x, _y + _objectData.position.y);
+            gameObject.transform.position = new Vector3(_x + _objectData.position.x, _y + _objectData.position.y, _y + _objectData.position.y);
 
             return gameObject;
         } // Data -> 오브젝트 만들기
+        #endregion
 
         bool CoinFlip(int percent)
         {
@@ -587,7 +659,7 @@ namespace Map
         } // 코인 플립 확률에 따른 yes or no 반환
     }
 
-    class Rect
+    public class Rect
     {
         public readonly int x;
         public readonly int y;
@@ -598,6 +670,9 @@ namespace Map
         public bool visited;
         public List<Rect> edgeRect;
         public List<Rect> connectedRect;
+        public GameObject[] customObjects;
+        public List<GameObject> doorObjects;
+        public bool isRoom;
 
         public Rect(int _x,int _y,int _width,int _height)
         {
@@ -611,6 +686,7 @@ namespace Map
             visited = false;
             edgeRect = new List<Rect>();
             connectedRect = new List<Rect>();
+            doorObjects = new List<GameObject>();
         }
 
         public void EdgeRect(Rect _rect)
@@ -646,23 +722,6 @@ namespace Map
             System.GC.Collect();
         }
     }
-
-    class Room : Rect
-    {
-        public GameObject[] customObjects;
-
-        public Room(Rect _rect) : base(_rect.x, _rect.y, _rect.width, _rect.height) { }
-
-        public Room(int _x, int _y, int _width, int _height) : base(_x, _y, _width, _height) { }
-    }
-
-    class Hall : Rect
-    {
-        public Hall(Rect _rect) : base(_rect.x, _rect.y, _rect.width, _rect.height) { }
-
-        public Hall(int _x, int _y, int _width, int _height) : base(_x, _y, _width, _height) { }
-    }
-
 }
 
 

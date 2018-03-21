@@ -55,6 +55,7 @@ public class MapEditor : EditorWindow
         GameObject gameObject = new GameObject();
         gameObject.name = "Object";
         gameObject.transform.parent = roomObj.transform;
+        gameObject.AddComponent<SpriteRenderer>();
 
         switch (objectType)
         {
