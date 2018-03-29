@@ -73,11 +73,6 @@ public struct ObjectData
                 _gameObject.GetComponent<VendingMachine>().sprite = sprite;
                 _gameObject.GetComponent<VendingMachine>().Init();
                 break;
-            case ObjectType.LIGHT:
-                _gameObject.AddComponent<LightObject>();
-                _gameObject.GetComponent<LightObject>().sprite = null;
-                _gameObject.GetComponent<LightObject>().Init();
-                break;
             case ObjectType.DOOR:
                 _gameObject.AddComponent<Door>();
                 _gameObject.GetComponent<Door>().sprite = null;

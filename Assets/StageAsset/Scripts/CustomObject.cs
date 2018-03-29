@@ -16,7 +16,6 @@ public class CustomObject : MonoBehaviour {
         GetComponent<SpriteRenderer>().sprite = sprite;
         if(sprite)
             GetComponent<BoxCollider2D>().size = sprite.bounds.size;
-        GetComponent<Light>().enabled = false;
     }
 
     public void SetPosition()
@@ -101,20 +100,5 @@ public class ItemBox : CustomObject
     public override void Active()
     {
         Debug.Log("ItemBox");
-    }
-}
-
-public class LightObject : CustomObject
-{
-    public override void Init()
-    {
-        base.Init();
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y - 5f);
-        objectType = ObjectType.LIGHT;
-    }
-    public override void Active()
-    {
-        Debug.Log("Light");
-        GetComponent<Light>().enabled = !GetComponent<Light>().enabled;
     }
 }

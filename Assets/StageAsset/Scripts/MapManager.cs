@@ -9,6 +9,7 @@ namespace Map
     {
         private static MapManager instance;
         public ObjectPool objectPool;
+        public Material spriteMaterial;
 
         public int width, height, size, area, floor;
         Map map;
@@ -19,6 +20,13 @@ namespace Map
                 instance = GameObject.FindObjectOfType(typeof(MapManager)) as MapManager;
             }
             return instance;
+        }
+        public void LightTurn()
+        {
+            if(spriteMaterial.color == Color.white)
+                spriteMaterial.color = Color.grey;
+            else
+                spriteMaterial.color = Color.white;
         }
         #region UnityFunc
         private void Start()
@@ -31,6 +39,8 @@ namespace Map
         {
             if (Input.GetKeyDown(KeyCode.A))
                 map.Generate();
+            if (Input.GetKeyDown(KeyCode.R))
+                LightTurn();
         }
         #endregion
     }
@@ -700,13 +710,13 @@ namespace Map
 
         public void LoadMaskObject()
         {
-            maskObject.transform.position = new Vector3(midX * size, midY * size);
+            maskObject.transform.localPosition = new Vector3(midX * size, midY * size , 0);
 
             if (isRoom)
             {
                 if (downExist)
                 {
-                    maskObject.transform.position = new Vector3(midX * size, midY * size - 0.5f);
+                    maskObject.transform.localPosition = new Vector3(midX * size, midY * size - 0.5f, 0);
                     maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 1);
                 }
                 else
