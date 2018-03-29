@@ -11,21 +11,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: 1x1 Monster 2
   m_EditorClassIdentifier: 
-  x: 2
-  y: 1
+  x: 5
+  y: 3
   width: 1
   height: 1
+  size: 7
   objectDatas:
-  - position: {x: 2.5, y: 2.5, z: 2.5}
+  - position: {x: 2.5, y: 3, z: 3}
     sprite: {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
     isActive: 0
-    objectType: 5
-  - position: {x: 2.5, y: 3, z: 3}
-    sprite: {fileID: 21300042, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    isActive: 0
     objectType: 1
-  - position: {x: 5, y: 3, z: 3}
-    sprite: {fileID: 21300042, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+  - position: {x: 2.5, y: 3.5, z: 3.5}
+    sprite: {fileID: 0}
     isActive: 0
-    objectType: 1
+    objectType: 6
+  - position: {x: 2.5, y: 5, z: 5}
+    sprite: {fileID: 0}
+    isActive: 0
+    objectType: 6
   roomType: 0

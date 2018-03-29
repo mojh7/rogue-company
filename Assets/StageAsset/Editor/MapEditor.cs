@@ -13,6 +13,7 @@ public class MapEditor : EditorWindow
     ObjectType objectType;
     RoomType roomType;
     Sprite objectSprite;
+    RoomSet roomSet;
     [MenuItem("Custom/Map")]
 
     static public void ShowWindow()
@@ -46,47 +47,31 @@ public class MapEditor : EditorWindow
             CreateObject();
         if (GUILayout.Button("Save Roomset"))
             SaveRoomset();
+        roomSet = (RoomSet)EditorGUILayout.ObjectField("RoomSet", roomSet, typeof(RoomSet), allowSceneObjects: true);
+        if (GUILayout.Button("Load Roomset"))
+            LoadRoomset();
     }
 
     void CreateObject()
     {
-        if (objectSprite == null|| roomObj == null)
+        if (roomObj == null)
             return;
         GameObject gameObject = new GameObject();
         gameObject.name = "Object";
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
+        gameObject.AddComponent<BoxCollider2D>();
+        gameObject.AddComponent<Light>();
 
-        switch (objectType)
-        {
-            case ObjectType.UNBREAKABLE:
-                gameObject.AddComponent<UnbreakableBox>().sprite = objectSprite;
-                gameObject.GetComponent<UnbreakableBox>().Init();
-                break;
-            case ObjectType.BREAKABLE:
-                gameObject.AddComponent<BreakalbeBox>().sprite = objectSprite;
-                gameObject.GetComponent<BreakalbeBox>().Init();
-                break;
-            case ObjectType.CHAIR:
-                gameObject.AddComponent<Chair>().sprite = objectSprite;
-                gameObject.GetComponent<Chair>().Init();
-                break;
-            case ObjectType.ITEMBOX:
-                gameObject.AddComponent<ItemBox>().sprite = objectSprite;
-                gameObject.GetComponent<ItemBox>().Init();
-                break;
-            case ObjectType.VENDINMACHINE:
-                gameObject.AddComponent<VendingMachine>().sprite = objectSprite;
-                gameObject.GetComponent<VendingMachine>().Init();
-                break;
-        }
+        ObjectData objectData = new ObjectData(Vector3.zero,objectSprite, objectType);
+        objectData.LoadObject(gameObject);
     }
 
     void SaveRoomset()
     {
         if (obj == null || roomObj == null || size == 0 || width == 0 || height == 0)
             return;
-        RoomSet roomSet = new RoomSet(width, height,roomType);
+        RoomSet roomSet = new RoomSet(width, height, size, roomType);
 
         foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
         {
@@ -161,5 +146,29 @@ public class MapEditor : EditorWindow
         if (obj == null || roomObj == null)
             return;
         DestroyImmediate(roomObj);
+    }
+
+    void LoadRoomset()
+    {
+        if (roomSet == null)
+            return;
+        width = roomSet.width;
+        height = roomSet.height;
+        size = roomSet.size;
+        CreateTilemap();
+        for (int i = 0; i < roomSet.objectDatas.Count; i++)
+            DataToObject(roomSet.objectDatas[i]);
+    }
+
+    void DataToObject(ObjectData _objectData)
+    {
+        GameObject gameObject = new GameObject();
+        gameObject.AddComponent<SpriteRenderer>();
+        gameObject.AddComponent<BoxCollider2D>();
+        gameObject.AddComponent<Light>();
+        _objectData.LoadObject(gameObject);
+        gameObject.name = "Object";
+        gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);
+        gameObject.transform.parent = roomObj.transform;
     }
 }

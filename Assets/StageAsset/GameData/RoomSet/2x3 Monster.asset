@@ -15,6 +15,7 @@ MonoBehaviour:
   y: 0
   width: 2
   height: 3
+  size: 7
   objectDatas:
   - position: {x: 2.5, y: 3.75, z: 3.75}
     sprite: {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}

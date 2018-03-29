@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE }
+public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, LIGHT }
 
 public class CustomObject : MonoBehaviour {
 
@@ -13,7 +13,10 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Init()
     {
-        gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
+        GetComponent<SpriteRenderer>().sprite = sprite;
+        if(sprite)
+            GetComponent<BoxCollider2D>().size = sprite.bounds.size;
+        GetComponent<Light>().enabled = false;
     }
 
     public void SetPosition()
@@ -21,12 +24,19 @@ public class CustomObject : MonoBehaviour {
         position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
     }
 
-    public void Dispose()
-    {
-        Destroy(this);
-    }
-
     public virtual void Active() { }
+}
+
+public class Door : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.DOOR;
+    }
+    public override void Active()
+    {
+    }
 }
 
 public class UnbreakableBox : CustomObject
@@ -94,15 +104,17 @@ public class ItemBox : CustomObject
     }
 }
 
-public class Door : CustomObject
+public class LightObject : CustomObject
 {
     public override void Init()
     {
         base.Init();
-        objectType = ObjectType.DOOR;
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y - 5f);
+        objectType = ObjectType.LIGHT;
     }
     public override void Active()
     {
+        Debug.Log("Light");
+        GetComponent<Light>().enabled = !GetComponent<Light>().enabled;
     }
 }
-

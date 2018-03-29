@@ -87,8 +87,7 @@ public class RoomSetManager : MonoBehaviour {
                 return roomSet;
             }
         }
-        return null;
-
+        return roomSetGroup[0].GetMonsterRoomSet(); ;
     }
 }
 

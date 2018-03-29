@@ -10,7 +10,7 @@ namespace Map
         private static MapManager instance;
         public ObjectPool objectPool;
 
-        public int width, height, size, num, area, floor;
+        public int width, height, size, area, floor;
         Map map;
         public static MapManager Getinstance()
         {
@@ -20,11 +20,11 @@ namespace Map
             }
             return instance;
         }
-
+        #region UnityFunc
         private void Start()
         {
             RoomSetManager.GetInstance().Init();
-            map = new Map(width, height, size, num, area, floor, objectPool);
+            map = new Map(width, height, size, area, floor, objectPool);
         }
 
         private void Update()
@@ -32,6 +32,7 @@ namespace Map
             if (Input.GetKeyDown(KeyCode.A))
                 map.Generate();
         }
+        #endregion
     }
 
     class Map
@@ -43,7 +44,6 @@ namespace Map
         Tilemap wallTileMap, floorTilemap;
         const float MaxHallRate = 0.2f;
         int MinumRoomArea = 4;
-        int MaxRoomNum;
         int TotalHallArea = 0;
         int width;
         int height;
@@ -51,13 +51,12 @@ namespace Map
         int floor;
         ObjectPool objectPool;
 
-        public Map(int _width,int _height,int _size, int _num, int _area,int _floor, ObjectPool _objectPool)
+        public Map(int _width,int _height,int _size, int _area,int _floor, ObjectPool _objectPool)
         {
-            mainRect = new Rect(0, 0, _width, _height);
+            mainRect = new Rect(0, 0, _width, _height, _size);
             width = _width;
             height = _height;
             size = _size;
-            MaxRoomNum = _num;
             MinumRoomArea = _area;
             floor = _floor;
             objectPool = _objectPool;
@@ -82,7 +81,10 @@ namespace Map
                 DrawTile();
                 LinkDoor(rooms[0]);
                 AssignAllRoom();
+                rooms.AddRange(halls);
                 RoomManager.Getinstance().SetRoomList(rooms);
+                RoomManager.Getinstance().LoadMaskObject();
+                RoomManager.Getinstance().Active();
             }
         } // office creates
 
@@ -90,11 +92,16 @@ namespace Map
         {
             for (int i = 0; i < rooms.Count; i++)
             {
-                for (int j = 0; j < rooms[i].customObjects.Length; j++)
-                    rooms[i].customObjects[j].GetComponent<CustomObject>().Dispose();
-                for (int j = 0; j < rooms[i].doorObjects.Count; j++)
-                    rooms[i].doorObjects[j].GetComponent<CustomObject>().Dispose();
+                if (rooms[i].customObjects != null)
+                    for (int j = 0; j < rooms[i].customObjects.Length; j++)
+                        Object.DestroyImmediate(rooms[i].customObjects[j].GetComponent<CustomObject>());
+                if (rooms[i].doorObjects != null)
+                    for (int j = 0; j < rooms[i].doorObjects.Count; j++)
+                        Object.DestroyImmediate(rooms[i].doorObjects[j].GetComponent<CustomObject>());
+                if (rooms[i].maskObject != null)
+                    Object.Destroy(rooms[i].maskObject);
             }
+
             objectPool.Deactivation();
 
             rects.Clear();
@@ -108,7 +115,7 @@ namespace Map
 
         void NecessaryRoomSet()
         {
-            Rect room = new Rect(0, 0, 3, 3);
+            Rect room = new Rect(0, 0, 3, 3, size);
 
             necessaryBlocks.Add(room);
         } // 필수 방 세팅
@@ -154,7 +161,7 @@ namespace Map
                 necessaryRooms.Add(necessaryBlocks[i]);
             }
             Rect block;
-            while (blocks.Count > 0 && rooms.Count < MaxRoomNum)
+            while (blocks.Count > 0)
             {
                 block = blocks.Dequeue();
                 if ((block.area > MinumRoomArea || block.width / block.height >= 3 || block.height / block.width >= 3) && !FitRectCheck(block, necessaryRooms))
@@ -233,16 +240,15 @@ namespace Map
             for (int index = 0; index < rooms.Count; index++) 
             {
                 rect = rooms[index];
-                bool downExist = false;
                 for(int e = 0; e < rect.edgeRect.Count; e++)
                 {            
                     if ((Mathf.Abs(rect.midX - rect.edgeRect[e].midX) < (float)(rect.width + rect.edgeRect[e].width) / 2) && (Mathf.Abs(rect.midY - rect.edgeRect[e].midY) == (float)(rect.height + rect.edgeRect[e].height) / 2))
                     {
                         if (rect.midY > rect.edgeRect[e].midY && rect.isRoom && rect.edgeRect[e].isRoom) // 위쪽
-                            downExist = true;
+                            rooms[index].downExist = true;
                     } // 세로로 붙음
                 }
-                if (downExist)
+                if (rect.downExist)
                 {
                     for (int x = rect.x; x < rect.x + rect.width; x++)
                     {
@@ -403,17 +409,17 @@ namespace Map
             {
                 int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(4, 7) /10);
                 int x2 = x1 + 1;
-                _rectA = new Rect(_currentRect.x, _currentRect.y, x1 - _currentRect.x, _currentRect.height);
-                _hall = new Rect(_rectA.x + _rectA.width, _currentRect.y, 1, _currentRect.height);
-                _rectB = new Rect(_hall.x + _hall.width, _currentRect.y, _currentRect.width - _rectA.width - _hall.width, _currentRect.height);
+                _rectA = new Rect(_currentRect.x, _currentRect.y, x1 - _currentRect.x, _currentRect.height, size);
+                _hall = new Rect(_rectA.x + _rectA.width, _currentRect.y, 1, _currentRect.height, size);
+                _rectB = new Rect(_hall.x + _hall.width, _currentRect.y, _currentRect.width - _rectA.width - _hall.width, _currentRect.height, size);
             }
             else
             {
                 int y1 = (int)((_currentRect.y + 0.5f) + _currentRect.height * (float)Random.Range(4, 7) / 10);
                 int y2 = y1 + 1;
-                _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, y1 - _currentRect.y);
-                _hall = new Rect(_currentRect.x, _rectA.y + _rectA.height, _currentRect.width, 1);
-                _rectB = new Rect(_currentRect.x, _hall.y + _hall.height, _currentRect.width, _currentRect.height - _rectA.height - _hall.height);
+                _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, y1 - _currentRect.y, size);
+                _hall = new Rect(_currentRect.x, _rectA.y + _rectA.height, _currentRect.width, 1, size);
+                _rectB = new Rect(_currentRect.x, _hall.y + _hall.height, _currentRect.width, _currentRect.height - _rectA.height - _hall.height, size);
             }
 
         } // split 덩어리 and 홀 and 덩어리
@@ -442,14 +448,14 @@ namespace Map
             if(flag) // 가로
             {
                 int width = (int)((_currentBlock.width + 0.5f) * (float)Random.Range(4, 7) / 10);
-                _blockA = new Rect(_currentBlock.x, _currentBlock.y, width, _currentBlock.height);
-                _blockB = new Rect(_currentBlock.x + width, _currentBlock.y, _currentBlock.width - width, _currentBlock.height);
+                _blockA = new Rect(_currentBlock.x, _currentBlock.y, width, _currentBlock.height, size);
+                _blockB = new Rect(_currentBlock.x + width, _currentBlock.y, _currentBlock.width - width, _currentBlock.height, size);
             }
             else
             {
                 int height = (int)((_currentBlock.height + 0.5f) * (float)Random.Range(4, 7) / 10);
-                _blockA = new Rect(_currentBlock.x, _currentBlock.y, _currentBlock.width, height);
-                _blockB = new Rect(_currentBlock.x, _currentBlock.y + height, _currentBlock.width, _currentBlock.height - height);
+                _blockA = new Rect(_currentBlock.x, _currentBlock.y, _currentBlock.width, height, size);
+                _blockB = new Rect(_currentBlock.x, _currentBlock.y + height, _currentBlock.width, _currentBlock.height - height, size);
             }
             return true;
         } // split 방 and 방
@@ -487,7 +493,7 @@ namespace Map
 
             for (int i = 0; i < _rect.edgeRect.Count; i++)
             {
-                if (!_rect.edgeRect[i].visited)
+                if (!_rect.edgeRect[i].visited && _rect.eRoomType != RoomType.BOSS)
                 {
                     DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
                     //bool connected = _rect.ConnectEdge(_rect.edgeRect[i]); // 사이클용인데 hall때문에 싸이클의 역할이 무의미해짐
@@ -599,6 +605,7 @@ namespace Map
                 RoomSet roomSet = roomSetManager.LoadRoomSet(rooms[i].width, rooms[i].height, 1);
                 roomSet.x = rooms[i].x;
                 roomSet.y = rooms[i].y;
+                rooms[i].eRoomType = roomSet.roomType;
                 rooms[i].customObjects = AssignRoom(roomSet);
             }
         } // 모든 룸 셋 배치
@@ -610,47 +617,12 @@ namespace Map
             GameObject[] customObjects = new GameObject[_roomSet.objectDatas.Count];
             for (int i = 0; i < _roomSet.objectDatas.Count; i++)
             {
-                customObjects[i] = DataToObject(_roomSet.x * size, _roomSet.y * size, _roomSet.objectDatas[i]);
+                customObjects[i] = objectPool.GetPooledObject();
+                customObjects[i].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
+                _roomSet.objectDatas[i].LoadObject(customObjects[i]);
             }
             return customObjects;
         } // 룸 셋 배치
-
-        GameObject DataToObject(int _x,int _y,ObjectData _objectData)
-        {
-            GameObject gameObject = objectPool.GetPooledObject();
-
-            switch (_objectData.objectType)
-            {
-                case ObjectType.UNBREAKABLE:
-                    gameObject.AddComponent<UnbreakableBox>();
-                    gameObject.GetComponent<UnbreakableBox>().sprite = _objectData.sprite;
-                    gameObject.GetComponent<UnbreakableBox>().Init();
-                    break;
-                case ObjectType.BREAKABLE:
-                    gameObject.AddComponent<BreakalbeBox>();
-                    gameObject.GetComponent<BreakalbeBox>().sprite = _objectData.sprite;
-                    gameObject.GetComponent<BreakalbeBox>().Init();
-                    break;
-                case ObjectType.CHAIR:
-                    gameObject.AddComponent<Chair>();
-                    gameObject.GetComponent<Chair>().sprite = _objectData.sprite;
-                    gameObject.GetComponent<Chair>().Init();
-                    break;
-                case ObjectType.ITEMBOX:
-                    gameObject.AddComponent<ItemBox>();
-                    gameObject.GetComponent<ItemBox>().sprite = _objectData.sprite;
-                    gameObject.GetComponent<ItemBox>().Init();
-                    break;
-                case ObjectType.VENDINMACHINE:
-                    gameObject.AddComponent<VendingMachine>();
-                    gameObject.GetComponent<VendingMachine>().sprite = _objectData.sprite;
-                    gameObject.GetComponent<VendingMachine>().Init();
-                    break;
-            }
-            gameObject.transform.position = new Vector3(_x + _objectData.position.x, _y + _objectData.position.y, _y + _objectData.position.y);
-
-            return gameObject;
-        } // Data -> 오브젝트 만들기
         #endregion
 
         bool CoinFlip(int percent)
@@ -667,14 +639,20 @@ namespace Map
         public readonly int height;
         public readonly int area;
         public readonly float midX, midY;
+        public readonly int size;
         public bool visited;
         public List<Rect> edgeRect;
         public List<Rect> connectedRect;
         public GameObject[] customObjects;
         public List<GameObject> doorObjects;
+        public GameObject maskObject;
         public bool isRoom;
+        public bool downExist;
+        public bool isClear;
+        public RoomType eRoomType;
+        
 
-        public Rect(int _x,int _y,int _width,int _height)
+        public Rect(int _x,int _y,int _width,int _height,int _size)
         {
             x = _x;
             y = _y;
@@ -683,7 +661,10 @@ namespace Map
             area = width * height;
             midX = x + (float)width / 2;
             midY = y + (float)height / 2;
+            size = _size;
             visited = false;
+            downExist = false;
+            isClear = false;
             edgeRect = new List<Rect>();
             connectedRect = new List<Rect>();
             doorObjects = new List<GameObject>();
@@ -715,6 +696,29 @@ namespace Map
             Debug.DrawLine(new Vector2(x, y + height), new Vector2(x + width, y + height), Color.red, 1000);
             Debug.DrawLine(new Vector2(x + width, y + height), new Vector2(x + width, y), Color.red, 1000);
             Debug.DrawLine(new Vector2(x + width, y), new Vector2(x, y), Color.red, 1000);
+        }
+
+        public void LoadMaskObject()
+        {
+            maskObject.transform.position = new Vector3(midX * size, midY * size);
+
+            if (isRoom)
+            {
+                if (downExist)
+                {
+                    maskObject.transform.position = new Vector3(midX * size, midY * size - 0.5f);
+                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 1);
+                }
+                else
+                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2);
+            }
+            else
+            {
+                if(width > height)
+                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 2);
+                else
+                    maskObject.transform.localScale = new Vector3(width * size * 2 + 0.7f, height * 2 * size);
+            }
         }
 
         public void Dispose()
