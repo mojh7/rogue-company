@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class MiniMap : MonoBehaviour {
 
-    public Sprite unknownIcon, monsterIcon, eventIcon, bossIcon, storeIcon;
-    public int minmapSize = 200;
+    public Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
+    public GameObject playerIcon;
+
+    int minmapSize = 100;
     List<Map.Rect> roomList;
     Texture2D texture;
     new RawImage renderer;
+    float width;
     int size;
+    int mapSize;
+
     public void GetRoomList()
     {
         roomList = RoomManager.Getinstance().GetRoomList();
@@ -33,12 +38,13 @@ public class MiniMap : MonoBehaviour {
                     }
                     else
                     {
-                        texture.SetPixel(x, y, Color.grey);
+                        texture.SetPixel(x, y, Color.white);
                     }
+                    DrawIcon(roomList[i]);
+
                 }
             }
         }
-        DrawIcon(roomList[0]);
         for (int i = 0; i < minmapSize; i++)
         {
             for (int j = 0; j < minmapSize; j++)
@@ -73,6 +79,8 @@ public class MiniMap : MonoBehaviour {
                 sprite = storeIcon;
                 break;
         }
+        if(!_rect.isClear)
+            sprite = unknownIcon;
         int x = _rect.x * size + _rect.width * size / 2;
         int y = _rect.y * size + _rect.height * size / 2;
         Rect textureRect = sprite.textureRect;
@@ -89,20 +97,21 @@ public class MiniMap : MonoBehaviour {
         }
     } // 방 타입에 따른 미니맵 아이콘 표시
 
+    public void PlayerPositionToMap()
+    {
+        Vector2 positon = PlayerManager.Getinstance().GetPlayerPosition();
+        playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSize - width / 2, positon.y * width / mapSize - width / 2);
+    } // 현재 플레이어 위치 to MiniMap
+
     #region UnityFunc
     private void Awake()
     {
         texture = new Texture2D(minmapSize, minmapSize); // 미니맵 픽셀
         size = minmapSize / 10; // 미니맵 사이즈
-        renderer = GetComponent<RawImage>(); 
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            GetRoomList();
-            DrawMinimap();
-        }
+        width = GetComponent<RectTransform>().sizeDelta.x;
+        renderer = GetComponent<RawImage>();
+        mapSize = Map.MapManager.Getinstance().size * Map.MapManager.Getinstance().width;
+
     }
     #endregion
 }

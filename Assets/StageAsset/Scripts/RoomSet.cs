@@ -33,13 +33,14 @@ public class RoomSet : ScriptableObject
 public struct ObjectData
 {
     public Vector3 position;
-    public Sprite sprite;
+    public Sprite[] sprites;
     public bool isActive;
     public ObjectType objectType;
-    public ObjectData(Vector3 _position,Sprite _sprite,ObjectType _objectType)
+
+    public ObjectData(Vector3 _position, ObjectType _objectType, Sprite[] _sprites)
     {
         position = _position;
-        sprite = _sprite;
+        sprites = _sprites;
         objectType = _objectType;
         isActive = false;
     }
@@ -50,27 +51,27 @@ public struct ObjectData
         {
             case ObjectType.UNBREAKABLE:
                 _gameObject.AddComponent<UnbreakableBox>();
-                _gameObject.GetComponent<UnbreakableBox>().sprite = sprite;
+                _gameObject.GetComponent<UnbreakableBox>().sprites = sprites;
                 _gameObject.GetComponent<UnbreakableBox>().Init();
                 break;
             case ObjectType.BREAKABLE:
                 _gameObject.AddComponent<BreakalbeBox>();
-                _gameObject.GetComponent<BreakalbeBox>().sprite = sprite;
+                _gameObject.GetComponent<BreakalbeBox>().sprites = sprites;
                 _gameObject.GetComponent<BreakalbeBox>().Init();
                 break;
             case ObjectType.CHAIR:
                 _gameObject.AddComponent<Chair>();
-                _gameObject.GetComponent<Chair>().sprite = sprite;
+                _gameObject.GetComponent<Chair>().sprites = sprites;
                 _gameObject.GetComponent<Chair>().Init();
                 break;
             case ObjectType.ITEMBOX:
                 _gameObject.AddComponent<ItemBox>();
-                _gameObject.GetComponent<ItemBox>().sprite = sprite;
+                _gameObject.GetComponent<ItemBox>().sprites = sprites;
                 _gameObject.GetComponent<ItemBox>().Init();
                 break;
             case ObjectType.VENDINMACHINE:
                 _gameObject.AddComponent<VendingMachine>();
-                _gameObject.GetComponent<VendingMachine>().sprite = sprite;
+                _gameObject.GetComponent<VendingMachine>().sprites = sprites;
                 _gameObject.GetComponent<VendingMachine>().Init();
                 break;
             case ObjectType.DOOR:

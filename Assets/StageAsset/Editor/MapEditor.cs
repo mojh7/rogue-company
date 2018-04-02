@@ -12,7 +12,9 @@ public class MapEditor : EditorWindow
     GameObject roomObj;
     ObjectType objectType;
     RoomType roomType;
+    int spriteNum;
     Sprite objectSprite;
+    Sprite[] objectSprites;
     RoomSet roomSet;
     [MenuItem("Custom/Map")]
 
@@ -42,7 +44,16 @@ public class MapEditor : EditorWindow
             RemoveTilemap();
         }
         objectType = (ObjectType)EditorGUILayout.EnumPopup("ObjectType", objectType);
-        objectSprite = (Sprite)EditorGUILayout.ObjectField("ObjectSprite", objectSprite, typeof(Sprite), allowSceneObjects: true);
+        EditorGUI.BeginChangeCheck();
+        spriteNum = EditorGUILayout.IntField("spriteNum", spriteNum);
+        if (EditorGUI.EndChangeCheck())
+        {
+            objectSprites = new Sprite[spriteNum];
+        }
+        for (int i = 0; i < spriteNum; i++)
+        {
+            objectSprites[i] = (Sprite)EditorGUILayout.ObjectField("ObjectSprite", objectSprites[i], typeof(Sprite), allowSceneObjects: true);
+        }
         if (GUILayout.Button("Create Object"))
             CreateObject();
         if (GUILayout.Button("Save Roomset"))
@@ -61,9 +72,8 @@ public class MapEditor : EditorWindow
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<BoxCollider2D>();
-        gameObject.AddComponent<Light>();
 
-        ObjectData objectData = new ObjectData(Vector3.zero,objectSprite, objectType);
+        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
     }
 
@@ -79,7 +89,7 @@ public class MapEditor : EditorWindow
             {
                 CustomObject customObject = child.GetComponent<CustomObject>();
                 customObject.SetPosition();
-                roomSet.Add(new ObjectData(customObject.position, customObject.sprite, customObject.objectType));
+                roomSet.Add(new ObjectData(customObject.position, customObject.objectType, customObject.sprites));
             }
         }
         RoomSetManager.GetInstance().SaveRoomSet(roomName, roomSet);

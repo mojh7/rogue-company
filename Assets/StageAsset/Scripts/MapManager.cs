@@ -8,9 +8,9 @@ namespace Map
     public class MapManager : MonoBehaviour
     {
         private static MapManager instance;
+        public MiniMap miniMap;
         public ObjectPool objectPool;
         public Material spriteMaterial;
-
         public int width, height, size, area, floor;
         Map map;
         public static MapManager Getinstance()
@@ -28,17 +28,24 @@ namespace Map
             else
                 spriteMaterial.color = Color.white;
         }
-        #region UnityFunc
-        private void Start()
+        public void GenerateMap()
         {
-            RoomSetManager.GetInstance().Init();
+            if (map != null)
+            {
+                map.Dispose();
+                map = null;
+            }
             map = new Map(width, height, size, area, floor, objectPool);
+            map.Generate();
+            miniMap.GetRoomList();
+            miniMap.DrawMinimap();
         }
-
+ 
+        #region UnityFunc
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-                map.Generate();
+            if (map != null)
+                miniMap.PlayerPositionToMap();
             if (Input.GetKeyDown(KeyCode.R))
                 LightTurn();
         }
@@ -92,9 +99,8 @@ namespace Map
                 LinkDoor(rooms[0]);
                 AssignAllRoom();
                 rooms.AddRange(halls);
-                RoomManager.Getinstance().SetRoomList(rooms);
+                RoomManager.Getinstance().SetRoomList(rooms, halls[0]);
                 RoomManager.Getinstance().LoadMaskObject();
-                RoomManager.Getinstance().Active();
             }
         } // office creates
 
@@ -125,7 +131,7 @@ namespace Map
 
         void NecessaryRoomSet()
         {
-            Rect room = new Rect(0, 0, 3, 3, size);
+            Rect room = new Rect(0, 0, 2, 2, size);
 
             necessaryBlocks.Add(room);
         } // 필수 방 세팅
@@ -376,6 +382,7 @@ namespace Map
                 rects.Enqueue(rect_a);
                 rects.Enqueue(rect_b);
                 hall.isRoom = false;
+                hall.isClear = true;
                 halls.Add(hall);
                 TotalHallArea += hall.area;
             }
@@ -483,6 +490,13 @@ namespace Map
                     LinkRects(rooms[i], rooms[j]);
                 }
             }
+            for(int i = 0; i < halls.Count; i++)
+            {
+                for (int k = 0; k < halls.Count; k++)
+                {
+                    LinkRects(halls[i], halls[k]);
+                }
+            }
         }
 
         void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
@@ -503,12 +517,9 @@ namespace Map
 
             for (int i = 0; i < _rect.edgeRect.Count; i++)
             {
-                if (!_rect.edgeRect[i].visited && _rect.eRoomType != RoomType.BOSS)
+                if ((_rect.isRoom || _rect.edgeRect[i].isRoom) && !_rect.edgeRect[i].visited && _rect.eRoomType != RoomType.BOSS)
                 {
                     DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
-                    //bool connected = _rect.ConnectEdge(_rect.edgeRect[i]); // 사이클용인데 hall때문에 싸이클의 역할이 무의미해짐
-                    //if (!connected)
-                    //    return;
                     LinkDoor(_rect.edgeRect[i]);
                 }
             }
@@ -596,6 +607,7 @@ namespace Map
         {
             GameObject obj = objectPool.GetPooledObject();
             obj.AddComponent<Door>();
+            obj.GetComponent<Door>().SetAxis(isHorizon);
             if (isHorizon)
                 obj.GetComponent<Door>().sprite = RoomSetManager.GetInstance().doorSprites[0];
             else
@@ -635,6 +647,11 @@ namespace Map
         } // 룸 셋 배치
         #endregion
 
+        public void Dispose()
+        {
+            RefreshData();
+        }
+
         bool CoinFlip(int percent)
         {
             return Random.Range(0, 100) < percent;
@@ -650,9 +667,9 @@ namespace Map
         public readonly int area;
         public readonly float midX, midY;
         public readonly int size;
+        public Vector2 areaLeftDown, areaRightTop;
         public bool visited;
         public List<Rect> edgeRect;
-        public List<Rect> connectedRect;
         public GameObject[] customObjects;
         public List<GameObject> doorObjects;
         public GameObject maskObject;
@@ -672,11 +689,12 @@ namespace Map
             midX = x + (float)width / 2;
             midY = y + (float)height / 2;
             size = _size;
+            areaLeftDown = new Vector2(x * size, y * size);
+            areaRightTop = new Vector2((x + width) * size, (y + height) * size);
             visited = false;
             downExist = false;
             isClear = false;
             edgeRect = new List<Rect>();
-            connectedRect = new List<Rect>();
             doorObjects = new List<GameObject>();
         }
 
@@ -689,46 +707,50 @@ namespace Map
             }
         }
 
-        public bool ConnectEdge(Rect _rect)
-        {
-            if (!connectedRect.Contains(_rect) && _rect != this)
-            {
-                connectedRect.Add(_rect);
-                _rect.connectedRect.Add(this);
-                return true;
-            }
-            return false;
-        }
-
-        public void DrawLine()
-        {
-            Debug.DrawLine(new Vector2(x, y), new Vector2(x, y + height), Color.red, 1000);
-            Debug.DrawLine(new Vector2(x, y + height), new Vector2(x + width, y + height), Color.red, 1000);
-            Debug.DrawLine(new Vector2(x + width, y + height), new Vector2(x + width, y), Color.red, 1000);
-            Debug.DrawLine(new Vector2(x + width, y), new Vector2(x, y), Color.red, 1000);
-        }
-
         public void LoadMaskObject()
         {
             maskObject.transform.localPosition = new Vector3(midX * size, midY * size , 0);
 
-            if (isRoom)
+            if (isRoom) // 방
             {
                 if (downExist)
                 {
                     maskObject.transform.localPosition = new Vector3(midX * size, midY * size - 0.5f, 0);
-                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 1);
+                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 2);
+                    areaLeftDown = new Vector2(areaLeftDown.x + 0.1875f, areaLeftDown.y);
+                    areaRightTop = new Vector2(areaRightTop.x - 0.1875f, areaRightTop.y - 1);
                 }
                 else
+                {
                     maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2);
+                    areaLeftDown = new Vector2(areaLeftDown.x + 0.1875f, areaLeftDown.y + 1);
+                    areaRightTop = new Vector2(areaRightTop.x - 0.1875f, areaRightTop.y - 1);
+                }
             }
-            else
+            else // 홀
             {
-                if(width > height)
-                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 2);
+                if (width > height)
+                {
+                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 4);
+                    areaLeftDown = new Vector2(areaLeftDown.x + 0.1875f, areaLeftDown.y);
+                    areaRightTop = new Vector2(areaRightTop.x - 0.1875f, areaRightTop.y);
+                }
                 else
-                    maskObject.transform.localScale = new Vector3(width * size * 2 + 0.7f, height * 2 * size);
+                {
+                    maskObject.transform.localScale = new Vector3(width * size * 2 + 0.75f, height * 2 * size);
+                    areaLeftDown = new Vector2(areaLeftDown.x, areaLeftDown.y + 1);
+                    areaRightTop = new Vector2(areaRightTop.x, areaRightTop.y - 1);
+                }
             }
+        }
+
+        public bool IsContain(Vector2 _position)
+        {
+            if (_position.x > areaLeftDown.x && _position.x < areaRightTop.x &&
+                _position.y > areaLeftDown.y && _position.y < areaRightTop.y)
+                return true;
+
+            return false;
         }
 
         public void Dispose()
