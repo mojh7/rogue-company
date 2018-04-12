@@ -11,28 +11,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: 1x1 Monster
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
+  x: 2
+  y: 3
   width: 1
   height: 1
   size: 7
   objectDatas:
   - position: {x: 1.5, y: 4.5, z: 4.5}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300114, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300106, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   - position: {x: 1.5, y: 3, z: 3}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300152, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300116, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   - position: {x: 1.5, y: 1.5, z: 1.5}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300152, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300102, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   roomType: 0

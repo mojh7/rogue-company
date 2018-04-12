@@ -12,10 +12,10 @@ public class GamaManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.M))
             Map.MapManager.Getinstance().GenerateMap();
-        if (Input.GetKeyDown(KeyCode.Q))
-            RoomManager.Getinstance().DoorActive();
+        if (Input.GetKeyDown(KeyCode.P))
+            PlayerManager.Getinstance().SpawnPlayer();
 
     }
 #endregion

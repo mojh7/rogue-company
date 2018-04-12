@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
-    public static PlayerManager instance;
-    public GameObject playerObj;
-
+    private static PlayerManager instance;
+    public GameObject playerPrefab;
+    GameObject playerObj;
     public static PlayerManager Getinstance()
     {
         if (instance == null)
@@ -20,4 +20,11 @@ public class PlayerManager : MonoBehaviour {
     {
         return playerObj.transform.position;
     }
+
+    public void SpawnPlayer()
+    {
+        playerObj = Instantiate(playerPrefab,RoomManager.Getinstance().RoomStartPoint(), Quaternion.identity);
+    }
+    #region UnityFunc
+    #endregion
 }

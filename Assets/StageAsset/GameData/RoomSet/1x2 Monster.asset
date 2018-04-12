@@ -12,39 +12,39 @@ MonoBehaviour:
   m_Name: 1x2 Monster
   m_EditorClassIdentifier: 
   x: 0
-  y: 0
+  y: 4
   width: 1
   height: 2
   size: 7
   objectDatas:
   - position: {x: 1.5, y: 4.5, z: 4.5}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300098, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300080, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   - position: {x: 1.5, y: 3, z: 3}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300076, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300030, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   - position: {x: 1.5, y: 1.5, z: 1.5}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300012, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300008, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   - position: {x: 4, y: 7.5, z: 7.5}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300102, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300094, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   - position: {x: 4, y: 6, z: 6}
     sprites:
-    - {fileID: 21300006, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
-    - {fileID: 21300002, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
+    - {fileID: 21300116, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    - {fileID: 21300026, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
   roomType: 0

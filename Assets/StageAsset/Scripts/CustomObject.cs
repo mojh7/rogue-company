@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, LIGHT, MONSTER, START, END }
+public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, MONSTER, START, END }
 
 public class CustomObject : MonoBehaviour {
 
@@ -18,11 +18,13 @@ public class CustomObject : MonoBehaviour {
     protected BoxCollider2D boxCollider;
     public virtual void Init()
     {
-        if(sprites != null)
+        if (sprites != null)
             sprite = sprites[Random.Range(0, sprites.Length)];
-        GetComponent<SpriteRenderer>().sprite = sprite;
-        if(sprite)
+        if (sprite)
+        {
+            GetComponent<SpriteRenderer>().sprite = sprite;
             GetComponent<BoxCollider2D>().size = sprite.bounds.size;
+        }
     }
 
     public void SetPosition()
@@ -40,6 +42,8 @@ public class CustomObject : MonoBehaviour {
         if (!isAvailable)
             return;
     }
+
+#region UnityFunc
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -57,6 +61,7 @@ public class CustomObject : MonoBehaviour {
         if(!isAnimate)
             spriteRenderer.sprite = sprite;
     }
+#endregion
 }
 
 public class Door : CustomObject
@@ -75,7 +80,10 @@ public class Door : CustomObject
     {
         base.Active();
         isAnimate = true;
-        animator.SetTrigger("door_open_vertical");
+        if(isHorizon)
+            animator.SetTrigger("door_open_horizon");
+        else
+            animator.SetTrigger("door_open_vertical");
         Debug.Log("Door");
     }
     
@@ -181,7 +189,7 @@ public class Spawner : CustomObject
     }
 }
 
-public class PlayerStart : CustomObject
+public class StartPoint : CustomObject
 {
     public override void Init()
     {
@@ -197,7 +205,7 @@ public class PlayerStart : CustomObject
     }
 }
 
-public class PlayerEnd : CustomObject
+public class EndPoint : CustomObject
 {
     public override void Init()
     {

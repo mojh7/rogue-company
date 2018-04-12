@@ -24,7 +24,6 @@ public class RoomManager : MonoBehaviour {
     {
         roomList = _roomList;
         currentRoom = _currentRoom;
-        StartCoroutine(FindCurrentRoom());
     } // 룸리스트 받아오기
 
     public void LoadMaskObject()
@@ -40,46 +39,57 @@ public class RoomManager : MonoBehaviour {
         }
     } // 마스크오브젝트 붙이기(수정해야함)
 
-    public void DoorActive()
+    public void DoorSetAvailable() //작동 가능여부 turn
     {
-        for (int i = 0; i < roomList.Count; i++)
+        if (currentRoom.doorObjects != null)
         {
-            if (roomList[i].doorObjects != null)
+            for (int j = 0; j < currentRoom.doorObjects.Count; j++)
             {
-                for (int j = 0; j < roomList[i].doorObjects.Count; j++)
-                {
-                    roomList[i].doorObjects[j].GetComponent<CustomObject>().Active();
-                }
+                currentRoom.doorObjects[j].GetComponent<CustomObject>().SetAvailable();
             }
         }
     }
 
-    public void Active()
+    public void ObjectSetAvailable() // 작동 가능여부 turn
     {
-        for (int i = 0; i < roomList.Count; i++)
+        if (currentRoom.customObjects != null)
         {
-            if (roomList[i].customObjects != null)
+            for (int j = 0; j < currentRoom.customObjects.Length; j++)
             {
-                for (int j = 0; j < roomList[i].customObjects.Length; j++)
-                {
-                    roomList[i].customObjects[j].GetComponent<CustomObject>().Active();
-                }
+                currentRoom.customObjects[j].GetComponent<CustomObject>().SetAvailable();
             }
         }
-    } // 작동
+    } // 작동 가능여부 turn
 
     public List<Map.Rect> GetRoomList()
     {
         return roomList;
     }
 
-    IEnumerator FindCurrentRoom() // 현재 방 찾기 코루틴
+    public Vector3 RoomStartPoint()
+    {
+        for(int i = 0; i < currentRoom.customObjects.Length; i++)
+        {
+            if (currentRoom.customObjects[i].GetComponent<StartPoint>() != null)
+                return currentRoom.customObjects[i].GetComponent<Transform>().position;
+        }
+        return Vector3.zero;
+    }
+
+    public void FindCurrentRoom()
+    {
+        StartCoroutine("FindRoomCoroutine");
+    }
+
+    IEnumerator FindRoomCoroutine() // 현재 방 찾기 코루틴
     {
         while (true)
         {
             if (!currentRoom.isClear)
             {
-
+                DoorSetAvailable();
+                ObjectSetAvailable();
+                break;
             }
             else
                 currentRoom = GetCurrentRect(transform.position);
