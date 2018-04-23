@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, MONSTER, START, END }
+public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, SPAWNER, START, END }
 
 public class CustomObject : MonoBehaviour {
 
@@ -16,13 +16,16 @@ public class CustomObject : MonoBehaviour {
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
+
     public virtual void Init()
     {
+        isAnimate = false;
         if (sprites != null)
             sprite = sprites[Random.Range(0, sprites.Length)];
         if (sprite)
         {
             GetComponent<SpriteRenderer>().sprite = sprite;
+            GetComponent<BoxCollider2D>().enabled = true;
             GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         }
     }
@@ -35,6 +38,11 @@ public class CustomObject : MonoBehaviour {
     public void SetAvailable()
     {
         isAvailable = !isAvailable;
+    }
+
+    public void SetAnimate()
+    {
+        isAnimate = false;
     }
 
     public virtual void Active()
@@ -51,14 +59,9 @@ public class CustomObject : MonoBehaviour {
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    private void OnEnable()
-    {
-        isAnimate = false;
-    }
-
     private void LateUpdate()
     {
-        if(!isAnimate)
+        if (!isAnimate)
             spriteRenderer.sprite = sprite;
     }
 #endregion
@@ -74,16 +77,15 @@ public class Door : CustomObject
         isActive = true;
         isAvailable = true;
         objectType = ObjectType.DOOR;
-        animator.SetTrigger("door_idle");
     }
     public override void Active()
     {
         base.Active();
         isAnimate = true;
-        if(isHorizon)
-            animator.SetTrigger("door_open_horizon");
+        if(!isHorizon)
+            animator.SetTrigger("door_horizon");
         else
-            animator.SetTrigger("door_open_vertical");
+            animator.SetTrigger("door_vertical");
         Debug.Log("Door");
     }
     
@@ -180,11 +182,13 @@ public class Spawner : CustomObject
         base.Init();
         isActive = false;
         isAvailable = false;
-        objectType = ObjectType.MONSTER;
+        GetComponent<BoxCollider2D>().enabled = false;
+        objectType = ObjectType.SPAWNER;
     }
     public override void Active()
     {
         base.Active();
+        EnemyGenerator.GetInstance().Generate(transform.position);
         Debug.Log("Spawner");
     }
 }
@@ -196,6 +200,7 @@ public class StartPoint : CustomObject
         base.Init();
         isActive = false;
         isAvailable = true;
+        GetComponent<BoxCollider2D>().enabled = false;
         objectType = ObjectType.START;
     }
     public override void Active()
@@ -212,6 +217,7 @@ public class EndPoint : CustomObject
         base.Init();
         isActive = false;
         isAvailable = false;
+        GetComponent<BoxCollider2D>().enabled = false;
         objectType = ObjectType.END;
     }
     public override void Active()

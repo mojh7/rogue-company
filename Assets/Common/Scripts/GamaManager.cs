@@ -15,7 +15,10 @@ public class GamaManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.M))
             Map.MapManager.Getinstance().GenerateMap();
         if (Input.GetKeyDown(KeyCode.P))
+        {
             PlayerManager.Getinstance().SpawnPlayer();
+            RoomManager.Getinstance().FindCurrentRoom();
+        }
 
     }
 #endregion

@@ -7,9 +7,11 @@ public class RoomManager : MonoBehaviour {
 
     private static RoomManager instance;
     public GameObject maskPrefab;
-    new public Transform transform;
+    Transform playerTranform;
     List<Map.Rect> roomList;
     Map.Rect currentRoom;
+
+    private int monsterNum = 0;
 
     public static RoomManager Getinstance()
     {
@@ -35,11 +37,11 @@ public class RoomManager : MonoBehaviour {
             if (!roomList[i].isRoom)
                 roomList[i].maskObject.SetActive(true);
             else
-                roomList[i].maskObject.SetActive(true);
+                roomList[i].maskObject.SetActive(false);
         }
     } // 마스크오브젝트 붙이기(수정해야함)
 
-    public void DoorSetAvailable() //작동 가능여부 turn
+    void DoorSetAvailable() //작동 가능여부 turn
     {
         if (currentRoom.doorObjects != null)
         {
@@ -50,7 +52,7 @@ public class RoomManager : MonoBehaviour {
         }
     }
 
-    public void ObjectSetAvailable() // 작동 가능여부 turn
+    void ObjectSetAvailable() // 작동 가능여부 turn
     {
         if (currentRoom.customObjects != null)
         {
@@ -61,10 +63,47 @@ public class RoomManager : MonoBehaviour {
         }
     } // 작동 가능여부 turn
 
+    void ClearRoom()
+    {
+        DoorSetAvailable();
+        ObjectSetAvailable();
+        FindCurrentRoom();
+    }
+
+    void SpawnMonster()
+    {
+        if (currentRoom.customObjects != null)
+        {
+            for (int j = 0; j < currentRoom.customObjects.Length; j++)
+            {
+                if (currentRoom.gage <= 0)
+                    return;
+                if (currentRoom.customObjects[j].GetComponent<Spawner>() != null)
+                {
+                    currentRoom.customObjects[j].GetComponent<Spawner>().Active();
+                    currentRoom.gage--;
+                    monsterNum++;
+                }
+            }
+        }
+    } // 몬스터 소환
+
+    public void DieMonster()
+    {
+        monsterNum--;
+        if (monsterNum == 0)
+        {
+            if (currentRoom.gage == 0)
+                ClearRoom();
+            else
+                SpawnMonster();
+        }
+    } // 몬스터 사망
+
     public List<Map.Rect> GetRoomList()
     {
         return roomList;
-    }
+    } // 룸리스트
 
     public Vector3 RoomStartPoint()
     {
@@ -87,12 +126,23 @@ public class RoomManager : MonoBehaviour {
         {
             if (!currentRoom.isClear)
             {
-                DoorSetAvailable();
-                ObjectSetAvailable();
-                break;
+                currentRoom.isClear = true;
+
+                if (currentRoom.gage > 0)
+                {
+                    DoorSetAvailable();
+                    ObjectSetAvailable();
+                    SpawnMonster();
+                    currentRoom.maskObject.SetActive(true);
+                    MiniMap.GetInstance().DrawRoom(currentRoom);
+                    break;
+                }
+                MiniMap.GetInstance().DrawRoom(currentRoom);
             }
             else
-                currentRoom = GetCurrentRect(transform.position);
+                currentRoom = GetCurrentRect(PlayerManager.Getinstance().GetPlayerPosition());
+            currentRoom.maskObject.SetActive(true);
+
             yield return YieldInstructionCache.WaitForSeconds(0.1f);
         }
     }

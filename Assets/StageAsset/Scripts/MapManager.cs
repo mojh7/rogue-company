@@ -8,7 +8,6 @@ namespace Map
     public class MapManager : MonoBehaviour
     {
         private static MapManager instance;
-        public MiniMap miniMap;
         public ObjectPool objectPool;
         public Material spriteMaterial;
         public int width, height, size, area, floor;
@@ -28,6 +27,11 @@ namespace Map
             else
                 spriteMaterial.color = Color.white;
         }
+        public void PlayerPositionToMap()
+        {
+            if (map != null)
+                MiniMap.GetInstance().PlayerPositionToMap();
+        }
         public void GenerateMap()
         {
             if (map != null)
@@ -37,17 +41,13 @@ namespace Map
             }
             map = new Map(width, height, size, area, floor, objectPool);
             map.Generate();
-            miniMap.GetRoomList();
-            miniMap.DrawMinimap();
+            MiniMap.GetInstance().GetRoomList();
+            MiniMap.GetInstance().DrawMinimap();
         }
  
         #region UnityFunc
         private void Update()
         {
-            //if (map != null)
-            //    miniMap.PlayerPositionToMap();
-            if (Input.GetKeyDown(KeyCode.R))
-                LightTurn();
         }
         #endregion
     }
@@ -697,6 +697,7 @@ namespace Map
                 roomSet.y = rooms[i].y;
                 rooms[i].eRoomType = roomSet.roomType;
                 rooms[i].customObjects = AssignRoom(roomSet);
+                rooms[i].gage = roomSet.gage;
             }
 
             CreateStartPoint();
@@ -751,6 +752,7 @@ namespace Map
         public readonly int area;
         public readonly float midX, midY;
         public readonly int size;
+        public int gage;
         public Vector2 areaLeftDown, areaRightTop;
         public bool visited;
         public List<Rect> edgeRect;
@@ -761,7 +763,6 @@ namespace Map
         public bool downExist;
         public bool isClear;
         public RoomType eRoomType;
-        
 
         public Rect(int _x,int _y,int _width,int _height,int _size)
         {

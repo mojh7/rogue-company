@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class MapEditor : EditorWindow
 {
-    int width, height,size;
+    int width, height, size, gage;
     string roomName;
     GameObject obj;
     GameObject roomObj;
@@ -33,6 +33,7 @@ public class MapEditor : EditorWindow
         roomName = EditorGUILayout.TextField("roomName", roomName);
         width = EditorGUILayout.IntField("width", width);
         height = EditorGUILayout.IntField("height", height);
+        gage = EditorGUILayout.IntField("gage", gage);
         roomType = (RoomType)EditorGUILayout.EnumPopup("RoomType", roomType);
         size = EditorGUILayout.IntField("size", size);
         if (GUILayout.Button("Create Room"))
@@ -75,13 +76,14 @@ public class MapEditor : EditorWindow
 
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
+        gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
     }
 
     void SaveRoomset()
     {
         if (obj == null || roomObj == null || size == 0 || width == 0 || height == 0)
             return;
-        RoomSet roomSet = new RoomSet(width, height, size, roomType);
+        RoomSet roomSet = new RoomSet(width, height, size, gage, roomType);
 
         foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
         {
@@ -162,6 +164,7 @@ public class MapEditor : EditorWindow
     {
         if (roomSet == null)
             return;
+        RemoveTilemap();
         width = roomSet.width;
         height = roomSet.height;
         size = roomSet.size;
@@ -175,10 +178,10 @@ public class MapEditor : EditorWindow
         GameObject gameObject = new GameObject();
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<BoxCollider2D>();
-        gameObject.AddComponent<Light>();
         _objectData.LoadObject(gameObject);
         gameObject.name = "Object";
         gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);
         gameObject.transform.parent = roomObj.transform;
+        gameObject.GetComponent<SpriteRenderer>().sprite = _objectData.sprites[0];
     }
 }

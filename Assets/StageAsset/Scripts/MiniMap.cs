@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MiniMap : MonoBehaviour {
-
+    private static MiniMap instance;
     public Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
     public GameObject playerIcon;
 
@@ -16,45 +16,63 @@ public class MiniMap : MonoBehaviour {
     int size;
     int mapSize;
 
+    public static MiniMap GetInstance()
+    {
+        if(instance == null)
+        {
+            instance = GameObject.FindObjectOfType<MiniMap>() as MiniMap;
+        }
+        return instance;    
+    }
+
     public void GetRoomList()
     {
         roomList = RoomManager.Getinstance().GetRoomList();
     } // Mapmanager로부터 방 데이터 로드
 
+    public void DrawRoom(Map.Rect _room)
+    {
+        for (int x = _room.x * size; x < _room.x * size + _room.width * size; x++)
+        {
+            for (int y = _room.y * size; y < _room.y * size + _room.height * size; y++)
+            {
+                if (_room.isRoom &&
+                    (x == _room.x * size || x == _room.x * size + _room.width * size - 1 ||
+                    y == _room.y * size || y == _room.y * size + _room.height * size - 1))
+                {
+                    texture.SetPixel(x, y, Color.black);
+                }
+                else
+                {
+                    texture.SetPixel(x, y, Color.white);
+                }
+                DrawIcon(_room);
+            }
+        }
+        texture.Apply();
+    }
+
     public void DrawMinimap()
     {
+        texture = new Texture2D(minmapSize, minmapSize);
+        texture.filterMode = FilterMode.Point;
         renderer.texture = texture;
         for (int i = 0; i < roomList.Count; i++)
         {
-            for (int x = roomList[i].x * size; x < roomList[i].x * size + roomList[i].width * size; x++)
-            {
-                for (int y = roomList[i].y * size; y < roomList[i].y * size + roomList[i].height * size; y++)
-                {
-                    if (roomList[i].isRoom && 
-                        (x == roomList[i].x * size || x == roomList[i].x * size + roomList[i].width * size - 1 ||
-                        y == roomList[i].y * size || y == roomList[i].y * size + roomList[i].height * size - 1))
-                    {
-                        texture.SetPixel(x, y, Color.black);
-                    }
-                    else
-                    {
-                        texture.SetPixel(x, y, Color.white);
-                    }
-                    DrawIcon(roomList[i]);
-
-                }
-            }
+            if(!roomList[i].isRoom)
+                DrawRoom(roomList[i]);
         }
         for (int i = 0; i < minmapSize; i++)
         {
             for (int j = 0; j < minmapSize; j++)
             {
-                if (i == 0 || i == minmapSize - 1 || 
+                if (i == 0 || i == minmapSize - 1 ||
                     j == 0 || j == minmapSize - 1)
+                {
                     texture.SetPixel(i, j, Color.black);
+                }
             }
         }
-        texture.filterMode = FilterMode.Point;
         texture.Apply();
     } // 미니맵 그리는 함수
 
@@ -106,12 +124,10 @@ public class MiniMap : MonoBehaviour {
     #region UnityFunc
     private void Awake()
     {
-        texture = new Texture2D(minmapSize, minmapSize); // 미니맵 픽셀
         size = minmapSize / 10; // 미니맵 사이즈
         width = GetComponent<RectTransform>().sizeDelta.x;
         renderer = GetComponent<RawImage>();
         mapSize = Map.MapManager.Getinstance().size * Map.MapManager.Getinstance().width;
-
     }
     #endregion
 }

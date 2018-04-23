@@ -11,11 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: 1x1 Monster
   m_EditorClassIdentifier: 
-  x: 2
-  y: 3
+  x: 5
+  y: 7
   width: 1
   height: 1
   size: 7
+  gage: 10
   objectDatas:
   - position: {x: 1.5, y: 4.5, z: 4.5}
     sprites:

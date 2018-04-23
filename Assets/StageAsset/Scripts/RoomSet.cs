@@ -11,14 +11,16 @@ public class RoomSet : ScriptableObject
     public int width;
     public int height;
     public int size;
+    public int gage;
     public List<ObjectData> objectDatas;
     public RoomType roomType;
 
-    public RoomSet(int _width, int _height,int _size, RoomType _roomType)
+    public RoomSet(int _width, int _height,int _size,int _gage, RoomType _roomType)
     {
         width = _width;
         height = _height;
         size = _size;
+        gage = _gage;
         roomType = _roomType;
         objectDatas = new List<ObjectData>();
     }
@@ -49,6 +51,11 @@ public struct ObjectData
     {
         switch (objectType)
         {
+            case ObjectType.DOOR:
+                _gameObject.AddComponent<Door>();
+                _gameObject.GetComponent<Door>().sprite = null;
+                _gameObject.GetComponent<Door>().Init();
+                break;
             case ObjectType.UNBREAKABLE:
                 _gameObject.AddComponent<UnbreakableBox>();
                 _gameObject.GetComponent<UnbreakableBox>().sprites = sprites;
@@ -74,10 +81,10 @@ public struct ObjectData
                 _gameObject.GetComponent<VendingMachine>().sprites = sprites;
                 _gameObject.GetComponent<VendingMachine>().Init();
                 break;
-            case ObjectType.DOOR:
-                _gameObject.AddComponent<Door>();
-                _gameObject.GetComponent<Door>().sprite = null;
-                _gameObject.GetComponent<Door>().Init();
+            case ObjectType.SPAWNER:
+                _gameObject.AddComponent<Spawner>();
+                _gameObject.GetComponent<Spawner>().sprite = null;
+                _gameObject.GetComponent<Spawner>().Init();
                 break;
         }
 

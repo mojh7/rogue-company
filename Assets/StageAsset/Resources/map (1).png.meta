@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 810720f294665ca4b8fd9d14246c244a
-timeCreated: 1523014595
+timeCreated: 1523614569
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -97,14 +97,22 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 50
+        y: 68
         width: 32
-        height: 50
-      alignment: 9
-      pivot: {x: 0.5, y: 0.68}
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
+      physicsShape:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
       tessellationDetail: 0
     - serializedVersion: 2
       name: map (1)_1
@@ -116,9 +124,17 @@ TextureImporter:
         height: 50
       alignment: 9
       pivot: {x: 0.5, y: 0.68}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      border: {x: 0, y: 18, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
+      physicsShape:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
       tessellationDetail: 0
     - serializedVersion: 2
       name: map (1)_2
@@ -130,9 +146,17 @@ TextureImporter:
         height: 50
       alignment: 9
       pivot: {x: 0.5, y: 0.68}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      border: {x: 0, y: 18, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
+      physicsShape:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
       tessellationDetail: 0
     - serializedVersion: 2
       name: map (1)_3
@@ -145,8 +169,16 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.68}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
+      physicsShape:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
       tessellationDetail: 0
     - serializedVersion: 2
       name: map (1)_4
@@ -158,9 +190,17 @@ TextureImporter:
         height: 50
       alignment: 9
       pivot: {x: 0.5, y: 0.68}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      border: {x: 0, y: 18, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
+      physicsShape:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
       tessellationDetail: 0
     - serializedVersion: 2
       name: map (1)_5
@@ -172,9 +212,17 @@ TextureImporter:
         height: 50
       alignment: 9
       pivot: {x: 0.5, y: 0.68}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      border: {x: 0, y: 18, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
+      physicsShape:
+      - - {x: -16, y: 25}
+        - {x: -16, y: -7}
+        - {x: 16, y: -7}
+        - {x: 16, y: 25}
       tessellationDetail: 0
     outline: []
     physicsShape: []
