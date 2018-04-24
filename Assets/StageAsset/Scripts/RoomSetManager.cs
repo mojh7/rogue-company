@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using System.IO;
 
 public class RoomSetManager : MonoBehaviour {
 
@@ -48,28 +45,6 @@ public class RoomSetManager : MonoBehaviour {
                     roomSetGroup[roomSetGroup.Count - 1].AddOtherRoom(roomSetArr[i]);
             }
         }
-    }
-
-    public void SaveRoomSet(string _name,RoomSet _roomSet)
-    {
-        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-        if (path == "")
-        {
-            path = "Assets/StageAsset/GameData/RoomSet/";
-        }
-        else if (Path.GetExtension(path) != "")
-        {
-            path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
-        }
-
-        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + _name + ".asset");
-
-        AssetDatabase.CreateAsset(_roomSet, assetPathAndName);
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = _roomSet;
     }
 
     public RoomSet LoadRoomSet(int _width,int _height,int floor)

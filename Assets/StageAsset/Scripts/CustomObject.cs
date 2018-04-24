@@ -25,7 +25,6 @@ public class CustomObject : MonoBehaviour {
         if (sprite)
         {
             GetComponent<SpriteRenderer>().sprite = sprite;
-            GetComponent<BoxCollider2D>().enabled = true;
             GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         }
     }
@@ -182,7 +181,7 @@ public class Spawner : CustomObject
         base.Init();
         isActive = false;
         isAvailable = false;
-        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<BoxCollider2D>().size = new Vector2(0, 0);
         objectType = ObjectType.SPAWNER;
     }
     public override void Active()
@@ -200,7 +199,7 @@ public class StartPoint : CustomObject
         base.Init();
         isActive = false;
         isAvailable = true;
-        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<BoxCollider2D>().size = new Vector2(0, 0);
         objectType = ObjectType.START;
     }
     public override void Active()
@@ -217,7 +216,7 @@ public class EndPoint : CustomObject
         base.Init();
         isActive = false;
         isAvailable = false;
-        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<BoxCollider2D>().size = new Vector2(0,0);
         objectType = ObjectType.END;
     }
     public override void Active()

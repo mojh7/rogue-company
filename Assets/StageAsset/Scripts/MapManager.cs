@@ -44,12 +44,7 @@ namespace Map
             MiniMap.GetInstance().GetRoomList();
             MiniMap.GetInstance().DrawMinimap();
         }
- 
-        #region UnityFunc
-        private void Update()
-        {
-        }
-        #endregion
+
     }
 
     class Map
@@ -59,7 +54,7 @@ namespace Map
         List<Rect> halls, rooms;
         List<Rect> necessaryBlocks, necessaryRooms;
         Tilemap wallTileMap, floorTileMap, shadowTileMap;
-        const float MaxHallRate = 0.2f;
+        const float MaxHallRate = 0.25f;
         int MinumRoomArea = 4;
         int TotalHallArea = 0;
         int width;
@@ -97,7 +92,8 @@ namespace Map
             {
                 LinkAllRects();
                 DrawTile();
-                LinkDoor(rooms[0]);
+                RecursionLink(rooms[0]);
+                LinkHall();
                 AssignAllRoom();
                 rooms.AddRange(halls);
                 RoomManager.Getinstance().SetRoomList(rooms, halls[0]);
@@ -210,11 +206,17 @@ namespace Map
             floorTileMap.ClearAllTiles();
             wallTileMap.ClearAllTiles();
             shadowTileMap.ClearAllTiles();
+            for(int i = 0; i < width * size * 2; i++)
+            {
+                for(int j = 0; j < height * size * 2; j++)
+                {
+                    floorTileMap.SetTile(new Vector3Int(i, j, 0), floor);
+                }
+            }
             for (int i = 0; i < width * size; i++) // 전체 맵 그리기
             {
                 for (int j = 0; j < height * size; j++)
                 {
-                    floorTileMap.SetTile(new Vector3Int(i, j, 0), floor);
                     if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
                     {
                         if (i == 0 & j == 0)
@@ -376,7 +378,6 @@ namespace Map
                         {
                             for (int j = 0; j < size; j++)
                             {
-                                floorTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), floor);
                                 if (size * y + j == height * size - 1)
                                 {
                                     if(size * x + i == rect.x * size)
@@ -535,7 +536,7 @@ namespace Map
             return true;
         } // split 방 and 방
 
-        void LinkAllRects() // 모든 Rects(Rooms and Halls) 연결
+        void LinkAllRects() 
         {
             for(int i = 0; i < rooms.Count - 1; i++)
             {
@@ -555,7 +556,7 @@ namespace Map
                     LinkRects(halls[i], halls[k]);
                 }
             }
-        }
+        } // 모든 Rects(Rooms and Halls) 연결
 
         void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
         {
@@ -569,7 +570,7 @@ namespace Map
             }
         }
 
-        void LinkDoor(Rect _rect)
+        void RecursionLink(Rect _rect)
         {
             _rect.visited = true;
 
@@ -578,11 +579,26 @@ namespace Map
                 if ((_rect.isRoom || _rect.edgeRect[i].isRoom) && !_rect.edgeRect[i].visited && _rect.eRoomType != RoomType.BOSS)
                 {
                     DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
-                    LinkDoor(_rect.edgeRect[i]);
+                    _rect.LinkedEdgeRect(_rect.edgeRect[i]);
+                    RecursionLink(_rect.edgeRect[i]);
                 }
             }
-        } // 신장 트리 연결 & loop
-        
+        } // 신장 트리 연결 & 재귀함수
+
+        void LinkHall()
+        {
+            for (int indx = 0; indx < halls.Count; indx++)
+            {
+                for (int i = 0; i < halls[indx].edgeRect.Count; i++)
+                {
+                    if (CoinFlip(30) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    {
+                        DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
+                    }
+                }
+            }
+        } // 복도랑 방문 연결
+
         void DrawDoorTile(Rect _rectA,Rect _rectB) 
         {
             GameObject obj = null;
@@ -756,6 +772,7 @@ namespace Map
         public Vector2 areaLeftDown, areaRightTop;
         public bool visited;
         public List<Rect> edgeRect;
+        List<Rect> linkedEdgeRect;
         public GameObject[] customObjects;
         public List<GameObject> doorObjects;
         public GameObject maskObject;
@@ -780,6 +797,7 @@ namespace Map
             downExist = false;
             isClear = false;
             edgeRect = new List<Rect>();
+            linkedEdgeRect = new List<Rect>();
             doorObjects = new List<GameObject>();
         }
 
@@ -790,6 +808,18 @@ namespace Map
                 edgeRect.Add(_rect);
                 _rect.edgeRect.Add(this);
             }
+        }
+
+        public bool LinkedEdgeRect(Rect _rect)
+        {
+            if (!linkedEdgeRect.Contains(_rect) && _rect != this)
+            {
+                linkedEdgeRect.Add(_rect);
+                _rect.linkedEdgeRect.Add(this);
+            }
+            else
+                return false;
+            return true;
         }
 
         public void LoadMaskObject()

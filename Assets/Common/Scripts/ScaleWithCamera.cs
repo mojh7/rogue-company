@@ -9,7 +9,7 @@ public class ScaleWithCamera : MonoBehaviour {
     public int pixelsToUnits = 32;
 
     // Update is called once per frame
-    void Update () {
+    void Awake () {
         int height = Mathf.RoundToInt(targetWidth / (float)Screen.width * Screen.height);
 
         GetComponent<Camera>().orthographicSize = height / pixelsToUnits / 2;

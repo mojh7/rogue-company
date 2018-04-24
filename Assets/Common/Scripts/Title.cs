@@ -30,8 +30,4 @@ public class Title : MonoBehaviour {
         LoadLogoTitle();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

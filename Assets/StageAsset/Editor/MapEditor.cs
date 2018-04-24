@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using UnityEditor;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.IO;
 
 public class MapEditor : EditorWindow
 {
@@ -94,9 +93,30 @@ public class MapEditor : EditorWindow
                 roomSet.Add(new ObjectData(customObject.position, customObject.objectType, customObject.sprites));
             }
         }
-        RoomSetManager.GetInstance().SaveRoomSet(roomName, roomSet);
+        SaveRoomSet(roomName, roomSet);
     }
 
+    void SaveRoomSet(string _name, RoomSet _roomSet)
+    {
+        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        if (path == "")
+        {
+            path = "Assets/StageAsset/GameData/RoomSet/";
+        }
+        else if (Path.GetExtension(path) != "")
+        {
+            path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
+        }
+
+        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + _name + ".asset");
+
+        AssetDatabase.CreateAsset(_roomSet, assetPathAndName);
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        EditorUtility.FocusProjectWindow();
+        Selection.activeObject = _roomSet;
+    }
     void CreateTilemap()
     {
         if (obj == null || size == 0 || width == 0 || height == 0)

@@ -41,7 +41,7 @@ public class RoomManager : MonoBehaviour {
         }
     } // 마스크오브젝트 붙이기(수정해야함)
 
-    void DoorSetAvailable() //작동 가능여부 turn
+    void DoorSetAvailable() 
     {
         if (currentRoom.doorObjects != null)
         {
@@ -50,9 +50,9 @@ public class RoomManager : MonoBehaviour {
                 currentRoom.doorObjects[j].GetComponent<CustomObject>().SetAvailable();
             }
         }
-    }
+    }//작동 가능여부 turn
 
-    void ObjectSetAvailable() // 작동 가능여부 turn
+    void ObjectSetAvailable() 
     {
         if (currentRoom.customObjects != null)
         {

@@ -118,16 +118,21 @@ public class MiniMap : MonoBehaviour {
     public void PlayerPositionToMap()
     {
         Vector2 positon = PlayerManager.Getinstance().GetPlayerPosition();
-        playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSize - width / 2, positon.y * width / mapSize - width / 2);
+        playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSize - width, positon.y * width / mapSize - width);
     } // 현재 플레이어 위치 to MiniMap
 
     #region UnityFunc
     private void Awake()
     {
-        size = minmapSize / 10; // 미니맵 사이즈
+        size = minmapSize / Map.MapManager.Getinstance().width; // 미니맵 사이즈
         width = GetComponent<RectTransform>().sizeDelta.x;
         renderer = GetComponent<RawImage>();
         mapSize = Map.MapManager.Getinstance().size * Map.MapManager.Getinstance().width;
+    }
+
+    private void Update()
+    {
+        PlayerPositionToMap();
     }
     #endregion
 }

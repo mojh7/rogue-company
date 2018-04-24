@@ -21,5 +21,11 @@ public class GamaManager : MonoBehaviour {
         }
 
     }
-#endregion
+    private void Start()
+    {
+        Map.MapManager.Getinstance().GenerateMap();
+        PlayerManager.Getinstance().SpawnPlayer();
+        RoomManager.Getinstance().FindCurrentRoom();
+    }
+    #endregion
 }
