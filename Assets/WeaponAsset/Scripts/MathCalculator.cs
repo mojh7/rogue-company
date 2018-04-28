@@ -9,15 +9,14 @@ using UnityEngine;
 
 public static class MathCalculator  {
 
+    private const float DegToRad = Mathf.PI / 180;
+
     // vector 값으로 각도 구함.
     public static float GetDegFromVector(this Vector3 vector)
     {
         return Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
     }
 
-
-    /*
-    private const float DegToRad = Mathf.PI / 180;
 
     public static Vector3 VectorRotate(Vector3 _vector, float _degrees) // vector를 degree만큼 회전.
     {
@@ -38,5 +37,5 @@ public static class MathCalculator  {
         newRotation.y = 0.0f;
         return newRotation;
     }
-    */
+    
 }

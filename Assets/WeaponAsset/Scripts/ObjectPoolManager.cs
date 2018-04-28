@@ -4,7 +4,6 @@ using UnityEngine;
 
 // 일단 가지고 있던 메모리풀 쓰고 있는 중.....................................
 
-
 public enum ObjPoolType { Bullet, Effect }
 public class ObjectPoolManager : MonoBehaviour {
 
@@ -36,6 +35,24 @@ public class ObjectPoolManager : MonoBehaviour {
 	}
 
     #region function
+    // 나중에 오브젝트 풀 바껴도 CreateObj, DeleteObj 함수 내부만 바꾸면 되서 함수 새로 만듬.
+    
+    /// <summary>
+    /// GameObject 생성
+    /// </summary>
+    /// <param name="objPoolType">생성할 오브젝트 타입</param>
+    /// <returns>생성된 게임 오브젝트</returns>
+    public GameObject CreateObj(ObjPoolType objPoolType)
+    {
+        switch (objPoolType)
+        {
+            case ObjPoolType.Bullet:
+                return bulletPool.NewItem();
+            default:
+                return null;
+        }
+    }
+    ///
     // Obj 삭제(회수)
     public void DeleteObj(ObjPoolType objPoolType, GameObject obj)
     {

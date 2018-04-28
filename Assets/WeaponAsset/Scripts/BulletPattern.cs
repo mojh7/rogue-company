@@ -10,7 +10,8 @@ using DelegateCollection;
  *  - 총알 N 개 총구 방향 쏘는 것
  *  - 샷건 같은 일정 범위의 부채꼴로 퍼지며 총 쏘기
  *  - 총알 마다 각도의 간격이 일정하여 사방으로 쏘기 (상하좌우 4방향 or 8방향 퍼져서 쏘기)
- * 2. 레이저 패턴
+ * 2. 일렬 패턴
+ * 3. 레이저 패턴
  *  - 
  * 
  * -------------------
@@ -33,6 +34,8 @@ public abstract class BulletPattern
     protected DelGetDirDegree ownerDirDegree;
     protected DelGetPosition ownerDirVec;
     protected DelGetPosition ownerPos;
+
+    protected BuffManager ownerBuff;
     public float GetDelay()
     {
         return delay;
@@ -43,10 +46,11 @@ public abstract class BulletPattern
     }
     
     public abstract void Init(Weapon weapon);
+    public abstract void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0);
     public abstract BulletPattern Clone();
-    public abstract void StartAttack(); // 공격 시도 시작
+    public abstract void StartAttack(float damageIncreaseRate); // 공격 시도 시작
     public abstract void StopAttack();  // 공격 시도 시작 후 멈췄을 때
-    public abstract void CreateBullet();
+    public abstract void CreateBullet(float damageIncreaseRate);
 }
 
 //  1~N개의 총알(1종류)을 다양한 방향으로 일정한 각도 텀을 두고 발사하는 패턴
@@ -73,6 +77,7 @@ public class MultiDirPattern : BulletPattern
         ownerDirDegree = weapon.GetownerDirDegree();
         ownerDirVec = weapon.GetOwnerDirVec();
         ownerPos = weapon.GetOwnerPos();
+        ownerBuff = weapon.GetOwnerBuff();
         if(weapon.info.bulletMoveSpeed != 0)
         {
             info.speed = weapon.info.bulletMoveSpeed;
@@ -83,15 +88,23 @@ public class MultiDirPattern : BulletPattern
         }
     }
 
+    public override void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
+    {
+        ownerDirDegree = dirDegree;
+        ownerDirVec = dirVec;
+        ownerPos = pos;
+        this.addDirVecMagnitude = addDirVecMagnitude;
+    }
+
     public override BulletPattern Clone()
     {
         //Debug.Log(patternId + ", " + info.bulletId + ", " + info.bulletSpriteId + ", " + executionCount);
         return new MultiDirPattern(patternId, info.bulletId, info.bulletSpriteId, executionCount, delay);
     }
 
-    public override void StartAttack()
+    public override void StartAttack(float damageIncreaseRate)
     {
-        CreateBullet();
+        CreateBullet(damageIncreaseRate);
     }
 
     public override void StopAttack()
@@ -100,15 +113,89 @@ public class MultiDirPattern : BulletPattern
     }
 
     // 이미 저장된 정보 이용.
-    public override void CreateBullet()
+    public override void CreateBullet(float damageIncreaseRate)
     {
-        for (int i = 0; i < info.bulletNumMax; i++)
+        for (int i = 0; i < info.bulletCount; i++)
         {
-            createdObj = ObjectPoolManager.Instance.bulletPool.NewItem();
+            createdObj = ObjectPoolManager.Instance.CreateObj(ObjPoolType.Bullet);
             createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletSpriteId, info.speed, info.range, ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
 }
+
+// 일렬로 총알 생성 패턴
+public class RowPattern : BulletPattern
+{
+    private RowPatternInfo info;
+    private Vector3 perpendicularVector;
+
+    // 기존 정보를 참조하는 방식으로 변수 초기화
+    public RowPattern(int patternId, int bulletId, int bulletSpriteId, int executionCount, float delay)
+    {
+        this.patternId = patternId;
+        info = DataStore.Instance.GetRowPatternInfo(patternId);
+        info.bulletId = bulletId;
+        info.bulletSpriteId = bulletSpriteId;
+        this.executionCount = executionCount;
+        this.delay = delay;
+    }
+
+    public override void Init(Weapon weapon)
+    {
+        this.weapon = weapon;
+        addDirVecMagnitude = weapon.info.addDirVecMagnitude;
+        // Owner 방향, 위치 함수
+        ownerDirDegree = weapon.GetownerDirDegree();
+        ownerDirVec = weapon.GetOwnerDirVec();
+        ownerPos = weapon.GetOwnerPos();
+        ownerBuff = weapon.GetOwnerBuff();
+        if (weapon.info.bulletMoveSpeed != 0)
+        {
+            info.speed = weapon.info.bulletMoveSpeed;
+        }
+        if (weapon.info.range != 0)
+        {
+            info.range = weapon.info.range;
+        }
+    }
+
+    public override void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
+    {
+        ownerDirDegree = dirDegree;
+        ownerDirVec = dirVec;
+        ownerPos = pos;
+        this.addDirVecMagnitude = addDirVecMagnitude;
+    }
+
+    public override BulletPattern Clone()
+    {
+        //Debug.Log(patternId + ", " + info.bulletId + ", " + info.bulletSpriteId + ", " + executionCount);
+        return new RowPattern(patternId, info.bulletId, info.bulletSpriteId, executionCount, delay);
+    }
+
+    public override void StartAttack(float damageIncreaseRate)
+    {
+        CreateBullet(damageIncreaseRate);
+    }
+
+    public override void StopAttack()
+    {
+
+    }
+
+    // 이미 저장된 정보 이용.
+    public override void CreateBullet(float damageIncreaseRate)
+    {
+        perpendicularVector = MathCalculator.VectorRotate(ownerDirVec(), -90);
+        for (int i = 0; i < info.bulletCount; i++)
+        {
+            createdObj = ObjectPoolManager.Instance.CreateObj(ObjPoolType.Bullet);
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletSpriteId, info.speed, info.range, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * info.initPos -perpendicularVector * info.deltaPos * i, ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
+        }
+    }
+}
+
+
 
 // 레이저 패턴
 /* bullet 1개만 씀
@@ -139,19 +226,24 @@ public class LaserPattern : BulletPattern
         addDirVecMagnitude = weapon.info.addDirVecMagnitude;
         ownerDirVec = weapon.GetOwnerDirVec();
         ownerPos = weapon.GetOwnerPos();
+        ownerBuff = weapon.GetOwnerBuff();
         canCreateLaser = true;
     }
+    public override void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
+    {
+    }
+
 
     public override BulletPattern Clone()
     {
         return new LaserPattern(patternId, info.bulletId);
     }
 
-    public override void StartAttack()
+    public override void StartAttack(float damageIncreaseRate)
     {
         if(canCreateLaser == true)
         {
-            CreateBullet();
+            CreateBullet(damageIncreaseRate);
             canCreateLaser = false;
         }
         
@@ -164,7 +256,7 @@ public class LaserPattern : BulletPattern
     }
 
     // 이미 저장된 정보 이용.
-    public override void CreateBullet()
+    public override void CreateBullet(float damageIncreaseRate)
     {
         createdObj = ObjectPoolManager.Instance.bulletPool.NewItem();
         // range 정도는 넘길 수도 있음. 삭제 속성 함수 값 out으로 받아옴.

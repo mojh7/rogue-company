@@ -76,7 +76,9 @@ public class TestScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        //ListTest();
+        //Debug.Log(Abc(2));
+        //Debug.Log(Abc(2f));
         degree = 1.5f;
         TestPointerfunc(GetDir);
         //Debug.Log("함수 넘기기 : " + c()); // 1.5
@@ -133,10 +135,55 @@ public class TestScript : MonoBehaviour {
         Debug.Log("c3 : " + c3.a);
         Debug.Log("clList[0] : " + clList[0]);*/
     }
-	
-	// Update is called once per frame
-	void Update () {
-	}
+
+    // Update is called once per frame
+    //void Update () {
+    //}
+
+    public void ListTest()
+    {
+        WeaponBuff a = new WeaponBuff();
+        WeaponBuff b = new WeaponBuff();
+        WeaponBuff c = new WeaponBuff();
+        WeaponBuff d = new WeaponBuff();
+        WeaponBuff e = new WeaponBuff();
+        List<WeaponBuff> wList = new List<WeaponBuff>();
+        wList.Add(a);
+        wList.Add(b);
+        wList.Add(c);
+        wList.Add(d);
+        if (a == b)
+        {
+            Debug.Log("a == b");
+        }
+        else
+        {
+            Debug.Log("a != b"); 
+        }
+        // output : a != b"
+        int t = 0;
+        int t2 = 0;
+        int t3 = 0;
+        // 내부적으로 compare로 비교해서 값 비교 되는 걸로 넣어야 될듯 클래스 안됨
+        //Debug.Log(t = wList.BinarySearch(c));
+        //Debug.Log(t2 = wList.BinarySearch(e));
+
+        // 바이너리서치 오름 차순이어야됨
+        List<int> aa = new List<int>(){1, 2, 3, 4, 5, 6};
+        //Debug.Log(t = aa.BinarySearch(1)); // 0
+        //Debug.Log(t2 = aa.BinarySearch(5)); // 4
+        //Debug.Log(t3 = aa.BinarySearch(8)); // 2
+    }
+
+    public int Abc(int b)
+    {
+        return 5;
+    }
+
+    public float Abc(float b)
+    {
+        return 5.5f;
+    }
 
     public void Test(int num)
     {
@@ -232,3 +279,37 @@ public interface ITestInterface
 
     
 }
+
+
+
+
+
+/*
+ * 무기 강화 요소
+ *  - 패시브 아이템
+ *  - 시간제 버프
+ *  
+ *  
+ * 1. 단순 수치 강화
+ * 
+ *  - 공격력
+ *  - 공격속도
+ *  - 사거리
+ *  - 총알 크기
+ *  - 총알 속도
+ *  
+ *  2. 총알 속성 부여 ( 충돌, update, delete 속성부여) 
+ *  - 상태이상 공격 추가(독, 화상, 빙결 공격)
+ *   고려할 점 : 상태 이상 공격도 상태 이상 효과가 쌔질 수도 있는 거고 아예 없던 상태 이상 공격이 추가 될 수도 있는건데
+ * 
+ * 
+ * 
+ * 
+ * ----------------------
+ * 
+ * onwer를 돕는 동료 추가 형
+ * 
+ * 각각의 ai로 onwer기준으로 enamy를 공격
+ *  - 용병
+ *  - 동료
+ */
