@@ -54,7 +54,7 @@ namespace Map
         List<Rect> halls, rooms;
         List<Rect> necessaryBlocks, necessaryRooms;
         Tilemap wallTileMap, floorTileMap, shadowTileMap;
-        const float MaxHallRate = 0.25f;
+        const float MaxHallRate = 0.15f;
         int MinumRoomArea = 4;
         int TotalHallArea = 0;
         int width;
@@ -86,8 +86,8 @@ namespace Map
         #region MakeMap
         public void Generate() 
         {
-            CreateMap();
-
+            bool success = CreateMap();
+            Debug.Log(success);
             if (rooms.Count > 0)
             {
                 LinkAllRects();
@@ -128,9 +128,16 @@ namespace Map
 
         void NecessaryRoomSet()
         {
-            Rect room = new Rect(0, 0, 2, 2, size);
-
+            Rect room = new Rect(0, 0, 1, 1, size);
+            Rect room1 = new Rect(0, 0, 1, 1, size);
+            Rect room2 = new Rect(0, 0, 1, 1, size);
+            Rect room3 = new Rect(0, 0, 1, 1, size);
+            Rect room4 = new Rect(0, 0, 1, 1, size);
             necessaryBlocks.Add(room);
+            necessaryBlocks.Add(room1);
+            necessaryBlocks.Add(room2);
+            necessaryBlocks.Add(room3);
+            necessaryBlocks.Add(room4);
         } // 필수 방 세팅
 
         bool CreateMap()
@@ -177,7 +184,9 @@ namespace Map
             while (blocks.Count > 0)
             {
                 block = blocks.Dequeue();
-                if ((block.area > MinumRoomArea || block.width / block.height >= 3 || block.height / block.width >= 3) && !FitRectCheck(block, necessaryRooms))
+                if (block.width == 0 || block.height == 0)
+                    continue;
+                if ((block.area > MinumRoomArea || (float)block.width / block.height > 2 || (float)block.height / block.width > 2) && !FitRectCheck(block, necessaryRooms))
                     SplitBlock(block);
                 else
                 {
@@ -186,14 +195,17 @@ namespace Map
                 }
             }
             if (necessaryRooms.Count > 0)
-                return false;
-
-            while (blocks.Count > 0)
             {
-                block = blocks.Dequeue();
-                block.isRoom = false;
-                halls.Add(block);
+                rooms.Sort(delegate(Rect _a,Rect _b)
+                {
+                    if (_a.area < _b.area) return 1;
+                    else if (_a.area > _b.area) return -1;
+                    return 0;
+                });
+
+                return false;
             }
+       
             return true;
         } // Blocks -> Rooms;
 
@@ -457,6 +469,9 @@ namespace Map
             Rect block_a = null;
             Rect block_b = null;
             RandomRoomSplit(_currentBlock, out block_a, out block_b);
+            FitRectCheck(block_a, necessaryRooms);
+            FitRectCheck(block_b, necessaryRooms);
+
             blocks.Enqueue(block_a);
             blocks.Enqueue(block_b);
         } // split blocks -> blocks
@@ -519,7 +534,6 @@ namespace Map
                 else
                     flag = false;
             }
-
             
             if(flag) // 가로
             {
@@ -591,7 +605,7 @@ namespace Map
             {
                 for (int i = 0; i < halls[indx].edgeRect.Count; i++)
                 {
-                    if (CoinFlip(30) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    if (CoinFlip(90) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
                     {
                         DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
                     }
@@ -745,13 +759,13 @@ namespace Map
             //else
             //    halls[0].customObjects[0].transform.position = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
             halls[0].customObjects[0].GetComponent<StartPoint>().SetPosition();
-        } // 스타트 포인트
+        } // 스타트 포인트 배치
         #endregion
 
         public void Dispose()
         {
             RefreshData();
-        }
+        } 
 
         bool CoinFlip(int percent)
         {
@@ -759,7 +773,7 @@ namespace Map
         } // 코인 플립 확률에 따른 yes or no 반환
     }
 
-    public class Rect
+    public class Rect 
     {
         public readonly int x;
         public readonly int y;

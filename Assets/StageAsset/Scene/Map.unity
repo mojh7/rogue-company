@@ -493,6 +493,7 @@ GameObject:
   - component: {fileID: 572565057}
   - component: {fileID: 572565056}
   - component: {fileID: 572565055}
+  - component: {fileID: 572565053}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -516,8 +517,19 @@ MonoBehaviour:
   width: 20
   height: 20
   size: 5
-  area: 5
+  area: 10
   floor: 0
+--- !u!156049354 &572565053
+Grid:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 572565051}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!4 &572565054
 Transform:
   m_ObjectHideFlags: 0
@@ -626,7 +638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
+  m_AnchoredPosition: {x: 128.1, y: 13.2}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1104884533

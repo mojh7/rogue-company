@@ -37,7 +37,7 @@ public class RoomManager : MonoBehaviour {
             if (!roomList[i].isRoom)
                 roomList[i].maskObject.SetActive(true);
             else
-                roomList[i].maskObject.SetActive(false);
+                roomList[i].maskObject.SetActive(true);
         }
     } // 마스크오브젝트 붙이기(수정해야함)
 

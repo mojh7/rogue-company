@@ -16,9 +16,13 @@ public class PlayerMap : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Move();
         if (Input.GetKeyDown(KeyCode.Space))
             Interact();
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     private void Move()

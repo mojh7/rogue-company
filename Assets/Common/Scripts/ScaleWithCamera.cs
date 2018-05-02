@@ -1,17 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Assertions;
 
-[ExecuteInEditMode]
-public class ScaleWithCamera : MonoBehaviour {
+public class ScaleWithCamera : MonoBehaviour
+{
+    [SerializeField]
+    private int pixelsPerUnit = 32;
+    [SerializeField]
+    private int verticalNum = 7;
+    private float finalUnit;
+    private new Camera camera;
 
-    public int targetWidth = 1280;
-    public int pixelsToUnits = 32;
+    void Awake()
+    {
+        camera = gameObject.GetComponent<Camera>();
+        Assert.IsNotNull(camera);
 
-    // Update is called once per frame
-    void Awake () {
-        int height = Mathf.RoundToInt(targetWidth / (float)Screen.width * Screen.height);
+        SetOrthographicSize();
+    }
 
-        GetComponent<Camera>().orthographicSize = height / pixelsToUnits / 2;
+    void SetOrthographicSize()
+    {
+        var tempUnitSize = Screen.height / verticalNum;
+
+        finalUnit = GetNearestMultiple(tempUnitSize, pixelsPerUnit);
+
+        camera.orthographicSize = Screen.height / (finalUnit * 2.0f);
+    }
+
+    int GetNearestMultiple(int value, int _pixel)
+    {
+        int rem = value % _pixel;
+        int result = value - rem;
+        if (rem > (_pixel / 2))
+            result += _pixel;
+
+        return result;
     }
 }

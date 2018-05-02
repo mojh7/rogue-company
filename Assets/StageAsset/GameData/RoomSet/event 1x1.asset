@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
+  m_Name: event 1x1
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  width: 1
+  height: 1
+  size: 5
+  gage: 10
+  objectDatas:
+  - position: {x: 2.5, y: 2.5, z: 2.5}
+    sprites:
+    - {fileID: 21300000, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+    isActive: 0
+    objectType: 4
+  roomType: 1
