@@ -13,6 +13,10 @@ public abstract class BulletProperty
     protected DelDestroyBullet delDestroyBullet;
     protected DelCollisionBullet delCollisionBullet;
 
+    /// <summary>
+    /// bullet class에 정보를 받아와서 속성에 맞는 초기화
+    /// </summary>
+    /// <param name="bullet"></param>
     public abstract void Init(Bullet bullet);
     //protected WeaponState.Owner owner;
 }
@@ -158,6 +162,10 @@ class LaserCollisionProperty : CollisionProperty
  *  
  * 2. LaserUpdateProperty
  *  - 레이저 전용 update 속성으로 현재는 raycast 밖에 안함.
+ *  
+ * 3. SummonProperty
+ *  - 일정 주기로(현재는 시간 단위이고 거리 단위는 고려) 총알을 따로 더 생성함
+ *  - bulletPattern 포함
  * -------------------
  * [예정]
  * 1. LaserUpdateProperty 에서 레이저 sprite, material, color 이런 외형적인거나 레이저 폭 등등 추가 할게 많이 남아있음.
@@ -256,6 +264,47 @@ public class LaserUpdateProperty : UpdateProperty
             lineRenderer.SetPosition(0, pos);
             lineRenderer.SetPosition(1, hit.point);
             delCollisionBullet(hit.collider);
+        }
+    }
+}
+
+// bullet class 에서 60fps로 코루틴으로 update문을 실행하는데 시간주기를 뭘로 체크할지 고민중
+public class SummonProperty : UpdateProperty
+{
+    private BulletPattern bulletPattern; // 생성할 총알 패턴
+    private int creationCycle; // 생성 주기
+    private int frameCount; // frame count
+    private DelGetDirDegree bulletDirDegree;
+    private DelGetPosition bulletDirVec;
+    private DelGetPosition bulletPos;
+
+    public SummonProperty(BulletPattern bulletPattern, int creationCycle)
+    {
+        this.bulletPattern = bulletPattern;
+        this.creationCycle = creationCycle;
+    }
+    public override void Init(Bullet bullet)
+    {
+        this.bullet = bullet;
+        bulletTrasnform = bullet.objTransform;
+        bulletDirDegree = bullet.GetDirDegree;
+        bulletDirVec = () => { return Vector3.zero; };
+        bulletPos = bullet.GetPosition;
+        bulletPattern.Init(bulletDirDegree, bulletDirVec, bulletPos);
+    }
+    public override UpdateProperty Clone()
+    {
+        return new SummonProperty(bulletPattern.Clone(), creationCycle);
+    }
+
+    // 생성 주기마다 bulletPattern 실행
+    public override void Update()
+    {
+        frameCount += 1;
+        if (frameCount == creationCycle)
+        {
+            frameCount = 0;
+            bulletPattern.CreateBullet(1.0f);
         }
     }
 }

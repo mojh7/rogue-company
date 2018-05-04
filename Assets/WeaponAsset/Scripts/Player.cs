@@ -15,9 +15,13 @@ using UnityEngine;
 #endregion
 */
 
-// 무기 클래스 활용겸 테스트용 player
+public abstract class Character : MonoBehaviour
+{
+}
 
-public class Player : MonoBehaviour
+
+// 무기 클래스 활용겸 테스트용 player
+public class Player : Character
 {
     #region variables
 
@@ -34,6 +38,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
 
+    private BuffManager buffManager;
     private Transform objTransform;
     private PlayerState state;
     private float playerScale;      // player 크기
@@ -50,8 +55,8 @@ public class Player : MonoBehaviour
     public float GetDirDegree (){ return directionDegree; }
     public Vector3 GetInputVector () { return controller.GetInputVector(); }
     public Vector3 GetRecenteInputVector() { return controller.GetRecenteInputVector(); }
-
     public Vector3 GetPosition() { return objTransform.position; }
+    public BuffManager GetBuffManager() { return buffManager; }
     #endregion
     #region setter
     #endregion
@@ -68,6 +73,7 @@ public class Player : MonoBehaviour
         controller = new PlayerController(joystick);
         playerScale = 1f;
         scaleVector = new Vector3(playerScale, playerScale, 1);
+        buffManager = new BuffManager();
     }
 
     // Update is called once per frame
@@ -87,10 +93,13 @@ public class Player : MonoBehaviour
             scaleVector.x = -playerScale;
             objTransform.localScale = scaleVector;
         }
-        Move();
+        
     }
     #endregion
-
+    void FixedUpdate()
+    {
+        Move();
+    }
     #region function
     // 캐릭터 이동, WASD Key, 테스트 용
     private void Move()
@@ -137,6 +146,7 @@ public class PlayerController
     // 조이스틱 방향
     private Vector3 inputVector;
 
+    
     public PlayerController(Joystick joystick)
     {
         this.joystick = joystick;

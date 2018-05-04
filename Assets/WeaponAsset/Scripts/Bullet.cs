@@ -31,6 +31,7 @@ public class Bullet : MonoBehaviour
     private List<DeleteProperty> deleteProperties;
     private int deletePropertiesLength;
 
+    [SerializeField]
     // 레이저용 lineRenderer
     private LineRenderer lineRenderer;
     #endregion
@@ -38,6 +39,9 @@ public class Bullet : MonoBehaviour
     public LineRenderer GetLineRenderer() { return lineRenderer; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
+
+    public float GetDirDegree() {return objTransform.rotation.eulerAngles.z; }
+    public Vector3 GetPosition() { return objTransform.position; }
     public float GetAddDirVecMagnitude() { return addDirVecMagnitude; }
     #endregion
     #region setter
@@ -99,7 +103,6 @@ public class Bullet : MonoBehaviour
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
         this.addDirVecMagnitude = addDirVecMagnitude;
-
         // sprite 설정
         spriteRenderer.sprite = null;
         objTransform.position = ownerPos();

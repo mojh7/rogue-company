@@ -218,12 +218,12 @@ TextureImporter:
       name: testWeaponTexture_8
       rect:
         serializedVersion: 2
-        x: 407
+        x: 408
         y: 471
-        width: 37
+        width: 33
         height: 21
       alignment: 9
-      pivot: {x: 0.29266357, y: 0.465752}
+      pivot: {x: 0.124866836, y: 0.11065819}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -279,7 +279,7 @@ TextureImporter:
         width: 33
         height: 20
       alignment: 9
-      pivot: {x: 0.2925933, y: 0.42560273}
+      pivot: {x: 0.13377519, y: 0.06583862}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
