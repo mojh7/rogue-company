@@ -182,6 +182,7 @@ namespace Map
                 {
                     if (block.area <= 2)
                     {
+                        block.isRoom = false;
                         halls.Add(block);
                     }
                     else
@@ -210,18 +211,18 @@ namespace Map
             rooms.Sort(delegate (Rect _a, Rect _b)
             {
                 if (_a.y > _b.y)
-                    return 1;
+                    return -1;
                 else if(_a.y == _b.y)
                 {
                     if (_a.x > _b.x)
-                        return 1;
+                        return -1;
                     else if (_a.x == _b.x)
                         return 0;
                     else
-                        return -1;
+                        return 1;
                 }
                 else
-                    return -1;
+                    return 1;
 
             });
             for (int i = 0; i < width * size * 2; i++)
@@ -253,6 +254,7 @@ namespace Map
             for (int index = 0; index < rooms.Count; index++) 
             {
                 rect = rooms[index];
+                Debug.Log(rect.x + "," + rect.y);
                 for (int x = rect.x; x < rect.x + rect.width; x++)
                 {
                     for (int y = rect.y; y < rect.y + rect.height; y++)
@@ -286,7 +288,6 @@ namespace Map
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
                                         shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
                                     }
                                     else if (size * x + i == rect.x * size)
                                     {
@@ -302,8 +303,10 @@ namespace Map
                                     else if (size * x + i == (rect.x + rect.width) * size - 1)
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow[1]);
+                                        if (shadowTileMap.GetTile(new Vector3Int(size * x + i + 1, size * y + j, 0)) == null)
+                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
+                                        if (shadowTileMap.GetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0)) == null)
+                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow[1]);
                                     }
                                     else
                                     {
@@ -790,27 +793,19 @@ namespace Map
 
             if (isRoom) // 방
             {
-                if (downExist)
-                {
-                    maskObject.transform.localPosition = new Vector3(midX * size, midY * size - 0.5f, 0);
-                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 2);
-                    areaLeftDown = new Vector2(areaLeftDown.x + 0.1875f, areaLeftDown.y);
-                    areaRightTop = new Vector2(areaRightTop.x - 0.1875f, areaRightTop.y - 1);
-                }
-                else
-                {
-                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2);
-                    areaLeftDown = new Vector2(areaLeftDown.x + 0.1875f, areaLeftDown.y + 1);
-                    areaRightTop = new Vector2(areaRightTop.x - 0.1875f, areaRightTop.y - 1);
-                }
+                maskObject.transform.localPosition = new Vector3(midX * size, midY * size - 0.5f, 0);
+                maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 1.75f);
+                areaLeftDown = new Vector2(areaLeftDown.x + 0.34375f, areaLeftDown.y);
+                areaRightTop = new Vector2(areaRightTop.x - 0.34375f, areaRightTop.y - 1);
             }
             else // 홀
             {
-                if (width > height)
+                if (width >= height)
                 {
-                    maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 4);
-                    areaLeftDown = new Vector2(areaLeftDown.x + 0.1875f, areaLeftDown.y);
-                    areaRightTop = new Vector2(areaRightTop.x - 0.1875f, areaRightTop.y);
+                    maskObject.transform.localPosition = new Vector3(midX * size, midY * size - 0.5f, 0);
+                    maskObject.transform.localScale = new Vector3(width * size * 2 + 1.3f, height * size * 2 + 2);
+                    areaLeftDown = new Vector2(areaLeftDown.x + 0.34375f, areaLeftDown.y);
+                    areaRightTop = new Vector2(areaRightTop.x, areaRightTop.y - 1);
                 }
                 else
                 {
