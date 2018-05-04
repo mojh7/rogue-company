@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e342a4df68c8c4cbfc3d19a6bb6f99, type: 3}
+  m_Name: RowPatternInfo 1
+  m_EditorClassIdentifier: 
+  bulletCount: 3
+  initPos: 0.5
+  deltaPos: 0.5
+  randomAngle: 1
+  bulletId: 0
+  bulletSprite: {fileID: 21300004, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
+  speed: 0
+  range: 0
+  damage: 0
+  memo: 

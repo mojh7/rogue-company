@@ -25,6 +25,7 @@ namespace WeaponData
     public enum AttackAniType { Blow, Strike, Shot }
     public enum TouchMode { Normal, Charge }
 
+    /*
     public struct WeaponInfo
     { 
         // 기본 스펙
@@ -81,7 +82,7 @@ namespace WeaponData
 
             //this.chargeCountMax = chargeCountMax;
         }
-    }
+    }*/
 
     public struct WeaponBuffInfo
     {
@@ -131,6 +132,7 @@ namespace BulletData
 
     //public enum PatternType { MultiDir, Laser };
 
+        /*
     // 다방향 패턴 정보
     public struct MultiDirPatternInfo
     {
@@ -140,6 +142,9 @@ namespace BulletData
         public float randomAngle;   // 각 총알에서 random값으로 보정이 필요할 때.
         public float speed;         // 총알 속도
         public float range;         // 사정 거리
+        /// <summary>
+        /// 데미지 입니다.
+        /// </summary>
         public float damage;        // 총알 한 발 당 데미지
         public int bulletId;        // 총알 Id
         public int bulletSpriteId;  // 총알 sprite Id;
@@ -155,8 +160,9 @@ namespace BulletData
             this.bulletId = 0;
             this.bulletSpriteId = 0;
         }
-    }
+    }*/
 
+    /*
     // 일렬로 총알 생성 패턴 정보
     public struct RowPatternInfo
     {
@@ -181,8 +187,9 @@ namespace BulletData
             this.bulletId = 0;
             this.bulletSpriteId = 0;
         }
-    }
+    }*/
 
+    /*
     // 레이저 패턴 정보
     // 레이저 폭, 스프라이트나, 메터리얼, 텍스쳐 등 이미지 설정 변수 있어야 됨.
     public struct LaserPatternInfo
@@ -197,10 +204,11 @@ namespace BulletData
             this.bulletId = bulletId;
             this.damage = damage;
         }
-    }
+    }*/
 
     //public struct DeleteAfterSummonProperty
 
+        /*
     // 총알 정보
     public struct BulletInfo
     {
@@ -228,7 +236,7 @@ namespace BulletData
             this.spriteId = 0;// spriteId;
             this.damage = 0;// damage;
         }
-    }
+    }*/
 } // namespace BulletData
 
 
@@ -242,11 +250,16 @@ public class DataStore : MonoBehaviour
     private Sprite[] bulletSpriteList;
 
     private static DataStore instance;
-    private List<WeaponInfo> weaponInfo;
-    private List<MultiDirPatternInfo> multiDirPatternInfo;
-    private List<RowPatternInfo> RowPatternInfo;
-    private List<LaserPatternInfo> laserPatternInfo;
-    private List<BulletInfo> bulletInfo;
+    [SerializeField]
+    private WeaponInfo[] weaponInfos;
+    [SerializeField]
+    private MultiDirPatternInfo[] multiDirPatternInfos;
+    [SerializeField]
+    private RowPatternInfo[] rowPatternInfos;
+    [SerializeField]
+    private LaserPatternInfo[] laserPatternInfos;
+    [SerializeField]
+    private BulletInfo[] bulletInfos;
     #endregion
 
     #region getter
@@ -254,11 +267,11 @@ public class DataStore : MonoBehaviour
 
     public Sprite GetWeaponSprite(int id) { return weaponSpriteList[id]; }
     public Sprite GetBulletSprite(int id) { return bulletSpriteList[id]; }
-    public WeaponInfo GetWeaponInfo(int id) { return weaponInfo[id]; }
-    public MultiDirPatternInfo GetMultiDirPatternInfo(int id) { return multiDirPatternInfo[id]; }
-    public RowPatternInfo GetRowPatternInfo(int id) { return RowPatternInfo[id]; }
-    public LaserPatternInfo GetLaserPatternInfo(int id) { return laserPatternInfo[id]; }
-    public BulletInfo GetBulletInfo(int id) { return bulletInfo[id]; }
+    public WeaponInfo GetWeaponInfo(int id) { return weaponInfos[id]; }
+    public MultiDirPatternInfo GetMultiDirPatternInfo(int id) { return multiDirPatternInfos[id]; }
+    public RowPatternInfo GetRowPatternInfo(int id) { return rowPatternInfos[id]; }
+    public LaserPatternInfo GetLaserPatternInfo(int id) { return laserPatternInfos[id]; }
+    public BulletInfo GetBulletInfo(int id) { return bulletInfos[id]; }
     #endregion
 
     #region setter
@@ -272,82 +285,30 @@ public class DataStore : MonoBehaviour
         else if (instance != null)
             Destroy(gameObject);
 
+
         InitBulletInfo();
         InitWepaonInfo();
     }
+
     #endregion
     #region Function
 
     // 무기 정보 관련 초기화
     public void InitWepaonInfo()
     {
-        weaponInfo = new List<WeaponInfo>
+        for(int i = 0; i < weaponInfos.Length; i++)
         {
-            // 지금은 테스트 용도로 하나하나씩 써놓았지만 에디터 만들고 나면 xml이나 json 불러다가 쓸 예정 
-            // 권총
-            new WeaponInfo("권총", 1, AttackAniType.Shot , TouchMode.Normal, WeaponType.Gun, 0f, 100, 100, 1f, 1f, 10f, 7f, 3f, 0.1f, 2/7f, 0.2f, 0.5f, new BulletPattern[]{ new MultiDirPattern(0, 1, 1, 1, 0) })
-            // 닌자 수리검
-            ,new WeaponInfo("닌자 수리검", 2, AttackAniType.Shot, TouchMode.Normal, WeaponType.Gun, 0f, 170, 170, 1f, 1f, 5f, 5f, 7, 0.15f, 0.3f, 1f, 0.5f, new BulletPattern[]{ new MultiDirPattern(1, 1, 2, 1, 0) })
-            // 산탄총
-            ,new WeaponInfo("산탄총", 3, AttackAniType.Shot, TouchMode.Charge, WeaponType.ShotGun, 1.0f, 180, 180, 1f, 1f, 8f, 3f, 8, 0.2f, 0f, 0.5f, 0.5f, new BulletPattern[]{ new MultiDirPattern(2, 1, 1, 1, 0) })
-            // 레이저건
-            ,new WeaponInfo("레이저건", 4, AttackAniType.Shot, TouchMode.Normal, WeaponType.Laser, 0f, -1, 0, 1f, 1f, 0f, 100f, 6, 0.15f, 0f, 0f, 0.7f, new BulletPattern[]{ new LaserPattern(0, 2) })
-
-            // 테스트 총 1 : 총알에서 총알 생성
-            ,new WeaponInfo("테스트1", 5, AttackAniType.Shot , TouchMode.Normal, WeaponType.Gun, 0f, 100, 100, 1, 1f, 6f, 8f, 3f, 0.1f, 2/7f, 0.4f, 0.5f, new BulletPattern[]{ new MultiDirPattern(0, 3, 4, 1, 0) })
-            // 테스트 총 2 : row 패턴 적용
-            ,new WeaponInfo("테스트2", 6, AttackAniType.Shot , TouchMode.Normal, WeaponType.Gun, 0f, 100, 100, 1, 1f, 6f, 8f, 3f, 0.1f, 2/7f, 0.4f, 0.5f, new BulletPattern[]{ new RowPattern(0, 1, 6, 1, 0) })
-            // 테스트 총 3 : row 패턴 적용 2
-            ,new WeaponInfo("테스트3", 7, AttackAniType.Shot , TouchMode.Normal, WeaponType.Gun, 0f, 100, 100, 1, 1f, 6f, 8f, 3f, 0.1f, 2/7f, 0.6f, 0.5f, new BulletPattern[]{ new RowPattern(1, 1, 7, 3, 0.1f) })
-            // 테스트 총 4 : multi 패턴
-            ,new WeaponInfo("테스트4", 8, AttackAniType.Shot , TouchMode.Normal, WeaponType.Gun, 0f, 100, 100, 1, 1f, 6f, 8f, 3f, 0.1f, 2/7f, 0.8f, 0.5f, new BulletPattern[]{ new MultiDirPattern(5, 1, 1, 15, 0.05f) })
-            // 테스트 총 5 : multi 패턴
-            ,new WeaponInfo("테스트5", 9, AttackAniType.Shot , TouchMode.Normal, WeaponType.Gun, 0f, 100, 100, 1, 1f, 6f, 8f, 3f, 0.1f, 2/7f, 0.6f, 0.5f, new BulletPattern[]{ new MultiDirPattern(3, 1, 1, 1, 0) })
-        };
+            weaponInfos[i].Init();
+        }
     }
 
     // 총알 정보 관련 초기화 
     public void InitBulletInfo()
     {
-        multiDirPatternInfo = new List<MultiDirPatternInfo>()
+        for (int i = 0; i < bulletInfos.Length; i++)
         {
-            /* 총알 갯수, 초기 각도, 총알간의 각도 차이, 총알 마다 각도 보정 random값(-vaule~vaule)
-             */
-            new MultiDirPatternInfo(1, 0, 0, 5f),
-            new MultiDirPatternInfo(8, 0f, 45f, 0f),
-            new MultiDirPatternInfo(6, 75f, 30f, 0f),
-            new MultiDirPatternInfo(8, 0f, 0f, 60f),
-            new MultiDirPatternInfo(2, 90f, 180f, 0f, 5f, 3f),
-            new MultiDirPatternInfo(1, 0, 0, 30f),
-        };
-
-        RowPatternInfo = new List<RowPatternInfo>()
-        {
-            /* 총알 갯수, 초기 위치, 총알간의 위치 차이
-             */
-            new RowPatternInfo(2, 0.1f, 0.2f, 7f),
-            new RowPatternInfo(3, 0.5f, 0.5f, 1f)
-        };
-
-        laserPatternInfo = new List<LaserPatternInfo>()
-        {
-            new LaserPatternInfo()
-        };
-
-
-
-        bulletInfo = new List<BulletInfo>()
-        {
-            // 총알 정보에는 딱 충돌, update, 삭제 속성 중에서 어떤 것을 가질지에 대한 정보만 담을 것 같고
-            // 상세 수치는 이 총알을 참조하게 되는 bulletPattern이나 weapon쪽에 상세 수치(range, damage, speed 등등)를 이어 받아서 사용하려고 함.
-            new BulletInfo(),   // 빈 속성
-            // 일반 총알
-            new BulletInfo(new CollisionProperty[]{new BaseNormalCollisionProperty() }, new UpdateProperty[]{new StraightMoveProperty() }, new DeleteProperty[]{new BaseDeleteProperty() }),
-            // 레이저 총알   
-            new BulletInfo(new CollisionProperty[]{new LaserCollisionProperty() }, new UpdateProperty[]{new LaserUpdateProperty() }, new DeleteProperty[]{new LaserDeleteProperty() }),    
-            // 소환속성 포함 총알
-            new BulletInfo(new CollisionProperty[]{new BaseNormalCollisionProperty() }, new UpdateProperty[]{new StraightMoveProperty(), new SummonProperty(new MultiDirPattern(4, 1, 5, 1, 0), 10) }, new DeleteProperty[]{new BaseDeleteProperty() }),
-        };
+            bulletInfos[i].Init();
+        }
     }
     #endregion
 }
