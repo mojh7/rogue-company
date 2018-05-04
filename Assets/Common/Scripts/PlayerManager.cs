@@ -18,6 +18,8 @@ public class PlayerManager : MonoBehaviour {
 
     public Vector3 GetPlayerPosition()
     {
+        if (playerObj == null)
+            return Vector3.zero;
         return playerObj.transform.position;
     }
 

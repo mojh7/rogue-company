@@ -40,6 +40,10 @@ namespace Map
                 map = null;
             }
             map = new Map(width, height, size, area, floor, objectPool);
+            for(int i = 0; i < 10; i++)
+            {
+                map.AddNecessaryRoomSet(new Rect(0, 0, 3, 3, size));
+            }
             map.Generate();
             MiniMap.GetInstance().GetRoomList();
             MiniMap.GetInstance().DrawMinimap();
@@ -86,20 +90,21 @@ namespace Map
         #region MakeMap
         public void Generate() 
         {
-            bool success = CreateMap();
-            Debug.Log(success);
-            if (rooms.Count > 0)
-            {
-                LinkAllRects();
-                DrawTile();
-                RecursionLink(rooms[0]);
-                LinkHall();
-                AssignAllRoom();
-                rooms.AddRange(halls);
-                RoomManager.Getinstance().SetRoomList(rooms, halls[0]);
-                RoomManager.Getinstance().LoadMaskObject();
-            }
+            CreateMap();
+            LinkAllRects();
+            DrawTile();
+            RecursionLink(rooms[0]);
+            LinkHall();
+            AssignAllRoom();
+            rooms.AddRange(halls);
+            RoomManager.Getinstance().SetRoomList(rooms, halls[0]);
+            RoomManager.Getinstance().LoadMaskObject();
         } // office creates
+
+        public void AddNecessaryRoomSet(Rect _rect)
+        {
+            necessaryBlocks.Add(_rect);
+        } // 필수 방 세팅
 
         void RefreshData()
         {
@@ -121,37 +126,22 @@ namespace Map
             halls.Clear();
             blocks.Clear();
             rooms.Clear();
-            necessaryBlocks.Clear();
             TotalHallArea = 0;
       
         } // 데이터 초기화
-
-        void NecessaryRoomSet()
+       
+        void CreateMap()
         {
-            Rect room = new Rect(0, 0, 1, 1, size);
-            Rect room1 = new Rect(0, 0, 1, 1, size);
-            Rect room2 = new Rect(0, 0, 1, 1, size);
-            Rect room3 = new Rect(0, 0, 1, 1, size);
-            Rect room4 = new Rect(0, 0, 1, 1, size);
-            necessaryBlocks.Add(room);
-            necessaryBlocks.Add(room1);
-            necessaryBlocks.Add(room2);
-            necessaryBlocks.Add(room3);
-            necessaryBlocks.Add(room4);
-        } // 필수 방 세팅
-
-        bool CreateMap()
-        {
-            Random.InitState((int)System.DateTime.Now.Ticks);
-            RefreshData();
-            rects.Enqueue(mainRect);
-
-            NecessaryRoomSet();
-            RectToBlock();
-            bool success = BlockToRoom();
-
-            return success;
-        } // 맵 만들기 (실패 시 false 리턴)
+            bool success = false;
+            while (!success)
+            {
+                Random.InitState((int)System.DateTime.Now.Ticks);
+                RefreshData();
+                rects.Enqueue(mainRect);
+                RectToBlock();
+                success = BlockToRoom();
+            }
+        } // 맵 만들기 
 
         void RectToBlock()
         {
@@ -186,26 +176,25 @@ namespace Map
                 block = blocks.Dequeue();
                 if (block.width == 0 || block.height == 0)
                     continue;
-                if ((block.area > MinumRoomArea || (float)block.width / block.height > 2 || (float)block.height / block.width > 2) && !FitRectCheck(block, necessaryRooms))
+                if ((block.area > MinumRoomArea || (block.area > 2 && (float)block.width / block.height >= 2 || (float)block.height / block.width >= 2)) && !FitRectCheck(block, necessaryRooms))
                     SplitBlock(block);
                 else
                 {
-                    block.isRoom = true;
-                    rooms.Add(block);
+                    if (block.area <= 2)
+                    {
+                        halls.Add(block);
+                    }
+                    else
+                    {
+                        block.isRoom = true;
+                        rooms.Add(block);
+                    }
                 }
             }
             if (necessaryRooms.Count > 0)
             {
-                rooms.Sort(delegate(Rect _a,Rect _b)
-                {
-                    if (_a.area < _b.area) return 1;
-                    else if (_a.area > _b.area) return -1;
-                    return 0;
-                });
-
                 return false;
             }
-       
             return true;
         } // Blocks -> Rooms;
 
@@ -218,7 +207,24 @@ namespace Map
             floorTileMap.ClearAllTiles();
             wallTileMap.ClearAllTiles();
             shadowTileMap.ClearAllTiles();
-            for(int i = 0; i < width * size * 2; i++)
+            rooms.Sort(delegate (Rect _a, Rect _b)
+            {
+                if (_a.y > _b.y)
+                    return 1;
+                else if(_a.y == _b.y)
+                {
+                    if (_a.x > _b.x)
+                        return 1;
+                    else if (_a.x == _b.x)
+                        return 0;
+                    else
+                        return -1;
+                }
+                else
+                    return -1;
+
+            });
+            for (int i = 0; i < width * size * 2; i++)
             {
                 for(int j = 0; j < height * size * 2; j++)
                 {
@@ -231,21 +237,15 @@ namespace Map
                 {
                     if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
                     {
-                        if (i == 0 & j == 0)
-                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[1]);
-                        else if (i == 0 && j == height * size - 1)
+                        if (i == 0 && j == height * size - 1)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[5]);
-                        else if (i == width * size - 1 && j == 0)
-                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[1]);
                         else if (i == width * size - 1 && j == height * size - 1)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[7]);
                         else if (i == 0)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[3]);
-                        else if (j == 0)
-                            wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[1]);
                         else if (i == width * size - 1)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[4]);
-                        else
+                        else if (j == height * size - 1)
                             wallTileMap.SetTile(new Vector3Int(i, j, 0), wall[6]);
                     }
                 }
@@ -253,131 +253,69 @@ namespace Map
             for (int index = 0; index < rooms.Count; index++) 
             {
                 rect = rooms[index];
-                for(int e = 0; e < rect.edgeRect.Count; e++)
-                {            
-                    if ((Mathf.Abs(rect.midX - rect.edgeRect[e].midX) < (float)(rect.width + rect.edgeRect[e].width) / 2) && (Mathf.Abs(rect.midY - rect.edgeRect[e].midY) == (float)(rect.height + rect.edgeRect[e].height) / 2))
-                    {
-                        if (rect.midY > rect.edgeRect[e].midY && rect.isRoom && rect.edgeRect[e].isRoom) // 위쪽
-                            rooms[index].downExist = true;
-                    } // 세로로 붙음
-                }
-                if (rect.downExist)
+                for (int x = rect.x; x < rect.x + rect.width; x++)
                 {
-                    for (int x = rect.x; x < rect.x + rect.width; x++)
+                    for (int y = rect.y; y < rect.y + rect.height; y++)
                     {
-                        for (int y = rect.y; y < rect.y + rect.height; y++)
+                        for (int i = 0; i < size; i++)
                         {
-                            for (int i = 0; i < size; i++)
+                            for (int j = 0; j < size; j++)
                             {
-                                for (int j = 0; j < size; j++)
+                                if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
                                 {
-                                    if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
+                                    if (size * x + i == rect.x * size & size * y + j == rect.y * size)
                                     {
-                                        if (size * x + i == rect.x * size & size * y + j == rect.y * size)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), shadow[1]);
-                                        }
-                                        else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[2]);
-                                        }
-                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        }
-                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        }
-                                        else if (size * x + i == rect.x * size)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), shadow[1]);
-                                        }
-                                        else if (size * y + j == rect.y * size)
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), null);
-                                        else if (size * x + i == (rect.x + rect.width) * size - 1)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        }
-                                        else
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                        }
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), wall[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[2]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow[0]);
                                     }
-                                }
-                            }
-                        }
-                    }
-                } // 아래 방이 있을 경우
-                else
-                {
-                    for (int x = rect.x; x < rect.x + rect.width; x++)
-                    {
-                        for (int y = rect.y; y < rect.y + rect.height; y++)
-                        {
-                            for (int i = 0; i < size; i++)
-                            {
-                                for (int j = 0; j < size; j++)
-                                {
-                                    if (size * x + i == rect.x * size || size * y + j == rect.y * size || size * x + i == (rect.x + rect.width) * size - 1 || size * y + j == (rect.y + rect.height) * size - 1)
+                                    else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
                                     {
-                                        if (size * x + i == rect.x * size & size * y + j == rect.y * size)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[0]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), shadow[1]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                        }
-                                        else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[2]);
-                                        }
-                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[2]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        }
-                                        else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        }
-                                        else if (size * x + i == rect.x * size)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), shadow[1]);
-                                        }
-                                        else if (size * y + j == rect.y * size)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[1]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                        }
-                                        else if (size * x + i == (rect.x + rect.width) * size - 1)
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        }
-                                        else
-                                        {
-                                            wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
-                                        }
-                                    }                               
-                                }
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[2]);
+                                    }
+                                    else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
+                                    {
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), wall[2]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow[1]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow[0]);
+                                    }
+                                    else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
+                                    {
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
+                                    }
+                                    else if (size * x + i == rect.x * size)
+                                    {
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), shadow[1]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[1]);
+                                    }
+                                    else if (size * y + j == rect.y * size)
+                                    {
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), wall[1]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow[0]);
+                                    }
+                                    else if (size * x + i == (rect.x + rect.width) * size - 1)
+                                    {
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow[1]);
+                                    }
+                                    else
+                                    {
+                                        wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
+                                    }
+                                }                               
                             }
                         }
                     }
                 }
+                //}
             } // 방그리기
             for (int index = 0; index < halls.Count; index++)
             {
@@ -404,7 +342,22 @@ namespace Map
                     }
                 }
             } // 홀 그리기
-
+            for (int i = 0; i < width * size * 2; i++)
+            {
+                for (int j = 0; j < height * size * 2; j++)
+                {
+                    floorTileMap.SetTile(new Vector3Int(i, j, 0), floor);
+                }
+            }
+            for (int i = 0; i < width * size; i++) // 전체 맵 그리기
+            {
+                if (i == 0)
+                    wallTileMap.SetTile(new Vector3Int(i, 0, 0), wall[1]);
+                else if (i == width * size - 1)
+                    wallTileMap.SetTile(new Vector3Int(i, 0, 0), wall[1]);
+                else
+                    wallTileMap.SetTile(new Vector3Int(i, 0, 0), wall[1]);
+            } // 맵 맨 아래 그리기
         } // 바닥 타일, 벽 타일 드로잉
 
         bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Rect> _list)
@@ -605,7 +558,7 @@ namespace Map
             {
                 for (int i = 0; i < halls[indx].edgeRect.Count; i++)
                 {
-                    if (CoinFlip(90) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    if (CoinFlip(80) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
                     {
                         DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
                     }
@@ -630,8 +583,8 @@ namespace Map
 
                 yArr.Sort();
 
-                y = Random.Range(yArr[1]  + size / 3, yArr[2] - size / 3);
-
+                //y = Random.Range(yArr[1]  + size / 3, yArr[2] - size / 3);
+                y = (yArr[1] + yArr[2]) / 2;
                 if (_rectA.midX > _rectB.midX) // 오른쪽
                 {
                     wallTileMap.SetTile(new Vector3Int(_rectA.x * size, y, 0), null);
@@ -673,25 +626,20 @@ namespace Map
 
                 xArr.Sort();
 
-                x = Random.Range(xArr[1] + size / 3, xArr[2] - size / 3);
+                //x = Random.Range(xArr[1] + size / 3, xArr[2] - size / 3);
+                x = (xArr[1] + xArr[2]) / 2;
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
                 {
                     wallTileMap.SetTile(new Vector3Int(x, _rectA.y * size, 0), null);
                     wallTileMap.SetTile(new Vector3Int(x, _rectA.y * size - 1, 0), null);
-                    if(_rectB.isRoom) // 아래에 있는 방이 Room 일 경우 한칸 아래 설치
-                        obj = CreateDoorObject(x + 0.5f, _rectA.y * size - 0.5f, false);
-                    else
-                        obj = CreateDoorObject(x + 0.5f, _rectA.y * size + 0.5f, false);
+                    obj = CreateDoorObject(x + 0.5f, _rectA.y * size - 0.5f, false);
                 }
                 else // 아래쪽
                 {
                     wallTileMap.SetTile(new Vector3Int(x, _rectB.y * size, 0), null);
                     wallTileMap.SetTile(new Vector3Int(x, _rectB.y * size - 1, 0), null);
-                    if (_rectA.isRoom) // 위에 있는 방이 Room 일 경우 한칸 아래 설치
-                        obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 0.5f, false);
-                    else
-                        obj = CreateDoorObject(x + 0.5f, _rectB.y * size + 0.5f, false);
+                    obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 0.5f, false);
                 }
            
             } // 세로로 붙음
@@ -759,13 +707,13 @@ namespace Map
             //else
             //    halls[0].customObjects[0].transform.position = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
             halls[0].customObjects[0].GetComponent<StartPoint>().SetPosition();
-        } // 스타트 포인트 배치
+        } // 스타트 포인트
         #endregion
 
         public void Dispose()
         {
             RefreshData();
-        } 
+        }
 
         bool CoinFlip(int percent)
         {
