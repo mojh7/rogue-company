@@ -1,4 +1,4 @@
-# PleaseApprove
+# Rogue Company
 브릿지 동아리 
 ============
 슈팅스타 팀 

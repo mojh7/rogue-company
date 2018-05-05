@@ -7,7 +7,6 @@ public class RoomManager : MonoBehaviour {
 
     private static RoomManager instance;
     public GameObject maskPrefab;
-    Transform playerTranform;
     List<Map.Rect> roomList;
     Map.Rect currentRoom;
 
@@ -33,11 +32,12 @@ public class RoomManager : MonoBehaviour {
         for(int i=0;i< roomList.Count; i++)
         {
             roomList[i].maskObject = Object.Instantiate(maskPrefab);
+            roomList[i].maskObject.transform.parent = transform;
             roomList[i].LoadMaskObject();
             if (!roomList[i].isRoom)
                 roomList[i].maskObject.SetActive(true);
             else
-                roomList[i].maskObject.SetActive(false);
+                roomList[i].maskObject.SetActive(true);
         }
     } // 마스크오브젝트 붙이기(수정해야함)
 
