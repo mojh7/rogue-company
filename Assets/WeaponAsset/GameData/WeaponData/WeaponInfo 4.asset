@@ -22,7 +22,7 @@ MonoBehaviour:
   scaleX: 1
   scaleY: 1
   bulletMoveSpeed: 6
-  range: 8
+  range: 30
   damage: 0
   criticalRate: 0
   knockBack: 0

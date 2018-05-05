@@ -33,6 +33,9 @@ class cl
  * void test(), void test2() 처럼
  */
 public class TestScript : MonoBehaviour {
+
+    private static TestScript instance;
+
     public delegate void testDelegate(int num);
     public delegate float a();
     public a c;
@@ -42,6 +45,8 @@ public class TestScript : MonoBehaviour {
     public float degree;
     public float GetDir() { return degree; }
 
+
+    public GameObject contactPointObj;
 
     private st s1;
     private st s2;
@@ -57,9 +62,14 @@ public class TestScript : MonoBehaviour {
         c = b;
     }
 
+    public static TestScript Instance { get { return instance; } }
+
     void Awake()
     {
-       
+        if (instance == null)
+            instance = this;
+        else if (instance != null)
+            Destroy(gameObject);
     }
 
     void OnEnable ()
@@ -139,6 +149,13 @@ public class TestScript : MonoBehaviour {
     // Update is called once per frame
     //void Update () {
     //}
+
+    public void CreateContactObj(Vector3 pos)
+    {
+        GameObject createdObj;
+        createdObj = Instantiate(contactPointObj);
+        createdObj.GetComponent<Transform>().position = pos;
+    }
 
     public void ListTest()
     {

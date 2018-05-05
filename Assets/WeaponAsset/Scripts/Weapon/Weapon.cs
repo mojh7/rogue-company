@@ -164,7 +164,6 @@ public class Weapon : MonoBehaviour {
         // 공격 타입에 따른 공격 실행 (원거리 : 탄 뿌리기 후 cost(탄) 소모)
         PlayAttackAnimation();
         StartCoroutine(PatternCycle(damageIncreaseRate));
-        Debug.Log("onwer 각도 : " + ownerDirDegree());
     }
 
 

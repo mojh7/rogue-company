@@ -16,9 +16,12 @@ public class Bullet : MonoBehaviour
     #region variables
     public BulletInfo info;
     public Transform objTransform;
+    public Rigidbody2D objRigidbody;
     public SpriteRenderer spriteRenderer;
     public BoxCollider2D boxCollider;
     private Coroutine bulletUpdate;
+
+    private Vector3 dirVector; // 총알 방향 벡터
 
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
@@ -31,6 +34,7 @@ public class Bullet : MonoBehaviour
     private List<DeleteProperty> deleteProperties;
     private int deletePropertiesLength;
 
+
     [SerializeField]
     // 레이저용 lineRenderer
     private LineRenderer lineRenderer;
@@ -40,9 +44,13 @@ public class Bullet : MonoBehaviour
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
 
+    // 현재 바라보는 방향의 euler z 각도 반환
     public float GetDirDegree() {return objTransform.rotation.eulerAngles.z; }
     public Vector3 GetPosition() { return objTransform.position; }
     public float GetAddDirVecMagnitude() { return addDirVecMagnitude; }
+
+    // 현재 바라보는 방향의 vector 반환
+    public Vector3 GetDirVector() { return dirVector; }
     #endregion
     #region setter
     #endregion
@@ -54,9 +62,18 @@ public class Bullet : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         lineRenderer = GetComponent<LineRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
-        
+        objRigidbody = GetComponent<Rigidbody2D>();
+
         // 총알 끼리 무시, 총알 레이어 무시, 현재 임시로 Bullet layer 9번, Wall layer 10번 쓰고 있음.
         Physics2D.IgnoreLayerCollision(9, 9);
+    }
+
+    private void FixedUpdate()
+    {
+        for (int i = 0; i < updatePropertiesLength; i++)
+        {
+            updateProperties[i].Update();
+        }
     }
     #endregion
     #region Function
@@ -75,16 +92,19 @@ public class Bullet : MonoBehaviour
         }
 
         // component on/off
-        boxCollider.enabled = true;
+        //boxCollider.enabled = true;
         lineRenderer.enabled = false;
         // sprite 설정
         spriteRenderer.sprite = bulletSprite;
         // 처음 위치랑, 각도 설정.
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, direction);
-        
+
+        //Debug.Log("각도 : " + direction);
         InitProperty();
-        bulletUpdate = StartCoroutine("BulletUpdate");
+        ///bulletUpdate = StartCoroutine("BulletUpdate");
+
+        UpdateDirection(direction);
     }
 
     // 레이저 총알 초기화
@@ -140,6 +160,25 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 해당 vector 혹은 degree 방향으로 총알을 회전하고 속도를 설정한다.
+    /// </summary>
+    /// <param name="dirVector"></param>
+    public void UpdateDirection(Vector3 dirVector)
+    {
+        this.dirVector = dirVector;
+        objTransform.rotation = Quaternion.Euler(0, 0, dirVector.GetDegFromVector());
+        objRigidbody.velocity = info.speed * dirVector;
+    }
+    public void UpdateDirection(float degree)
+    {
+        dirVector = MathCalculator.VectorRotate(Vector3.right, degree);
+        objTransform.rotation = Quaternion.Euler(0, 0, degree);
+        objRigidbody.velocity = info.speed * dirVector;
+    }
+
+
+    // 안쓸 듯
     // 총알 Update 코루틴
     private IEnumerator BulletUpdate()
     {
@@ -195,7 +234,10 @@ public class Bullet : MonoBehaviour
     {
         //Debug.Log(this + "Destroy Bullet");
         // update 코루틴 멈춤
-        StopCoroutine(bulletUpdate);
+        if(bulletUpdate != null)
+        {
+            StopCoroutine(bulletUpdate);
+        }
         // 삭제 속성 모두 실행
         for (int i = 0; i < deletePropertiesLength; i++)
         {
@@ -203,6 +245,8 @@ public class Bullet : MonoBehaviour
         }
     }
     #endregion
+
+
 }
 
 /*

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4003156200223386}
   - component: {fileID: 114231070952244940}
   - component: {fileID: 61214369845274922}
+  - component: {fileID: 58857990982274950}
   - component: {fileID: 50760088721037276}
   - component: {fileID: 96071974637920418}
   - component: {fileID: 120186953893174654}
@@ -57,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1273331988167040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.154, y: -1.728, z: 0}
+  m_LocalPosition: {x: 5.53, y: 0.91, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 4092093231054210}
@@ -97,8 +98,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61214369845274922
-BoxCollider2D:
+--- !u!58 &58857990982274950
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -107,6 +108,21 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.04
+--- !u!61 &61214369845274922
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1273331988167040}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -120,7 +136,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.08, y: 0.08}
+  m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!96 &96071974637920418
 TrailRenderer:
@@ -270,6 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 0}
   objTransform: {fileID: 4003156200223386}
+  objRigidbody: {fileID: 50760088721037276}
   spriteRenderer: {fileID: 212947870985816974}
   boxCollider: {fileID: 61214369845274922}
   lineRenderer: {fileID: 120186953893174654}
@@ -421,7 +438,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 805033848
+  randomSeed: 1010409922
   InitialModule:
     serializedVersion: 3
     enabled: 1
