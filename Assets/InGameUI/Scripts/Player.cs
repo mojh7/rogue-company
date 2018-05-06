@@ -70,7 +70,8 @@ public class Player : Character
             Destroy(gameObject);
         state = PlayerState.IDLE;
         objTransform = GetComponent<Transform>();
-        controller = new PlayerController(joystick);
+        controller = new PlayerController(UIManager.Instance.GetJoystick);
+        Debug.Log("z : " + UIManager.Instance.GetJoystick);
         playerScale = 1f;
         scaleVector = new Vector3(playerScale, playerScale, 1);
         buffManager = new BuffManager();
@@ -92,14 +93,15 @@ public class Player : Character
             isRightDirection = false;
             scaleVector.x = -playerScale;
             objTransform.localScale = scaleVector;
-        }
-        
+        }   
     }
-    #endregion
+
     void FixedUpdate()
     {
         Move();
     }
+    #endregion
+
     #region function
     // 캐릭터 이동, WASD Key, 테스트 용
     private void Move()
@@ -140,7 +142,7 @@ public class Player : Character
 [System.Serializable]
 public class PlayerController
 {
-
+    [SerializeField]
     private Joystick joystick; // 조이스틱 스크립트
 
     // 조이스틱 방향

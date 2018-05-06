@@ -7,6 +7,8 @@ public class PlayerManager : MonoBehaviour {
     private static PlayerManager instance;
     public GameObject playerPrefab;
     GameObject playerObj;
+
+    public Joystick joystick;
     public static PlayerManager Getinstance()
     {
         if (instance == null)

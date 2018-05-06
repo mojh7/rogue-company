@@ -57,6 +57,9 @@ public class TestScript : MonoBehaviour {
     private cl c2;
     private cl c3;
     private List<cl> clList;
+
+    public GameObject effectObj;
+
     public void TestPointerfunc(a b)
     {
         c = b;
@@ -155,6 +158,14 @@ public class TestScript : MonoBehaviour {
         GameObject createdObj;
         createdObj = Instantiate(contactPointObj);
         createdObj.GetComponent<Transform>().position = pos;
+    }
+
+    public void CreateEffect(Vector3 pos)
+    {
+        GameObject createdObj;
+        createdObj = Instantiate(effectObj);
+        createdObj.GetComponent<Transform>().position = pos;
+        createdObj.SetActive(true);
     }
 
     public void ListTest()

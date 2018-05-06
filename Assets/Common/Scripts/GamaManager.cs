@@ -26,6 +26,7 @@ public class GamaManager : MonoBehaviour {
         Map.MapManager.Getinstance().GenerateMap();
         PlayerManager.Getinstance().SpawnPlayer();
         RoomManager.Getinstance().FindCurrentRoom();
+        UIManager.Instance.InitForPlayGame();   // 게임 첫 시작시 초기화
     }
     #endregion
 }

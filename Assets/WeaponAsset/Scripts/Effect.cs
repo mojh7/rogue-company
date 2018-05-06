@@ -2,15 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * 최대한 몬스터 충돌 처리 및 기타 처리가 없이
+ * 단순히 화면에 보여지기 위한 effect class 가 되려함
+ * effect 여러 종류가 있겠지만 일단
+ * 1. Sprite animation으로 되있는 effect
+ * 
+ * 있어야 될 기능, 것
+ *  - 생성 및 생성 후 n초 뒤에 삭제(메모리풀 회수)
+ *  
+ * 애니메이션 구분 int형 id 혹은 string ? 
+ */ 
+
+/// <summary>
+/// Effect Class
+/// </summary>
 public class Effect : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private EffectInfo info;
+    private Transform objTransform;
+    private Vector3 scaleVector;
+
+    void Awake()
+    {
+        objTransform = GetComponent<Transform>();
+        scaleVector = new Vector3(1f, 1f, 1f);
+    }
+    
+    void OnEnable()
+    {
+        Init();
+    }
+
+    public void Init()
+    {
+        // sclae 조정
+        scaleVector.x = info.scaleX;
+        scaleVector.y = info.scaleY;
+        objTransform.localScale = scaleVector;
+        // 애니메이션 실행 PlayAnimation();
+        // 생성 될 때 처리 및 delete 함수 n초뒤에 실행
+        Invoke("DeleteEffect", 0.4f);
+    }
+
+    public void PlayAnimation(string id)
+    {
+
+    }
+
+    public void DeleteEffect()
+    {
+        Destroy(gameObject);
+    }
+}
+
+
+public class EffectInfo
+{
+    public int lifeTime;
+    public string animationName;
+    public float scaleX;
+    public float scaleY;
 }

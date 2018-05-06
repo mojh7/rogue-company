@@ -71,7 +71,7 @@ class BaseNormalCollisionProperty : CollisionProperty
     private int pierceCount = 1;    // default 1
 
     // 공격이 가능하지 않은 오브젝트에 대해서 총알이 반사각으로 튕겨나오는 횟수
-    private int bounceCount = 1;    // default 0
+    private int bounceCount = 0;    // default 0
 
     public override CollisionProperty Clone()
     {
@@ -114,11 +114,12 @@ class BaseNormalCollisionProperty : CollisionProperty
                 //bullet.GetDirVector()
                 //반사각
                 reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized);
-                Debug.Log("입사각 : " + bulletTransform.rotation.eulerAngles.z + ", 반사각 : " + reflectVector.GetDegFromVector() + ",conut : " + bounceCount + ", normal : " + (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized);
+                //Debug.Log("입사각 : " + bulletTransform.rotation.eulerAngles.z + ", 반사각 : " + reflectVector.GetDegFromVector() + ",conut : " + bounceCount + ", normal : " + (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized);
                 bullet.UpdateDirection(reflectVector);
                 
                 bounceCount -= 1;
 
+                TestScript.Instance.CreateEffect(bulletTransform.position);
                 // 디버그용 contact 위치 표시
                 TestScript.Instance.CreateContactObj(coll.bounds.ClosestPoint(bulletTransform.position));
 
@@ -429,6 +430,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
+        TestScript.Instance.CreateEffect(bulletTransform.position);
         ObjectPoolManager.Instance.DeleteObj(ObjPoolType.Bullet, bulletObj);
     }
 
@@ -436,6 +438,7 @@ public class BaseDeleteProperty : DeleteProperty
     {
         this.bullet = bullet;
         this.bulletObj = bullet.gameObject;
+        this.bulletTransform = bullet.objTransform;
     }
 }
 
