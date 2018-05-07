@@ -167,7 +167,6 @@ GameObject:
   - component: {fileID: 197731478}
   - component: {fileID: 197731473}
   - component: {fileID: 197731476}
-  - component: {fileID: 197731475}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -250,26 +249,6 @@ Tilemap:
     m_DirtyIndex: 0
   - serializedVersion: 1
     m_DirtyIndex: 0
---- !u!50 &197731475
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 197731472}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!483693784 &197731476
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -333,6 +312,7 @@ GameObject:
   - component: {fileID: 307469669}
   - component: {fileID: 307469663}
   - component: {fileID: 307469665}
+  - component: {fileID: 307469666}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -383,6 +363,31 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e38667601126eec468d0c4f835cb5da7, type: 3}
   - {fileID: 21300000, guid: 5354b0ad0d49f32479e387b4b7e7e0fa, type: 3}
   objectPool: {fileID: 418867811}
+--- !u!114 &307469666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 307469662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3848ed4b1131148966776ec0ae4108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 1
+  defaultColor:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  tintTexture: {fileID: 0}
+  colorArray: []
+  floor: {fileID: 0}
+  wall: {fileID: 0}
 --- !u!114 &307469669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,7 +566,6 @@ GameObject:
   - component: {fileID: 572565057}
   - component: {fileID: 572565056}
   - component: {fileID: 572565055}
-  - component: {fileID: 572565053}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -585,19 +589,8 @@ MonoBehaviour:
   width: 20
   height: 20
   size: 5
-  area: 10
+  area: 9
   floor: 0
---- !u!156049354 &572565053
-Grid:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 572565051}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 1}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 0
 --- !u!4 &572565054
 Transform:
   m_ObjectHideFlags: 0
@@ -664,10 +657,7 @@ MonoBehaviour:
   wallTileMap: {fileID: 1632917437}
   shadowTileMap: {fileID: 1595666683}
   floorTile: {fileID: 11400000, guid: 9c4c0b6c779fe6b4ba968bfbbb24a053, type: 2}
-  shadowTile:
-  - {fileID: 11400000, guid: 35e4f760c2f1f964b910869e9eec7699, type: 2}
-  - {fileID: 11400000, guid: 00494cc1508c2e2458cfd9271446c519, type: 2}
-  - {fileID: 11400000, guid: 2dd4e11eb0e461d44bc75f2c728ca063, type: 2}
+  shadowTile: {fileID: 11400000, guid: 35e4f760c2f1f964b910869e9eec7699, type: 2}
   wallTile:
   - {fileID: 11400000, guid: c71955d4a1866f440bfcd17273cdf954, type: 2}
   - {fileID: 11400000, guid: 916aa15151b83aa4792b7387fed2e3f8, type: 2}
@@ -1000,7 +990,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bd23799e5910e5541987c63760638f1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1034,8 +1024,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1632917442}
   - component: {fileID: 1632917437}
-  - component: {fileID: 1632917441}
   - component: {fileID: 1632917440}
+  - component: {fileID: 1632917441}
   - component: {fileID: 1632917439}
   - component: {fileID: 1632917438}
   m_Layer: 0
