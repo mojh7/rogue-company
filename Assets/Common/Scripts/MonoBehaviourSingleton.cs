@@ -11,13 +11,8 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour
         {
             if (_instance == null)
             {
-                var objs = FindObjectsOfType(typeof(T)) as T[];
-                if (objs.Length > 0)
-                    _instance = objs[0];
-                if (objs.Length > 1)
-                {
-                    Debug.LogError("There is more than one " + typeof(T).Name + " in the scene.");
-                }
+                T objs = FindObjectOfType(typeof(T)) as T;
+                _instance = objs;
                 if (_instance == null)
                 {
                     GameObject obj = new GameObject();
@@ -26,26 +21,6 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour
                 }
             }
             return _instance;
-        }
-    }
-}
-
-
-public class MonoBehaviourSingletonPersistent<T> : MonoBehaviour
-    where T : Component
-{
-    public static T Instance { get; private set; }
-
-    public virtual void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this as T;
-            DontDestroyOnLoad(this);
-        }
-        else
-        {
-            Destroy(gameObject);
         }
     }
 }

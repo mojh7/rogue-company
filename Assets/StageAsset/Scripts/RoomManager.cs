@@ -3,43 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Map;
 
-public class RoomManager : MonoBehaviour {
+public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
-    private static RoomManager instance;
-    public GameObject maskPrefab;
     List<Map.Rect> roomList;
     Map.Rect currentRoom;
 
     private int monsterNum = 0;
 
-    public static RoomManager Getinstance()
+    public void InitRoomList()
     {
-        if (instance == null)
-        {
-            instance = GameObject.FindObjectOfType(typeof(RoomManager)) as RoomManager;
-        }
-        return instance;
-    }
-
-    public void SetRoomList(List<Map.Rect> _roomList,Map.Rect _currentRoom)
-    {
-        roomList = _roomList;
-        currentRoom = _currentRoom;
+        roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
     } // 룸리스트 받아오기
-
-    public void LoadMaskObject()
-    {
-        for(int i=0;i< roomList.Count; i++)
-        {
-            roomList[i].maskObject = Object.Instantiate(maskPrefab);
-            roomList[i].maskObject.transform.parent = transform;
-            roomList[i].LoadMaskObject();
-            if (!roomList[i].isRoom)
-                roomList[i].maskObject.SetActive(true);
-            else
-                roomList[i].maskObject.SetActive(true);
-        }
-    } // 마스크오브젝트 붙이기(수정해야함)
 
     void DoorSetAvailable() 
     {
@@ -134,13 +108,13 @@ public class RoomManager : MonoBehaviour {
                     ObjectSetAvailable();
                     SpawnMonster();
                     currentRoom.maskObject.SetActive(true);
-                    MiniMap.GetInstance().DrawRoom(currentRoom);
+                    MiniMap.Instance.DrawRoom(currentRoom);
                     break;
                 }
-                MiniMap.GetInstance().DrawRoom(currentRoom);
+                MiniMap.Instance.DrawRoom(currentRoom);
             }
             else
-                currentRoom = GetCurrentRect(PlayerManager.Getinstance().GetPlayerPosition());
+                currentRoom = GetCurrentRect(PlayerManager.Instance.GetPlayerPosition());
             currentRoom.maskObject.SetActive(true);
 
             yield return YieldInstructionCache.WaitForSeconds(0.1f);

@@ -5,21 +5,13 @@ using UnityEngine.Tilemaps;
 
 namespace Map
 {
-    public class MapManager : MonoBehaviour
+    public class MapManager : MonoBehaviourSingleton<MapManager>
     {
-        private static MapManager instance;
         public ObjectPool objectPool;
         public Material spriteMaterial;
+        public GameObject maskPrefab;
         public int width, height, size, area, floor;
         Map map;
-        public static MapManager Getinstance()
-        {
-            if(instance == null)
-            {
-                instance = GameObject.FindObjectOfType(typeof(MapManager)) as MapManager;
-            }
-            return instance;
-        }
         public void LightTurn()
         {
             if(spriteMaterial.color == Color.white)
@@ -30,7 +22,7 @@ namespace Map
         public void PlayerPositionToMap()
         {
             if (map != null)
-                MiniMap.GetInstance().PlayerPositionToMap();
+                MiniMap.Instance.PlayerPositionToMap();
         }
         public void GenerateMap()
         {
@@ -46,13 +38,13 @@ namespace Map
             }
             map.Generate();
 
-            MiniMap.GetInstance().GetRoomList();
-            MiniMap.GetInstance().DrawMinimap();
+            RoomManager.Instance.InitRoomList();
+            MiniMap.Instance.DrawMinimap();
         }
-
+        public Map GetMap() { return map; }
     }
 
-    class Map
+    public class Map
     {
         Rect mainRect;
         Queue<Rect> rects, blocks;
@@ -88,6 +80,21 @@ namespace Map
             shadowTileMap = TileManager.GetInstance().shadowTileMap;
         } // 생성자
 
+        public List<Rect> GetList(out Rect currentRoom)
+        {
+            currentRoom = halls[0];
+            return rooms;
+        }
+
+        public void Dispose()
+        {
+            RefreshData();
+        }
+
+        bool CoinFlip(int percent)
+        {
+            return Random.Range(0, 100) < percent;
+        } // 코인 플립 확률에 따른 yes or no 반환
 
         #region MakeMap
         public void Generate() 
@@ -99,8 +106,7 @@ namespace Map
             LinkHall();
             AssignAllRoom();
             rooms.AddRange(halls);
-            RoomManager.Getinstance().SetRoomList(rooms, halls[0]);
-            RoomManager.Getinstance().LoadMaskObject();
+            CreateRoomMaskObj();
         } // office creates
 
         public void AddNecessaryRoomSet(Rect _rect)
@@ -589,15 +595,16 @@ namespace Map
                 float subY = _rectB.midY;
                 int y;
 
-                List<int> yArr = new List<int>(4);
-                yArr.Add(_rectB.y * size);
-                yArr.Add((_rectB.y + _rectB.height) * size);
-                yArr.Add(_rectA.y * size);
-                yArr.Add((_rectA.y + _rectA.height) * size);
+                List<int> yArr = new List<int>(4)
+                {
+                    _rectB.y * size,
+                    (_rectB.y + _rectB.height) * size,
+                    _rectA.y * size,
+                    (_rectA.y + _rectA.height) * size
+                };
 
                 yArr.Sort();
 
-                //y = Random.Range(yArr[1]  + size / 3, yArr[2] - size / 3);
                 y = (yArr[1] + yArr[2]) / 2;
                 if (_rectA.midX > _rectB.midX) // 오른쪽
                 {
@@ -632,15 +639,16 @@ namespace Map
                 {
                     x = Random.Range(_rectA.x * size + 2, (_rectA.x + _rectA.width) * size - 2);
                 }
-                List<int> xArr = new List<int>(4);
-                xArr.Add(_rectB.x * size);
-                xArr.Add((_rectB.x + _rectB.width) * size);
-                xArr.Add(_rectA.x * size);
-                xArr.Add((_rectA.x + _rectA.width) * size);
+                List<int> xArr = new List<int>(4)
+                {
+                    _rectB.x * size,
+                    (_rectB.x + _rectB.width) * size,
+                    _rectA.x * size,
+                    (_rectA.x + _rectA.width) * size
+                };
 
                 xArr.Sort();
 
-                //x = Random.Range(xArr[1] + size / 3, xArr[2] - size / 3);
                 x = (xArr[1] + xArr[2]) / 2;
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
@@ -722,17 +730,23 @@ namespace Map
             //    halls[0].customObjects[0].transform.position = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
             halls[0].customObjects[0].GetComponent<StartPoint>().SetPosition();
         } // 스타트 포인트
+
+        void CreateRoomMaskObj()
+        {
+            GameObject maskPrefab = MapManager.Instance.maskPrefab;
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                rooms[i].maskObject = Object.Instantiate(maskPrefab);
+                rooms[i].maskObject.hideFlags = HideFlags.HideInHierarchy;
+                rooms[i].LoadMaskObject();
+                if (!rooms[i].isRoom)
+                    rooms[i].maskObject.SetActive(true);
+                else
+                    rooms[i].maskObject.SetActive(false);
+            }
+        }
         #endregion
 
-        public void Dispose()
-        {
-            RefreshData();
-        }
-
-        bool CoinFlip(int percent)
-        {
-            return Random.Range(0, 100) < percent;
-        } // 코인 플립 확률에 따른 yes or no 반환
     }
 
     public class Rect 

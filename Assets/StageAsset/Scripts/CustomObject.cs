@@ -76,6 +76,7 @@ public class Door : CustomObject
         isActive = true;
         isAvailable = true;
         objectType = ObjectType.DOOR;
+        tag = "Wall";
     }
     public override void Active()
     {

@@ -13,19 +13,24 @@ public class GamaManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.M))
-            Map.MapManager.Getinstance().GenerateMap();
+            Map.MapManager.Instance.GenerateMap();
         if (Input.GetKeyDown(KeyCode.P))
         {
-            PlayerManager.Getinstance().SpawnPlayer();
-            RoomManager.Getinstance().FindCurrentRoom();
+            PlayerManager.Instance.SpawnPlayer();
+            RoomManager.Instance.FindCurrentRoom();
         }
 
     }
     private void Start()
     {
-        Map.MapManager.Getinstance().GenerateMap();
-        PlayerManager.Getinstance().SpawnPlayer();
-        RoomManager.Getinstance().FindCurrentRoom();
+        MapFunc();
+        PlayerManager.Instance.SpawnPlayer();
+        RoomManager.Instance.FindCurrentRoom();
     }
     #endregion
+
+    void MapFunc()
+    {
+        Map.MapManager.Instance.GenerateMap();
+    }
 }
