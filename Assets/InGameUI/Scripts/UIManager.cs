@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 /*
@@ -8,36 +9,27 @@ using UnityEngine;
  * 
  * ingame 용이랑 기타 ui랑 구분 할지 아직 모르겠음.
  * 
- * 
- */ 
-public class UIManager : MonoBehaviour {
+ * ingame 용이랑 구분
+ */
+public class UIManager : MonoBehaviourSingleton<UIManager> {
     
     [SerializeField]
     private Joystick virtualJoystick;
     public Canvas canvas;
-    private static UIManager instance;
+    public GameObject ingamePanel;
     
     #region getter
-    public static UIManager Instance { get { return instance; } }
-
     public Joystick GetJoystick { get { return virtualJoystick; } }
     #endregion
 
-    #region unityFunction
-    void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
-            Destroy(gameObject);
-    }
-    #endregion
-
     #region function
+    public void ToggleUI()
+    {
+        ingamePanel.SetActive(!ingamePanel.activeSelf);
+    }
     public void InitForPlayGame()
     {
-        canvas.worldCamera = FindObjectOfType<Camera>();
-        
+        //canvas.worldCamera = FindObjectOfType<Camera>(); /*왜 있는겨 -유성- */
     }
     #endregion
 }

@@ -23,21 +23,11 @@ public class GamaManager : MonoBehaviour {
     }
     private void Start()
     {
-<<<<<<< HEAD
-        Map.MapManager.Getinstance().GenerateMap();
-        PlayerManager.Getinstance().SpawnPlayer();
-        RoomManager.Getinstance().FindCurrentRoom();
         UIManager.Instance.InitForPlayGame();   // 게임 첫 시작시 초기화
-=======
-        MapFunc();
-        PlayerManager.Instance.SpawnPlayer();
-        RoomManager.Instance.FindCurrentRoom();
->>>>>>> 9e3ef9440e3391ce2570a28dbbf9bfbae42245bd
+        Map.MapManager.Instance.GenerateMap(); // 맵생성
+        PlayerManager.Instance.SpawnPlayer(); // 플레이어 스폰
+        UIManager.Instance.ToggleUI(); // UI 오픈
+        MiniMap.Instance.DrawMinimap(); // 미니맵 그리기
     }
     #endregion
-
-    void MapFunc()
-    {
-        Map.MapManager.Instance.GenerateMap();
-    }
 }

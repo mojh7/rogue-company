@@ -31,6 +31,7 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
         // 차징 공격 : 차징 중
         isAttackTouchDown = true;
         //Debug.Log("공격 버튼 다운");
+        Player.Instance.Interact(); // 상호작용
     }
 
     // 땠을 때

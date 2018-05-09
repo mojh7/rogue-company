@@ -26,18 +26,17 @@ public class Player : Character
     #region variables
 
     public enum PlayerState { IDLE, DASH, KNOCKBACK, DEAD }
-    
-    public Joystick joystick;
+    public CircleCollider2D interactiveCollider2D;
+    //public Joystick joystick;
 
     public float moveSpeed;     // 플레이어 이동속도
 
     private static Player instance = null;
 
-    [SerializeField]
-    private GameObject playerObj;   // 플레이어 오브젝트
+    //[SerializeField]
+    //private GameObject playerObj;   // 플레이어 오브젝트
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
-
     private BuffManager buffManager;
     private Transform objTransform;
     private PlayerState state;
@@ -103,6 +102,34 @@ public class Player : Character
     #endregion
 
     #region function
+
+    public bool Interact()
+    {
+        float bestDistance = interactiveCollider2D.radius * 10;
+        Collider2D bestCollider = null;
+
+        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius);
+
+        for (int i = 0; i < collider2D.Length; i++)
+        {
+            if (null == collider2D[i].GetComponent<CustomObject>())
+                continue;
+            if (!collider2D[i].GetComponent<CustomObject>().isAvailable)
+                continue;
+            float distance = Vector2.Distance(transform.position, collider2D[i].transform.position);
+
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestCollider = collider2D[i];
+            }
+        }
+
+        if (null == bestCollider)
+            return false;
+        bestCollider.GetComponent<CustomObject>().Active();
+        return true;
+    }
     // 캐릭터 이동, WASD Key, 테스트 용
     private void Move()
     {

@@ -5,31 +5,19 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
 
     public GameObject playerPrefab;
-    GameObject playerObj;
-<<<<<<< HEAD
-
-    public Joystick joystick;
-    public static PlayerManager Getinstance()
-    {
-        if (instance == null)
-        {
-            instance = GameObject.FindObjectOfType(typeof(PlayerManager)) as PlayerManager;
-        }
-        return instance;
-    }
-=======
->>>>>>> 9e3ef9440e3391ce2570a28dbbf9bfbae42245bd
+    GameObject m_playerObj;
 
     public Vector3 GetPlayerPosition()
     {
-        if (playerObj == null)
+        if (m_playerObj == null)
             return Vector3.zero;
-        return playerObj.transform.position;
+        return m_playerObj.transform.position;
     }
 
     public void SpawnPlayer()
     {
-        playerObj = Instantiate(playerPrefab,RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
+        m_playerObj = Instantiate(playerPrefab,RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
+        RoomManager.Instance.FindCurrentRoom(); // 플레이어 방찾기.
     }
     #region UnityFunc
     #endregion

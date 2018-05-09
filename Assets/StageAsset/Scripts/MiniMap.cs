@@ -39,6 +39,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
 
     public void DrawMinimap()
     {
+        width = GetComponent<RectTransform>().sizeDelta.x;
+        renderer = GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
         size = minmapSize / Map.MapManager.Instance.width; // 미니맵 사이즈
         mapSize = Map.MapManager.Instance.size * Map.MapManager.Instance.width;
@@ -111,12 +113,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
     } // 현재 플레이어 위치 to MiniMap
 
     #region UnityFunc
-    private void Awake()
-    {
-        width = GetComponent<RectTransform>().sizeDelta.x;
-        renderer = GetComponent<RawImage>();
-    }
-
     private void Update()
     {
         PlayerPositionToMap();
