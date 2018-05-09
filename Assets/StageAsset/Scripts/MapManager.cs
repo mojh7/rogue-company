@@ -592,7 +592,12 @@ namespace Map
 
                 yArr.Sort();
 
-                y = (yArr[1] + yArr[2]) / 2;
+                int interval = yArr[2] - yArr[1];
+                int intervalNum = interval / size;
+
+                int intervalResult = Random.Range(0, intervalNum) * 5;
+                y = yArr[1] + intervalResult + size / 2;
+
                 if (_rectA.midX > _rectB.midX) // 오른쪽
                 {
                     wallTileMap.SetTile(new Vector3Int(_rectA.x * size, y, 0), null);
@@ -634,7 +639,11 @@ namespace Map
 
                 xArr.Sort();
 
-                x = (xArr[1] + xArr[2]) / 2;
+                int interval = xArr[2] - xArr[1];
+                int intervalNum = interval / size;
+
+                int intervalResult = Random.Range(0, intervalNum) * 5;
+                x = xArr[1] + intervalResult + size / 2;
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
                 {
