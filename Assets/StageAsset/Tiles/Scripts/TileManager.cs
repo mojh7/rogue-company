@@ -21,6 +21,6 @@ public class TileManager : MonoBehaviour {
     public Tilemap shadowTileMap;
 
     public RandomTile floorTile;
-    public TileBase []shadowTile;
+    public TileBase shadowTile;
     public TileBase []wallTile;
 }

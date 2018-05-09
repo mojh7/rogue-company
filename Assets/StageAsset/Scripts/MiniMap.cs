@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MiniMap : MonoBehaviour {
-    private static MiniMap instance;
+public class MiniMap : MonoBehaviourSingleton<MiniMap> {
     public Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
     public GameObject playerIcon;
 
@@ -15,20 +14,6 @@ public class MiniMap : MonoBehaviour {
     float width;
     int size;
     int mapSize;
-
-    public static MiniMap GetInstance()
-    {
-        if(instance == null)
-        {
-            instance = GameObject.FindObjectOfType<MiniMap>() as MiniMap;
-        }
-        return instance;    
-    }
-
-    public void GetRoomList()
-    {
-        roomList = RoomManager.Getinstance().GetRoomList();
-    } // Mapmanager로부터 방 데이터 로드
 
     public void DrawRoom(Map.Rect _room)
     {
@@ -54,6 +39,10 @@ public class MiniMap : MonoBehaviour {
 
     public void DrawMinimap()
     {
+        roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
+        size = minmapSize / Map.MapManager.Instance.width; // 미니맵 사이즈
+        mapSize = Map.MapManager.Instance.size * Map.MapManager.Instance.width;
+
         texture = new Texture2D(minmapSize, minmapSize);
         texture.filterMode = FilterMode.Point;
         renderer.texture = texture;
@@ -117,17 +106,15 @@ public class MiniMap : MonoBehaviour {
 
     public void PlayerPositionToMap()
     {
-        Vector2 positon = PlayerManager.Getinstance().GetPlayerPosition();
+        Vector2 positon = PlayerManager.Instance.GetPlayerPosition();
         playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSize - width, positon.y * width / mapSize - width);
     } // 현재 플레이어 위치 to MiniMap
 
     #region UnityFunc
     private void Awake()
     {
-        size = minmapSize / Map.MapManager.Getinstance().width; // 미니맵 사이즈
         width = GetComponent<RectTransform>().sizeDelta.x;
         renderer = GetComponent<RawImage>();
-        mapSize = Map.MapManager.Getinstance().size * Map.MapManager.Getinstance().width;
     }
 
     private void Update()

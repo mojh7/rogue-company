@@ -5,21 +5,13 @@ using UnityEngine.Tilemaps;
 
 namespace Map
 {
-    public class MapManager : MonoBehaviour
+    public class MapManager : MonoBehaviourSingleton<MapManager>
     {
-        private static MapManager instance;
         public ObjectPool objectPool;
         public Material spriteMaterial;
+        public GameObject maskPrefab;
         public int width, height, size, area, floor;
         Map map;
-        public static MapManager Getinstance()
-        {
-            if(instance == null)
-            {
-                instance = GameObject.FindObjectOfType(typeof(MapManager)) as MapManager;
-            }
-            return instance;
-        }
         public void LightTurn()
         {
             if(spriteMaterial.color == Color.white)
@@ -30,7 +22,7 @@ namespace Map
         public void PlayerPositionToMap()
         {
             if (map != null)
-                MiniMap.GetInstance().PlayerPositionToMap();
+                MiniMap.Instance.PlayerPositionToMap();
         }
         public void GenerateMap()
         {
@@ -45,13 +37,14 @@ namespace Map
                 map.AddNecessaryRoomSet(new Rect(0, 0, 3, 3, size));
             }
             map.Generate();
-            MiniMap.GetInstance().GetRoomList();
-            MiniMap.GetInstance().DrawMinimap();
-        }
 
+            RoomManager.Instance.InitRoomList();
+            MiniMap.Instance.DrawMinimap();
+        }
+        public Map GetMap() { return map; }
     }
 
-    class Map
+    public class Map
     {
         Rect mainRect;
         Queue<Rect> rects, blocks;
@@ -87,6 +80,22 @@ namespace Map
             shadowTileMap = TileManager.GetInstance().shadowTileMap;
         } // 생성자
 
+        public List<Rect> GetList(out Rect currentRoom)
+        {
+            currentRoom = halls[0];
+            return rooms;
+        }
+
+        public void Dispose()
+        {
+            RefreshData();
+        }
+
+        bool CoinFlip(int percent)
+        {
+            return Random.Range(0, 100) < percent;
+        } // 코인 플립 확률에 따른 yes or no 반환
+
         #region MakeMap
         public void Generate() 
         {
@@ -97,8 +106,7 @@ namespace Map
             LinkHall();
             AssignAllRoom();
             rooms.AddRange(halls);
-            RoomManager.Getinstance().SetRoomList(rooms, halls[0]);
-            RoomManager.Getinstance().LoadMaskObject();
+            CreateRoomMaskObj();
         } // office creates
 
         public void AddNecessaryRoomSet(Rect _rect)
@@ -203,7 +211,7 @@ namespace Map
         {
             RandomTile floor = TileManager.GetInstance().floorTile;
             TileBase[] wall = TileManager.GetInstance().wallTile;
-            TileBase[] shadow = TileManager.GetInstance().shadowTile;
+            TileBase shadow = TileManager.GetInstance().shadowTile;
             Rect rect;
             floorTileMap.ClearAllTiles();
             wallTileMap.ClearAllTiles();
@@ -215,11 +223,11 @@ namespace Map
                 else if(_a.y == _b.y)
                 {
                     if (_a.x > _b.x)
-                        return -1;
+                        return 1;
                     else if (_a.x == _b.x)
                         return 0;
                     else
-                        return 1;
+                        return -1;
                 }
                 else
                     return 1;
@@ -232,7 +240,7 @@ namespace Map
                     floorTileMap.SetTile(new Vector3Int(i, j, 0), floor);
                 }
             }
-            for (int i = 0; i < width * size; i++) // 전체 맵 그리기
+            for (int i = 0; i < width * size; i++)
             {
                 for (int j = 0; j < height * size; j++)
                 {
@@ -254,7 +262,6 @@ namespace Map
             for (int index = 0; index < rooms.Count; index++) 
             {
                 rect = rooms[index];
-                Debug.Log(rect.x + "," + rect.y);
                 for (int x = rect.x; x < rect.x + rect.width; x++)
                 {
                     for (int y = rect.y; y < rect.y + rect.height; y++)
@@ -269,49 +276,47 @@ namespace Map
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), wall[0]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[2]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow);
                                     }
                                     else if (size * x + i == rect.x * size && size * y + j == (rect.y + rect.height) * size - 1)
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[5]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[2]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                     }
                                     else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == rect.y * size)
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), wall[2]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow[1]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow);
                                     }
                                     else if (size * x + i == (rect.x + rect.width) * size - 1 && size * y + j == (rect.y + rect.height) * size - 1)
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[7]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                     }
                                     else if (size * x + i == rect.x * size)
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[3]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), shadow[1]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[1]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), shadow);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                     }
                                     else if (size * y + j == rect.y * size)
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), wall[1]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 2, 0), shadow);
                                     }
                                     else if (size * x + i == (rect.x + rect.width) * size - 1)
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[4]);
-                                        if (shadowTileMap.GetTile(new Vector3Int(size * x + i + 1, size * y + j, 0)) == null)
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow[1]);
-                                        if (shadowTileMap.GetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0)) == null)
-                                            shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow[1]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j, 0), shadow);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i + 1, size * y + j - 1, 0), shadow);
                                     }
                                     else
                                     {
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                     }
                                 }                               
                             }
@@ -335,10 +340,10 @@ namespace Map
                                 {
                                     if(size * x + i == rect.x * size)
                                     {
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[2]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                     }
                                     else
-                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow[0]);
+                                        shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                 }
                             }
                         }
@@ -361,6 +366,18 @@ namespace Map
                 else
                     wallTileMap.SetTile(new Vector3Int(i, 0, 0), wall[1]);
             } // 맵 맨 아래 그리기
+            for (int i = -1; i <= width * size; i++)
+            {
+                for (int j = -1; j <= height * size; j++)
+                {
+                    if (i == -1 || j == -1 || i == width * size || j == height * size)
+                    {
+                        shadowTileMap.SetTile(new Vector3Int(i, j, 0), null);
+                        wallTileMap.SetTile(new Vector3Int(i, j, 0), null);
+                    }
+                }
+            } // 보더 지우기
+
         } // 바닥 타일, 벽 타일 드로잉
 
         bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Rect> _list)
@@ -561,7 +578,7 @@ namespace Map
             {
                 for (int i = 0; i < halls[indx].edgeRect.Count; i++)
                 {
-                    if (CoinFlip(80) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    if (CoinFlip(70) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
                     {
                         DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
                     }
@@ -578,15 +595,16 @@ namespace Map
                 float subY = _rectB.midY;
                 int y;
 
-                List<int> yArr = new List<int>(4);
-                yArr.Add(_rectB.y * size);
-                yArr.Add((_rectB.y + _rectB.height) * size);
-                yArr.Add(_rectA.y * size);
-                yArr.Add((_rectA.y + _rectA.height) * size);
+                List<int> yArr = new List<int>(4)
+                {
+                    _rectB.y * size,
+                    (_rectB.y + _rectB.height) * size,
+                    _rectA.y * size,
+                    (_rectA.y + _rectA.height) * size
+                };
 
                 yArr.Sort();
 
-                //y = Random.Range(yArr[1]  + size / 3, yArr[2] - size / 3);
                 y = (yArr[1] + yArr[2]) / 2;
                 if (_rectA.midX > _rectB.midX) // 오른쪽
                 {
@@ -621,15 +639,16 @@ namespace Map
                 {
                     x = Random.Range(_rectA.x * size + 2, (_rectA.x + _rectA.width) * size - 2);
                 }
-                List<int> xArr = new List<int>(4);
-                xArr.Add(_rectB.x * size);
-                xArr.Add((_rectB.x + _rectB.width) * size);
-                xArr.Add(_rectA.x * size);
-                xArr.Add((_rectA.x + _rectA.width) * size);
+                List<int> xArr = new List<int>(4)
+                {
+                    _rectB.x * size,
+                    (_rectB.x + _rectB.width) * size,
+                    _rectA.x * size,
+                    (_rectA.x + _rectA.width) * size
+                };
 
                 xArr.Sort();
 
-                //x = Random.Range(xArr[1] + size / 3, xArr[2] - size / 3);
                 x = (xArr[1] + xArr[2]) / 2;
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
@@ -711,17 +730,23 @@ namespace Map
             //    halls[0].customObjects[0].transform.position = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
             halls[0].customObjects[0].GetComponent<StartPoint>().SetPosition();
         } // 스타트 포인트
+
+        void CreateRoomMaskObj()
+        {
+            GameObject maskPrefab = MapManager.Instance.maskPrefab;
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                rooms[i].maskObject = Object.Instantiate(maskPrefab);
+                rooms[i].maskObject.hideFlags = HideFlags.HideInHierarchy;
+                rooms[i].LoadMaskObject();
+                if (!rooms[i].isRoom)
+                    rooms[i].maskObject.SetActive(true);
+                else
+                    rooms[i].maskObject.SetActive(false);
+            }
+        }
         #endregion
 
-        public void Dispose()
-        {
-            RefreshData();
-        }
-
-        bool CoinFlip(int percent)
-        {
-            return Random.Range(0, 100) < percent;
-        } // 코인 플립 확률에 따른 yes or no 반환
     }
 
     public class Rect 
@@ -793,8 +818,8 @@ namespace Map
 
             if (isRoom) // 방
             {
-                maskObject.transform.localPosition = new Vector3(midX * size, midY * size - 0.5f, 0);
-                maskObject.transform.localScale = new Vector3(width * size * 2, height * size * 2 + 1.75f);
+                maskObject.transform.localPosition = new Vector2(midX * size, midY * size - 0.5f);
+                maskObject.transform.localScale = new Vector2(width * size * 2, height * size * 2 + 2f);
                 areaLeftDown = new Vector2(areaLeftDown.x + 0.34375f, areaLeftDown.y);
                 areaRightTop = new Vector2(areaRightTop.x - 0.34375f, areaRightTop.y - 1);
             }
@@ -802,14 +827,14 @@ namespace Map
             {
                 if (width >= height)
                 {
-                    maskObject.transform.localPosition = new Vector3(midX * size, midY * size - 0.5f, 0);
-                    maskObject.transform.localScale = new Vector3(width * size * 2 + 1.3f, height * size * 2 + 2);
+                    maskObject.transform.localPosition = new Vector2(midX * size, midY * size - 0.5f);
+                    maskObject.transform.localScale = new Vector2(width * size * 2 + 1.3f, height * size * 2 + 2);
                     areaLeftDown = new Vector2(areaLeftDown.x + 0.34375f, areaLeftDown.y);
                     areaRightTop = new Vector2(areaRightTop.x, areaRightTop.y - 1);
                 }
                 else
                 {
-                    maskObject.transform.localScale = new Vector3(width * size * 2 + 1.35f, height * 2 * size);
+                    maskObject.transform.localScale = new Vector2(width * size * 2 + 1.35f, height * 2 * size);
                     areaLeftDown = new Vector2(areaLeftDown.x, areaLeftDown.y + 1);
                     areaRightTop = new Vector2(areaRightTop.x, areaRightTop.y - 1);
                 }

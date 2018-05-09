@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            RoomManager.Getinstance().DieMonster();
+            RoomManager.Instance.DieMonster();
             gameObject.SetActive(false);
         }
     }

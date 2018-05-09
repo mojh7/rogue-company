@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
 
-    private static PlayerManager instance;
     public GameObject playerPrefab;
     GameObject playerObj;
+<<<<<<< HEAD
 
     public Joystick joystick;
     public static PlayerManager Getinstance()
@@ -17,6 +17,8 @@ public class PlayerManager : MonoBehaviour {
         }
         return instance;
     }
+=======
+>>>>>>> 9e3ef9440e3391ce2570a28dbbf9bfbae42245bd
 
     public Vector3 GetPlayerPosition()
     {
@@ -27,7 +29,7 @@ public class PlayerManager : MonoBehaviour {
 
     public void SpawnPlayer()
     {
-        playerObj = Instantiate(playerPrefab,RoomManager.Getinstance().RoomStartPoint(), Quaternion.identity);
+        playerObj = Instantiate(playerPrefab,RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
     }
     #region UnityFunc
     #endregion
