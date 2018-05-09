@@ -35,7 +35,7 @@ public class CustomObject : MonoBehaviour {
         position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
     }
 
-    public void SetAvailable()
+    public virtual void SetAvailable()
     {
         isAvailable = !isAvailable;
     }
@@ -189,7 +189,7 @@ public class Spawner : CustomObject
     public override void Active()
     {
         base.Active();
-        EnemyGenerator.GetInstance().Generate(transform.position);
+        EnemyGenerator.Instance.Generate(transform.position);
         Debug.Log("Spawner");
     }
 }

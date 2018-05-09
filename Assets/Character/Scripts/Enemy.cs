@@ -2,18 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+public class Enemy : Character {
+    
+    #region UnityFunc
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -22,4 +13,11 @@ public class Enemy : MonoBehaviour {
             gameObject.SetActive(false);
         }
     }
+    #endregion
+    #region Func
+    public override void Die()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
 }

@@ -17,6 +17,13 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
+    protected Sprite sprite;
+    protected Animator animator;
+    protected float hp;
+    public CircleCollider2D interactiveCollider2D;
+    public float moveSpeed;     // Character move Speed
+
+    public abstract void Die();
 }
 
 
@@ -26,10 +33,7 @@ public class Player : Character
     #region variables
 
     public enum PlayerState { IDLE, DASH, KNOCKBACK, DEAD }
-    public CircleCollider2D interactiveCollider2D;
     //public Joystick joystick;
-
-    public float moveSpeed;     // 플레이어 이동속도
 
     private static Player instance = null;
 
@@ -102,7 +106,10 @@ public class Player : Character
     #endregion
 
     #region function
-
+    public override void Die()
+    {
+        throw new System.NotImplementedException();
+    }
     public bool Interact()
     {
         float bestDistance = interactiveCollider2D.radius * 10;
@@ -154,7 +161,6 @@ public class Player : Character
             transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
         }
     }
-
     // 공격 가능 여부 리턴
     public bool AttackAble()
     {
