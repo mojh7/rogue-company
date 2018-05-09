@@ -1,6 +1,7 @@
 ﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using WeaponData;
 using BulletData;
 /*
@@ -260,22 +261,26 @@ public class DataStore : MonoBehaviour
     private LaserPatternInfo[] laserPatternInfos;
     [SerializeField]
     private BulletInfo[] bulletInfos;
+    [SerializeField]
+    private EffectInfo[] effectInfos;
+
     #endregion
 
     #region getter
     public static DataStore Instance { get { return instance; } }
 
-    public Sprite GetWeaponSprite(int id) { return weaponSpriteList[id]; }
-    public Sprite GetBulletSprite(int id) { return bulletSpriteList[id]; }
-    public WeaponInfo GetWeaponInfo(int id) { return weaponInfos[id]; }
+    public WeaponInfo GetWeaponInfo(int id) { return weaponInfos[id].Clone(); }
     public MultiDirPatternInfo GetMultiDirPatternInfo(int id) { return multiDirPatternInfos[id]; }
     public RowPatternInfo GetRowPatternInfo(int id) { return rowPatternInfos[id]; }
     public LaserPatternInfo GetLaserPatternInfo(int id) { return laserPatternInfos[id]; }
-    public BulletInfo GetBulletInfo(int id) { return bulletInfos[id]; }
+    public BulletInfo GetBulletInfo(int id) { return bulletInfos[id].Clone(); }
+    public EffectInfo GetEffectInfo(int id) { return effectInfos[id]; }
     #endregion
+
 
     #region setter
     #endregion
+
 
     #region UnityFunction
     void Awake()

@@ -36,8 +36,8 @@ public class UIManager : MonoBehaviour {
     #region function
     public void InitForPlayGame()
     {
-        Debug.Log(canvas.worldCamera);
-        Debug.Log(FindObjectOfType<Camera>());
+        canvas.worldCamera = FindObjectOfType<Camera>();
+        
     }
     #endregion
 }

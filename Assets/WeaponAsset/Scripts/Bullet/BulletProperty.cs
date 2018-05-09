@@ -119,7 +119,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 
                 bounceCount -= 1;
 
-                TestScript.Instance.CreateEffect(bulletTransform.position);
+                //TestScript.Instance.CreateEffect(bulletTransform.position);
                 // 디버그용 contact 위치 표시
                 TestScript.Instance.CreateContactObj(coll.bounds.ClosestPoint(bulletTransform.position));
 
@@ -211,22 +211,13 @@ class BounceCollisionProperty : CollisionProperty
 }*/
 #endregion
 
-/* UpdateProperty class
- * 총알 행동, 정보 등 매 프레임 별 update에 관련된 클래스
- * [현재]
- * 1. 직선 이동
- * -------------------
- * [예정]
- * 1. 추적 이동
- * 
- * [미정]
- * 1.
- */
-
 
 
 /* UpdateProperty class
  * 총알 Update에 관련된 클래스
+ * 
+ * 원래는 bullet class에서 코루틴으로 돌아서 60fps 정도로 실행하게 하려 했으나 현재 일단은 fixedUpdate에서 updateProperty를 실행하게 함.
+ * 
  * [현재]
  * 1. StraightMoveProperty
  *  - 총알 정해진 방향으로 일정한 속력으로 직선 운동
@@ -259,10 +250,10 @@ public abstract class UpdateProperty : BulletProperty
 public class StraightMoveProperty : UpdateProperty
 {
     private float moveSpeed;
-    private float currentMoveDistance;
     private float range;
 
-    private float lifetimeCount; // bullet 생존 시간 * (1.0f / Time.fixedDeltaTime)
+    private float lifeTime;  // bullet 생존 시간 * (1.0f / Time.fixedDeltaTime)
+    private float timeCount; // 지나간 시간 카운트
 
     public override void Init(Bullet bullet)
     {
@@ -277,9 +268,8 @@ public class StraightMoveProperty : UpdateProperty
         {
             range = bullet.info.range;
         }
-        currentMoveDistance = 0f;
 
-        lifetimeCount = (range / moveSpeed) * (1.0f / Time.fixedDeltaTime);
+        lifeTime = (range / moveSpeed);
         //Debug.Log((range / moveSpeed) + ", " + (1.0f / Time.fixedDeltaTime) + ", " + Time.fixedDeltaTime + ", " + lifetimeCount);
     }
 
@@ -288,22 +278,14 @@ public class StraightMoveProperty : UpdateProperty
         return new StraightMoveProperty();
     }
 
+    // range / moveSpeed 시간 지나면 삭제
     public override void Update()
     {
-        if(lifetimeCount == 0)
+        if(timeCount >= lifeTime)
         {
             delDestroyBullet();
         }
-        lifetimeCount -= 1;
-
-        /*
-        bulletTransform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-        currentMoveDistance += moveSpeed * Time.deltaTime;
-        // 이동 범위 넘으면 총알 삭제
-        if(currentMoveDistance > range)
-        {
-            delDestroyBullet();
-        }*/
+        timeCount += Time.fixedDeltaTime;
     }
 }
 
@@ -356,13 +338,14 @@ public class LaserUpdateProperty : UpdateProperty
 public class SummonProperty : UpdateProperty
 {
     private BulletPattern bulletPattern; // 생성할 총알 패턴
-    private int creationCycle; // 생성 주기
-    private int frameCount; // frame count
+    private float creationCycle; // 생성 주기
+    private float timeCount; // time count
+    
     private DelGetDirDegree bulletDirDegree;
     private DelGetPosition bulletDirVec;
     private DelGetPosition bulletPos;
 
-    public SummonProperty(BulletPattern bulletPattern, int creationCycle)
+    public SummonProperty(BulletPattern bulletPattern, float creationCycle)
     {
         this.bulletPattern = bulletPattern;
         this.creationCycle = creationCycle;
@@ -377,19 +360,19 @@ public class SummonProperty : UpdateProperty
         bulletPattern.Init(bulletDirDegree, bulletDirVec, bulletPos);
     }
     public override UpdateProperty Clone()
-    {
+    { 
         return new SummonProperty(bulletPattern.Clone(), creationCycle);
     }
 
     // 생성 주기마다 bulletPattern 실행
     public override void Update()
     {
-        frameCount += 1;
-        if (frameCount == creationCycle)
+        if (timeCount >= creationCycle)
         {
-            frameCount = 0;
+            timeCount -= creationCycle;
             bulletPattern.CreateBullet(1.0f);
         }
+        timeCount += Time.fixedDeltaTime;
     }
 }
 #endregion 
@@ -430,7 +413,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        TestScript.Instance.CreateEffect(bulletTransform.position);
+        TestScript.Instance.CreateEffect(bulletTransform.position, bullet.info.effectId);
         ObjectPoolManager.Instance.DeleteObj(ObjPoolType.Bullet, bulletObj);
     }
 

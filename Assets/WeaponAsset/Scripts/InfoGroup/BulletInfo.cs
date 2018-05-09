@@ -18,6 +18,8 @@ public class BulletInfo : ScriptableObject
     public float scaleX;
     public float scaleY;
 
+    public int effectId;    // 충돌 후 삭제시 생성될 effect
+
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
     public DeletePropertyType[] deletePropertiesEdit;       // 삭제 속성 edit용
@@ -48,6 +50,83 @@ public class BulletInfo : ScriptableObject
     {
         scaleX = 1.0f;
         scaleY = 1.0f;
+    }
+
+    /*
+    public BulletInfo(BulletInfo info)
+    {
+        this.bulletName = info.bulletName;
+        this.damage = info.damage;
+        this.speed = info.speed;
+        this.range = info.range;
+        this.scaleX = info.scaleX;
+        this.scaleY = info.scaleY;
+
+        collisionPropertiesLength = info.collisionPropertiesLength;
+        updatePropertiesLength = info.updatePropertiesLength;
+        deletePropertiesLength = info.deletePropertiesLength;
+
+        collisionProperties = new List<CollisionProperty>();
+        updateProperties = new List<UpdateProperty>();
+        deleteProperties = new List<DeleteProperty>();
+
+        // 총알 충돌 속성 초기화
+        for (int i = 0; i < collisionPropertiesLength; i++)
+        {
+            collisionProperties.Add(info.collisionProperties[i].Clone());
+        }
+        // 총알 이동 속성 초기화
+        for (int i = 0; i < updatePropertiesLength; i++)
+        {
+            updateProperties.Add(info.updateProperties[i].Clone());
+        }
+        // 총알 삭제 속성 초기화
+        for (int i = 0; i < deletePropertiesLength; i++)
+        {
+            deleteProperties.Add(info.deleteProperties[i].Clone());
+        }
+    }
+    */
+
+    // 복사 생성자 쓸랬다가 로그 보는 곳에 BulletInfo must be 
+    // instantiated using the ScriptableObject.CreateInstance method instead of new BulletInfo.
+    // 떠서 바꿈.
+    public BulletInfo Clone()
+    {
+        BulletInfo info = CreateInstance<BulletInfo>();
+
+        info.bulletName = bulletName;
+        info.damage = damage;
+        info.speed = speed;
+        info.range = range;
+        info.scaleX = scaleX;
+        info.scaleY = scaleY;
+
+        info.collisionPropertiesLength = collisionPropertiesLength;
+        info.updatePropertiesLength = updatePropertiesLength;
+        info.deletePropertiesLength = deletePropertiesLength;
+
+        info.collisionProperties = new List<CollisionProperty>();
+        info.updateProperties = new List<UpdateProperty>();
+        info.deleteProperties = new List<DeleteProperty>();
+
+        // 총알 충돌 속성 초기화
+        for (int i = 0; i < info.collisionPropertiesLength; i++)
+        {
+            info.collisionProperties.Add(collisionProperties[i].Clone());
+        }
+        // 총알 이동 속성 초기화
+        for (int i = 0; i < info.updatePropertiesLength; i++)
+        {
+            info.updateProperties.Add(updateProperties[i].Clone());
+        }
+        // 총알 삭제 속성 초기화
+        for (int i = 0; i < info.deletePropertiesLength; i++)
+        {
+            info.deleteProperties.Add(deleteProperties[i].Clone());
+        }
+
+        return info;
     }
 
     /// <summary>

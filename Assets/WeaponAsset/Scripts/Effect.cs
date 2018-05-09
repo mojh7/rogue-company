@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /*
  * 최대한 몬스터 충돌 처리 및 기타 처리가 없이
  * 단순히 화면에 보여지기 위한 effect class 가 되려함
@@ -22,46 +21,36 @@ public class Effect : MonoBehaviour {
 
     private EffectInfo info;
     private Transform objTransform;
+    private Animator animator;
     private Vector3 scaleVector;
 
     void Awake()
     {
         objTransform = GetComponent<Transform>();
+        animator = GetComponent<Animator>();
         scaleVector = new Vector3(1f, 1f, 1f);
     }
     
     void OnEnable()
     {
-        Init();
     }
-
-    public void Init()
+    
+    public void Init(int id)
     {
-        // sclae 조정
+        info = DataStore.Instance.GetEffectInfo(id);
         scaleVector.x = info.scaleX;
         scaleVector.y = info.scaleY;
         objTransform.localScale = scaleVector;
-        // 애니메이션 실행 PlayAnimation();
+        Debug.Log(info.animationName);
+        animator.SetTrigger("effect0");
+        //
+        // 일단 임시로 생성 삭제고 오브젝트 풀로 옮겨야 됨.
         // 생성 될 때 처리 및 delete 함수 n초뒤에 실행
-        Invoke("DeleteEffect", 0.4f);
-    }
-
-    public void PlayAnimation(string id)
-    {
-
+        Invoke("DeleteEffect", info.lifeTime);
     }
 
     public void DeleteEffect()
     {
         Destroy(gameObject);
     }
-}
-
-
-public class EffectInfo
-{
-    public int lifeTime;
-    public string animationName;
-    public float scaleX;
-    public float scaleY;
 }

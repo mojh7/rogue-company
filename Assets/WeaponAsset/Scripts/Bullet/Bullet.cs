@@ -27,14 +27,6 @@ public class Bullet : MonoBehaviour
     private DelGetPosition ownerPos;
     private float addDirVecMagnitude;
 
-    private List<CollisionProperty> collisionProperties;
-    private int collisionPropertiesLength;
-    private List<UpdateProperty> updateProperties;
-    private int updatePropertiesLength;
-    private List<DeleteProperty> deleteProperties;
-    private int deletePropertiesLength;
-
-
     [SerializeField]
     // 레이저용 lineRenderer
     private LineRenderer lineRenderer;
@@ -70,9 +62,9 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        for (int i = 0; i < updatePropertiesLength; i++)
+        for (int i = 0; i < info.updatePropertiesLength; i++)
         {
-            updateProperties[i].Update();
+            info.updateProperties[i].Update();
         }
     }
     #endregion
@@ -133,30 +125,20 @@ public class Bullet : MonoBehaviour
     // collision, update, delete 속성 초기화
     private void InitProperty()
     {
-        collisionProperties = new List<CollisionProperty>();
-        updateProperties = new List<UpdateProperty>();
-        deleteProperties = new List<DeleteProperty>();
-        collisionPropertiesLength = info.collisionPropertiesLength;
-        updatePropertiesLength = info.updatePropertiesLength;
-        deletePropertiesLength = info.deletePropertiesLength;
-
         // 총알 충돌 속성 초기화
-        for (int i = 0; i < collisionPropertiesLength; i++)
+        for (int i = 0; i < info.collisionPropertiesLength; i++)
         {
-            collisionProperties.Add(info.collisionProperties[i].Clone());
-            collisionProperties[i].Init(this);
+            info.collisionProperties[i].Init(this);
         }
         // 총알 이동 속성 초기화
-        for (int i = 0; i < updatePropertiesLength; i++)
+        for (int i = 0; i < info.updatePropertiesLength; i++)
         {
-            updateProperties.Add(info.updateProperties[i].Clone());
-            updateProperties[i].Init(this);
+            info.updateProperties[i].Init(this);
         }
         // 총알 삭제 속성 초기화
-        for (int i = 0; i < deletePropertiesLength; i++)
+        for (int i = 0; i < info.deletePropertiesLength; i++)
         {
-            deleteProperties.Add(info.deleteProperties[i].Clone());
-            deleteProperties[i].Init(this);
+            info.deleteProperties[i].Init(this);
         }
     }
 
@@ -185,9 +167,9 @@ public class Bullet : MonoBehaviour
         while(true)
         {
             // 총알 update 속성 실행
-            for (int i = 0; i < updatePropertiesLength; i++)
+            for (int i = 0; i < info.updatePropertiesLength; i++)
             {
-                updateProperties[i].Update();
+                info.updateProperties[i].Update();
             }
             yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
         }
@@ -210,9 +192,9 @@ public class Bullet : MonoBehaviour
         if (coll.transform.CompareTag("Wall"))
         {
             //Debug.Log("Collision 벽 충돌");
-            for (int i = 0; i < collisionPropertiesLength; i++)
+            for (int i = 0; i < info.collisionPropertiesLength; i++)
             {
-                collisionProperties[i].Collision(ref coll);
+                info.collisionProperties[i].Collision(ref coll);
             }
         }
     }
@@ -222,9 +204,9 @@ public class Bullet : MonoBehaviour
         if (coll.CompareTag("Wall"))
         {
             //Debug.Log("Trigger 벽 충돌");
-            for (int i = 0; i < collisionPropertiesLength; i++)
+            for (int i = 0; i < info.collisionPropertiesLength; i++)
             {
-                collisionProperties[i].Collision(ref coll);
+                info.collisionProperties[i].Collision(ref coll);
             }
         }
     }
@@ -239,9 +221,9 @@ public class Bullet : MonoBehaviour
             StopCoroutine(bulletUpdate);
         }
         // 삭제 속성 모두 실행
-        for (int i = 0; i < deletePropertiesLength; i++)
+        for (int i = 0; i < info.deletePropertiesLength; i++)
         {
-            deleteProperties[i].DestroyBullet();
+            info.deleteProperties[i].DestroyBullet();
         }
     }
     #endregion

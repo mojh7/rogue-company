@@ -36,15 +36,14 @@ public class Weapon : MonoBehaviour {
     private WeaponManager weaponManager;
     private Transform objTransform;
     private SpriteRenderer spriteRenderer;
+
     private DelGetDirDegree ownerDirDegree;   // 소유자 각도
     private DelGetPosition ownerDirVec; // 소유자 각도 벡터(vector3)
     private DelGetPosition ownerPos;    // 소유자 초기 위치(vector3)
-    private List<BulletPattern> bulletPatterns;
-    private int bulletPatternsLength;
 
     private float chargedTime;
     private bool canChargedAttack;  // 차징 공격 가능 여부, 초기에 true 상태
-    private float ChargedAttackCooldown;
+    private float ChargedAttackCooldown;        // 차지 공격 쿨타임
     private float chargedDamageIncreaseRate;    // 풀 차징 공격 데미지 상승률
     private Coroutine chargingUpdate;
 
@@ -90,7 +89,7 @@ public class Weapon : MonoBehaviour {
         ani = GetComponent<Animator>();
         objTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        bulletPatterns = new List<BulletPattern>();
+        
         canChargedAttack = true;
         ChargedAttackCooldown = 20f;
         chargedTime = 0f;
@@ -105,12 +104,12 @@ public class Weapon : MonoBehaviour {
         // id에 따른 무기 정보 받아오기
         info = DataStore.Instance.GetWeaponInfo(weaponId);
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
-        bulletPatternsLength = info.bulletPatterns.Length;
+        
         // 공격 패턴(bulletPattern) 초기화
-        for (int i = 0; i < bulletPatternsLength; i++)
+        for (int i = 0; i < info.bulletPatternsLength; i++)
         {
-            bulletPatterns.Add(info.bulletPatterns[i].Clone());
-            bulletPatterns[i].Init(this);
+            //bulletPatterns.Add(info.bulletPatterns[i].Clone());
+            info.bulletPatterns[i].Init(this);
         }
 
         this.weaponManager = weaponManager;
@@ -174,9 +173,9 @@ public class Weapon : MonoBehaviour {
     {
         if (info.touchMode == TouchMode.Normal)
         {
-            for (int i = 0; i < bulletPatternsLength; i++)
+            for (int i = 0; i < info.bulletPatternsLength; i++)
             {
-                bulletPatterns[i].StopAttack();
+                info.bulletPatterns[i].StopAttack();
             }
         }
         else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Charge)
@@ -238,14 +237,14 @@ public class Weapon : MonoBehaviour {
     private IEnumerator PatternCycle(float damageIncreaseRate)
     {
         // 공격 한 사이클 실행
-        for (int i = 0; i < bulletPatternsLength; i++)
+        for (int i = 0; i < info.bulletPatternsLength; i++)
         {
-            for(int j = 0; j < bulletPatterns[i].GetExeuctionCount(); j++)
+            for(int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
             {
-                bulletPatterns[i].StartAttack(damageIncreaseRate);
-                if(bulletPatterns[i].GetDelay() > 0)
+                info.bulletPatterns[i].StartAttack(damageIncreaseRate);
+                if(info.bulletPatterns[i].GetDelay() > 0)
                 {
-                    yield return YieldInstructionCache.WaitForSeconds(bulletPatterns[i].GetDelay());
+                    yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[i].GetDelay());
                 }
             }
         }

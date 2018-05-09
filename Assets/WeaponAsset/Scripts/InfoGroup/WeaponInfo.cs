@@ -22,6 +22,8 @@ public struct BulletPatternEditInfo
     }
 }
 
+
+
 [CreateAssetMenu(fileName = "WeaponInfo", menuName = "GameData/WeaponInfo", order = 0)]
 public class WeaponInfo : ScriptableObject
 {
@@ -29,30 +31,31 @@ public class WeaponInfo : ScriptableObject
     // 기본 스펙
     public string weaponName;           // 무기 이름
     public Sprite sprite;               // 무기 sprtie
+    public float scaleX;                // 가로 크기 scale x
+    public float scaleY;                // 세로 크기 scale y
+
     public AttackAniType attackAniType; // 무기 공격 애니메이션
     public TouchMode touchMode;         // 무기 공격 타입?? 일반 공격, 차징 공격
     public WeaponType weaponType;       // 무기 종류
 
-    public float chargeTime;            // 차징 시간, 0 = 차징 X, 0 초과 = 1회 차징당 시간
     public int ammoCapacity;            // 탄약 량
     public int ammo;                    // 현재 탄약
-    public float scaleX;                // 가로 크기 scale x
-    public float scaleY;                // 세로 크기 scale y
     public float bulletMoveSpeed;       // 총알 이동속도
     public float range;                 // 사정 거리
     public float damage;                // 공격력
     public float criticalRate;          // 크리티컬 확률 : 치명타가 뜰 확률
     public float knockBack;             // 넉백, 값이 0 이면 넉백 X
     public float cooldown;              // 쿨타임
+    public float chargeTime;            // 차징 시간, 0 = 차징 X, 0 초과 = 1회 차징당 시간
 
-    [Tooltip("총알 발사시 초기 position가 중심에서 멀어지는 정도")]
+    [Tooltip("총알 발사시 초기 position이 중심에서 멀어지는 정도")]
     public float addDirVecMagnitude;    // onwer가 바라보는 방향의 벡터의 크기 값, bullet 초기 위치 = owner position + owner 방향 벡터 * addDirVecMagnitude
 
     // edit용 총알 패턴 정보
     public BulletPatternEditInfo[] bulletPatternEditInfos; // 패턴 종류, 해당 패턴 id
     // 총알 패턴 정보
-    public BulletPattern[] bulletPatterns; // 패턴 종류, 해당 패턴 id
-
+    public List<BulletPattern> bulletPatterns; // 패턴 종류, 해당 패턴 id
+    public int bulletPatternsLength;
     [Tooltip("이 정보를 쓰고 있는 사람, 쓰이는 곳, 간단한 설명 등등 이것 저것 메모할 것들 적는 곳")]
     [SerializeField]
     [TextArea(3, 100)]
@@ -64,7 +67,40 @@ public class WeaponInfo : ScriptableObject
         scaleY = 1.0f;
     }
 
+    
+    /*
+    public WeaponInfo(WeaponInfo info)
+    {
+        Debug.Log(name);
+        weaponName = info.weaponName;
+        sprite = info.sprite;
+        scaleX = info.scaleX;
+        scaleY = info.scaleY;
 
+        attackAniType = info.attackAniType;
+        touchMode = info.touchMode;
+        weaponType = info.weaponType;
+
+        ammoCapacity = info.ammoCapacity;
+        ammo = info.ammo;
+        bulletMoveSpeed = info.bulletMoveSpeed;
+        range = info.range;
+        damage = info.damage;
+        criticalRate = info.criticalRate;
+        knockBack = info.knockBack;
+        cooldown = info.cooldown;
+        chargeTime = info.chargeTime;
+        addDirVecMagnitude = info.addDirVecMagnitude;
+
+        bulletPatterns = new List<BulletPattern>();
+        bulletPatternsLength = info.bulletPatternsLength;
+
+        for (int i = 0; i < info.bulletPatternsLength; i++)
+        {
+            bulletPatterns.Add(info.bulletPatterns[i].Clone());
+        }
+        
+    }*/
     /*
     public WeaponInfo(string weaponName, int spriteId, AttackAniType attackAniType, TouchMode touchMode, WeaponType weaponType, float chargeTime, int ammoCapacity, int ammo, float scaleX, float scaleY,
         float bulletMoveSpeed, float range, float damage, float criticalRate, float knockBack, float cooldown, float addDirVecMagnitude,
@@ -93,22 +129,64 @@ public class WeaponInfo : ScriptableObject
     }*/
 
 
+    public WeaponInfo Clone()
+    {
+        WeaponInfo info = CreateInstance<WeaponInfo>();
+
+        info.weaponName = weaponName;
+        info.sprite = sprite;
+        info.scaleX = scaleX;
+        info.scaleY = scaleY;
+
+        info.attackAniType = attackAniType;
+        info.touchMode = touchMode;
+        info.weaponType = weaponType;
+
+        info.ammoCapacity = ammoCapacity;
+        info.ammo = ammo;
+        info.bulletMoveSpeed = bulletMoveSpeed;
+        info.range = range;
+        info.damage = damage;
+        info.criticalRate = criticalRate;
+        info.knockBack = knockBack;
+        info.cooldown = cooldown;
+        info.chargeTime = chargeTime;
+        info.addDirVecMagnitude = addDirVecMagnitude;
+
+        info.bulletPatterns = new List<BulletPattern>();
+        info.bulletPatternsLength = bulletPatternsLength;
+
+        for (int i = 0; i < info.bulletPatternsLength; i++)
+        {
+            info.bulletPatterns.Add(bulletPatterns[i].Clone());
+        }
+
+        return info;
+    }
+
     public void Init()
     {
-        // bulletPatternEditInfo를 토대로 실제 원래의 bulletPatterns  만들기
-        bulletPatterns = new BulletPattern[bulletPatternEditInfos.Length];
-        for(int i = 0; i < bulletPatternEditInfos.Length; i++)
+        if(name == "WeaponInfo11")
+        {
+            Debug.Log(name);
+            name = "zzz123123";
+            Debug.Log(name);
+        }
+        // bulletPatternEditInfo를 토대로 실제 원래의 bulletPatterns 만들기
+        bulletPatternsLength = bulletPatternEditInfos.Length;
+        bulletPatterns = new List<BulletPattern>();
+         for(int i = 0; i < bulletPatternsLength; i++)
         {
             switch(bulletPatternEditInfos[i].type)
             {
                 case BulletPatternType.MultiDirPattern :
-                    bulletPatterns[i] = new MultiDirPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay);
+                    bulletPatterns.Add(new MultiDirPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay));
                      break;
                 case BulletPatternType.RowPattern:
-                    bulletPatterns[i] = new RowPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay);
+                    bulletPatterns.Add(new RowPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay));
                     break;
                 case BulletPatternType.LaserPattern:
-                    bulletPatterns[i] = new LaserPattern(bulletPatternEditInfos[i].id);
+                    bulletPatterns.Add(new LaserPattern(bulletPatternEditInfos[i].id));
                     break;
                 default:
                     break;

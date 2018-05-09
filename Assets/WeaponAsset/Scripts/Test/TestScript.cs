@@ -160,12 +160,14 @@ public class TestScript : MonoBehaviour {
         createdObj.GetComponent<Transform>().position = pos;
     }
 
-    public void CreateEffect(Vector3 pos)
+    // 임시 effect 생성 함수 오브젝트 풀로 옮겨야 됨
+    public void CreateEffect(Vector3 pos, int id)
     {
         GameObject createdObj;
         createdObj = Instantiate(effectObj);
-        createdObj.GetComponent<Transform>().position = pos;
         createdObj.SetActive(true);
+        createdObj.GetComponent<Effect>().Init(id);
+        createdObj.GetComponent<Transform>().position = pos;
     }
 
     public void ListTest()

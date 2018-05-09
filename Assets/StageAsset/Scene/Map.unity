@@ -353,6 +353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1485417032342822, guid: 709b4b505c3d26b4eb17e04edbaaf3f6,
     type: 2}
+  joystick: {fileID: 0}
 --- !u!4 &307469664
 Transform:
   m_ObjectHideFlags: 0
@@ -1040,7 +1041,7 @@ GameObject:
   - component: {fileID: 1632917438}
   m_Layer: 0
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

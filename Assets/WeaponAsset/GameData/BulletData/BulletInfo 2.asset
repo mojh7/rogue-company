@@ -17,12 +17,13 @@ MonoBehaviour:
   range: 0
   scaleX: 1
   scaleY: 1
+  effectId: 1
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 0000000002000000
   deletePropertiesEdit: 00000000
-  collisionPropertiesLength: 0
-  updatePropertiesLength: 0
-  deletePropertiesLength: 0
+  collisionPropertiesLength: 1
+  updatePropertiesLength: 2
+  deletePropertiesLength: 1
   summonBulletPattern:
     type: 0
     id: 7

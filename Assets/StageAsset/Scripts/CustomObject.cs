@@ -27,6 +27,7 @@ public class CustomObject : MonoBehaviour {
             GetComponent<SpriteRenderer>().sprite = sprite;
             GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         }
+        gameObject.tag = "Wall";
     }
 
     public void SetPosition()
