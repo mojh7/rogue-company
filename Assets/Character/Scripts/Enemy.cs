@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Character {
-    
+
+    public new SpriteRenderer renderer;
     #region UnityFunc
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (State.ALIVE != pState)
+            return;
+        if (collision.gameObject.CompareTag("Bullet"))
         {
+            Die();
             RoomManager.Instance.DieMonster();
             gameObject.SetActive(false);
         }
     }
     #endregion
     #region Func
+    public void Init(Sprite _sprite)
+    {
+        sprite = _sprite;
+        pState = State.ALIVE;
+        renderer.sprite = sprite;   
+    }
     public override void Die()
     {
-        throw new System.NotImplementedException();
+        pState = State.DIE;
     }
     #endregion
 }

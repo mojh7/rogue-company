@@ -17,9 +17,11 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
+    protected enum State { NOTSPAWNED, DIE, ALIVE }
     protected Sprite sprite;
     protected Animator animator;
     protected float hp;
+    protected State pState;
     public CircleCollider2D interactiveCollider2D;
     public float moveSpeed;     // Character move Speed
 
@@ -142,7 +144,7 @@ public class Player : Character
         bestCollider.GetComponent<CustomObject>().Active();
         return true;
     }
-    // 캐릭터 이동, WASD Key, 테스트 용
+    // 캐릭터 이동, WASD Key, 테스트 용  
     private void Move()
     {
         // 조이스틱 방향으로 이동

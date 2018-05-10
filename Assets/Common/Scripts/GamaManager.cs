@@ -10,7 +10,7 @@ public class GamaManager : MonoBehaviour {
     #region UnityFunc
     private void Awake()
     {
-        RoomSetManager.GetInstance().Init();
+        RoomSetManager.Instance.Init();
     }
 
     private void Start()
@@ -28,6 +28,7 @@ public class GamaManager : MonoBehaviour {
     void SpawnPlayer()
     {
         PlayerManager.Instance.SpawnPlayer(); // 플레이어 스폰
+        RoomManager.Instance.DisableObjects();
     }
     void DrawUI()
     {

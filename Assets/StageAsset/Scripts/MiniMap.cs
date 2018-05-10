@@ -109,6 +109,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
     public void PlayerPositionToMap()
     {
         Vector2 positon = PlayerManager.Instance.GetPlayerPosition();
+        if (positon == Vector2.zero)
+            return;
         playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSize - width, positon.y * width / mapSize - width);
     } // 현재 플레이어 위치 to MiniMap
 
