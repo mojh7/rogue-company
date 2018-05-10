@@ -1,22 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomSetManager : MonoBehaviour {
-
-    static private RoomSetManager instance;
+public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
 
     public Sprite[] doorSprites;
     public RoomSet[] roomSetArr;
     List<RoomSetGroup> roomSetGroup;
-    
-    static public RoomSetManager GetInstance()
-    {
-        if(instance == null)
-        {
-            instance = (RoomSetManager)Object.FindObjectOfType<RoomSetManager>();
-        }
-        return instance;
-    }
 
     public void Init()
     {
@@ -55,7 +44,7 @@ public class RoomSetManager : MonoBehaviour {
         {
             if (_width == roomSetGroup[i].width && _height == roomSetGroup[i].height)
             {
-                if (Random.Range(0, 10) >= 0)
+                if (Random.Range(0, 10) >= 1)
                     roomSet = roomSetGroup[i].GetMonsterRoomSet();
                 else
                     roomSet = roomSetGroup[i].GetOtherRoomSet();

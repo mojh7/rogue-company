@@ -10,7 +10,7 @@ public class GamaManager : MonoBehaviour {
     #region UnityFunc
     private void Awake()
     {
-        RoomSetManager.GetInstance().Init();
+        RoomSetManager.Instance.Init();
     }
 
     private void Start()

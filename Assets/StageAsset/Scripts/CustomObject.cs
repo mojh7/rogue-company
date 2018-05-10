@@ -178,6 +178,9 @@ public class ItemBox : CustomObject
 
 public class Spawner : CustomObject
 {
+    List<Vector2> _positions;
+    int spawnCount = 2;
+    int gage;
     public override void Init()
     {
         base.Init();
@@ -185,12 +188,62 @@ public class Spawner : CustomObject
         isAvailable = false;
         GetComponent<BoxCollider2D>().size = new Vector2(0, 0);
         objectType = ObjectType.SPAWNER;
+        _positions = new List<Vector2>();
+        Preprocessing();
     }
     public override void Active()
     {
         base.Active();
-        EnemyGenerator.Instance.Generate(transform.position);
+        for (int i = 0; i < _positions.Count; i++)
+        {
+            Debug.DrawLine(Vector3.zero, _positions[i], Color.cyan, 100);
+        }
+        if (spawnCount >= 2)
+        {
+            int count = gage / 2;
+            while (count > 0)
+            {
+                SpawnProcess();
+                count--;
+            }
+
+            spawnCount--;
+        }
+        else if(spawnCount == 1)
+        {
+            while (gage > 0)
+            {
+                SpawnProcess();
+            }
+
+            spawnCount--;
+        }
         Debug.Log("Spawner");
+    }
+    void SpawnProcess()
+    {
+        gage--;
+        RoomManager.Instance.Spawned();
+        Vector2 tempPosition = _positions[Random.Range(0, _positions.Count)];
+        EnemyGenerator.Instance.Generate(tempPosition);
+    }
+    void Preprocessing()
+    {
+        Map.Rect room = RoomManager.Instance.tempRoom;
+        int width = room.width * room.size;
+        int height = room.height * room.size;
+        Vector2 vector2 = room.areaLeftDown;
+        int radius = 5;
+        gage = room.gage;
+
+        for (float i = vector2.x + 1; i < vector2.x + width - 0.5f; i++)
+        {
+            for (float j = vector2.y + 0.5f; j < vector2.y + height - 0.5f; j++)
+            {
+                if (!Physics2D.OverlapCircle(new Vector2(i, j), radius, LayerMask.GetMask("TransparetFX")))
+                    _positions.Add(new Vector2(i, j));
+            }
+        }
     }
 }
 

@@ -671,9 +671,9 @@ namespace Map
             obj.AddComponent<Door>();
             obj.GetComponent<Door>().SetAxis(isHorizon);
             if (isHorizon)
-                obj.GetComponent<Door>().sprite = RoomSetManager.GetInstance().doorSprites[0];
+                obj.GetComponent<Door>().sprite = RoomSetManager.Instance.doorSprites[0];
             else
-                obj.GetComponent<Door>().sprite = RoomSetManager.GetInstance().doorSprites[1];
+                obj.GetComponent<Door>().sprite = RoomSetManager.Instance.doorSprites[1];
             obj.GetComponent<Door>().Init();
             obj.transform.position = new Vector3(x, y, y);
 
@@ -682,16 +682,15 @@ namespace Map
 
         void AssignAllRoom()
         {
-            RoomSetManager roomSetManager = RoomSetManager.GetInstance();
-
             for (int i = 0; i < rooms.Count; i++)
             {
-                RoomSet roomSet = roomSetManager.LoadRoomSet(rooms[i].width, rooms[i].height, 1);
+                RoomSet roomSet = RoomSetManager.Instance.LoadRoomSet(rooms[i].width, rooms[i].height, 1);
                 roomSet.x = rooms[i].x;
                 roomSet.y = rooms[i].y;
                 rooms[i].eRoomType = roomSet.roomType;
-                rooms[i].customObjects = AssignRoom(roomSet);
                 rooms[i].gage = roomSet.gage;
+                RoomManager.Instance.tempRoom = rooms[i];
+                rooms[i].customObjects = AssignRoom(roomSet);
             }
 
             CreateStartPoint();

@@ -5,6 +5,7 @@ using Map;
 
 public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
+    public Map.Rect tempRoom;
     List<Map.Rect> roomList;
     Map.Rect currentRoom;
 
@@ -55,12 +56,16 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 if (currentRoom.customObjects[j].GetComponent<Spawner>() != null)
                 {
                     currentRoom.customObjects[j].GetComponent<Spawner>().Active();
-                    currentRoom.gage--;
-                    monsterNum++;
                 }
             }
         }
     } // 몬스터 소환
+
+    public void Spawned()
+    {
+        currentRoom.gage--;
+        monsterNum++;
+    }
 
     public void DieMonster()
     {

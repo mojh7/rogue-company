@@ -26,11 +26,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     #region function
     public void ToggleUI()
     {
-        ingamePanel.SetActive(!ingamePanel.activeSelf);
-        if (ingamePanel.activeSelf)
-            FadeOut(fadeImage, 20);
-        else
-            FadeIn(fadeImage, 20);
+        FadeOut(fadeImage, 20);
     }
     public void InitForPlayGame()
     {

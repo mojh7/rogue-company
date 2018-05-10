@@ -618,7 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e3d0c03387ae645a113052d3075c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1648523281510846, guid: b3fa8ade24eb94d4eacb8af79383dd2e,
+  playerPrefab: {fileID: 1637854907701030, guid: b3fa8ade24eb94d4eacb8af79383dd2e,
     type: 2}
 --- !u!4 &307469664
 Transform:
@@ -917,7 +917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be8661bf4c0c864ea41a9f718e9a6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObject: {fileID: 1725442898665680, guid: bdc5711ffefa1ec429e90eb3e4f9a82c,
+  pooledObject: {fileID: 1165641018333586, guid: ac57fb9460b3ea446ada6c3e5b54e0ee,
     type: 2}
   pooledAmount: 20
   willGrow: 1
@@ -1188,6 +1188,7 @@ GameObject:
   - component: {fileID: 572565057}
   - component: {fileID: 572565056}
   - component: {fileID: 572565055}
+  - component: {fileID: 572565053}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -1214,6 +1215,17 @@ MonoBehaviour:
   size: 5
   area: 9
   floor: 0
+--- !u!156049354 &572565053
+Grid:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 572565051}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!4 &572565054
 Transform:
   m_ObjectHideFlags: 0
@@ -1257,9 +1269,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e83df6463d6332043ad27507018f15dd, type: 3}
   - {fileID: 21300000, guid: 810720f294665ca4b8fd9d14246c244a, type: 3}
   roomSetArr:
-  - {fileID: 11400000, guid: 3cbb04feb81593f44bf1b1d9b38dd2ed, type: 2}
-  - {fileID: 11400000, guid: e41d7d1ab17576643b08ad7bb0265928, type: 2}
-  - {fileID: 11400000, guid: 3e84b409396eae745927524ec8ab0d48, type: 2}
+  - {fileID: 11400000, guid: 9ab716ea23796014f99f3491d8276960, type: 2}
+  - {fileID: 11400000, guid: f0275576c359ee34385f243856728af5, type: 2}
+  - {fileID: 11400000, guid: df3b4ce2ff1349644ac6e8123db81fee, type: 2}
+  - {fileID: 11400000, guid: accfe2ce4e51da94cbb523fdbd237d25, type: 2}
   - {fileID: 11400000, guid: 56a6db67e5581d846ad9c14c8363302d, type: 2}
   - {fileID: 11400000, guid: 6787f557698699e46b3ca7cc767c5600, type: 2}
   - {fileID: 11400000, guid: 36802df17f304b5418c31563085a3c64, type: 2}
@@ -2277,6 +2290,10 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1982949068750034, guid: 29de58807dbb18342a81ea0f604e5ce4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29de58807dbb18342a81ea0f604e5ce4, type: 2}
   m_IsPrefabParent: 0
@@ -2869,7 +2886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &1414684562
 CanvasRenderer:
   m_ObjectHideFlags: 0

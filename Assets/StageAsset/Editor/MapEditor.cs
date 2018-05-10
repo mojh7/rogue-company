@@ -14,7 +14,7 @@ public class MapEditor : EditorWindow
     int spriteNum;
     Sprite objectSprite;
     Sprite[] objectSprites;
-    RoomSet roomSet;
+    RoomSet worldRoomSet;
     [MenuItem("Custom/Map")]
 
     static public void ShowWindow()
@@ -58,7 +58,7 @@ public class MapEditor : EditorWindow
             CreateObject();
         if (GUILayout.Button("Save Roomset"))
             SaveRoomset();
-        roomSet = (RoomSet)EditorGUILayout.ObjectField("RoomSet", roomSet, typeof(RoomSet), allowSceneObjects: true);
+        worldRoomSet = (RoomSet)EditorGUILayout.ObjectField("RoomSet", worldRoomSet, typeof(RoomSet), allowSceneObjects: true);
         if (GUILayout.Button("Load Roomset"))
             LoadRoomset();
     }
@@ -66,6 +66,23 @@ public class MapEditor : EditorWindow
     void CreateObject()
     {
         if (roomObj == null)
+            return;
+        if (roomType == RoomType.MONSTER)
+        {
+            bool op = false;
+            foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
+            {
+                if (child.GetComponent<CustomObject>() != null)
+                {
+                    CustomObject customObject = child.GetComponent<CustomObject>();
+                    if (customObject.objectType == ObjectType.SPAWNER)
+                        op = true;
+                }
+            }
+            if (!op)
+                return;
+        }
+        if (objectType == ObjectType.DOOR || objectType == ObjectType.SPAWNER || objectType == ObjectType.START)
             return;
         GameObject gameObject = new GameObject();
         gameObject.name = "Object";
@@ -76,6 +93,21 @@ public class MapEditor : EditorWindow
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
         gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
+    }
+
+    CustomObject CreateObject(ObjectType objectType)
+    {
+        if (roomObj == null)
+            return null;
+        GameObject gameObject = new GameObject();
+        gameObject.name = "Object";
+        gameObject.transform.parent = roomObj.transform;
+        gameObject.AddComponent<SpriteRenderer>();
+        gameObject.AddComponent<BoxCollider2D>();
+
+        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
+        objectData.LoadObject(gameObject);
+        return gameObject.GetComponent<CustomObject>();
     }
 
     void SaveRoomset()
@@ -92,6 +124,33 @@ public class MapEditor : EditorWindow
                 customObject.SetPosition();
                 roomSet.Add(new ObjectData(customObject.position, customObject.objectType, customObject.sprites));
             }
+        }
+        if (roomType == RoomType.MONSTER || roomType == RoomType.BOSS)
+        {
+            bool op = false;
+            foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
+            {
+                if (child.GetComponent<CustomObject>() != null)
+                {
+                    CustomObject customObject = child.GetComponent<CustomObject>();
+
+                    if (customObject.objectType == ObjectType.SPAWNER)
+                        op = true;
+                }
+            }
+            if (!op)
+            {
+                CustomObject tempObj = CreateObject(ObjectType.SPAWNER);
+                roomSet.Add(new ObjectData(tempObj.position, tempObj.objectType, tempObj.sprites));
+            }
+            if(roomSet.gage == 0)
+            {
+                roomSet.gage = width * height;
+            }
+        }
+        else
+        {
+            roomSet.gage = 0;
         }
         SaveRoomSet(roomName, roomSet);
     }
@@ -182,15 +241,15 @@ public class MapEditor : EditorWindow
 
     void LoadRoomset()
     {
-        if (roomSet == null)
+        if (worldRoomSet == null)
             return;
         RemoveTilemap();
-        width = roomSet.width;
-        height = roomSet.height;
-        size = roomSet.size;
+        width = worldRoomSet.width;
+        height = worldRoomSet.height;
+        size = worldRoomSet.size;
         CreateTilemap();
-        for (int i = 0; i < roomSet.objectDatas.Count; i++)
-            DataToObject(roomSet.objectDatas[i]);
+        for (int i = 0; i < worldRoomSet.objectDatas.Count; i++)
+            DataToObject(worldRoomSet.objectDatas[i]);
     }
 
     void DataToObject(ObjectData _objectData)
