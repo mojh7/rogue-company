@@ -17,7 +17,7 @@ MonoBehaviour:
   range: 8
   scaleX: 1
   scaleY: 1
-  effectId: 1
+  effectId: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000

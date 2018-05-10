@@ -9,9 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: BulletInfo 2
+  m_Name: BulletInfo 6
   m_EditorClassIdentifier: 
-  bulletName: "\uC18C\uD658 \uC18D\uC131 \uD3EC\uD568 \uCD1D\uC54C"
+  bulletName: "effect2 \uD14C\uC2A4\uD2B8\uC6A9"
   damage: 0
   speed: 0
   range: 0
@@ -19,15 +19,15 @@ MonoBehaviour:
   scaleY: 1
   effectId: 2
   collisionPropertiesEdit: 00000000
-  updatePropertiesEdit: 0000000002000000
+  updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
-  collisionPropertiesLength: 1
-  updatePropertiesLength: 2
-  deletePropertiesLength: 1
+  collisionPropertiesLength: 0
+  updatePropertiesLength: 0
+  deletePropertiesLength: 0
   summonBulletPattern:
     type: 0
-    id: 7
-    executionCount: 1
+    id: 0
+    executionCount: 0
     delay: 0
-  creationCycle: 0.15
+  creationCycle: 0
   memo: 

@@ -35,9 +35,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4182208423522718}
+  - component: {fileID: 114986131291451716}
   - component: {fileID: 212777339414827274}
   - component: {fileID: 95124854030359164}
-  - component: {fileID: 114986131291451716}
   m_Layer: 0
   m_Name: Effect
   m_TagString: Untagged
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716bf09618059ea4daf6360103d77cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleSystemObject: {fileID: 1936934554768530}
 --- !u!198 &198454949068987192
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -227,7 +228,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -41489837
+  randomSeed: 1285919146
   InitialModule:
     serializedVersion: 3
     enabled: 1

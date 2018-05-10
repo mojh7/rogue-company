@@ -448,7 +448,7 @@ public class LaserDeleteProperty : DeleteProperty
     }
 }
 
-//
+// 미구현
 public class DeleteAfterSummonProperty : DeleteProperty
 {
     private BulletPattern bulletPattern;

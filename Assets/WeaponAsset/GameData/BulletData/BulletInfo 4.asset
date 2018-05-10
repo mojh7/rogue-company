@@ -17,7 +17,7 @@ MonoBehaviour:
   range: 0
   scaleX: 1
   scaleY: 1
-  effectId: 1
+  effectId: 2
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 0000000002000000
   deletePropertiesEdit: 00000000
@@ -29,5 +29,5 @@ MonoBehaviour:
     id: 9
     executionCount: 1
     delay: 0
-  creationCycle: 10
+  creationCycle: 0.2
   memo: 

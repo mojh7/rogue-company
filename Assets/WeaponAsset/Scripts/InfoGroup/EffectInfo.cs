@@ -11,6 +11,8 @@ public class EffectInfo : ScriptableObject {
     public float scaleX;
     public float scaleY;
 
+    public bool particleActive; // partlcle systme on / off
+
     [Tooltip("이 정보를 쓰고 있는 사람, 쓰이는 곳, 간단한 설명 등등 이것 저것 메모할 것들 적는 곳")]
     [SerializeField]
     [TextArea(3, 100)]

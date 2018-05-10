@@ -22,7 +22,10 @@ public class Effect : MonoBehaviour {
     private EffectInfo info;
     private Transform objTransform;
     private Animator animator;
+    [SerializeField]
+    private GameObject particleSystemObject;    // 파티클 시스템을 포함한 Effect의 자식 오브젝트
     private Vector3 scaleVector;
+    
 
     void Awake()
     {
@@ -31,17 +34,16 @@ public class Effect : MonoBehaviour {
         scaleVector = new Vector3(1f, 1f, 1f);
     }
     
-    void OnEnable()
-    {
-    }
-    
     public void Init(int id)
     {
         info = DataStore.Instance.GetEffectInfo(id);
         scaleVector.x = info.scaleX;
         scaleVector.y = info.scaleY;
         objTransform.localScale = scaleVector;
-        //Debug.Log(info.animationName);
+        if(info.particleActive == false)
+        {
+            particleSystemObject.SetActive(false);
+        }
         animator.SetTrigger(info.animationName);
         //
         // 일단 임시로 생성 삭제고 오브젝트 풀로 옮겨야 됨.

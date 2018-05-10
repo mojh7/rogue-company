@@ -7,6 +7,10 @@ public enum UpdatePropertyType { StraightMove, Laser, Summon }
 public enum DeletePropertyType { BaseDelete, Laser, Summon }
 
 
+/*
+ * 새 변수 추가시 Clone에도 꼭 추가해줘야 됨.
+ */
+
 [CreateAssetMenu(fileName = "BulletInfo", menuName = "GameData/BulletInfo", order = 4)]
 public class BulletInfo : ScriptableObject
 {
@@ -39,7 +43,7 @@ public class BulletInfo : ScriptableObject
     [Header("SummonUpdate 속성 전용 매개 변수")]
     // summonUpdate 속성 전용, 소환할 bulletPattern, 생성 주기
     public BulletPatternEditInfo summonBulletPattern;
-    public int creationCycle;
+    public float creationCycle;
 
     [Tooltip("이 정보를 쓰고 있는 사람, 쓰이는 곳, 간단한 설명 등등 이것 저것 메모할 것들 적는 곳")]
     [SerializeField]
@@ -101,6 +105,7 @@ public class BulletInfo : ScriptableObject
         info.range = range;
         info.scaleX = scaleX;
         info.scaleY = scaleY;
+        info.effectId = effectId;
 
         info.collisionPropertiesLength = collisionPropertiesLength;
         info.updatePropertiesLength = updatePropertiesLength;

@@ -507,9 +507,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a76c7aac236746145af9cfefcc29ba76, type: 2}
   - {fileID: 11400000, guid: b5e55b979ce54e2478a2e6387861accc, type: 2}
   - {fileID: 11400000, guid: c55ab591db25df4409c3ecfe2008d235, type: 2}
+  - {fileID: 11400000, guid: 2154eba772ade6642b40c5bb57e2af5d, type: 2}
   effectInfos:
   - {fileID: 11400000, guid: 39ef06daf634a714f915819f55cf60d3, type: 2}
   - {fileID: 11400000, guid: 9d0c0896fdd418142a3a657517ba17a7, type: 2}
+  - {fileID: 11400000, guid: 1cc7434ce83e4c542867fd33c4a13216, type: 2}
 --- !u!120 &120912958602147770
 LineRenderer:
   m_ObjectHideFlags: 1
