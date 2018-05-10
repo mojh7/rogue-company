@@ -31,8 +31,6 @@ public class Player : Character
 
     public float moveSpeed;     // 플레이어 이동속도
 
-    private static Player instance = null;
-
     [SerializeField]
     private GameObject playerObj;   // 플레이어 오브젝트
     [SerializeField]
@@ -45,10 +43,11 @@ public class Player : Character
     private Vector3 scaleVector;    // player scale 우측 (1, 1, 1), 좌측 : (-1, 1, 1) 
     private float directionDegree;  // 바라보는 각도(총구 방향)
     private bool isRightDirection;    // player 방향이 우측이냐(true) 아니냐(flase = 좌측)
+
+    public WeaponManager weaponManager;
     #endregion
 
     #region getter
-    public static Player Instance { get { return instance; } }
     public PlayerController PlayerController { get { return controller; } }
     public PlayerState State { get { return state; } }
     public bool GetRightDirection() { return isRightDirection; }
@@ -64,17 +63,14 @@ public class Player : Character
     #region UnityFunction
     void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
-            Destroy(gameObject);
         state = PlayerState.IDLE;
         objTransform = GetComponent<Transform>();
-        controller = new PlayerController(UIManager.Instance.GetJoystick);
-        Debug.Log("z : " + UIManager.Instance.GetJoystick);
+        controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerScale = 1f;
         scaleVector = new Vector3(playerScale, playerScale, 1);
         buffManager = new BuffManager();
+        isRightDirection = true;
+        Init();
     }
 
     // Update is called once per frame
@@ -103,6 +99,12 @@ public class Player : Character
     #endregion
 
     #region function
+
+    public void Init()
+    {
+        weaponManager.Init(this);
+    }
+
     // 캐릭터 이동, WASD Key, 테스트 용
     private void Move()
     {

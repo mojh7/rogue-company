@@ -14,6 +14,7 @@ public class WeaponManager : MonoBehaviour {
 
     #region variables
 
+
     [SerializeField]
     private List<Weapon> equipWeaponSlot;      // 무기 장착 슬룻 (최대 3개)
     [SerializeField]
@@ -27,6 +28,9 @@ public class WeaponManager : MonoBehaviour {
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
     private BuffManager ownerBuff;
+
+    //private Character owner로 해야 될 것 같지만 일단 Player owner;
+    private Player owner;
 
     // 디버그용 차징 ui
     public GameObject chargedGaugeUI;
@@ -64,7 +68,6 @@ public class WeaponManager : MonoBehaviour {
     {
         //weaponCountMax = 5;  // 원래 3인데 테스트용으로 inspecter창에서 값 받음;
         weaponCount = weaponCountMax;
-        Init();
         OnOffWeaponActive();
     }
 
@@ -89,29 +92,30 @@ public class WeaponManager : MonoBehaviour {
         //---------------------------------
 
         // 바라보는 방향으로 무기 회전
-        if (Player.Instance.GetRightDirection())
+        if (owner.GetRightDirection())
         {
             // 우측
-            transform.rotation = Quaternion.Euler(0f, 0f, Player.Instance.GetDirDegree());
+            transform.rotation = Quaternion.Euler(0f, 0f, owner.GetDirDegree());
         }
         else
         {
             // 좌측
-            transform.rotation = Quaternion.Euler(0f, 0f, Player.Instance.GetDirDegree() - 180f);
+            transform.rotation = Quaternion.Euler(0f, 0f, owner.GetDirDegree() - 180f);
         }
     }
     #endregion
 
     #region Function
-    public void Init()
+    public void Init(Player player)
     {
+        owner = player;
         // Onwer 정보 등록
         // 방향, Position 리턴 함수 등록,나중에 어디에(onwer 누구냐에 따라서 다름, player, enmey, object) 붙는지에 따라 초기화
         // 지금은 테스트용으로 Player꺼 등록
-        ownerDirDegree = Player.Instance.GetDirDegree;
-        ownerDirVec = Player.Instance.GetRecenteInputVector;
+        ownerDirDegree = player.GetDirDegree;
+        ownerDirVec = player.GetRecenteInputVector;
         ownerPos = GetPosition;
-        ownerBuff = Player.Instance.GetBuffManager();
+        ownerBuff = player.GetBuffManager();
 
         for (int i = 0; i < weaponCountMax; i++)
         {

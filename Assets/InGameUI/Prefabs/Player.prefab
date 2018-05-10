@@ -1107,6 +1107,9 @@ MonoBehaviour:
   joystick: {fileID: 0}
   moveSpeed: 5
   playerObj: {fileID: 1485417032342822}
+  controller:
+    joystick: {fileID: 0}
+  weaponManager: {fileID: 114022128589384470}
 --- !u!124 &124516050805894754
 Behaviour:
   m_ObjectHideFlags: 1

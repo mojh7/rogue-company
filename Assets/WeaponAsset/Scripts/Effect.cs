@@ -42,7 +42,7 @@ public class Effect : MonoBehaviour {
         scaleVector.y = info.scaleY;
         objTransform.localScale = scaleVector;
         Debug.Log(info.animationName);
-        animator.SetTrigger("effect0");
+        animator.SetTrigger(info.animationName);
         //
         // 일단 임시로 생성 삭제고 오브젝트 풀로 옮겨야 됨.
         // 생성 될 때 처리 및 delete 함수 n초뒤에 실행

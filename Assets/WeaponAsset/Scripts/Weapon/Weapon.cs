@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour {
     #region Variables
     public WeaponInfo info;
     public WeaponView weaponView;
-    public Animator ani;
+    public Animator animator;
     // enum State
     public WeaponState weaponState; // 무기 상태
 
@@ -81,28 +81,25 @@ public class Weapon : MonoBehaviour {
     #endregion
 
     #region UnityFunction
-    void Awake()
-    {
-        //touchType = TouchType.Normal;
-        weaponState = WeaponState.Idle;
-
-        ani = GetComponent<Animator>();
-        objTransform = GetComponent<Transform>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        
-        canChargedAttack = true;
-        ChargedAttackCooldown = 20f;
-        chargedTime = 0f;
-        weaponView = new WeaponView(objTransform, spriteRenderer);
-    }
 
     #endregion
     #region Function
     // 무기 정보 받아오기, weaponView class 초기화
     public void Init(WeaponManager weaponManager)
-    {   
+    {
+        weaponState = WeaponState.Idle;
+
+        animator = GetComponent<Animator>();
+        objTransform = GetComponent<Transform>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        canChargedAttack = true;
+        ChargedAttackCooldown = 20f;
+        chargedTime = 0f;
+
         // id에 따른 무기 정보 받아오기
         info = DataStore.Instance.GetWeaponInfo(weaponId);
+        weaponView = new WeaponView(objTransform, spriteRenderer);
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
         
         // 공격 패턴(bulletPattern) 초기화
@@ -220,13 +217,13 @@ public class Weapon : MonoBehaviour {
         switch (info.attackAniType)
         {
             case AttackAniType.Blow:
-                ani.SetTrigger("blow");
+                animator.SetTrigger("blow");
                 break;
             case AttackAniType.Strike:
-                ani.SetTrigger("strike");
+                animator.SetTrigger("strike");
                 break;
             case AttackAniType.Shot:
-                ani.SetTrigger("shot");
+                animator.SetTrigger("shot");
                 break;
             default:
                 break;
