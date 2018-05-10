@@ -38,6 +38,14 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         }
     } // 작동 가능여부 turn
 
+    void EnableObjects()
+    {
+        if (!currentRoom.isRoom)
+            return;
+        for (int j = 0; j < currentRoom.customObjects.Length; j++)
+            currentRoom.customObjects[j].SetActive(true);
+    }
+
     void ClearRoom()
     {
         DoorSetAvailable();
@@ -60,6 +68,17 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
         }
     } // 몬스터 소환
+
+    public void DisableObjects()
+    {
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (!roomList[i].isRoom)
+                continue;
+            for (int j = 0; j < roomList[i].customObjects.Length; j++)
+                roomList[i].customObjects[j].SetActive(false);
+        }
+    }
 
     public void Spawned()
     {
@@ -106,7 +125,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             if (!currentRoom.isClear)
             {
                 currentRoom.isClear = true;
-
+                EnableObjects();
                 if (currentRoom.gage > 0)
                 {
                     DoorSetAvailable();

@@ -194,10 +194,6 @@ public class Spawner : CustomObject
     public override void Active()
     {
         base.Active();
-        for (int i = 0; i < _positions.Count; i++)
-        {
-            Debug.DrawLine(Vector3.zero, _positions[i], Color.cyan, 100);
-        }
         if (spawnCount >= 2)
         {
             int count = gage / 2;

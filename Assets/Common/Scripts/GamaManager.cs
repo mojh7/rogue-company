@@ -28,6 +28,7 @@ public class GamaManager : MonoBehaviour {
     void SpawnPlayer()
     {
         PlayerManager.Instance.SpawnPlayer(); // 플레이어 스폰
+        RoomManager.Instance.DisableObjects();
     }
     void DrawUI()
     {
