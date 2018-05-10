@@ -242,7 +242,7 @@ namespace BulletData
 
 
 // 각종 데이터 실제로 저장해서 모아놓은 클래스.
-public class DataStore : MonoBehaviour
+public class DataStore : MonoBehaviourSingleton<DataStore>
 {
     #region variables
     [SerializeField]
@@ -250,7 +250,6 @@ public class DataStore : MonoBehaviour
     [SerializeField]
     private Sprite[] bulletSpriteList;
 
-    private static DataStore instance;
     [SerializeField]
     private WeaponInfo[] weaponInfos;
     [SerializeField]
@@ -267,7 +266,6 @@ public class DataStore : MonoBehaviour
     #endregion
 
     #region getter
-    public static DataStore Instance { get { return instance; } }
 
     public WeaponInfo GetWeaponInfo(int id) { return weaponInfos[id].Clone(); }
     public MultiDirPatternInfo GetMultiDirPatternInfo(int id) { return multiDirPatternInfos[id]; }
@@ -285,12 +283,6 @@ public class DataStore : MonoBehaviour
     #region UnityFunction
     void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
-            Destroy(gameObject);
-
-
         InitBulletInfo();
         InitWepaonInfo();
     }

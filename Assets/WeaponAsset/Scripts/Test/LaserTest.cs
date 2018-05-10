@@ -34,9 +34,9 @@ public class LaserTest : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        objTransform.position = Player.Instance.GetPosition();
+        //objTransform.position = Player.Instance.GetPosition();
         // Physics2D.BoxCast
-        hit = Physics2D.Raycast(objTransform.position, Player.Instance.GetRecenteInputVector(), 100f, layerMask);
+        //hit = Physics2D.Raycast(objTransform.position, Player.Instance.GetRecenteInputVector(), 100f, layerMask);
         
         if(hit.collider != null && hit.collider.CompareTag("Wall"))
         {

@@ -7,9 +7,15 @@ using UnityEngine;
 // 버튼 Down, Up 이벤트에 맞춰서 함수 실행.
 public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
+    private Player player; 
 
     private bool isAttackTouchDown; // true or false
     //public bool IsAttackTouchDown { get { return isAttackTouchDown; } }
+
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
+    }
 
     void Awake()
     {
@@ -20,7 +26,7 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
         if(isAttackTouchDown)
         {
             //Debug.Log("버튼 다운으로 인한 공격 시도");
-            WeaponManager.Instance.AttackButtonDown();
+            player.GetWeaponManager().AttackButtonDown();
         }
     }
     // 터치 했을 때
@@ -31,7 +37,7 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
         // 차징 공격 : 차징 중
         isAttackTouchDown = true;
         //Debug.Log("공격 버튼 다운");
-        Player.Instance.Interact(); // 상호작용
+        player.Interact(); // 상호작용
     }
 
     // 땠을 때
@@ -42,7 +48,7 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
         // 차징 공격 : 차징된 공격
         if (isAttackTouchDown)
         {
-            WeaponManager.Instance.AttackButtonUP();
+            player.GetWeaponManager().AttackButtonUP();
             isAttackTouchDown = false;
         }
         //Debug.Log("공격 버튼 업");

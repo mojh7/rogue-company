@@ -12,25 +12,17 @@ using UnityEngine.UI;
  * ingame 용이랑 구분
  */
 public class UIManager : MonoBehaviourSingleton<UIManager> {
-    
-    [SerializeField]
-    private Joystick virtualJoystick;
+
+    #region variables
     public Canvas canvas;
     public GameObject ingamePanel;
     public Image fadeImage;
-    
-    #region getter
-    public Joystick GetJoystick { get { return virtualJoystick; } }
     #endregion
 
     #region function
     public void ToggleUI()
     {
         FadeOut(fadeImage, 20);
-    }
-    public void InitForPlayGame()
-    {
-        //canvas.worldCamera = FindObjectOfType<Camera>(); /*왜 있는겨 -유성- */
     }
 
     void FadeOut(Image _img,int _interval)

@@ -37,10 +37,7 @@ public class Player : Character
     public enum PlayerState { IDLE, DASH, KNOCKBACK, DEAD }
     //public Joystick joystick;
 
-    private static Player instance = null;
 
-    //[SerializeField]
-    //private GameObject playerObj;   // 플레이어 오브젝트
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
     private BuffManager buffManager;
@@ -50,10 +47,11 @@ public class Player : Character
     private Vector3 scaleVector;    // player scale 우측 (1, 1, 1), 좌측 : (-1, 1, 1) 
     private float directionDegree;  // 바라보는 각도(총구 방향)
     private bool isRightDirection;    // player 방향이 우측이냐(true) 아니냐(flase = 좌측)
+
+    public WeaponManager weaponManager;
     #endregion
 
     #region getter
-    public static Player Instance { get { return instance; } }
     public PlayerController PlayerController { get { return controller; } }
     public PlayerState State { get { return state; } }
     public bool GetRightDirection() { return isRightDirection; }
@@ -62,6 +60,7 @@ public class Player : Character
     public Vector3 GetRecenteInputVector() { return controller.GetRecenteInputVector(); }
     public Vector3 GetPosition() { return objTransform.position; }
     public BuffManager GetBuffManager() { return buffManager; }
+    public WeaponManager GetWeaponManager() { return weaponManager; }
     #endregion
     #region setter
     #endregion
@@ -69,17 +68,13 @@ public class Player : Character
     #region UnityFunction
     void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
-            Destroy(gameObject);
         state = PlayerState.IDLE;
         objTransform = GetComponent<Transform>();
-        controller = new PlayerController(UIManager.Instance.GetJoystick);
-        Debug.Log("z : " + UIManager.Instance.GetJoystick);
         playerScale = 1f;
         scaleVector = new Vector3(playerScale, playerScale, 1);
         buffManager = new BuffManager();
+        isRightDirection = true;
+        Init();
     }
 
     // Update is called once per frame
@@ -108,6 +103,16 @@ public class Player : Character
     #endregion
 
     #region function
+    public void Init()
+    {
+        // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
+        weaponManager.Init(this);
+        // 공격 버튼에 player class 넘기기
+        GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
+        GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>().SetPlayer(this);
+
+        controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
+    }
     public override void Die()
     {
         throw new System.NotImplementedException();

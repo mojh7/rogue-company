@@ -15,7 +15,6 @@ public class GamaManager : MonoBehaviour {
 
     private void Start()
     {
-        UIManager.Instance.InitForPlayGame();   // 게임 첫 시작시 초기화
         GenerateMap();
         SpawnPlayer();
         DrawUI();

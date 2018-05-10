@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
 
     public GameObject playerPrefab;
+    GameObject playerObj;
     GameObject m_playerObj;
+
 
     public Vector3 GetPlayerPosition()
     {
