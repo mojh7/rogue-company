@@ -8,7 +8,7 @@ public class Enemy : Character {
     #region UnityFunc
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (State.ALIVE != state)
+        if (State.ALIVE != pState)
             return;
         if (collision.gameObject.CompareTag("Bullet"))
         {
@@ -22,12 +22,12 @@ public class Enemy : Character {
     public void Init(Sprite _sprite)
     {
         sprite = _sprite;
-        state = State.ALIVE;
+        pState = State.ALIVE;
         renderer.sprite = sprite;   
     }
     public override void Die()
     {
-        state = State.DIE;
+        pState = State.DIE;
     }
     #endregion
 }

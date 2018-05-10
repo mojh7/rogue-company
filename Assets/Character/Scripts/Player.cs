@@ -21,7 +21,7 @@ public abstract class Character : MonoBehaviour
     protected Sprite sprite;
     protected Animator animator;
     protected float hp;
-    protected State state;
+    protected State pState;
     public CircleCollider2D interactiveCollider2D;
     public float moveSpeed;     // Character move Speed
 
