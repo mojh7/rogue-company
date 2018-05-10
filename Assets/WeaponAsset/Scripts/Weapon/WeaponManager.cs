@@ -14,7 +14,6 @@ public class WeaponManager : MonoBehaviour {
 
     #region variables
 
-
     [SerializeField]
     private List<Weapon> equipWeaponSlot;      // 무기 장착 슬룻 (최대 3개)
     [SerializeField]
@@ -22,7 +21,6 @@ public class WeaponManager : MonoBehaviour {
     private int weaponCount;               // 현재 장착된 무기 갯수 
     [SerializeField]
     private int weaponCountMax;            // 무기 장착 최대 갯수 
-    private static WeaponManager instance = null;
     private Transform objTransform;
     private DelGetDirDegree ownerDirDegree;
     private DelGetPosition ownerDirVec;
@@ -38,7 +36,6 @@ public class WeaponManager : MonoBehaviour {
 
     #endregion
     #region getter
-    public static WeaponManager Instance { get { return instance; } }
     public bool GetAttackAble()
     {
         if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.Idle)
@@ -57,10 +54,6 @@ public class WeaponManager : MonoBehaviour {
     #region UnityFunction
     void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
-            Destroy(gameObject);
         objTransform = GetComponent<Transform>();
     }
     // Use this for initialization

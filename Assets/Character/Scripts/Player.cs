@@ -17,6 +17,13 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
+    protected Sprite sprite;
+    protected Animator animator;
+    protected float hp;
+    public CircleCollider2D interactiveCollider2D;
+    public float moveSpeed;     // Character move Speed
+
+    public abstract void Die();
 }
 
 
@@ -26,16 +33,11 @@ public class Player : Character
     #region variables
 
     public enum PlayerState { IDLE, DASH, KNOCKBACK, DEAD }
-    
-    public Joystick joystick;
+    //public Joystick joystick;
 
-    public float moveSpeed;     // 플레이어 이동속도
 
-    [SerializeField]
-    private GameObject playerObj;   // 플레이어 오브젝트
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
-
     private BuffManager buffManager;
     private Transform objTransform;
     private PlayerState state;
@@ -56,6 +58,7 @@ public class Player : Character
     public Vector3 GetRecenteInputVector() { return controller.GetRecenteInputVector(); }
     public Vector3 GetPosition() { return objTransform.position; }
     public BuffManager GetBuffManager() { return buffManager; }
+    public WeaponManager GetWeaponManager() { return weaponManager; }
     #endregion
     #region setter
     #endregion
@@ -65,7 +68,6 @@ public class Player : Character
     {
         state = PlayerState.IDLE;
         objTransform = GetComponent<Transform>();
-        controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerScale = 1f;
         scaleVector = new Vector3(playerScale, playerScale, 1);
         buffManager = new BuffManager();
@@ -99,12 +101,47 @@ public class Player : Character
     #endregion
 
     #region function
-
     public void Init()
     {
+        // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this);
-    }
+        // 공격 버튼에 player class 넘기기
+        GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
+        GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>().SetPlayer(this);
 
+        controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
+    }
+    public override void Die()
+    {
+        throw new System.NotImplementedException();
+    }
+    public bool Interact()
+    {
+        float bestDistance = interactiveCollider2D.radius * 10;
+        Collider2D bestCollider = null;
+
+        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius);
+
+        for (int i = 0; i < collider2D.Length; i++)
+        {
+            if (null == collider2D[i].GetComponent<CustomObject>())
+                continue;
+            if (!collider2D[i].GetComponent<CustomObject>().isAvailable)
+                continue;
+            float distance = Vector2.Distance(transform.position, collider2D[i].transform.position);
+
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestCollider = collider2D[i];
+            }
+        }
+
+        if (null == bestCollider)
+            return false;
+        bestCollider.GetComponent<CustomObject>().Active();
+        return true;
+    }
     // 캐릭터 이동, WASD Key, 테스트 용
     private void Move()
     {
@@ -129,7 +166,6 @@ public class Player : Character
             transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
         }
     }
-
     // 공격 가능 여부 리턴
     public bool AttackAble()
     {

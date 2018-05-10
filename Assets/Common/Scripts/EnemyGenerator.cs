@@ -2,28 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGenerator : MonoBehaviour {
+public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
     private static EnemyGenerator instance;
 
     public Sprite[] sprites;
     public ObjectPool objectPool;
     GameObject enemyObj;
     
-    public static EnemyGenerator GetInstance()
-    {
-        if(instance == null)
-        {
-            instance = Object.FindObjectOfType<EnemyGenerator>();
-        }
-        return instance;
-    }
-
     public void Generate(Vector3 _position)
     {
-        enemyObj = objectPool.GetPooledObject();
-        enemyObj.transform.position = _position;
-        enemyObj.GetComponent<SpriteRenderer>().sprite = sprites[0];
-        enemyObj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
+        enemyObj = new GameObject();
+        enemyObj.AddComponent<AlertIndicator>();
+    }
+
+    void Spawn(GameObject _enemyObj, Vector2 _position)
+    {
+        _enemyObj = objectPool.GetPooledObject();
+        _enemyObj.transform.position = _position;
+        _enemyObj.GetComponent<SpriteRenderer>().sprite = sprites[0];
+        _enemyObj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
     }
 
 }

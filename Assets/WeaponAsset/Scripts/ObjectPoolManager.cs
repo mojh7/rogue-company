@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 일단 가지고 있던 메모리풀 쓰고 있는 중.....................................
+// 일단 가지고 있던 메모리풀 쓰고 있는 중... - 장현
 
 public enum ObjPoolType { Bullet, Effect }
 public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {

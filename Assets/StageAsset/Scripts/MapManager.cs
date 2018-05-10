@@ -10,7 +10,10 @@ namespace Map
         public ObjectPool objectPool;
         public Material spriteMaterial;
         public GameObject maskPrefab;
-        public int width, height, size, area, floor;
+        [Space(10)]
+        [Header("variable")]
+        public int width;
+        public int height, size, area, floor;
         Map map;
         public void LightTurn()
         {
@@ -19,16 +22,10 @@ namespace Map
             else
                 spriteMaterial.color = Color.white;
         }
-        public void PlayerPositionToMap()
-        {
-            if (map != null)
-                MiniMap.Instance.PlayerPositionToMap();
-        }
         public void GenerateMap()
         {
             if (map != null)
             {
-                map.Dispose();
                 map = null;
             }
             map = new Map(width, height, size, area, floor, objectPool);
@@ -39,7 +36,6 @@ namespace Map
             map.Generate();
 
             RoomManager.Instance.InitRoomList();
-            MiniMap.Instance.DrawMinimap();
         }
         public Map GetMap() { return map; }
     }
@@ -84,11 +80,6 @@ namespace Map
         {
             currentRoom = halls[0];
             return rooms;
-        }
-
-        public void Dispose()
-        {
-            RefreshData();
         }
 
         bool CoinFlip(int percent)
@@ -472,7 +463,6 @@ namespace Map
             if(flag)
             {
                 int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(4, 7) /10);
-                int x2 = x1 + 1;
                 _rectA = new Rect(_currentRect.x, _currentRect.y, x1 - _currentRect.x, _currentRect.height, size);
                 _hall = new Rect(_rectA.x + _rectA.width, _currentRect.y, 1, _currentRect.height, size);
                 _rectB = new Rect(_hall.x + _hall.width, _currentRect.y, _currentRect.width - _rectA.width - _hall.width, _currentRect.height, size);
@@ -480,7 +470,6 @@ namespace Map
             else
             {
                 int y1 = (int)((_currentRect.y + 0.5f) + _currentRect.height * (float)Random.Range(4, 7) / 10);
-                int y2 = y1 + 1;
                 _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, y1 - _currentRect.y, size);
                 _hall = new Rect(_currentRect.x, _rectA.y + _rectA.height, _currentRect.width, 1, size);
                 _rectB = new Rect(_currentRect.x, _hall.y + _hall.height, _currentRect.width, _currentRect.height - _rectA.height - _hall.height, size);
@@ -591,8 +580,6 @@ namespace Map
             GameObject obj = null;
             if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
             {
-                float mainY = _rectA.midY;
-                float subY = _rectB.midY;
                 int y;
 
                 List<int> yArr = new List<int>(4)
@@ -605,7 +592,12 @@ namespace Map
 
                 yArr.Sort();
 
-                y = (yArr[1] + yArr[2]) / 2;
+                int interval = yArr[2] - yArr[1];
+                int intervalNum = interval / size;
+
+                int intervalResult = Random.Range(0, intervalNum) * 5;
+                y = yArr[1] + intervalResult + size / 2;
+
                 if (_rectA.midX > _rectB.midX) // 오른쪽
                 {
                     wallTileMap.SetTile(new Vector3Int(_rectA.x * size, y, 0), null);
@@ -627,8 +619,6 @@ namespace Map
             } // 가로로 붙음
             else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
             {
-                float mainX = _rectA.midX;
-                float subX = _rectB.midX;
                 int x;
 
                 if (_rectA.width >= _rectB.width)
@@ -649,7 +639,11 @@ namespace Map
 
                 xArr.Sort();
 
-                x = (xArr[1] + xArr[2]) / 2;
+                int interval = xArr[2] - xArr[1];
+                int intervalNum = interval / size;
+
+                int intervalResult = Random.Range(0, intervalNum) * 5;
+                x = xArr[1] + intervalResult + size / 2;
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
                 {

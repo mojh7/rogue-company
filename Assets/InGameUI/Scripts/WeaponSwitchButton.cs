@@ -6,10 +6,14 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
 {
     private Vector2 pos;
     // Use this for initialization
-    void Start()
-    {
+    private Player player;
 
+
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
     }
+
     // 터치 했을 때
     public void OnPointerDown(PointerEventData ped)
     {
@@ -24,13 +28,13 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
         if (ped.position.x > pos.x)
         {
             Debug.Log("다음 무기로 교체");
-            WeaponManager.Instance.ChangeWeapon(true);
+            player.GetWeaponManager().ChangeWeapon(true);
         }
         // 이전 무기로 교체 방향 <-
         else if (ped.position.x < pos.x)
         {
             Debug.Log("이전 무기로 교체");
-            WeaponManager.Instance.ChangeWeapon(false);
+            player.GetWeaponManager().ChangeWeapon(false);
         }
         // Debug.Log("WeaponSwapBtn touch up x : " + ped.position.x);
     }
