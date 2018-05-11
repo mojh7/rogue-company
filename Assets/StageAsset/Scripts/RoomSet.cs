@@ -51,11 +51,6 @@ public struct ObjectData
     {
         switch (objectType)
         {
-            case ObjectType.DOOR:
-                _gameObject.AddComponent<Door>();
-                _gameObject.GetComponent<Door>().sprite = null;
-                _gameObject.GetComponent<Door>().Init();
-                break;
             case ObjectType.UNBREAKABLE:
                 _gameObject.AddComponent<UnbreakableBox>();
                 _gameObject.GetComponent<UnbreakableBox>().sprites = sprites;

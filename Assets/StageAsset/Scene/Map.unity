@@ -484,6 +484,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e38667601126eec468d0c4f835cb5da7, type: 3}
   - {fileID: 21300000, guid: 5354b0ad0d49f32479e387b4b7e7e0fa, type: 3}
   objectPool: {fileID: 418867811}
+  alertObj: {fileID: 1832046738814270, guid: dece55cd74b3a82448bb0a09bbc09a1b, type: 2}
 --- !u!114 &307469669
 MonoBehaviour:
   m_ObjectHideFlags: 0

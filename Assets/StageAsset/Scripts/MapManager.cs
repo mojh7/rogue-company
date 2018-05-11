@@ -55,6 +55,7 @@ namespace Map
         int size;
         int floor;
         ObjectPool objectPool;
+        Vector3 startPosition;
 
         public Map(int _width,int _height,int _size, int _area,int _floor, ObjectPool _objectPool)
         {
@@ -86,6 +87,11 @@ namespace Map
         {
             return Random.Range(0, 100) < percent;
         } // 코인 플립 확률에 따른 yes or no 반환
+
+        public Vector3 GetStartPosition()
+        {
+            return startPosition;
+        }
 
         #region MakeMap
         public void Generate() 
@@ -689,8 +695,8 @@ namespace Map
                 roomSet.y = rooms[i].y;
                 rooms[i].eRoomType = roomSet.roomType;
                 rooms[i].gage = roomSet.gage;
-                RoomManager.Instance.tempRoom = rooms[i];
                 rooms[i].customObjects = AssignRoom(roomSet);
+                AvailableAreas(rooms[i], 5);
             }
 
             CreateStartPoint();
@@ -710,18 +716,29 @@ namespace Map
             return customObjects;
         } // 룸 셋 배치
 
+        void AvailableAreas(Rect _rect,int _radius)
+        {
+            int width = _rect.width * _rect.size;
+            int height = _rect.height * _rect.size;
+            Vector2 vector2 = _rect.areaLeftDown;
+            int radius = 5;
+
+            for (float i = vector2.x + 2; i < vector2.x + width - 0.5f; i++)
+            {
+                for (float j = vector2.y +2f; j < vector2.y + height - 0.5f; j++)
+                {
+                    if (!Physics2D.OverlapCircle(new Vector2(i, j), radius, LayerMask.GetMask("TransparetFX")))
+                        _rect.availableAreas.Add(new Vector2(i, j));
+                }
+            }
+        }
+
         void CreateStartPoint()
         {
-            halls[0].customObjects = new GameObject[1];
-            halls[0].customObjects[0] = objectPool.GetPooledObject();
-            halls[0].customObjects[0].AddComponent<StartPoint>();
-            halls[0].customObjects[0].GetComponent<StartPoint>().Init();
-            halls[0].customObjects[0].transform.position = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
-            //if (halls[0].width > halls[0].height)
-            //    halls[0].customObjects[0].transform.position = new Vector3(halls[0].areaLeftDown.x + (halls[0].areaRightTop.x - halls[0].areaLeftDown.x) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
-            //else
-            //    halls[0].customObjects[0].transform.position = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
-            halls[0].customObjects[0].GetComponent<StartPoint>().SetPosition();
+            if (halls[0].width > halls[0].height)
+                startPosition = new Vector3(halls[0].areaLeftDown.x + (halls[0].areaRightTop.x - halls[0].areaLeftDown.x) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
+            else
+                startPosition = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
         } // 스타트 포인트
 
         void CreateRoomMaskObj()
@@ -758,6 +775,7 @@ namespace Map
         List<Rect> linkedEdgeRect;
         public GameObject[] customObjects;
         public List<GameObject> doorObjects;
+        public List<Vector3> availableAreas;
         public GameObject maskObject;
         public bool isRoom;
         public bool downExist;
@@ -782,6 +800,12 @@ namespace Map
             edgeRect = new List<Rect>();
             linkedEdgeRect = new List<Rect>();
             doorObjects = new List<GameObject>();
+            availableAreas = new List<Vector3>();
+        }
+
+        public Vector3 GetAvailableArea()
+        {
+            return availableAreas[Random.Range(0, availableAreas.Count)]; ;
         }
 
         public void EdgeRect(Rect _rect)

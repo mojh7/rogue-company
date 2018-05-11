@@ -5,7 +5,7 @@ using Map;
 
 public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
-    public Map.Rect tempRoom;
+    //public Map.Rect tempRoom;
     List<Map.Rect> roomList;
     Map.Rect currentRoom;
 
@@ -15,6 +15,11 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
     } // 룸리스트 받아오기
+
+    public int GetGage()
+    {
+        return currentRoom.gage;
+    }
 
     void DoorSetAvailable() 
     {
@@ -73,17 +78,23 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (!roomList[i].isRoom)
-                continue;
-            for (int j = 0; j < roomList[i].customObjects.Length; j++)
-                roomList[i].customObjects[j].SetActive(false);
+            DisalbeObject(roomList[i]);
         }
     }
 
-    public void Spawned()
+    void DisalbeObject(Map.Rect _room)
+    {
+        if (_room.customObjects == null)
+            return;
+        for (int j = 0; j < _room.customObjects.Length; j++)
+            _room.customObjects[j].SetActive(false);
+    }
+
+    public Vector3 Spawned()
     {
         currentRoom.gage--;
         monsterNum++;
+        return currentRoom.GetAvailableArea();
     }
 
     public void DieMonster()
@@ -105,12 +116,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     public Vector3 RoomStartPoint()
     {
-        for(int i = 0; i < currentRoom.customObjects.Length; i++)
-        {
-            if (currentRoom.customObjects[i].GetComponent<StartPoint>() != null)
-                return currentRoom.customObjects[i].GetComponent<Transform>().position;
-        }
-        return Vector3.zero;
+        return MapManager.Instance.GetMap().GetStartPosition();
     }
 
     public void FindCurrentRoom()
