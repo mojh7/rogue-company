@@ -82,7 +82,7 @@ public class MapEditor : EditorWindow
             if (!op)
                 return;
         }
-        if (objectType == ObjectType.DOOR || objectType == ObjectType.SPAWNER || objectType == ObjectType.START)
+        if (objectType == ObjectType.NONE || objectType == ObjectType.SPAWNER)
             return;
         GameObject gameObject = new GameObject();
         gameObject.name = "Object";

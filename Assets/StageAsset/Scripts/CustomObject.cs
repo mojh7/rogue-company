@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { DOOR, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, SPAWNER, START, END }
+public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, SPAWNER}
 
 public class CustomObject : MonoBehaviour {
 
@@ -65,35 +65,6 @@ public class CustomObject : MonoBehaviour {
             spriteRenderer.sprite = sprite;
     }
 #endregion
-}
-
-public class Door : CustomObject
-{
-    bool isHorizon;
-
-    public override void Init()
-    {
-        base.Init();
-        isActive = true;
-        isAvailable = true;
-        objectType = ObjectType.DOOR;
-        tag = "Wall";
-    }
-    public override void Active()
-    {
-        base.Active();
-        isAnimate = true;
-        if(!isHorizon)
-            animator.SetTrigger("door_horizon");
-        else
-            animator.SetTrigger("door_vertical");
-        Debug.Log("Door");
-    }
-    
-    public void SetAxis(bool _isHorizon)
-    {
-        isHorizon = _isHorizon;
-    }
 }
 
 public class UnbreakableBox : CustomObject
@@ -178,7 +149,6 @@ public class ItemBox : CustomObject
 
 public class Spawner : CustomObject
 {
-    List<Vector2> _positions;
     int spawnCount = 2;
     int gage;
     public override void Init()
@@ -188,79 +158,115 @@ public class Spawner : CustomObject
         isAvailable = false;
         GetComponent<BoxCollider2D>().size = new Vector2(0, 0);
         objectType = ObjectType.SPAWNER;
-        _positions = new List<Vector2>();
-        Preprocessing();
     }
     public override void Active()
     {
         base.Active();
+        StartCoroutine(SpawnProcess());
+        Debug.Log("Spawner");
+    }
+    IEnumerator SpawnProcess()
+    {
         if (spawnCount >= 2)
         {
+            gage = RoomManager.Instance.GetGage();
             int count = gage / 2;
             while (count > 0)
             {
-                SpawnProcess();
+                Spawn();
                 count--;
+                yield return YieldInstructionCache.WaitForSeconds(.5f);
             }
 
             spawnCount--;
         }
-        else if(spawnCount == 1)
+        else if (spawnCount == 1)
         {
             while (gage > 0)
             {
-                SpawnProcess();
+                Spawn();
+                yield return YieldInstructionCache.WaitForSeconds(.5f);
             }
 
             spawnCount--;
         }
-        Debug.Log("Spawner");
     }
-    void SpawnProcess()
+    void Spawn()
     {
         gage--;
-        RoomManager.Instance.Spawned();
-        Vector2 tempPosition = _positions[Random.Range(0, _positions.Count)];
+        Vector2 tempPosition = RoomManager.Instance.Spawned();
         EnemyGenerator.Instance.Generate(tempPosition);
-    }
-    void Preprocessing()
-    {
-        Map.Rect room = RoomManager.Instance.tempRoom;
-        int width = room.width * room.size;
-        int height = room.height * room.size;
-        Vector2 vector2 = room.areaLeftDown;
-        int radius = 5;
-        gage = room.gage;
-
-        for (float i = vector2.x + 1; i < vector2.x + width - 0.5f; i++)
-        {
-            for (float j = vector2.y + 0.5f; j < vector2.y + height - 0.5f; j++)
-            {
-                if (!Physics2D.OverlapCircle(new Vector2(i, j), radius, LayerMask.GetMask("TransparetFX")))
-                    _positions.Add(new Vector2(i, j));
-            }
-        }
     }
 }
 
-public class StartPoint : CustomObject
+public class Door : CustomObject
 {
+    bool isHorizon;
+
+    public override void Init()
+    {
+        base.Init();
+        isActive = true;
+        isAvailable = true;
+        objectType = ObjectType.NONE;
+        tag = "Wall";
+    }
+    public override void Active()
+    {
+        base.Active();
+        isAnimate = true;
+        if (!isHorizon)
+            animator.SetTrigger("door_horizon");
+        else
+            animator.SetTrigger("door_vertical");
+        Debug.Log("Door");
+    }
+
+    public void SetAxis(bool _isHorizon)
+    {
+        isHorizon = _isHorizon;
+    }
+}
+
+public class Alert : CustomObject
+{
+    public delegate void Del(Vector3 _position);
+    Del callback;
     public override void Init()
     {
         base.Init();
         isActive = false;
         isAvailable = true;
-        GetComponent<BoxCollider2D>().size = new Vector2(0, 0);
-        objectType = ObjectType.START;
+        objectType = ObjectType.NONE;
+    }
+    public void Init(Del _call)
+    {
+        Init();
+        callback += _call;
     }
     public override void Active()
     {
         base.Active();
-        Debug.Log("PlayerStart");
+        Debug.Log("Alert");
+        isAnimate = true;
+        animator.SetTrigger("alert_indicator");
+        StartCoroutine(CheckAnimate());
+    }
+    IEnumerator CheckAnimate()
+    {
+        while (true)
+        {
+            if (!isAnimate)
+                break;
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
+        callback(transform.position);
+        Destroy(this.gameObject);
     }
 }
 
-public class EndPoint : CustomObject
+public class Portal : CustomObject
 {
     public override void Init()
     {
@@ -268,7 +274,7 @@ public class EndPoint : CustomObject
         isActive = false;
         isAvailable = false;
         GetComponent<BoxCollider2D>().size = new Vector2(0,0);
-        objectType = ObjectType.END;
+        objectType = ObjectType.NONE;
     }
     public override void Active()
     {

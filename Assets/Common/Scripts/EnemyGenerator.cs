@@ -6,21 +6,22 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
 
     public Sprite[] sprites;
     public ObjectPool objectPool;
-    GameObject enemyObj;
-    
+    public GameObject alertObj;
+
     public void Generate(Vector3 _position)
     {
-        //enemyObj = new GameObject();
-        //enemyObj.AddComponent<AlertIndicator>();
-        Spawn(null, _position);
+        GameObject obj = Instantiate(alertObj,_position,Quaternion.identity,this.transform);
+        obj.AddComponent<Alert>();
+        obj.GetComponent<Alert>().sprite = null;
+        obj.GetComponent<Alert>().Init(CallBack);
+        obj.GetComponent<Alert>().Active();
     }
 
-    void Spawn(GameObject _enemyObj, Vector2 _position)
+    void CallBack(Vector3 _position)
     {
-        _enemyObj = objectPool.GetPooledObject();
-        _enemyObj.transform.position = _position;
-        _enemyObj.GetComponent<Enemy>().Init(sprites[0]);
-        _enemyObj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
+        GameObject obj = objectPool.GetPooledObject();
+        obj.transform.position = _position;
+        obj.GetComponent<Enemy>().Init(sprites[0]);
+        obj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
     }
-
 }
