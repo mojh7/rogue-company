@@ -34,7 +34,6 @@ namespace Map
                 map.AddNecessaryRoomSet(new Rect(0, 0, 3, 3, size));
             }
             map.Generate();
-
             RoomManager.Instance.InitRoomList();
         }
         public Map GetMap() { return map; }
@@ -103,6 +102,7 @@ namespace Map
             LinkHall();
             AssignAllRoom();
             rooms.AddRange(halls);
+            BakeAvailableArea();
             CreateRoomMaskObj();
         } // office creates
 
@@ -217,7 +217,7 @@ namespace Map
             {
                 if (_a.y > _b.y)
                     return -1;
-                else if(_a.y == _b.y)
+                else if (_a.y == _b.y)
                 {
                     if (_a.x > _b.x)
                         return 1;
@@ -232,7 +232,7 @@ namespace Map
             });
             for (int i = 0; i < width * size * 2; i++)
             {
-                for(int j = 0; j < height * size * 2; j++)
+                for (int j = 0; j < height * size * 2; j++)
                 {
                     floorTileMap.SetTile(new Vector3Int(i, j, 0), floor);
                 }
@@ -256,7 +256,7 @@ namespace Map
                     }
                 }
             } // 전체 맵 그리기
-            for (int index = 0; index < rooms.Count; index++) 
+            for (int index = 0; index < rooms.Count; index++)
             {
                 rect = rooms[index];
                 for (int x = rect.x; x < rect.x + rect.width; x++)
@@ -315,7 +315,7 @@ namespace Map
                                         wallTileMap.SetTile(new Vector3Int(size * x + i, size * y + j, 0), wall[6]);
                                         shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                     }
-                                }                               
+                                }
                             }
                         }
                     }
@@ -335,7 +335,7 @@ namespace Map
                             {
                                 if (size * y + j == height * size - 1)
                                 {
-                                    if(size * x + i == rect.x * size)
+                                    if (size * x + i == rect.x * size)
                                     {
                                         shadowTileMap.SetTile(new Vector3Int(size * x + i, size * y + j - 1, 0), shadow);
                                     }
@@ -374,8 +374,7 @@ namespace Map
                     }
                 }
             } // 보더 지우기
-
-        } // 바닥 타일, 벽 타일 드로잉
+        }
 
         bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Rect> _list)
         {
@@ -696,7 +695,6 @@ namespace Map
                 rooms[i].eRoomType = roomSet.roomType;
                 rooms[i].gage = roomSet.gage;
                 rooms[i].customObjects = AssignRoom(roomSet);
-                AvailableAreas(rooms[i], 5);
             }
 
             CreateStartPoint();
@@ -716,21 +714,25 @@ namespace Map
             return customObjects;
         } // 룸 셋 배치
 
-        void AvailableAreas(Rect _rect,int _radius)
+        void BakeAvailableArea()
+        {
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                AvailableAreas(rooms[i], 0.5f);
+            }
+        }
+
+        void AvailableAreas(Rect _rect, float _radius)
         {
             int width = _rect.width * _rect.size;
             int height = _rect.height * _rect.size;
             Vector2 vector2 = _rect.areaLeftDown;
-            int radius = 5;
-
-            for (float i = vector2.x + 2; i < vector2.x + width - 0.5f; i++)
-            {
-                for (float j = vector2.y +2f; j < vector2.y + height - 0.5f; j++)
-                {
-                    if (!Physics2D.OverlapCircle(new Vector2(i, j), radius, LayerMask.GetMask("TransparetFX")))
+            LayerMask layerMask = (1 << LayerMask.NameToLayer("TransparentFX")) | (1 << LayerMask.NameToLayer("Wall"));
+            int yGap = 1;
+            for (float i = vector2.x + 0.5f; i < vector2.x + width - 0.5f; i+=0.5f)
+                for (float j = vector2.y + yGap; j < vector2.y + height - 1; j += 0.5f)
+                    if (!Physics2D.OverlapCircle(new Vector2(i, j), _radius, layerMask))
                         _rect.availableAreas.Add(new Vector2(i, j));
-                }
-            }
         }
 
         void CreateStartPoint()
