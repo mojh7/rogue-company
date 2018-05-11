@@ -11,6 +11,7 @@ public class MultiDirPatternInfo : ScriptableObject
 
     public int bulletId;        // 총알 Id
     public Sprite bulletSprite; // 총알 sprite;
+    public int effectId;        // 이 패턴에서 나오는 모든 총알에 이펙트를 지정하고 싶으면 0 이상의 index 값으로 하고, 값이면 -1이면 bulletInfo 고유의 effect 생성
 
     [Tooltip("hahaha")]
     public float speed;         // 총알 속도
@@ -21,4 +22,9 @@ public class MultiDirPatternInfo : ScriptableObject
     [SerializeField]
     [TextArea(3, 100)]
     private string memo;
+
+    public MultiDirPatternInfo()
+    {
+        effectId = -1;
+    }
 }

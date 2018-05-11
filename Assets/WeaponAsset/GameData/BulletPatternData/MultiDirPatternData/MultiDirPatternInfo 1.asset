@@ -17,6 +17,7 @@ MonoBehaviour:
   randomAngle: 0
   bulletId: 5
   bulletSprite: {fileID: 21300002, guid: fc289d39972eca14084789fc8a816b16, type: 3}
+  effectId: 5
   speed: 5
   range: 7
   damage: 0

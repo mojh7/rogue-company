@@ -17,7 +17,8 @@ MonoBehaviour:
   randomAngle: 0
   bulletId: 0
   bulletSprite: {fileID: 21300002, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
-  speed: 0
-  range: 0
+  effectId: 6
+  speed: 8
+  range: 4
   damage: 0
   memo: "6\uBC29\uD5A5 \uC0F7\uAC74"

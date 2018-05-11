@@ -71,9 +71,11 @@ public class Bullet : MonoBehaviour
     #region Function
     // 총알 class 초기화
     // 일반 총알 초기화
-    public void Init(int bulletId, Sprite bulletSprite, float speed, float range, Vector3 pos, float direction)
+    public void Init(int bulletId, Sprite bulletSprite, float speed, float range, int effectId, Vector3 pos, float direction)
     {
         info = DataStore.Instance.GetBulletInfo(bulletId);
+
+        // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
         if (speed != 0)
         {
             info.speed = speed;
@@ -82,6 +84,11 @@ public class Bullet : MonoBehaviour
         {
             info.range = range;
         }
+        if (effectId != -1)
+        {
+            info.effectId = effectId;
+        }
+        //--------------------------------
 
         // component on/off
         //boxCollider.enabled = true;

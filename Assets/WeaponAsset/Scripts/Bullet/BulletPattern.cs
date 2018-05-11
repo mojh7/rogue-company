@@ -117,7 +117,7 @@ public class MultiDirPattern : BulletPattern
         for (int i = 0; i < info.bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateObj(ObjPoolType.Bullet);
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletSprite, info.speed, info.range, ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletSprite, info.speed, info.range, info.effectId,  ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
 }
@@ -146,6 +146,8 @@ public class RowPattern : BulletPattern
         ownerDirVec = weapon.GetOwnerDirVec();
         ownerPos = weapon.GetOwnerPos();
         ownerBuff = weapon.GetOwnerBuff();
+
+        // weapon에서 값 가져올 필요가 있는 경우 가져옴.
         if (weapon.info.bulletMoveSpeed != 0)
         {
             info.speed = weapon.info.bulletMoveSpeed;
@@ -186,7 +188,7 @@ public class RowPattern : BulletPattern
         for (int i = 0; i < info.bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateObj(ObjPoolType.Bullet);
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletSprite, info.speed, info.range, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * info.initPos -perpendicularVector * info.deltaPos * i, ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletSprite, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * info.initPos -perpendicularVector * info.deltaPos * i, ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
 }
