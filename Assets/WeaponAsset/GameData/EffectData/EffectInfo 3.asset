@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 0.5
   animationName: effect3
-  scaleX: 1
-  scaleY: 1
+  scaleX: 1.5
+  scaleY: 1.5
   particleActive: 0
-  memo: 
+  memo: "\uAD6C\uB984 \uBB49\uAC8C\uBB49\uAC8C\n"

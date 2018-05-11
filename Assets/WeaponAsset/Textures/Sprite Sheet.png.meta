@@ -4,9 +4,9 @@ timeCreated: 1520971365
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Sprite Sheet_0
-    21300002: Sprite Sheet_1
-    21300004: Sprite Sheet_2
+    21300000: heart_full
+    21300002: heart_half
+    21300004: heart_empty
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -93,7 +93,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sprite Sheet_0
+      name: heart_full
       rect:
         serializedVersion: 2
         x: 0
@@ -101,13 +101,13 @@ TextureImporter:
         width: 36
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Sprite Sheet_1
+      name: heart_half
       rect:
         serializedVersion: 2
         x: 38
@@ -115,13 +115,13 @@ TextureImporter:
         width: 36
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Sprite Sheet_2
+      name: heart_empty
       rect:
         serializedVersion: 2
         x: 76
@@ -129,7 +129,7 @@ TextureImporter:
         width: 36
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
