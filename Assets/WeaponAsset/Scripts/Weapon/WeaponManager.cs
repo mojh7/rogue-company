@@ -116,7 +116,9 @@ public class WeaponManager : MonoBehaviour {
             equipWeaponSlot[i].SetOwnerPos(ownerPos);
             equipWeaponSlot[i].SetOwnerDirVec(ownerDirVec);
             equipWeaponSlot[i].SetOwnerBuff(ownerBuff);
-            equipWeaponSlot[i].Init(this);
+            equipWeaponSlot[i].SetWeaponManager(this);
+            // Debug 용으로 현재 장착된 무기들 인스펙터 창에서 설정된 wepaon id대로 초기화
+            equipWeaponSlot[i].Init(-1);
         }
     }
 
@@ -185,6 +187,7 @@ public class WeaponManager : MonoBehaviour {
 
 
     // return 값으로 나온 버려진 무기를 item Class에 넘겨서 Player 바로 밑에 버려진 아이템 구현
+
     /// <param name="weapon">추가 </param>
     /// <summary>
     /// 무기 습득
@@ -199,15 +202,19 @@ public class WeaponManager : MonoBehaviour {
         if (weaponCount < weaponCountMax)
         {
             equipWeaponSlot.Add(pickedWeapon);
+            pickedWeapon.ObjTransform.SetParent(objTransform);
+            pickedWeapon.ObjTransform.position = Vector3.zero;
             currentWeaponIndex = weaponCount++;
             OnOffWeaponActive();
             return null;            
         }
-        // 현재 착용중인 무기 버리고 습득 무기로 바꾸고 장착
+        // 현재 착용중인 무기 버리고(return으로 내뱉음) 습득 무기로 바꾸고 장착
         else
         {
             Weapon dropedWeapon = equipWeaponSlot[currentWeaponIndex];
             equipWeaponSlot[currentWeaponIndex] = pickedWeapon;
+            pickedWeapon.ObjTransform.SetParent(objTransform);
+            pickedWeapon.ObjTransform.position = Vector3.zero;
             OnOffWeaponActive();
             return dropedWeapon;
         }

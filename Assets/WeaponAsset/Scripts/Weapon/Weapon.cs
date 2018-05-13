@@ -54,6 +54,7 @@ public class Weapon : MonoBehaviour {
     
     #endregion
     #region getter
+    public Transform ObjTransform { get { return objTransform; } }
     public DelGetDirDegree GetownerDirDegree() { return ownerDirDegree; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
@@ -61,60 +62,50 @@ public class Weapon : MonoBehaviour {
     public WeaponState GetWeaponState() { return weaponState; }
     #endregion
     #region setter
-    public void SetownerDirDegree(DelGetDirDegree ownerDirDegree)
-    {
-        this.ownerDirDegree = ownerDirDegree;
-    }
-    public void SetOwnerDirVec(DelGetPosition ownerDirVec)
-    {
-        this.ownerDirVec = ownerDirVec;
-    }
-    public void SetOwnerPos(DelGetPosition ownerPos)
-    {
-        this.ownerPos = ownerPos;
-    }
+    public void SetownerDirDegree(DelGetDirDegree ownerDirDegree) { this.ownerDirDegree = ownerDirDegree; }
+    public void SetOwnerDirVec(DelGetPosition ownerDirVec) { this.ownerDirVec = ownerDirVec; }
+    public void SetOwnerPos(DelGetPosition ownerPos) { this.ownerPos = ownerPos; }
+    public void SetOwnerBuff(BuffManager ownerBuff) { this.ownerBuff = ownerBuff; }
 
-    public void SetOwnerBuff(BuffManager ownerBuff)
-    {
-        this.ownerBuff = ownerBuff;
-    }
+    public void SetWeaponManager(WeaponManager weaponManager) { this.weaponManager = weaponManager; }
     #endregion
 
     #region UnityFunction
-
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+        
+    }
     #endregion
     #region Function
-    // 무기 정보 받아오기, weaponView class 초기화
-    public void Init(WeaponManager weaponManager)
+
+
+    // DataStore에서 무기 정보 받아오기, weaponView class 초기화
+    public void Init(int weaponId)
     {
-        weaponState = WeaponState.Idle;
-
-        animator = GetComponent<Animator>();
-        objTransform = GetComponent<Transform>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
-        canChargedAttack = true;
-        ChargedAttackCooldown = 20f;
-        chargedTime = 0f;
+        if (weaponId >= 0) this.weaponId = weaponId;
 
         // id에 따른 무기 정보 받아오기
-        info = DataStore.Instance.GetWeaponInfo(weaponId);
+        info = DataStore.Instance.GetWeaponInfo(this.weaponId);
+
+        objTransform = GetComponent<Transform>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         weaponView = new WeaponView(objTransform, spriteRenderer);
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
+        weaponState = WeaponState.Idle;      
         
         // 공격 패턴(bulletPattern) 초기화
         for (int i = 0; i < info.bulletPatternsLength; i++)
         {
-            //bulletPatterns.Add(info.bulletPatterns[i].Clone());
             info.bulletPatterns[i].Init(this);
         }
 
-        this.weaponManager = weaponManager;
-
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
-        chargedTime = 0;
-        if(info.weaponType == WeaponType.Gun || info.weaponType == WeaponType.ShotGun || info.weaponType == WeaponType.Laser)
+        ChargedAttackCooldown = 20f;
+        chargedTime = 0f;
+        // 풀 차징 공격 (근거리, 원거리 별) 데미지 증가율
+        if (info.weaponType == WeaponType.Gun || info.weaponType == WeaponType.ShotGun || info.weaponType == WeaponType.Laser)
         {
             chargedDamageIncreaseRate = 0.6f;
         }

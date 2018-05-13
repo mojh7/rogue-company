@@ -116,7 +116,7 @@ public class MultiDirPattern : BulletPattern
     {
         for (int i = 0; i < info.bulletCount; i++)
         {
-            createdObj = ObjectPoolManager.Instance.CreateObj(ObjPoolType.Bullet);
+            createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletAnimationName, info.speed, info.range, info.effectId,  ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
@@ -187,7 +187,7 @@ public class RowPattern : BulletPattern
         perpendicularVector = MathCalculator.VectorRotate(ownerDirVec(), -90);
         for (int i = 0; i < info.bulletCount; i++)
         {
-            createdObj = ObjectPoolManager.Instance.CreateObj(ObjPoolType.Bullet);
+            createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletAnimationName, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * info.initPos -perpendicularVector * info.deltaPos * i, ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
@@ -255,8 +255,7 @@ public class LaserPattern : BulletPattern
     // 이미 저장된 정보 이용.
     public override void CreateBullet(float damageIncreaseRate)
     {
-        createdObj = ObjectPoolManager.Instance.bulletPool.NewItem();
-        // range 정도는 넘길 수도 있음. 삭제 속성 함수 값 out으로 받아옴.
+        createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdObj.GetComponent<Bullet>().Init(info.bulletId, addDirVecMagnitude, ownerPos, ownerDirVec);
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }

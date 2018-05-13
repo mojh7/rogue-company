@@ -31,7 +31,6 @@ public class Bullet : MonoBehaviour
     private DelGetPosition ownerPos;
     private float addDirVecMagnitude;
 
-    
     #endregion
     #region getter
     public LineRenderer GetLineRenderer() { return lineRenderer; }
@@ -51,7 +50,7 @@ public class Bullet : MonoBehaviour
     #region unityFunction
     void Awake()
     {
-        gameObject.hideFlags = HideFlags.HideInHierarchy;
+        //gameObject.hideFlags = HideFlags.HideInHierarchy;
         objTransform = GetComponent<Transform>();
         boxCollider = GetComponent<BoxCollider2D>();
         circleCollider = GetComponent<CircleCollider2D>();

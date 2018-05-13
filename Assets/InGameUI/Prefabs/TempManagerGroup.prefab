@@ -141,8 +141,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98bf88ce96d430b408ed6b0c404ef7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletObj: {fileID: 1273331988167040, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
+  weaponPrefab: {fileID: 1788915023617148, guid: 2fe5f57666cfafa48aba118757300c57,
+    type: 2}
+  bulletPrefab: {fileID: 1593087478248962, guid: 2c31d1e7789c6b14e95e75a1051d7b25,
+    type: 2}
+  effectPrefab: {fileID: 1384413569759206, guid: c16db7a5f21d4874492b5915fafdbb44,
+    type: 2}
+  weaponNumMax: 5
   bulletNumMax: 100
+  effectNumMax: 0
 --- !u!114 &114285581607715482
 MonoBehaviour:
   m_ObjectHideFlags: 1

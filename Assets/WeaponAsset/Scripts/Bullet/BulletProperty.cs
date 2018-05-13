@@ -80,6 +80,7 @@ class BaseNormalCollisionProperty : CollisionProperty
 
     public override void Collision(ref Collision2D coll)
     {     
+
     }
 
     public override void Collision(ref Collider2D coll)
@@ -415,7 +416,7 @@ public class BaseDeleteProperty : DeleteProperty
     {
         bullet.SetAnimationTrigger("Reset");
         TestScript.Instance.CreateEffect(bulletTransform.position, bullet.info.effectId);
-        ObjectPoolManager.Instance.DeleteObj(ObjPoolType.Bullet, bulletObj);
+        ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
     public override void Init(Bullet bullet)
@@ -437,8 +438,8 @@ public class LaserDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        
-        ObjectPoolManager.Instance.DeleteObj(ObjPoolType.Bullet, bulletObj);
+
+        ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
     public override void Init(Bullet bullet)
@@ -461,7 +462,7 @@ public class DeleteAfterSummonProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        ObjectPoolManager.Instance.DeleteObj(ObjPoolType.Bullet, bulletObj);
+        ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
     public override void Init(Bullet bullet)
