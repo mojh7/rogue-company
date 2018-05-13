@@ -289,6 +289,9 @@ public class ItemBox : CustomObject
 
 public class ItemContainer : CustomObject
 {
+    // 이걸 설정할 만한 마땅한 방법 없어서 일단 GetComponentInChildren 썼습니다.
+    //public Weapon weaponInContainer;
+
     public override void Init()
     {
         base.Init();
@@ -302,5 +305,8 @@ public class ItemContainer : CustomObject
     {
         base.Active();
         Debug.Log("ItemContainer");
+
+        Debug.Log("Item Pick and Drop");
+        PlayerManager.Instance.GetPlayer().weaponManager.PickAndDropWeapon(GetComponentInChildren<Weapon>(), gameObject);
     }
 }

@@ -54,20 +54,18 @@ public class Weapon : MonoBehaviour {
     
     #endregion
     #region getter
-    public Transform ObjTransform { get { return objTransform; } }
-    public DelGetDirDegree GetownerDirDegree() { return ownerDirDegree; }
+    public Transform ObjTransform { get { return objTransform; } set { objTransform = value; } }
+    public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     public WeaponState GetWeaponState() { return weaponState; }
     #endregion
     #region setter
-    public void SetownerDirDegree(DelGetDirDegree ownerDirDegree) { this.ownerDirDegree = ownerDirDegree; }
+    public void SetOwnerDirDegree(DelGetDirDegree ownerDirDegree) { this.ownerDirDegree = ownerDirDegree; }
     public void SetOwnerDirVec(DelGetPosition ownerDirVec) { this.ownerDirVec = ownerDirVec; }
     public void SetOwnerPos(DelGetPosition ownerPos) { this.ownerPos = ownerPos; }
     public void SetOwnerBuff(BuffManager ownerBuff) { this.ownerBuff = ownerBuff; }
-
-    public void SetWeaponManager(WeaponManager weaponManager) { this.weaponManager = weaponManager; }
     #endregion
 
     #region UnityFunction
@@ -83,7 +81,12 @@ public class Weapon : MonoBehaviour {
     // DataStore에서 무기 정보 받아오기, weaponView class 초기화
     public void Init(int weaponId)
     {
-        if (weaponId >= 0) this.weaponId = weaponId;
+        // 디버그용으로 -1값으로 들어오면 inspector창에 설정된 weaponID로 초기화 됨
+        if (weaponId >= 0)
+        {
+            this.weaponId = weaponId;
+            Debug.Log("forDebug, id : " + weaponId + " init");
+        }
 
         // id에 따른 무기 정보 받아오기
         info = DataStore.Instance.GetWeaponInfo(this.weaponId);
@@ -94,12 +97,6 @@ public class Weapon : MonoBehaviour {
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
         weaponState = WeaponState.Idle;      
         
-        // 공격 패턴(bulletPattern) 초기화
-        for (int i = 0; i < info.bulletPatternsLength; i++)
-        {
-            info.bulletPatterns[i].Init(this);
-        }
-
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
         ChargedAttackCooldown = 20f;
@@ -115,9 +112,27 @@ public class Weapon : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// weaponManager에 처음 등록될 때 onwer 정보 얻어오고 bulletPattern 정보 초기화
+    /// </summary>
+    public void RegisterWeapon(WeaponManager weaponManager)
+    {
+        this.weaponManager = weaponManager;
+        ownerDirDegree = weaponManager.GetOwnerDirDegree();
+        ownerPos = weaponManager.GetOwnerPos();
+        ownerDirVec = weaponManager.GetOwnerDirVec();
+        ownerBuff = weaponManager.GetOwnerBuff();
+
+        // 공격 패턴(bulletPattern) 초기화
+        for (int i = 0; i < info.bulletPatternsLength; i++)
+        {
+            info.bulletPatterns[i].Init(this);
+        }
+    }
+
     // StartAttack -> Attack -> PatternCycle -> Reload
     // 공격 시도, onwer 따라 다름
-    
+
     // Player : 공격 버튼 터치 했을 때, 함수명 바뀔 예정
     // Enemy  :
     public void StartAttack()

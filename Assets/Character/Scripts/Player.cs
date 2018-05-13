@@ -107,7 +107,7 @@ public class Player : Character
     {
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this);
-        // 공격 버튼에 player class 넘기기
+        // 공격 버튼, 무기 스위치 버튼에 player class 넘기기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
         GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>().SetPlayer(this);
 

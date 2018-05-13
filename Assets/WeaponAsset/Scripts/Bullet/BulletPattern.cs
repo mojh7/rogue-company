@@ -73,7 +73,7 @@ public class MultiDirPattern : BulletPattern
         this.weapon = weapon;
         addDirVecMagnitude = weapon.info.addDirVecMagnitude;
         // Owner 방향, 위치 함수
-        ownerDirDegree = weapon.GetownerDirDegree();
+        ownerDirDegree = weapon.GetOwnerDirDegree();
         ownerDirVec = weapon.GetOwnerDirVec();
         ownerPos = weapon.GetOwnerPos();
         ownerBuff = weapon.GetOwnerBuff();
@@ -142,7 +142,7 @@ public class RowPattern : BulletPattern
         this.weapon = weapon;
         addDirVecMagnitude = weapon.info.addDirVecMagnitude;
         // Owner 방향, 위치 함수
-        ownerDirDegree = weapon.GetownerDirDegree();
+        ownerDirDegree = weapon.GetOwnerDirDegree();
         ownerDirVec = weapon.GetOwnerDirVec();
         ownerPos = weapon.GetOwnerPos();
         ownerBuff = weapon.GetOwnerBuff();
@@ -184,6 +184,7 @@ public class RowPattern : BulletPattern
     // 이미 저장된 정보 이용.
     public override void CreateBullet(float damageIncreaseRate)
     {
+        // 수직 벡터
         perpendicularVector = MathCalculator.VectorRotate(ownerDirVec(), -90);
         for (int i = 0; i < info.bulletCount; i++)
         {

@@ -15,8 +15,8 @@ MonoBehaviour:
   initAngle: 0
   deltaAngle: 0
   randomAngle: 8
-  bulletId: 7
-  bulletSprite: {fileID: 21300002, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
+  bulletId: 0
+  bulletAnimationName: 
   effectId: 4
   speed: 5
   range: 10

@@ -6,23 +6,24 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
+    // 무기 오브젝트풀은 일단 보류
+
     #region variables
 
     public GameObject weaponPrefab;
-    public GameObject bulletPrefab;
-    public GameObject effectPrefab;
-
     [SerializeField]
     private int weaponNumMax;
     [SerializeField]
     private MemoryPool weaponPool;
 
+    public GameObject bulletPrefab;
     [SerializeField]
     private int bulletNumMax;
     [SerializeField]
     private MemoryPool bulletPool;
 
-    // effect 아직...
+    // effect 아직 안 옮김
+    public GameObject effectPrefab;
     [SerializeField]
     private int effectNumMax;
     [SerializeField]
@@ -52,6 +53,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     // 나중에 오브젝트 풀 바껴도 object Create, Delete 함수 내부만 바꾸면 되서 함수 새로 만듬.
 
     #region createObject
+
     /// <summary>
     /// 해당 weapon Id의 정보를 가진 weapon 생성
     /// </summary>

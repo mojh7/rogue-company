@@ -8,6 +8,11 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
     GameObject playerObj;
     GameObject m_playerObj;
 
+    // 0513 모장현
+    public Player GetPlayer()
+    {
+        return m_playerObj.GetComponent<Player>();
+    }
 
     public Vector3 GetPlayerPosition()
     {

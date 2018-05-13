@@ -16,7 +16,8 @@ MonoBehaviour:
   deltaAngle: 270
   randomAngle: 0
   bulletId: 0
-  bulletSprite: {fileID: 21300000, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
+  bulletAnimationName: redArrow
+  effectId: -1
   speed: 5
   range: 3
   damage: 0

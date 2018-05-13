@@ -18,7 +18,7 @@ MonoBehaviour:
   scaleX: 1
   scaleY: 1
   effectId: 2
-  animationName: normalBullet
+  animationName: blueArrow
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 0000000002000000
   deletePropertiesEdit: 00000000

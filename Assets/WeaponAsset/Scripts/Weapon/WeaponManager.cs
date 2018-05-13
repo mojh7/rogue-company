@@ -27,12 +27,17 @@ public class WeaponManager : MonoBehaviour {
     private DelGetPosition ownerPos;
     private BuffManager ownerBuff;
 
+    [SerializeField]
+    private Transform registerPoint;
     //private Character owner로 해야 될 것 같지만 일단 Player owner;
     private Player owner;
 
     // 디버그용 차징 ui
     public GameObject chargedGaugeUI;
     public Slider chargedGaugeSlider;
+
+    // 매 update 마다 바껴서 임시로 만듬
+    private bool canPickAndDropWeapon = true;
 
     #endregion
     #region getter
@@ -48,6 +53,11 @@ public class WeaponManager : MonoBehaviour {
         }
     }
     public Vector3 GetPosition() { return objTransform.position; }
+
+    public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
+    public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
+    public DelGetPosition GetOwnerPos() { return ownerPos; }
+    public BuffManager GetOwnerBuff() { return ownerBuff; }
     #endregion
     #region setter
     #endregion
@@ -112,13 +122,9 @@ public class WeaponManager : MonoBehaviour {
 
         for (int i = 0; i < weaponCountMax; i++)
         {
-            equipWeaponSlot[i].SetownerDirDegree(ownerDirDegree);
-            equipWeaponSlot[i].SetOwnerPos(ownerPos);
-            equipWeaponSlot[i].SetOwnerDirVec(ownerDirVec);
-            equipWeaponSlot[i].SetOwnerBuff(ownerBuff);
-            equipWeaponSlot[i].SetWeaponManager(this);
             // Debug 용으로 현재 장착된 무기들 인스펙터 창에서 설정된 wepaon id대로 초기화
             equipWeaponSlot[i].Init(-1);
+            equipWeaponSlot[i].RegisterWeapon(this);
         }
     }
 
@@ -195,29 +201,44 @@ public class WeaponManager : MonoBehaviour {
     /// 슬룻 꽉찰 때 : 습득 무기 착용과 동시에 버려진 무기 return
     /// </summary>
     /// <param name="pickedWeapon">습득한 무기</param>
-    /// <returns>버려질 무기</returns>
-    public Weapon PickAndDropWeapon(Weapon pickedWeapon)
+    public void PickAndDropWeapon(Weapon pickedWeapon, GameObject itemContainer)
     {
+        // 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
+        if (!canPickAndDropWeapon) return;
         // 무기 습득하고 습득한 무기 착용
         if (weaponCount < weaponCountMax)
         {
             equipWeaponSlot.Add(pickedWeapon);
+            pickedWeapon.ObjTransform.position = objTransform.position;
             pickedWeapon.ObjTransform.SetParent(objTransform);
-            pickedWeapon.ObjTransform.position = Vector3.zero;
             currentWeaponIndex = weaponCount++;
-            OnOffWeaponActive();
-            return null;            
+            OnOffWeaponActive();         
         }
         // 현재 착용중인 무기 버리고(return으로 내뱉음) 습득 무기로 바꾸고 장착
         else
         {
             Weapon dropedWeapon = equipWeaponSlot[currentWeaponIndex];
             equipWeaponSlot[currentWeaponIndex] = pickedWeapon;
-            pickedWeapon.ObjTransform.SetParent(objTransform);
-            pickedWeapon.ObjTransform.position = Vector3.zero;
+            //pickedWeapon.ObjTransform.position = objTransform.position;
+            //pickedWeapon.ObjTransform.rotation = objTransform.rotation;
+
+            // pickedWeapon.ObjTransform.parent = objTransform;
+            
+            pickedWeapon.ObjTransform.SetParent(registerPoint, false);
+            //pickedWeapon.ObjTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            pickedWeapon.RegisterWeapon(this);
             OnOffWeaponActive();
-            return dropedWeapon;
+            dropedWeapon.ObjTransform.position = itemContainer.transform.position;
+            dropedWeapon.ObjTransform.SetParent(itemContainer.transform, false);
         }
+        StartCoroutine("PickAndDropWeaponDelay");
     }
     #endregion
+
+    IEnumerable PickAndDropWeaponDelay()
+    {
+        canPickAndDropWeapon = false;
+        yield return YieldInstructionCache.WaitForSeconds(2.0f);
+        canPickAndDropWeapon = true;
+    }
 }

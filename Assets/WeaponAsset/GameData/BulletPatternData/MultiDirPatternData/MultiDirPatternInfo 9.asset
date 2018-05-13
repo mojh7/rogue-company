@@ -16,7 +16,8 @@ MonoBehaviour:
   deltaAngle: 0
   randomAngle: 0
   bulletId: 0
-  bulletSprite: {fileID: 21300002, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
+  bulletAnimationName: blueArrow
+  effectId: -1
   speed: 0.2
   range: 0.3
   damage: 0

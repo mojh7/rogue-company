@@ -7,6 +7,10 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public GameObject customObject;
     public Sprite sprite;
 
+    // 0513 모장현
+    [SerializeField]
+    private GameObject wepaonPrefab;
+
     public void CallItemBox()
     {
         GameObject obj = Instantiate(customObject, PlayerManager.Instance.GetPlayerPosition(), Quaternion.identity, this.transform);
@@ -18,6 +22,10 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public void DropItem(Vector3 _position)
     {
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
+
+        // 모장현, id에 따른 무기 생성 초기화 및 parent item container로 지정
+        ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10), _position, obj.transform);
+
         obj.AddComponent<ItemContainer>();
         obj.GetComponent<BoxCollider2D>().enabled = false;
         obj.GetComponent<ItemContainer>().sprite = w_obj.GetComponent<SpriteRenderer>().sprite;

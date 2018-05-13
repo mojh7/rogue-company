@@ -14,9 +14,9 @@ MonoBehaviour:
   bulletName: 
   damage: 0
   speed: 0.01
-  range: 0.025
-  scaleX: 2
-  scaleY: 2
+  range: 0.02
+  scaleX: 3
+  scaleY: 3
   effectId: 0
   animationName: bashAfterImage
   collisionPropertiesEdit: 00000000

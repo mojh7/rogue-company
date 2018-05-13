@@ -15,10 +15,10 @@ MonoBehaviour:
   damage: 0
   speed: 0
   range: 0
-  scaleX: 1
-  scaleY: 1
+  scaleX: 2
+  scaleY: 2
   effectId: 2
-  animationName: normalBullet
+  animationName: blueArrow
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
@@ -31,4 +31,4 @@ MonoBehaviour:
     executionCount: 0
     delay: 0
   creationCycle: 0
-  memo: 
+  memo: "\uCD1D\uC54C\uC5D0\uC11C \uCD1D\uC54C \uC824 \uC55E\n"

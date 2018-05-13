@@ -97,8 +97,12 @@ public class Bullet : MonoBehaviour
         //--------------------------------
 
         
-        // Play animation
-        SetAnimationTrigger(info.animationName);
+        if(info.animationName != "")
+        {
+            // Play animation
+            SetAnimationTrigger(info.animationName);
+        }
+        
 
         // component on/off
         //boxCollider.enabled = true;
@@ -108,6 +112,7 @@ public class Bullet : MonoBehaviour
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, direction);
 
+        //Debug.Log("(x, y) : " + info.scaleX + ", " + info.scaleY);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
 
         //Debug.Log("각도 : " + direction);
