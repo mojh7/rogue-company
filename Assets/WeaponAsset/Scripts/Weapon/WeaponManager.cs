@@ -201,16 +201,17 @@ public class WeaponManager : MonoBehaviour {
     /// 슬룻 꽉찰 때 : 습득 무기 착용과 동시에 버려진 무기 return
     /// </summary>
     /// <param name="pickedWeapon">습득한 무기</param>
-    public void PickAndDropWeapon(Weapon pickedWeapon, GameObject itemContainer)
+    public void PickAndDropWeapon(Item pickedWeapon, GameObject itemContainer)
     {
+        Weapon weapon = pickedWeapon as Weapon;
         // 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
         if (!canPickAndDropWeapon) return;
         // 무기 습득하고 습득한 무기 착용
         if (weaponCount < weaponCountMax)
         {
-            equipWeaponSlot.Add(pickedWeapon);
-            pickedWeapon.ObjTransform.position = objTransform.position;
-            pickedWeapon.ObjTransform.SetParent(objTransform);
+            equipWeaponSlot.Add(weapon);
+            weapon.ObjTransform.position = objTransform.position;
+            weapon.ObjTransform.SetParent(objTransform);
             currentWeaponIndex = weaponCount++;
             OnOffWeaponActive();         
         }
@@ -218,17 +219,18 @@ public class WeaponManager : MonoBehaviour {
         else
         {
             Weapon dropedWeapon = equipWeaponSlot[currentWeaponIndex];
-            equipWeaponSlot[currentWeaponIndex] = pickedWeapon;
+            equipWeaponSlot[currentWeaponIndex] = weapon;
             //pickedWeapon.ObjTransform.position = objTransform.position;
             //pickedWeapon.ObjTransform.rotation = objTransform.rotation;
 
             // pickedWeapon.ObjTransform.parent = objTransform;
-            
-            pickedWeapon.ObjTransform.SetParent(registerPoint, false);
+
+            weapon.ObjTransform.SetParent(registerPoint, false);
             //pickedWeapon.ObjTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            pickedWeapon.RegisterWeapon(this);
+            weapon.RegisterWeapon(this);
             OnOffWeaponActive();
-            dropedWeapon.ObjTransform.position = itemContainer.transform.position;
+            itemContainer.GetComponent<ItemContainer>().Init(dropedWeapon);
+            //dropedWeapon.ObjTransform.position = itemContainer.transform.position;
             dropedWeapon.ObjTransform.SetParent(itemContainer.transform, false);
         }
         StartCoroutine("PickAndDropWeaponDelay");

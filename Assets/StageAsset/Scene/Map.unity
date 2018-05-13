@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e3d0c03387ae645a113052d3075c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1648523281510846, guid: b3fa8ade24eb94d4eacb8af79383dd2e,
+  playerPrefab: {fileID: 1159632382405212, guid: b3fa8ade24eb94d4eacb8af79383dd2e,
     type: 2}
 --- !u!4 &307469664
 Transform:
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0792ba27dba5e34bb053b3cdb51eda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  w_obj: {fileID: 1499373227970880, guid: 6fddaaec8448fba4f8f6532e06be1bdb, type: 2}
+  w_obj: {fileID: 1788915023617148, guid: 2fe5f57666cfafa48aba118757300c57, type: 2}
   customObject: {fileID: 1832046738814270, guid: dece55cd74b3a82448bb0a09bbc09a1b,
     type: 2}
   sprite: {fileID: 21300052, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}

@@ -24,7 +24,7 @@ public enum Owner { Player, Enemy, Object  }
  *  - 무기 외형 관리(scale, sprite, animation) 
  */
 
-public class Weapon : MonoBehaviour {
+public class Weapon : Item {
 
     #region Variables
     public WeaponInfo info;

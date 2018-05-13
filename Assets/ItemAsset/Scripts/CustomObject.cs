@@ -291,14 +291,25 @@ public class ItemContainer : CustomObject
 {
     // 이걸 설정할 만한 마땅한 방법 없어서 일단 GetComponentInChildren 썼습니다.
     //public Weapon weaponInContainer;
+    Item innerObject;
 
     public override void Init()
     {
         base.Init();
+        GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<BoxCollider2D>().isTrigger = true;
+        GetComponent<BoxCollider2D>().size = new Vector2(0.1f, 0.1f);
         isActive = false;
         isAvailable = true;
         objectType = ObjectType.NONE;
+        gameObject.tag = "Untagged";
+    }
+
+    public void Init(Item _object)
+    {
+        Init();
+        sprite = _object.GetComponent<SpriteRenderer>().sprite;
+        innerObject = _object;
     }
 
     public override void Active()
@@ -307,6 +318,6 @@ public class ItemContainer : CustomObject
         Debug.Log("ItemContainer");
 
         Debug.Log("Item Pick and Drop");
-        PlayerManager.Instance.GetPlayer().weaponManager.PickAndDropWeapon(GetComponentInChildren<Weapon>(), gameObject);
+        PlayerManager.Instance.GetPlayer().weaponManager.PickAndDropWeapon(innerObject, gameObject);
     }
 }
