@@ -18,6 +18,7 @@ namespace DelegateCollection
     public delegate Vector3 DelGetPosition();   // owner position이지만 일단 player position 용도로만 사용.
 }
 
+// struct -> class로 바꿔놓아서 namespace 아예 없애던가 바꿔야됨.
 // 무기 관련 정보
 namespace WeaponData
 {
@@ -244,11 +245,6 @@ namespace BulletData
 public class DataStore : MonoBehaviourSingleton<DataStore>
 {
     #region variables
-    [SerializeField]
-    private Sprite[] weaponSpriteList;
-    [SerializeField]
-    private Sprite[] bulletSpriteList;
-
     [SerializeField]
     private WeaponInfo[] weaponInfos;
     [SerializeField]

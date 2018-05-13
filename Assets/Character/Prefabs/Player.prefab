@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4439347806274044}
   - component: {fileID: 58727607162457390}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: InteractObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 114412291128324542}
   - component: {fileID: 212165503643064380}
   - component: {fileID: 95228019015697628}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 114773736538238120}
   - component: {fileID: 212829402724011344}
   - component: {fileID: 95099789128802670}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 114573205686844182}
   - component: {fileID: 212623888089733952}
   - component: {fileID: 95820748130649502}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 124962770699639216}
   - component: {fileID: 81911157045850310}
   - component: {fileID: 114620025739630010}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 114192813735670014}
   - component: {fileID: 212360089372688882}
   - component: {fileID: 95107295317383720}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 114067792928530396}
   - component: {fileID: 212538926889331856}
   - component: {fileID: 95435098429003400}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 114159307142131114}
   - component: {fileID: 212801725334145576}
   - component: {fileID: 95919838543994910}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4381309704320232}
   - component: {fileID: 212721221660707178}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: PlayerSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 114831989225006772}
   - component: {fileID: 212847896877359676}
   - component: {fileID: 95232219213401604}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 114311511759305864}
   - component: {fileID: 212733673622081466}
   - component: {fileID: 95725171818719912}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4040616670838868}
   - component: {fileID: 114585857347360208}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: WeaponManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 114767726257345840}
   - component: {fileID: 61537478828787534}
   - component: {fileID: 50965885309320766}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4035889427009938}
   - component: {fileID: 212311088658842180}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: ChargeGague
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 114590232972712144}
   - component: {fileID: 212678747156110924}
   - component: {fileID: 95497400508248356}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 114391683496407958}
   - component: {fileID: 212714596718026010}
   - component: {fileID: 95917706847292580}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 4061943801782892}
   - component: {fileID: 198639066599238482}
   - component: {fileID: 199285657700465942}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 114474986527633134}
   - component: {fileID: 212153159310218080}
   - component: {fileID: 95406143789438194}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 114987682429036910}
   - component: {fileID: 212005205320166108}
   - component: {fileID: 95021716570852254}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Weapon (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

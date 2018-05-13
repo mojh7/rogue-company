@@ -4,14 +4,24 @@ using UnityEngine;
 
 // 일단 가지고 있던 메모리풀 쓰고 있는 중... - 장현
 
-public enum ObjPoolType { Bullet, Effect }
+public enum ObjPoolType { Weapon = 0, Bullet = 1, Effect = 2}
 public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
     #region variables
-    
-    public GameObject bulletObj;
-    public int bulletNumMax;
-    public MemoryPool bulletPool;
+
+    public GameObject weaponPrefab;
+    public GameObject bulletPrefab;
+    public GameObject effectPrefab;
+
+    [SerializeField]
+    private int weaponNumMax;
+    [SerializeField]
+    private MemoryPool WeaponPool;
+
+    [SerializeField]
+    private int bulletNumMax;
+    [SerializeField]
+    private MemoryPool bulletPool;
 
     #endregion
 
@@ -22,8 +32,10 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     
     void Start () {
         // 오브젝트 풀 초기화
-        // 총알 오브젝트풀 초기화
-        bulletPool = new MemoryPool(bulletObj, bulletNumMax);
+
+
+        // bullet 오브젝트풀 초기화
+        bulletPool = new MemoryPool(bulletPrefab, bulletNumMax);
 	}
 
     #region function

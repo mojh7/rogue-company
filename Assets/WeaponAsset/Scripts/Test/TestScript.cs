@@ -67,24 +67,14 @@ public class TestScript : MonoBehaviour {
 
     public static TestScript Instance { get { return instance; } }
 
+
     void Awake()
     {
+
         if (instance == null)
             instance = this;
         else if (instance != null)
             Destroy(gameObject);
-    }
-
-    void OnEnable ()
-    {
-        //Debug.Log("On");
-        //gameObject.SetActive(true);
-        //gameObject.GetComponent<TestScript>()
-    }
-
-    void OnDisable()
-    {
-        
     }
 
     // Use this for initialization

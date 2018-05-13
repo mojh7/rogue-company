@@ -11,23 +11,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
   m_Name: BulletInfo 5
   m_EditorClassIdentifier: 
-  bulletName: "effect1 \uD14C\uC2A4\uD2B8\uC6A9"
+  bulletName: "\uD45C\uCC3D"
   damage: 0
   speed: 0
   range: 0
-  scaleX: 1
-  scaleY: 1
+  scaleX: 2
+  scaleY: 2
   effectId: 1
+  animationName: ninjaStar
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
-  collisionPropertiesLength: 0
-  updatePropertiesLength: 0
-  deletePropertiesLength: 0
+  collisionPropertiesLength: 1
+  updatePropertiesLength: 1
+  deletePropertiesLength: 1
   summonBulletPattern:
     type: 0
     id: 0
     executionCount: 0
     delay: 0
   creationCycle: 0
-  memo: 
+  memo: "8\uBC29\uD5A5 \uD45C\uCC3D\n"

@@ -18,12 +18,13 @@ MonoBehaviour:
   scaleX: 1
   scaleY: 1
   effectId: 2
+  animationName: normalBullet
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
-  collisionPropertiesLength: 0
-  updatePropertiesLength: 0
-  deletePropertiesLength: 0
+  collisionPropertiesLength: 1
+  updatePropertiesLength: 1
+  deletePropertiesLength: 1
   summonBulletPattern:
     type: 0
     id: 0

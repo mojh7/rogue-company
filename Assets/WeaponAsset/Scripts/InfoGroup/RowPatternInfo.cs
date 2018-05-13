@@ -10,7 +10,7 @@ public class RowPatternInfo : ScriptableObject
     public float randomAngle;   // 총알 random값으로 각도 보정
 
     public int bulletId;        // 총알 Id
-    public Sprite bulletSprite;  // 총알 sprite Id;
+    public string bulletAnimationName;  // 총알 animation Name
     public int effectId;        // 이 패턴에서 나오는 모든 총알에 이펙트를 지정하고 싶으면 0 이상의 index 값으로 하고, 값이면 -1이면 bulletInfo 고유의 effect를 생성
 
     [Tooltip("hahaha")]
@@ -26,5 +26,6 @@ public class RowPatternInfo : ScriptableObject
     public RowPatternInfo()
     {
         effectId = -1;
+        bulletAnimationName = "";
     }
 }

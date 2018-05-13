@@ -30,13 +30,14 @@ public class Effect : MonoBehaviour {
     void Awake()
     {
         objTransform = GetComponent<Transform>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         scaleVector = new Vector3(1f, 1f, 1f);
     }
     
     public void Init(int id)
     {
         info = DataStore.Instance.GetEffectInfo(id);
+        //info = DataStore.Instance.GetEffectInfo(Random.Range(0, 7));
         scaleVector.x = info.scaleX;
         scaleVector.y = info.scaleY;
         objTransform.localScale = scaleVector;

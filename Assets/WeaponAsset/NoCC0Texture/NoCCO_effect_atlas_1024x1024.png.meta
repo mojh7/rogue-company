@@ -32,6 +32,11 @@ TextureImporter:
     21300050: effect6_3
     21300052: effect6_4
     21300054: effect6_5
+    21300056: NoCCO_effect_atlas_1024x1024_0
+    21300058: slashAni0_0
+    21300060: slashAni0_1
+    21300062: slashAni0_2
+    21300064: slashAni0_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -503,6 +508,62 @@ TextureImporter:
         y: 752
         width: 62
         height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: slashAni0_0
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 957
+        width: 64
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: slashAni0_1
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 957
+        width: 64
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: slashAni0_2
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 958
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: slashAni0_3
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 958
+        width: 64
+        height: 66
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

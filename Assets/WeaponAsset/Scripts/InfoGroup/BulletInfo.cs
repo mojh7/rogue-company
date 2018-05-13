@@ -23,6 +23,7 @@ public class BulletInfo : ScriptableObject
     public float scaleY;
 
     public int effectId;    // 충돌 후 삭제시 생성될 effect
+    public string animationName;    // 실행 할 animationName
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -50,10 +51,13 @@ public class BulletInfo : ScriptableObject
     [TextArea(3, 100)]
     private string memo;
 
+
+    // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
     public BulletInfo()
     {
         scaleX = 1.0f;
         scaleY = 1.0f;
+        animationName = null;
     }
 
     /*
@@ -106,6 +110,7 @@ public class BulletInfo : ScriptableObject
         info.scaleX = scaleX;
         info.scaleY = scaleY;
         info.effectId = effectId;
+        info.animationName = animationName;
 
         info.collisionPropertiesLength = collisionPropertiesLength;
         info.updatePropertiesLength = updatePropertiesLength;

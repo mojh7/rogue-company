@@ -16,9 +16,13 @@ public class Bullet : MonoBehaviour
     #region variables
     public BulletInfo info;
     public Transform objTransform;
-    public Rigidbody2D objRigidbody;
-    public SpriteRenderer spriteRenderer;
     public BoxCollider2D boxCollider;
+    public CircleCollider2D circleCollider;
+    public Rigidbody2D objRigidbody;
+    [SerializeField]
+    // 레이저용 lineRenderer
+    private LineRenderer lineRenderer;
+    private Animator animator;
     private Coroutine bulletUpdate;
 
     private Vector3 dirVector; // 총알 방향 벡터
@@ -27,9 +31,7 @@ public class Bullet : MonoBehaviour
     private DelGetPosition ownerPos;
     private float addDirVecMagnitude;
 
-    [SerializeField]
-    // 레이저용 lineRenderer
-    private LineRenderer lineRenderer;
+    
     #endregion
     #region getter
     public LineRenderer GetLineRenderer() { return lineRenderer; }
@@ -49,15 +51,16 @@ public class Bullet : MonoBehaviour
     #region unityFunction
     void Awake()
     {
-        //Debug.Log(this + "Awake");
+        gameObject.hideFlags = HideFlags.HideInHierarchy;
         objTransform = GetComponent<Transform>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        lineRenderer = GetComponent<LineRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
+        circleCollider = GetComponent<CircleCollider2D>();
         objRigidbody = GetComponent<Rigidbody2D>();
-
-        // 총알 끼리 무시, 총알 레이어 무시, 현재 임시로 Bullet layer 9번, Wall layer 10번 쓰고 있음.
-        Physics2D.IgnoreLayerCollision(9, 9);
+        lineRenderer = GetComponent<LineRenderer>();
+        animator = GetComponentInChildren<Animator>();
+        // 총알 끼리 무시, 총알 레이어 무시, 현재 임시로 Bullet layer 15번, Wall layer 14번 쓰고 있음.
+        Physics2D.IgnoreLayerCollision(15, 15);
+        //Physics2D.IgnoreLayerCollision(15, 16);
     }
 
     private void FixedUpdate()
@@ -71,7 +74,7 @@ public class Bullet : MonoBehaviour
     #region Function
     // 총알 class 초기화
     // 일반 총알 초기화
-    public void Init(int bulletId, Sprite bulletSprite, float speed, float range, int effectId, Vector3 pos, float direction)
+    public void Init(int bulletId, string animationName, float speed, float range, int effectId, Vector3 pos, float direction)
     {
         info = DataStore.Instance.GetBulletInfo(bulletId);
 
@@ -88,16 +91,25 @@ public class Bullet : MonoBehaviour
         {
             info.effectId = effectId;
         }
+        if (animationName != "")
+        {
+            info.animationName = animationName;
+        }
         //--------------------------------
+
+        
+        // Play animation
+        SetAnimationTrigger(info.animationName);
 
         // component on/off
         //boxCollider.enabled = true;
         lineRenderer.enabled = false;
         // sprite 설정
-        spriteRenderer.sprite = bulletSprite;
         // 처음 위치랑, 각도 설정.
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, direction);
+
+        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
 
         //Debug.Log("각도 : " + direction);
         InitProperty();
@@ -122,8 +134,6 @@ public class Bullet : MonoBehaviour
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
         this.addDirVecMagnitude = addDirVecMagnitude;
-        // sprite 설정
-        spriteRenderer.sprite = null;
         objTransform.position = ownerPos();
         InitProperty();
         bulletUpdate = StartCoroutine("BulletUpdate");
@@ -205,7 +215,7 @@ public class Bullet : MonoBehaviour
             }
         }
     }
-    // 충돌 속성 실행 Collider
+    // 충돌 속성 실행 Trigger
     public void CollisionBullet(Collider2D coll)
     {
         if (coll.CompareTag("Wall"))
@@ -218,7 +228,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    // 삭제 속성 실행
+    /// <summary>
+    /// 삭제 속성 실행 
+    /// </summary>
     public void DestroyBullet()
     {
         //Debug.Log(this + "Destroy Bullet");
@@ -235,7 +247,10 @@ public class Bullet : MonoBehaviour
     }
     #endregion
 
-
+    public void SetAnimationTrigger(string triggerName)
+    {
+        animator.SetTrigger(triggerName);
+    }
 }
 
 /*
