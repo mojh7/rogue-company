@@ -147,7 +147,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 currentRoom = GetCurrentRect(PlayerManager.Instance.GetPlayerPosition());
             currentRoom.maskObject.SetActive(true);
 
-            yield return YieldInstructionCache.WaitForSeconds(0.05f);
+            yield return YieldInstructionCache.WaitForSeconds(0.01f);
         }
     }
 

@@ -26,6 +26,7 @@ public class CustomObject : MonoBehaviour {
         {
             GetComponent<SpriteRenderer>().sprite = sprite;
             GetComponent<BoxCollider2D>().size = sprite.bounds.size;
+            GetComponent<BoxCollider2D>().isTrigger = false;
         }
         gameObject.tag = "Wall";
     }
@@ -128,22 +129,6 @@ public class Chair : CustomObject
     {
         base.Active();
         Debug.Log("Chair");
-    }
-}
-
-public class ItemBox : CustomObject
-{
-    public override void Init()
-    {
-        base.Init();
-        isActive = false;
-        isAvailable = false;
-        objectType = ObjectType.ITEMBOX;
-    }
-    public override void Active()
-    {
-        base.Active();
-        Debug.Log("ItemBox");
     }
 }
 
@@ -280,5 +265,42 @@ public class Portal : CustomObject
     {
         base.Active();
         Debug.Log("PlayerEnd");
+    }
+}
+
+public class ItemBox : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        isActive = false;
+        isAvailable = true;
+        objectType = ObjectType.ITEMBOX;
+    }
+    public override void Active()
+    {
+        base.Active();
+        isAvailable = false;
+        Debug.Log("ItemBox");
+        ItemManager.Instance.DropItem(this.transform.position);
+        Destroy(this.gameObject, 3);
+    }
+}
+
+public class ItemContainer : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        GetComponent<BoxCollider2D>().isTrigger = true;
+        isActive = false;
+        isAvailable = true;
+        objectType = ObjectType.NONE;
+    }
+
+    public override void Active()
+    {
+        base.Active();
+        Debug.Log("ItemContainer");
     }
 }
