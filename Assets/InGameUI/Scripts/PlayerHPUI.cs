@@ -98,9 +98,9 @@ public class PlayerHPUI : MonoBehaviour
     {
         if (hp < 0) return;
 
-        int remainder = (int)hp % column;
+        Debug.Log("hp : " + hp);
 
-        Debug.Log("hp : " + hp + ", rema : " + remainder);
+        int remainder = (int)hp % column;
 
         // hp가 최대 표시 갯수를 넘을 때
         if (hp >= column)
@@ -114,7 +114,18 @@ public class PlayerHPUI : MonoBehaviour
             if(hp > column)
             {
                 overHpTextObj.SetActive(true);
-                overHp = hp - column;
+                // 반 칸 짜리 체력이 존재 할 경우
+                if (hp - (int)hp == 0.5)
+                {
+                    //hpImageList[0].sprite = hpHalfSprite;
+                    hpImageList[column - 1].sprite = hpHalfSprite;
+                    overHp = (int)hp - column +1;
+                }
+                else // 반 칸 짜리 체력이 존재 하지 않을 경우
+                {
+                    overHp = (int)hp - column;
+                }
+                
                 overHpText.text = "+ " + overHp.ToString();
             }
         } 
