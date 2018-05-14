@@ -29,10 +29,7 @@ namespace Map
                 map = null;
             }
             map = new Map(width, height, size, area, floor, objectPool);
-            for(int i = 0; i < 10; i++)
-            {
-                map.AddNecessaryRoomSet(new Rect(0, 0, 3, 3, size));
-            }
+            map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
             RoomManager.Instance.InitRoomList();
         }
@@ -45,6 +42,7 @@ namespace Map
         Queue<Rect> rects, blocks;
         List<Rect> halls, rooms;
         List<Rect> necessaryBlocks, necessaryRooms;
+        List<RoomSet> necessaryRoomSet;
         Tilemap wallTileMap, floorTileMap, shadowTileMap;
         const float MaxHallRate = 0.15f;
         int MinumRoomArea = 4;
@@ -109,6 +107,13 @@ namespace Map
         public void AddNecessaryRoomSet(Rect _rect)
         {
             necessaryBlocks.Add(_rect);
+        } // 필수 방 세팅
+
+        public void AddNecessaryRoomSet(RoomSet[] _roomSet)
+        {
+            necessaryRoomSet = new List<RoomSet>(_roomSet.Length);
+            for(int i = 0; i < _roomSet.Length; i++)
+                necessaryRoomSet.Add(_roomSet[i]);
         } // 필수 방 세팅
 
         void RefreshData()
@@ -450,13 +455,9 @@ namespace Map
             bool flag = true;
 
             if (_currentRect.width > _currentRect.height)
-            {
                 flag = true;
-            }
             else if (_currentRect.width < _currentRect.height)
-            {
                 flag = false;
-            }
             else
             {
                 if (CoinFlip(50))
@@ -487,13 +488,9 @@ namespace Map
             bool flag = true;
 
             if (_currentBlock.width > _currentBlock.height)
-            {
                 flag = true;
-            }
             else if (_currentBlock.width < _currentBlock.height)
-            {
                 flag = false;
-            }
             else
             {
                 if (CoinFlip(50))
@@ -689,7 +686,7 @@ namespace Map
         {
             for (int i = 0; i < rooms.Count; i++)
             {
-                RoomSet roomSet = RoomSetManager.Instance.LoadRoomSet(rooms[i].width, rooms[i].height, 1);
+                RoomSet roomSet = GetRoomSet(rooms[i].width, rooms[i].height, 1);
                 roomSet.x = rooms[i].x;
                 roomSet.y = rooms[i].y;
                 rooms[i].eRoomType = roomSet.roomType;
@@ -699,6 +696,26 @@ namespace Map
 
             CreateStartPoint();
         } // 모든 룸 셋 배치
+
+        RoomSet GetRoomSet(int width,int height,int floor)
+        {
+            if(necessaryRoomSet.Count==0)
+                return RoomSetManager.Instance.LoadRoomSet(width, height, floor);
+            else
+            {
+                RoomSet roomSet = RoomSetManager.Instance.LoadRoomSet(width, height, floor); 
+                for(int i = 0; i < necessaryRoomSet.Count; i++)
+                {
+                    if (necessaryRoomSet[i].width == width && necessaryRoomSet[i].height == height)
+                    {
+                        roomSet = necessaryRoomSet[i];
+                        necessaryRoomSet.RemoveAt(i);
+                        break;
+                    }
+                }
+                return roomSet;
+            }
+        }
 
         GameObject[] AssignRoom(RoomSet _roomSet)
         {
@@ -754,7 +771,7 @@ namespace Map
                 if (!rooms[i].isRoom)
                     rooms[i].maskObject.SetActive(true);
                 else
-                    rooms[i].maskObject.SetActive(false);
+                    rooms[i].maskObject.SetActive(true);
             }
         }
         #endregion

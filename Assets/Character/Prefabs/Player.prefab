@@ -1017,7 +1017,7 @@ MonoBehaviour:
   - {fileID: 114816754218108948}
   - {fileID: 114862454133956200}
   currentWeaponIndex: 0
-  weaponCountMax: 3
+  weaponCountMax: 12
   registerPoint: {fileID: 4385131027331388}
   chargedGaugeUI: {fileID: 0}
   chargedGaugeSlider: {fileID: 0}

@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: 3x3 monster
   m_EditorClassIdentifier: 
-  x: 7
-  y: 0
+  x: 9
+  y: 1
   width: 3
   height: 3
   size: 5
@@ -274,4 +274,4 @@ MonoBehaviour:
     sprites: []
     isActive: 0
     objectType: 6
-  roomType: 0
+  roomType: 1

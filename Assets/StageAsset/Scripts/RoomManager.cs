@@ -56,6 +56,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorSetAvailable();
         ObjectSetAvailable();
         FindCurrentRoom();
+        ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea());
     }
 
     void SpawnMonster()
@@ -78,7 +79,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         for (int i = 0; i < roomList.Count; i++)
         {
-            DisalbeObject(roomList[i]);
+            //DisalbeObject(roomList[i]);
         }
     }
 

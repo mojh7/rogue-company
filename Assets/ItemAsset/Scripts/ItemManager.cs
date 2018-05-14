@@ -11,9 +11,9 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     [SerializeField]
     private GameObject wepaonPrefab;
 
-    public void CallItemBox()
+    public void CallItemBox(Vector3 _position)
     {
-        GameObject obj = Instantiate(customObject, PlayerManager.Instance.GetPlayerPosition(), Quaternion.identity, this.transform);
+        GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
         obj.AddComponent<ItemBox>();
         obj.GetComponent<ItemBox>().sprite = sprite;
         obj.GetComponent<ItemBox>().Init();
@@ -59,6 +59,6 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
-            CallItemBox();
+            CallItemBox(PlayerManager.Instance.GetPlayerPosition());
     }
 }

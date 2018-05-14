@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: event 3x2
   m_EditorClassIdentifier: 
-  x: 17
+  x: 9
   y: 0
   width: 3
   height: 2
@@ -158,4 +158,4 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  roomType: 1
+  roomType: 2

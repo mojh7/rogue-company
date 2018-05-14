@@ -5,6 +5,7 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
 
     public Sprite[] doorSprites;
     public RoomSet[] roomSetArr;
+    public RoomSet[] firstFloorSet;
     List<RoomSetGroup> roomSetGroup;
 
     public void Init()
