@@ -143,10 +143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 1788915023617148, guid: 2fe5f57666cfafa48aba118757300c57,
     type: 2}
-  weaponNumMax: 10
+  weaponNumMax: 20
   bulletPrefab: {fileID: 1593087478248962, guid: 2c31d1e7789c6b14e95e75a1051d7b25,
     type: 2}
-  bulletNumMax: 50
+  bulletNumMax: 100
   effectPrefab: {fileID: 1384413569759206, guid: c16db7a5f21d4874492b5915fafdbb44,
     type: 2}
   effectNumMax: 0
