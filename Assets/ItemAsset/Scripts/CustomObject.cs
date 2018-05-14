@@ -25,8 +25,10 @@ public class CustomObject : MonoBehaviour {
         if (sprite)
         {
             GetComponent<SpriteRenderer>().sprite = sprite;
-            GetComponent<BoxCollider2D>().size = sprite.bounds.size;
-            GetComponent<BoxCollider2D>().isTrigger = false;
+            List<Vector2> list = new List<Vector2>();
+            sprite.GetPhysicsShape(0, list);
+            GetComponent<PolygonCollider2D>().SetPath(0, list.ToArray());
+            GetComponent<PolygonCollider2D>().isTrigger = false;
         }
         gameObject.tag = "Wall";
     }
@@ -141,7 +143,7 @@ public class Spawner : CustomObject
         base.Init();
         isActive = false;
         isAvailable = false;
-        GetComponent<BoxCollider2D>().size = new Vector2(0, 0);
+        GetComponent<PolygonCollider2D>().SetPath(0, null);
         objectType = ObjectType.SPAWNER;
     }
     public override void Active()
@@ -220,8 +222,8 @@ public class Alert : CustomObject
     public override void Init()
     {
         base.Init();
-        isActive = false;
-        isAvailable = true;
+        isAvailable = false;
+        GetComponent<PolygonCollider2D>().SetPath(0, null);
         objectType = ObjectType.NONE;
     }
     public void Init(Del _call)
@@ -258,7 +260,6 @@ public class Portal : CustomObject
         base.Init();
         isActive = false;
         isAvailable = false;
-        GetComponent<BoxCollider2D>().size = new Vector2(0,0);
         objectType = ObjectType.NONE;
     }
     public override void Active()
@@ -296,9 +297,8 @@ public class ItemContainer : CustomObject
     public override void Init()
     {
         base.Init();
-        GetComponent<BoxCollider2D>().enabled = false;
-        GetComponent<BoxCollider2D>().isTrigger = true;
-        GetComponent<BoxCollider2D>().size = new Vector2(0.1f, 0.1f);
+        GetComponent<PolygonCollider2D>().enabled = false;
+        GetComponent<PolygonCollider2D>().isTrigger = true;
         isActive = false;
         isAvailable = true;
         objectType = ObjectType.NONE;

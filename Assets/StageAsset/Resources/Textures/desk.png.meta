@@ -200,6 +200,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   - buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -209,6 +210,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   - buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -218,6 +220,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -253,21 +256,17 @@ TextureImporter:
         height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 12}
       outline:
       - - {x: -23, y: 17.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: -16, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_2
@@ -286,18 +285,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -4, y: 10.5}
-        - {x: -4, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 4, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_3
@@ -316,10 +307,10 @@ TextureImporter:
         - {x: 20.5, y: -17}
         - {x: 20.5, y: 17}
       physicsShape:
-      - - {x: -20.5, y: 17}
+      - - {x: -20.5, y: 7}
         - {x: -20.5, y: -17}
         - {x: 20.5, y: -17}
-        - {x: 20.5, y: 17}
+        - {x: 20.5, y: 7}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_4
@@ -360,14 +351,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: 4, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_6
@@ -388,12 +375,10 @@ TextureImporter:
         - {x: 20.5, y: 14.5}
         - {x: 19.5, y: 16.5}
       physicsShape:
-      - - {x: -16.5, y: 16.5}
-        - {x: -20.5, y: 8.5}
+      - - {x: -20.5, y: 7.5}
         - {x: -20.5, y: -16.5}
         - {x: 20.5, y: -16.5}
-        - {x: 20.5, y: 14.5}
-        - {x: 19.5, y: 16.5}
+        - {x: 20.5, y: 7.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_7
@@ -412,14 +397,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: 7, y: 10.5}
-        - {x: 7, y: 8.5}
-        - {x: -16, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_8
@@ -438,14 +419,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -15, y: 10.5}
-        - {x: -15, y: 8.5}
-        - {x: -16, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_9
@@ -467,13 +444,10 @@ TextureImporter:
         - {x: 20.5, y: 11}
         - {x: 19.5, y: 13}
       physicsShape:
-      - - {x: 7.5, y: 15}
-        - {x: -18.5, y: 15}
-        - {x: -20.5, y: 14}
+      - - {x: -20.5, y: 9}
         - {x: -20.5, y: -15}
         - {x: 20.5, y: -15}
-        - {x: 20.5, y: 11}
-        - {x: 19.5, y: 13}
+        - {x: 20.5, y: 9}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_10
@@ -492,16 +466,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -16, y: 8.5}
-      - - {x: 3, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 3, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_11
@@ -520,18 +488,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -15, y: 10.5}
-        - {x: -15, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 4, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_12
@@ -551,11 +511,10 @@ TextureImporter:
         - {x: 20.5, y: 11}
         - {x: 14.5, y: 14}
       physicsShape:
-      - - {x: -20.5, y: 14}
+      - - {x: -20.5, y: 10}
         - {x: -20.5, y: -14}
         - {x: 20.5, y: -14}
-        - {x: 20.5, y: 11}
-        - {x: 14.5, y: 14}
+        - {x: 20.5, y: 10}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_13
@@ -574,18 +533,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -7, y: 10.5}
-        - {x: -7, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 6, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 6, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_14
@@ -605,11 +556,10 @@ TextureImporter:
         - {x: 20.5, y: 13}
         - {x: 19.5, y: 16}
       physicsShape:
-      - - {x: -20.5, y: 16}
+      - - {x: -20.5, y: 8}
         - {x: -20.5, y: -16}
         - {x: 20.5, y: -16}
-        - {x: 20.5, y: 13}
-        - {x: 19.5, y: 16}
+        - {x: 20.5, y: 8}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_15
@@ -630,12 +580,10 @@ TextureImporter:
         - {x: 20.5, y: 11}
         - {x: 13.5, y: 16}
       physicsShape:
-      - - {x: -19.5, y: 16}
-        - {x: -20.5, y: 11}
+      - - {x: -20.5, y: 8}
         - {x: -20.5, y: -16}
         - {x: 20.5, y: -16}
-        - {x: 20.5, y: 11}
-        - {x: 13.5, y: 16}
+        - {x: 20.5, y: 8}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_16
@@ -654,18 +602,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -17, y: 10.5}
-        - {x: -17, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 12, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 12, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_17
@@ -684,16 +624,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -16, y: 8.5}
-      - - {x: 13, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 13, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_18
@@ -714,12 +648,10 @@ TextureImporter:
         - {x: 20.5, y: 12}
         - {x: 19.5, y: 17}
       physicsShape:
-      - - {x: -17.5, y: 17}
-        - {x: -20.5, y: 10}
+      - - {x: -20.5, y: 7}
         - {x: -20.5, y: -17}
         - {x: 20.5, y: -17}
-        - {x: 20.5, y: 12}
-        - {x: 19.5, y: 17}
+        - {x: 20.5, y: 7}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_19
@@ -738,14 +670,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: 0, y: 10.5}
-        - {x: 0, y: 8.5}
-        - {x: -16, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_20
@@ -764,18 +692,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -4, y: 10.5}
-        - {x: -4, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 4, y: 10.5}
-        - {x: 8, y: 10.5}
-        - {x: 8, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_21
@@ -797,13 +717,10 @@ TextureImporter:
         - {x: 20.5, y: 11}
         - {x: 19.5, y: 13}
       physicsShape:
-      - - {x: 7.5, y: 15}
-        - {x: -18.5, y: 15}
-        - {x: -20.5, y: 14}
+      - - {x: 20.5, y: 9}
+        - {x: -20.5, y: 9}
         - {x: -20.5, y: -15}
         - {x: 20.5, y: -15}
-        - {x: 20.5, y: 11}
-        - {x: 19.5, y: 13}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_22
@@ -822,18 +739,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -17, y: 10.5}
-        - {x: -17, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 2, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 2, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_23
@@ -852,18 +761,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -15, y: 10.5}
-        - {x: -15, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 4, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 22, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_24
@@ -908,14 +809,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: 0, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 0, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_26
@@ -937,13 +834,10 @@ TextureImporter:
         - {x: 20.5, y: 10}
         - {x: 19.5, y: 12}
       physicsShape:
-      - - {x: 8.5, y: 16}
-        - {x: -11.5, y: 16}
-        - {x: -20.5, y: 9}
+      - - {x: -20.5, y: 8}
         - {x: -20.5, y: -16}
         - {x: 20.5, y: -16}
-        - {x: 20.5, y: 10}
-        - {x: 19.5, y: 12}
+        - {x: 20.5, y: 8}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_27
@@ -964,12 +858,10 @@ TextureImporter:
         - {x: 20.5, y: 11.5}
         - {x: 16.5, y: 15.5}
       physicsShape:
-      - - {x: -14.5, y: 15.5}
-        - {x: -20.5, y: 8.5}
+      - - {x: -20.5, y: 8.5}
         - {x: -20.5, y: -15.5}
         - {x: 20.5, y: -15.5}
-        - {x: 20.5, y: 11.5}
-        - {x: 16.5, y: 15.5}
+        - {x: 20.5, y: 8.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_28
@@ -988,14 +880,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 4.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: 12, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 12, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_29
@@ -1014,18 +902,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -17, y: 10.5}
-        - {x: -17, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 4, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_30
@@ -1045,11 +925,10 @@ TextureImporter:
         - {x: 20.5, y: -16.5}
         - {x: 20.5, y: 16.5}
       physicsShape:
-      - - {x: -19.5, y: 16.5}
-        - {x: -20.5, y: 14.5}
+      - - {x: -20.5, y: 7.5}
         - {x: -20.5, y: -16.5}
         - {x: 20.5, y: -16.5}
-        - {x: 20.5, y: 16.5}
+        - {x: 20.5, y: 7.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_31
@@ -1068,10 +947,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_32
@@ -1090,14 +969,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -14, y: 10.5}
-        - {x: -14, y: 8.5}
-        - {x: -16, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_33
@@ -1119,13 +994,10 @@ TextureImporter:
         - {x: 20.5, y: 11}
         - {x: 19.5, y: 13}
       physicsShape:
-      - - {x: 7.5, y: 15}
-        - {x: -18.5, y: 15}
-        - {x: -20.5, y: 14}
+      - - {x: -20.5, y: 9}
         - {x: -20.5, y: -15}
         - {x: 20.5, y: -15}
-        - {x: 20.5, y: 11}
-        - {x: 19.5, y: 13}
+        - {x: 20.5, y: 9}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_34
@@ -1144,16 +1016,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -16, y: 8.5}
-      - - {x: 3, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 3, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_35
@@ -1172,18 +1038,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -15, y: 10.5}
-        - {x: -15, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 4, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_36
@@ -1253,11 +1111,10 @@ TextureImporter:
         - {x: 20.5, y: 14}
         - {x: 19.5, y: 17}
       physicsShape:
-      - - {x: -20.5, y: 17}
+      - - {x: -20.5, y: 7}
         - {x: -20.5, y: -17}
         - {x: 20.5, y: -17}
-        - {x: 20.5, y: 14}
-        - {x: 19.5, y: 17}
+        - {x: 20.5, y: 7}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_39
@@ -1278,12 +1135,10 @@ TextureImporter:
         - {x: 20.5, y: 11}
         - {x: 8.5, y: 16}
       physicsShape:
-      - - {x: -17.5, y: 16}
-        - {x: -20.5, y: 11}
+      - - {x: -20.5, y: 8}
         - {x: -20.5, y: -16}
         - {x: 20.5, y: -16}
-        - {x: 20.5, y: 11}
-        - {x: 8.5, y: 16}
+        - {x: 20.5, y: 8}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_40
@@ -1302,16 +1157,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -17, y: 10.5}
-        - {x: -17, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_41
@@ -1332,12 +1181,10 @@ TextureImporter:
         - {x: 20.5, y: 10}
         - {x: 14.5, y: 18}
       physicsShape:
-      - - {x: -15.5, y: 18}
-        - {x: -20.5, y: 11}
+      - - {x: -20.5, y: 6}
         - {x: -20.5, y: -18}
         - {x: 20.5, y: -18}
-        - {x: 20.5, y: 10}
-        - {x: 14.5, y: 18}
+        - {x: 20.5, y: 6}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_42
@@ -1356,18 +1203,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -11, y: 10.5}
-        - {x: -11, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 6, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 6, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_43
@@ -1386,18 +1225,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -15, y: 10.5}
-        - {x: -15, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 11, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 11, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_44
@@ -1462,12 +1293,10 @@ TextureImporter:
         - {x: 20.5, y: 11}
         - {x: 8.5, y: 16}
       physicsShape:
-      - - {x: -15.5, y: 16}
-        - {x: -20.5, y: 11}
+      - - {x: -20.5, y: 8}
         - {x: -20.5, y: -16}
         - {x: 20.5, y: -16}
-        - {x: 20.5, y: 11}
-        - {x: 8.5, y: 16}
+        - {x: 20.5, y: 8}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_47
@@ -1488,12 +1317,10 @@ TextureImporter:
         - {x: 20.5, y: 13}
         - {x: 7.5, y: 17}
       physicsShape:
-      - - {x: -15.5, y: 17}
-        - {x: -20.5, y: 10}
+      - - {x: -20.5, y: 7}
         - {x: -20.5, y: -17}
         - {x: 20.5, y: -17}
-        - {x: 20.5, y: 13}
-        - {x: 7.5, y: 17}
+        - {x: 20.5, y: 7}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_48
@@ -1514,12 +1341,10 @@ TextureImporter:
         - {x: 20.5, y: 12}
         - {x: 16.5, y: 17}
       physicsShape:
-      - - {x: -18.5, y: 17}
-        - {x: -20.5, y: 16}
+      - - {x: 20.5, y: 7}
+        - {x: -20.5, y: 7}
         - {x: -20.5, y: -17}
         - {x: 20.5, y: -17}
-        - {x: 20.5, y: 12}
-        - {x: 16.5, y: 17}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_49
@@ -1540,16 +1365,10 @@ TextureImporter:
         - {x: 23, y: 17}
         - {x: 22, y: 18}
       physicsShape:
-      - - {x: -22, y: 18}
-        - {x: -23, y: 17}
+      - - {x: 23, y: 5}
+        - {x: -23, y: 5}
         - {x: -23, y: -18}
         - {x: 23, y: -18}
-        - {x: 23, y: 17}
-        - {x: 22, y: 18}
-      - - {x: 9, y: 10}
-        - {x: 16, y: 10}
-        - {x: 16, y: 8}
-        - {x: 9, y: 8}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_50
@@ -1568,18 +1387,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: 3, y: 10.5}
-        - {x: 3, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 17, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 17, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_51
@@ -1600,12 +1411,10 @@ TextureImporter:
         - {x: 20.5, y: 7.5}
         - {x: 11.5, y: 16.5}
       physicsShape:
-      - - {x: -12.5, y: 16.5}
-        - {x: -20.5, y: 8.5}
+      - - {x: 20.5, y: 7.5}
+        - {x: -20.5, y: 7.5}
         - {x: -20.5, y: -16.5}
         - {x: 20.5, y: -16.5}
-        - {x: 20.5, y: 7.5}
-        - {x: 11.5, y: 16.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_52
@@ -1627,13 +1436,10 @@ TextureImporter:
         - {x: 20.5, y: 9.5}
         - {x: 19.5, y: 11.5}
       physicsShape:
-      - - {x: 4.5, y: 15.5}
-        - {x: -13.5, y: 15.5}
+      - - {x: 20.5, y: 8.5}
         - {x: -20.5, y: 8.5}
         - {x: -20.5, y: -15.5}
         - {x: 20.5, y: -15.5}
-        - {x: 20.5, y: 9.5}
-        - {x: 19.5, y: 11.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_53
@@ -1654,12 +1460,10 @@ TextureImporter:
         - {x: 20.5, y: 10}
         - {x: 14.5, y: 17}
       physicsShape:
-      - - {x: -18.5, y: 17}
-        - {x: -20.5, y: 13}
+      - - {x: 20.5, y: 7}
+        - {x: -20.5, y: 7}
         - {x: -20.5, y: -17}
         - {x: 20.5, y: -17}
-        - {x: 20.5, y: 10}
-        - {x: 14.5, y: 17}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_54
@@ -1678,16 +1482,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -16, y: 8.5}
-      - - {x: 10, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 10, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_55
@@ -1706,18 +1504,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -15, y: 10.5}
-        - {x: -15, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 7, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 7, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_56
@@ -1736,10 +1526,10 @@ TextureImporter:
         - {x: 20.5, y: -14.5}
         - {x: 20.5, y: 14.5}
       physicsShape:
-      - - {x: -20.5, y: 14.5}
+      - - {x: -20.5, y: 8.5}
         - {x: -20.5, y: -14.5}
         - {x: 20.5, y: -14.5}
-        - {x: 20.5, y: 14.5}
+        - {x: 20.5, y: 8.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_57
@@ -1758,10 +1548,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 4.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
+        - {x: 23, y: 4.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_58
@@ -1780,18 +1570,10 @@ TextureImporter:
         - {x: 23, y: -17.5}
         - {x: 23, y: 17.5}
       physicsShape:
-      - - {x: -23, y: 17.5}
+      - - {x: -23, y: 5.5}
         - {x: -23, y: -17.5}
         - {x: 23, y: -17.5}
-        - {x: 23, y: 17.5}
-      - - {x: -16, y: 10.5}
-        - {x: -10, y: 10.5}
-        - {x: -10, y: 8.5}
-        - {x: -16, y: 8.5}
-      - - {x: 4, y: 10.5}
-        - {x: 16, y: 10.5}
-        - {x: 16, y: 8.5}
-        - {x: 4, y: 8.5}
+        - {x: 23, y: 5.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_59
@@ -2211,13 +1993,10 @@ TextureImporter:
         - {x: 20.5, y: 10.5}
         - {x: 15.5, y: 17.5}
       physicsShape:
-      - - {x: -15.5, y: 17.5}
-        - {x: -17.5, y: 14.5}
-        - {x: -20.5, y: 7.5}
-        - {x: -20.5, y: -17.5}
+      - - {x: -20.5, y: -17.5}
         - {x: 20.5, y: -17.5}
-        - {x: 20.5, y: 10.5}
-        - {x: 15.5, y: 17.5}
+        - {x: 20.5, y: 6.5}
+        - {x: -20.5, y: 6.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_77

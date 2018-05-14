@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
-    public GameObject w_obj;
     public GameObject customObject;
     public Sprite sprite;
 
@@ -28,7 +27,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
 
         obj.AddComponent<ItemContainer>();
         obj.GetComponent<ItemContainer>().Init(Item.GetComponent<Item>());
-        StartCoroutine(CoroutineDropping(obj, new Vector2(1, 5)));
+        StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1,2), 5)));
     }
     /// <summary>
     /// 아이템 포물선 방향으로 던짐
@@ -53,12 +52,6 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
                 break;
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        _object.GetComponent<BoxCollider2D>().enabled = true;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-            CallItemBox(PlayerManager.Instance.GetPlayerPosition());
+        _object.GetComponent<PolygonCollider2D>().enabled = true;
     }
 }

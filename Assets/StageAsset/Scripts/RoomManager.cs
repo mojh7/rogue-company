@@ -79,7 +79,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         for (int i = 0; i < roomList.Count; i++)
         {
-            //DisalbeObject(roomList[i]);
+            DisalbeObject(roomList[i]);
         }
     }
 

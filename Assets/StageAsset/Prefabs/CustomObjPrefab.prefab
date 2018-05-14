@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212729737304535222}
   - component: {fileID: 50336563136857414}
   - component: {fileID: 95905694000373048}
-  - component: {fileID: 61796768038257006}
+  - component: {fileID: 60715356161650492}
   m_Layer: 1
   m_Name: CustomObjPrefab
   m_TagString: Untagged
@@ -63,8 +63,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61796768038257006
-BoxCollider2D:
+--- !u!60 &60715356161650492
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -85,9 +85,13 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.0001, y: 0.0001}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 1}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 0.9510565, y: 0.30901712}
 --- !u!95 &95905694000373048
 Animator:
   serializedVersion: 3

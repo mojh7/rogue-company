@@ -771,7 +771,7 @@ namespace Map
                 if (!rooms[i].isRoom)
                     rooms[i].maskObject.SetActive(true);
                 else
-                    rooms[i].maskObject.SetActive(true);
+                    rooms[i].maskObject.SetActive(false);
             }
         }
         #endregion

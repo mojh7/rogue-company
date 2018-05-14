@@ -417,10 +417,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0792ba27dba5e34bb053b3cdb51eda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  w_obj: {fileID: 1788915023617148, guid: 2fe5f57666cfafa48aba118757300c57, type: 2}
   customObject: {fileID: 1832046738814270, guid: dece55cd74b3a82448bb0a09bbc09a1b,
     type: 2}
-  sprite: {fileID: 21300052, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
+  sprite: {fileID: 21300000, guid: 862dfa97db426c94bb184c99660245d3, type: 3}
   wepaonPrefab: {fileID: 1788915023617148, guid: 2fe5f57666cfafa48aba118757300c57,
     type: 2}
 --- !u!114 &307469669
