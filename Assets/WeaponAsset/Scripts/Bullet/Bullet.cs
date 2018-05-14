@@ -59,7 +59,7 @@ public class Bullet : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         // 총알 끼리 무시, 총알 레이어 무시, 현재 임시로 Bullet layer 15번, Wall layer 14번 쓰고 있음.
         Physics2D.IgnoreLayerCollision(15, 15);
-        //Physics2D.IgnoreLayerCollision(15, 16);
+        Physics2D.IgnoreLayerCollision(15, 16);
     }
 
     private void FixedUpdate()
@@ -201,6 +201,7 @@ public class Bullet : MonoBehaviour
     {
         CollisionBullet(coll);
     }
+
     // 충돌 처리 Trigger
     public void OnTriggerEnter2D(Collider2D coll)
     {

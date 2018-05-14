@@ -79,8 +79,50 @@ class BaseNormalCollisionProperty : CollisionProperty
     }
 
     public override void Collision(ref Collision2D coll)
-    {     
+    {
+        // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
+        if (coll.transform.CompareTag("Enemy"))
+        {
+            // 공격 처리
+            // coll.Attacked();
+            Ignore(ref coll);
 
+            // 관통 횟수 -1
+            pierceCount -= 1;
+
+            if (pierceCount == 0)
+            {
+                // 총알 delete 처리
+                delDestroyBullet();
+            }
+        }
+
+        // 공격 불가능 object, bounce 횟수 == 0 이면 총알 delete 처리
+        else if (coll.transform.CompareTag("Wall"))
+        {
+            // bounce 가능 횟수가 남아있으면 총알을 반사각으로 튕겨내고 없으면 delete 처리
+            if (bounceCount > 0)
+            {
+                // 총알 반사각으로 bounce
+
+                //반사각
+                reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
+
+                //Debug.Log("normal Vector : " + coll.contacts[0].normal);
+                //Debug.Log("입사각 : " + MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z));
+                //Debug.Log("반사각 : " + reflectVector.GetDegFromVector());
+                bullet.UpdateDirection(reflectVector);
+                bounceCount -= 1;
+                // 디버그용 contact 위치 표시
+                //TestScript.Instance.CreateContactObj(coll.contacts[0].point);
+
+            }
+            else
+            {
+                // 총알 회수
+                delDestroyBullet();
+            }
+        }
     }
 
     public override void Collision(ref Collider2D coll)
@@ -414,7 +456,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        bullet.SetAnimationTrigger("Reset");
+        //bullet.SetAnimationTrigger("Reset");
         TestScript.Instance.CreateEffect(bulletTransform.position, bullet.info.effectId);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
