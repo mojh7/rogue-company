@@ -11,9 +11,9 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     [SerializeField]
     private GameObject wepaonPrefab;
 
-    public void CallItemBox()
+    public void CallItemBox(Vector3 _position)
     {
-        GameObject obj = Instantiate(customObject, PlayerManager.Instance.GetPlayerPosition(), Quaternion.identity, this.transform);
+        GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
         obj.AddComponent<ItemBox>();
         obj.GetComponent<ItemBox>().sprite = sprite;
         obj.GetComponent<ItemBox>().Init();
@@ -24,15 +24,15 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
 
         // 모장현, id에 따른 무기 생성 초기화 및 parent item container로 지정
-        ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10), _position, obj.transform);
+        GameObject Item = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10), _position, obj.transform);
 
         obj.AddComponent<ItemContainer>();
-        obj.GetComponent<BoxCollider2D>().enabled = false;
-        obj.GetComponent<ItemContainer>().sprite = w_obj.GetComponent<SpriteRenderer>().sprite;
-        obj.GetComponent<ItemContainer>().Init();
+        obj.GetComponent<ItemContainer>().Init(Item.GetComponent<Item>());
         StartCoroutine(CoroutineDropping(obj, new Vector2(1, 5)));
     }
-
+    /// <summary>
+    /// 아이템 포물선 방향으로 던짐
+    /// </summary>
     IEnumerator CoroutineDropping(GameObject _object, Vector2 _vector)
     {
         int g = 20;
@@ -59,6 +59,6 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
-            CallItemBox();
+            CallItemBox(PlayerManager.Instance.GetPlayerPosition());
     }
 }

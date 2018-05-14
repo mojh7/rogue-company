@@ -9,16 +9,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
-  m_Name: 2x3 monster
+  m_Name: 3x3 boss
   m_EditorClassIdentifier: 
-  x: 18
+  x: 0
   y: 0
-  width: 2
+  width: 3
   height: 3
   size: 5
-  gage: 6
+  gage: 9
   objectDatas:
-  - position: {x: 2.5, y: 5.75, z: 5.75}
+  - position: {x: 2.5, y: 11.5, z: 11.5}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -32,7 +32,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 4.25, z: 4.25}
+  - position: {x: 5.5, y: 11.5, z: 11.5}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -46,7 +46,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 2.75, z: 2.75}
+  - position: {x: 4, y: 11.5, z: 11.5}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -60,7 +60,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 5.5, y: 5.75, z: 5.75}
+  - position: {x: 2.5, y: 8, z: 8}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -74,7 +74,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 5.5, y: 4.25, z: 4.25}
+  - position: {x: 5.5, y: 8, z: 8}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -88,7 +88,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 5.5, y: 2.75, z: 2.75}
+  - position: {x: 4, y: 8, z: 8}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -102,7 +102,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 11, z: 11}
+  - position: {x: 2.5, y: 4.5, z: 4.5}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -116,7 +116,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 12.5, z: 12.5}
+  - position: {x: 5.5, y: 4.5, z: 4.5}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -130,49 +130,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 9.5, z: 9.5}
-    sprites:
-    - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300008, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300010, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300004, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300014, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300018, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300020, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300022, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    isActive: 0
-    objectType: 1
-  - position: {x: 5.5, y: 11, z: 11}
-    sprites:
-    - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300008, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300010, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300004, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300014, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300018, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300020, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300022, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    isActive: 0
-    objectType: 1
-  - position: {x: 5.5, y: 12.5, z: 12.5}
-    sprites:
-    - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300008, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300010, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300004, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300014, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300018, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300020, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300022, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    isActive: 0
-    objectType: 1
-  - position: {x: 5.5, y: 9.5, z: 9.5}
+  - position: {x: 4, y: 4.5, z: 4.5}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -190,4 +148,4 @@ MonoBehaviour:
     sprites: []
     isActive: 0
     objectType: 6
-  roomType: 1
+  roomType: 3
