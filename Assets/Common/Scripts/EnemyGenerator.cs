@@ -8,6 +8,13 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
     public ObjectPool objectPool;
     public GameObject alertObj;
 
+    List<GameObject> enemyList;
+
+    private void Awake()
+    {
+        enemyList = new List<GameObject>();
+    }
+
     public void Generate(Vector3 _position)
     {
         GameObject obj = Instantiate(alertObj,_position,Quaternion.identity,this.transform);
@@ -23,5 +30,13 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
         obj.transform.position = _position;
         obj.GetComponent<Enemy>().Init(sprites[0]);
         obj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
+        enemyList.Add(obj);
+    }
+
+    public List<GameObject> GetEnemyList()
+    {
+        if (enemyList == null)
+            return null;
+        return enemyList;
     }
 }
