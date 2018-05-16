@@ -44,9 +44,8 @@ public class WeaponManager : MonoBehaviour {
     //private Character owner로 해야 될 것 같지만 일단 Player owner;
     private Player owner;
 
-    // 디버그용 차징 ui
-    public GameObject chargedGaugeUI;
-    public Slider chargedGaugeSlider;
+    /// <summary> 차징 게이지 script</summary> 
+    public ChargeGauge chargeGauge; // inspector 창에서 붙임
 
     // 매 update 마다 바껴서 임시로 만듬
     private bool canPickAndDropWeapon = true;
@@ -146,14 +145,7 @@ public class WeaponManager : MonoBehaviour {
     /// <param name="chargedVaule"></param>
     public void UpdateChargingUI(float chargedVaule)
     {
-        if(chargedVaule == 0)
-        {
-            chargedGaugeUI.SetActive(false);
-            return;
-        }
-        chargedGaugeUI.SetActive(true);
-        // 나중에 변수 하나둬서 position y값 지정할 수 있게 해서 어떤 owner에 붙여도 ui 올바른 위치에 뜨게 할 예정
-        chargedGaugeSlider.value = chargedVaule; 
+        chargeGauge.UpdateChargeGauge(chargedVaule);
     }
 
     /// <summary>

@@ -149,7 +149,7 @@ public class Weapon : Item {
             else if(info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
             {
                 weaponState = WeaponState.Charge;
-                // 차징 실행
+                // 차징 코루틴 실행
                 if (chargingUpdate == null)
                 {
                     chargingUpdate = StartCoroutine("ChargingUpdate");
@@ -262,12 +262,17 @@ public class Weapon : Item {
         weaponState = WeaponState.Idle;
     }
 
-    // 차징 시작
+    /// <summary>
+    /// 차징 시작 코루틴
+    /// </summary>
     private IEnumerator ChargingUpdate()
     {
+        // 무기별로 chargeTime 다름 0517 기준으로 근거리 2.5~3.5초, 원거리 3~4.5초
+
         // 2.019999, 2와 같은 부동 소수점 계산 문제 생겨서 info.chargeTime에다가 WaitForseconds / 2 값 만큼 빼줬음 
         while (chargedTime < info.chargeTime - 0.01f)
-        {   
+        {
+            // 0.02f => 차징 ui 갱신 시간, 숫자가 작을 수록 빠른 주기로 갱신됨.
             chargedTime += 0.02f;
             weaponManager.UpdateChargingUI(chargedTime / info.chargeTime);
             yield return YieldInstructionCache.WaitForSeconds(0.02f);
