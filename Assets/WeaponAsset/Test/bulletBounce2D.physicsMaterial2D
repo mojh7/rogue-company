@@ -7,4 +7,4 @@ PhysicsMaterial2D:
   m_PrefabInternal: {fileID: 0}
   m_Name: bulletBounce2D
   friction: 1
-  bounciness: 0.5
+  bounciness: 1

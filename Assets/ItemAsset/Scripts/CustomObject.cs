@@ -30,7 +30,10 @@ public class CustomObject : MonoBehaviour {
             GetComponent<PolygonCollider2D>().SetPath(0, list.ToArray());
             GetComponent<PolygonCollider2D>().isTrigger = false;
         }
+
         gameObject.tag = "Wall";
+        gameObject.layer = 14;
+
     }
 
     public void SetPosition()
@@ -145,6 +148,9 @@ public class Spawner : CustomObject
         isAvailable = false;
         GetComponent<PolygonCollider2D>().SetPath(0, null);
         objectType = ObjectType.SPAWNER;
+
+        gameObject.tag = "Enemy";
+        gameObject.layer = 13;
     }
     public override void Active()
     {

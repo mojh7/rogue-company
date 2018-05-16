@@ -5,6 +5,23 @@ using UnityEngine;
 public class Enemy : Character {
 
     public new SpriteRenderer renderer;
+    #region setter
+    #endregion
+
+    #region getter
+
+    public override Vector3 GetDirVector()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override float GetDirDegree()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    #endregion
+
     #region UnityFunc
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,5 +46,7 @@ public class Enemy : Character {
     {
         pState = State.DIE;
     }
+
+    
     #endregion
 }

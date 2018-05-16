@@ -5,28 +5,42 @@ using WeaponData;
 using DelegateCollection;
 using UnityEngine.UI;
 
-/* onwer 하위 Object에 붙어서 무기 관리할 예정인 매니저 클래스
- * 
- * player는 최대 3개까지 무기 수용할 예정.
+
+/* 
+ * Ctrl K,F - 자동 들여 쓰기
+ * Ctrl K,C - 주석 처리
+ * Ctrl K,U - 주석 해제
+ * Ctrl U   - 소문자 만들기
+ * Ctrl M,M - 해당 범위 축소 / 확장
  */
 
+/// <summary>
+/// Onwer(Player, Enmey, Object) 하위 자식 오브젝트로 붙어서
+/// Weapon을 담고 쓸 수 있도록 관리하는 Class, Player는 3개 쓸 예정
+/// </summary>
 public class WeaponManager : MonoBehaviour {
 
     #region variables
 
     [SerializeField]
-    private List<Weapon> equipWeaponSlot;      // 무기 장착 슬룻 (최대 3개)
+    private List<Weapon> equipWeaponSlot;      // 무기 장착 슬룻
+    /// <summary> 현재 사용 무기 index </summary>
     [SerializeField]
-    private int currentWeaponIndex;         // 현재 사용 무기 index
-    private int weaponCount;               // 현재 장착된 무기 갯수 
+    private int currentWeaponIndex;
+    /// <summary> 현재 장착된 무기 갯수 </summary>
+    private int weaponCount;
+    /// <summary> 무기를 장착할 수 있는 최대 갯수 </summary>
     [SerializeField]
-    private int weaponCountMax;            // 무기 장착 최대 갯수 
+    private int weaponCountMax;
     private Transform objTransform;
+    private BuffManager ownerBuff;
+
+    // owner의 공격 방향 각도, 방향 벡터 와 현재 위치 함수이며 weapon->bulletPattern->bullet 방향으로 전달 함.
     private DelGetDirDegree ownerDirDegree;
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
-    private BuffManager ownerBuff;
-
+    
+    /// <summary> 무기 drop and pick할 때 지정될 parnet object </summary>
     [SerializeField]
     private Transform registerPoint;
     //private Character owner로 해야 될 것 같지만 일단 Player owner;
@@ -98,12 +112,12 @@ public class WeaponManager : MonoBehaviour {
         if (owner.GetRightDirection())
         {
             // 우측
-            transform.rotation = Quaternion.Euler(0f, 0f, owner.GetDirDegree());
+            objTransform.rotation = Quaternion.Euler(0f, 0f, ownerDirDegree());
         }
         else
         {
             // 좌측
-            transform.rotation = Quaternion.Euler(0f, 0f, owner.GetDirDegree() - 180f);
+            objTransform.rotation = Quaternion.Euler(0f, 0f, ownerDirDegree() - 180f);
         }
     }
     #endregion
@@ -116,7 +130,7 @@ public class WeaponManager : MonoBehaviour {
         // 방향, Position 리턴 함수 등록,나중에 어디에(onwer 누구냐에 따라서 다름, player, enmey, object) 붙는지에 따라 초기화
         // 지금은 테스트용으로 Player꺼 등록
         ownerDirDegree = player.GetDirDegree;
-        ownerDirVec = player.GetRecenteInputVector;
+        ownerDirVec = player.GetDirVector;
         ownerPos = GetPosition;
         ownerBuff = player.GetBuffManager();
 
@@ -144,7 +158,9 @@ public class WeaponManager : MonoBehaviour {
         chargedGaugeSlider.value = chargedVaule; 
     }
 
-    // 공격 버튼 누를 때, 누르는 중일 때
+    /// <summary>
+    /// 공격 버튼 누를 때, 누르는 중일 때 
+    /// </summary>
     public void AttackButtonDown()
     {
         if (GetAttackAble())
@@ -153,13 +169,17 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
-    // 공격 버튼 뗐을 때
+    /// <summary>
+    /// 공격 버튼 뗐을 때
+    /// </summary>
     public void AttackButtonUP()
     {
         equipWeaponSlot[currentWeaponIndex].StopAttack();
     }
-    
-    // 전체 무기 Active off, 현재 착용 무기만 on
+
+    /// <summary>
+    /// 전체 무기 object Active off, 현재 착용 무기만 on 
+    /// </summary>
     public void OnOffWeaponActive()
     {
         for(int i = 0; i < weaponCountMax; i++)
@@ -169,7 +189,9 @@ public class WeaponManager : MonoBehaviour {
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
     }
 
-    // 무기 교체, changeNextWepaon 값 true : 다음 무기, false : 이전 무기
+    /// <summary>
+    /// 무기 교체, changeNextWepaon 값 true : 다음 무기, false : 이전 무기 
+    /// </summary>
     public void ChangeWeapon(bool changeNextWeapon)
     {
         if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.Idle)
@@ -191,16 +213,11 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
-
-    // return 값으로 나온 버려진 무기를 item Class에 넘겨서 Player 바로 밑에 버려진 아이템 구현
-
-    /// <param name="weapon">추가 </param>
     /// <summary>
-    /// 무기 습득
-    /// 슬룻 남을 때 : 무기 습득하고 습득한 무기 착용
-    /// 슬룻 꽉찰 때 : 습득 무기 착용과 동시에 버려진 무기 return
+    /// 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용 / 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기
     /// </summary>
-    /// <param name="pickedWeapon">습득한 무기</param>
+    /// <param name="pickedWeapon">얻을 무기</param>
+    /// <param name="itemContainer"></param>
     public void PickAndDropWeapon(Item pickedWeapon, GameObject itemContainer)
     {
         Weapon weapon = pickedWeapon as Weapon;
@@ -210,27 +227,20 @@ public class WeaponManager : MonoBehaviour {
         if (weaponCount < weaponCountMax)
         {
             equipWeaponSlot.Add(weapon);
-            weapon.ObjTransform.position = objTransform.position;
-            weapon.ObjTransform.SetParent(objTransform);
+            weapon.ObjTransform.SetParent(registerPoint, false);
+            weapon.RegisterWeapon(this);
             currentWeaponIndex = weaponCount++;
             OnOffWeaponActive();         
         }
-        // 현재 착용중인 무기 버리고(return으로 내뱉음) 습득 무기로 바꾸고 장착
+        // 현재 착용중인 무기 버리고 습득 무기로 바꾸고 장착
         else
         {
             Weapon dropedWeapon = equipWeaponSlot[currentWeaponIndex];
             equipWeaponSlot[currentWeaponIndex] = weapon;
-            //pickedWeapon.ObjTransform.position = objTransform.position;
-            //pickedWeapon.ObjTransform.rotation = objTransform.rotation;
-
-            // pickedWeapon.ObjTransform.parent = objTransform;
-
             weapon.ObjTransform.SetParent(registerPoint, false);
-            //pickedWeapon.ObjTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
             weapon.RegisterWeapon(this);
             OnOffWeaponActive();
             itemContainer.GetComponent<ItemContainer>().Init(dropedWeapon);
-            //dropedWeapon.ObjTransform.position = itemContainer.transform.position;
             dropedWeapon.ObjTransform.SetParent(itemContainer.transform, false);
         }
         StartCoroutine("PickAndDropWeaponDelay");

@@ -15,6 +15,8 @@ using UnityEngine;
 #endregion
 */
 
+
+
 public abstract class Character : MonoBehaviour
 {
     protected enum State { NOTSPAWNED, DIE, ALIVE }
@@ -25,11 +27,24 @@ public abstract class Character : MonoBehaviour
     public CircleCollider2D interactiveCollider2D;
     public float moveSpeed;     // Character move Speed
 
+    protected bool isAutoAiming;    // 오토에임 적용 유무
+
+    protected Vector3 directionVector;
+    protected float directionDegree;  // 바라보는 각도(총구 방향)
+
     public abstract void Die();
+
+    public abstract Vector3 GetDirVector();
+    public abstract float GetDirDegree();
+    /**/
+
+   
 }
 
 
-// 무기 클래스 활용겸 테스트용 player
+/// <summary>
+/// Player Class
+/// </summary>
 public class Player : Character
 {
     #region variables
@@ -43,21 +58,41 @@ public class Player : Character
     private BuffManager buffManager;
     private Transform objTransform;
     private PlayerState state;
-    private float playerScale;      // player 크기
+    /// <summary> player 크기 </summary>
+    private float playerScale;      
     private Vector3 scaleVector;    // player scale 우측 (1, 1, 1), 좌측 : (-1, 1, 1) 
-    private float directionDegree;  // 바라보는 각도(총구 방향)
+   
     private bool isRightDirection;    // player 방향이 우측이냐(true) 아니냐(flase = 좌측)
 
     public WeaponManager weaponManager;
+
+    
+    struct RaycasthitEnemy
+    {
+        public int index;
+        public float distance;
+    }
+
+    private RaycastHit2D hit;
+    private List<RaycasthitEnemy> raycastHitEnemies;
+    private RaycasthitEnemy raycasthitEnemyInfo;
+    private int layerMask;
+
     #endregion
 
     #region getter
     public PlayerController PlayerController { get { return controller; } }
     public PlayerState State { get { return state; } }
-    public bool GetRightDirection() { return isRightDirection; }
-    public float GetDirDegree (){ return directionDegree; }
+    public bool GetRightDirection(){ return isRightDirection; }
     public Vector3 GetInputVector () { return controller.GetInputVector(); }
-    public Vector3 GetRecenteInputVector() { return controller.GetRecenteInputVector(); }
+    public override Vector3 GetDirVector()
+    {
+        return directionVector;
+    }
+    public override float GetDirDegree()
+    {
+        return directionDegree;
+    }
     public Vector3 GetPosition() { return objTransform.position; }
     public BuffManager GetBuffManager() { return buffManager; }
     public WeaponManager GetWeaponManager() { return weaponManager; }
@@ -74,13 +109,42 @@ public class Player : Character
         scaleVector = new Vector3(playerScale, playerScale, 1);
         buffManager = new BuffManager();
         isRightDirection = true;
+        raycastHitEnemies = new List<RaycasthitEnemy>();
+        raycasthitEnemyInfo = new RaycasthitEnemy();
+        layerMask = 1 << LayerMask.NameToLayer("Wall");
+
         Init();
     }
+
+    //for debug
+    bool canAutoAim = false;
+    bool updateAutoAim = false;
 
     // Update is called once per frame
     void Update()
     {
-        directionDegree = controller.GetRecenteInputVector().GetDegFromVector();
+        // for debug
+        if (canAutoAim == false)
+        {
+            directionVector = controller.GetRecenteNormalInputVector();
+            directionDegree = directionVector.GetDegFromVector();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            canAutoAim = !canAutoAim;
+            SetAim();
+            Debug.Log("autoAim : " + canAutoAim);
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            updateAutoAim = !updateAutoAim;
+            Debug.Log("updateAutoAim : " + updateAutoAim);
+        }
+        if (updateAutoAim)
+        {
+            SetAim();
+        }
+        
         // 각도에 따른 player 우측, 좌측 바라보기
         if (-90 <= directionDegree && directionDegree < 90)
         {
@@ -107,10 +171,9 @@ public class Player : Character
     {
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this);
-        // 공격 버튼, 무기 스위치 버튼에 player class 넘기기
+        // Player class 정보가 필요한 UI class에게 Player class 넘기기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
         GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>().SetPlayer(this);
-
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
     }
     public override void Die()
@@ -144,10 +207,12 @@ public class Player : Character
         bestCollider.GetComponent<CustomObject>().Active();
         return true;
     }
-    // 캐릭터 이동, WASD Key, 테스트 용  
+    /// <summary>
+    /// 캐릭터 이동, 디버그 용으로 WASD Key로 이동 가능  
+    /// </summary>
     private void Move()
     {
-        // 조이스틱 방향으로 이동
+        // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
         objTransform.Translate(controller.GetInputVector() * moveSpeed * Time.deltaTime);
 
         if (Input.GetKey(KeyCode.W))
@@ -168,17 +233,73 @@ public class Player : Character
             transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
         }
     }
-    // 공격 가능 여부 리턴
+    /// <summary> 공격 가능 여부 리턴 </summary>
     public bool AttackAble()
     {
         if (state == PlayerState.IDLE)
             return true;
         else return false;
     }
+
+    public void SetAim()
+    {       
+        int enemyTotal = EnemyGenerator.Instance.GetAliveEnemyTotal();
+        
+        if (enemyTotal == 0)
+        {
+            directionVector = controller.GetRecenteNormalInputVector();
+            directionDegree = directionVector.GetDegFromVector();
+        }
+        else
+        {
+            List<Enemy> enemyList = EnemyGenerator.Instance.GetEnemyList();
+            
+            raycastHitEnemies.Clear();
+            int raycasthitEnemyNum = 0;
+            float minDistance = 1000f;
+            int proximateEnemyIndex = -1;
+
+            Debug.Log("Total : " + enemyTotal);
+            // raycast로 player와 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
+            for (int i = 0; i < enemyTotal; i++)
+            {
+                raycasthitEnemyInfo.index = i;
+                raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, objTransform.position);
+                hit = Physics2D.Raycast(objTransform.position, enemyList[i].transform.position - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
+                if(hit.collider == null)
+                {
+                    raycastHitEnemies.Add(raycasthitEnemyInfo);
+                    raycasthitEnemyNum += 1;
+                }
+            }
+
+            if (raycasthitEnemyNum == 0)
+            {
+                directionVector = controller.GetRecenteNormalInputVector();
+                directionDegree = directionVector.GetDegFromVector();
+                return;
+            }
+
+            // 위에서 찾은 enmey들 중 distance가 가장 작은 값인 enemy쪽 방향으로 조준한다.
+            for (int j = 0; j < raycasthitEnemyNum; j++)
+            {
+                if (raycastHitEnemies[j].distance <= minDistance)
+                {
+                    minDistance = raycastHitEnemies[j].distance;
+                    proximateEnemyIndex = j;
+                }
+            } 
+
+            directionVector = (enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform.position - objTransform.position).normalized;
+            directionDegree = directionVector.GetDegFromVector();
+        }
+    }
     #endregion
 }
 
-// Player 조작 관련 Class
+
+
+/// <summary> Player 조작 관련 Class </summary>
 [System.Serializable]
 public class PlayerController
 {
@@ -188,32 +309,35 @@ public class PlayerController
     // 조이스틱 방향
     private Vector3 inputVector;
 
-    
+
     public PlayerController(Joystick joystick)
     {
         this.joystick = joystick;
     }
 
-    // 조이스틱 바라보는 방향 벡터 
+    /// <summary>
+    /// 조이스틱이 현재 바라보는 방향의 벡터  
+    /// </summary>
     public Vector3 GetInputVector()
-    {    
+    {
         float h = joystick.GetHorizontalValue();
         float v = joystick.GetVerticalValue();
 
-        // 조이스틱 일정 거리 이상 움직였을 때 부터 조작 적용.
-        if (h * h + v * v > 0.01)
-        {
-            inputVector = new Vector3(h, v, 0).normalized;
-        }
-        else inputVector = Vector3.zero;
+        // 조이스틱 일정 거리 이상 움직였을 때 부터 조작 적용. => 적용 미적용 미정
+        //if (h * h + v * v > 0.01)
+        //{
+        inputVector = new Vector3(h, v, 0).normalized;
+        //}
+        //else inputVector = Vector3.zero;
 
         return inputVector;
     }
 
-    // 조이스틱 터치 유무에 상관없이 가장 최근 Input vector
-    public Vector3 GetRecenteInputVector()
+    /// <summary>
+    /// 조이스틱 터치 유무에 상관없이 가장 마지막으로 입력한 Vector의 노말 벡터 반환 
+    /// </summary>
+    public Vector3 GetRecenteNormalInputVector()
     {
-        return joystick.GetRecenteInputVector();
+        return joystick.GetRecenteNormalInputVector();
     }
-    
 }

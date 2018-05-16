@@ -71,7 +71,7 @@ class BaseNormalCollisionProperty : CollisionProperty
     private int pierceCount = 1;    // default 1
 
     // 공격이 가능하지 않은 오브젝트에 대해서 총알이 반사각으로 튕겨나오는 횟수
-    private int bounceCount = 0;    // default 0
+    private int bounceCount = 1;    // default 0
 
     public override CollisionProperty Clone()
     {

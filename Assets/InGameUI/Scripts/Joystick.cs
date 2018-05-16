@@ -9,15 +9,18 @@ using System;
 // http://tenlie10.tistory.com/115
 //
 
-// 조이스틱 입력에 따른 ui조절, 벡터 값 생성 class
+/// <summary>
+/// InGame Player 조작 조이스틱
+/// 입력에 따른 UI, 방향 벡터 값 생성
+/// </summary> 
 public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
 
     #region variables
-    public Image backgroundImage;           // 배경 image, 큰 원
-    public Image joystickImage;             // 움직일 image, 작은 원
-    private Vector3 inputVector;            // 입력 중일 때의 vector 값
-    private Vector3 recenteInputVector;     // 터치 다운, 업에 상관없이 가장 최근 입력 벡터 
+    public Image backgroundImage;               // 배경 image, 큰 원
+    public Image joystickImage;                 // 움직일 image, 작은 원
+    private Vector3 inputVector;                // 입력 중일 때의 vector 값
+    private Vector3 recenteNormalInputVector;   // 터치 다운, 업에 상관없이 가장 최근 입력된 노말 벡터 
     #endregion
 
     #region getter
@@ -29,15 +32,19 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     {
         return inputVector.y;
     }
-    public Vector3 GetRecenteInputVector()
+    /// <summary>
+    /// 조이스틱이 입력한 가장 마지막 벡터 정보를 반환한다.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetRecenteNormalInputVector()
     {
-        return recenteInputVector;
+        return recenteNormalInputVector;
     }
     #endregion
 
     void Awake()
     {
-        recenteInputVector = Vector3.right;
+        recenteNormalInputVector = Vector3.right;
     }
 
     #region interface implement
@@ -64,9 +71,13 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
             //Debug.Log("2 : " + pos.x + ", " + pos.y);
 
             inputVector = new Vector3(pos.x * 2, pos.y * 2, 0);
-            inputVector = (inputVector.magnitude > 1.0f) ? inputVector.normalized : inputVector;
-            // 가장 마지막 입력 vector 값
-            recenteInputVector = inputVector;
+
+            if (inputVector.magnitude > 1.0f)
+            {
+                inputVector = inputVector.normalized;
+                recenteNormalInputVector = inputVector;
+            }
+            else recenteNormalInputVector = inputVector.normalized;
 
             // Move Joystick IMG
             joystickImage.rectTransform.anchoredPosition = new Vector3(inputVector.x * (backgroundImage.rectTransform.sizeDelta.x / 3)

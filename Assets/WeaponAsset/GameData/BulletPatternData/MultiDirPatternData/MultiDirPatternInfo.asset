@@ -17,7 +17,7 @@ MonoBehaviour:
   randomAngle: 8
   bulletId: 0
   bulletAnimationName: 
-  effectId: 4
+  effectId: 0
   speed: 5
   range: 10
   damage: 0

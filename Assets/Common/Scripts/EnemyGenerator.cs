@@ -8,11 +8,14 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
     public ObjectPool objectPool;
     public GameObject alertObj;
 
-    List<GameObject> enemyList;
+    List<Enemy> enemyList;
+    // 0516 모장현
+    int aliveEnemyTotal;
 
     private void Awake()
     {
-        enemyList = new List<GameObject>();
+        enemyList = new List<Enemy>();
+        aliveEnemyTotal = 0;
     }
 
     public void Generate(Vector3 _position)
@@ -26,17 +29,26 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
 
     void CallBack(Vector3 _position)
     {
+        Enemy enemy;
         GameObject obj = objectPool.GetPooledObject();
         obj.transform.position = _position;
-        obj.GetComponent<Enemy>().Init(sprites[0]);
+        enemy = obj.GetComponent<Enemy>();
+        enemy.Init(sprites[0]);
+        enemyList.Add(enemy);
         obj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
-        enemyList.Add(obj);
+        aliveEnemyTotal += 1;
     }
-
-    public List<GameObject> GetEnemyList()
+     
+    public List<Enemy> GetEnemyList()
     {
         if (enemyList == null)
             return null;
         return enemyList;
+    }
+
+    // 0516 모장현
+    public int GetAliveEnemyTotal()
+    {
+        return aliveEnemyTotal;
     }
 }
