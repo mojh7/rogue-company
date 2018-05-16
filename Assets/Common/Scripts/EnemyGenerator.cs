@@ -12,6 +12,7 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
     // 0516 모장현
     int aliveEnemyTotal;
 
+
     private void Awake()
     {
         enemyList = new List<Enemy>();
@@ -38,7 +39,7 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
         obj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
         aliveEnemyTotal += 1;
     }
-     
+
     public List<Enemy> GetEnemyList()
     {
         if (enemyList == null)

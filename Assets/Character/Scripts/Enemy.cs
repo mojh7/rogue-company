@@ -34,6 +34,8 @@ public class Enemy : Character {
             gameObject.SetActive(false);
         }
     }
+
+
     #endregion
     #region Func
     public void Init(Sprite _sprite)
@@ -46,7 +48,5 @@ public class Enemy : Character {
     {
         pState = State.DIE;
     }
-
-    
     #endregion
 }

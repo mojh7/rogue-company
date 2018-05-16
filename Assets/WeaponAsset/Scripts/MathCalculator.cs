@@ -6,6 +6,7 @@ using UnityEngine;
 /// 각종 수학적 계산 모음 class
 /// 안 쓸 수도 있는데 따로 클래스내에 모아놓고 사용할 확률이 더 높음
 /// </summary>
+
 public static class MathCalculator  {
 
     private const float DegToRad = Mathf.PI / 180;
@@ -22,12 +23,12 @@ public static class MathCalculator  {
     /// <summary>
     /// Vector값을 degree만큼 회전한 새로운 Vector3 값을 반환한다.
     /// </summary>
-    public static Vector3 VectorRotate(Vector3 _vector, float _degrees) 
+    public static Vector3 VectorRotate(Vector3 _vector, float _degrees)
     {
         return _vector.RotateRadians(_degrees * DegToRad);
     }
 
-    
+
     /// <summary>
     /// Vector값을 radian 만큼 회전하여 새로운 Vector3 값을 반환한다. 
     /// </summary>
@@ -39,9 +40,9 @@ public static class MathCalculator  {
     }
 
     /// <summary>
-    /// // vector방향으로 회전하는 Quaternion 계산
+    /// vector방향으로 회전하는 Quaternion 계산
     /// </summary>
-    public static Quaternion GetRotFromVector(Vector3 _vector) 
+    public static Quaternion GetRotFromVector(Vector3 _vector)
     {
         Quaternion newRotation = Quaternion.LookRotation(_vector, Vector3.forward);
         newRotation.x = 0.0f;

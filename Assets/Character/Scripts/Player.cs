@@ -38,7 +38,6 @@ public abstract class Character : MonoBehaviour
     public abstract float GetDirDegree();
     /**/
 
-   
 }
 
 
@@ -59,13 +58,12 @@ public class Player : Character
     private Transform objTransform;
     private PlayerState state;
     /// <summary> player 크기 </summary>
-    private float playerScale;      
+    private float playerScale;
     private Vector3 scaleVector;    // player scale 우측 (1, 1, 1), 좌측 : (-1, 1, 1) 
-   
     private bool isRightDirection;    // player 방향이 우측이냐(true) 아니냐(flase = 좌측)
 
     public WeaponManager weaponManager;
-
+    
     
     struct RaycasthitEnemy
     {
@@ -144,7 +142,7 @@ public class Player : Character
         {
             SetAim();
         }
-        
+
         // 각도에 따른 player 우측, 좌측 바라보기
         if (-90 <= directionDegree && directionDegree < 90)
         {
@@ -259,7 +257,8 @@ public class Player : Character
             float minDistance = 1000f;
             int proximateEnemyIndex = -1;
 
-            Debug.Log("Total : " + enemyTotal);
+            // Debug.Log("Total : " + enemyTotal);
+
             // raycast로 player와 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
             for (int i = 0; i < enemyTotal; i++)
             {
@@ -297,8 +296,6 @@ public class Player : Character
     #endregion
 }
 
-
-
 /// <summary> Player 조작 관련 Class </summary>
 [System.Serializable]
 public class PlayerController
@@ -309,7 +306,7 @@ public class PlayerController
     // 조이스틱 방향
     private Vector3 inputVector;
 
-
+    
     public PlayerController(Joystick joystick)
     {
         this.joystick = joystick;
@@ -317,9 +314,9 @@ public class PlayerController
 
     /// <summary>
     /// 조이스틱이 현재 바라보는 방향의 벡터  
-    /// </summary>
+    /// </summary> 
     public Vector3 GetInputVector()
-    {
+    {    
         float h = joystick.GetHorizontalValue();
         float v = joystick.GetVerticalValue();
 
@@ -333,11 +330,10 @@ public class PlayerController
         return inputVector;
     }
 
-    /// <summary>
-    /// 조이스틱 터치 유무에 상관없이 가장 마지막으로 입력한 Vector의 노말 벡터 반환 
-    /// </summary>
+    // 조이스틱 터치 유무에 상관없이 가장 최근 Input vector
     public Vector3 GetRecenteNormalInputVector()
     {
         return joystick.GetRecenteNormalInputVector();
     }
+    
 }

@@ -4,8 +4,6 @@ using UnityEngine;
 using WeaponData;
 using DelegateCollection;
 using UnityEngine.UI;
-
-
 /* 
  * Ctrl K,F - 자동 들여 쓰기
  * Ctrl K,C - 주석 처리
@@ -39,7 +37,7 @@ public class WeaponManager : MonoBehaviour {
     private DelGetDirDegree ownerDirDegree;
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
-    
+
     /// <summary> 무기 drop and pick할 때 지정될 parnet object </summary>
     [SerializeField]
     private Transform registerPoint;
@@ -213,10 +211,11 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
+
     /// <summary>
     /// 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용 / 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기
     /// </summary>
-    /// <param name="pickedWeapon">얻을 무기</param>
+    /// <param name="pickedWeapon">얻어서 장착할 무기</param>
     /// <param name="itemContainer"></param>
     public void PickAndDropWeapon(Item pickedWeapon, GameObject itemContainer)
     {

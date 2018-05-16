@@ -20,7 +20,7 @@ TextureImporter:
     21300026: effect2_4
     21300028: effect2_5
     21300030: effect2_6
-    21300032: empty_quad
+    21300032: empty_Quad
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -331,7 +331,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: empty_quad
+      name: empty_Quad
       rect:
         serializedVersion: 2
         x: 0

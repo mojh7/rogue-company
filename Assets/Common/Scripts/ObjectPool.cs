@@ -17,8 +17,6 @@ public class ObjectPool : MonoBehaviour
         for(int i = 0; i < pooledAmount; i++)
         {
             GameObject obj = (GameObject)Instantiate(pooledObject);
-            // 0516 모장현 for debug
-            //obj.name = "Enmey" + i;
             obj.hideFlags = HideFlags.HideInHierarchy;
             obj.SetActive(false);
             obj.transform.parent = transform;
