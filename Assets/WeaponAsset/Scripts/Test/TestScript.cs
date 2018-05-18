@@ -153,6 +153,7 @@ public class TestScript : MonoBehaviour {
     // 임시 effect 생성 함수 오브젝트 풀로 옮겨야 됨
     public void CreateEffect(Vector3 pos, int id)
     {
+        if (id < 0) return;
         GameObject createdObj;
         createdObj = Instantiate(effectObj);
         createdObj.SetActive(true);

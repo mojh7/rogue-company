@@ -19,20 +19,27 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
+    public CircleCollider2D interactiveCollider2D;
+    public float moveSpeed;     // Character move Speed
+
     protected enum State { NOTSPAWNED, DIE, ALIVE }
     protected Sprite sprite;
     protected Animator animator;
     protected float hp;
     protected State pState;
-    public CircleCollider2D interactiveCollider2D;
-    public float moveSpeed;     // Character move Speed
-
     protected bool isAutoAiming;    // 오토에임 적용 유무
 
     protected Vector3 directionVector;
     protected float directionDegree;  // 바라보는 각도(총구 방향)
+    [SerializeField]
+    protected Transform spriteObjTransform; // sprite 컴포넌트가 붙여있는 object, player에 경우 inspector 창에서 붙여줌
+
+    /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
+    protected Vector3 scaleVector;
 
     public abstract void Die();
+
+    
 
     public abstract Vector3 GetDirVector();
     public abstract float GetDirDegree();
@@ -59,7 +66,7 @@ public class Player : Character
     private PlayerState state;
     /// <summary> player 크기 </summary>
     private float playerScale;
-    private Vector3 scaleVector;    // player scale 우측 (1, 1, 1), 좌측 : (-1, 1, 1) 
+        
     private bool isRightDirection;    // player 방향이 우측이냐(true) 아니냐(flase = 좌측)
 
     public WeaponManager weaponManager;
@@ -104,7 +111,7 @@ public class Player : Character
         state = PlayerState.IDLE;
         objTransform = GetComponent<Transform>();
         playerScale = 1f;
-        scaleVector = new Vector3(playerScale, playerScale, 1);
+        scaleVector = new Vector3(1f, 1f, 1f);
         buffManager = new BuffManager();
         isRightDirection = true;
         raycastHitEnemies = new List<RaycasthitEnemy>();
@@ -143,18 +150,18 @@ public class Player : Character
             SetAim();
         }
 
-        // 각도에 따른 player 우측, 좌측 바라보기
+        // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
         if (-90 <= directionDegree && directionDegree < 90)
         {
             isRightDirection = true;
-            scaleVector.x = playerScale;
-            objTransform.localScale = scaleVector;
+            scaleVector.x = 1f;
+            spriteObjTransform.localScale = scaleVector;
         }
         else
         {
             isRightDirection = false;
-            scaleVector.x = -playerScale;
-            objTransform.localScale = scaleVector;
+            scaleVector.x = -1f;
+            spriteObjTransform.localScale = scaleVector;
         }   
     }
 
@@ -330,7 +337,9 @@ public class PlayerController
         return inputVector;
     }
 
-    // 조이스틱 터치 유무에 상관없이 가장 최근 Input vector
+    /// <summary>
+    /// 입력한 조이스틱의 가장 최근 Input vector의 normal vector 반환 
+    /// </summary>
     public Vector3 GetRecenteNormalInputVector()
     {
         return joystick.GetRecenteNormalInputVector();

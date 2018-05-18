@@ -27,7 +27,8 @@ MonoBehaviour:
   knockBack: 0.2857143
   cooldown: 0.2
   chargeTime: 0
-  addDirVecMagnitude: 0.5
+  soundId: 0
+  addDirVecMagnitude: 0
   bulletPatternEditInfos:
   - type: 0
     id: 0

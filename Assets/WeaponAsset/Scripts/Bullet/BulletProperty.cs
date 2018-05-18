@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using BulletData;
-using DelegateCollection;
+using WeaponAsset;
 // BulletProperty.cs
 
 [System.Serializable]
@@ -103,15 +102,17 @@ class BaseNormalCollisionProperty : CollisionProperty
             // bounce 가능 횟수가 남아있으면 총알을 반사각으로 튕겨내고 없으면 delete 처리
             if (bounceCount > 0)
             {
+
+                Debug.Log("bounceCount : " + bounceCount);
                 // 총알 반사각으로 bounce
 
                 //반사각
-                reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
+                //reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
 
                 //Debug.Log("normal Vector : " + coll.contacts[0].normal);
                 //Debug.Log("입사각 : " + MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z));
                 //Debug.Log("반사각 : " + reflectVector.GetDegFromVector());
-                bullet.UpdateDirection(reflectVector);
+                //bullet.UpdateDirection(reflectVector);
                 bounceCount -= 1;
                 // 디버그용 contact 위치 표시
                 //TestScript.Instance.CreateContactObj(coll.contacts[0].point);
@@ -154,6 +155,8 @@ class BaseNormalCollisionProperty : CollisionProperty
                 //incomingVector = MathCalculator.RotateRadians(Vector3.right, bulletTransform.rotation.eulerAngles.z);
                 //normalVector = (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized;
 
+                Debug.Log("Trigger");
+
                 //bullet.GetDirVector()
                 //반사각
                 reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized);
@@ -162,9 +165,9 @@ class BaseNormalCollisionProperty : CollisionProperty
                 
                 bounceCount -= 1;
 
-                //TestScript.Instance.CreateEffect(bulletTransform.position);
+                // TestScript.Instance.CreateEffect(bulletTransform.position);
                 // 디버그용 contact 위치 표시
-                TestScript.Instance.CreateContactObj(coll.bounds.ClosestPoint(bulletTransform.position));
+                // TestScript.Instance.CreateContactObj(coll.bounds.ClosestPoint(bulletTransform.position));
 
             }
             else
@@ -182,6 +185,9 @@ class BaseNormalCollisionProperty : CollisionProperty
         bulletTransform = bullet.objTransform;
         delDestroyBullet = bullet.DestroyBullet;
         reflectVector = new Vector3();
+
+        pierceCount = bullet.info.pierceCount;
+        bounceCount = bullet.info.bounceCount;
         //count = 1;
     }
 }
@@ -301,6 +307,8 @@ public class StraightMoveProperty : UpdateProperty
     public override void Init(Bullet bullet)
     {
         this.bullet = bullet;
+        timeCount = 0;
+        moveSpeed = 0;
         bulletTransform = bullet.objTransform;
         delDestroyBullet = bullet.DestroyBullet;
         if (bullet.info.speed != 0)
@@ -313,7 +321,6 @@ public class StraightMoveProperty : UpdateProperty
         }
 
         lifeTime = (range / moveSpeed);
-        //Debug.Log((range / moveSpeed) + ", " + (1.0f / Time.fixedDeltaTime) + ", " + Time.fixedDeltaTime + ", " + lifetimeCount);
     }
 
     public override UpdateProperty Clone()

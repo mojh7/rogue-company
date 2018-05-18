@@ -11,14 +11,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
   m_Name: BulletInfo
   m_EditorClassIdentifier: 
+  memo: "\uB178\uB791\uC0C9 \uC77C\uBC18 \uCD1D\uC54C"
   bulletName: "\uC77C\uBC18 \uCD1D\uC54C"
   damage: 0
   speed: 6
   range: 8
   scaleX: 1.5
   scaleY: 1.5
+  pierceCount: 1
+  bounceCount: 0
   effectId: 0
-  animationName: normalBullet
+  spriteAnimation: 0
+  bulletSprite: {fileID: 21300002, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
+  showsScaleAnimation: 1
+  showsRotationAnimation: 0
+  showsParticle: 1
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
@@ -31,4 +38,3 @@ MonoBehaviour:
     executionCount: 0
     delay: 0
   creationCycle: 0
-  memo: 

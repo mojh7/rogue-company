@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BulletData;
-using DelegateCollection;
+using WeaponAsset;
 
 /* Weapon에서 공격 함수를 실행 할 때 실질적으로 Bullet을 생성하고 뿌리는 class
  * [현재]
@@ -117,7 +116,7 @@ public class MultiDirPattern : BulletPattern
         for (int i = 0; i < info.bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletAnimationName, info.speed, info.range, info.effectId,  ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.speed, info.range, info.effectId,  ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
 }
@@ -189,7 +188,7 @@ public class RowPattern : BulletPattern
         for (int i = 0; i < info.bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.bulletAnimationName, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * info.initPos -perpendicularVector * info.deltaPos * i, ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * info.initPos -perpendicularVector * info.deltaPos * i, ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
 }

@@ -62,7 +62,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
             Item item = new Item();
             item.active = false;
             item.gameObject = GameObject.Instantiate(original) as GameObject;
-            item.gameObject.hideFlags = HideFlags.HideInHierarchy;
+            //item.gameObject.hideFlags = HideFlags.HideInHierarchy;
             item.gameObject.SetActive(false);
             table[i] = item;
         }

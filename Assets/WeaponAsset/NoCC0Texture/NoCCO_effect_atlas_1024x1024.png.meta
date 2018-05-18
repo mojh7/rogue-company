@@ -32,7 +32,7 @@ TextureImporter:
     21300050: effect6_3
     21300052: effect6_4
     21300054: effect6_5
-    21300056: NoCCO_effect_atlas_1024x1024_0
+    21300056: bullet_0
     21300058: slashAni0_0
     21300060: slashAni0_1
     21300062: slashAni0_2
@@ -566,6 +566,20 @@ TextureImporter:
         height: 66
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet_0
+      rect:
+        serializedVersion: 2
+        x: 978
+        y: 1
+        width: 44
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

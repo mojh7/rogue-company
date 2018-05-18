@@ -207,14 +207,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b5a478b2a743d24488760121bc476eaf, type: 2}
   bulletInfos:
   - {fileID: 11400000, guid: 32b789b3c16187142bd1bdc20ed5d205, type: 2}
-  - {fileID: 11400000, guid: 65e8f3ecfe38224478a41364a428c2ca, type: 2}
-  - {fileID: 11400000, guid: a76c7aac236746145af9cfefcc29ba76, type: 2}
-  - {fileID: 11400000, guid: b5e55b979ce54e2478a2e6387861accc, type: 2}
-  - {fileID: 11400000, guid: c55ab591db25df4409c3ecfe2008d235, type: 2}
   - {fileID: 11400000, guid: 2154eba772ade6642b40c5bb57e2af5d, type: 2}
+  - {fileID: 11400000, guid: a76c7aac236746145af9cfefcc29ba76, type: 2}
+  - {fileID: 11400000, guid: 65e8f3ecfe38224478a41364a428c2ca, type: 2}
+  - {fileID: 11400000, guid: c55ab591db25df4409c3ecfe2008d235, type: 2}
+  - {fileID: 11400000, guid: 4829db6d19fed6342ba1646988bd9d87, type: 2}
   - {fileID: 11400000, guid: 1b89fc8e102676540916cec9a00d2c53, type: 2}
   - {fileID: 11400000, guid: cd46790d6347907418ca93f7139122de, type: 2}
-  - {fileID: 11400000, guid: adb2fe785c680b3409363b1d5ace87be, type: 2}
+  - {fileID: 11400000, guid: b5e55b979ce54e2478a2e6387861accc, type: 2}
+  - {fileID: 11400000, guid: 9c0c06727e544a044863b335b46c9718, type: 2}
+  - {fileID: 11400000, guid: 7ef8a62898856d8448e506285d66ee2b, type: 2}
+  - {fileID: 11400000, guid: 85e28342b85d8f149ad96e2984164dc7, type: 2}
+  - {fileID: 11400000, guid: 298294521b5ec4749921dfe3c19a8611, type: 2}
+  - {fileID: 11400000, guid: 319768ec6c1a48544a69715e34bb824f, type: 2}
   effectInfos:
   - {fileID: 11400000, guid: 39ef06daf634a714f915819f55cf60d3, type: 2}
   - {fileID: 11400000, guid: 9d0c0896fdd418142a3a657517ba17a7, type: 2}

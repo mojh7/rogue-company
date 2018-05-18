@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WeaponData;
+using WeaponAsset;
 
 /*
  * 패시브 아이템, 시간제 아이템 사용 시 무기 관련 버프를 얻게되는데

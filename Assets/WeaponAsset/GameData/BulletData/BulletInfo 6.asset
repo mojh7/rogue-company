@@ -11,14 +11,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
   m_Name: BulletInfo 6
   m_EditorClassIdentifier: 
-  bulletName: "effect2 \uD14C\uC2A4\uD2B8\uC6A9"
+  memo: "\uC77C\uB82C \uCD1D\uC54C 3\uAC1C\n"
+  bulletName: 
   damage: 0
   speed: 0
   range: 0
-  scaleX: 2
-  scaleY: 2
+  scaleX: 1.5
+  scaleY: 1.5
+  pierceCount: 1
+  bounceCount: 0
   effectId: 2
-  animationName: blueArrow
+  spriteAnimation: 0
+  bulletSprite: {fileID: 21300004, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
+  showsScaleAnimation: 0
+  showsRotationAnimation: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
@@ -31,4 +37,3 @@ MonoBehaviour:
     executionCount: 0
     delay: 0
   creationCycle: 0
-  memo: "\uCD1D\uC54C\uC5D0\uC11C \uCD1D\uC54C \uC824 \uC55E\n"

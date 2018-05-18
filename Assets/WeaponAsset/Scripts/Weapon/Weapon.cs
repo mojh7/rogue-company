@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WeaponData;
-using DelegateCollection;
+using WeaponAsset;
 
 /*
  * 
@@ -162,6 +161,8 @@ public class Weapon : Item {
     public void Attack(float damageIncreaseRate)
     {
         weaponState = WeaponState.Attack;
+        // 공격 사운드 실행
+        AudioManager.Instance.PlaySound(info.soundId, SoundController.SoundType.GAME);
         // 공격 애니메이션 실행
         // 공격 타입에 따른 공격 실행 (원거리 : 탄 뿌리기 후 cost(탄) 소모)
         PlayAttackAnimation();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponAsset;
 
 public enum CollisionPropertyType { BaseNormal, Laser }
 public enum UpdatePropertyType { StraightMove, Laser, Summon }
@@ -14,6 +15,10 @@ public enum DeletePropertyType { BaseDelete, Laser, Summon }
 [CreateAssetMenu(fileName = "BulletInfo", menuName = "GameData/BulletInfo", order = 4)]
 public class BulletInfo : ScriptableObject
 {
+    [Tooltip("적용하는 곳이나, 사용하는 사람이나, 개발시 필요한 정보 등, 기타 등등 메모할 공간")]
+    [SerializeField]
+    [TextArea(3, 100)] private string memo;
+
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
     public int damage;
@@ -22,8 +27,28 @@ public class BulletInfo : ScriptableObject
     public float scaleX;
     public float scaleY;
 
+    public int pierceCount;
+    public int bounceCount;
+
     public int effectId;    // 충돌 후 삭제시 생성될 effect
-    public string animationName;    // 실행 할 animationName
+    [Header("Not Play Animation이 아니면 해당 애니메이션 적용")]
+    public BulletAnimationType spriteAnimation;
+    [Header("spriteAnimation이 Not Play Animation 일 때 사용할 bullet Sprite")]
+    public Sprite bulletSprite;
+
+    [Header("scale animation 적용 유무")]
+    public bool showsScaleAnimation;
+    [Header("rotation animation 적용 유무")]
+    public bool showsRotationAnimation;
+    [Header("particle 적용 유무")]
+    public bool showsParticle;
+
+    [Header("각도(rotation) 고정 유무")]
+    public bool isFixedAngle;
+
+    // 튕기는 총알 테스트용, 반사 o / x
+    public bool bounceAble;
+    
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -46,18 +71,24 @@ public class BulletInfo : ScriptableObject
     public BulletPatternEditInfo summonBulletPattern;
     public float creationCycle;
 
-    [Tooltip("이 정보를 쓰고 있는 사람, 쓰이는 곳, 간단한 설명 등등 이것 저것 메모할 것들 적는 곳")]
-    [SerializeField]
-    [TextArea(3, 100)]
-    private string memo;
-
 
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
     public BulletInfo()
     {
         scaleX = 1.0f;
         scaleY = 1.0f;
-        animationName = null;
+
+        pierceCount = 1;
+        bounceCount = 0;
+
+        bulletSprite = null;
+
+        showsScaleAnimation = false;
+        showsRotationAnimation = false;
+        showsParticle = false;
+        isFixedAngle = false;
+
+        bounceAble = false;
     }
 
     /*
@@ -109,8 +140,20 @@ public class BulletInfo : ScriptableObject
         info.range = range;
         info.scaleX = scaleX;
         info.scaleY = scaleY;
+
+        info.pierceCount = pierceCount;
+        info.bounceCount = bounceCount;
         info.effectId = effectId;
-        info.animationName = animationName;
+
+        info.spriteAnimation = spriteAnimation;
+        info.bulletSprite = bulletSprite;
+
+        info.showsScaleAnimation = showsScaleAnimation;
+        info.showsRotationAnimation = showsRotationAnimation;
+        info.showsParticle = showsParticle;
+        info.isFixedAngle = isFixedAngle;
+
+        info.bounceAble = bounceAble;
 
         info.collisionPropertiesLength = collisionPropertiesLength;
         info.updatePropertiesLength = updatePropertiesLength;

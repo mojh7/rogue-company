@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BulletData;
-using DelegateCollection;
+using WeaponAsset;
+
 
 /// <summary>
 /// Bullet Class
@@ -22,8 +22,21 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     // 레이저용 lineRenderer
     private LineRenderer lineRenderer;
+
+    // spirte, 애니메이션 용 sprite 포함 object
+    [SerializeField]
+    private Transform viewTransform;
+    [SerializeField]
+    private GameObject spriteAnimatorObj;
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
     private Animator animator;
+    [SerializeField]
+    private GameObject paticleObj;
+
     private Coroutine bulletUpdate;
+    private Coroutine rotationAnimation;
+    private Coroutine scaleAnimation;
 
     private Vector3 dirVector; // 총알 방향 벡터
 
@@ -73,7 +86,7 @@ public class Bullet : MonoBehaviour
     #region Function
     // 총알 class 초기화
     // 일반 총알 초기화
-    public void Init(int bulletId, string animationName, float speed, float range, int effectId, Vector3 pos, float direction)
+    public void Init(int bulletId, float speed, float range, int effectId, Vector3 pos, float direction)
     {
         info = DataStore.Instance.GetBulletInfo(bulletId);
 
@@ -90,34 +103,58 @@ public class Bullet : MonoBehaviour
         {
             info.effectId = effectId;
         }
-        if (animationName != "")
-        {
-            info.animationName = animationName;
-        }
+
         //--------------------------------
 
-        
-        if(info.animationName != "")
+        // sprite 애니메이션 적용
+        if (info.spriteAnimation != BulletAnimationType.NotPlaySpriteAnimation)
         {
-            // Play animation
-            SetAnimationTrigger(info.animationName);
+            spriteAnimatorObj.SetActive(true);
+            PlaySpriteAnimation(info.spriteAnimation);
+            spriteRenderer.sprite = null;
         }
-        
+        else // sprite 애니메이션 미 적용
+        {
+            spriteAnimatorObj.SetActive(false);
+            spriteRenderer.sprite = info.bulletSprite;
+        }
+
+        if (info.showsRotationAnimation == true)
+        {
+            StartCoroutine("RotationAnimation");
+        }
+
+        if (info.showsScaleAnimation == true)
+        {
+            StartCoroutine("ScaleAnimation");
+        }
+
+        paticleObj.SetActive(info.showsParticle);
+
 
         // component on/off
-        //boxCollider.enabled = true;
+        boxCollider.enabled = true;
         lineRenderer.enabled = false;
-        // sprite 설정
-        // 처음 위치랑, 각도 설정.
-        objTransform.position = pos;
-        objTransform.rotation = Quaternion.Euler(0f, 0f, direction);
+        lineRenderer.positionCount = 0;
 
-        //Debug.Log("(x, y) : " + info.scaleX + ", " + info.scaleY);
+        // 튕기는 총알 테스트 용, 일단 컬라이더 임시로 박스만 쓰는 중
+        if (info.bounceAble == true)
+        {
+            boxCollider.isTrigger = false;
+        }
+        else
+        {
+            boxCollider.isTrigger = true;
+        }
+
+
+        // 처음 위치 설정
+        objTransform.position = pos;
+        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
 
-        //Debug.Log("각도 : " + direction);
+        // 총알 속성들 초기화
         InitProperty();
-        ///bulletUpdate = StartCoroutine("BulletUpdate");
 
         UpdateDirection(direction);
     }
@@ -129,11 +166,14 @@ public class Bullet : MonoBehaviour
         info = DataStore.Instance.GetBulletInfo(bulletId);
         // component on/off
         boxCollider.enabled = false;
+        circleCollider.enabled = false;
         lineRenderer.enabled = true;
+
         lineRenderer.startColor = Color.blue;
         lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = 0.4f;
         lineRenderer.endWidth = 0.4f;
+        lineRenderer.positionCount = 2;
 
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
@@ -170,30 +210,21 @@ public class Bullet : MonoBehaviour
     public void UpdateDirection(Vector3 dirVector)
     {
         this.dirVector = dirVector;
-        objTransform.rotation = Quaternion.Euler(0, 0, dirVector.GetDegFromVector());
+        if(info.isFixedAngle == false)
+        {
+            objTransform.rotation = Quaternion.Euler(0, 0, dirVector.GetDegFromVector());
+
+        }
         objRigidbody.velocity = info.speed * dirVector;
     }
     public void UpdateDirection(float degree)
     {
         dirVector = MathCalculator.VectorRotate(Vector3.right, degree);
-        objTransform.rotation = Quaternion.Euler(0, 0, degree);
-        objRigidbody.velocity = info.speed * dirVector;
-    }
-
-
-    // 안쓸 듯
-    // 총알 Update 코루틴
-    private IEnumerator BulletUpdate()
-    {
-        while(true)
+        if (info.isFixedAngle == false)
         {
-            // 총알 update 속성 실행
-            for (int i = 0; i < info.updatePropertiesLength; i++)
-            {
-                info.updateProperties[i].Update();
-            }
-            yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
+            objTransform.rotation = Quaternion.Euler(0, 0, degree);
         }
+        objRigidbody.velocity = info.speed * dirVector;
     }
 
     // 충돌 처리 Collision
@@ -244,17 +275,99 @@ public class Bullet : MonoBehaviour
         {
             StopCoroutine(bulletUpdate);
         }
+        if (rotationAnimation != null)
+        {
+            StopCoroutine(rotationAnimation);
+        }
+        if (scaleAnimation != null)
+        {
+            StopCoroutine(scaleAnimation);
+        }
+
+        viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
+        viewTransform.localScale = new Vector3(1f, 1f, 1f);
+
         // 삭제 속성 모두 실행
         for (int i = 0; i < info.deletePropertiesLength; i++)
         {
             info.deleteProperties[i].DestroyBullet();
         }
     }
+
+    /// <summary>
+    /// BulletAniType enum과 1대1 대응해서 animation을 실행한다.
+    /// </summary>
+    /// <param name="type"></param>
+    public void PlaySpriteAnimation(BulletAnimationType type)
+    {
+        switch (type)
+        {
+            case BulletAnimationType.BashAfterImage:
+                animator.SetTrigger("bashAfterImage");
+                break;
+            case BulletAnimationType.PowerBullet:
+                animator.SetTrigger("powerBullet");
+                break;
+            case BulletAnimationType.Wind:
+                animator.SetTrigger("wind");
+                break;
+            default:
+                break;
+        }
+    }
+
     #endregion
 
-    public void SetAnimationTrigger(string triggerName)
+
+
+    #region coroutine
+    #endregion
+    // 안쓸 듯
+    // 총알 Update 코루틴
+    private IEnumerator BulletUpdate()
     {
-        animator.SetTrigger(triggerName);
+        while (true)
+        {
+            // 총알 update 속성 실행
+            for (int i = 0; i < info.updatePropertiesLength; i++)
+            {
+                info.updateProperties[i].Update();
+            }
+            yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
+        }
+    }
+
+
+    /// <summary>
+    /// rotation Z 360도 회전하는 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RotationAnimation()
+    {
+        float eulerAngleZ = 0f;
+        while (true)
+        {
+            eulerAngleZ += 12f;
+            viewTransform.localRotation = Quaternion.Euler(0f, 0f, eulerAngleZ);
+            yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
+        }
+    }
+
+    /// <summary>
+    /// scale 1.0배 ~ 1.5배 왔다갔다 하는 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ScaleAnimation()
+    {
+        float deltaScale = 0;
+        float scale = 0;
+        while (true)
+        {
+            deltaScale += 0.2f;
+            scale = 1 + Mathf.PingPong(deltaScale, 1f);
+            viewTransform.localScale = new Vector3(scale, scale, 1f);
+            yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
+        }
     }
 }
 

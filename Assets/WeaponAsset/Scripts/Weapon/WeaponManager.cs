@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WeaponData;
-using DelegateCollection;
-using UnityEngine.UI;
+using WeaponAsset;
 /* 
  * Ctrl K,F - 자동 들여 쓰기
  * Ctrl K,C - 주석 처리
@@ -47,11 +45,21 @@ public class WeaponManager : MonoBehaviour {
     /// <summary> 차징 게이지 script</summary> 
     public ChargeGauge chargeGauge; // inspector 창에서 붙임
 
-    // 매 update 마다 바껴서 임시로 만듬
+    // 매 update 마다 무기가 바껴서 임시로 delay 만듬
     private bool canPickAndDropWeapon = true;
+
+
+    /// <summary> owner 각도에 따라 좌우 바뀔 때 weaponManager scale에 적용 할 vector </summary>
+    private Vector3 scaleVector;
+    /// <summary> owner 각도에 따라 좌우 바뀔 때 weaponManager locla position에 적용 할 vector </summary>
+    private Vector3 posVector;
+    // 우측 바라보고 있을 때의 weaponManager의 position 초기 x값, 좌측 볼 때 - 이 값을 지정 해줘야 됨.
+    private float rightDirectionPosX;
 
     #endregion
     #region getter
+    /// <summary> weapon State 참조하여 Idle인지 확인 후 공격 가능 여부 리턴 </summary>
+    /// <returns></returns>
     public bool GetAttackAble()
     {
         if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.Idle)
@@ -76,6 +84,10 @@ public class WeaponManager : MonoBehaviour {
     void Awake()
     {
         objTransform = GetComponent<Transform>();
+        scaleVector = new Vector3(1f, 1f, 1f);
+        // Debug.Log("local pos : " + objTransform.localPosition); 디버그는 반올림으로 소숫점 1자리까지만 나오는 듯 x값 0.15 => 디버그 0.2, x값 0.25 => 디버그 0.3로 나옴
+        posVector = objTransform.localPosition;   // weaponManager 초기 local Position 값, 좌 우 바뀔 때 x값만 -, + 부호로 바꿔줘서 사용
+        rightDirectionPosX = posVector.x;
     }
     // Use this for initialization
     void Start()
@@ -105,15 +117,23 @@ public class WeaponManager : MonoBehaviour {
 
         //---------------------------------
 
-        // 바라보는 방향으로 무기 회전
+        // 바라보는 방향으로 무기 회전 및 position, scale 조정
         if (owner.GetRightDirection())
         {
             // 우측
+            scaleVector.x = 1f;
+            posVector.x = rightDirectionPosX;
+            objTransform.localPosition = posVector;
+            objTransform.localScale = scaleVector;
             objTransform.rotation = Quaternion.Euler(0f, 0f, ownerDirDegree());
         }
         else
         {
             // 좌측
+            scaleVector.x = -1f;
+            posVector.x = -rightDirectionPosX;
+            objTransform.localPosition = posVector;
+            objTransform.localScale = scaleVector;
             objTransform.rotation = Quaternion.Euler(0f, 0f, ownerDirDegree() - 180f);
         }
     }

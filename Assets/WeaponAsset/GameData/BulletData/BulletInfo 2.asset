@@ -11,14 +11,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
   m_Name: BulletInfo 2
   m_EditorClassIdentifier: 
+  memo: "\uD30C\uB780\uC0C9 \uD65C\n\uCD1D\uC54C\uC5D0\uC11C \uCD1D\uC54C 1"
   bulletName: "\uC18C\uD658 \uC18D\uC131 \uD3EC\uD568 \uCD1D\uC54C"
   damage: 0
   speed: 0
   range: 0
   scaleX: 1
   scaleY: 1
+  pierceCount: 1
+  bounceCount: 0
   effectId: 2
-  animationName: redArrow
+  spriteAnimation: 0
+  bulletSprite: {fileID: 21300000, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
+  showsScaleAnimation: 0
+  showsRotationAnimation: 0
+  showsParticle: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 0000000002000000
   deletePropertiesEdit: 00000000
@@ -31,4 +38,3 @@ MonoBehaviour:
     executionCount: 1
     delay: 0
   creationCycle: 0.15
-  memo: 

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WeaponData;
+using WeaponAsset;
 
 public enum BulletPatternType { MultiDirPattern, RowPattern, LaserPattern }
 
@@ -27,6 +27,10 @@ public struct BulletPatternEditInfo
 [CreateAssetMenu(fileName = "WeaponInfo", menuName = "GameData/WeaponInfo", order = 0)]
 public class WeaponInfo : ScriptableObject
 {
+    [Tooltip("적용하거나 쓰이는 곳, 사용하는 사람, 간단한 설명 등등 이것 저것 메모할 공간")]
+    [SerializeField]
+    [TextArea(3, 100)] private string memo;
+
     [Header("기본 스펙")]
     // 기본 스펙
     public string weaponName;           // 무기 이름
@@ -48,6 +52,8 @@ public class WeaponInfo : ScriptableObject
     public float cooldown;              // 쿨타임
     public float chargeTime;            // 차징 시간, 0 = 차징 X, 0 초과 = 1회 차징당 시간
 
+    public int soundId;                 // 공격시 효과음 id
+
     [Tooltip("총알 발사시 초기 position이 중심에서 멀어지는 정도")]
     public float addDirVecMagnitude;    // onwer가 바라보는 방향의 벡터의 크기 값, bullet 초기 위치 = owner position + owner 방향 벡터 * addDirVecMagnitude
 
@@ -56,10 +62,6 @@ public class WeaponInfo : ScriptableObject
     // 총알 패턴 정보
     public List<BulletPattern> bulletPatterns; // 패턴 종류, 해당 패턴 id
     public int bulletPatternsLength;
-    [Tooltip("이 정보를 쓰고 있는 사람, 쓰이는 곳, 간단한 설명 등등 이것 저것 메모할 것들 적는 곳")]
-    [SerializeField]
-    [TextArea(3, 100)]
-    private string memo;
 
     public WeaponInfo()
     {
@@ -152,6 +154,7 @@ public class WeaponInfo : ScriptableObject
         info.cooldown = cooldown;
         info.chargeTime = chargeTime;
         info.addDirVecMagnitude = addDirVecMagnitude;
+        info.soundId = soundId;
 
         info.bulletPatterns = new List<BulletPattern>();
         info.bulletPatternsLength = bulletPatternsLength;
