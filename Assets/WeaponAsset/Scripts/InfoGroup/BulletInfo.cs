@@ -30,6 +30,9 @@ public class BulletInfo : ScriptableObject
     public int pierceCount;
     public int bounceCount;
 
+    [Header("-1이면 적용 X, 0 초과 값이면 lifeTime 만큼 시간 지나고 Delete속성 실행 ")]
+    public float lifeTime;
+
     public int effectId;    // 충돌 후 삭제시 생성될 effect
     [Header("Not Play Animation이 아니면 해당 애니메이션 적용")]
     public BulletAnimationType spriteAnimation;
@@ -45,6 +48,8 @@ public class BulletInfo : ScriptableObject
 
     [Header("각도(rotation) 고정 유무")]
     public bool isFixedAngle;
+
+    
 
     // 튕기는 총알 테스트용, 반사 o / x
     public bool bounceAble;
@@ -80,6 +85,8 @@ public class BulletInfo : ScriptableObject
 
         pierceCount = 1;
         bounceCount = 0;
+
+        lifeTime = -1;
 
         bulletSprite = null;
 
@@ -144,6 +151,7 @@ public class BulletInfo : ScriptableObject
         info.pierceCount = pierceCount;
         info.bounceCount = bounceCount;
         info.effectId = effectId;
+        info.lifeTime = lifeTime;
 
         info.spriteAnimation = spriteAnimation;
         info.bulletSprite = bulletSprite;

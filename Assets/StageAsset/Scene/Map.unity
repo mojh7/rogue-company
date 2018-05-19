@@ -892,6 +892,52 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29de58807dbb18342a81ea0f604e5ce4, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &851326737
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834657592031822, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159632382405212, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: b3fa8ade24eb94d4eacb8af79383dd2e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &920104591
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,7 +979,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0

@@ -129,6 +129,13 @@ public class Bullet : MonoBehaviour
             StartCoroutine("ScaleAnimation");
         }
 
+        if(info.lifeTime > 0)
+        {
+            Debug.Log("lifeTime : " + info.lifeTime);
+            Invoke("DestroyBullet", info.lifeTime);
+        }
+        
+
         paticleObj.SetActive(info.showsParticle);
 
 
@@ -150,7 +157,7 @@ public class Bullet : MonoBehaviour
 
         // 처음 위치 설정
         objTransform.position = pos;
-        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f); 
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
 
         // 총알 속성들 초기화
@@ -294,6 +301,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
+
+
+    #endregion
+
+
+
+    #region coroutine
+
     /// <summary>
     /// BulletAniType enum과 1대1 대응해서 animation을 실행한다.
     /// </summary>
@@ -316,12 +331,6 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    #endregion
-
-
-
-    #region coroutine
-    #endregion
     // 안쓸 듯
     // 총알 Update 코루틴
     private IEnumerator BulletUpdate()
@@ -369,6 +378,9 @@ public class Bullet : MonoBehaviour
             yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
         }
     }
+
+    #endregion
+
 }
 
 /*

@@ -109,13 +109,14 @@ class BaseNormalCollisionProperty : CollisionProperty
                 //반사각
                 //reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
 
-                //Debug.Log("normal Vector : " + coll.contacts[0].normal);
-                //Debug.Log("입사각 : " + MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z));
-                //Debug.Log("반사각 : " + reflectVector.GetDegFromVector());
+                ///Debug.Log("normal Vector : " + coll.contacts[0].normal);
+                ///Debug.Log("입사각 : " + MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z));
+                ///Debug.Log("반사각 : " + reflectVector.GetDegFromVector());
                 //bullet.UpdateDirection(reflectVector);
                 bounceCount -= 1;
+
                 // 디버그용 contact 위치 표시
-                //TestScript.Instance.CreateContactObj(coll.contacts[0].point);
+                ///TestScript.Instance.CreateContactObj(coll.contacts[0].point);
 
             }
             else
@@ -167,7 +168,7 @@ class BaseNormalCollisionProperty : CollisionProperty
 
                 // TestScript.Instance.CreateEffect(bulletTransform.position);
                 // 디버그용 contact 위치 표시
-                // TestScript.Instance.CreateContactObj(coll.bounds.ClosestPoint(bulletTransform.position));
+                TestScript.Instance.CreateContactObj(coll.bounds.ClosestPoint(bulletTransform.position));
 
             }
             else
@@ -259,6 +260,14 @@ class BounceCollisionProperty : CollisionProperty
     }
 }*/
 #endregion
+
+
+/* initializationProperty
+ * bullet이 오브젝트 풀에서 생성되어서 init 함수에서 초기화 될 때 최초 한 번만 실행되는 속성들
+ * 
+ * 
+ */
+
 
 
 
@@ -425,6 +434,8 @@ public class SummonProperty : UpdateProperty
         timeCount += Time.fixedDeltaTime;
     }
 }
+
+
 #endregion 
 
 /**/

@@ -20,11 +20,15 @@ MonoBehaviour:
   scaleY: 2
   pierceCount: 1
   bounceCount: 0
+  lifeTime: 0.2
   effectId: 1
   spriteAnimation: 0
   bulletSprite: {fileID: 21300002, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   showsScaleAnimation: 0
   showsRotationAnimation: 1
+  showsParticle: 0
+  isFixedAngle: 0
+  bounceAble: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
