@@ -189,6 +189,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7e90100072715b14484d39d510d23e27, type: 2}
   - {fileID: 11400000, guid: 9e467e205f3774a4ea702cc0b8e65161, type: 2}
   - {fileID: 11400000, guid: 830e1fff19cf41142af0f2807eaa3413, type: 2}
+  - {fileID: 11400000, guid: 5bee5743758e18641a328aa4acb8d9b6, type: 2}
+  - {fileID: 11400000, guid: 14a202b4f8a3169489af3287d063d9bb, type: 2}
   multiDirPatternInfos:
   - {fileID: 11400000, guid: df47a8bb2a456b248bb233c54e65c4f2, type: 2}
   - {fileID: 11400000, guid: 2f4988b1aa29d22419bf74d8314ede9e, type: 2}
@@ -200,6 +202,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59bc45d29bfb25d468e8d41d34db723f, type: 2}
   - {fileID: 11400000, guid: c0ddf88f870a0484ea9f24752a3ee53c, type: 2}
   - {fileID: 11400000, guid: f19e38491686cda45bf125f57d0c23ad, type: 2}
+  - {fileID: 11400000, guid: 30d5c365c84b6564cbc51b54fedda473, type: 2}
+  - {fileID: 11400000, guid: d88dcc5113342124c83ae42f334aa2ae, type: 2}
   rowPatternInfos:
   - {fileID: 11400000, guid: dd36aad857b2108489b0b7fea2d31a53, type: 2}
   - {fileID: 11400000, guid: 422c94f15f7218543bb9f24ce4b99396, type: 2}
@@ -220,6 +224,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85e28342b85d8f149ad96e2984164dc7, type: 2}
   - {fileID: 11400000, guid: 298294521b5ec4749921dfe3c19a8611, type: 2}
   - {fileID: 11400000, guid: 319768ec6c1a48544a69715e34bb824f, type: 2}
+  - {fileID: 11400000, guid: 80384c43c02fefd4398ef8b4366ec2a1, type: 2}
   effectInfos:
   - {fileID: 11400000, guid: 39ef06daf634a714f915819f55cf60d3, type: 2}
   - {fileID: 11400000, guid: 9d0c0896fdd418142a3a657517ba17a7, type: 2}

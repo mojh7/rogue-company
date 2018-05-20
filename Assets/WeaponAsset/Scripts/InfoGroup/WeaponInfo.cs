@@ -61,6 +61,7 @@ public class WeaponInfo : ScriptableObject
     public BulletPatternEditInfo[] bulletPatternEditInfos; // 패턴 종류, 해당 패턴 id
     // 총알 패턴 정보
     public List<BulletPattern> bulletPatterns; // 패턴 종류, 해당 패턴 id
+    [HideInInspector]
     public int bulletPatternsLength;
 
     public WeaponInfo()

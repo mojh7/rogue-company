@@ -9,28 +9,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: BulletInfo 1
+  m_Name: BulletInfo 14
   m_EditorClassIdentifier: 
-  memo: "8\uBC29\uD5A5 \uD45C\uCC3D\n"
-  bulletName: "\uD45C\uCC3D"
+  memo: "\uAC00\uC18D\uB3C4 \uC788\uB294 \uCD1D\uC54C\n\uBB34\uAE3013, \uBA40\uD2F0
+    11"
+  bulletName: 
   damage: 0
-  speed: 0
-  range: 0
+  speed: 5
+  acceleration: -5
+  deltaSpeedTotalLimit: 5
+  range: 10
   scaleX: 2
   scaleY: 2
   pierceCount: 1
   bounceCount: 0
-  lifeTime: 0.2
-  effectId: 1
+  lifeTime: -1
+  effectId: 0
   spriteAnimation: 0
-  bulletSprite: {fileID: 21300002, guid: fc289d39972eca14084789fc8a816b16, type: 3}
+  bulletSprite: {fileID: 21300000, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
   showsScaleAnimation: 0
-  showsRotationAnimation: 1
+  showsRotationAnimation: 0
   showsParticle: 0
   isFixedAngle: 0
   bounceAble: 0
   collisionPropertiesEdit: 00000000
-  updatePropertiesEdit: 00000000
+  updatePropertiesEdit: 01000000
   deletePropertiesEdit: 00000000
   collisionPropertiesLength: 1
   updatePropertiesLength: 1

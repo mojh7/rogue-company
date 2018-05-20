@@ -25,7 +25,7 @@ using UnityEngine;
 public class WeaponView {
 
     private Transform transform;
-    private Vector3 scaleVecter;
+    private Vector3 scaleVecter = new Vector3(1f, 1f, 1f);
     private SpriteRenderer spriteRenderer;
 
     public WeaponView(Transform transform, SpriteRenderer spriteRenderer)
@@ -37,11 +37,13 @@ public class WeaponView {
     public void Init(Sprite sprite, float scaleX, float scaleY)
     {
         this.spriteRenderer.sprite = sprite;
-        scaleVecter = new Vector3(scaleX, scaleY, 1.0f);
+        SetScale(scaleX, scaleY);
     }
     // Overloading scale 설정. (x, y 같은 값 설정)
     public void SetScale(float scale)
     {
+        // 1.5 => weaponManager scalce 크기
+        scale = 1.5f + (scale - 1.0f);
         scaleVecter.x = scale;
         scaleVecter.y = scale;
         transform.localScale = scaleVecter;
@@ -50,8 +52,9 @@ public class WeaponView {
     // Overloading scale 설정. (x, y 다른 값 설정)
     public void SetScale(float scaleX, float scaleY)
     {
-        scaleVecter.x = scaleX;
-        scaleVecter.y = scaleY;
+        // 1.5 => weaponManager scalce 크기
+        scaleVecter.x = 1.5f + (scaleX - 1.0f);
+        scaleVecter.y = 1.5f + (scaleY - 1.0f);
         transform.localScale = scaleVecter;
     }
 

@@ -118,8 +118,8 @@ public class Weapon : Item {
     {
         this.weaponManager = weaponManager;
         ownerDirDegree = weaponManager.GetOwnerDirDegree();
-        ownerPos = weaponManager.GetOwnerPos();
         ownerDirVec = weaponManager.GetOwnerDirVec();
+        ownerPos = weaponManager.GetOwnerPos();
         ownerBuff = weaponManager.GetOwnerBuff();
 
         // 공격 패턴(bulletPattern) 초기화
@@ -161,8 +161,7 @@ public class Weapon : Item {
     public void Attack(float damageIncreaseRate)
     {
         weaponState = WeaponState.Attack;
-        // 공격 사운드 실행
-        AudioManager.Instance.PlaySound(info.soundId, SoundController.SoundType.GAME);
+        
         // 공격 애니메이션 실행
         // 공격 타입에 따른 공격 실행 (원거리 : 탄 뿌리기 후 cost(탄) 소모)
         PlayAttackAnimation();
@@ -245,6 +244,9 @@ public class Weapon : Item {
         {
             for(int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
             {
+                // 공격 사운드 실행
+                AudioManager.Instance.PlaySound(info.soundId, SoundController.SoundType.GAME);
+
                 info.bulletPatterns[i].StartAttack(damageIncreaseRate);
                 if(info.bulletPatterns[i].GetDelay() > 0)
                 {
@@ -287,5 +289,8 @@ public class Weapon : Item {
         yield return YieldInstructionCache.WaitForSeconds(ChargedAttackCooldown);
         canChargedAttack = true;
     }
+    #endregion
+
+    #region coroutine
     #endregion
 }
