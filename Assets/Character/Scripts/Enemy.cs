@@ -23,15 +23,20 @@ public class Enemy : Character {
     #endregion
 
     #region UnityFunc
+    private void Awake()
+    {
+        rgbody = GetComponent<Rigidbody2D>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (State.ALIVE != pState)
             return;
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Die();
-            RoomManager.Instance.DieMonster();
-            gameObject.SetActive(false);
+            Vector2 dir = collision.gameObject.GetComponent<Bullet>().GetDirVector();
+            Attacked(dir);
+            if (hp<=0)
+                Die();
         }
     }
 
@@ -42,11 +47,29 @@ public class Enemy : Character {
     {
         sprite = _sprite;
         pState = State.ALIVE;
-        renderer.sprite = sprite;   
+        renderer.sprite = sprite;
+        renderer.color = new Color(1, 1, 1);
+        hp = 5;
     }
-    public override void Die()
+    protected override void Die()
     {
         pState = State.DIE;
+        EnemyGenerator.Instance.DeleteEnemy(this);
+        RoomManager.Instance.DieMonster();
+        gameObject.SetActive(false);
+    }
+    protected override void Attacked(Vector2 _dir)
+    {
+        hp--;
+        rgbody.AddForce(_dir*5);
+        StopCoroutine(CoroutineAttacked());
+        StartCoroutine(CoroutineAttacked());
+    }
+    IEnumerator CoroutineAttacked()
+    {
+        renderer.color = new Color(1, 0, 0);
+        yield return YieldInstructionCache.WaitForSeconds(0.1f);
+        renderer.color = new Color(1, 1, 1);
     }
     #endregion
 }

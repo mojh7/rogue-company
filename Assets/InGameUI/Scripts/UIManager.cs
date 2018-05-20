@@ -16,10 +16,19 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     #region variables
     public Canvas canvas;
     public GameObject ingamePanel;
+    public GameObject preventObj;
     public Image fadeImage;
     #endregion
 
     #region function
+
+    public void TogglePreventObj()
+    {
+        if (preventObj == null)
+            return;
+        preventObj.SetActive(!preventObj.activeSelf);
+    }
+
     public void ToggleUI()
     {
         FadeOut(fadeImage, 20);

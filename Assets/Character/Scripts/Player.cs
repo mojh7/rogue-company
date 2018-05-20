@@ -27,6 +27,10 @@ public abstract class Character : MonoBehaviour
     protected Animator animator;
     protected float hp;
     protected State pState;
+    protected Rigidbody2D rgbody;
+    //public CircleCollider2D interactiveCollider2D;
+    //public float moveSpeed;     // Character move Speed
+
     protected bool isAutoAiming;    // 오토에임 적용 유무
 
     protected Vector3 directionVector;
@@ -37,7 +41,8 @@ public abstract class Character : MonoBehaviour
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
 
-    public abstract void Die();
+    protected abstract void Die();
+    protected abstract void Attacked(Vector2 _dir);
 
     
 
@@ -181,7 +186,11 @@ public class Player : Character
         GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>().SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
     }
-    public override void Die()
+    protected override void Attacked(Vector2 _dir)
+    {
+        throw new System.NotImplementedException();
+    }
+    protected override void Die()
     {
         throw new System.NotImplementedException();
     }

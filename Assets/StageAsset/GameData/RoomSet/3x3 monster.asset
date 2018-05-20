@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: 3x3 monster
   m_EditorClassIdentifier: 
-  x: 9
+  x: 0
   y: 1
   width: 3
   height: 3
@@ -270,7 +270,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 7.5, y: 7.5, z: 7.5}
+  - position: {x: 0, y: 0, z: 0}
     sprites: []
     isActive: 0
     objectType: 6

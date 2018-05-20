@@ -12,8 +12,9 @@ namespace Map
         public GameObject maskPrefab;
         [Space(10)]
         [Header("variable")]
-        public int width;
-        public int height, size, area, floor;
+        public int width = 1;
+        public int height = 1, size = 3, area = 3, floor = 1;
+        public float maxHallRate = 0.15f;
         Map map;
         public void LightTurn()
         {
@@ -28,7 +29,7 @@ namespace Map
             {
                 map = null;
             }
-            map = new Map(width, height, size, area, floor, objectPool);
+            map = new Map(width, height, size, area, maxHallRate, floor, objectPool);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
             RoomManager.Instance.InitRoomList();
@@ -44,7 +45,7 @@ namespace Map
         List<Rect> necessaryBlocks, necessaryRooms;
         List<RoomSet> necessaryRoomSet;
         Tilemap wallTileMap, floorTileMap, shadowTileMap;
-        const float MaxHallRate = 0.15f;
+        float MaxHallRate = 0.15f;
         int MinumRoomArea = 4;
         int TotalHallArea = 0;
         int width;
@@ -54,13 +55,14 @@ namespace Map
         ObjectPool objectPool;
         Vector3 startPosition;
 
-        public Map(int _width,int _height,int _size, int _area,int _floor, ObjectPool _objectPool)
+        public Map(int _width,int _height,int _size, int _minumRoomArea, float _maxHallRate,int _floor, ObjectPool _objectPool)
         {
             mainRect = new Rect(0, 0, _width, _height, _size);
             width = _width;
             height = _height;
             size = _size;
-            MinumRoomArea = _area;
+            MinumRoomArea = _minumRoomArea;
+            MaxHallRate = _maxHallRate;
             floor = _floor;
             objectPool = _objectPool;
             rects = new Queue<Rect>();
@@ -582,8 +584,6 @@ namespace Map
             GameObject obj = null;
             if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
             {
-                int y;
-
                 List<int> yArr = new List<int>(4)
                 {
                     _rectB.y * size,
@@ -597,8 +597,8 @@ namespace Map
                 int interval = yArr[2] - yArr[1];
                 int intervalNum = interval / size;
 
-                int intervalResult = Random.Range(0, intervalNum) * 5;
-                y = yArr[1] + intervalResult + size / 2;
+                int intervalResult = Random.Range(0, intervalNum) * size;
+                int y = yArr[1] + intervalResult + size / 2;
 
                 if (_rectA.midX > _rectB.midX) // 오른쪽
                 {
@@ -621,16 +621,6 @@ namespace Map
             } // 가로로 붙음
             else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
             {
-                int x;
-
-                if (_rectA.width >= _rectB.width)
-                {
-                    x = Random.Range(_rectB.x * size + 2, (_rectB.x + _rectB.width) * size - 2);
-                }
-                else
-                {
-                    x = Random.Range(_rectA.x * size + 2, (_rectA.x + _rectA.width) * size - 2);
-                }
                 List<int> xArr = new List<int>(4)
                 {
                     _rectB.x * size,
@@ -644,8 +634,8 @@ namespace Map
                 int interval = xArr[2] - xArr[1];
                 int intervalNum = interval / size;
 
-                int intervalResult = Random.Range(0, intervalNum) * 5;
-                x = xArr[1] + intervalResult + size / 2;
+                int intervalResult = Random.Range(0, intervalNum) * size;
+                int x = xArr[1] + intervalResult + size / 2;
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
                 {
@@ -721,14 +711,20 @@ namespace Map
         {
             if (_roomSet == null)
                 return null;
-            GameObject[] customObjects = new GameObject[_roomSet.objectDatas.Count];
+            List<GameObject> customObjects = new List<GameObject>(_roomSet.objectDatas.Count);
+            int index = 0;
             for (int i = 0; i < _roomSet.objectDatas.Count; i++)
             {
-                customObjects[i] = objectPool.GetPooledObject();
-                customObjects[i].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
-                _roomSet.objectDatas[i].LoadObject(customObjects[i]);
+                if (_roomSet.width * size - size <= _roomSet.objectDatas[i].position.x
+                    || _roomSet.height * size - size <= _roomSet.objectDatas[i].position.y
+                    && _roomSet.objectDatas[i].objectType != ObjectType.SPAWNER)
+                    continue;
+                customObjects.Add(objectPool.GetPooledObject());
+                customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
+                _roomSet.objectDatas[i].LoadObject(customObjects[index]);
+                index++;
             }
-            return customObjects;
+            return customObjects.ToArray();
         } // 룸 셋 배치
 
         void BakeAvailableArea()
@@ -745,8 +741,10 @@ namespace Map
             int height = _rect.height * _rect.size;
             Vector2 vector2 = _rect.areaLeftDown;
             LayerMask layerMask = (1 << LayerMask.NameToLayer("TransparentFX")) | (1 << LayerMask.NameToLayer("Wall"));
-            int yGap = 1;
-            for (float i = vector2.x + 0.5f; i < vector2.x + width - 0.5f; i+=0.5f)
+            float yGap = 0.5f;
+            if (_rect.y == 0)
+                yGap = 1.5f;
+            for (float i = vector2.x + 1; i < vector2.x + width - 0.5f; i += 0.5f)
                 for (float j = vector2.y + yGap; j < vector2.y + height - 1; j += 0.5f)
                     if (!Physics2D.OverlapCircle(new Vector2(i, j), _radius, layerMask))
                         _rect.availableAreas.Add(new Vector2(i, j));

@@ -57,6 +57,14 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         ObjectSetAvailable();
         FindCurrentRoom();
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea());
+        if (currentRoom.eRoomType == RoomType.BOSS)
+        {
+            for(int i = 0; i < currentRoom.customObjects.Length; i++)
+            {
+                if (currentRoom.customObjects[i].GetComponent<Portal>() != null)
+                    currentRoom.customObjects[i].GetComponent<Portal>().Active();
+            }
+        }
     }
 
     void SpawnMonster()
@@ -133,14 +141,27 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             {
                 currentRoom.isClear = true;
                 EnableObjects();
-                if (currentRoom.gage > 0)
+                if (currentRoom.eRoomType == RoomType.BOSS)
                 {
                     DoorSetAvailable();
                     ObjectSetAvailable();
-                    SpawnMonster();
+                    UIManager.Instance.TogglePreventObj();
                     currentRoom.maskObject.SetActive(true);
                     MiniMap.Instance.DrawRoom(currentRoom);
+                    StartCoroutine(CoroutineBossRoom());
                     break;
+                }
+                else
+                {
+                    if (currentRoom.gage > 0)
+                    {
+                        DoorSetAvailable();
+                        ObjectSetAvailable();
+                        SpawnMonster();
+                        currentRoom.maskObject.SetActive(true);
+                        MiniMap.Instance.DrawRoom(currentRoom);
+                        break;
+                    }
                 }
                 MiniMap.Instance.DrawRoom(currentRoom);
             }
@@ -150,6 +171,12 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
             yield return YieldInstructionCache.WaitForSeconds(0.01f);
         }
+    }
+
+    IEnumerator CoroutineBossRoom()
+    {
+        yield return YieldInstructionCache.WaitForSeconds(1f);
+        SpawnMonster();
     }
 
     public Map.Rect GetCurrentRect(Vector3 _position) // 현재 방 찾기

@@ -47,6 +47,13 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
         return enemyList;
     }
 
+    public void DeleteEnemy(Enemy _enemy)
+    {
+        if (enemyList == null)
+            return;
+        enemyList.Remove(_enemy);
+    }
+
     // 0516 모장현
     public int GetAliveEnemyTotal()
     {

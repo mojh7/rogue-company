@@ -698,11 +698,12 @@ MonoBehaviour:
   objectPool: {fileID: 162180390}
   spriteMaterial: {fileID: 2100000, guid: bd23799e5910e5541987c63760638f1c, type: 2}
   maskPrefab: {fileID: 1284718932488552, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
-  width: 20
-  height: 20
-  size: 5
+  width: 10
+  height: 10
+  size: 3
   area: 9
   floor: 0
+  maxHallRate: 0.18
 --- !u!156049354 &572565053
 Grid:
   m_ObjectHideFlags: 0
@@ -754,8 +755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorSprites:
-  - {fileID: 21300000, guid: e83df6463d6332043ad27507018f15dd, type: 3}
-  - {fileID: 21300000, guid: 810720f294665ca4b8fd9d14246c244a, type: 3}
+  - {fileID: 21300000, guid: 39bde973f4f477a44844c844ba041e88, type: 3}
+  - {fileID: 21300000, guid: 9c906ad48e8d96544a6c7dc51628fa28, type: 3}
   roomSetArr:
   - {fileID: 11400000, guid: 9ab716ea23796014f99f3491d8276960, type: 2}
   - {fileID: 11400000, guid: f0275576c359ee34385f243856728af5, type: 2}

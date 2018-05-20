@@ -51,7 +51,7 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Active()
     {
-        if (!isAvailable)
+        if (!isAvailable || !isAnimate)
             return;
     }
 
@@ -79,6 +79,9 @@ public class UnbreakableBox : CustomObject
         isActive = false;
         isAvailable = false;
         objectType = ObjectType.UNBREAKABLE;
+    }
+    public override void SetAvailable()
+    {
     }
     public override void Active()
     {
@@ -295,8 +298,6 @@ public class ItemBox : CustomObject
 
 public class ItemContainer : CustomObject
 {
-    // 이걸 설정할 만한 마땅한 방법 없어서 일단 GetComponentInChildren 썼습니다.
-    //public Weapon weaponInContainer;
     Item innerObject;
 
     public override void Init()
@@ -322,7 +323,6 @@ public class ItemContainer : CustomObject
         base.Active();
         Debug.Log("ItemContainer");
 
-        Debug.Log("Item Pick and Drop");
         PlayerManager.Instance.GetPlayer().weaponManager.PickAndDropWeapon(innerObject, gameObject);
     }
 }
