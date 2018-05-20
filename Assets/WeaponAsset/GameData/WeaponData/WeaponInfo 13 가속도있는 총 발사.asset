@@ -9,30 +9,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00b71188a6c860245ba7e1e7760651ce, type: 3}
-  m_Name: "WeaponInfo 0 \uAD8C\uCD1D"
+  m_Name: "WeaponInfo 13 \uAC00\uC18D\uB3C4\uC788\uB294 \uCD1D \uBC1C\uC0AC"
   m_EditorClassIdentifier: 
-  memo: 
-  weaponName: "\uAD8C\uCD1D"
-  sprite: {fileID: 21300016, guid: fc289d39972eca14084789fc8a816b16, type: 3}
-  scaleX: 1
-  scaleY: 1
-  attackAniType: 2
+  memo: "\uAC00\uC18D\uB3C4\uC788\uB294 \uCD1D\uC54C \uBC1C\uC0AC \uBB34\uAE30"
+  weaponName: 
+  sprite: {fileID: 21300024, guid: c50a49fee9eb16b4b8d7a31ddedbf8ae, type: 3}
+  scaleX: 2
+  scaleY: 2
+  attackAniType: 0
   touchMode: 0
-  weaponType: 3
+  weaponType: 0
   ammoCapacity: 100
   ammo: 100
-  bulletMoveSpeed: 5
+  bulletMoveSpeed: 0
   range: 10
-  damage: 3
-  criticalRate: 0.1
-  knockBack: 0.2857143
-  cooldown: 1.5
+  damage: 5
+  criticalRate: 0
+  knockBack: 0
+  cooldown: 0.7
   chargeTime: 0
   soundId: 0
   addDirVecMagnitude: 0
   bulletPatternEditInfos:
   - type: 0
-    id: 0
+    id: 11
     executionCount: 1
     delay: 0
-  bulletPatternsLength: 1
+  bulletPatternsLength: 0

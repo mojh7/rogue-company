@@ -39,6 +39,7 @@ public class Bullet : MonoBehaviour
     private Coroutine scaleAnimation;
 
     private Vector3 dirVector; // 총알 방향 벡터
+    private float degree;      // 총알 방향 각도.
 
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
@@ -119,23 +120,26 @@ public class Bullet : MonoBehaviour
             spriteRenderer.sprite = info.bulletSprite;
         }
 
+        // rotate 360도 계속 회전하는 애니메이션 적용
         if (info.showsRotationAnimation == true)
         {
             StartCoroutine("RotationAnimation");
         }
 
+        // scale이 바뀌면서 커지고 작아지는 애니메이션 적용
         if (info.showsScaleAnimation == true)
         {
             StartCoroutine("ScaleAnimation");
         }
 
+        // lifeTime이 0 초과되는 값을 가지면 시간이 lifeTime이 지나면 delete 속성 실행
         if(info.lifeTime > 0)
         {
             Debug.Log("lifeTime : " + info.lifeTime);
             Invoke("DestroyBullet", info.lifeTime);
         }
         
-
+        // 파티클이 포함되어있는 오브젝트 on/ off
         paticleObj.SetActive(info.showsParticle);
 
 
@@ -163,7 +167,9 @@ public class Bullet : MonoBehaviour
         // 총알 속성들 초기화
         InitProperty();
 
-        UpdateDirection(direction);
+        degree = 0f;
+        dirVector = Vector3.right;
+        SetDirection(direction);
     }
 
     // 레이저 총알 초기화
@@ -211,27 +217,64 @@ public class Bullet : MonoBehaviour
     }
 
     /// <summary>
-    /// 해당 vector 혹은 degree 방향으로 총알을 회전하고 속도를 설정한다.
+    /// 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다.
     /// </summary>
     /// <param name="dirVector"></param>
-    public void UpdateDirection(Vector3 dirVector)
+    public void SetDirection(Vector3 dirVector)
     {
         this.dirVector = dirVector;
         if(info.isFixedAngle == false)
         {
-            objTransform.rotation = Quaternion.Euler(0, 0, dirVector.GetDegFromVector());
-
+            this.degree = dirVector.GetDegFromVector();
+            objTransform.rotation = Quaternion.Euler(0, 0, this.degree);
         }
         objRigidbody.velocity = info.speed * dirVector;
     }
-    public void UpdateDirection(float degree)
+
+    /// <summary>
+    /// 해당 각도로 rotation.z 값을 설정하고 속도를 지정한다.
+    /// </summary>
+    /// <param name="degree"></param>
+    public void SetDirection(float degree)
     {
-        dirVector = MathCalculator.VectorRotate(Vector3.right, degree);
+        this.degree = degree;
+        dirVector = MathCalculator.VectorRotate(dirVector, degree);
         if (info.isFixedAngle == false)
         {
-            objTransform.rotation = Quaternion.Euler(0, 0, degree);
+            objTransform.rotation = Quaternion.Euler(0, 0, this.degree);
         }
         objRigidbody.velocity = info.speed * dirVector;
+    }
+
+    /// <summary>
+    /// 현재 방향의 각도와 방향벡터에서 매개변수로 받은 각도만큼 회전 및 속도를 지정한다.
+    /// </summary>
+    /// <param name="degree"></param>
+    public void RotateDirection(float degree)
+    {
+        this.degree += degree;
+        dirVector = MathCalculator.VectorRotate(dirVector, degree);
+        if (info.isFixedAngle == false)
+        {
+            objTransform.rotation = Quaternion.Euler(0, 0, this.degree);
+        }
+        objRigidbody.velocity = info.speed * dirVector;
+    }
+
+    // velocity 바꾸는 함수는 계속 구조 개선 및 수정될 예정. 
+
+    // 속력만 바뀌는데 속력 < 0 되면 방향 원래 벡터의 반대 방향으로 바꿈
+    public void SetVelocity(float speed)
+    {
+        if(speed >= 0)
+        {
+            info.speed = speed;
+            RotateDirection(0);
+        }
+        else
+        {
+            info.speed = -speed;
+        }
     }
 
     // 충돌 처리 Collision

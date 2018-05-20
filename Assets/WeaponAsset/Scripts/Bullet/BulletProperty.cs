@@ -162,7 +162,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 //반사각
                 reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized);
                 //Debug.Log("입사각 : " + bulletTransform.rotation.eulerAngles.z + ", 반사각 : " + reflectVector.GetDegFromVector() + ",conut : " + bounceCount + ", normal : " + (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized);
-                bullet.UpdateDirection(reflectVector);
+                bullet.SetDirection(reflectVector);
                 
                 bounceCount -= 1;
 
@@ -304,20 +304,26 @@ public abstract class UpdateProperty : BulletProperty
     public abstract void Update();
 }
 
-// 기본 직선 운동
+/// <summary>
+/// 등속 직선 운동 속성
+/// </summary>
 public class StraightMoveProperty : UpdateProperty
 {
-    private float moveSpeed;
+    private float moveSpeed;    // 속력
     private float range;
 
     private float lifeTime;  // bullet 생존 시간 * (1.0f / Time.fixedDeltaTime)
     private float timeCount; // 지나간 시간 카운트
 
+    public override UpdateProperty Clone()
+    {
+        return new StraightMoveProperty();
+    }
+
     public override void Init(Bullet bullet)
     {
         this.bullet = bullet;
         timeCount = 0;
-        moveSpeed = 0;
         bulletTransform = bullet.objTransform;
         delDestroyBullet = bullet.DestroyBullet;
         if (bullet.info.speed != 0)
@@ -332,11 +338,6 @@ public class StraightMoveProperty : UpdateProperty
         lifeTime = (range / moveSpeed);
     }
 
-    public override UpdateProperty Clone()
-    {
-        return new StraightMoveProperty();
-    }
-
     // range / moveSpeed 시간 지나면 삭제
     public override void Update()
     {
@@ -348,7 +349,86 @@ public class StraightMoveProperty : UpdateProperty
     }
 }
 
-// laser bullet Update
+/// <summary>
+/// 등가속도 직선? 운동 
+/// </summary>
+public class AccelerationMotionProperty : UpdateProperty
+{
+    private float distance;     // 이동한 거리, range 체크용
+
+    private float moveSpeed;    // 속력
+    private float acceleration; // 가속도 (방향 일정)
+    private float range;        // 사정거리
+    // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
+    private float deltaSpeedTotal;
+
+    private bool acceleratesBullet;     // 가속도를 적용 할 것인가 말 것인가.
+
+    public override UpdateProperty Clone()
+    {
+        return new AccelerationMotionProperty();
+    }
+
+    public override void Init(Bullet bullet)
+    {
+        this.bullet = bullet;
+        distance = 0;
+        deltaSpeedTotal = 0;
+        bulletTransform = bullet.objTransform;
+        delDestroyBullet = bullet.DestroyBullet;
+        if (bullet.info.speed != 0)
+        {
+            moveSpeed = bullet.info.speed;
+        }
+        if (bullet.info.acceleration != 0)
+        {
+            acceleration = bullet.info.acceleration;
+        }
+        if (bullet.info.range != 0)
+        {
+            range = bullet.info.range;
+        }
+
+        acceleratesBullet = true;
+    }
+
+    public override void Update()
+    {
+        // 이동
+        bullet.SetVelocity(moveSpeed);
+        distance += moveSpeed * Time.fixedDeltaTime;
+
+        // 사정거리 넘어가면 delete 속성 실행
+        if(distance >= range)
+        {
+            delDestroyBullet();
+        }
+
+        // 가속화
+        if(acceleratesBullet)
+        {
+            moveSpeed += acceleration * Time.fixedDeltaTime;
+            deltaSpeedTotal += Mathf.Abs(acceleration * Time.fixedDeltaTime);
+
+            // 속력이 음수가 되며 방향 자체가 바뀔 때
+            if(moveSpeed < 0)
+            {
+                moveSpeed = -moveSpeed;
+                acceleration = -acceleration;
+                bullet.RotateDirection(180);
+            }
+            if(deltaSpeedTotal >= bullet.info.deltaSpeedTotalLimit)
+            {
+                acceleratesBullet = false;
+            }
+        }
+    }
+}
+
+
+/// <summary>
+/// laser bullet Update
+/// </summary>
 public class LaserUpdateProperty : UpdateProperty
 {
     private DelGetPosition ownerDirVec;
@@ -393,7 +473,7 @@ public class LaserUpdateProperty : UpdateProperty
     }
 }
 
-// bullet class 에서 60fps로 코루틴으로 update문을 실행하는데 시간주기를 뭘로 체크할지 고민중
+// bullet class 에서 60fps로 코루틴으로 update문을 실행하는데 일단 현재는 fixedUpdate로 체크 중
 public class SummonProperty : UpdateProperty
 {
     private BulletPattern bulletPattern; // 생성할 총알 패턴
@@ -474,7 +554,6 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        //bullet.SetAnimationTrigger("Reset");
         TestScript.Instance.CreateEffect(bulletTransform.position, bullet.info.effectId);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }

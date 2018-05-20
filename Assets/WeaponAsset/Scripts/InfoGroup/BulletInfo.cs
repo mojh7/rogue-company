@@ -4,7 +4,7 @@ using UnityEngine;
 using WeaponAsset;
 
 public enum CollisionPropertyType { BaseNormal, Laser }
-public enum UpdatePropertyType { StraightMove, Laser, Summon }
+public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon }
 public enum DeletePropertyType { BaseDelete, Laser, Summon }
 
 
@@ -22,8 +22,10 @@ public class BulletInfo : ScriptableObject
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
     public int damage;
-    public float speed;
-    public float range;
+    public float speed;         // 속력
+    public float acceleration;  // 가속도
+    public float deltaSpeedTotalLimit;    // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
+    public float range;         // 사정거리
     public float scaleX;
     public float scaleY;
 
@@ -136,7 +138,7 @@ public class BulletInfo : ScriptableObject
 
     // 복사 생성자 쓸랬다가 로그 보는 곳에 BulletInfo must be 
     // instantiated using the ScriptableObject.CreateInstance method instead of new BulletInfo.
-    // 떠서 바꿈.
+    // 떠서 Clone으로 새로운 클래스 본떠 만들어 리턴하는 형태로 바꿈.
     public BulletInfo Clone()
     {
         BulletInfo info = CreateInstance<BulletInfo>();
@@ -144,6 +146,8 @@ public class BulletInfo : ScriptableObject
         info.bulletName = bulletName;
         info.damage = damage;
         info.speed = speed;
+        info.acceleration = acceleration;
+        info.deltaSpeedTotalLimit = deltaSpeedTotalLimit;
         info.range = range;
         info.scaleX = scaleX;
         info.scaleY = scaleY;
@@ -224,6 +228,9 @@ public class BulletInfo : ScriptableObject
             {
                 case UpdatePropertyType.StraightMove:
                     updateProperties.Add(new StraightMoveProperty());
+                    break;
+                case UpdatePropertyType.AccelerationMotion:
+                    updateProperties.Add(new AccelerationMotionProperty());
                     break;
                 case UpdatePropertyType.Laser:
                     updateProperties.Add(new LaserUpdateProperty());

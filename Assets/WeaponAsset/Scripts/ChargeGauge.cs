@@ -28,8 +28,13 @@ public class ChargeGauge : MonoBehaviour {
         gaugeSpriteObj.SetActive(false);
     }
 	
+    /// <summary>
+    /// 매개변수에 따른 차징 게이지 UI 업데이트
+    /// </summary>
+    /// <param name="chargedVaule"></param>
     public void UpdateChargeGauge(float chargedVaule)
     {
+        // 연속으로 터치시 바로 차징 게이지 안뜨게 하기 위함
         if (chargedVaule <= 0.05f)
         {
             frame.SetActive(false);
