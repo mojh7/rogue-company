@@ -206,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactiveCollider2D: {fileID: 58961062934300914}
   moveSpeed: 1
+  spriteObjTransform: {fileID: 4987181072416540}
   renderer: {fileID: 212546812185349730}
 --- !u!198 &198531737243777812
 ParticleSystem:

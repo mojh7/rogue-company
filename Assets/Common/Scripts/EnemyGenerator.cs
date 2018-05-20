@@ -32,11 +32,12 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
     {
         Enemy enemy;
         GameObject obj = objectPool.GetPooledObject();
+        Sprite sprite = sprites[Random.Range(0, sprites.Length)];
         obj.transform.position = _position;
         enemy = obj.GetComponent<Enemy>();
-        enemy.Init(sprites[0]);
+        enemy.Init(sprite);
         enemyList.Add(enemy);
-        obj.GetComponent<BoxCollider2D>().size = sprites[0].bounds.size;
+        obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         aliveEnemyTotal += 1;
     }
 
