@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using WeaponAsset;
 // BulletProperty.cs
 
@@ -21,6 +22,7 @@ public abstract class BulletProperty
         this.bullet = bullet;
         this.bulletObj = bullet.gameObject;
         this.bulletTransform = bullet.objTransform;
+        delDestroyBullet = bullet.DestroyBullet;
     }
     //protected WeaponState.Owner owner;
 }
@@ -188,7 +190,6 @@ class BaseNormalCollisionProperty : CollisionProperty
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
-        delDestroyBullet = bullet.DestroyBullet;
         reflectVector = new Vector3();
 
         pierceCount = bullet.info.pierceCount;
@@ -328,7 +329,6 @@ public class StraightMoveProperty : UpdateProperty
     {
         base.Init(bullet);
         timeCount = 0;
-        delDestroyBullet = bullet.DestroyBullet;
         if (bullet.info.speed != 0)
         {
             moveSpeed = bullet.info.speed;
@@ -352,9 +352,7 @@ public class StraightMoveProperty : UpdateProperty
     }
 }
 
-/// <summary>
-/// 등가속도 직선? 운동 
-/// </summary>
+/// <summary> 등가속도 직선? 운동 </summary>
 public class AccelerationMotionProperty : UpdateProperty
 {
     private float distance;     // 이동한 거리, range 체크용
@@ -382,7 +380,6 @@ public class AccelerationMotionProperty : UpdateProperty
         deltaSpeedTotal = 0;
         deltaSpeedTotalLimit = bullet.info.deltaSpeedTotalLimit;
         
-        delDestroyBullet = bullet.DestroyBullet;
         if (bullet.info.speed != 0)
         {
             moveSpeed = bullet.info.speed;
@@ -451,9 +448,7 @@ public class AccelerationMotionProperty : UpdateProperty
 }
 
 
-/// <summary>
-/// laser bullet Update
-/// </summary>
+/// <summary> laser bullet Update </summary>
 public class LaserUpdateProperty : UpdateProperty
 {
     private DelGetPosition ownerDirVec;
@@ -500,7 +495,7 @@ public class LaserUpdateProperty : UpdateProperty
     }
 }
 
-// bullet class 에서 60fps로 코루틴으로 update문을 실행하는데 일단 현재는 fixedUpdate로 체크 중
+/// <summary> 일정 텀(creationCycle)을 가지고 bulletPattern대로 총알을 소환하는 속성 </summary>
 public class SummonProperty : UpdateProperty
 {
     private BulletPattern bulletPattern; // 생성할 총알 패턴
@@ -542,6 +537,120 @@ public class SummonProperty : UpdateProperty
     }
 }
 
+/// <summary> 유도 총알 </summary>
+public class HomingProperty : UpdateProperty
+{
+    private float lifeTime;
+    private float timeCount;
+    private float deltaAngle;
+    private int enemyTotal;
+    private float targettingCycle;
+
+    private RaycastHit2D hit;
+    private List<RaycasthitEnemy> raycastHitEnemies;
+    private RaycasthitEnemy raycasthitEnemyInfo;
+    private int layerMask;
+    private Transform enemyTransform;
+
+    private Vector3 directionVector;
+    private float directionDegree;
+    private Vector3 differenceVector;
+    private float differenceDegree;
+
+    int raycasthitEnemyNum = 0;
+    float minDistance = 1000f;
+    int proximateEnemyIndex = -1;
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+
+        targettingCycle = 0;
+        deltaAngle = 4f;
+
+        directionVector = new Vector3(0f, 0f, 0f);
+        differenceVector = new Vector3(0f, 0f, 0f);
+
+        raycastHitEnemies = new List<RaycasthitEnemy>();
+        raycasthitEnemyInfo = new RaycasthitEnemy();
+        // 막히는 장애물 리스트 더 추가시 Wall 말고 더 넣어야됨.
+        layerMask = 1 << LayerMask.NameToLayer("Wall");
+
+        timeCount = 0;
+        if (bullet.info.speed != 0)
+        {
+            lifeTime = bullet.info.range / bullet.info.speed;
+        }
+        else
+            lifeTime = 20;
+        
+    }
+
+    public override UpdateProperty Clone()
+    {
+        return new HomingProperty();
+    }
+
+    public override void Update()
+    {
+        if (timeCount >= lifeTime)
+        {
+            delDestroyBullet();
+        }
+        timeCount += Time.fixedDeltaTime;
+        //targettingCycle -= Time.fixedDeltaTime;
+        // 유도 대상 선정
+
+        enemyTotal = EnemyGenerator.Instance.GetAliveEnemyTotal();
+
+        List<Enemy> enemyList = EnemyGenerator.Instance.GetEnemyList;
+
+        raycastHitEnemies.Clear();
+        raycasthitEnemyNum = 0;
+        minDistance = 1000f;
+        proximateEnemyIndex = -1;
+
+        // raycast로 bullet과 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
+        for (int i = 0; i < enemyTotal; i++)
+        {
+            raycasthitEnemyInfo.index = i;
+            raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, bulletTransform.position);
+            hit = Physics2D.Raycast(bulletTransform.position, enemyList[i].transform.position - bulletTransform.position, raycasthitEnemyInfo.distance, layerMask);
+            if (hit.collider == null)
+            {
+                raycastHitEnemies.Add(raycasthitEnemyInfo);
+                raycasthitEnemyNum += 1;
+            }
+        }
+
+        // 위에서 찾은 enmey들 중 distance가 가장 작은, 가장 가까운 enemy를 찾는다.
+        for (int j = 0; j < raycasthitEnemyNum; j++)
+        {
+            if (raycastHitEnemies[j].distance <= minDistance)
+            {
+                minDistance = raycastHitEnemies[j].distance;
+                proximateEnemyIndex = j;
+            }
+        }
+
+        // 선정된 대상에게 유도 될 수 있도록 회전
+        if (proximateEnemyIndex != -1)
+        {
+            enemyTransform = enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform;
+
+            differenceVector = enemyTransform.position - bulletTransform.position;
+            // (Bx-Ax)*(Py-Ay) - (By-Ay)*(Px-Ax)
+            if ( ((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x)) >= 0 )
+            {
+                bullet.RotateDirection(deltaAngle);
+            }
+            else if ((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x) < 0)
+            {
+                bullet.RotateDirection(-deltaAngle);
+            }
+        }
+    }
+}
 
 #endregion 
 

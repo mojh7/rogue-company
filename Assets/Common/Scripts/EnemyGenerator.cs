@@ -8,9 +8,9 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
     public ObjectPool objectPool;
     public GameObject alertObj;
 
-    List<Enemy> enemyList;
+    private List<Enemy> enemyList;
     // 0516 모장현
-    int aliveEnemyTotal;
+    private int aliveEnemyTotal;
 
 
     private void Awake()
@@ -41,11 +41,14 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
         aliveEnemyTotal += 1;
     }
 
-    public List<Enemy> GetEnemyList()
+    public List<Enemy> GetEnemyList
     {
-        if (enemyList == null)
-            return null;
-        return enemyList;
+        get
+        {
+            if (enemyList == null)
+                return null;
+            return enemyList;
+        }
     }
 
     public void DeleteEnemy(Enemy _enemy)
@@ -54,6 +57,7 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
             return;
         aliveEnemyTotal -= 1;
         enemyList.Remove(_enemy);
+        //enemyTransformList.Remove(_enemy.transform);
     }
 
     // 0516 모장현

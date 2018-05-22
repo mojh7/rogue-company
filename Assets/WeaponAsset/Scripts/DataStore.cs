@@ -24,7 +24,7 @@ namespace WeaponAsset
     /*---*/
 
     public enum CollisionPropertyType { BaseNormal, Laser }
-    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon }
+    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing }
     public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
 
     /*---*/

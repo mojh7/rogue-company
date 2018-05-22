@@ -18,18 +18,21 @@ MonoBehaviour:
   acceleration: 0
   deltaSpeedTotalLimit: 0
   range: 0
-  scaleX: 1
-  scaleY: 1
+  scaleX: 2
+  scaleY: 2
   pierceCount: 1
   bounceCount: 0
   lifeTime: -1
   effectId: 2
+  soundId: -1
   spriteAnimation: 0
   bulletSprite: {fileID: 21300000, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
   showsScaleAnimation: 0
   showsRotationAnimation: 0
   showsParticle: 0
   isFixedAngle: 0
+  deleteAfterSummonBulletId: 0
+  deleteAfterSummonPatternId: 0
   bounceAble: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 0000000003000000
@@ -43,3 +46,8 @@ MonoBehaviour:
     executionCount: 1
     delay: 0
   creationCycle: 0.15
+  deleteAfterSummonPattern:
+    type: 0
+    id: 0
+    executionCount: 0
+    delay: 0

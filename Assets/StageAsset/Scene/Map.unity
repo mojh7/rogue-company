@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playMusic: 0
-  playMusicId: 1
+  playMusicId: 0
 --- !u!114 &307469669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,11 +463,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114976532569142166, guid: 8f1c9920431a37b4b8ce6df689663825,
-        type: 2}
-      propertyPath: bulletInfos.Array.size
-      value: 16
-      objectReference: {fileID: 0}
     - target: {fileID: 4947963125661484, guid: 8f1c9920431a37b4b8ce6df689663825, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -500,12 +495,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114976532569142166, guid: 8f1c9920431a37b4b8ce6df689663825,
-        type: 2}
-      propertyPath: bulletInfos.Array.data[15]
-      value: 
-      objectReference: {fileID: 11400000, guid: fbd0779e55945db489784f81d255abf5,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f1c9920431a37b4b8ce6df689663825, type: 2}
   m_IsPrefabParent: 0

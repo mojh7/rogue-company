@@ -84,7 +84,6 @@ public class Weapon : Item {
         if (weaponId >= 0)
         {
             this.weaponId = weaponId;
-            Debug.Log("forDebug, id : " + weaponId + " init");
         }
 
         // id에 따른 무기 정보 받아오기

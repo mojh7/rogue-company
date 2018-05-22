@@ -15,7 +15,11 @@ using UnityEngine;
 #endregion
 */
 
-
+struct RaycasthitEnemy
+{
+    public int index;
+    public float distance;
+}
 
 public abstract class Character : MonoBehaviour
 {
@@ -75,13 +79,6 @@ public class Player : Character
     private bool isRightDirection;    // player 방향이 우측이냐(true) 아니냐(flase = 좌측)
 
     public WeaponManager weaponManager;
-    
-    
-    struct RaycasthitEnemy
-    {
-        public int index;
-        public float distance;
-    }
 
     private RaycastHit2D hit;
     private List<RaycasthitEnemy> raycastHitEnemies;
@@ -266,7 +263,7 @@ public class Player : Character
         }
         else
         {
-            List<Enemy> enemyList = EnemyGenerator.Instance.GetEnemyList();
+            List<Enemy> enemyList = EnemyGenerator.Instance.GetEnemyList;
             
             raycastHitEnemies.Clear();
             int raycasthitEnemyNum = 0;

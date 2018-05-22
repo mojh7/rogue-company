@@ -253,7 +253,6 @@ public class BulletInfo : ScriptableObject
                     updateProperties.Add(new LaserUpdateProperty());
                     break;
                 case UpdatePropertyType.Summon:
-                    // 
                     BulletPattern argumentBulletPattern;
                     switch (summonBulletPattern.type)
                     {
@@ -271,6 +270,9 @@ public class BulletInfo : ScriptableObject
                             break;
                     }
                     updateProperties.Add(new SummonProperty(argumentBulletPattern, creationCycle));
+                    break;
+                case UpdatePropertyType.Homing:
+                    updateProperties.Add(new HomingProperty());
                     break;
                 default:
                     break;

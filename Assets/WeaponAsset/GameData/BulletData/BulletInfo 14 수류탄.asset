@@ -21,9 +21,10 @@ MonoBehaviour:
   scaleX: 2
   scaleY: 2
   pierceCount: 1
-  bounceCount: 1000
+  bounceCount: 1
   lifeTime: 1.7
   effectId: -1
+  soundId: -1
   spriteAnimation: 0
   bulletSprite: {fileID: 21300016, guid: 81f731c6f69bb7843a4a434b5b75ec74, type: 3}
   showsScaleAnimation: 0

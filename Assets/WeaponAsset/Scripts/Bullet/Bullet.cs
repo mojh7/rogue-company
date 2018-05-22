@@ -60,6 +60,7 @@ public class Bullet : MonoBehaviour
     public Vector3 GetPosition() { return objTransform.position; }
     public float GetAddDirVecMagnitude() { return addDirVecMagnitude; }
 
+    public float GetDegree() { return degree; }
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
     #endregion
@@ -256,12 +257,13 @@ public class Bullet : MonoBehaviour
     public void SetDirection(Vector3 dirVector)
     {
         this.dirVector = dirVector;
-        if(info.isFixedAngle == false)
+        this.degree = dirVector.GetDegFromVector();
+        if (info.isFixedAngle == false)
         {
-            this.degree = dirVector.GetDegFromVector();
             objTransform.rotation = Quaternion.Euler(0, 0, this.degree);
         }
         objRigidbody.velocity = info.speed * dirVector;
+        Debug.Log(info.speed);
     }
 
     /// <summary> 해당 각도로 rotation.z 값을 설정하고 속도를 지정한다. </summary>

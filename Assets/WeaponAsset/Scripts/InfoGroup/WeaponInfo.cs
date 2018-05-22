@@ -170,12 +170,14 @@ public class WeaponInfo : ScriptableObject
 
     public void Init()
     {
+        /*
         if(name == "WeaponInfo11")
         {
             Debug.Log(name);
             name = "zzz123123";
             Debug.Log(name);
         }
+        */
         // bulletPatternEditInfo를 토대로 실제 원래의 bulletPatterns 만들기
         bulletPatternsLength = bulletPatternEditInfos.Length;
         bulletPatterns = new List<BulletPattern>();
