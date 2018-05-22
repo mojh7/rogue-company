@@ -23,15 +23,40 @@ namespace WeaponAsset
 
     /*---*/
 
+    public enum CollisionPropertyType { BaseNormal, Laser }
+    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon }
+    public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
+
+    /*---*/
+
     public enum ColiderType { Box, Circle }
 
     public enum BulletAnimationType
     {
-        NotPlaySpriteAnimation = 0,
-        BashAfterImage = 1,
-        PowerBullet = 2,
-        Wind = 3
+        NotPlaySpriteAnimation,
+        BashAfterImage,
+        PowerBullet,
+        Wind,
+        BashAfterImage2,
+        Explosion0,
     }
+
+    /*---*/
+
+
+    // 한 폴더에 넣으면 양이 많아져서 폴더 와 List 넣을 때 구분해서 넣고 쓸 때도 구분하기 위한 enum
+    public enum BulletDataType
+    {
+        Player = 0,
+        Enemy = 1,
+        Object = 2,
+        Explosion = 3,
+        Summon = 4
+    }
+  
+
+    /*---*/
+
 
     // 총알 삭제 함수 델리게이트
     public delegate void DelDestroyBullet();
@@ -99,7 +124,26 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
     #region getter
 
-    public WeaponInfo GetWeaponInfo(int id) { return weaponInfos[id].Clone(); }
+    /// <summary>
+    /// Owner에 따른 Weapon Data 반환, owner 기본 값 Player
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="owner"></param>
+    /// <returns></returns>
+    public WeaponInfo GetWeaponInfo(int id, Owner owner = Owner.Player)
+    {
+        switch(owner)
+        {
+            case Owner.Player:
+                return weaponInfos[id].Clone();
+            // 구분 만 해놓고 아직 player 이외의 owner weaponDataList 안 만듬, 봐서 bullet, Pattern도 이렇게 처리 할듯
+            case Owner.Enemy:
+            case Owner.Object:
+            default:
+                break;
+        }
+        return null;
+    }
     public MultiDirPatternInfo GetMultiDirPatternInfo(int id) { return multiDirPatternInfos[id]; }
     public RowPatternInfo GetRowPatternInfo(int id) { return rowPatternInfos[id]; }
     public LaserPatternInfo GetLaserPatternInfo(int id) { return laserPatternInfos[id]; }

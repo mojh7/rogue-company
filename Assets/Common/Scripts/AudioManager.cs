@@ -25,6 +25,12 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     private MusicController musicController;
     private SoundController soundController;
 
+
+    [Header("디버그용, 배경음악 안 듣고 싶을 때 꺼주세요")]
+    public bool playMusic;
+    [Header("디버그용, 배경음악 재생 번호")]
+    public int playMusicId;
+
     void Awake()
     {
         musicController = GetComponentInChildren<MusicController>();
@@ -35,7 +41,13 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     void Start()
     {
         // for test
-        PlayMusic(Random.Range(0, 3));
+        if (playMusic)
+        {
+            if (playMusicId == -1)
+                PlayMusic(Random.Range(0, 3));
+            else
+                PlayMusic(playMusicId);
+        }
     }
 
     /*
@@ -111,7 +123,7 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     /*
     // 일반 사운드 재생
     */
-    public void PlaySound(int clipindex, SoundController.SoundType soundtype)
+    public void PlaySound(int clipindex, SoundController.SoundType soundtype = SoundController.SoundType.GAME)
     {
         soundController.Play(clipindex, soundtype);
     }

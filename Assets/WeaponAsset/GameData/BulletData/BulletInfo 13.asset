@@ -11,16 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
   m_Name: BulletInfo 13
   m_EditorClassIdentifier: 
-  memo: "\uD14C\uC2A4\uD2B85, wind \uCD1D\uC54C"
+  memo: "\uBD80\uCC44, wind \uCD1D\uC54C"
   bulletName: 
   damage: 0
   speed: 0
+  acceleration: 0
+  deltaSpeedTotalLimit: 0
   range: 0
   scaleX: 2.5
   scaleY: 2.5
   pierceCount: 1
   bounceCount: 0
-  effectId: 1
+  lifeTime: -1
+  effectId: 3
   spriteAnimation: 3
   bulletSprite: {fileID: 0}
   showsScaleAnimation: 0

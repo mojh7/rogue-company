@@ -245,7 +245,7 @@ public class Weapon : Item {
             for(int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
             {
                 // 공격 사운드 실행
-                AudioManager.Instance.PlaySound(info.soundId, SoundController.SoundType.GAME);
+                AudioManager.Instance.PlaySound(info.soundId);
 
                 info.bulletPatterns[i].StartAttack(damageIncreaseRate);
                 if(info.bulletPatterns[i].GetDelay() > 0)

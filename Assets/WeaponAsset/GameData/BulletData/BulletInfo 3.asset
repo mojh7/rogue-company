@@ -15,18 +15,24 @@ MonoBehaviour:
   bulletName: "\uB808\uC774\uC800 \uCD1D\uC54C"
   damage: 0
   speed: 0
+  acceleration: 0
+  deltaSpeedTotalLimit: 0
   range: 0
   scaleX: 1
   scaleY: 1
   pierceCount: 1
   bounceCount: 0
+  lifeTime: -1
   effectId: 0
   spriteAnimation: 0
   bulletSprite: {fileID: 0}
   showsScaleAnimation: 0
   showsRotationAnimation: 0
+  showsParticle: 0
+  isFixedAngle: 0
+  bounceAble: 0
   collisionPropertiesEdit: 01000000
-  updatePropertiesEdit: 01000000
+  updatePropertiesEdit: 02000000
   deletePropertiesEdit: 01000000
   collisionPropertiesLength: 1
   updatePropertiesLength: 1

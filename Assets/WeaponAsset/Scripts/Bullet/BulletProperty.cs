@@ -16,7 +16,12 @@ public abstract class BulletProperty
     /// bullet class에 정보를 받아와서 속성에 맞는 초기화
     /// </summary>
     /// <param name="bullet"></param>
-    public abstract void Init(Bullet bullet);
+    public virtual void Init(Bullet bullet)
+    {
+        this.bullet = bullet;
+        this.bulletObj = bullet.gameObject;
+        this.bulletTransform = bullet.objTransform;
+    }
     //protected WeaponState.Owner owner;
 }
 
@@ -77,6 +82,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         return new BaseNormalCollisionProperty();
     }
 
+    // collision
     public override void Collision(ref Collision2D coll)
     {
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
@@ -102,17 +108,16 @@ class BaseNormalCollisionProperty : CollisionProperty
             // bounce 가능 횟수가 남아있으면 총알을 반사각으로 튕겨내고 없으면 delete 처리
             if (bounceCount > 0)
             {
-
-                Debug.Log("bounceCount : " + bounceCount);
+                //Debug.Log("bounceCount : " + bounceCount);
                 // 총알 반사각으로 bounce
 
                 //반사각
-                //reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
+                reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
 
                 ///Debug.Log("normal Vector : " + coll.contacts[0].normal);
                 ///Debug.Log("입사각 : " + MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z));
                 ///Debug.Log("반사각 : " + reflectVector.GetDegFromVector());
-                //bullet.UpdateDirection(reflectVector);
+                bullet.SetDirection(reflectVector);
                 bounceCount -= 1;
 
                 // 디버그용 contact 위치 표시
@@ -127,6 +132,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         }
     }
 
+    // trigger
     public override void Collision(ref Collider2D coll)
     {
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
@@ -181,9 +187,7 @@ class BaseNormalCollisionProperty : CollisionProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
-        bulletObj = bullet.gameObject;
-        bulletTransform = bullet.objTransform;
+        base.Init(bullet);
         delDestroyBullet = bullet.DestroyBullet;
         reflectVector = new Vector3();
 
@@ -215,7 +219,7 @@ class LaserCollisionProperty : CollisionProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
+        base.Init(bullet);
     }
 }
 
@@ -322,9 +326,8 @@ public class StraightMoveProperty : UpdateProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
+        base.Init(bullet);
         timeCount = 0;
-        bulletTransform = bullet.objTransform;
         delDestroyBullet = bullet.DestroyBullet;
         if (bullet.info.speed != 0)
         {
@@ -361,8 +364,11 @@ public class AccelerationMotionProperty : UpdateProperty
     private float range;        // 사정거리
     // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
     private float deltaSpeedTotal;
+    private float deltaSpeedTotalLimit;
 
     private bool acceleratesBullet;     // 가속도를 적용 할 것인가 말 것인가.
+
+    private float deltaSpeed;
 
     public override UpdateProperty Clone()
     {
@@ -371,10 +377,11 @@ public class AccelerationMotionProperty : UpdateProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
+        base.Init(bullet);
         distance = 0;
         deltaSpeedTotal = 0;
-        bulletTransform = bullet.objTransform;
+        deltaSpeedTotalLimit = bullet.info.deltaSpeedTotalLimit;
+        
         delDestroyBullet = bullet.DestroyBullet;
         if (bullet.info.speed != 0)
         {
@@ -388,6 +395,8 @@ public class AccelerationMotionProperty : UpdateProperty
         {
             range = bullet.info.range;
         }
+
+        
 
         acceleratesBullet = true;
     }
@@ -407,19 +416,35 @@ public class AccelerationMotionProperty : UpdateProperty
         // 가속화
         if(acceleratesBullet)
         {
-            moveSpeed += acceleration * Time.fixedDeltaTime;
-            deltaSpeedTotal += Mathf.Abs(acceleration * Time.fixedDeltaTime);
+            deltaSpeed = acceleration * Time.fixedDeltaTime;
+            moveSpeed += deltaSpeed;
+            deltaSpeedTotal += Mathf.Abs(deltaSpeed);
+
+            // 속력 변한 총량이 limit 보다 커지면 가속도 적용 멈춤.
+            if (deltaSpeedTotal >= deltaSpeedTotalLimit)
+            {
+                acceleratesBullet = false;
+                if (acceleration > 0)
+                {
+                    moveSpeed -= deltaSpeedTotal - deltaSpeedTotalLimit;
+                }
+                else if (acceleration < 0)
+                {
+                    moveSpeed += deltaSpeedTotal - deltaSpeedTotalLimit;
+                }
+
+                if(Mathf.Abs(moveSpeed) < 0.1f)
+                {
+                    moveSpeed = 0f;
+                }
+            }
 
             // 속력이 음수가 되며 방향 자체가 바뀔 때
-            if(moveSpeed < 0)
+            if (moveSpeed < 0)
             {
                 moveSpeed = -moveSpeed;
                 acceleration = -acceleration;
                 bullet.RotateDirection(180);
-            }
-            if(deltaSpeedTotal >= bullet.info.deltaSpeedTotalLimit)
-            {
-                acceleratesBullet = false;
             }
         }
     }
@@ -442,9 +467,11 @@ public class LaserUpdateProperty : UpdateProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
-        bulletTransform = bullet.objTransform;
+        base.Init(bullet);
+
+
         delCollisionBullet = bullet.CollisionBullet;
+
         ownerDirVec = bullet.GetOwnerDirVec();
         ownerPos = bullet.GetOwnerPos();
         addDirVecMagnitude = bullet.GetAddDirVecMagnitude();
@@ -491,8 +518,8 @@ public class SummonProperty : UpdateProperty
     }
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
-        bulletTransform = bullet.objTransform;
+        base.Init(bullet);
+        
         bulletDirDegree = bullet.GetDirDegree;
         bulletDirVec = () => { return Vector3.zero; };
         bulletPos = bullet.GetPosition;
@@ -545,6 +572,9 @@ public abstract class DeleteProperty : BulletProperty
 
 }
 
+/// <summary>
+/// 기본 총알 삭제, effect만 생성
+/// </summary>
 public class BaseDeleteProperty : DeleteProperty
 {
     public override DeleteProperty Clone()
@@ -560,12 +590,13 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
-        this.bulletObj = bullet.gameObject;
-        this.bulletTransform = bullet.objTransform;
+        base.Init(bullet);
     }
 }
 
+/// <summary>
+/// 레이저 전용 삭제 속성
+/// </summary>
 public class LaserDeleteProperty : DeleteProperty
 {
     //private LineRenderer lineRenderer;
@@ -583,36 +614,71 @@ public class LaserDeleteProperty : DeleteProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
-        bulletObj = bullet.gameObject;
+        base.Init(bullet);
         //lineRenderer = bullet.GetLineRenderer();
     }
 }
 
-// 미구현
-public class DeleteAfterSummonProperty : DeleteProperty
+// DeleteAfterSummonBullet
+// DeleteAfterSummonPattern
+
+/// <summary>
+/// 본래 총알이 삭제 될 때 새로운 bullet이 똑같은 position에 생성됨
+/// 수류탄, 로켓런쳐 같은 본래 bullet이 터지고 폭발하는 총알에 쓰일 delete 속성
+/// </summary>
+public class DeleteAfterSummonBulletProperty : DeleteProperty
 {
-    private BulletPattern bulletPattern;
+    private GameObject createdObj;
 
     public override DeleteProperty Clone()
     {
-        return new DeleteAfterSummonProperty();
+        return new DeleteAfterSummonBulletProperty();
     }
 
     public override void DestroyBullet()
     {
+        createdObj = ObjectPoolManager.Instance.CreateBullet();
+        createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletId, bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
-        this.bulletObj = bullet.gameObject;
+        base.Init(bullet);
+    }
+}
+
+/// <summary>
+/// 총알 삭제시 bulletPattern 생성 후 삭제
+/// 현재는 multiPattern만 1회 생성으로 되어있고 추후 필요 시
+/// SummonUpdate 속성 처럼 다양한 패턴과 횟수의 pattern을 생성할 수도 있음.
+/// </summary>
+public class DeleteAfterSummonPatternProperty : DeleteProperty
+{
+    private BulletPattern summonBulletPattern;
+    
+
+    public override DeleteProperty Clone()
+    {
+        return new DeleteAfterSummonPatternProperty();
+    }
+
+    public override void DestroyBullet()
+    {
+        // 일단 임시로 1.0f 추 후 buff에서 받아온 데미지 뻥튀기 만큼 값 조절
+        summonBulletPattern.StartAttack(1.0f);
+        ObjectPoolManager.Instance.DeleteBullet(bulletObj);
+    }
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+        summonBulletPattern = new MultiDirPattern(bullet.info.deleteAfterSummonPatternId, 1, 0);
     }
 }
 
 //
- 
+
 #endregion
 
 

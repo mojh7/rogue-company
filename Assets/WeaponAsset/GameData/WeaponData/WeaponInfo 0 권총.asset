@@ -26,7 +26,7 @@ MonoBehaviour:
   damage: 3
   criticalRate: 0.1
   knockBack: 0.2857143
-  cooldown: 1.5
+  cooldown: 0.3
   chargeTime: 0
   soundId: 0
   addDirVecMagnitude: 0

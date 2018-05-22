@@ -29,7 +29,7 @@ MonoBehaviour:
   cooldown: 0.6
   chargeTime: 0
   soundId: 3
-  addDirVecMagnitude: 1
+  addDirVecMagnitude: 1.2
   bulletPatternEditInfos:
   - type: 0
     id: 6

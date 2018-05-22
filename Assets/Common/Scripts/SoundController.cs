@@ -17,7 +17,7 @@ public class SoundController : MonoBehaviour
 
     private AudioSource audioSource;
 
-    public enum SoundType { GUI, GAME };
+    public enum SoundType { GAME, GUI };
 
     void Awake()
     {

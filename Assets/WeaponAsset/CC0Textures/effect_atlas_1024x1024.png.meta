@@ -21,6 +21,14 @@ TextureImporter:
     21300028: effect2_5
     21300030: effect2_6
     21300032: empty_Quad
+    21300034: effect3_0
+    21300036: effect3_1
+    21300038: effect3_4
+    21300040: effect3_2
+    21300042: effect3_3
+    21300044: effect3_5
+    21300046: effect3_6
+    21300048: effect3_7
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -340,6 +348,118 @@ TextureImporter:
         height: 50
       alignment: 4
       pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_0
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 807
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_1
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 805
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_4
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 797
+        width: 44
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_2
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 801
+        width: 33
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_3
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 798
+        width: 39
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_5
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 798
+        width: 44
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_6
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 797
+        width: 46
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: effect3_7
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 797
+        width: 44
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

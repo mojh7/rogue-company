@@ -15,12 +15,14 @@ MonoBehaviour:
   bulletName: 
   damage: 0
   speed: 0
+  acceleration: 0
+  deltaSpeedTotalLimit: 0
   range: 0
   scaleX: 1
   scaleY: 1
   pierceCount: 1
   bounceCount: 0
-  lifeTime: 7
+  lifeTime: 5
   effectId: 2
   spriteAnimation: 0
   bulletSprite: {fileID: 21300000, guid: 7d9341c48b965844eb79ae6719359ae0, type: 3}
@@ -28,10 +30,12 @@ MonoBehaviour:
   showsRotationAnimation: 0
   showsParticle: 0
   isFixedAngle: 1
+  deleteAfterSummonBulletId: 15
+  deleteAfterSummonPatternId: 0
   bounceAble: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 
-  deletePropertiesEdit: 00000000
+  deletePropertiesEdit: 02000000
   collisionPropertiesLength: 1
   updatePropertiesLength: 0
   deletePropertiesLength: 1
@@ -41,3 +45,8 @@ MonoBehaviour:
     executionCount: 0
     delay: 0
   creationCycle: 0
+  deleteAfterSummonPattern:
+    type: 0
+    id: 0
+    executionCount: 0
+    delay: 0

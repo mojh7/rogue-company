@@ -37,6 +37,9 @@ TextureImporter:
     21300060: slashAni0_1
     21300062: slashAni0_2
     21300064: slashAni0_3
+    21300066: NoCCO_effect_0_0
+    21300068: NoCCO_effect_0_1
+    21300070: NoCCO_effect_0_2
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -579,7 +582,49 @@ TextureImporter:
         width: 44
         height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NoCCO_effect_0_0
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 868
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NoCCO_effect_0_1
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 867
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NoCCO_effect_0_2
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 867
+        width: 60
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

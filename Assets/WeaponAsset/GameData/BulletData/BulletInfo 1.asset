@@ -15,12 +15,14 @@ MonoBehaviour:
   bulletName: "\uD45C\uCC3D"
   damage: 0
   speed: 0
+  acceleration: 0
+  deltaSpeedTotalLimit: 0
   range: 0
   scaleX: 2
   scaleY: 2
   pierceCount: 1
   bounceCount: 0
-  lifeTime: 0.2
+  lifeTime: -1
   effectId: 1
   spriteAnimation: 0
   bulletSprite: {fileID: 21300002, guid: fc289d39972eca14084789fc8a816b16, type: 3}

@@ -19,6 +19,7 @@ TextureImporter:
     21300024: testWeaponTexture_12
     21300026: testWeaponTexture_13
     21300028: testWeaponTexture_14
+    21300030: testWeaponTexture_15
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -310,6 +311,20 @@ TextureImporter:
         height: 18
       alignment: 9
       pivot: {x: 0.2842264, y: 0.48072645}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: testWeaponTexture_15
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 424
+        width: 33
+        height: 40
+      alignment: 9
+      pivot: {x: 0.09686742, y: 0.43799287}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

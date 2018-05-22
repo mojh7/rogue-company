@@ -14,18 +14,23 @@ MonoBehaviour:
   memo: "\uCD1D\uC54C\uC5D0\uC11C \uCD1D\uC54C1-1"
   bulletName: 
   damage: 0
-  speed: 0
-  range: 0
+  speed: 2
+  acceleration: 0
+  deltaSpeedTotalLimit: 0
+  range: 8
   scaleX: 1
   scaleY: 1
   pierceCount: 1
   bounceCount: 0
+  lifeTime: -1
   effectId: 0
   spriteAnimation: 0
   bulletSprite: {fileID: 21300000, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
   showsScaleAnimation: 0
   showsRotationAnimation: 0
   showsParticle: 0
+  isFixedAngle: 0
+  bounceAble: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000

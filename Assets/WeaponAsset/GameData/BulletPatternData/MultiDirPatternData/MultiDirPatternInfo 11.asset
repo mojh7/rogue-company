@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6995211bec7864abb6fa5586e77b3f, type: 3}
   m_Name: MultiDirPatternInfo 11
   m_EditorClassIdentifier: 
-  memo: "\uAC00\uC18D\uB3C4 \uC788\uB294 \uCD1D\uC54C \uBC1C\uC0AC"
+  memo: "\uAC00\uC18D\uB3C4 \uC788\uB294 \uCD1D\uC54C \uBC1C\uC0AC\n\uC218\uB958\uD0C4
+    \uBC1C\uC0AC"
   bulletCount: 1
   initAngle: 0
   deltaAngle: 0
@@ -19,5 +20,5 @@ MonoBehaviour:
   bulletId: 14
   effectId: -1
   speed: 0
-  range: 0
+  range: 10
   damage: 0

@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
 
-public enum CollisionPropertyType { BaseNormal, Laser }
-public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon }
-public enum DeletePropertyType { BaseDelete, Laser, Summon }
-
-
 /*
  * 새 변수 추가시 Clone에도 꼭 추가해줘야 됨.
  */
@@ -34,8 +29,12 @@ public class BulletInfo : ScriptableObject
 
     [Header("-1이면 적용 X, 0 초과 값이면 lifeTime 만큼 시간 지나고 Delete속성 실행 ")]
     public float lifeTime;
-
+    [Header("-1이면 effect 적용X, 0이상 만 적용")]
     public int effectId;    // 충돌 후 삭제시 생성될 effect
+
+    [Tooltip("총알 생성 시 발생 소리, 0이상 이면 적용, ex: 폭발 총알")]
+    public int soundId;
+
     [Header("Not Play Animation이 아니면 해당 애니메이션 적용")]
     public BulletAnimationType spriteAnimation;
     [Header("spriteAnimation이 Not Play Animation 일 때 사용할 bullet Sprite")]
@@ -47,11 +46,15 @@ public class BulletInfo : ScriptableObject
     public bool showsRotationAnimation;
     [Header("particle 적용 유무")]
     public bool showsParticle;
-
     [Header("각도(rotation) 고정 유무")]
     public bool isFixedAngle;
 
-    
+
+    [Header("DeleteAfterSummonBulletProperty 에서 생성할 bullet id")]
+    public int deleteAfterSummonBulletId;
+    [Header("DeleteAfterSummonPatternProperty에서 생성할 pattern id")]
+    public int deleteAfterSummonPatternId;
+
 
     // 튕기는 총알 테스트용, 반사 o / x
     public bool bounceAble;
@@ -76,7 +79,12 @@ public class BulletInfo : ScriptableObject
     [Header("SummonUpdate 속성 전용 매개 변수")]
     // summonUpdate 속성 전용, 소환할 bulletPattern, 생성 주기
     public BulletPatternEditInfo summonBulletPattern;
+    [Header("SummonUpdate 속성 전용 매개 변수, 생성 주기")]
     public float creationCycle;
+
+    [Header("DeletAfterSummonPattern 속성 전용 매개 변수")]
+    // summonUpdate 속성 전용, 소환할 bulletPattern, 생성 주기
+    public BulletPatternEditInfo deleteAfterSummonPattern;
 
 
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
@@ -89,6 +97,8 @@ public class BulletInfo : ScriptableObject
         bounceCount = 0;
 
         lifeTime = -1;
+        effectId = -1;
+        soundId = -1;
 
         bulletSprite = null;
 
@@ -154,8 +164,10 @@ public class BulletInfo : ScriptableObject
 
         info.pierceCount = pierceCount;
         info.bounceCount = bounceCount;
-        info.effectId = effectId;
+
         info.lifeTime = lifeTime;
+        info.effectId = effectId;
+        info.soundId = soundId;
 
         info.spriteAnimation = spriteAnimation;
         info.bulletSprite = bulletSprite;
@@ -165,7 +177,12 @@ public class BulletInfo : ScriptableObject
         info.showsParticle = showsParticle;
         info.isFixedAngle = isFixedAngle;
 
+        info.deleteAfterSummonBulletId = deleteAfterSummonBulletId;
+        info.deleteAfterSummonPatternId = deleteAfterSummonPatternId;
         info.bounceAble = bounceAble;
+
+
+        /*---*/
 
         info.collisionPropertiesLength = collisionPropertiesLength;
         info.updatePropertiesLength = updatePropertiesLength;
@@ -270,7 +287,11 @@ public class BulletInfo : ScriptableObject
                 case DeletePropertyType.Laser:
                     deleteProperties.Add(new LaserDeleteProperty());
                     break;
-                case DeletePropertyType.Summon:
+                case DeletePropertyType.SummonBullet:
+                    deleteProperties.Add(new DeleteAfterSummonBulletProperty());
+                    break;
+                case DeletePropertyType.SummonPattern:
+                    deleteProperties.Add(new DeleteAfterSummonPatternProperty());
                     //
                     break;
                 default:

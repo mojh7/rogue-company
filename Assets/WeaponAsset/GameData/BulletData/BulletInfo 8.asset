@@ -14,23 +14,28 @@ MonoBehaviour:
   memo: "\uADFC\uC811 \uBCA0\uB294 \uC774\uD399\uD2B8 \uCD1D\uC54C\n"
   bulletName: "\uADFC\uC811 \uBB34\uAE30\uC6A9 \uCD1D\uC54C"
   damage: 0
-  speed: 0.001
-  range: 0.002
-  scaleX: 2
-  scaleY: 2
+  speed: 0
+  acceleration: 0
+  deltaSpeedTotalLimit: 0
+  range: 0
+  scaleX: 2.5
+  scaleY: 2.5
   pierceCount: 1
   bounceCount: 0
+  lifeTime: 0.2
   effectId: -1
-  spriteAnimation: 1
+  spriteAnimation: 4
   bulletSprite: {fileID: 0}
   showsScaleAnimation: 0
   showsRotationAnimation: 0
   showsParticle: 0
+  isFixedAngle: 0
+  bounceAble: 0
   collisionPropertiesEdit: 00000000
-  updatePropertiesEdit: 00000000
+  updatePropertiesEdit: 
   deletePropertiesEdit: 00000000
   collisionPropertiesLength: 1
-  updatePropertiesLength: 1
+  updatePropertiesLength: 0
   deletePropertiesLength: 1
   summonBulletPattern:
     type: 0

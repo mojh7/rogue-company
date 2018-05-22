@@ -37,6 +37,8 @@ public class Bullet : MonoBehaviour
     private Coroutine bulletUpdate;
     private Coroutine rotationAnimation;
     private Coroutine scaleAnimation;
+    private Coroutine deleteOnlifeTime;
+        
 
     private Vector3 dirVector; // 총알 방향 벡터
     private float degree;      // 총알 방향 각도.
@@ -45,6 +47,8 @@ public class Bullet : MonoBehaviour
     private DelGetPosition ownerPos;
     private float addDirVecMagnitude;
 
+    // 코루틴 deltaTime
+    private float coroutineDeltaTime = 0.016f;
     #endregion
     #region getter
     public LineRenderer GetLineRenderer() { return lineRenderer; }
@@ -86,6 +90,27 @@ public class Bullet : MonoBehaviour
     #endregion
     #region Function
     // 총알 class 초기화
+
+    // 일반 총알 초기화 - position이랑 direction만 받음
+    public void Init(int bulletId, Vector3 pos, float direction = 0)
+    {
+        info = DataStore.Instance.GetBulletInfo(bulletId);
+
+        // 투사체 총알 속성 초기화
+        InitProjectileProperty();
+
+        // 총알 속성들 초기화
+        InitPropertyClass();
+
+        // 처음 위치 설정
+        objTransform.position = pos;
+        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+        degree = 0f;
+        dirVector = Vector3.right;
+        SetDirection(direction);
+    }
+
     // 일반 총알 초기화
     public void Init(int bulletId, float speed, float range, int effectId, Vector3 pos, float direction)
     {
@@ -107,66 +132,16 @@ public class Bullet : MonoBehaviour
 
         //--------------------------------
 
-        // sprite 애니메이션 적용
-        if (info.spriteAnimation != BulletAnimationType.NotPlaySpriteAnimation)
-        {
-            spriteAnimatorObj.SetActive(true);
-            PlaySpriteAnimation(info.spriteAnimation);
-            spriteRenderer.sprite = null;
-        }
-        else // sprite 애니메이션 미 적용
-        {
-            spriteAnimatorObj.SetActive(false);
-            spriteRenderer.sprite = info.bulletSprite;
-        }
+        // 투사체 총알 속성 초기화
+        InitProjectileProperty();
 
-        // rotate 360도 계속 회전하는 애니메이션 적용
-        if (info.showsRotationAnimation == true)
-        {
-            StartCoroutine("RotationAnimation");
-        }
-
-        // scale이 바뀌면서 커지고 작아지는 애니메이션 적용
-        if (info.showsScaleAnimation == true)
-        {
-            StartCoroutine("ScaleAnimation");
-        }
-
-        // lifeTime이 0 초과되는 값을 가지면 시간이 lifeTime이 지나면 delete 속성 실행
-        if(info.lifeTime > 0)
-        {
-            Debug.Log("lifeTime : " + info.lifeTime);
-            Invoke("DestroyBullet", info.lifeTime);
-        }
-        
-        // 파티클이 포함되어있는 오브젝트 on/ off
-        paticleObj.SetActive(info.showsParticle);
-
-
-        // component on/off
-        boxCollider.enabled = true;
-        lineRenderer.enabled = false;
-        lineRenderer.positionCount = 0;
-
-        // 튕기는 총알 테스트 용, 일단 컬라이더 임시로 박스만 쓰는 중
-        if (info.bounceAble == true)
-        {
-            boxCollider.isTrigger = false;
-        }
-        else
-        {
-            boxCollider.isTrigger = true;
-        }
-
+        // 총알 속성들 초기화
+        InitPropertyClass();
 
         // 처음 위치 설정
         objTransform.position = pos;
-        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f); 
+        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
-
-        // 총알 속성들 초기화
-        InitProperty();
-
         degree = 0f;
         dirVector = Vector3.right;
         SetDirection(direction);
@@ -186,18 +161,79 @@ public class Bullet : MonoBehaviour
         lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = 0.4f;
         lineRenderer.endWidth = 0.4f;
-        lineRenderer.positionCount = 2;
+        //lineRenderer.positionCount = 2;
 
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
         this.addDirVecMagnitude = addDirVecMagnitude;
         objTransform.position = ownerPos();
-        InitProperty();
+        InitPropertyClass();
         bulletUpdate = StartCoroutine("BulletUpdate");
     }
 
-    // collision, update, delete 속성 초기화
-    private void InitProperty()
+    /// <summary>
+    /// Projectile 총알 collision, update, delete 속성 Class이외의
+    /// 기타 bullet 고유 속성들 초기화 및 적용
+    /// </summary>
+    private void InitProjectileProperty()
+    {
+        // sprite 애니메이션 적용
+        if (info.spriteAnimation != BulletAnimationType.NotPlaySpriteAnimation)
+        {
+            spriteAnimatorObj.SetActive(true);
+            animator.SetTrigger(info.spriteAnimation.ToString());
+            spriteRenderer.sprite = null;
+        }
+        else // sprite 애니메이션 미 적용
+        {
+            spriteAnimatorObj.SetActive(false);
+            spriteRenderer.sprite = info.bulletSprite;
+        }
+
+        // rotate 360도 계속 회전하는 애니메이션 적용
+        if (info.showsRotationAnimation == true)
+        {
+            rotationAnimation = StartCoroutine("RotationAnimation");
+        }
+
+        // scale이 바뀌면서 커지고 작아지는 애니메이션 적용
+        if (info.showsScaleAnimation == true)
+        {
+            scaleAnimation = StartCoroutine("ScaleAnimation");
+        }
+
+        // lifeTime이 0 초과되는 값을 가지면 시간이 lifeTime이 지나면 delete 속성 실행
+        if (info.lifeTime > 0)
+        {
+            deleteOnlifeTime = StartCoroutine("DeleteOnLifeTime");
+        }
+
+        if (info.soundId >= 0)
+        {
+            AudioManager.Instance.PlaySound(info.soundId);
+        }
+
+        // 파티클이 포함되어있는 오브젝트 on/ off
+        paticleObj.SetActive(info.showsParticle);
+
+        // component on/off
+        boxCollider.enabled = true;
+        lineRenderer.enabled = false;
+        //lineRenderer.positionCount = 0;
+
+        // 튕기는 총알 테스트 용, 일단 컬라이더 임시로 박스만 쓰는 중
+        if (info.bounceAble == true)
+        {
+            boxCollider.isTrigger = false;
+        }
+        else
+        {
+            boxCollider.isTrigger = true;
+        }
+    }
+
+    /// <summary> collision, update, delete 속성 Class들 초기화  </summary>
+    private void InitPropertyClass()
     {
         // 총알 충돌 속성 초기화
         for (int i = 0; i < info.collisionPropertiesLength; i++)
@@ -216,10 +252,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다.
-    /// </summary>
-    /// <param name="dirVector"></param>
+    /// <summary> 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다. </summary>
     public void SetDirection(Vector3 dirVector)
     {
         this.dirVector = dirVector;
@@ -231,10 +264,7 @@ public class Bullet : MonoBehaviour
         objRigidbody.velocity = info.speed * dirVector;
     }
 
-    /// <summary>
-    /// 해당 각도로 rotation.z 값을 설정하고 속도를 지정한다.
-    /// </summary>
-    /// <param name="degree"></param>
+    /// <summary> 해당 각도로 rotation.z 값을 설정하고 속도를 지정한다. </summary>
     public void SetDirection(float degree)
     {
         this.degree = degree;
@@ -246,10 +276,7 @@ public class Bullet : MonoBehaviour
         objRigidbody.velocity = info.speed * dirVector;
     }
 
-    /// <summary>
-    /// 현재 방향의 각도와 방향벡터에서 매개변수로 받은 각도만큼 회전 및 속도를 지정한다.
-    /// </summary>
-    /// <param name="degree"></param>
+    /// <summary> 현재 방향의 각도와 방향벡터에서 매개변수로 받은 각도만큼 회전 및 속도를 지정한다. </summary>
     public void RotateDirection(float degree)
     {
         this.degree += degree;
@@ -263,7 +290,7 @@ public class Bullet : MonoBehaviour
 
     // velocity 바꾸는 함수는 계속 구조 개선 및 수정될 예정. 
 
-    // 속력만 바뀌는데 속력 < 0 되면 방향 원래 벡터의 반대 방향으로 바꿈
+    /// <summary> 속력만 바뀌는데 속력 0미만 되면 방향 원래 벡터의 반대 방향으로 바꿈 </summary>
     public void SetVelocity(float speed)
     {
         if(speed >= 0)
@@ -277,19 +304,19 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    // 충돌 처리 Collision
+    /// <summary> 충돌 처리 Collision </summary>
     public void OnCollisionEnter2D(Collision2D coll)
     {
         CollisionBullet(coll);
     }
 
-    // 충돌 처리 Trigger
+    /// <summary> 충돌 처리 Trigger </summary>
     public void OnTriggerEnter2D(Collider2D coll)
     {
         CollisionBullet(coll);
     }
 
-    // 충돌 속성 실행 Collision
+    /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
         if (coll.transform.CompareTag("Wall"))
@@ -301,7 +328,8 @@ public class Bullet : MonoBehaviour
             }
         }
     }
-    // 충돌 속성 실행 Trigger
+    
+    /// <summary> 충돌 속성 실행 Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
         if (coll.CompareTag("Wall"))
@@ -314,13 +342,10 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 삭제 속성 실행 
-    /// </summary>
+    /// <summary> 삭제 속성 실행 </summary>
     public void DestroyBullet()
     {
-        //Debug.Log(this + "Destroy Bullet");
-        // update 코루틴 멈춤
+        // 실행 중인 코루틴이 있으면 코루틴 멈춤
         if(bulletUpdate != null)
         {
             StopCoroutine(bulletUpdate);
@@ -333,6 +358,10 @@ public class Bullet : MonoBehaviour
         {
             StopCoroutine(scaleAnimation);
         }
+        if (deleteOnlifeTime != null)
+        {
+            StopCoroutine(deleteOnlifeTime);
+        }
 
         viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
         viewTransform.localScale = new Vector3(1f, 1f, 1f);
@@ -344,35 +373,11 @@ public class Bullet : MonoBehaviour
         }
     }
 
-
-
     #endregion
 
 
 
     #region coroutine
-
-    /// <summary>
-    /// BulletAniType enum과 1대1 대응해서 animation을 실행한다.
-    /// </summary>
-    /// <param name="type"></param>
-    public void PlaySpriteAnimation(BulletAnimationType type)
-    {
-        switch (type)
-        {
-            case BulletAnimationType.BashAfterImage:
-                animator.SetTrigger("bashAfterImage");
-                break;
-            case BulletAnimationType.PowerBullet:
-                animator.SetTrigger("powerBullet");
-                break;
-            case BulletAnimationType.Wind:
-                animator.SetTrigger("wind");
-                break;
-            default:
-                break;
-        }
-    }
 
     // 안쓸 듯
     // 총알 Update 코루틴
@@ -401,27 +406,50 @@ public class Bullet : MonoBehaviour
         {
             eulerAngleZ += 12f;
             viewTransform.localRotation = Quaternion.Euler(0f, 0f, eulerAngleZ);
-            yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
+            yield return YieldInstructionCache.WaitForSeconds(coroutineDeltaTime);  // 일단은 약 60 fps 정도로 실행
         }
     }
 
-    /// <summary>
-    /// scale 1.0배 ~ 1.5배 왔다갔다 하는 코루틴
-    /// </summary>
-    /// <returns></returns>
+    /// <summary> scale 1.0 ~ 2.0 커졌다 작아졌다 하는 코루틴 </summary>
     private IEnumerator ScaleAnimation()
     {
         float deltaScale = 0;
         float scale = 0;
+        float sign = 1;
         while (true)
         {
-            deltaScale += 0.2f;
-            scale = 1 + Mathf.PingPong(deltaScale, 1f);
+            deltaScale += 0.05f * sign;
+            scale = 1 + deltaScale;
             viewTransform.localScale = new Vector3(scale, scale, 1f);
-            yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
+            if (scale <= 1.0f)
+            {
+                sign = 1;
+            }
+            else if (scale >= 2.0f)
+            {
+                sign = -1;
+            }
+            yield return YieldInstructionCache.WaitForSeconds(coroutineDeltaTime);  // 일단은 약 60 fps 정도로 실행
         }
     }
 
+
+    // invoke로 하면 메모리풀에서 on / off시 남아있어서 오류가 생겨서 코루틴으로 바꿈
+
+    /// <summary> 시간이 lifeTime 되면 삭제 </summary>
+    private IEnumerator DeleteOnLifeTime()
+    {
+        float time = 0;
+        while(true)
+        {
+            if(time >= info.lifeTime)
+            {
+                DestroyBullet();
+            }
+            time += coroutineDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(coroutineDeltaTime);
+        }
+    }
     #endregion
 
 }

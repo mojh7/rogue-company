@@ -52,6 +52,7 @@ public class EnemyGenerator : MonoBehaviourSingleton<EnemyGenerator> {
     {
         if (enemyList == null)
             return;
+        aliveEnemyTotal -= 1;
         enemyList.Remove(_enemy);
     }
 
