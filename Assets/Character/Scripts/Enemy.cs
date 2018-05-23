@@ -51,12 +51,12 @@ public class Enemy : Character {
         pState = State.ALIVE;
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
-        hp = 50;
+        hp = 5;
     }
     protected override void Die()
     {
         pState = State.DIE;
-        EnemyGenerator.Instance.DeleteEnemy(this);
+        EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
     }

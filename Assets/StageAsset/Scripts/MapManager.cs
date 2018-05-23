@@ -36,6 +36,12 @@ namespace Map
             RoomManager.Instance.InitRoomList();
         }
         public Map GetMap() { return map; }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+                GenerateMap(0);
+        }
     }
 
     public class Map
@@ -76,11 +82,14 @@ namespace Map
             wallTileMap = TileManager.GetInstance().wallTileMap;
             shadowTileMap = TileManager.GetInstance().shadowTileMap;
         } // 생성자
-
+        /// <summary>
+        ///방 데이터 초기화
+        /// </summary>
         public void Destruct()
         {
             RefreshData();
         }
+
         public List<Rect> GetList(out Rect currentRoom)
         {
             currentRoom = halls[0];
@@ -91,7 +100,9 @@ namespace Map
         {
             return Random.Range(0, 100) < percent;
         } // 코인 플립 확률에 따른 yes or no 반환
-
+        /// <summary>
+        ///시작 지점 구하기
+        /// </summary>
         public Vector3 GetStartPosition()
         {
             return startPosition;
@@ -103,19 +114,23 @@ namespace Map
             CreateMap();
             LinkAllRects();
             DrawTile();
-            RecursionLink(rooms[0]);
+            LinkAllRecursion();
             LinkHall();
             AssignAllRoom();
             rooms.AddRange(halls);
             BakeAvailableArea();
             CreateRoomMaskObj();
         } // office creates
-
+        /// <summary>
+        ///꼭 필요한 방 하나를 무조건 추가
+        /// </summary>
         public void AddNecessaryRoomSet(Rect _rect)
         {
             necessaryBlocks.Add(_rect);
         } // 필수 방 세팅
-
+        /// <summary>
+        ///꼭 필요한 방 룸세팅을 무조건 추가
+        /// </summary>
         public void AddNecessaryRoomSet(RoomSet[] _roomSet)
         {
             necessaryRoomSet = new List<RoomSet>(_roomSet.Length);
@@ -523,7 +538,7 @@ namespace Map
 
         void LinkAllRects() 
         {
-            for(int i = 0; i < rooms.Count - 1; i++)
+            for(int i = 0; i < rooms.Count; i++)
             {
                 for (int k = 0; k < halls.Count; k++)
                 {
@@ -534,6 +549,7 @@ namespace Map
                     LinkRects(rooms[i], rooms[j]);
                 }
             }
+
             for(int i = 0; i < halls.Count; i++)
             {
                 for (int k = 0; k < halls.Count; k++)
@@ -554,6 +570,11 @@ namespace Map
                 _rectA.EdgeRect(_rectB);
             }
         }
+
+        void LinkAllRecursion()
+        {
+            RecursionLink(rooms[0]);
+        } // 모두 연결
 
         void RecursionLink(Rect _rect)
         {
@@ -577,7 +598,7 @@ namespace Map
             {
                 for (int i = 0; i < halls[indx].edgeRect.Count; i++)
                 {
-                    if (CoinFlip(100) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    if (CoinFlip(80) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
                     {
                         DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
                     }
@@ -673,7 +694,7 @@ namespace Map
             else
                 obj.GetComponent<Door>().sprite = RoomSetManager.Instance.doorSprites[1];
             obj.GetComponent<Door>().Init();
-            obj.transform.position = new Vector3(x, y, y);
+            obj.transform.position = new Vector3(x, y, y - 0.5f);
 
             return obj;
         } // Door Object 생성
@@ -726,7 +747,6 @@ namespace Map
                     || _roomSet.height * size - size <= _roomSet.objectDatas[i].position.y /*범위안에 있는지 확인*/
                     && _roomSet.objectDatas[i].objectType != ObjectType.SPAWNER)
                     continue;
-                Debug.Log(_roomSet.objectDatas[i].objectType);
                 customObjects.Add(objectPool.GetPooledObject());
                 customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
                 _roomSet.objectDatas[i].LoadObject(customObjects[index]);

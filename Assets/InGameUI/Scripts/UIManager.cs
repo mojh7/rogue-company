@@ -21,7 +21,6 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     #endregion
 
     #region function
-
     public void TogglePreventObj()
     {
         if (preventObj == null)
@@ -29,17 +28,17 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
         preventObj.SetActive(!preventObj.activeSelf);
     }
 
-    public void ToggleUI()
+    public void FadeInScreen()
     {
-        FadeOut(fadeImage, 20);
+        FadeIn(fadeImage, 20);
     }
 
-    void FadeOut(Image _img,int _interval)
+    void FadeIn(Image _img,int _interval)
     {
-        StartCoroutine(CoroutineFadeOut(_img, _interval));
+        StartCoroutine(CoroutineFadeIn(_img, _interval));
     }
 
-    IEnumerator CoroutineFadeOut(Image _img,int _interval)
+    IEnumerator CoroutineFadeIn(Image _img,int _interval)
     {
         float time = (float)0.5f / _interval;
 
@@ -50,12 +49,12 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
         }
     }
 
-    void FadeIn(Image _img, int _interval)
+    void FadeOut(Image _img, int _interval)
     {
-        StartCoroutine(CoroutineFadeIn(_img, _interval));
+        StartCoroutine(CoroutineFadeOut(_img, _interval));
     }
 
-    IEnumerator CoroutineFadeIn(Image _img, int _interval)
+    IEnumerator CoroutineFadeOut(Image _img, int _interval)
     {
         float time = (float)0.5f / _interval;
 

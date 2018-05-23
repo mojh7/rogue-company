@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GamaManager : MonoBehaviourSingleton<GamaManager> {
+public class InGameManager : MonoBehaviourSingleton<InGameManager> {
 
-    enum GameState { NOTSTARTED, GAMEOVER, PLAYING, CLEAR, ENDING }
-    GameState gameState = GameState.NOTSTARTED;
     int currentFloor = 0;
     #region UnityFunc
     private void Awake()
@@ -24,6 +22,12 @@ public class GamaManager : MonoBehaviourSingleton<GamaManager> {
             CameraController.Instance.Shake(0.2f, .1f);
     }
     #endregion
+    #region getter
+    public int GetFloor()
+    {
+        return currentFloor;
+    }
+    #endregion
     #region Func
     public void GoUpFloor()
     {
@@ -36,16 +40,15 @@ public class GamaManager : MonoBehaviourSingleton<GamaManager> {
     }
     void GenerateMap()
     {
-        Map.MapManager.Instance.GenerateMap(0); // 맵생성
+        Map.MapManager.Instance.GenerateMap(currentFloor); // 맵생성
     }
     void SpawnPlayer()
     {
         PlayerManager.Instance.SpawnPlayer(); // 플레이어 스폰
-        //RoomManager.Instance.DisableObjects();
     }
     void DrawUI()
     {
-        UIManager.Instance.ToggleUI(); // UI 오픈
+        UIManager.Instance.FadeInScreen(); // 화면 밝히기
         MiniMap.Instance.DrawMinimap(); // 미니맵 그리기
     }
     #endregion

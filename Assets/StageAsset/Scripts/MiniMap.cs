@@ -7,13 +7,13 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
     public Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
     public GameObject playerIcon;
 
-    int minmapSize = 100;
+    int minmapSizeWidth, minmapSizeHeight;
     List<Map.Rect> roomList;
     Texture2D texture;
     new RawImage renderer;
-    float width;
+    float width, height;
     int size;
-    int mapSize;
+    int mapSizeWidth, mapSizeHeight; // 실제 맵 사이즈
 
     public void DrawRoom(Map.Rect _room)
     {
@@ -39,26 +39,44 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
 
     public void DrawMinimap()
     {
-        width = GetComponent<RectTransform>().sizeDelta.x;
         renderer = GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
-        size = minmapSize / Map.MapManager.Instance.width; // 미니맵 사이즈
-        mapSize = Map.MapManager.Instance.size * Map.MapManager.Instance.width;
+        size = 10; // 미니맵 
+        minmapSizeWidth = Map.MapManager.Instance.width * size;
+        minmapSizeHeight = Map.MapManager.Instance.height * size;
 
-        texture = new Texture2D(minmapSize, minmapSize);
+        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width;
+        mapSizeHeight = Map.MapManager.Instance.size * Map.MapManager.Instance.height;
+
+        if(Map.MapManager.Instance.width * size > Map.MapManager.Instance.height * size)
+            GetComponent<RectTransform>().sizeDelta = new Vector2(200 * (float)minmapSizeWidth / minmapSizeHeight, 200);
+        else
+            GetComponent<RectTransform>().sizeDelta = new Vector2(200, 200 * (float)minmapSizeHeight / minmapSizeWidth);
+
+        width = GetComponent<RectTransform>().sizeDelta.x;
+        height = GetComponent<RectTransform>().sizeDelta.y;
+
+        texture = new Texture2D(minmapSizeWidth, minmapSizeHeight);
         texture.filterMode = FilterMode.Point;
         renderer.texture = texture;
+        for (int i = 0; i < minmapSizeWidth; i++)
+        {
+            for (int j = 0; j < minmapSizeHeight; j++)
+            {
+                texture.SetPixel(i, j, new Color(1,1,1,0.3f));
+            }
+        }
         for (int i = 0; i < roomList.Count; i++)
         {
             if(!roomList[i].isRoom)
                 DrawRoom(roomList[i]);
         }
-        for (int i = 0; i < minmapSize; i++)
+        for (int i = 0; i < minmapSizeWidth; i++)
         {
-            for (int j = 0; j < minmapSize; j++)
+            for (int j = 0; j < minmapSizeHeight; j++)
             {
-                if (i == 0 || i == minmapSize - 1 ||
-                    j == 0 || j == minmapSize - 1)
+                if (i == 0 || i == minmapSizeWidth - 1 ||
+                    j == 0 || j == minmapSizeHeight - 1)
                 {
                     texture.SetPixel(i, j, Color.black);
                 }
@@ -116,7 +134,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
         Vector2 positon = PlayerManager.Instance.GetPlayerPosition();
         if (positon == Vector2.zero)
             return;
-        playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSize - width, positon.y * width / mapSize - width);
+        playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSizeWidth - width, positon.y * height / mapSizeHeight - height);
     } // 현재 플레이어 위치 to MiniMap
 
     #region UnityFunc

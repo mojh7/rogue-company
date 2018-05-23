@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mSprites:
   - sprite: {fileID: 21300000, guid: 6cfdfd8408062024784286e23c2e0be9, type: 3}
-    probability: 20
+    probability: 2
   - sprite: {fileID: 21300002, guid: 6cfdfd8408062024784286e23c2e0be9, type: 3}
     probability: 2
   - sprite: {fileID: 21300004, guid: 6cfdfd8408062024784286e23c2e0be9, type: 3}
@@ -30,3 +30,4 @@ MonoBehaviour:
     probability: 1
   - sprite: {fileID: 21300016, guid: 6cfdfd8408062024784286e23c2e0be9, type: 3}
     probability: 20
+  colliderType: 0

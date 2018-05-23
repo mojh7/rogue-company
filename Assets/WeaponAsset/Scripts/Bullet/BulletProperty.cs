@@ -611,9 +611,9 @@ public class HomingProperty : UpdateProperty
         //targettingCycle -= Time.fixedDeltaTime;
         // 유도 대상 선정
 
-        enemyTotal = EnemyGenerator.Instance.GetAliveEnemyTotal();
+        enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
 
-        List<Enemy> enemyList = EnemyGenerator.Instance.GetEnemyList;
+        List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
 
         raycastHitEnemies.Clear();
         raycasthitEnemyNum = 0;

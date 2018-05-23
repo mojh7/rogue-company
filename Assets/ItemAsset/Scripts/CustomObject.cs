@@ -26,8 +26,13 @@ public class CustomObject : MonoBehaviour {
         {
             GetComponent<SpriteRenderer>().sprite = sprite;
             List<Vector2> list = new List<Vector2>();
-            sprite.GetPhysicsShape(0, list);
-            GetComponent<PolygonCollider2D>().SetPath(0, list.ToArray());
+            int num = sprite.GetPhysicsShapeCount();
+            GetComponent<PolygonCollider2D>().pathCount = num;
+            for (int i = 0; i < num; i++)
+            {
+                sprite.GetPhysicsShape(i, list);
+                GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
+            }
             GetComponent<PolygonCollider2D>().isTrigger = false;
         }
         gameObject.tag = "Wall";
@@ -190,7 +195,7 @@ public class Spawner : CustomObject
     {
         gage--;
         Vector2 tempPosition = RoomManager.Instance.Spawned();
-        EnemyGenerator.Instance.Generate(tempPosition);
+        EnemyManager.Instance.Generate(tempPosition);
     }
 }
 
@@ -277,7 +282,7 @@ public class Portal : CustomObject
     public override void Active()
     {
         base.Active();
-        GamaManager.Instance.GoUpFloor();
+        InGameManager.Instance.GoUpFloor();
         Debug.Log("PlayerEnd");
     }
 }

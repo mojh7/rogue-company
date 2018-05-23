@@ -36,6 +36,8 @@ public class Loading : MonoBehaviour {
     }
     private void Update()
     {
+        if (async == null)
+            return;
         wheeleuler = wheel.rotation.eulerAngles;
         wheeleuler.z -= 3f;
         wheel.rotation = Quaternion.Euler(wheeleuler);

@@ -184,10 +184,10 @@ public class WeaponManager : MonoBehaviour {
     /// </summary>
     public void AttackButtonUP()
     {
-        if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.PickAndDrop)
-        {
-            equipWeaponSlot[currentWeaponIndex].SetWeaponState(WeaponState.Idle);
-        }
+        //if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.PickAndDrop)
+        //{
+        //    equipWeaponSlot[currentWeaponIndex].SetWeaponState(WeaponState.Idle);
+        //}
         equipWeaponSlot[currentWeaponIndex].StopAttack();
     }
 
@@ -260,7 +260,7 @@ public class WeaponManager : MonoBehaviour {
             itemContainer.GetComponent<ItemContainer>().Init(dropedWeapon);
             dropedWeapon.ObjTransform.SetParent(itemContainer.transform, false);
         }
-        weapon.SetWeaponState(WeaponState.PickAndDrop);
+        //weapon.SetWeaponState(WeaponState.PickAndDrop);
         StartCoroutine("PickAndDropWeaponDelay");
     }
     #endregion

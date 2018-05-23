@@ -68,7 +68,7 @@ public abstract class Character : MonoBehaviour
 public class Player : Character
 {
     #region variables
-
+    public enum PlayerType { MUSIC, SOCCER, FISH, ARMY }
     public enum PlayerState { IDLE, DASH, KNOCKBACK, DEAD }
     //public Joystick joystick;
 
@@ -268,7 +268,7 @@ public class Player : Character
 
     public void SetAim()
     {       
-        int enemyTotal = EnemyGenerator.Instance.GetAliveEnemyTotal();
+        int enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
         
         if (enemyTotal == 0)
         {
@@ -277,7 +277,7 @@ public class Player : Character
         }
         else
         {
-            List<Enemy> enemyList = EnemyGenerator.Instance.GetEnemyList;
+            List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
             
             raycastHitEnemies.Clear();
             int raycasthitEnemyNum = 0;
