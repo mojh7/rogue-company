@@ -184,6 +184,10 @@ public class WeaponManager : MonoBehaviour {
     /// </summary>
     public void AttackButtonUP()
     {
+        if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.PickAndDrop)
+        {
+            equipWeaponSlot[currentWeaponIndex].SetWeaponState(WeaponState.Idle);
+        }
         equipWeaponSlot[currentWeaponIndex].StopAttack();
     }
 
@@ -195,6 +199,7 @@ public class WeaponManager : MonoBehaviour {
         for(int i = 0; i < weaponCountMax; i++)
         {
             equipWeaponSlot[i].gameObject.SetActive(false);
+            equipWeaponSlot[i].SetWeaponState(WeaponState.Idle);
         }
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
     }
@@ -231,6 +236,7 @@ public class WeaponManager : MonoBehaviour {
     /// <param name="itemContainer"></param>
     public void PickAndDropWeapon(Item pickedWeapon, GameObject itemContainer)
     {
+        
         Weapon weapon = pickedWeapon as Weapon;
         // 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
         if (!canPickAndDropWeapon) return;
@@ -254,6 +260,7 @@ public class WeaponManager : MonoBehaviour {
             itemContainer.GetComponent<ItemContainer>().Init(dropedWeapon);
             dropedWeapon.ObjTransform.SetParent(itemContainer.transform, false);
         }
+        weapon.SetWeaponState(WeaponState.PickAndDrop);
         StartCoroutine("PickAndDropWeaponDelay");
     }
     #endregion

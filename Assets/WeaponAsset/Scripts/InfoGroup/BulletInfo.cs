@@ -17,6 +17,9 @@ public class BulletInfo : ScriptableObject
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
     public int damage;
+    public float knockBack;
+    public float criticalRate;
+
     public float speed;         // 속력
     public float acceleration;  // 가속도
     public float deltaSpeedTotalLimit;    // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
@@ -155,6 +158,9 @@ public class BulletInfo : ScriptableObject
 
         info.bulletName = bulletName;
         info.damage = damage;
+        info.knockBack = knockBack;
+        info.criticalRate = criticalRate;
+
         info.speed = speed;
         info.acceleration = acceleration;
         info.deltaSpeedTotalLimit = deltaSpeedTotalLimit;

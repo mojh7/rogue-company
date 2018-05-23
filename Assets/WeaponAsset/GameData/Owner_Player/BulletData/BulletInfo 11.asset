@@ -9,33 +9,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: BulletInfo 13
+  m_Name: BulletInfo 11
   m_EditorClassIdentifier: 
-  memo: "\uBD80\uCC44, wind \uCD1D\uC54C"
+  memo: "\uC124\uCE58\uB958 - \uBC14\uB098\uB098"
   bulletName: 
-  damage: 0
+  damage: 45
+  knockBack: 300
+  criticalRate: 0
   speed: 0
   acceleration: 0
   deltaSpeedTotalLimit: 0
   range: 0
-  scaleX: 2.5
-  scaleY: 2.5
+  scaleX: 1
+  scaleY: 1
   pierceCount: 1
   bounceCount: 0
-  lifeTime: -1
-  effectId: 3
-  spriteAnimation: 3
-  bulletSprite: {fileID: 0}
+  lifeTime: 5
+  effectId: 2
+  soundId: -1
+  spriteAnimation: 0
+  bulletSprite: {fileID: 21300000, guid: 7d9341c48b965844eb79ae6719359ae0, type: 3}
   showsScaleAnimation: 0
   showsRotationAnimation: 0
   showsParticle: 0
   isFixedAngle: 1
+  deleteAfterSummonBulletId: 15
+  deleteAfterSummonPatternId: 0
   bounceAble: 0
   collisionPropertiesEdit: 00000000
-  updatePropertiesEdit: 00000000
-  deletePropertiesEdit: 00000000
+  updatePropertiesEdit: 
+  deletePropertiesEdit: 02000000
   collisionPropertiesLength: 1
-  updatePropertiesLength: 1
+  updatePropertiesLength: 0
   deletePropertiesLength: 1
   summonBulletPattern:
     type: 0
@@ -43,3 +48,8 @@ MonoBehaviour:
     executionCount: 0
     delay: 0
   creationCycle: 0
+  deleteAfterSummonPattern:
+    type: 0
+    id: 0
+    executionCount: 0
+    delay: 0

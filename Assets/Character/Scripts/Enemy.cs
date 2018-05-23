@@ -27,6 +27,8 @@ public class Enemy : Character {
     {
         rgbody = GetComponent<Rigidbody2D>();
     }
+
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (State.ALIVE != pState)
@@ -38,7 +40,7 @@ public class Enemy : Character {
             if (hp<=0)
                 Die();
         }
-    }
+    }*/
 
 
     #endregion
@@ -49,7 +51,7 @@ public class Enemy : Character {
         pState = State.ALIVE;
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
-        hp = 5;
+        hp = 50;
     }
     protected override void Die()
     {
@@ -65,11 +67,43 @@ public class Enemy : Character {
         StopCoroutine(CoroutineAttacked());
         StartCoroutine(CoroutineAttacked());
     }
+
+    public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate)
+    {
+        if (State.ALIVE != pState)
+            return;
+
+        float criticalCheck = Random.Range(0f, 1f);
+        if(criticalCheck < criticalRate)
+        {
+            Debug.Log("critical Attack");
+        }
+        else
+        {
+            Debug.Log("normal Attack");
+        }
+
+        hp -= damage;
+
+            
+        // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
+        // rgbody.AddForce(knockBack * _dir);
+
+        rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
+
+        StopCoroutine(CoroutineAttacked());
+        StartCoroutine(CoroutineAttacked());
+
+        if (hp <= 0)
+            Die();
+    }
     IEnumerator CoroutineAttacked()
     {
         renderer.color = new Color(1, 0, 0);
         yield return YieldInstructionCache.WaitForSeconds(0.1f);
         renderer.color = new Color(1, 1, 1);
     }
+
+
     #endregion
 }

@@ -66,6 +66,11 @@ public abstract class CollisionProperty : BulletProperty
     public abstract void Collision(ref Collision2D coll);
     public abstract void Collision(ref Collider2D coll);
 
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+        bulletCollider2D = bullet.boxCollider;
+    }
 }
 
 // 일반 충돌
@@ -90,8 +95,10 @@ class BaseNormalCollisionProperty : CollisionProperty
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
         if (coll.transform.CompareTag("Enemy"))
         {
+            Debug.Log("collision ");
             // 공격 처리
-            // coll.Attacked();
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+
             Ignore(ref coll);
 
             // 관통 횟수 -1
@@ -140,8 +147,11 @@ class BaseNormalCollisionProperty : CollisionProperty
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
         if (coll.CompareTag("Enemy"))
         {
+            Debug.Log("Trigger ");
+
             // 공격 처리
-            // coll.Attacked();
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+
             Ignore(ref coll);
 
             // 관통 횟수 -1

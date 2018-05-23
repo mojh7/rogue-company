@@ -79,6 +79,14 @@ public class TestScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+
+        //for(int i = 0; i < 100; i++)
+        //{
+        //    Debug.Log(Random.Range(0f, 1f));
+        //}
+
+
         //ListTest();
         //Debug.Log(Abc(2));
         //Debug.Log(Abc(2f));

@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
         
 
     private Vector3 dirVector; // 총알 방향 벡터
-    private float degree;      // 총알 방향 각도.
+    private float dirDegree;      // 총알 방향 각도.
 
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
@@ -56,11 +56,10 @@ public class Bullet : MonoBehaviour
     public DelGetPosition GetOwnerPos() { return ownerPos; }
 
     // 현재 바라보는 방향의 euler z 각도 반환
-    public float GetDirDegree() {return objTransform.rotation.eulerAngles.z; }
     public Vector3 GetPosition() { return objTransform.position; }
     public float GetAddDirVecMagnitude() { return addDirVecMagnitude; }
 
-    public float GetDegree() { return degree; }
+    public float GetDirDegree() { return dirDegree; }
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
     #endregion
@@ -89,7 +88,7 @@ public class Bullet : MonoBehaviour
         }
     }
     #endregion
-    #region Function
+    #region function
     // 총알 class 초기화
 
     // 일반 총알 초기화 - position이랑 direction만 받음
@@ -107,7 +106,7 @@ public class Bullet : MonoBehaviour
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
-        degree = 0f;
+        dirDegree = 0f;
         dirVector = Vector3.right;
         SetDirection(direction);
     }
@@ -143,7 +142,7 @@ public class Bullet : MonoBehaviour
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
-        degree = 0f;
+        dirDegree = 0f;
         dirVector = Vector3.right;
         SetDirection(direction);
     }
@@ -164,12 +163,15 @@ public class Bullet : MonoBehaviour
         lineRenderer.endWidth = 0.4f;
         //lineRenderer.positionCount = 2;
 
+        spriteAnimatorObj.SetActive(false);
+        spriteRenderer.sprite = null;
+
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
         this.addDirVecMagnitude = addDirVecMagnitude;
         objTransform.position = ownerPos();
         InitPropertyClass();
-        bulletUpdate = StartCoroutine("BulletUpdate");
+        //bulletUpdate = StartCoroutine("BulletUpdate");
     }
 
     /// <summary>
@@ -257,35 +259,34 @@ public class Bullet : MonoBehaviour
     public void SetDirection(Vector3 dirVector)
     {
         this.dirVector = dirVector;
-        this.degree = dirVector.GetDegFromVector();
+        this.dirDegree = dirVector.GetDegFromVector();
         if (info.isFixedAngle == false)
         {
-            objTransform.rotation = Quaternion.Euler(0, 0, this.degree);
+            objTransform.rotation = Quaternion.Euler(0, 0, this.dirDegree);
         }
         objRigidbody.velocity = info.speed * dirVector;
-        Debug.Log(info.speed);
     }
 
     /// <summary> 해당 각도로 rotation.z 값을 설정하고 속도를 지정한다. </summary>
-    public void SetDirection(float degree)
+    public void SetDirection(float dirDegree)
     {
-        this.degree = degree;
-        dirVector = MathCalculator.VectorRotate(dirVector, degree);
+        this.dirDegree = dirDegree;
+        dirVector = MathCalculator.VectorRotate(dirVector, dirDegree);
         if (info.isFixedAngle == false)
         {
-            objTransform.rotation = Quaternion.Euler(0, 0, this.degree);
+            objTransform.rotation = Quaternion.Euler(0, 0, this.dirDegree);
         }
         objRigidbody.velocity = info.speed * dirVector;
     }
 
     /// <summary> 현재 방향의 각도와 방향벡터에서 매개변수로 받은 각도만큼 회전 및 속도를 지정한다. </summary>
-    public void RotateDirection(float degree)
+    public void RotateDirection(float dirDegree)
     {
-        this.degree += degree;
-        dirVector = MathCalculator.VectorRotate(dirVector, degree);
+        this.dirDegree += dirDegree;
+        dirVector = MathCalculator.VectorRotate(dirVector, dirDegree);
         if (info.isFixedAngle == false)
         {
-            objTransform.rotation = Quaternion.Euler(0, 0, this.degree);
+            objTransform.rotation = Quaternion.Euler(0, 0, this.dirDegree);
         }
         objRigidbody.velocity = info.speed * dirVector;
     }
@@ -321,7 +322,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
-        if (coll.transform.CompareTag("Wall"))
+        if (coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
         {
             //Debug.Log("Collision 벽 충돌");
             for (int i = 0; i < info.collisionPropertiesLength; i++)
@@ -334,7 +335,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
-        if (coll.CompareTag("Wall"))
+        if (coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
         {
             //Debug.Log("Trigger 벽 충돌");
             for (int i = 0; i < info.collisionPropertiesLength; i++)

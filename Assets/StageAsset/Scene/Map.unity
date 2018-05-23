@@ -540,6 +540,48 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1001 &537734706
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 12.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015020130621506, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: ac57fb9460b3ea446ada6c3e5b54e0ee, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &572565051
 GameObject:
   m_ObjectHideFlags: 0

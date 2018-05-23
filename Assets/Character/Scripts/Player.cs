@@ -23,6 +23,7 @@ struct RaycasthitEnemy
 
 public abstract class Character : MonoBehaviour
 {
+    #region variables
     public CircleCollider2D interactiveCollider2D;
     public float moveSpeed;     // Character move Speed
 
@@ -44,9 +45,13 @@ public abstract class Character : MonoBehaviour
 
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
+    #endregion
 
+
+    /*--abstract--*/
     protected abstract void Die();
     protected abstract void Attacked(Vector2 _dir);
+    public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate);
 
     
 
@@ -83,7 +88,7 @@ public class Player : Character
     private RaycastHit2D hit;
     private List<RaycasthitEnemy> raycastHitEnemies;
     private RaycasthitEnemy raycasthitEnemyInfo;
-    private int layerMask;
+    private int layerMask;  // autoAim을 위한 layerMask
 
     #endregion
 
@@ -125,7 +130,7 @@ public class Player : Character
 
     //for debug
     bool canAutoAim = false;
-    bool updateAutoAim = false;
+    bool updateAutoAim = true;
 
     // Update is called once per frame
     void Update()
@@ -191,6 +196,13 @@ public class Player : Character
     {
         throw new System.NotImplementedException();
     }
+
+    public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate)
+    {
+        throw new System.NotImplementedException();
+    }
+
+
     public bool Interact()
     {
         float bestDistance = interactiveCollider2D.radius * 10;
@@ -252,6 +264,8 @@ public class Player : Character
         else return false;
     }
 
+    
+
     public void SetAim()
     {       
         int enemyTotal = EnemyGenerator.Instance.GetAliveEnemyTotal();
@@ -306,6 +320,8 @@ public class Player : Character
             directionDegree = directionVector.GetDegFromVector();
         }
     }
+
+    
     #endregion
 }
 

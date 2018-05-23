@@ -9,21 +9,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: "BulletInfo 16 \uC720\uB3C4 \uCD1D\uC54C"
+  m_Name: BulletInfo 6
   m_EditorClassIdentifier: 
-  memo: "\uC720\uB3C4 \uCD1D\uC54C\n"
+  memo: "\uC77C\uB82C \uCD1D\uC54C 3\uAC1C\n"
   bulletName: 
-  damage: 0
-  speed: 3
+  damage: 3
+  knockBack: 120
+  criticalRate: 0
+  speed: 0
   acceleration: 0
   deltaSpeedTotalLimit: 0
-  range: 30
+  range: 0
   scaleX: 1.5
   scaleY: 1.5
   pierceCount: 1
   bounceCount: 0
   lifeTime: -1
-  effectId: 0
+  effectId: 2
   soundId: -1
   spriteAnimation: 0
   bulletSprite: {fileID: 21300004, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
@@ -35,7 +37,7 @@ MonoBehaviour:
   deleteAfterSummonPatternId: 0
   bounceAble: 0
   collisionPropertiesEdit: 00000000
-  updatePropertiesEdit: 04000000
+  updatePropertiesEdit: 00000000
   deletePropertiesEdit: 00000000
   collisionPropertiesLength: 1
   updatePropertiesLength: 1

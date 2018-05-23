@@ -15,7 +15,7 @@ using WeaponAsset;
 //public enum TouchType { Normal, Charged }
 
 
-public enum WeaponState { Idle, Attack, Reload, Charge, Switch }
+public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
 public enum Owner { Player, Enemy, Object  }
 /* # 
  *  -
@@ -65,6 +65,7 @@ public class Weapon : Item {
     public void SetOwnerDirVec(DelGetPosition ownerDirVec) { this.ownerDirVec = ownerDirVec; }
     public void SetOwnerPos(DelGetPosition ownerPos) { this.ownerPos = ownerPos; }
     public void SetOwnerBuff(BuffManager ownerBuff) { this.ownerBuff = ownerBuff; }
+    public void SetWeaponState(WeaponState state) { weaponState = state; }
     #endregion
 
     #region UnityFunction
