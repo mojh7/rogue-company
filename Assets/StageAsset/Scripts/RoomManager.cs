@@ -43,26 +43,29 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         }
     } // 작동 가능여부 turn
 
-    void EnableObjects()
-    {
-        if (!currentRoom.isRoom)
-            return;
-        for (int j = 0; j < currentRoom.customObjects.Length; j++)
-            currentRoom.customObjects[j].SetActive(true);
-    }
+    //void EnableObjects()
+    //{
+    //    if (!currentRoom.isRoom)
+    //        return;
+    //    for (int j = 0; j < currentRoom.customObjects.Length; j++)
+    //        currentRoom.customObjects[j].SetActive(true);
+    //}
 
     void ClearRoom()
     {
+        MiniMap.Instance.HideMiniMap();
         DoorSetAvailable();
         ObjectSetAvailable();
         FindCurrentRoom();
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea());
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
-            for(int i = 0; i < currentRoom.customObjects.Length; i++)
+            for (int i = 0; i < currentRoom.customObjects.Length; i++)
             {
                 if (currentRoom.customObjects[i].GetComponent<Portal>() != null)
-                    currentRoom.customObjects[i].GetComponent<Portal>().Active();
+                {
+                    currentRoom.customObjects[i].SetActive(true);
+                }
             }
         }
     }
@@ -78,26 +81,27 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 if (currentRoom.customObjects[j].GetComponent<Spawner>() != null)
                 {
                     currentRoom.customObjects[j].GetComponent<Spawner>().Active();
+                    break;
                 }
             }
         }
     } // 몬스터 소환
 
-    public void DisableObjects()
-    {
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            DisalbeObject(roomList[i]);
-        }
-    }
+    //public void DisableObjects()
+    //{
+    //    for (int i = 0; i < roomList.Count; i++)
+    //    {
+    //        DisalbeObject(roomList[i]);
+    //    }
+    //}
 
-    void DisalbeObject(Map.Rect _room)
-    {
-        if (_room.customObjects == null)
-            return;
-        for (int j = 0; j < _room.customObjects.Length; j++)
-            _room.customObjects[j].SetActive(false);
-    }
+    //void DisalbeObject(Map.Rect _room)
+    //{
+    //    if (_room.customObjects == null)
+    //        return;
+    //    for (int j = 0; j < _room.customObjects.Length; j++)
+    //        _room.customObjects[j].SetActive(false);
+    //}
 
     public Vector3 Spawned()
     {
@@ -133,6 +137,15 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         StartCoroutine("FindRoomCoroutine");
     }
 
+    void InitRoom()
+    {
+        MiniMap.Instance.HideMiniMap();
+        DoorSetAvailable();
+        ObjectSetAvailable();
+        currentRoom.maskObject.SetActive(true);
+        MiniMap.Instance.DrawRoom(currentRoom);
+    }
+
     IEnumerator FindRoomCoroutine() // 현재 방 찾기 코루틴
     {
         while (true)
@@ -140,26 +153,18 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             if (!currentRoom.isClear)
             {
                 currentRoom.isClear = true;
-                EnableObjects();
                 if (currentRoom.eRoomType == RoomType.BOSS)
                 {
-                    DoorSetAvailable();
-                    ObjectSetAvailable();
-                    UIManager.Instance.TogglePreventObj();
-                    currentRoom.maskObject.SetActive(true);
-                    MiniMap.Instance.DrawRoom(currentRoom);
-                    StartCoroutine(CoroutineBossRoom());
+                    InitRoom();
+                    InitBossRoom();
                     break;
                 }
                 else
                 {
                     if (currentRoom.gage > 0)
                     {
-                        DoorSetAvailable();
-                        ObjectSetAvailable();
+                        InitRoom();
                         SpawnMonster();
-                        currentRoom.maskObject.SetActive(true);
-                        MiniMap.Instance.DrawRoom(currentRoom);
                         break;
                     }
                 }
@@ -173,9 +178,18 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         }
     }
 
-    IEnumerator CoroutineBossRoom()
+    void InitBossRoom()
     {
-        yield return YieldInstructionCache.WaitForSeconds(1f);
+        StartCoroutine(CoroutineBoss());
+    }
+
+    IEnumerator CoroutineBoss()
+    {
+        UIManager.Instance.TogglePreventObj();
+        //Time.timeScale = 0;
+        yield return YieldInstructionCache.WaitForSeconds(3);
+        UIManager.Instance.TogglePreventObj();
+        //Time.timeScale = 1.0f;
         SpawnMonster();
     }
 

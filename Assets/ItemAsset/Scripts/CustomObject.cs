@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, SPAWNER}
+public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL}
 
 public class CustomObject : MonoBehaviour {
 
@@ -267,12 +267,17 @@ public class Portal : CustomObject
     {
         base.Init();
         isActive = false;
-        isAvailable = false;
-        objectType = ObjectType.NONE;
+        isAvailable = true;
+        objectType = ObjectType.PORTAL;
+    }
+    public override void SetAvailable()
+    {
+        this.gameObject.SetActive(false);
     }
     public override void Active()
     {
         base.Active();
+        GamaManager.Instance.GoUpFloor();
         Debug.Log("PlayerEnd");
     }
 }

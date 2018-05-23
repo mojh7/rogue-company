@@ -13,7 +13,7 @@ namespace Map
         [Space(10)]
         [Header("variable")]
         public int width = 1;
-        public int height = 1, size = 3, area = 3, floor = 1;
+        public int height = 1, size = 3, area = 3;
         public float maxHallRate = 0.15f;
         Map map;
         public void LightTurn()
@@ -23,13 +23,14 @@ namespace Map
             else
                 spriteMaterial.color = Color.white;
         }
-        public void GenerateMap()
+        public void GenerateMap(int _floor)
         {
             if (map != null)
             {
+                map.Destruct();
                 map = null;
             }
-            map = new Map(width, height, size, area, maxHallRate, floor, objectPool);
+            map = new Map(width, height, size, area, maxHallRate, _floor, objectPool);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
             RoomManager.Instance.InitRoomList();
@@ -76,6 +77,10 @@ namespace Map
             shadowTileMap = TileManager.GetInstance().shadowTileMap;
         } // 생성자
 
+        public void Destruct()
+        {
+            RefreshData();
+        }
         public List<Rect> GetList(out Rect currentRoom)
         {
             currentRoom = halls[0];
@@ -556,7 +561,8 @@ namespace Map
 
             for (int i = 0; i < _rect.edgeRect.Count; i++)
             {
-                if ((_rect.isRoom || _rect.edgeRect[i].isRoom) && !_rect.edgeRect[i].visited && _rect.eRoomType != RoomType.BOSS)
+                if ((_rect.isRoom || _rect.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/ &&
+                    !_rect.edgeRect[i].visited/*방문한 적 없어야함*/ && _rect.eRoomType != RoomType.BOSS/*보스방이 아니어야함*/)
                 {
                     DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
                     _rect.LinkedEdgeRect(_rect.edgeRect[i]);
@@ -571,7 +577,7 @@ namespace Map
             {
                 for (int i = 0; i < halls[indx].edgeRect.Count; i++)
                 {
-                    if (CoinFlip(70) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    if (CoinFlip(100) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
                     {
                         DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
                     }
@@ -713,12 +719,14 @@ namespace Map
                 return null;
             List<GameObject> customObjects = new List<GameObject>(_roomSet.objectDatas.Count);
             int index = 0;
+
             for (int i = 0; i < _roomSet.objectDatas.Count; i++)
             {
-                if (_roomSet.width * size - size <= _roomSet.objectDatas[i].position.x
-                    || _roomSet.height * size - size <= _roomSet.objectDatas[i].position.y
+                if (_roomSet.width * size - size <= _roomSet.objectDatas[i].position.x /*범위안에 있는지 확인*/
+                    || _roomSet.height * size - size <= _roomSet.objectDatas[i].position.y /*범위안에 있는지 확인*/
                     && _roomSet.objectDatas[i].objectType != ObjectType.SPAWNER)
                     continue;
+                Debug.Log(_roomSet.objectDatas[i].objectType);
                 customObjects.Add(objectPool.GetPooledObject());
                 customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
                 _roomSet.objectDatas[i].LoadObject(customObjects[index]);

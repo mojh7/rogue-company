@@ -67,6 +67,11 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
         texture.Apply();
     } // 미니맵 그리는 함수
 
+    public void HideMiniMap()
+    {
+        this.gameObject.SetActive(!this.gameObject.activeSelf);
+    }
+
     void DrawIcon(Map.Rect _rect)
     {
         if (!_rect.isRoom)
