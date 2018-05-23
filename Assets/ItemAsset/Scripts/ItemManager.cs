@@ -28,7 +28,9 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             Destroy(objs.Dequeue());
         }
     }
-
+    /// <summary>
+    /// 아이템 _position 방향으로 던짐
+    /// </summary>
     public void DropItem(Vector3 _position)
     {
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
@@ -40,13 +42,11 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         obj.GetComponent<ItemContainer>().Init(Item.GetComponent<Item>());
         StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1,2), 5)));
     }
-    /// <summary>
-    /// 아이템 포물선 방향으로 던짐
-    /// </summary>
+  
     IEnumerator CoroutineDropping(GameObject _object, Vector2 _vector)
     {
         int g = 20;
-        float floor = _object.transform.position.y;
+        float lowerLimit = _object.transform.position.y;
         float elapsed_time = 0;
         float sX = _object.transform.position.x;
         float sY = _object.transform.position.y;
@@ -59,7 +59,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             float x = sX + vX * elapsed_time;
             float y = sY + vY * elapsed_time - (0.5f * g * elapsed_time * elapsed_time);
             _object.transform.position = new Vector3(x,y,sZ);
-            if (_object.transform.position.y <= floor)
+            if (_object.transform.position.y <= lowerLimit)
                 break;
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }

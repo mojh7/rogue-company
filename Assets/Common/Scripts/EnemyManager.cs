@@ -40,6 +40,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         GameObject obj = objectPool.GetPooledObject();
         Sprite sprite = sprites[Mathf.Clamp(_floor, 0, sprites.Length - 1)];
         obj.transform.position = _position;
+        obj.transform.localScale = new Vector3(2, 2, 0);
         enemy = obj.GetComponent<Enemy>();
         enemy.Init(sprite);
         enemyList.Add(enemy);

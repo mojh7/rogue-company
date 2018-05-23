@@ -7,6 +7,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     enum GameState { NOTSTARTED, GAMEOVER, PLAYING, CLEAR, ENDING }
     GameState gameState = GameState.NOTSTARTED;
     Player.PlayerType m_playerType;
+    float floor;
 
     #region setter
     public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
@@ -17,9 +18,6 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     {
         DontDestroyOnLoad(this);
         Title.Instance.LoadLogoTitle();
-    }
-    private void Update()
-    {
     }
     #endregion
 
