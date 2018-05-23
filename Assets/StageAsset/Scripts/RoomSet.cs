@@ -81,6 +81,11 @@ public struct ObjectData
                 _gameObject.GetComponent<Spawner>().sprite = null;
                 _gameObject.GetComponent<Spawner>().Init();
                 break;
+            case ObjectType.PORTAL:
+                _gameObject.AddComponent<Portal>();
+                _gameObject.GetComponent<Portal>().sprites = sprites;
+                _gameObject.GetComponent<Portal>().Init();
+                break;
         }
 
         return _gameObject;

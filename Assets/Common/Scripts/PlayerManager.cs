@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
 
     public GameObject playerPrefab;
-    GameObject playerObj;
     GameObject m_playerObj;
 
     // 0513 모장현
@@ -21,11 +20,17 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
         return m_playerObj.transform.position;
     }
 
+    public void DeletePlayer()
+    {
+        Destroy(m_playerObj);
+    }
+
     public void SpawnPlayer()
     {
         m_playerObj = Instantiate(playerPrefab,RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
         RoomManager.Instance.FindCurrentRoom(); // 플레이어 방찾기.
     }
+
     #region UnityFunc
     #endregion
 }

@@ -88,7 +88,7 @@ public class MapEditor : EditorWindow
         gameObject.name = "Object";
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
-        gameObject.AddComponent<BoxCollider2D>();
+        gameObject.AddComponent<PolygonCollider2D>();
 
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
@@ -103,7 +103,7 @@ public class MapEditor : EditorWindow
         gameObject.name = "Object";
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
-        gameObject.AddComponent<BoxCollider2D>();
+        gameObject.AddComponent<PolygonCollider2D>();
 
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
@@ -176,6 +176,7 @@ public class MapEditor : EditorWindow
         EditorUtility.FocusProjectWindow();
         Selection.activeObject = _roomSet;
     }
+
     void CreateTilemap()
     {
         if (obj == null || size == 0 || width == 0 || height == 0)
@@ -256,11 +257,12 @@ public class MapEditor : EditorWindow
     {
         GameObject gameObject = new GameObject();
         gameObject.AddComponent<SpriteRenderer>();
-        gameObject.AddComponent<BoxCollider2D>();
+        gameObject.AddComponent<PolygonCollider2D>();
         _objectData.LoadObject(gameObject);
         gameObject.name = "Object";
         gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);
         gameObject.transform.parent = roomObj.transform;
-        gameObject.GetComponent<SpriteRenderer>().sprite = _objectData.sprites[0];
+        if(_objectData.sprites.Length > 0)
+            gameObject.GetComponent<SpriteRenderer>().sprite = _objectData.sprites[0];
     }
 }

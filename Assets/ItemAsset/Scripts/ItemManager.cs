@@ -5,17 +5,28 @@ using UnityEngine;
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public GameObject customObject;
     public Sprite sprite;
-
-    // 0513 모장현
+    Queue<GameObject> objs;
+     // 0513 모장현
     [SerializeField]
     private GameObject wepaonPrefab;
 
     public void CallItemBox(Vector3 _position)
     {
+        if (objs == null)
+            objs = new Queue<GameObject>();
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
+        objs.Enqueue(obj);
         obj.AddComponent<ItemBox>();
         obj.GetComponent<ItemBox>().sprite = sprite;
         obj.GetComponent<ItemBox>().Init();
+    }
+
+    public void DeleteObjs()
+    {
+        while(objs.Count>0)
+        {
+            Destroy(objs.Dequeue());
+        }
     }
 
     public void DropItem(Vector3 _position)
