@@ -68,7 +68,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
         }
         for (int i = 0; i < roomList.Count; i++)
         {
-            if(!roomList[i].isRoom)
+            //if(!roomList[i].isRoom)
                 DrawRoom(roomList[i]);
         }
         for (int i = 0; i < minmapSizeWidth; i++)

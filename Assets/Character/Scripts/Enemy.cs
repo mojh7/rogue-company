@@ -5,6 +5,9 @@ using UnityEngine;
 public class Enemy : Character {
 
     public new SpriteRenderer renderer;
+
+    public bool isKnockBack;
+
     #region setter
     #endregion
 
@@ -16,6 +19,7 @@ public class Enemy : Character {
     private void Awake()
     {
         rgbody = GetComponent<Rigidbody2D>();
+        isKnockBack = false;
     }
 
     private void Update()
@@ -46,7 +50,7 @@ public class Enemy : Character {
         pState = State.ALIVE;
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
-        hp = 7;
+        hp = 8;
 
         // 0526 임시용
         weaponManager = GetComponentInChildren<WeaponManager>();
@@ -77,11 +81,16 @@ public class Enemy : Character {
         }*/
 
         hp -= damage;
-        
+        if (knockBack > 0)
+            isKnockBack = true;
+
         // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
+        rgbody.velocity = Vector3.zero;
         rgbody.AddForce(knockBack * _dir);
         //rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
 
+        StopCoroutine(KnockBackCheck());
+        StartCoroutine(KnockBackCheck());
         StopCoroutine(CoroutineAttacked());
         StartCoroutine(CoroutineAttacked());
         if (hp <= 0)
@@ -94,6 +103,21 @@ public class Enemy : Character {
         renderer.color = new Color(1, 1, 1);
     }
 
+    IEnumerator KnockBackCheck()
+    {
+        
+        while(true)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
+            {
+                isKnockBack = false;
+            }
+        }
+        
+        /*yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime * 25);
+        isKnockBack = false;*/
+    }
 
     // 0526 땜빵
 

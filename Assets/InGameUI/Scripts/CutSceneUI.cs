@@ -18,6 +18,9 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
     /// <param name="_textDir">문자가 날아오는 방향</param>
     public void ShowCutScene(Vector2 _bgDir, Vector2 _chDir, Vector2 _textDir)
     {
+        Vector2 bgDest = bgImage.rectTransform.localPosition;
+        Vector2 chDest = chImage.rectTransform.localPosition;
+        Vector2 textDest = text.rectTransform.localPosition;
         panel.SetActive(true);
         _bgDir.Normalize();
         _chDir.Normalize();
@@ -27,9 +30,9 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
         bgImage.rectTransform.localPosition = new Vector2(_bgDir.x * width, _bgDir.y * height);
         chImage.rectTransform.localPosition = new Vector2(_chDir.x * width, _chDir.y * height);
         text.rectTransform.localPosition = new Vector2(_textDir.x * width, _textDir.y * height);
-        MoveToTarget(bgImage.transform, Vector2.zero, 0.5f);
-        MoveToTarget(chImage.transform, Vector2.zero, 0.6f);
-        MoveToTarget(text.transform, Vector2.zero, 0.7f);
+        MoveToTarget(bgImage.transform, bgDest, 0.5f);
+        MoveToTarget(chImage.transform, chDest, 0.6f);
+        MoveToTarget(text.transform, textDest, 0.7f);
     }
     public void Hide() { panel.SetActive(false); }
     public void SetCharacter(Sprite _sprite)

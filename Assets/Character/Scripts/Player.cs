@@ -137,6 +137,9 @@ public class Player : Character
         layerMask = 1 << LayerMask.NameToLayer("Wall");
         Physics2D.IgnoreLayerCollision(16, 13); // enemy 본체랑 충돌 무시
         Init();
+
+        // 임시로 배경음악 시작
+        AudioManager.Instance.PlayMusic(0);
     }
 
     //for debug

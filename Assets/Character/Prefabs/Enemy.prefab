@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 61499521210896754}
   - component: {fileID: 50190816242305214}
   - component: {fileID: 114547188195020388}
+  - component: {fileID: 114825992070302146}
   m_Layer: 13
   m_Name: Enemy
   m_TagString: Enemy
@@ -184,6 +185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4987181072416540}
   - component: {fileID: 212546812185349730}
+  - component: {fileID: 95207714401442542}
   m_Layer: 13
   m_Name: EnemySprite
   m_TagString: Untagged
@@ -355,8 +357,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDrag: 5
+  m_Mass: 1
+  m_LinearDrag: 3
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 9f0a694e942690d4d9b5af99cea51413, type: 2}
@@ -414,6 +416,23 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: a1e1343d05487bc41a3ba2df107b355f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95207714401442542
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691559608275742}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: afc6cf34dffbf4342a11f38d9501025e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -480,11 +499,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveCollider2D: {fileID: 58961062934300914}
-  moveSpeed: 1
+  moveSpeed: 6.5
   hp: 0
   weaponManager: {fileID: 114111894182339084}
   spriteObjTransform: {fileID: 4987181072416540}
   renderer: {fileID: 212546812185349730}
+  isKnockBack: 0
+--- !u!114 &114825992070302146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165641018333586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3497bfed6182cb046a2146bcdd5d8ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198531737243777812
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -545,7 +576,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1227590247
+  randomSeed: -663314274
   InitialModule:
     serializedVersion: 3
     enabled: 1

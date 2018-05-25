@@ -29,7 +29,7 @@ MonoBehaviour:
   effectId: 0
   soundId: -1
   spriteAnimation: 0
-  bulletSprite: {fileID: 21300062, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
+  bulletSprite: {fileID: 21300048, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
   showsScaleAnimation: 0
   showsRotationAnimation: 0
   showsParticle: 0
