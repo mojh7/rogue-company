@@ -195,7 +195,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         UIManager.Instance.TogglePreventObj();
         CutSceneUI.Instance.SetCharacter(EnemyManager.Instance.GetBossSprite(InGameManager.Instance.GetFloor()));
-        CutSceneUI.Instance.ShowCutScene(new Vector2(1, 1), Vector2.right, Vector2.right);
+        CutSceneUI.Instance.ShowCutScene(Vector2.right, Vector2.down, Vector2.up);
     }
 
     void BossSceneEnd()
