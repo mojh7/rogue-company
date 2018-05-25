@@ -43,6 +43,7 @@ public class Bullet : MonoBehaviour
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;      // 총알 방향 각도.
 
+    private OwnerType ownerType;
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
     private float addDirVecMagnitude;
@@ -52,6 +53,7 @@ public class Bullet : MonoBehaviour
     #endregion
     #region getter
     public LineRenderer GetLineRenderer() { return lineRenderer; }
+    public OwnerType GetOwnerType() { return ownerType; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
 
@@ -75,9 +77,11 @@ public class Bullet : MonoBehaviour
         objRigidbody = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
         animator = GetComponentInChildren<Animator>();
-        // 총알 끼리 무시, 총알 레이어 무시, 현재 임시로 Bullet layer 15번, Wall layer 14번 쓰고 있음.
-        Physics2D.IgnoreLayerCollision(15, 15);
-        Physics2D.IgnoreLayerCollision(15, 16);
+        // 총알 끼리 무시, 총알 레이어 무시, 현재 임시로 Enemy 13, Wall 14, Bullet 15, Player 16번 쓰고 있음.
+        // Physics2D.IgnoreLayerCollision(15, 15);
+        // edit -> project settings -> physics2D 에서 레이어별 충돌 무시 설정 가능, 거기서 일단 설정했음
+        // PlayerBullet, Player 충돌 무시
+        // EnemyBullet, Enemy 충돌 무시
     }
 
     private void FixedUpdate()
@@ -92,12 +96,15 @@ public class Bullet : MonoBehaviour
     // 총알 class 초기화
 
     // 일반 총알 초기화 - position이랑 direction만 받음
-    public void Init(int bulletId, Vector3 pos, float direction = 0)
+    public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction = 0)
     {
-        info = DataStore.Instance.GetBulletInfo(bulletId);
+        info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
         // 투사체 총알 속성 초기화
         InitProjectileProperty();
+
+        // Owner 정보 초기화
+        InitOwnerInfo(ownerType);
 
         // 총알 속성들 초기화
         InitPropertyClass();
@@ -112,9 +119,9 @@ public class Bullet : MonoBehaviour
     }
 
     // 일반 총알 초기화
-    public void Init(int bulletId, float speed, float range, int effectId, Vector3 pos, float direction)
+    public void Init(int bulletId, OwnerType ownerType, float speed, float range, int effectId, Vector3 pos, float direction)
     {
-        info = DataStore.Instance.GetBulletInfo(bulletId);
+        info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
         // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
         if (speed != 0)
@@ -132,11 +139,16 @@ public class Bullet : MonoBehaviour
 
         //--------------------------------
 
+
         // 투사체 총알 속성 초기화
         InitProjectileProperty();
 
+        // Owner 정보 초기화
+        InitOwnerInfo(ownerType);
+
         // 총알 속성들 초기화
         InitPropertyClass();
+
 
         // 처음 위치 설정
         objTransform.position = pos;
@@ -149,9 +161,9 @@ public class Bullet : MonoBehaviour
 
     // 레이저 총알 초기화
     // 레이저 나중에 빔 모양 말고 처음 시작 지점, raycast hit된 지점에 동그란 원 추가 생성 할 수도 있음.
-    public void Init(int bulletId, float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec)
+    public void Init(int bulletId, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec)
     {
-        info = DataStore.Instance.GetBulletInfo(bulletId);
+        info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
         // component on/off
         boxCollider.enabled = false;
         circleCollider.enabled = false;
@@ -163,6 +175,9 @@ public class Bullet : MonoBehaviour
         lineRenderer.endWidth = 0.4f;
         //lineRenderer.positionCount = 2;
 
+        // Owner 정보 초기화
+        InitOwnerInfo(ownerType);
+
         spriteAnimatorObj.SetActive(false);
         spriteRenderer.sprite = null;
 
@@ -172,6 +187,24 @@ public class Bullet : MonoBehaviour
         objTransform.position = ownerPos();
         InitPropertyClass();
         //bulletUpdate = StartCoroutine("BulletUpdate");
+    }
+
+    private void InitOwnerInfo(OwnerType ownerType)
+    {
+        this.ownerType = ownerType;
+        // Enemy 13, Wall 14, Bullet 15, Player 16번
+        switch (ownerType)
+        {
+            case OwnerType.Enemy:
+                gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+                break;
+            case OwnerType.Player:
+                gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
+                break;
+            default:
+                break;
+        }
+
     }
 
     /// <summary>
@@ -322,7 +355,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
-        if (coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
+        if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
         {
             //Debug.Log("Collision 벽 충돌");
             for (int i = 0; i < info.collisionPropertiesLength; i++)
@@ -335,7 +368,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
-        if (coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
+        if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
         {
             //Debug.Log("Trigger 벽 충돌");
             for (int i = 0; i < info.collisionPropertiesLength; i++)

@@ -14,7 +14,7 @@ MonoBehaviour:
   memo: "\uB178\uB791\uC0C9 \uC77C\uBC18 \uCD1D\uC54C"
   bulletName: "\uC77C\uBC18 \uCD1D\uC54C"
   damage: 1
-  knockBack: 50
+  knockBack: 200
   criticalRate: 0.5
   speed: 6
   acceleration: 0

@@ -79,7 +79,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     public GameObject CreateWeapon(int weaponId, Vector3 pos, Transform parent, bool worldPositionStays = true)
     {
         GameObject createdObj = weaponPool.NewItem();
-        createdObj.GetComponent<Weapon>().Init(weaponId);
+        createdObj.GetComponent<Weapon>().Init(weaponId, OwnerType.Player);
         createdObj.GetComponent<Transform>().position = pos;
         createdObj.GetComponent<Transform>().SetParent(parent, worldPositionStays);
         return createdObj;

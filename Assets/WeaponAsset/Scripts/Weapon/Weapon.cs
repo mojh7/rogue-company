@@ -15,8 +15,7 @@ using WeaponAsset;
 //public enum TouchType { Normal, Charged }
 
 
-public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
-public enum Owner { Player, Enemy, Object  }
+
 /* # 
  *  -
  * # WeaponView
@@ -36,6 +35,7 @@ public class Weapon : Item {
     private Transform objTransform;
     private SpriteRenderer spriteRenderer;
 
+    private OwnerType ownerType;
     private DelGetDirDegree ownerDirDegree;   // 소유자 각도
     private DelGetPosition ownerDirVec; // 소유자 각도 벡터(vector3)
     private DelGetPosition ownerPos;    // 소유자 초기 위치(vector3)
@@ -54,6 +54,7 @@ public class Weapon : Item {
     #endregion
     #region getter
     public Transform ObjTransform { get { return objTransform; } set { objTransform = value; } }
+    public OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
@@ -79,8 +80,10 @@ public class Weapon : Item {
 
 
     // DataStore에서 무기 정보 받아오기, weaponView class 초기화
-    public void Init(int weaponId)
+    public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)
     {
+        this.ownerType = ownerType;
+
         // 디버그용으로 -1값으로 들어오면 inspector창에 설정된 weaponID로 초기화 됨
         if (weaponId >= 0)
         {
@@ -88,8 +91,7 @@ public class Weapon : Item {
         }
 
         // id에 따른 무기 정보 받아오기
-        info = DataStore.Instance.GetWeaponInfo(this.weaponId);
-
+        info = DataStore.Instance.GetWeaponInfo(this.weaponId, ownerType);
         objTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         weaponView = new WeaponView(objTransform, spriteRenderer);
@@ -117,10 +119,14 @@ public class Weapon : Item {
     public void RegisterWeapon(WeaponManager weaponManager)
     {
         this.weaponManager = weaponManager;
+
+        ownerType = weaponManager.GetOwnerType();
+
         ownerDirDegree = weaponManager.GetOwnerDirDegree();
         ownerDirVec = weaponManager.GetOwnerDirVec();
         ownerPos = weaponManager.GetOwnerPos();
         ownerBuff = weaponManager.GetOwnerBuff();
+
 
         // 공격 패턴(bulletPattern) 초기화
         for (int i = 0; i < info.bulletPatternsLength; i++)
@@ -242,12 +248,13 @@ public class Weapon : Item {
         // 공격 한 사이클 실행
         for (int i = 0; i < info.bulletPatternsLength; i++)
         {
+            
             for(int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
             {
                 // 공격 사운드 실행
                 AudioManager.Instance.PlaySound(info.soundId);
 
-                info.bulletPatterns[i].StartAttack(damageIncreaseRate);
+                info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
                 if(info.bulletPatterns[i].GetDelay() > 0)
                 {
                     yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[i].GetDelay());

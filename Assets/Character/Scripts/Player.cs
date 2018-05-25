@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponAsset;
 
 /*
 #region variables
@@ -15,11 +16,17 @@ using UnityEngine;
 #endregion
 */
 
+public enum OwnerType { Player, Enemy, Object }
+
 struct RaycasthitEnemy
 {
     public int index;
     public float distance;
 }
+
+// 무기 매니저를 착용 하고 쓸 수 있는 owner들 (player, character, object)에서 써야 될 함수 변수들에 대한 걸 따로 묶어서 인터페이스화 해서 쓸 예정
+// 그래야 character는 palyer, enemy에만 적용 하는건데 무기 착용 object에 대한 처리가 애매해짐.
+
 
 public abstract class Character : MonoBehaviour
 {
@@ -30,33 +37,49 @@ public abstract class Character : MonoBehaviour
     protected enum State { NOTSPAWNED, DIE, ALIVE }
     protected Sprite sprite;
     protected Animator animator;
-    protected float hp;
+    //protected float hp;
+    public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     protected State pState;
     protected Rigidbody2D rgbody;
     //public CircleCollider2D interactiveCollider2D;
     //public float moveSpeed;     // Character move Speed
 
     protected bool isAutoAiming;    // 오토에임 적용 유무
+    [SerializeField]
+    protected WeaponManager weaponManager;
 
     protected Vector3 directionVector;
     protected float directionDegree;  // 바라보는 각도(총구 방향)
     [SerializeField]
     protected Transform spriteObjTransform; // sprite 컴포넌트가 붙여있는 object, player에 경우 inspector 창에서 붙여줌
 
+    protected bool isRightDirection;    // character 방향이 우측이냐(true) 아니냐(flase = 좌측)
+
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
+
+
     #endregion
 
+    #region getter
+    public virtual bool GetRightDirection() { return isRightDirection; }
+    public virtual Vector3 GetDirVector()
+    {
+        return directionVector;
+    }
+    public virtual float GetDirDegree()
+    {
+        return directionDegree;
+    }
+    public virtual Vector3 GetPosition() { return transform.position; }
+    public virtual WeaponManager GetWeaponManager() { return weaponManager; }
+    #endregion
 
     /*--abstract--*/
     protected abstract void Die();
-    protected abstract void Attacked(Vector2 _dir);
     public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate);
 
     
-
-    public abstract Vector3 GetDirVector();
-    public abstract float GetDirDegree();
     /**/
 
 }
@@ -69,7 +92,6 @@ public class Player : Character
 {
     #region variables
     public enum PlayerType { MUSIC, SOCCER, FISH, ARMY }
-    public enum PlayerState { IDLE, DASH, KNOCKBACK, DEAD }
     //public Joystick joystick;
 
 
@@ -77,37 +99,26 @@ public class Player : Character
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
     private BuffManager buffManager;
     private Transform objTransform;
-    private PlayerState state;
     /// <summary> player 크기 </summary>
     private float playerScale;
-        
-    private bool isRightDirection;    // player 방향이 우측이냐(true) 아니냐(flase = 좌측)
-
-    public WeaponManager weaponManager;
 
     private RaycastHit2D hit;
     private List<RaycasthitEnemy> raycastHitEnemies;
     private RaycasthitEnemy raycasthitEnemyInfo;
     private int layerMask;  // autoAim을 위한 layerMask
 
+    [SerializeField]
+    private new SpriteRenderer renderer;
+
+    [SerializeField]
+    private PlayerHPUI playerHpUi;
     #endregion
 
     #region getter
     public PlayerController PlayerController { get { return controller; } }
-    public PlayerState State { get { return state; } }
-    public bool GetRightDirection(){ return isRightDirection; }
     public Vector3 GetInputVector () { return controller.GetInputVector(); }
-    public override Vector3 GetDirVector()
-    {
-        return directionVector;
-    }
-    public override float GetDirDegree()
-    {
-        return directionDegree;
-    }
-    public Vector3 GetPosition() { return objTransform.position; }
+  
     public BuffManager GetBuffManager() { return buffManager; }
-    public WeaponManager GetWeaponManager() { return weaponManager; }
     #endregion
     #region setter
     #endregion
@@ -115,7 +126,7 @@ public class Player : Character
     #region UnityFunction
     void Awake()
     {
-        state = PlayerState.IDLE;
+        //pState = PlayerState.IDLE;
         objTransform = GetComponent<Transform>();
         playerScale = 1f;
         scaleVector = new Vector3(1f, 1f, 1f);
@@ -124,7 +135,7 @@ public class Player : Character
         raycastHitEnemies = new List<RaycasthitEnemy>();
         raycasthitEnemyInfo = new RaycasthitEnemy();
         layerMask = 1 << LayerMask.NameToLayer("Wall");
-
+        Physics2D.IgnoreLayerCollision(16, 13); // enemy 본체랑 충돌 무시
         Init();
     }
 
@@ -135,6 +146,7 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
+        /*
         // for debug
         if (canAutoAim == false)
         {
@@ -146,7 +158,7 @@ public class Player : Character
             canAutoAim = !canAutoAim;
             SetAim();
             Debug.Log("autoAim : " + canAutoAim);
-        }
+        }*/
         if (Input.GetKeyDown(KeyCode.B))
         {
             updateAutoAim = !updateAutoAim;
@@ -155,6 +167,11 @@ public class Player : Character
         if (updateAutoAim)
         {
             SetAim();
+        }
+        else
+        {
+            directionVector = controller.GetRecenteNormalInputVector();
+            directionDegree = directionVector.GetDegFromVector();
         }
 
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
@@ -181,25 +198,29 @@ public class Player : Character
     #region function
     public void Init()
     {
+        renderer.color = new Color(1, 1, 1);
+        hp = 8.5f;
+        pState = State.ALIVE;
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
-        weaponManager.Init(this);
-        // Player class 정보가 필요한 UI class에게 Player class 넘기기
+        weaponManager.Init(this, OwnerType.Player);
+        // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
         GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>().SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
-    }
-    protected override void Attacked(Vector2 _dir)
-    {
-        throw new System.NotImplementedException();
+        playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
+        playerHpUi.UpdateHPUI(hp);
     }
     protected override void Die()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate)
     {
-        throw new System.NotImplementedException();
+        hp -= damage;
+        playerHpUi.UpdateHPUI(hp);
+        StopCoroutine(CoroutineAttacked());
+        StartCoroutine(CoroutineAttacked());
     }
 
 
@@ -259,7 +280,7 @@ public class Player : Character
     /// <summary> 공격 가능 여부 리턴 </summary>
     public bool AttackAble()
     {
-        if (state == PlayerState.IDLE)
+        if (pState == State.ALIVE)
             return true;
         else return false;
     }
@@ -316,12 +337,24 @@ public class Player : Character
                 }
             } 
 
-            directionVector = (enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform.position - objTransform.position).normalized;
+            directionVector = (enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform.position - objTransform.position);
+            directionVector.z = 0;
+            directionVector.Normalize();
+            //Debug.Log(directionVector.magnitude);
             directionDegree = directionVector.GetDegFromVector();
         }
     }
 
-    
+
+    #endregion
+
+    #region coroutine
+    IEnumerator CoroutineAttacked()
+    {
+        renderer.color = new Color(1, 0, 0);
+        yield return YieldInstructionCache.WaitForSeconds(0.1f);
+        renderer.color = new Color(1, 1, 1);
+    }
     #endregion
 }
 
@@ -364,6 +397,7 @@ public class PlayerController
     /// </summary>
     public Vector3 GetRecenteNormalInputVector()
     {
+        //Debug.Log(joystick.GetRecenteNormalInputVector().magnitude);
         return joystick.GetRecenteNormalInputVector();
     }
     

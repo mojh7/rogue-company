@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Name: BulletInfo 12
   m_EditorClassIdentifier: 
   memo: powerBullet
+  ownerType: 0
   bulletName: 
-  damage: 5
-  knockBack: 100
+  damage: 1
+  knockBack: 150
   criticalRate: 0
   speed: 0
   acceleration: 0

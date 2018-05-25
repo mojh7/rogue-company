@@ -23,9 +23,9 @@ TagManager:
   - 
   - Enemy
   - Wall
-  - Bullet
+  - PlayerBullet
   - Player
-  - 
+  - EnemyBullet
   - 
   - 
   - 

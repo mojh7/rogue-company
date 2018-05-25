@@ -7,5 +7,5 @@ public class Test2 : ScriptableObject {
     public int a;
     public string b;
     public double c;
-    public WeaponState d;
+    //public WeaponState d;
 }

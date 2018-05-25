@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: "WeaponInfo 5 \uC9C0\uD321\uC774 \uCD1D\uC54C \uC77C\uB82C 2\uAC1C"
   m_EditorClassIdentifier: 
   memo: "\uC77C\uB82C\uB85C \uCD1D\uC54C 2\uAC1C"
+  ownerType: 0
   weaponName: "\uD14C\uC2A4\uD2B82"
   sprite: {fileID: 21300022, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   scaleX: 1
@@ -34,5 +35,17 @@ MonoBehaviour:
   - type: 1
     id: 0
     executionCount: 1
+    delay: 0.05
+  - type: 1
+    id: 2
+    executionCount: 1
+    delay: 0.05
+  - type: 1
+    id: 0
+    executionCount: 1
+    delay: 0.05
+  - type: 1
+    id: 2
+    executionCount: 1
     delay: 0
-  bulletPatternsLength: 1
+  bulletPatternsLength: 2

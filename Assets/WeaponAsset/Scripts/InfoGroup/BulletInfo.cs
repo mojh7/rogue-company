@@ -14,9 +14,12 @@ public class BulletInfo : ScriptableObject
     [SerializeField]
     [TextArea(3, 100)] private string memo;
 
+    [Header("Owner 꼭 설정 해주세요")]
+    [SerializeField] protected OwnerType ownerType;
+
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
-    public int damage;
+    public float damage;
     public float knockBack;
     public float criticalRate;
 
@@ -156,6 +159,8 @@ public class BulletInfo : ScriptableObject
     {
         BulletInfo info = CreateInstance<BulletInfo>();
 
+        info.ownerType = ownerType;
+
         info.bulletName = bulletName;
         info.damage = damage;
         info.knockBack = knockBack;
@@ -263,13 +268,13 @@ public class BulletInfo : ScriptableObject
                     switch (summonBulletPattern.type)
                     {
                         case BulletPatternType.MultiDirPattern:
-                            argumentBulletPattern = new MultiDirPattern(summonBulletPattern.id, summonBulletPattern.executionCount, summonBulletPattern.delay);
+                            argumentBulletPattern = new MultiDirPattern(summonBulletPattern.id, summonBulletPattern.executionCount, summonBulletPattern.delay, ownerType);
                             break;
                         case BulletPatternType.RowPattern:
-                            argumentBulletPattern = new RowPattern(summonBulletPattern.id, summonBulletPattern.executionCount, summonBulletPattern.delay);
+                            argumentBulletPattern = new RowPattern(summonBulletPattern.id, summonBulletPattern.executionCount, summonBulletPattern.delay, ownerType);
                             break;
                         case BulletPatternType.LaserPattern:
-                            argumentBulletPattern = new LaserPattern(summonBulletPattern.id);
+                            argumentBulletPattern = new LaserPattern(summonBulletPattern.id, ownerType);
                             break;
                         default:
                             argumentBulletPattern = null;

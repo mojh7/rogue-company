@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Name: BulletInfo 9
   m_EditorClassIdentifier: 
   memo: "\uCD1D\uC54C\uC5D0\uC11C \uCD1D\uC54C1-1"
+  ownerType: 0
   bulletName: 
-  damage: 10
-  knockBack: 300
+  damage: 1
+  knockBack: 200
   criticalRate: 0
   speed: 2
   acceleration: 0

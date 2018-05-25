@@ -93,9 +93,8 @@ class BaseNormalCollisionProperty : CollisionProperty
     public override void Collision(ref Collision2D coll)
     {
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
-        if (coll.transform.CompareTag("Enemy"))
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
-            Debug.Log("collision ");
             // 공격 처리
             coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
 
@@ -110,7 +109,23 @@ class BaseNormalCollisionProperty : CollisionProperty
                 delDestroyBullet();
             }
         }
+        else if(OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        {
+            Debug.Log("Player 피격 Collsion");
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
 
+            Ignore(ref coll);
+
+            // 관통 횟수 -1
+            pierceCount -= 1;
+
+            if (pierceCount == 0)
+            {
+                // 총알 delete 처리
+                delDestroyBullet();
+            }
+        }
         // 공격 불가능 object, bounce 횟수 == 0 이면 총알 delete 처리
         else if (coll.transform.CompareTag("Wall"))
         {
@@ -145,10 +160,8 @@ class BaseNormalCollisionProperty : CollisionProperty
     public override void Collision(ref Collider2D coll)
     {
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
-        if (coll.CompareTag("Enemy"))
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
-            Debug.Log("Trigger ");
-
             // 공격 처리
             coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
 
@@ -157,7 +170,23 @@ class BaseNormalCollisionProperty : CollisionProperty
             // 관통 횟수 -1
             pierceCount -= 1;
 
-            if(pierceCount == 0)
+            if (pierceCount == 0)
+            {
+                // 총알 delete 처리
+                delDestroyBullet();
+            }
+        }
+        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+
+            Ignore(ref coll);
+
+            // 관통 횟수 -1
+            pierceCount -= 1;
+
+            if (pierceCount == 0)
             {
                 // 총알 delete 처리
                 delDestroyBullet();
@@ -757,7 +786,7 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
     public override void DestroyBullet()
     {
         createdObj = ObjectPoolManager.Instance.CreateBullet();
-        createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletId, bulletTransform.position);
+        createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletId, bullet.GetOwnerType(), bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
@@ -785,14 +814,14 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
     public override void DestroyBullet()
     {
         // 일단 임시로 1.0f 추 후 buff에서 받아온 데미지 뻥튀기 만큼 값 조절
-        summonBulletPattern.StartAttack(1.0f);
+        summonBulletPattern.StartAttack(1.0f, bullet.GetOwnerType());
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
-        summonBulletPattern = new MultiDirPattern(bullet.info.deleteAfterSummonPatternId, 1, 0);
+        summonBulletPattern = new MultiDirPattern(bullet.info.deleteAfterSummonPatternId, 1, 0, bullet.GetOwnerType());
     }
 }
 

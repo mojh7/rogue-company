@@ -16,7 +16,7 @@ namespace WeaponAsset
     public delegate float DelGetDirDegree();    // 총구 방향 각도
     public delegate Vector3 DelGetPosition();   // owner position이지만 일단 player position 용도로만 사용.
 
-
+    public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
     public enum WeaponType { Blow, Strike, Swing, Gun, ShotGun, Laser }
     public enum AttackAniType { Blow, Strike, Shot }
     public enum TouchMode { Normal, Charge }
@@ -110,13 +110,29 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private WeaponInfo[] weaponInfos;
     [SerializeField]
+    private WeaponInfo[] enemyWeaponInfos;
+
+    [SerializeField]
     private MultiDirPatternInfo[] multiDirPatternInfos;
+    [SerializeField]
+    private MultiDirPatternInfo[] enemyMultiDirPatternInfos;
+
     [SerializeField]
     private RowPatternInfo[] rowPatternInfos;
     [SerializeField]
+    private RowPatternInfo[] enemyRowPatternInfos;
+
+    [SerializeField]
     private LaserPatternInfo[] laserPatternInfos;
     [SerializeField]
+    private LaserPatternInfo[] enemyLaserPatternInfos;
+
+    [SerializeField]
     private BulletInfo[] bulletInfos;
+
+    [SerializeField]
+    private BulletInfo[] enemyBulletInfos;
+
     [SerializeField]
     private EffectInfo[] effectInfos;
 
@@ -130,24 +146,77 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     /// <param name="id"></param>
     /// <param name="owner"></param>
     /// <returns></returns>
-    public WeaponInfo GetWeaponInfo(int id, Owner owner = Owner.Player)
+    public WeaponInfo GetWeaponInfo(int id, OwnerType ownerType = OwnerType.Player)
     {
-        switch(owner)
+        switch(ownerType)
         {
-            case Owner.Player:
+            case OwnerType.Player:
                 return weaponInfos[id].Clone();
             // 구분 만 해놓고 아직 player 이외의 owner weaponDataList 안 만듬, 봐서 bullet, Pattern도 이렇게 처리 할듯
-            case Owner.Enemy:
-            case Owner.Object:
+            case OwnerType.Enemy:
+                return enemyWeaponInfos[id].Clone();
+            case OwnerType.Object:
             default:
                 break;
         }
         return null;
     }
-    public MultiDirPatternInfo GetMultiDirPatternInfo(int id) { return multiDirPatternInfos[id]; }
-    public RowPatternInfo GetRowPatternInfo(int id) { return rowPatternInfos[id]; }
-    public LaserPatternInfo GetLaserPatternInfo(int id) { return laserPatternInfos[id]; }
-    public BulletInfo GetBulletInfo(int id) { return bulletInfos[id].Clone(); }
+    public MultiDirPatternInfo GetMultiDirPatternInfo(int id, OwnerType ownerType = OwnerType.Player)
+    {
+        switch (ownerType)
+        {
+            case OwnerType.Player:
+                return multiDirPatternInfos[id];
+            case OwnerType.Enemy:
+                return enemyMultiDirPatternInfos[id];
+            case OwnerType.Object:
+            default:
+                break;
+        }
+        return null;
+    }
+    public RowPatternInfo GetRowPatternInfo(int id, OwnerType ownerType = OwnerType.Player)
+    {
+        switch (ownerType)
+        {
+            case OwnerType.Player:
+                return rowPatternInfos[id];
+            case OwnerType.Enemy:
+                return enemyRowPatternInfos[id];
+            case OwnerType.Object:
+            default:
+                break;
+        }
+        return null;
+    }
+    public LaserPatternInfo GetLaserPatternInfo(int id, OwnerType ownerType = OwnerType.Player)
+    {
+        switch (ownerType)
+        {
+            case OwnerType.Player:
+                return laserPatternInfos[id];
+            case OwnerType.Enemy:
+                return enemyLaserPatternInfos[id];
+            case OwnerType.Object:
+            default:
+                break;
+        }
+        return null;
+    }
+    public BulletInfo GetBulletInfo(int id, OwnerType ownerType = OwnerType.Player)
+    {
+        switch (ownerType)
+        {
+            case OwnerType.Player:
+                return bulletInfos[id].Clone();
+            case OwnerType.Enemy:
+                return enemyBulletInfos[id].Clone();
+            case OwnerType.Object:
+            default:
+                break;
+        }
+        return null;
+    }
     public EffectInfo GetEffectInfo(int id) { return effectInfos[id]; }
     #endregion
 
@@ -173,6 +242,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         {
             weaponInfos[i].Init();
         }
+        for (int i = 0; i < enemyWeaponInfos.Length; i++)
+        {
+            enemyWeaponInfos[i].Init();
+        }
     }
 
     // 총알 정보 관련 초기화 
@@ -181,6 +254,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         for (int i = 0; i < bulletInfos.Length; i++)
         {
             bulletInfos[i].Init();
+        }
+        for (int i = 0; i < enemyBulletInfos.Length; i++)
+        {
+            enemyBulletInfos[i].Init();
         }
     }
     #endregion

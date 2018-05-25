@@ -146,7 +146,7 @@ MonoBehaviour:
   weaponNumMax: 20
   bulletPrefab: {fileID: 1593087478248962, guid: 2c31d1e7789c6b14e95e75a1051d7b25,
     type: 2}
-  bulletNumMax: 100
+  bulletNumMax: 150
   effectPrefab: {fileID: 1384413569759206, guid: c16db7a5f21d4874492b5915fafdbb44,
     type: 2}
   effectNumMax: 0
@@ -192,6 +192,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5bee5743758e18641a328aa4acb8d9b6, type: 2}
   - {fileID: 11400000, guid: 14a202b4f8a3169489af3287d063d9bb, type: 2}
   - {fileID: 11400000, guid: f391bbdf266bda547b2cbe1e0db3ca2d, type: 2}
+  enemyWeaponInfos:
+  - {fileID: 11400000, guid: 324a83920358d824bac7ecd532c5f5bb, type: 2}
+  - {fileID: 11400000, guid: 57629635f86ed5d44ad4a8afcd838a77, type: 2}
+  - {fileID: 11400000, guid: 944082c831deab746a7f1fb870560fac, type: 2}
+  - {fileID: 11400000, guid: ee9fc2722ab61b547a534c11ee0b5469, type: 2}
   multiDirPatternInfos:
   - {fileID: 11400000, guid: df47a8bb2a456b248bb233c54e65c4f2, type: 2}
   - {fileID: 11400000, guid: 2f4988b1aa29d22419bf74d8314ede9e, type: 2}
@@ -206,11 +211,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 30d5c365c84b6564cbc51b54fedda473, type: 2}
   - {fileID: 11400000, guid: d88dcc5113342124c83ae42f334aa2ae, type: 2}
   - {fileID: 11400000, guid: 3451ddf373f64c346827ceeca3e377d7, type: 2}
+  - {fileID: 11400000, guid: 1a93a022ed39207469f7d8fc998313b9, type: 2}
+  enemyMultiDirPatternInfos:
+  - {fileID: 11400000, guid: 33f32273d3a6fa44591de4cc310ea633, type: 2}
+  - {fileID: 11400000, guid: c594f1272f97d914abf7d9e1468269cc, type: 2}
+  - {fileID: 11400000, guid: 0210c772eb0aaee428190967eff43cb7, type: 2}
   rowPatternInfos:
   - {fileID: 11400000, guid: dd36aad857b2108489b0b7fea2d31a53, type: 2}
   - {fileID: 11400000, guid: 422c94f15f7218543bb9f24ce4b99396, type: 2}
+  - {fileID: 11400000, guid: bd3dfbcd9dfd8644eb32af9aa8140d09, type: 2}
+  enemyRowPatternInfos:
+  - {fileID: 11400000, guid: 941065f9410e00045891f1212b95cba9, type: 2}
   laserPatternInfos:
   - {fileID: 11400000, guid: b5a478b2a743d24488760121bc476eaf, type: 2}
+  enemyLaserPatternInfos: []
   bulletInfos:
   - {fileID: 11400000, guid: 32b789b3c16187142bd1bdc20ed5d205, type: 2}
   - {fileID: 11400000, guid: 2154eba772ade6642b40c5bb57e2af5d, type: 2}
@@ -229,6 +243,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 80384c43c02fefd4398ef8b4366ec2a1, type: 2}
   - {fileID: 11400000, guid: fbd0779e55945db489784f81d255abf5, type: 2}
   - {fileID: 11400000, guid: 8a8c976286fb83f48a90d9f91b8f236e, type: 2}
+  enemyBulletInfos:
+  - {fileID: 11400000, guid: f641891b8ea679540b8b85cb88c1b626, type: 2}
+  - {fileID: 11400000, guid: 9bd8ec69fa27765449dabd681e81074d, type: 2}
+  - {fileID: 11400000, guid: d7450161feaaf2e4faf2b6c0139328b6, type: 2}
+  - {fileID: 11400000, guid: eda7cb2e7afe4104c97186dae2c10ee7, type: 2}
   effectInfos:
   - {fileID: 11400000, guid: 39ef06daf634a714f915819f55cf60d3, type: 2}
   - {fileID: 11400000, guid: 9d0c0896fdd418142a3a657517ba17a7, type: 2}

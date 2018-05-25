@@ -333,6 +333,6 @@ public class ItemContainer : CustomObject
         base.Active();
         Debug.Log("ItemContainer");
 
-        PlayerManager.Instance.GetPlayer().weaponManager.PickAndDropWeapon(innerObject, gameObject);
+        PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject, gameObject);
     }
 }

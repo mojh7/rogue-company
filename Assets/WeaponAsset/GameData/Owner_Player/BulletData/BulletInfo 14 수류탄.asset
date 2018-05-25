@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Name: "BulletInfo 14 \uC218\uB958\uD0C4"
   m_EditorClassIdentifier: 
   memo: "\uC218\uB958\uD0C4\n\uBB34\uAE3013, \uBA40\uD2F0 11"
+  ownerType: 0
   bulletName: 
   damage: 0
+  knockBack: 0
+  criticalRate: 0
   speed: 12
   acceleration: -10
   deltaSpeedTotalLimit: 12

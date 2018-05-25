@@ -10,16 +10,6 @@ public class Enemy : Character {
 
     #region getter
 
-    public override Vector3 GetDirVector()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override float GetDirDegree()
-    {
-        throw new System.NotImplementedException();
-    }
-
     #endregion
 
     #region UnityFunc
@@ -28,6 +18,11 @@ public class Enemy : Character {
         rgbody = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        AutoAim();
+        weaponManager.AttackButtonDown();
+    }
     /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -51,7 +46,11 @@ public class Enemy : Character {
         pState = State.ALIVE;
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
-        hp = 5;
+        hp = 7;
+
+        // 0526 임시용
+        weaponManager = GetComponentInChildren<WeaponManager>();
+        weaponManager.Init(this, OwnerType.Enemy);
     }
     protected override void Die()
     {
@@ -60,13 +59,6 @@ public class Enemy : Character {
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
     }
-    protected override void Attacked(Vector2 _dir)
-    {
-        hp--;
-        rgbody.AddForce(_dir*5);
-        StopCoroutine(CoroutineAttacked());
-        StartCoroutine(CoroutineAttacked());
-    }
 
     public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate)
     {
@@ -74,6 +66,7 @@ public class Enemy : Character {
             return;
 
         float criticalCheck = Random.Range(0f, 1f);
+        /*
         if(criticalCheck < criticalRate)
         {
             Debug.Log("critical Attack");
@@ -81,19 +74,16 @@ public class Enemy : Character {
         else
         {
             Debug.Log("normal Attack");
-        }
+        }*/
 
         hp -= damage;
-
-            
+        
         // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
-        // rgbody.AddForce(knockBack * _dir);
-
-        rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
+        rgbody.AddForce(knockBack * _dir);
+        //rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
 
         StopCoroutine(CoroutineAttacked());
         StartCoroutine(CoroutineAttacked());
-
         if (hp <= 0)
             Die();
     }
@@ -105,5 +95,13 @@ public class Enemy : Character {
     }
 
 
+    // 0526 땜빵
+
+    public void AutoAim()
+    {
+        directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
+            //controller.GetRecenteNormalInputVector();
+        directionDegree = directionVector.GetDegFromVector();
+    }
     #endregion
 }

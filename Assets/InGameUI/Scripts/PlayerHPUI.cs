@@ -32,7 +32,7 @@ public class PlayerHPUI : MonoBehaviour
 
 
     private float overHp;
-    private float hpForDebug;
+    //private float hpForDebug;
 
 
     // Use this for initialization
@@ -42,8 +42,8 @@ public class PlayerHPUI : MonoBehaviour
         column = 10;
         deltaPosX = 60f;
         Init();
-        hpForDebug = 7.5f;
-        UpdateHPUI(hpForDebug);
+        //hpForDebug = 7.5f;
+        //UpdateHPUI(hpForDebug);
     }
 
     /// <summary>
@@ -80,15 +80,15 @@ public class PlayerHPUI : MonoBehaviour
         // 디버그용 hp + 0.5f;
         if(Input.GetKeyDown(KeyCode.P))
         {
-           hpForDebug += 0.5f;
-           UpdateHPUI(hpForDebug);
+           PlayerManager.Instance.GetPlayer().hp += 0.5f;
+           UpdateHPUI(PlayerManager.Instance.GetPlayer().hp);
         }
 
         // 디버그용 hp - 0.5f;
         if (Input.GetKeyDown(KeyCode.O))
         {
-            hpForDebug -= 0.5f;
-            UpdateHPUI(hpForDebug);
+            PlayerManager.Instance.GetPlayer().hp -= 0.5f;
+            UpdateHPUI(PlayerManager.Instance.GetPlayer().hp);
         }
     }
 
@@ -97,9 +97,6 @@ public class PlayerHPUI : MonoBehaviour
     public void UpdateHPUI(float hp)
     {
         if (hp < 0) return;
-
-        Debug.Log("hp : " + hp);
-
         int remainder = (int)hp % column;
 
         // hp가 최대 표시 갯수를 넘을 때

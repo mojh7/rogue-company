@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 50455717362438088}
   m_Layer: 16
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -418,7 +418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4750603917870834}
   - component: {fileID: 58181692312182348}
-  m_Layer: 16
+  m_Layer: 0
   m_Name: InteractObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -664,7 +664,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1354007718219498}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalPosition: {x: 12.91, y: -2.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4418394756848214}
@@ -1196,10 +1196,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactiveCollider2D: {fileID: 58181692312182348}
   moveSpeed: 5
+  hp: 0
+  weaponManager: {fileID: 114154553307704316}
   spriteObjTransform: {fileID: 4593660546547358}
   controller:
     joystick: {fileID: 0}
-  weaponManager: {fileID: 114154553307704316}
+  renderer: {fileID: 212429882799322652}
+  playerHpUi: {fileID: 0}
 --- !u!114 &114412351843659852
 MonoBehaviour:
   m_ObjectHideFlags: 1

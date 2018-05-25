@@ -31,6 +31,9 @@ public class WeaponManager : MonoBehaviour {
     private Transform objTransform;
     private BuffManager ownerBuff;
 
+    // 아직 owner중 object 고려 안 했음
+    private Character owner;
+    private OwnerType ownerType;
     // owner의 공격 방향 각도, 방향 벡터 와 현재 위치 함수이며 weapon->bulletPattern->bullet 방향으로 전달 함.
     private DelGetDirDegree ownerDirDegree;
     private DelGetPosition ownerDirVec;
@@ -39,8 +42,6 @@ public class WeaponManager : MonoBehaviour {
     /// <summary> 무기 drop and pick할 때 지정될 parnet object </summary>
     [SerializeField]
     private Transform registerPoint;
-    //private Character owner로 해야 될 것 같지만 일단 Player owner;
-    private Player owner;
 
     /// <summary> 차징 게이지 script</summary> 
     public ChargeGauge chargeGauge; // inspector 창에서 붙임
@@ -60,6 +61,7 @@ public class WeaponManager : MonoBehaviour {
     #region getter
     /// <summary> weapon State 참조하여 Idle인지 확인 후 공격 가능 여부 리턴 </summary>
     /// <returns></returns>
+    
     public bool GetAttackAble()
     {
         if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.Idle)
@@ -72,13 +74,14 @@ public class WeaponManager : MonoBehaviour {
         }
     }
     public Vector3 GetPosition() { return objTransform.position; }
-
+    public OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     #endregion
     #region setter
+    public void SetOwnerType(OwnerType ownerType) { this.ownerType = ownerType; }
     #endregion
     #region UnityFunction
     void Awake()
@@ -140,22 +143,39 @@ public class WeaponManager : MonoBehaviour {
     #endregion
 
     #region Function
-    public void Init(Player player)
+    public void Init(Character owner, OwnerType ownerType)
     {
-        owner = player;
-        // Onwer 정보 등록
-        // 방향, Position 리턴 함수 등록,나중에 어디에(onwer 누구냐에 따라서 다름, player, enmey, object) 붙는지에 따라 초기화
-        // 지금은 테스트용으로 Player꺼 등록
-        ownerDirDegree = player.GetDirDegree;
-        ownerDirVec = player.GetDirVector;
-        ownerPos = GetPosition;
-        ownerBuff = player.GetBuffManager();
+        SetOwnerInfo(owner, ownerType);
+        
+        // 0526 땜빵
+        if(OwnerType.Enemy == ownerType)
+        {
+            equipWeaponSlot[0].Init(Random.Range(0, 4), ownerType);
+        }
 
         for (int i = 0; i < weaponCountMax; i++)
         {
             // Debug 용으로 현재 장착된 무기들 인스펙터 창에서 설정된 wepaon id대로 초기화
-            equipWeaponSlot[i].Init(-1);
+            equipWeaponSlot[i].Init(-1, ownerType);
             equipWeaponSlot[i].RegisterWeapon(this);
+        }
+    }
+    
+    /// <summary>
+    /// Owner 정보 등록
+    /// </summary>
+    /// <param name="owner"></param>
+    public void SetOwnerInfo(Character owner, OwnerType ownerType)
+    {
+        this.owner = owner;
+        this.ownerType = ownerType;
+        ownerDirDegree = owner.GetDirDegree;
+        ownerDirVec = owner.GetDirVector;
+        ownerPos = GetPosition;
+        if(OwnerType.Player == ownerType)
+        {
+            Player player = owner as Player;
+            ownerBuff = player.GetBuffManager();
         }
     }
 
@@ -260,7 +280,6 @@ public class WeaponManager : MonoBehaviour {
             itemContainer.GetComponent<ItemContainer>().Init(dropedWeapon);
             dropedWeapon.ObjTransform.SetParent(itemContainer.transform, false);
         }
-        //weapon.SetWeaponState(WeaponState.PickAndDrop);
         StartCoroutine("PickAndDropWeaponDelay");
     }
     #endregion

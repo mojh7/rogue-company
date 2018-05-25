@@ -22,14 +22,15 @@ public struct BulletPatternEditInfo
     }
 }
 
-
-
 [CreateAssetMenu(fileName = "WeaponInfo", menuName = "GameData/WeaponInfo", order = 0)]
 public class WeaponInfo : ScriptableObject
 {
     [Tooltip("적용하거나 쓰이는 곳, 사용하는 사람, 간단한 설명 등등 이것 저것 메모할 공간")]
     [SerializeField]
     [TextArea(3, 100)] private string memo;
+
+    [Header("Owner 꼭 설정 해주세요")]
+    [SerializeField] protected OwnerType ownerType;
 
     [Header("기본 스펙")]
     // 기본 스펙
@@ -136,6 +137,8 @@ public class WeaponInfo : ScriptableObject
     {
         WeaponInfo info = CreateInstance<WeaponInfo>();
 
+        info.ownerType = ownerType;
+
         info.weaponName = weaponName;
         info.sprite = sprite;
         info.scaleX = scaleX;
@@ -181,18 +184,18 @@ public class WeaponInfo : ScriptableObject
         // bulletPatternEditInfo를 토대로 실제 원래의 bulletPatterns 만들기
         bulletPatternsLength = bulletPatternEditInfos.Length;
         bulletPatterns = new List<BulletPattern>();
-         for(int i = 0; i < bulletPatternsLength; i++)
+        for(int i = 0; i < bulletPatternsLength; i++)
         {
             switch(bulletPatternEditInfos[i].type)
             {
                 case BulletPatternType.MultiDirPattern :
-                    bulletPatterns.Add(new MultiDirPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay));
-                     break;
+                    bulletPatterns.Add(new MultiDirPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay, ownerType));
+                    break;
                 case BulletPatternType.RowPattern:
-                    bulletPatterns.Add(new RowPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay));
+                    bulletPatterns.Add(new RowPattern(bulletPatternEditInfos[i].id, bulletPatternEditInfos[i].executionCount, bulletPatternEditInfos[i].delay, ownerType));
                     break;
                 case BulletPatternType.LaserPattern:
-                    bulletPatterns.Add(new LaserPattern(bulletPatternEditInfos[i].id));
+                    bulletPatterns.Add(new LaserPattern(bulletPatternEditInfos[i].id, ownerType));
                     break;
                 default:
                     break;

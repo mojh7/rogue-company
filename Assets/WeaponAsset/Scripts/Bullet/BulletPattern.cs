@@ -31,6 +31,8 @@ public abstract class BulletPattern
     protected int executionCount;   // 한 사이클에서의 실행 횟수
     protected float delay;          // 사이클 내에서의 delay
     protected float addDirVecMagnitude;         // onwer 총구 방향으로 총알 위치 추가 적인 위치 조절 값
+
+    protected OwnerType ownerType;
     protected DelGetDirDegree ownerDirDegree;
     protected DelGetPosition ownerDirVec;
     protected DelGetPosition ownerPos;
@@ -48,7 +50,7 @@ public abstract class BulletPattern
     public abstract void Init(Weapon weapon);
     public abstract void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0);
     public abstract BulletPattern Clone();
-    public abstract void StartAttack(float damageIncreaseRate); // 공격 시도 시작
+    public abstract void StartAttack(float damageIncreaseRate, OwnerType ownerType); // 공격 시도 시작
     public abstract void StopAttack();  // 공격 시도 시작 후 멈췄을 때
     public abstract void CreateBullet(float damageIncreaseRate);
 }
@@ -59,17 +61,20 @@ public class MultiDirPattern : BulletPattern
     private MultiDirPatternInfo info;
 
     // 기존 정보를 참조하는 방식으로 변수 초기화
-    public MultiDirPattern(int patternId, int executionCount, float delay)
+    public MultiDirPattern(int patternId, int executionCount, float delay, OwnerType ownerType)
     {
         this.patternId = patternId;
-        info = DataStore.Instance.GetMultiDirPatternInfo(patternId);
+        info = DataStore.Instance.GetMultiDirPatternInfo(patternId, ownerType);
         this.executionCount = executionCount;
         this.delay = delay;
+        this.ownerType = ownerType;
     }
 
     public override void Init(Weapon weapon)
     {
         this.weapon = weapon;
+        ownerType = weapon.GetOwnerType();
+
         addDirVecMagnitude = weapon.info.addDirVecMagnitude;
         // Owner 방향, 위치 함수
         ownerDirDegree = weapon.GetOwnerDirDegree();
@@ -97,11 +102,12 @@ public class MultiDirPattern : BulletPattern
     public override BulletPattern Clone()
     {
         //Debug.Log(patternId + ", " + info.bulletId + ", " + info.bulletSpriteId + ", " + executionCount);
-        return new MultiDirPattern(patternId, executionCount, delay);
+        return new MultiDirPattern(patternId, executionCount, delay, ownerType);
     }
 
-    public override void StartAttack(float damageIncreaseRate)
+    public override void StartAttack(float damageIncreaseRate, OwnerType ownerType)
     {
+        this.ownerType = ownerType;
         CreateBullet(damageIncreaseRate);
     }
 
@@ -116,7 +122,7 @@ public class MultiDirPattern : BulletPattern
         for (int i = 0; i < info.bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.speed, info.range, info.effectId,  ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, info.speed, info.range, info.effectId,  ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
 }
@@ -128,17 +134,20 @@ public class RowPattern : BulletPattern
     private Vector3 perpendicularVector;
 
     // 기존 정보를 참조하는 방식으로 변수 초기화
-    public RowPattern(int patternId, int executionCount, float delay)
+    public RowPattern(int patternId, int executionCount, float delay, OwnerType ownerType)
     {
         this.patternId = patternId;
-        info = DataStore.Instance.GetRowPatternInfo(patternId);
+        info = DataStore.Instance.GetRowPatternInfo(patternId, ownerType);
         this.executionCount = executionCount;
         this.delay = delay;
+        this.ownerType = ownerType;
     }
 
     public override void Init(Weapon weapon)
     {
         this.weapon = weapon;
+        ownerType = weapon.GetOwnerType();
+
         addDirVecMagnitude = weapon.info.addDirVecMagnitude;
         // Owner 방향, 위치 함수
         ownerDirDegree = weapon.GetOwnerDirDegree();
@@ -167,11 +176,12 @@ public class RowPattern : BulletPattern
 
     public override BulletPattern Clone()
     {
-        return new RowPattern(patternId, executionCount, delay);
+        return new RowPattern(patternId, executionCount, delay, ownerType);
     }
 
-    public override void StartAttack(float damageIncreaseRate)
+    public override void StartAttack(float damageIncreaseRate, OwnerType ownerType)
     {
+        this.ownerType = ownerType;
         CreateBullet(damageIncreaseRate);
     }
 
@@ -187,8 +197,9 @@ public class RowPattern : BulletPattern
         perpendicularVector = MathCalculator.VectorRotate(ownerDirVec(), -90);
         for (int i = 0; i < info.bulletCount; i++)
         {
+            Debug.Log(ownerDirVec() + ", " + ownerDirVec().magnitude);
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * i), ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * i), ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
         }
     }
 }
@@ -209,12 +220,13 @@ public class LaserPattern : BulletPattern
     
 
     // 기존에 저장된 정보 이외의 내용으로 변수 초기화
-    public LaserPattern(int patternId)
+    public LaserPattern(int patternId, OwnerType ownerType)
     {
         this.patternId = patternId;
-        info = DataStore.Instance.GetLaserPatternInfo(patternId);
+        info = DataStore.Instance.GetLaserPatternInfo(patternId, ownerType);
         this.executionCount = 1;
         this.delay = 0;
+        this.ownerType = ownerType;
     }
 
     public override void Init(Weapon weapon)
@@ -233,12 +245,13 @@ public class LaserPattern : BulletPattern
 
     public override BulletPattern Clone()
     {
-        return new LaserPattern(patternId);
+        return new LaserPattern(patternId, ownerType);
     }
 
-    public override void StartAttack(float damageIncreaseRate)
+    public override void StartAttack(float damageIncreaseRate, OwnerType ownerType)
     {
-        if(canCreateLaser == true)
+        this.ownerType = ownerType;
+        if (canCreateLaser == true)
         {
             CreateBullet(damageIncreaseRate);
             canCreateLaser = false;
@@ -256,7 +269,7 @@ public class LaserPattern : BulletPattern
     public override void CreateBullet(float damageIncreaseRate)
     {
         createdObj = ObjectPoolManager.Instance.CreateBullet();
-        createdObj.GetComponent<Bullet>().Init(info.bulletId, addDirVecMagnitude, ownerPos, ownerDirVec);
+        createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, addDirVecMagnitude, ownerPos, ownerDirVec);
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }
 }
