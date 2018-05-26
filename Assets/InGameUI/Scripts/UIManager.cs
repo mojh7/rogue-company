@@ -17,11 +17,28 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     public Canvas canvas;
     public GameObject ingamePanel;
     public GameObject preventObj;
+    public GameObject menuObj;
     public GameObject gameOverObj;
     public Image fadeImage;
     #endregion
 
     #region function
+    public void ReturnTitle()
+    {
+        Time.timeScale = 1;
+        GameStateManager.Instance.LoadTitle();
+    }
+
+    public void ToggleMenu()
+    {
+        if (Time.timeScale == 0)
+            Time.timeScale = 1;
+        else
+            Time.timeScale = 0;
+        TogglePreventObj();
+        menuObj.SetActive(!menuObj.activeSelf);
+    }
+
     public void TogglePreventObj()
     {
         if (preventObj == null)

@@ -201,6 +201,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         UIManager.Instance.TogglePreventObj();
         CutSceneUI.Instance.Hide();
+        Debug.Log(GameDataManager.Instance.GetFloor());
         EnemyManager.Instance.SpawnBoss(GameDataManager.Instance.GetFloor(), (currentRoom.areaLeftDown + currentRoom.areaRightTop) / 2);
         SpawnMonster();
     }

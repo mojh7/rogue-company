@@ -208,13 +208,12 @@ public class Door : CustomObject
     public override void Init()
     {
         base.Init();
-        isActive = true;
-        isAvailable = true;
         objectType = ObjectType.NONE;
         tag = "Wall";
     }
     public void Init(Sprite _openSprite,Sprite _closeSprite)
     {
+        Init();
         openSprite = _openSprite;
         closeSprite = _closeSprite;
         sprite = openSprite;
@@ -258,7 +257,6 @@ public class Door : CustomObject
        
         SetCollision();
     }
-
     public void SetAxis(bool _isHorizon)
     {
         isHorizon = _isHorizon;
@@ -284,7 +282,6 @@ public class Alert : CustomObject
     public override void Active()
     {
         base.Active();
-        Debug.Log("Alert");
         isAnimate = true;
         animator.SetTrigger("alert_indicator");
         StartCoroutine(CheckAnimate());
@@ -337,7 +334,6 @@ public class ItemBox : CustomObject
     {
         base.Active();
         isAvailable = false;
-        Debug.Log("ItemBox");
         ItemManager.Instance.DropItem(this.transform.position);
         Destroy(this.gameObject, 3);
     }

@@ -14,6 +14,7 @@ public class Title : MonoBehaviour {
 
     public void LoadSelect()
     {
+        GameDataManager.Instance.ResetData();
         GameStateManager.Instance.LoadSelect();
     }
 

@@ -8,14 +8,22 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager> {
     Player.PlayerType m_playerType;
 
     #region setter
-    public void InitFloor() { m_floor = 0; }
+    void InitFloor() { m_floor = 0; }
     public void SetFloor() { m_floor++; }
     public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
     #endregion
-    #region
+    #region getter
     public int GetFloor() { return m_floor; }
     public Player.PlayerType GetPlayerType() { return m_playerType; }
     #endregion
+    #region Func
+    public void ResetData()
+    {
+        InitFloor();
+        m_playerType = Player.PlayerType.SOCCER;
+    }
+    #endregion
+
 
     private void Start()
     {

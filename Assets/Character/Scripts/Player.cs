@@ -215,7 +215,7 @@ public class Player : Character
     }
     protected override void Die()
     {
-        GameDataManager.Instance.SetFloor();
+        GameStateManager.Instance.GameOver();
         UIManager.Instance.gameOverObj.SetActive(true);
     }
 

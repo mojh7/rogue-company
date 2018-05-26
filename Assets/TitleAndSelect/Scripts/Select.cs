@@ -35,8 +35,8 @@ public class Select : MonoBehaviour {
 
     public void SelectPlayerType()
     {
+        GameDataManager.Instance.ResetData();
         GameDataManager.Instance.SetPlayerType(m_playerType);
-        GameDataManager.Instance.SetFloor();
         GameStateManager.Instance.LoadInGame();
     }
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 39bde973f4f477a44844c844ba041e88
-timeCreated: 1526648487
+guid: 3a19823f9a43c81468100d913f6359a4
+timeCreated: 1527365830
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,9 +9,6 @@ TextureImporter:
     21300004: door_vertical_2
     21300006: door_vertical_3
     21300008: door_vertical_4
-    21300010: door_vertical_5
-    21300012: door_vertical_6
-    21300014: door_vertical_7
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -110,10 +107,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: 7, y: -16}
-        - {x: 7, y: 16}
-        - {x: -8, y: 16}
-        - {x: -8, y: -16}
+      - - {x: -5, y: -16}
+        - {x: -5, y: 16}
+        - {x: -16, y: 16}
+        - {x: -16, y: -16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: door_vertical_1
@@ -128,17 +125,16 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -8, y: 16}
-        - {x: -8, y: -16}
-        - {x: 7, y: -16}
-        - {x: 7, y: 16}
+      - - {x: -16, y: -16}
+        - {x: -3, y: -16}
+        - {x: -13, y: -13}
       tessellationDetail: 0
     - serializedVersion: 2
       name: door_vertical_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 0
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -146,24 +142,15 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -8, y: -10}
+      - - {x: -16, y: -16}
         - {x: -8, y: -16}
-        - {x: 7, y: -16}
-        - {x: 7, y: -10}
-        - {x: 5, y: -8}
-        - {x: -6, y: -8}
-      - - {x: -8, y: 16}
-        - {x: -8, y: -5}
-        - {x: -6, y: -7}
-        - {x: 5, y: -7}
-        - {x: 7, y: -5}
-        - {x: 7, y: 16}
+        - {x: -14, y: -13}
       tessellationDetail: 0
     - serializedVersion: 2
       name: door_vertical_3
       rect:
         serializedVersion: 2
-        x: 0
+        x: 32
         y: 32
         width: 32
         height: 32
@@ -172,75 +159,14 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -8, y: -10}
-        - {x: -8, y: -16}
-        - {x: 7, y: -16}
-        - {x: 7, y: -10}
-        - {x: 5, y: -8}
-        - {x: -6, y: -8}
-      - - {x: -8, y: 16}
-        - {x: -8, y: -2}
-        - {x: -6, y: -4}
-        - {x: 5, y: -4}
-        - {x: 7, y: -2}
-        - {x: 7, y: 16}
+      - - {x: -16, y: -16}
+        - {x: -9, y: -16}
+        - {x: -11, y: -13}
       tessellationDetail: 0
     - serializedVersion: 2
       name: door_vertical_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -8, y: -10}
-        - {x: -8, y: -16}
-        - {x: 7, y: -16}
-        - {x: 7, y: -10}
-        - {x: 5, y: -8}
-        - {x: -6, y: -8}
-      - - {x: -8, y: 16}
-        - {x: -8, y: 1}
-        - {x: -6, y: -1}
-        - {x: 5, y: -1}
-        - {x: 7, y: 1}
-        - {x: 7, y: 16}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: door_vertical_5
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -8, y: -10}
-        - {x: -8, y: -16}
-        - {x: 7, y: -16}
-        - {x: 7, y: -10}
-        - {x: 5, y: -8}
-        - {x: -6, y: -8}
-      - - {x: -8, y: 16}
-        - {x: -8, y: 4}
-        - {x: -6, y: 2}
-        - {x: 5, y: 2}
-        - {x: 7, y: 4}
-        - {x: 7, y: 16}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: door_vertical_6
-      rect:
-        serializedVersion: 2
         x: 0
         y: 0
         width: 32
@@ -250,36 +176,14 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -8, y: -10}
-        - {x: -8, y: -16}
-        - {x: 7, y: -16}
-        - {x: 7, y: -10}
-        - {x: 5, y: -8}
-        - {x: -6, y: -8}
-      - - {x: -8, y: 16}
-        - {x: -8, y: 7}
-        - {x: -6, y: 5}
-        - {x: 5, y: 5}
-        - {x: 7, y: 7}
-        - {x: 7, y: 16}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: door_vertical_7
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: -6, y: -16}
-        - {x: -6, y: -10}
-        - {x: 5, y: -10}
-        - {x: 5, y: -16}
+      - - {x: -16, y: -16}
+        - {x: -5, y: -16}
+        - {x: -5, y: -13}
+        - {x: -16, y: -13}
+      - - {x: -16, y: 16}
+        - {x: -16, y: 13}
+        - {x: -5, y: 13}
+        - {x: -5, y: 16}
       tessellationDetail: 0
     outline: []
     physicsShape: []
