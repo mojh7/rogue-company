@@ -503,6 +503,7 @@ MonoBehaviour:
   hp: 0
   weaponManager: {fileID: 114111894182339084}
   spriteObjTransform: {fileID: 4987181072416540}
+  anim: {fileID: 95207714401442542}
   renderer: {fileID: 212546812185349730}
   isKnockBack: 0
 --- !u!114 &114825992070302146

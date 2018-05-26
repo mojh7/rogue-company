@@ -5,7 +5,6 @@ using Map;
 
 public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
-    //public Map.Rect tempRoom;
     List<Map.Rect> roomList;
     Map.Rect currentRoom;
 
@@ -21,13 +20,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         return currentRoom.gage;
     }
 
-    void DoorSetAvailable() 
+    void DoorActive() 
     {
         if (currentRoom.doorObjects != null)
         {
             for (int j = 0; j < currentRoom.doorObjects.Count; j++)
             {
-                currentRoom.doorObjects[j].GetComponent<CustomObject>().SetAvailable();
+                currentRoom.doorObjects[j].GetComponent<CustomObject>().Active();
             }
         }
     }//작동 가능여부 turn
@@ -54,7 +53,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     void ClearRoom()
     {
         MiniMap.Instance.HideMiniMap();
-        DoorSetAvailable();
+        DoorActive();
         ObjectSetAvailable();
         FindCurrentRoom();
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea());
@@ -173,7 +172,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     void InitRoom()
     {
         MiniMap.Instance.HideMiniMap();
-        DoorSetAvailable();
+        DoorActive();
         ObjectSetAvailable();
         currentRoom.maskObject.SetActive(true);
         MiniMap.Instance.DrawRoom(currentRoom);
@@ -194,7 +193,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     void BossInitScene()
     {
         UIManager.Instance.TogglePreventObj();
-        CutSceneUI.Instance.SetCharacter(EnemyManager.Instance.GetBossSprite(InGameManager.Instance.GetFloor()));
+        CutSceneUI.Instance.SetCharacter(EnemyManager.Instance.GetBossSprite(GameDataManager.Instance.GetFloor()));
         CutSceneUI.Instance.ShowCutScene(Vector2.right, Vector2.down, Vector2.up);
     }
 
@@ -202,7 +201,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         UIManager.Instance.TogglePreventObj();
         CutSceneUI.Instance.Hide();
-        EnemyManager.Instance.SpawnBoss(InGameManager.Instance.GetFloor(), (currentRoom.areaLeftDown + currentRoom.areaRightTop) / 2);
+        EnemyManager.Instance.SpawnBoss(GameDataManager.Instance.GetFloor(), (currentRoom.areaLeftDown + currentRoom.areaRightTop) / 2);
         SpawnMonster();
     }
 

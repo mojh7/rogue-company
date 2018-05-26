@@ -88,11 +88,11 @@ public class UnbreakableBox : CustomObject
     public override void SetAvailable()
     {
     }
-    public override void Active()
-    {
-        base.Active();
-        Debug.Log("Unbreakalbe");
-    }
+    //public override void Active()
+    //{
+    //    base.Active();
+    //    Debug.Log("Unbreakalbe");
+    //}
 }
 
 public class BreakalbeBox : CustomObject
@@ -104,11 +104,11 @@ public class BreakalbeBox : CustomObject
         isAvailable = false;
         objectType = ObjectType.BREAKABLE;
     }
-    public override void Active()
-    {
-        base.Active();
-        Debug.Log("BreakalbeBox");
-    }
+    //public override void Active()
+    //{
+    //    base.Active();
+    //    Debug.Log("BreakalbeBox");
+    //}
 }
 
 public class VendingMachine : CustomObject
@@ -202,6 +202,8 @@ public class Spawner : CustomObject
 public class Door : CustomObject
 {
     bool isHorizon;
+    Sprite openSprite;
+    Sprite closeSprite;
 
     public override void Init()
     {
@@ -211,15 +213,50 @@ public class Door : CustomObject
         objectType = ObjectType.NONE;
         tag = "Wall";
     }
+    public void Init(Sprite _openSprite,Sprite _closeSprite)
+    {
+        openSprite = _openSprite;
+        closeSprite = _closeSprite;
+        sprite = openSprite;
+        SetCollision();
+    }
+    void SetCollision()
+    {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+        List<Vector2> list = new List<Vector2>();
+        int num = sprite.GetPhysicsShapeCount();
+        GetComponent<PolygonCollider2D>().pathCount = num;
+        for (int i = 0; i < num; i++)
+        {
+            sprite.GetPhysicsShape(i, list);
+            GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
+        }
+        GetComponent<PolygonCollider2D>().isTrigger = false;
+    }
     public override void Active()
     {
         base.Active();
-        isAnimate = true;
-        if (!isHorizon)
-            animator.SetTrigger("door_horizon");
+        if (isActive)
+        {
+            isActive = false;
+            sprite = openSprite;
+        }
         else
-            animator.SetTrigger("door_vertical");
-        Debug.Log("Door");
+        {
+            isActive = true;
+            isAnimate = true;
+            if (!isHorizon)
+            {
+                animator.SetTrigger("door_horizon");
+            }
+            else
+            {
+                animator.SetTrigger("door_vertical");
+            }
+            sprite = closeSprite;
+        }
+       
+        SetCollision();
     }
 
     public void SetAxis(bool _isHorizon)

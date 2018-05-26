@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InGameManager : MonoBehaviourSingleton<InGameManager> {
 
-    int currentFloor = 0;
     #region UnityFunc
     private void Awake()
     {
@@ -22,25 +21,19 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
             CameraController.Instance.Shake(0.2f, .1f);
     }
     #endregion
-    #region getter
-    public int GetFloor()
-    {
-        return currentFloor;
-    }
-    #endregion
     #region Func
     public void GoUpFloor()
     {
-        currentFloor++;
+        GameDataManager.Instance.SetFloor();
         ItemManager.Instance.DeleteObjs();
         PlayerManager.Instance.DeletePlayer();
-        Map.MapManager.Instance.GenerateMap(currentFloor); // 맵생성
+        Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
         SpawnPlayer();
         DrawUI();
     }
     void GenerateMap()
     {
-        Map.MapManager.Instance.GenerateMap(currentFloor); // 맵생성
+        Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
     }
     void SpawnPlayer()
     {

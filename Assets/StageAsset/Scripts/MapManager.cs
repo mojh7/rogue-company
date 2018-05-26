@@ -690,10 +690,9 @@ namespace Map
             obj.AddComponent<Door>();
             obj.GetComponent<Door>().SetAxis(isHorizon);
             if (isHorizon)
-                obj.GetComponent<Door>().sprite = RoomSetManager.Instance.doorSprites[0];
+                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1]);
             else
-                obj.GetComponent<Door>().sprite = RoomSetManager.Instance.doorSprites[1];
-            obj.GetComponent<Door>().Init();
+                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
             obj.transform.position = new Vector3(x, y, y - 0.5f);
 
             return obj;

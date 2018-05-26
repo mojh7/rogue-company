@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     public Canvas canvas;
     public GameObject ingamePanel;
     public GameObject preventObj;
+    public GameObject gameOverObj;
     public Image fadeImage;
     #endregion
 
