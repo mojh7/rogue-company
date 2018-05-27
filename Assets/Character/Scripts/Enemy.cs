@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Character {
-
+    public Animator anim;
     public new SpriteRenderer renderer;
 
     public bool isKnockBack;

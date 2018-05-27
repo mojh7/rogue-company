@@ -1,27 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
 
     enum GameState { NOTSTARTED, GAMEOVER, PLAYING, CLEAR, ENDING }
     GameState gameState = GameState.NOTSTARTED;
-    Player.PlayerType m_playerType;
-    float floor;
 
-    #region setter
-    public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
-    #endregion
-    
     #region UnityFunc
     private void Start()
     {
         DontDestroyOnLoad(this);
-        Title.Instance.LoadLogoTitle();
+        Logo.Instance.LoadLogo();
     }
     #endregion
 
     #region Func
-
+    public void LoadInGame()
+    {
+        SceneDataManager.SetNextScene("InGameScene");
+        SceneManager.LoadScene("LoadingScene");
+    }
+    public void LoadTitle()
+    {
+        SceneDataManager.SetNextScene("TitleScene");
+        SceneManager.LoadScene("LoadingScene");
+    }
+    public void LoadSelect()
+    {
+        SceneManager.LoadScene("SelectScene");
+    }
+    public void GameOver()
+    {
+        gameState = GameState.GAMEOVER;
+        GameDataManager.Instance.ResetData();
+    }
     #endregion
 }

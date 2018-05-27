@@ -12,6 +12,14 @@ public class TempMove : MonoBehaviour {
     float size;
     Vector2 direction;
 
+    public void Init()
+    {
+        m_player = PlayerManager.Instance.GetPlayer();
+        m_enemy = GetComponent<Enemy>();
+        scale = transform.localScale;
+        size = scale.x;
+        m_enemy.isKnockBack = false;
+    }
     //추적
     public void Chase()
     {
@@ -31,11 +39,8 @@ public class TempMove : MonoBehaviour {
     private void Start()
     {
         m_enemy = GetComponent<Enemy>();
-        m_player = PlayerManager.Instance.GetPlayer();
         m_speed = m_enemy.moveSpeed;
         rg = GetComponent<Rigidbody2D>();
-        scale = transform.localScale;
-        size = scale.x;
     }
 
     private void Update()

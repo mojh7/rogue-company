@@ -33,10 +33,10 @@ public class Select : MonoBehaviour {
         panel.SetActive(true);
     }
 
-    public void StartInGame()
+    public void SelectPlayerType()
     {
-        GameStateManager.Instance.SetPlayerType(m_playerType);
-        SceneDataManager.SetNextScene("InGameScene");
-        SceneManager.LoadScene("LoadingScene");
+        GameDataManager.Instance.ResetData();
+        GameDataManager.Instance.SetPlayerType(m_playerType);
+        GameStateManager.Instance.LoadInGame();
     }
 }

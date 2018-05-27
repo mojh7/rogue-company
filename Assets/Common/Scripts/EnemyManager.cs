@@ -7,7 +7,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     public Sprite[] sprites;
     public ObjectPool objectPool;
     public GameObject alertObj;
-
     private List<Enemy> enemyList;
     // 0516 모장현
     private int aliveEnemyTotal;
@@ -38,10 +37,29 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     {
         Enemy enemy;
         GameObject obj = objectPool.GetPooledObject();
-        Sprite sprite = sprites[Mathf.Clamp(_floor, 0, sprites.Length - 1)];
+        int enemyType = Mathf.Clamp(_floor, 0, sprites.Length - 1);
+        Sprite sprite = sprites[enemyType];
         obj.transform.position = _position;
         obj.transform.localScale = new Vector3(2, 2, 0);
         enemy = obj.GetComponent<Enemy>();
+        switch (enemyType)
+        {
+            case 0:
+                enemy.anim.SetTrigger("hand");
+                break;
+            case 1:
+                enemy.anim.SetTrigger("zombi");
+                break;
+            case 2:
+                enemy.anim.SetTrigger("note");
+                break;
+            case 3:
+                enemy.anim.SetTrigger("hulk");
+                break;
+            default:
+                break;
+        }
+        obj.GetComponent<TempMove>().Init();
         enemy.Init(sprite);
         enemyList.Add(enemy);
         obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
@@ -52,9 +70,30 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     {
         Enemy enemy;
         GameObject obj = objectPool.GetPooledObject();
-        Sprite sprite = sprites[Random.Range(0, sprites.Length)];
+        int enemyType = Random.Range(0, sprites.Length);
+        Sprite sprite = sprites[enemyType];
         obj.transform.position = _position;
+        obj.transform.localScale = new Vector3(1, 1, 0);
         enemy = obj.GetComponent<Enemy>();
+        switch (enemyType)
+        {
+            case 0:
+                enemy.anim.SetTrigger("hand");
+                break;
+            case 1:
+                enemy.anim.SetTrigger("zombi");
+                break;
+            case 2:
+                enemy.anim.SetTrigger("note");
+                break;
+            case 3:
+                enemy.anim.SetTrigger("hulk");
+                break;
+            default:
+                break;
+        }
+        obj.GetComponent<TempMove>().Init();
+
         enemy.Init(sprite);
         enemyList.Add(enemy);
         obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;

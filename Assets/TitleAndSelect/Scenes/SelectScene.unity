@@ -189,7 +189,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1037242014}
-        m_MethodName: StartInGame
+        m_MethodName: SelectPlayerType
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

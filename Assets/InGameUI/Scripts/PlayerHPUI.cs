@@ -36,7 +36,7 @@ public class PlayerHPUI : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         objTransform = GetComponent<Transform>();
         column = 10;

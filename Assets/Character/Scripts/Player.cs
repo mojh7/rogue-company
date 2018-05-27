@@ -215,7 +215,8 @@ public class Player : Character
     }
     protected override void Die()
     {
-        //throw new System.NotImplementedException();
+        GameStateManager.Instance.GameOver();
+        UIManager.Instance.gameOverObj.SetActive(true);
     }
 
     public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate)
@@ -224,6 +225,7 @@ public class Player : Character
         playerHpUi.UpdateHPUI(hp);
         StopCoroutine(CoroutineAttacked());
         StartCoroutine(CoroutineAttacked());
+        if (hp <= 0) Die();
     }
 
 

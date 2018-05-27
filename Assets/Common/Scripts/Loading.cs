@@ -7,7 +7,7 @@ using System.Text;
 
 public class Loading : MonoBehaviour {
     [SerializeField]
-    private float minTime = 1f; //로딩씬이 유지되는 최소 시간
+    private float minTime = 1.5f; //로딩씬이 유지되는 최소 시간
     [SerializeField]
     private Slider sliderbar = null; //하단 슬라이더바
     [SerializeField]
@@ -42,7 +42,6 @@ public class Loading : MonoBehaviour {
         wheeleuler.z -= 3f;
         wheel.rotation = Quaternion.Euler(wheeleuler);
         timer += Time.deltaTime;
-        if (timer > minTime) async.allowSceneActivation = true;
     }
     IEnumerator LoadingScene()
     {
@@ -52,10 +51,18 @@ public class Loading : MonoBehaviour {
             async = SceneManager.LoadSceneAsync(SceneDataManager.NextScene);
             SceneDataManager.NextScene = null; //다시 다음씬이 지정될때까지 null로 둔다.
             async.allowSceneActivation = false; //다음 씬의 준비가 완료되더라도 바로 로딩되는걸 막는다.
-            while (async.progress < 1f)
+            while (!async.isDone)
             {
-                sliderbar.value = async.progress;
-                yield return true;
+                if (async.progress == 0.9f && timer > minTime)
+                {
+                    Tip.text = "화면을 눌러주세요.";
+                    if (Input.anyKey)
+                        async.allowSceneActivation = true;
+                    sliderbar.value = 1;
+                }
+                else
+                    sliderbar.value = async.progress;
+                yield return null;
             }
         }
     }

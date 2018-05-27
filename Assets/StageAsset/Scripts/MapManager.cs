@@ -627,23 +627,37 @@ namespace Map
                 int intervalResult = Random.Range(0, intervalNum) * size;
                 int y = yArr[1] + intervalResult + size / 2;
 
-                if (_rectA.midX > _rectB.midX) // 오른쪽
+                if (_rectA.midX > _rectB.midX) // 오른쪽 사각형이 메인
                 {
                     wallTileMap.SetTile(new Vector3Int(_rectA.x * size, y, 0), null);
                     wallTileMap.SetTile(new Vector3Int(_rectA.x * size - 1, y, 0), null);
-                    if (_rectB.isRoom) // 이미지에 따라 수정해야함
-                        obj = CreateDoorObject(_rectA.x * size, y + 0.5f, true);
+                    if(_rectA.isRoom && _rectB.isRoom)
+                    {
+                        obj = CreateDoorObject(_rectA.x * size + 0.15625f, y + 0.5f, true);
+                        GameObject obj2 = CreateDoorObject(_rectA.x * size + 0.5f, y + 0.5f, true);
+                        _rectA.doorObjects.Add(obj2);
+                        _rectB.doorObjects.Add(obj2);
+                    }
+                    else if (_rectB.isRoom) // 왼쪽 방이  방임
+                        obj = CreateDoorObject(_rectA.x * size + 0.15625f, y + 0.5f, true);
                     else
-                        obj = CreateDoorObject(_rectA.x * size, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectA.x * size + 0.5f, y + 0.5f, true);
                 }
-                else // 왼쪽
+                else // 왼쪽 사각형이 메인
                 {
                     wallTileMap.SetTile(new Vector3Int(_rectB.x * size, y, 0), null);
                     wallTileMap.SetTile(new Vector3Int(_rectB.x * size - 1, y, 0), null);
-                    if (_rectA.isRoom) // 이미지에 따라 수정해야함
-                        obj = CreateDoorObject(_rectB.x * size, y + 0.5f, true);
+                    if (_rectA.isRoom && _rectB.isRoom)
+                    {
+                        obj = CreateDoorObject(_rectB.x * size + 0.15625f, y + 0.5f, true);
+                        GameObject obj2 = CreateDoorObject(_rectB.x * size + 0.5f, y + 0.5f, true);
+                        _rectA.doorObjects.Add(obj2);
+                        _rectB.doorObjects.Add(obj2);
+                    }
+                    else if (_rectA.isRoom) // 오른쪽 방이 방임
+                        obj = CreateDoorObject(_rectB.x * size + 0.15625f, y + 0.5f, true);
                     else
-                        obj = CreateDoorObject(_rectB.x * size, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectB.x * size + 0.5f, y + 0.5f, true);
                 }
             } // 가로로 붙음
             else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
@@ -690,10 +704,9 @@ namespace Map
             obj.AddComponent<Door>();
             obj.GetComponent<Door>().SetAxis(isHorizon);
             if (isHorizon)
-                obj.GetComponent<Door>().sprite = RoomSetManager.Instance.doorSprites[0];
+                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1]);
             else
-                obj.GetComponent<Door>().sprite = RoomSetManager.Instance.doorSprites[1];
-            obj.GetComponent<Door>().Init();
+                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
             obj.transform.position = new Vector3(x, y, y - 0.5f);
 
             return obj;
