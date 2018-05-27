@@ -323,6 +323,8 @@ public class Portal : CustomObject
 
 public class ItemBox : CustomObject
 {
+    Item item;
+
     public override void Init()
     {
         base.Init();
@@ -330,11 +332,16 @@ public class ItemBox : CustomObject
         isAvailable = true;
         objectType = ObjectType.ITEMBOX;
     }
+    public void Init(Item _item)
+    {
+        Init();
+        item = _item;
+    }
     public override void Active()
     {
         base.Active();
         isAvailable = false;
-        ItemManager.Instance.DropItem(this.transform.position);
+        ItemManager.Instance.DropItem(item, this.transform.position);
         Destroy(this.gameObject, 3);
     }
 }
@@ -354,11 +361,11 @@ public class ItemContainer : CustomObject
         gameObject.tag = "Untagged";
     }
 
-    public void Init(Item _object)
+    public void Init(Item _item)
     {
         Init();
-        sprite = _object.GetComponent<SpriteRenderer>().sprite;
-        innerObject = _object;
+        sprite = _item.GetComponent<SpriteRenderer>().sprite;
+        innerObject = _item;
     }
 
     public override void Active()
@@ -367,5 +374,6 @@ public class ItemContainer : CustomObject
         Debug.Log("ItemContainer");
 
         PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject, gameObject);
+        GetComponent<PolygonCollider2D>().enabled = true;
     }
 }

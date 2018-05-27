@@ -6,11 +6,8 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public GameObject customObject;
     public Sprite sprite;
     Queue<GameObject> objs;
-     // 0513 모장현
-    [SerializeField]
-    private GameObject wepaonPrefab;
 
-    public void CallItemBox(Vector3 _position)
+    public void CallItemBox(Vector3 _position,Item _item)
     {
         if (objs == null)
             objs = new Queue<GameObject>();
@@ -18,7 +15,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         objs.Enqueue(obj);
         obj.AddComponent<ItemBox>();
         obj.GetComponent<ItemBox>().sprite = sprite;
-        obj.GetComponent<ItemBox>().Init();
+        obj.GetComponent<ItemBox>().Init(_item);
     }
 
     public void DeleteObjs()
@@ -28,21 +25,15 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             Destroy(objs.Dequeue());
         }
     }
-    /// <summary>
-    /// 아이템 _position 방향으로 던짐
-    /// </summary>
-    public void DropItem(Vector3 _position)
+
+    public void DropItem(Item _item,Vector3 _position)
     {
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
+        obj.AddComponent<ItemContainer>().Init(_item);
 
-        // 모장현, id에 따른 무기 생성 초기화 및 parent item container로 지정
-        GameObject Item = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10), _position, obj.transform);
-
-        obj.AddComponent<ItemContainer>();
-        obj.GetComponent<ItemContainer>().Init(Item.GetComponent<Item>());
-        StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1,2), 5)));
+        StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1, 2), 5)));
     }
-  
+
     IEnumerator CoroutineDropping(GameObject _object, Vector2 _vector)
     {
         int g = 20;

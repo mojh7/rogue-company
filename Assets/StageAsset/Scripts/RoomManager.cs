@@ -56,7 +56,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         ObjectSetAvailable();
         FindCurrentRoom();
-        ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea());
+        Item item = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10));
+        ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
             for (int i = 0; i < currentRoom.customObjects.Length; i++)

@@ -54,6 +54,12 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
     #region createObject
 
+    public Item CreateWeapon(int weaponId)
+    {
+        GameObject createdObj = weaponPool.NewItem();
+        createdObj.GetComponent<Weapon>().Init(weaponId);
+        return createdObj.GetComponent<Item>();
+    }
     /// <summary>
     /// 해당 weapon Id의 정보를 가진 weapon 생성
     /// </summary>
