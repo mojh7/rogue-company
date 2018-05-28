@@ -197,7 +197,6 @@ public class RowPattern : BulletPattern
         perpendicularVector = MathCalculator.VectorRotate(ownerDirVec(), -90);
         for (int i = 0; i < info.bulletCount; i++)
         {
-            Debug.Log(ownerDirVec() + ", " + ownerDirVec().magnitude);
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * i), ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
         }

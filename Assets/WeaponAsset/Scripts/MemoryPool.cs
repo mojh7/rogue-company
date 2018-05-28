@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 
@@ -11,7 +12,12 @@ using System.Text;
 //System.IDisposable 관리되지 않는 메모리(리소스)를 해제 함
 public class MemoryPool : IEnumerable, System.IDisposable
 {
-    //public Player_Missile_Move test;
+
+    [SerializeField]
+    private int totalCount;
+    [SerializeField]
+    private List<Item> table;
+    private Object originalObj;
 
     //-------------------------------------------------------------------------------------
     // 아이템 클래스
@@ -21,7 +27,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
         public bool active; //사용중인지 여부
         public GameObject gameObject;
     }
-    Item[] table;
+    
 
     //------------------------------------------------------------------------------------
     // 생성자
@@ -39,9 +45,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
         if (table == null)
             yield break;
 
-        int count = table.Length;
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < totalCount; i++)
         {
             Item item = table[i];
             if (item.active)
@@ -56,15 +60,17 @@ public class MemoryPool : IEnumerable, System.IDisposable
     public void Create(Object original, int count)
     {
         Dispose();
-        table = new Item[count];
-        for (int i = 0; i < count; i++)
+        originalObj = original;
+        totalCount = count;
+        table = new List<Item>();
+        for (int i = 0; i < totalCount; i++)
         {
             Item item = new Item();
             item.active = false;
             item.gameObject = GameObject.Instantiate(original) as GameObject;
             item.gameObject.hideFlags = HideFlags.HideInHierarchy;
             item.gameObject.SetActive(false);
-            table[i] = item;
+            table.Add(item);
         }
     }
     //-------------------------------------------------------------------------------------
@@ -75,20 +81,27 @@ public class MemoryPool : IEnumerable, System.IDisposable
 
         if (table == null)
             return null;
-        int count = table.Length;
-        for (int i = 0; i < count; i++)
+        Item item;
+        for (int i = 0; i < totalCount; i++)
         {
-            Item item = table[i];
+            item = table[i];
             if (item.active == false)
             {
                 item.active = true;
                 item.gameObject.SetActive(true);
-                //Debug.Log(item.gameObject +", " + item.gameObject.activeSelf + " 생성");
                 return item.gameObject;
             }
         }
 
-        return null;
+        // 쉬고 있는 객체가 없으면 추가 생성 후 반환
+        totalCount += 1;
+        item = new Item();
+        item.active = true;
+        item.gameObject = GameObject.Instantiate(originalObj) as GameObject;
+        item.gameObject.hideFlags = HideFlags.HideInHierarchy;
+        item.gameObject.SetActive(true);
+        table.Add(item);
+        return item.gameObject;
     }
     //--------------------------------------------------------------------------------------
     // 아이템 사용종료 - 사용하던 객체를 쉬게한다.
@@ -98,13 +111,8 @@ public class MemoryPool : IEnumerable, System.IDisposable
     {
         if (table == null || gameObject == null)
             return;
-        int count = table.Length;
 
-        //test = gameObject.GetComponent("Player_Missile_Move") as Player_Missile_Move;
-        //Item item = table[test.index];
-
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < totalCount; i++)
         {
             Item item = table[i];
             if (item.gameObject == gameObject)
@@ -124,9 +132,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
         Debug.Log("Memory pool Clear item");
         if (table == null)
             return;
-        int count = table.Length;
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < totalCount; i++)
         {
             Item item = table[i];
             if (item != null && item.active)
@@ -135,6 +141,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
                 item.gameObject.SetActive(false);
             }
         }
+        totalCount = 0;
     }
     //--------------------------------------------------------------------------------------
     // 메모리 풀 삭제
@@ -147,14 +154,14 @@ public class MemoryPool : IEnumerable, System.IDisposable
             //Debug.Log("Memory pool Dispose table null");
             return;
         }
-        int count = table.Length;
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < totalCount; i++)
         {
             Item item = table[i];
             GameObject.Destroy(item.gameObject);
         }
         table = null;
+        totalCount = 0;
     }
 
 }

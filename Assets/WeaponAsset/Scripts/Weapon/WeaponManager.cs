@@ -21,13 +21,11 @@ public class WeaponManager : MonoBehaviour {
     [SerializeField]
     private List<Weapon> equipWeaponSlot;      // 무기 장착 슬룻
     /// <summary> 현재 사용 무기 index </summary>
-    [SerializeField]
-    private int currentWeaponIndex;
+    [SerializeField] private int currentWeaponIndex;
     /// <summary> 현재 장착된 무기 갯수 </summary>
-    private int weaponCount;
+    [SerializeField] private int weaponCount;
     /// <summary> 무기를 장착할 수 있는 최대 갯수 </summary>
-    [SerializeField]
-    private int weaponCountMax;
+    [SerializeField] private int weaponCountMax;
     private Transform objTransform;
     private BuffManager ownerBuff;
 
@@ -57,11 +55,16 @@ public class WeaponManager : MonoBehaviour {
     // 우측 바라보고 있을 때의 weaponManager의 position 초기 x값, 좌측 볼 때 - 이 값을 지정 해줘야 됨.
     private float rightDirectionPosX;
 
+    // for Debug
+
+    [Header("Player 전용 게임 시작시 무기 적용, True : 모든 무기 착용, Max = 모든 무기 갯수" +
+        " False : startWeaponId 무기 1개 착용, Max = 3")]
+    public bool equipAllWeapons = false;
+    public int startWeaponId = 0;
+
     #endregion
     #region getter
     /// <summary> weapon State 참조하여 Idle인지 확인 후 공격 가능 여부 리턴 </summary>
-    /// <returns></returns>
-    
     public bool GetAttackAble()
     {
         if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.Idle)
@@ -91,13 +94,6 @@ public class WeaponManager : MonoBehaviour {
         // Debug.Log("local pos : " + objTransform.localPosition); 디버그는 반올림으로 소숫점 1자리까지만 나오는 듯 x값 0.15 => 디버그 0.2, x값 0.25 => 디버그 0.3로 나옴
         posVector = objTransform.localPosition;   // weaponManager 초기 local Position 값, 좌 우 바뀔 때 x값만 -, + 부호로 바꿔줘서 사용
         rightDirectionPosX = posVector.x;
-    }
-    // Use this for initialization
-    void Start()
-    {
-        //weaponCountMax = 5;  // 원래 3인데 테스트용으로 inspecter창에서 값 받음;
-        weaponCount = weaponCountMax;
-        OnOffWeaponActive();
     }
 
     // 공격 테스트용
@@ -147,23 +143,56 @@ public class WeaponManager : MonoBehaviour {
     {
         SetOwnerInfo(owner, ownerType);
         
-        // 0526 땜빵
+        // 0526 몬스터 무기 땜빵
         if(OwnerType.Enemy == ownerType)
         {
+            weaponCountMax = 1;
+            weaponCount = weaponCountMax;
+            currentWeaponIndex = 0;
             equipWeaponSlot[0].Init(Random.Range(0, 4), ownerType);
+
+            for (int i = 0; i < weaponCountMax; i++)
+            {
+                equipWeaponSlot[i].RegisterWeapon(this);
+            }
         }
 
-        for (int i = 0; i < weaponCountMax; i++)
+        // 0529 Player 무기 디버그용 
+        else if(OwnerType.Player == ownerType)
         {
-            // Debug 용으로 현재 장착된 무기들 인스펙터 창에서 설정된 wepaon id대로 초기화
-            equipWeaponSlot[i].Init(-1, ownerType);
-            equipWeaponSlot[i].RegisterWeapon(this);
+            Weapon weapon;
+            equipWeaponSlot = new List<Weapon>();
+            currentWeaponIndex = 0;
+            if (equipAllWeapons)
+            {
+                weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
+                weaponCount = weaponCountMax;
+                for(int i = 0; i < weaponCountMax; i++)
+                {
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(i) as Weapon;
+                    equipWeaponSlot.Add(weapon);
+                    weapon.ObjTransform.SetParent(registerPoint, false);
+                    weapon.RegisterWeapon(this);
+                }
+            }
+            else
+            {
+                weaponCountMax = 3;
+                weaponCount = 1;
+                weapon = ObjectPoolManager.Instance.CreateWeapon(startWeaponId) as Weapon;
+                equipWeaponSlot.Add(weapon);
+                weapon.ObjTransform.SetParent(registerPoint, false);
+                weapon.RegisterWeapon(this);
+                for (int i = 0; i < weaponCountMax - 1; i++)
+                {
+                    equipWeaponSlot.Add(null);
+                }
+            }
         }
+        OnOffWeaponActive();
     }
     
-    /// <summary>
-    /// Owner 정보 등록
-    /// </summary>
+    /// <summary> Owner 정보 등록 </summary>
     /// <param name="owner"></param>
     public void SetOwnerInfo(Character owner, OwnerType ownerType)
     {
@@ -179,18 +208,14 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// 차징 공격에 사용되는 차징 게이지 UI Update
-    /// </summary>
+    /// <summary> 차징 공격에 사용되는 차징 게이지 UI Update </summary>
     /// <param name="chargedVaule"></param>
     public void UpdateChargingUI(float chargedVaule)
     {
         chargeGauge.UpdateChargeGauge(chargedVaule);
     }
 
-    /// <summary>
-    /// 공격 버튼 누를 때, 누르는 중일 때 
-    /// </summary>
+    /// <summary> 공격 버튼 누를 때, 누르는 중일 때 </summary>
     public void AttackButtonDown()
     {
         if (GetAttackAble())
@@ -199,9 +224,7 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// 공격 버튼 뗐을 때
-    /// </summary>
+    /// <summary> 공격 버튼 뗐을 때 </summary>
     public void AttackButtonUP()
     {
         //if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.PickAndDrop)
@@ -211,54 +234,50 @@ public class WeaponManager : MonoBehaviour {
         equipWeaponSlot[currentWeaponIndex].StopAttack();
     }
 
-    /// <summary>
-    /// 전체 무기 object Active off, 현재 착용 무기만 on 
-    /// </summary>
+    /// <summary> 전체 무기 object Active off, 현재 착용 무기만 on </summary>
     public void OnOffWeaponActive()
     {
-        for(int i = 0; i < weaponCountMax; i++)
+        for(int i = 0; i < weaponCount; i++)
         {
             equipWeaponSlot[i].gameObject.SetActive(false);
-            equipWeaponSlot[i].SetWeaponState(WeaponState.Idle);
         }
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
     }
 
-    /// <summary>
-    /// 무기 교체, changeNextWepaon 값 true : 다음 무기, false : 이전 무기 
-    /// </summary>
+    /// <summary> 무기 교체, changeNextWepaon 값 true : 다음 무기, false : 이전 무기 </summary>
     public void ChangeWeapon(bool changeNextWeapon)
     {
-        if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.Idle)
+        if (WeaponState.Idle == equipWeaponSlot[currentWeaponIndex].GetWeaponState())
         {
+            if (weaponCount == 1) return;
+
             // 다음 무기로 교체
             if (changeNextWeapon)
             {
+                Debug.Log("다음 무기로 교체");
                 equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(false);
-                currentWeaponIndex = (currentWeaponIndex + 1) % weaponCountMax;
+                currentWeaponIndex = (currentWeaponIndex + 1) % weaponCount;
                 equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
             }
             // 이전 무기로 교체
             else
             {
+                Debug.Log("이전 무기로 교체");
                 equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(false);
-                currentWeaponIndex = (currentWeaponIndex - 1 + weaponCountMax) % weaponCountMax;
+                currentWeaponIndex = (currentWeaponIndex - 1 + weaponCount) % weaponCount;
                 equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
             }
         }
     }
 
 
-    /// <summary>
-    /// 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용 / 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기
-    /// </summary>
+    /// <summary> 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용 / 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기 </summary>
     /// <param name="pickedWeapon">얻어서 장착할 무기</param>
-    /// <param name="itemContainer"></param>
     public void PickAndDropWeapon(Item pickedWeapon)
     {
         
         Weapon weapon = pickedWeapon as Weapon;
-        if (weapon == null)
+        if (weapon == null || WeaponState.Idle == equipWeaponSlot[currentWeaponIndex].GetWeaponState())
             return;
         // 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
         if (!canPickAndDropWeapon) return;

@@ -50,7 +50,7 @@ public class Enemy : Character {
         pState = State.ALIVE;
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
-        hp = 10;
+        hp = 5;
 
         // 0526 임시용
         weaponManager = GetComponentInChildren<WeaponManager>();

@@ -140,6 +140,14 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
     #region getter
 
+    /// <summary> 0529 Player 무기 디버그용, 현재 weaponInfos에 있는 무기 전체 길이를 반환 </summary>
+    public int GetWeaponInfosLength()
+    {
+        return weaponInfos.Length;
+    }
+
+
+
     /// <summary>
     /// Owner에 따른 Weapon Data 반환, owner 기본 값 Player
     /// </summary>
