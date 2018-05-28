@@ -62,6 +62,15 @@ public class Enemy : Character {
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
+        DropItem();
+    }
+    void DropItem()
+    {
+        GameObject coin = new GameObject();
+        coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
+        coin.AddComponent<Coin>();
+        coin.AddComponent<CircleCollider2D>().isTrigger = true;
+        ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position);
     }
 
     public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate)

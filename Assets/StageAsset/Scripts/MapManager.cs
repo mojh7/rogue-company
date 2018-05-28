@@ -36,12 +36,6 @@ namespace Map
             RoomManager.Instance.InitRoomList();
         }
         public Map GetMap() { return map; }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.M))
-                GenerateMap(0);
-        }
     }
 
     public class Map
@@ -49,7 +43,6 @@ namespace Map
         Rect mainRect;
         Queue<Rect> rects, blocks;
         List<Rect> halls, rooms;
-        List<Rect> necessaryBlocks, necessaryRooms;
         List<RoomSet> necessaryRoomSet;
         Tilemap wallTileMap, floorTileMap, shadowTileMap;
         float MaxHallRate = 0.15f;
@@ -76,15 +69,11 @@ namespace Map
             blocks = new Queue<Rect>();
             halls = new List<Rect>(_width * _height);
             rooms = new List<Rect> (_width * _height);
-            necessaryBlocks = new List<Rect>(_width * _height);
-            necessaryRooms = new List<Rect>(_width * _height);
             floorTileMap = TileManager.GetInstance().floorTileMap;
             wallTileMap = TileManager.GetInstance().wallTileMap;
             shadowTileMap = TileManager.GetInstance().shadowTileMap;
         } // 생성자
-        /// <summary>
-        ///방 데이터 초기화
-        /// </summary>
+
         public void Destruct()
         {
             RefreshData();
@@ -116,26 +105,23 @@ namespace Map
             DrawTile();
             LinkAllRecursion();
             LinkHall();
-            AssignAllRoom();
             rooms.AddRange(halls);
             BakeAvailableArea();
             CreateRoomMaskObj();
         } // office creates
-        /// <summary>
-        ///꼭 필요한 방 하나를 무조건 추가
-        /// </summary>
-        public void AddNecessaryRoomSet(Rect _rect)
-        {
-            necessaryBlocks.Add(_rect);
-        } // 필수 방 세팅
-        /// <summary>
-        ///꼭 필요한 방 룸세팅을 무조건 추가
-        /// </summary>
+
         public void AddNecessaryRoomSet(RoomSet[] _roomSet)
         {
+            int maxSize = width * height;
+            int sum = 0;
             necessaryRoomSet = new List<RoomSet>(_roomSet.Length);
-            for(int i = 0; i < _roomSet.Length; i++)
+            for (int i = 0; i < _roomSet.Length; i++)
+            {
+                sum += _roomSet[i].width * _roomSet[i].height;
+                if (sum > maxSize)
+                    break;
                 necessaryRoomSet.Add(_roomSet[i]);
+            }
         } // 필수 방 세팅
 
         void RefreshData()
@@ -164,72 +150,17 @@ namespace Map
        
         void CreateMap()
         {
-            bool success = false;
-            while (!success)
-            {
+            while (true) {
                 Random.InitState((int)System.DateTime.Now.Ticks);
                 RefreshData();
                 rects.Enqueue(mainRect);
                 RectToBlock();
-                success = BlockToRoom();
+                BlockToRoom();
+                AssignAllRoom();
+                if (necessaryRoomSet.Count == 0)
+                    break;
             }
         } // 맵 만들기 
-
-        void RectToBlock()
-        {
-            Rect rect;
-
-            while (rects.Count > 0 && ((float)TotalHallArea / mainRect.area < MaxHallRate))
-            {
-                rect = rects.Dequeue();
-                if (rect.area > MinumRoomArea)
-                    SplitHall(rect);
-                else blocks.Enqueue(rect);  
-            }
-
-            while (rects.Count > 0)
-            {
-                rect = rects.Dequeue();
-                if(rect.area > 1)
-                    blocks.Enqueue(rect);
-            }
-
-        } // Rects -> Blocks;
-
-        bool BlockToRoom()
-        {
-            for(int i = 0; i < necessaryBlocks.Count; i++)
-            {
-                necessaryRooms.Add(necessaryBlocks[i]);
-            }
-            Rect block;
-            while (blocks.Count > 0)
-            {
-                block = blocks.Dequeue();
-                if (block.width == 0 || block.height == 0)
-                    continue;
-                if ((block.area > MinumRoomArea || (block.area > 2 && (float)block.width / block.height >= 2 || (float)block.height / block.width >= 2)) && !FitRectCheck(block, necessaryRooms))
-                    SplitBlock(block);
-                else
-                {
-                    if (block.area <= 2)
-                    {
-                        block.isRoom = false;
-                        halls.Add(block);
-                    }
-                    else
-                    {
-                        block.isRoom = true;
-                        rooms.Add(block);
-                    }
-                }
-            }
-            if (necessaryRooms.Count > 0)
-            {
-                return false;
-            }
-            return true;
-        } // Blocks -> Rooms;
 
         void DrawTile()
         {
@@ -403,39 +334,54 @@ namespace Map
             } // 보더 지우기
         }
 
-        bool FitRectCheck(Rect _currentRect ,Rect _rectA, Rect _rectB , List<Rect> _list)
+        void RectToBlock()
         {
-            for (int i = 0; i < _list.Count; i++)
-            {
-                if ((_rectA.width >= _list[i].width && _rectA.height >= _list[i].height) || (_rectB.width >= _list[i].width && _rectB.height >= _list[i].height))
-                {
-                    return true;
-                }
-            }
-            for (int i = 0; i < _list.Count; i++)
-            {
-                if (_currentRect.width >= _list[i].width && _currentRect.height >= _list[i].height)
-                {
-                    necessaryRooms.Add(_list[i]);
-                    _list.RemoveAt(i);
-                    return false;
-                }
-            }
-            return true;
-        } // check Rects for fit necessary Room
+            Rect rect;
 
-        bool FitRectCheck(Rect _rect, List<Rect> _list)
-        {
-            for (int i = 0; i < _list.Count; i++)
+            while (rects.Count > 0 && ((float)TotalHallArea / mainRect.area < MaxHallRate))
             {
-                if (_rect.width == _list[i].width && _rect.height == _list[i].height)
+                rect = rects.Dequeue();
+                if (rect.area > MinumRoomArea)
+                    SplitHall(rect);
+                else blocks.Enqueue(rect);  
+            }
+
+            while (rects.Count > 0)
+            {
+                rect = rects.Dequeue();
+                if(rect.area > 1)
+                    blocks.Enqueue(rect);
+            }
+
+        } // Rects -> Blocks;
+
+        bool BlockToRoom()
+        {
+            Rect block;
+            while (blocks.Count > 0)
+            {
+                block = blocks.Dequeue();
+                if (block.width == 0 || block.height == 0)
+                    continue;
+                if ((block.area > MinumRoomArea || (block.area > 2 && (float)block.width / block.height >= 2 || (float)block.height / block.width >= 2)))
+                    SplitBlock(block);
+                else
                 {
-                    _list.RemoveAt(i);
-                    return true;
+                    if (block.area <= 2)
+                    {
+                        block.isRoom = false;
+                        halls.Add(block);
+                    }
+                    else
+                    {
+                        block.isRoom = true;
+                        rooms.Add(block);
+                    }
                 }
             }
-            return false;
-        } // check blocks for fit necessary Room
+  
+            return true;
+        } // Blocks -> Rooms;
 
         void SplitHall(Rect _currentRect)
         {
@@ -444,20 +390,12 @@ namespace Map
             Rect rect_a = null, rect_b = null;
             RandomBlockSplit(_currentRect, out rect_a, out hall, out rect_b);
 
-            if (FitRectCheck(_currentRect, rect_a, rect_b, necessaryBlocks))
-            {
-                rects.Enqueue(rect_a);
-                rects.Enqueue(rect_b);
-                hall.isRoom = false;
-                hall.isClear = true;
-                halls.Add(hall);
-                TotalHallArea += hall.area;
-            }
-            else
-            {
-                blocks.Enqueue(_currentRect);
-            }
-
+            rects.Enqueue(rect_a);
+            rects.Enqueue(rect_b);
+            hall.isRoom = false;
+            hall.isClear = true;
+            halls.Add(hall);
+            TotalHallArea += hall.area;
         } // split rects -> rects & halls
 
         void SplitBlock(Rect _currentBlock)
@@ -465,8 +403,6 @@ namespace Map
             Rect block_a = null;
             Rect block_b = null;
             RandomRoomSplit(_currentBlock, out block_a, out block_b);
-            FitRectCheck(block_a, necessaryRooms);
-            FitRectCheck(block_b, necessaryRooms);
 
             blocks.Enqueue(block_a);
             blocks.Enqueue(block_b);
@@ -573,7 +509,8 @@ namespace Map
 
         void LinkAllRecursion()
         {
-            RecursionLink(rooms[0]);
+            for (int i = 0; i < rooms.Count; i++)
+                RecursionLink(rooms[i]);
         } // 모두 연결
 
         void RecursionLink(Rect _rect)
@@ -723,13 +660,13 @@ namespace Map
                 rooms[i].gage = roomSet.gage;
                 rooms[i].customObjects = AssignRoom(roomSet);
             }
-
+       
             CreateStartPoint();
         } // 모든 룸 셋 배치
 
         RoomSet GetRoomSet(int width,int height,int floor)
         {
-            if(necessaryRoomSet.Count==0)
+            if (necessaryRoomSet.Count == 0)
                 return RoomSetManager.Instance.LoadRoomSet(width, height, floor);
             else
             {
@@ -830,7 +767,7 @@ namespace Map
         public Vector2 areaLeftDown, areaRightTop;
         public bool visited;
         public List<Rect> edgeRect;
-        List<Rect> linkedEdgeRect;
+        public List<Rect> linkedEdgeRect;
         public GameObject[] customObjects;
         public List<GameObject> doorObjects;
         public List<Vector3> availableAreas;

@@ -4,34 +4,41 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public GameObject customObject;
+    public Sprite coinSprite;
     public Sprite sprite;
     Queue<GameObject> objs;
 
-    public void CallItemBox(Vector3 _position,Item _item)
-    {
-        if (objs == null)
-            objs = new Queue<GameObject>();
-        GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
-        objs.Enqueue(obj);
-        obj.AddComponent<ItemBox>();
-        obj.GetComponent<ItemBox>().sprite = sprite;
-        obj.GetComponent<ItemBox>().Init(_item);
-    }
-
     public void DeleteObjs()
     {
-        while(objs.Count>0)
+        if (objs == null)
+            return;
+        while (objs.Count > 0)
         {
             Destroy(objs.Dequeue());
         }
     }
 
-    public void DropItem(Item _item,Vector3 _position)
+    public void CallItemBox(Vector3 _position,Item _item)
     {
-        GameObject obj = Instantiate(customObject, _position, Quaternion.identity, this.transform);
+        if (objs == null)
+            objs = new Queue<GameObject>();
+        GameObject obj = Instantiate(customObject, _position, Quaternion.identity);
+
+        objs.Enqueue(obj);
+        obj.AddComponent<ItemBox>();
+        obj.GetComponent<ItemBox>().sprite = sprite;
+        obj.GetComponent<ItemBox>().Init(_item);
+        obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, 100);
+    }
+
+    public GameObject CreateItem(Item _item,Vector3 _position)
+    {
+        GameObject obj = Instantiate(customObject, _position, Quaternion.identity,transform);
         obj.AddComponent<ItemContainer>().Init(_item);
 
         StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1, 2), 5)));
+
+        return obj;
     }
 
     IEnumerator CoroutineDropping(GameObject _object, Vector2 _vector)
@@ -41,7 +48,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         float elapsed_time = 0;
         float sX = _object.transform.position.x;
         float sY = _object.transform.position.y;
-        float sZ = _object.transform.position.z;
+        float sZ = sY;
         float vX = _vector.x;
         float vY = _vector.y;
         while (true)

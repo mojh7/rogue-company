@@ -18,7 +18,7 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))
-            CameraController.Instance.Shake(0.2f, .1f);
+            GoUpFloor();
     }
     #endregion
     #region Func

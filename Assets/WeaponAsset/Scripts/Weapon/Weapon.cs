@@ -78,6 +78,10 @@ public class Weapon : Item {
     #endregion
     #region Function
 
+    public override void Active()
+    {
+        //무기 습득에 쓸거같음
+    }
 
     // DataStore에서 무기 정보 받아오기, weaponView class 초기화
     public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)

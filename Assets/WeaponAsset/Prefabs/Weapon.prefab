@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114378713045044092}
   - component: {fileID: 212208124487230244}
   - component: {fileID: 95240833617299046}
+  - component: {fileID: 60327484125423862}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -42,6 +43,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &60327484125423862
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1788915023617148}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.2726237, y: 0.49953642}
+    oldSize: {x: 0.33, y: 0.21}
+    newSize: {x: 0.9375, y: 1.09375}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.08996582, y: -0.10490265}
+      - {x: 0.24003418, y: -0.10490265}
+      - {x: 0.24003418, y: 0.105097346}
+      - {x: -0.08996582, y: 0.105097346}
 --- !u!95 &95240833617299046
 Animator:
   serializedVersion: 3

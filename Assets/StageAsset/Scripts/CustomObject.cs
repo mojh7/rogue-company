@@ -341,7 +341,7 @@ public class ItemBox : CustomObject
     {
         base.Active();
         isAvailable = false;
-        ItemManager.Instance.DropItem(item, this.transform.position);
+        ItemManager.Instance.CreateItem(item, this.transform.position);
         Destroy(this.gameObject, 3);
     }
 }
@@ -368,12 +368,27 @@ public class ItemContainer : CustomObject
         innerObject = _item;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (innerObject as Weapon != null)
+                return;
+
+            innerObject.GetComponent<Item>().Active();
+            Destroy(innerObject.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
     public override void Active()
     {
         base.Active();
         Debug.Log("ItemContainer");
-
-        PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject, gameObject);
-        GetComponent<PolygonCollider2D>().enabled = true;
+        if (innerObject as Weapon != null)
+        {
+            PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
+            Destroy(gameObject);
+        }
     }
 }

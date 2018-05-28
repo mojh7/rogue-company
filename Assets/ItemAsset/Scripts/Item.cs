@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour {
-
+public abstract class Item : MonoBehaviour {
+    public abstract void Active();
 }
 
-public abstract class TouchItem : Item
+public class Coin : Item
 {
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag("Player"))
-            Active();
-    }
+    bool isActive = false;
 
-    protected abstract void Active();
-}
-
-public class Coin : TouchItem
-{
-    protected override void Active()
+    public override void Active()
     {
+        if (!isActive)
+        {
+            Debug.Log("Coin");
+            GameDataManager.Instance.SetCoin();
+            isActive = !isActive;
+        }
     }
 }

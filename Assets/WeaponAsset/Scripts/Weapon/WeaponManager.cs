@@ -254,10 +254,12 @@ public class WeaponManager : MonoBehaviour {
     /// </summary>
     /// <param name="pickedWeapon">얻어서 장착할 무기</param>
     /// <param name="itemContainer"></param>
-    public void PickAndDropWeapon(Item pickedWeapon, GameObject itemContainer)
+    public void PickAndDropWeapon(Item pickedWeapon)
     {
         
         Weapon weapon = pickedWeapon as Weapon;
+        if (weapon == null)
+            return;
         // 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
         if (!canPickAndDropWeapon) return;
         // 무기 습득하고 습득한 무기 착용
@@ -277,8 +279,8 @@ public class WeaponManager : MonoBehaviour {
             weapon.ObjTransform.SetParent(registerPoint, false);
             weapon.RegisterWeapon(this);
             OnOffWeaponActive();
-            itemContainer.GetComponent<ItemContainer>().Init(dropedWeapon);
-            dropedWeapon.ObjTransform.SetParent(itemContainer.transform, false);
+            GameObject obj = ItemManager.Instance.CreateItem(dropedWeapon, transform.position);
+            dropedWeapon.ObjTransform.SetParent(obj.transform, false);
         }
         StartCoroutine("PickAndDropWeaponDelay");
     }
