@@ -183,10 +183,11 @@ public class WeaponManager : MonoBehaviour {
                 equipWeaponSlot.Add(weapon);
                 weapon.ObjTransform.SetParent(registerPoint, false);
                 weapon.RegisterWeapon(this);
+                /*
                 for (int i = 0; i < weaponCountMax - 1; i++)
                 {
                     equipWeaponSlot.Add(null);
-                }
+                }*/
             }
         }
         OnOffWeaponActive();
@@ -275,12 +276,12 @@ public class WeaponManager : MonoBehaviour {
     /// <param name="pickedWeapon">얻어서 장착할 무기</param>
     public void PickAndDropWeapon(Item pickedWeapon)
     {
-        
+
         Weapon weapon = pickedWeapon as Weapon;
-        if (weapon == null || WeaponState.Idle == equipWeaponSlot[currentWeaponIndex].GetWeaponState())
+        // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
+        if (weapon == null || WeaponState.Idle != equipWeaponSlot[currentWeaponIndex].GetWeaponState() || !canPickAndDropWeapon)
             return;
-        // 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
-        if (!canPickAndDropWeapon) return;
+
         // 무기 습득하고 습득한 무기 착용
         if (weaponCount < weaponCountMax)
         {
@@ -293,6 +294,7 @@ public class WeaponManager : MonoBehaviour {
         // 현재 착용중인 무기 버리고 습득 무기로 바꾸고 장착
         else
         {
+
             Weapon dropedWeapon = equipWeaponSlot[currentWeaponIndex];
             equipWeaponSlot[currentWeaponIndex] = weapon;
             weapon.ObjTransform.SetParent(registerPoint, false);
