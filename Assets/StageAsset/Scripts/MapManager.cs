@@ -150,7 +150,9 @@ namespace Map
        
         void CreateMap()
         {
+            int count = 0;
             while (true) {
+                count++;
                 Random.InitState((int)System.DateTime.Now.Ticks);
                 RefreshData();
                 rects.Enqueue(mainRect);
@@ -158,6 +160,8 @@ namespace Map
                 BlockToRoom();
                 AssignAllRoom();
                 if (necessaryRoomSet.Count == 0)
+                    break;
+                if (count > 100)
                     break;
             }
         } // 맵 만들기 
