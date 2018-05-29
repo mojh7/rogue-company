@@ -19,20 +19,17 @@ public class Bullet : MonoBehaviour
     public BoxCollider2D boxCollider;
     public CircleCollider2D circleCollider;
     public Rigidbody2D objRigidbody;
-    [SerializeField]
+
     // 레이저용 lineRenderer
-    private LineRenderer lineRenderer;
+    [SerializeField] private LineRenderer lineRenderer;
 
     // spirte, 애니메이션 용 sprite 포함 object
-    [SerializeField]
-    private Transform viewTransform;
-    [SerializeField]
-    private GameObject spriteAnimatorObj;
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Transform viewTransform;
+    [SerializeField] private GameObject spriteAnimatorObj;
+    [SerializeField] private SpriteRenderer spriteAniRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     private Animator animator;
-    [SerializeField]
-    private GameObject paticleObj;
+    [SerializeField] private GameObject paticleObj;
 
 
     [SerializeField] private GameObject laserViewObj;
@@ -41,12 +38,10 @@ public class Bullet : MonoBehaviour
     [SerializeField] private Transform laserEndPoint;
     [SerializeField] private Animator laserEndPointAnimator;
 
-
     private Coroutine bulletUpdate;
     private Coroutine rotationAnimation;
     private Coroutine scaleAnimation;
     private Coroutine deleteOnlifeTime;
-        
 
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;      // 총알 방향 각도.
@@ -77,6 +72,7 @@ public class Bullet : MonoBehaviour
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
     #endregion
+
     #region unityFunction
     void Awake()
     {
@@ -96,6 +92,13 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /* 애니메이션 경우 trigger 설정 하고 그 다음 프레임에서 실행
+         * 프레임 너무 떨어짐
+        if(BulletAnimationType.NotPlaySpriteAnimation!= info.spriteAnimation)
+        {
+            Debug.Log("T : " + Time.time + ", spriteAniRenderer : " + spriteAniRenderer.sprite);
+            boxCollider.size = spriteAniRenderer.sprite.bounds.size;
+        }*/
         for (int i = 0; i < info.updatePropertiesLength; i++)
         {
             info.updateProperties[i].Update();
@@ -254,18 +257,21 @@ public class Bullet : MonoBehaviour
     private void InitProjectileProperty()
     {
         // sprite 애니메이션 적용
-        if (BulletAnimationType.NotPlaySpriteAnimation 
-            != info.spriteAnimation)
+        if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
         {
             spriteAnimatorObj.SetActive(true);
             animator.SetTrigger(info.spriteAnimation.ToString());
             spriteRenderer.sprite = null;
+            boxCollider.size = new Vector2(0.1f, 0.1f);
+            StartCoroutine("SetColliderSize");
         }
         // sprite 애니메이션 미 적용
         else
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
+            boxCollider.size = spriteRenderer.sprite.bounds.size;
+            //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
         }
 
         // rotate 360도 계속 회전하는 애니메이션 적용
@@ -310,6 +316,8 @@ public class Bullet : MonoBehaviour
         {
             boxCollider.isTrigger = true;
         }
+        //boxCollider.size
+
     }
 
     /// <summary> collision, update, delete 속성 Class들 초기화  </summary>
@@ -442,6 +450,7 @@ public class Bullet : MonoBehaviour
         {
             StopCoroutine(deleteOnlifeTime);
         }
+        StopCoroutine("SetColliderSize");
 
         viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
         viewTransform.localScale = new Vector3(1f, 1f, 1f);
@@ -472,6 +481,18 @@ public class Bullet : MonoBehaviour
             }
             yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
         }
+    }
+
+
+    // 애니메이션 트리거 작동 특성상 init 쪽에서 바로 sprite.bounds 체크하려니 안됨 일정 텀 주고 해야되서 일단 코루틴으로 했고
+    // 애니메이션 없는 sprite는 처음에 init 때 크기 측정해도 되는데 애니메이션은 연구좀 해야됨.
+    // 땜빵용 코드
+    private IEnumerator SetColliderSize()
+    {
+        //Debug.Log("t : " + Time.time);
+        yield return YieldInstructionCache.WaitForSeconds(0.01f);
+        boxCollider.size = spriteAniRenderer.sprite.bounds.size;
+        //Debug.Log("t : " + Time.time + ", " + spriteAniRenderer.sprite.bounds.size +", colider Size : " + boxCollider.size);
     }
 
 

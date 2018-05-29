@@ -486,6 +486,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 0}
   viewTransform: {fileID: 4477972378680850}
   spriteAnimatorObj: {fileID: 1522975464356916}
+  spriteAniRenderer: {fileID: 212374741196788038}
   spriteRenderer: {fileID: 212950691938174062}
   paticleObj: {fileID: 1994108517044840}
   laserViewObj: {fileID: 1052595722331002}
