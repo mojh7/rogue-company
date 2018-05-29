@@ -34,6 +34,14 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private GameObject paticleObj;
 
+
+    [SerializeField] private GameObject laserViewObj;
+    [SerializeField] private Transform laserStartPoint;
+    [SerializeField] private Animator laserStartPointAnimator;
+    [SerializeField] private Transform laserEndPoint;
+    [SerializeField] private Animator laserEndPointAnimator;
+
+
     private Coroutine bulletUpdate;
     private Coroutine rotationAnimation;
     private Coroutine scaleAnimation;
@@ -51,7 +59,11 @@ public class Bullet : MonoBehaviour
     // 코루틴 deltaTime
     private float coroutineDeltaTime = 0.016f;
     #endregion
-    #region getter
+
+    #region getter / setter
+    public Transform LaserStartPoint { get { return laserStartPoint; } set { laserStartPoint = value; } }
+    public Transform LaserEndPoint { get { return laserEndPoint; } set { laserEndPoint = value; } }
+
     public LineRenderer GetLineRenderer() { return lineRenderer; }
     public OwnerType GetOwnerType() { return ownerType; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
@@ -64,8 +76,6 @@ public class Bullet : MonoBehaviour
     public float GetDirDegree() { return dirDegree; }
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
-    #endregion
-    #region setter
     #endregion
     #region unityFunction
     void Awake()
@@ -95,7 +105,7 @@ public class Bullet : MonoBehaviour
     #region function
     // 총알 class 초기화
 
-    // 일반 총알 초기화 - position이랑 direction만 받음
+    // 일반(투사체) 총알 초기화 - position이랑 direction만 받음
     public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction = 0)
     {
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
@@ -118,8 +128,8 @@ public class Bullet : MonoBehaviour
         SetDirection(direction);
     }
 
-    // 일반 총알 초기화
-    public void Init(int bulletId, OwnerType ownerType, float speed, float range, int effectId, Vector3 pos, float direction)
+    // 일반(투사체) 총알 초기화
+    public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalRate)
     {
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
@@ -132,11 +142,18 @@ public class Bullet : MonoBehaviour
         {
             info.range = range;
         }
-        if (effectId != -1)
+        if (damage != 0)
         {
-            info.effectId = effectId;
+            info.damage = damage;
         }
-
+        if (knockBack != 0)
+        {
+            info.knockBack = knockBack;
+        }
+        if (criticalRate != 0)
+        {
+            info.criticalRate = criticalRate;
+        }
         //--------------------------------
 
 
@@ -161,9 +178,26 @@ public class Bullet : MonoBehaviour
 
     // 레이저 총알 초기화
     // 레이저 나중에 빔 모양 말고 처음 시작 지점, raycast hit된 지점에 동그란 원 추가 생성 할 수도 있음.
-    public void Init(int bulletId, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec)
+    public void Init(int bulletId, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalRate)
     {
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
+
+        // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
+        if (damage != 0)
+        {
+            info.damage = damage;
+        }
+        if (knockBack != 0)
+        {
+            info.knockBack = knockBack;
+        }
+        if (criticalRate != 0)
+        {
+            info.criticalRate = criticalRate;
+        }
+        //--------------------------------
+
+
         // component on/off
         boxCollider.enabled = false;
         circleCollider.enabled = false;
@@ -173,14 +207,21 @@ public class Bullet : MonoBehaviour
         lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = 0.4f;
         lineRenderer.endWidth = 0.4f;
-        //lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0, Vector2.zero);
+        lineRenderer.SetPosition(1, Vector2.zero);
 
         // Owner 정보 초기화
         InitOwnerInfo(ownerType);
 
         spriteAnimatorObj.SetActive(false);
         spriteRenderer.sprite = null;
+        laserViewObj.SetActive(true);
 
+        Debug.Log(info.damage);
+        // 0529 레이저 임시, 파란색 레이저
+        laserStartPointAnimator.SetTrigger("BlueLaser");
+        laserEndPointAnimator.SetTrigger("BlueLaser");
+        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
         this.addDirVecMagnitude = addDirVecMagnitude;
@@ -214,13 +255,15 @@ public class Bullet : MonoBehaviour
     private void InitProjectileProperty()
     {
         // sprite 애니메이션 적용
-        if (info.spriteAnimation != BulletAnimationType.NotPlaySpriteAnimation)
+        if (BulletAnimationType.NotPlaySpriteAnimation 
+            != info.spriteAnimation)
         {
             spriteAnimatorObj.SetActive(true);
             animator.SetTrigger(info.spriteAnimation.ToString());
             spriteRenderer.sprite = null;
         }
-        else // sprite 애니메이션 미 적용
+        // sprite 애니메이션 미 적용
+        else
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
@@ -251,6 +294,8 @@ public class Bullet : MonoBehaviour
 
         // 파티클이 포함되어있는 오브젝트 on/ off
         paticleObj.SetActive(info.showsParticle);
+
+        laserViewObj.SetActive(false);
 
         // component on/off
         boxCollider.enabled = true;

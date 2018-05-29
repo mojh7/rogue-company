@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 2
   knockBack: 200
   criticalRate: 0.5
-  speed: 6
+  speed: 10
   acceleration: 0
   deltaSpeedTotalLimit: 0
   range: 8

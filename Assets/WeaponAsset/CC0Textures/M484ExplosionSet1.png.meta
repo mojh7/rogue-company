@@ -10,7 +10,9 @@ TextureImporter:
     21300006: effect_0_3
     21300008: effect_0_4
     21300010: effect_0_5
-    21300012: M484ExplosionSet1_0
+    21300012: LaserPoint_0
+    21300014: LaserPoint0_0
+    21300016: LaserPoint0_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -176,6 +178,34 @@ TextureImporter:
         height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LaserPoint0_0
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 259
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LaserPoint0_1
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 259
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

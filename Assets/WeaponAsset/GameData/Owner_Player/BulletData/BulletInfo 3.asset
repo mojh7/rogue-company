@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Name: BulletInfo 3
   m_EditorClassIdentifier: 
   memo: "\uBAA8\uC7A5\uD604\n\uB808\uC774\uC800 \uC804\uC6A9 \uCD1D\uC54C"
+  ownerType: 0
   bulletName: "\uB808\uC774\uC800 \uCD1D\uC54C"
-  damage: 1
+  damage: 0
   knockBack: 0
   criticalRate: 0
   speed: 0
   acceleration: 0
   deltaSpeedTotalLimit: 0
   range: 0
-  scaleX: 1
-  scaleY: 1
+  scaleX: 1.5
+  scaleY: 1.5
   pierceCount: 1
   bounceCount: 0
   lifeTime: -1

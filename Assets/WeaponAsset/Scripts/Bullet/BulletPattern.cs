@@ -81,13 +81,27 @@ public class MultiDirPattern : BulletPattern
         ownerDirVec = weapon.GetOwnerDirVec();
         ownerPos = weapon.GetOwnerPos();
         ownerBuff = weapon.GetOwnerBuff();
-        if(weapon.info.bulletMoveSpeed != 0)
+
+        // weapon 정보 덮어 쓰려 할 때
+        if (weapon.info.bulletMoveSpeed != 0)
         {
             info.speed = weapon.info.bulletMoveSpeed;
         }
         if (weapon.info.range != 0)
         {
             info.range = weapon.info.range;
+        }
+        if (weapon.info.damage != 0)
+        {
+            info.damage = weapon.info.damage;
+        }
+        if (weapon.info.knockBack != 0)
+        {
+            info.knockBack = weapon.info.knockBack;
+        }
+        if (weapon.info.criticalRate != 0)
+        {
+            info.criticalRate = weapon.info.criticalRate;
         }
     }
 
@@ -122,7 +136,8 @@ public class MultiDirPattern : BulletPattern
         for (int i = 0; i < info.bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, info.speed, info.range, info.effectId,  ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle)
+                , info.speed, info.range, info.damage, info.knockBack, info.criticalRate);
         }
     }
 }
@@ -155,7 +170,7 @@ public class RowPattern : BulletPattern
         ownerPos = weapon.GetOwnerPos();
         ownerBuff = weapon.GetOwnerBuff();
 
-        // weapon에서 값 가져올 필요가 있는 경우 가져옴.
+        // weapon 정보 덮어 쓰려 할 때
         if (weapon.info.bulletMoveSpeed != 0)
         {
             info.speed = weapon.info.bulletMoveSpeed;
@@ -163,6 +178,18 @@ public class RowPattern : BulletPattern
         if (weapon.info.range != 0)
         {
             info.range = weapon.info.range;
+        }
+        if (weapon.info.damage != 0)
+        {
+            info.damage = weapon.info.damage;
+        }
+        if (weapon.info.knockBack != 0)
+        {
+            info.knockBack = weapon.info.knockBack;
+        }
+        if (weapon.info.criticalRate != 0)
+        {
+            info.criticalRate = weapon.info.criticalRate;
         }
     }
 
@@ -172,6 +199,28 @@ public class RowPattern : BulletPattern
         ownerDirVec = dirVec;
         ownerPos = pos;
         this.addDirVecMagnitude = addDirVecMagnitude;
+
+        // weapon 정보 덮어 쓰려 할 때
+        if (weapon.info.bulletMoveSpeed != 0)
+        {
+            info.speed = weapon.info.bulletMoveSpeed;
+        }
+        if (weapon.info.range != 0)
+        {
+            info.range = weapon.info.range;
+        }
+        if (weapon.info.damage != 0)
+        {
+            info.damage = weapon.info.damage;
+        }
+        if (weapon.info.knockBack != 0)
+        {
+            info.knockBack = weapon.info.knockBack;
+        }
+        if (weapon.info.criticalRate != 0)
+        {
+            info.criticalRate = weapon.info.criticalRate;
+        }
     }
 
     public override BulletPattern Clone()
@@ -198,7 +247,8 @@ public class RowPattern : BulletPattern
         for (int i = 0; i < info.bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, info.speed, info.range, info.effectId, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * i), ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle));
+            createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * i), ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle)
+                , info.speed, info.range, info.damage, info.knockBack, info.criticalRate);
         }
     }
 }
@@ -236,6 +286,20 @@ public class LaserPattern : BulletPattern
         ownerPos = weapon.GetOwnerPos();
         ownerBuff = weapon.GetOwnerBuff();
         canCreateLaser = true;
+
+        // weapon 정보 덮어 쓰려 할 때
+        if (weapon.info.damage != 0)
+        {
+            info.damage = weapon.info.damage;
+        }
+        if (weapon.info.knockBack != 0)
+        {
+            info.knockBack = weapon.info.knockBack;
+        }
+        if (weapon.info.criticalRate != 0)
+        {
+            info.criticalRate = weapon.info.criticalRate;
+        }
     }
     public override void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
     {
@@ -268,7 +332,8 @@ public class LaserPattern : BulletPattern
     public override void CreateBullet(float damageIncreaseRate)
     {
         createdObj = ObjectPoolManager.Instance.CreateBullet();
-        createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, addDirVecMagnitude, ownerPos, ownerDirVec);
+        createdObj.GetComponent<Bullet>().Init(info.bulletId, ownerType, addDirVecMagnitude, ownerPos, ownerDirVec
+            , info.damage, info.knockBack, info.criticalRate);
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }
 }

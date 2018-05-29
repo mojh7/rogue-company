@@ -75,6 +75,8 @@ public class Enemy : Character {
 
     public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate)
     {
+        Debug.Log(damage + ", " + knockBack + ", " + criticalRate);
+
         if (State.ALIVE != pState)
             return;
 
