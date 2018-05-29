@@ -139,7 +139,7 @@ public class Player : Character
         Init();
 
         // 임시로 배경음악 시작
-        AudioManager.Instance.PlayMusic(0);
+        // AudioManager.Instance.PlayMusic(0);
     }
 
     //for debug

@@ -21,8 +21,8 @@ MonoBehaviour:
   acceleration: 0
   deltaSpeedTotalLimit: 0
   range: 0
-  scaleX: 2
-  scaleY: 2
+  scaleX: 3
+  scaleY: 3
   pierceCount: 1
   bounceCount: 0
   lifeTime: -1

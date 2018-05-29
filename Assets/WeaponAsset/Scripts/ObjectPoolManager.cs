@@ -12,20 +12,20 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
     public GameObject weaponPrefab;
     [SerializeField]
-    private int weaponNumMax;
+    private int initWeaponNumMax;
     [SerializeField]
     private MemoryPool weaponPool;
 
     public GameObject bulletPrefab;
     [SerializeField]
-    private int bulletNumMax;
+    private int initBulletNumMax;
     [SerializeField]
     private MemoryPool bulletPool;
 
     // effect 아직 안 옮김
     public GameObject effectPrefab;
     [SerializeField]
-    private int effectNumMax;
+    private int initEffectNumMax;
     [SerializeField]
     private MemoryPool effectPool;
 
@@ -42,11 +42,11 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         // 오브젝트 풀 초기화
 
         // weapon 오브젝트풀 초기화
-        weaponPool = new MemoryPool(weaponPrefab, weaponNumMax);
+        weaponPool = new MemoryPool(weaponPrefab, initWeaponNumMax);
         // bullet 오브젝트풀 초기화
-        bulletPool = new MemoryPool(bulletPrefab, bulletNumMax);
+        bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax);
         // effect 오브젝트풀 초기화
-        //effectPool = new MemoryPool(bulletPrefab, bulletNumMax);
+        // effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
     }
 
     #region function

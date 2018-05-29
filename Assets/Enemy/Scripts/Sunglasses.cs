@@ -17,7 +17,9 @@ public class Sunglasses : MonoBehaviour {
     [SerializeField]
     float attackRan = 0.0f;      // 선글라스 공격 범위 -> 0524 기획서 명시x
     // bool recall = false;                // 선글라스 소환 여부 x
-    bool isActive = false;              // active 확인
+    [SerializeField]
+    bool isActive = false;              // 개체의 숨결
+    bool isRotate = false;              // 개체 회전
     [SerializeField]
     float moveDif;                      // 거리차
     // Astar
@@ -78,7 +80,7 @@ public class Sunglasses : MonoBehaviour {
         // 5. 플레이어를 향해 침뱉기 공격
         // 5.5. 사정거리(+0.2f)에 벗어나면 다시 추적하고 5번 반복
         // 6. hp가 0이 되면 사라진다(exExplos는 false);
-        if (isActive)
+        if (isRotate)
         {
             ObjectRotate();
         }
@@ -92,15 +94,18 @@ public class Sunglasses : MonoBehaviour {
                 break;
             case SunglassedPatt.Track:
                 isPath = true;
-                Track();
+                if (isActive)
+                    Track();
                 break;
             case SunglassedPatt.Attack:
                 isPath = false;
-                Attack();
+                if (isActive)
+                    Attack();
                 break;
             case SunglassedPatt.BeAttacked:
                 isPath = false;
-                BeAttacked();
+                if (isActive)
+                    BeAttacked();
                 break;
             case SunglassedPatt.Die:
                 isPath = false;
@@ -123,6 +128,7 @@ public class Sunglasses : MonoBehaviour {
         mSpeed = 2.0f;
         realize = 6.0f;
         attackRan = 3.0f;
+        isRotate = true;
         tear.SetActive(false);
         //tearspool = new GameObject[TEARS_POOL_SIZE];
         //for (int i = 0; i < TEARS_POOL_SIZE; i++)
@@ -236,10 +242,13 @@ public class Sunglasses : MonoBehaviour {
         {
             // 플레이어의 공격력에 따라 hp가 깎임.
             // 애니메이션은 피격효과
-            state = SunglassedPatt.BeAttacked;
             if (hp <= 0)
             {
                 state = SunglassedPatt.Die;
+            }
+            else
+            {
+                state = SunglassedPatt.BeAttacked;
             }
         }
         else
@@ -252,13 +261,21 @@ public class Sunglasses : MonoBehaviour {
     {
         // 피격 애니메이션
         //throw new NotImplementedException();
+        // 0528 Test용으로 hp-1씩 깎기
         hp -= 1;
+        if (hp <= 0)
+            state = SunglassedPatt.Die;
+        else
+            state = SunglassedPatt.Attack;
     }
 
     public void Die(bool isExplos)
     {
-        if (hp != 0)
+        if (hp > 0)
+        {
+            state = SunglassedPatt.Attack;
             return;
+        }
         if (isExplos)
         {
             Debug.Log("터진다");
@@ -266,6 +283,9 @@ public class Sunglasses : MonoBehaviour {
         else
         {
             Debug.Log("사라진다");
+            isActive = false;
+            isRotate = false;
+            DestroyObject(this.gameObject, 0.5f);
         }
     }
     #endregion

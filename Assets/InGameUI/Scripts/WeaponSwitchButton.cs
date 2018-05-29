@@ -27,13 +27,11 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
         // 다음 무기로 교체 방향 ->
         if (ped.position.x > pos.x)
         {
-            Debug.Log("다음 무기로 교체");
             player.GetWeaponManager().ChangeWeapon(true);
         }
         // 이전 무기로 교체 방향 <-
         else if (ped.position.x < pos.x)
         {
-            Debug.Log("이전 무기로 교체");
             player.GetWeaponManager().ChangeWeapon(false);
         }
         // Debug.Log("WeaponSwapBtn touch up x : " + ped.position.x);
