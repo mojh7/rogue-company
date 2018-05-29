@@ -151,9 +151,13 @@ namespace Map
         void CreateMap()
         {
             int count = 0;
+            Random.State temp;
             while (true) {
                 count++;
                 Random.InitState((int)System.DateTime.Now.Ticks);
+                if(GameDataManager.Instance.GetGameData() != null)
+                    Random.state = GameDataManager.Instance.GetGameData().GetRandomSeed();
+                temp = Random.state;
                 RefreshData();
                 rects.Enqueue(mainRect);
                 RectToBlock();
@@ -161,8 +165,14 @@ namespace Map
                 AssignAllRoom();
                 if (necessaryRoomSet.Count == 0)
                     break;
-                if (count > 100)
+                if (count > 1000)
                     break;
+            }
+            if(GameDataManager.Instance.GetGameData() == null)
+            {
+                GameData gameData = new GameData();
+                gameData.SetRandomSeed(temp);
+                GameDataManager.Instance.SetGameData(gameData);
             }
         } // 맵 만들기 
 

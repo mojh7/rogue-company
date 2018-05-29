@@ -20,9 +20,15 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     public GameObject menuObj;
     public GameObject gameOverObj;
     public Image fadeImage;
+    public Text coinText;
     #endregion
 
     #region function
+    public void SetCoinText(int _num)
+    {
+        coinText.text = _num.ToString();
+    }
+
     public void ReturnTitle()
     {
         Time.timeScale = 1;
@@ -81,6 +87,13 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
             _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, (float)i / _interval);
             yield return YieldInstructionCache.WaitForSeconds(time);
         }
+    }
+    #endregion
+
+    #region UnityFunc
+    private void Start()
+    {
+        SetCoinText(GameDataManager.Instance.GetCoin());
     }
     #endregion
 }

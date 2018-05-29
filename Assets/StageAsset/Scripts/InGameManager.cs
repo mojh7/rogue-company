@@ -30,7 +30,7 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
         SpawnPlayer();
         DrawUI();
-    }
+    } // 데이터 저장 타이밍
     void GenerateMap()
     {
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
