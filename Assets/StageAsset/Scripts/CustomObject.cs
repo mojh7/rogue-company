@@ -316,6 +316,7 @@ public class Portal : CustomObject
     public override void Active()
     {
         base.Active();
+        isAvailable = false;
         InGameManager.Instance.GoUpFloor();
         Debug.Log("PlayerEnd");
     }
@@ -344,6 +345,12 @@ public class ItemBox : CustomObject
         ItemManager.Instance.CreateItem(item, this.transform.position);
         Destroy(this.gameObject, 3);
     }
+
+    public void DestroySelf()
+    {
+        Destroy(item);
+        Destroy(gameObject);
+    }
 }
 
 public class ItemContainer : CustomObject
@@ -364,19 +371,23 @@ public class ItemContainer : CustomObject
     public void Init(Item _item)
     {
         Init();
-        sprite = _item.GetComponent<SpriteRenderer>().sprite;
         innerObject = _item;
+        sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
+    }
+
+    public void ReAlign()
+    {
+        innerObject.transform.position = transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (innerObject as Weapon != null)
+            if (innerObject as Weapon != null || !isAvailable)
                 return;
-
+            innerObject.gameObject.SetActive(true);
             innerObject.GetComponent<Item>().Active();
-            Destroy(innerObject.gameObject);
             Destroy(gameObject);
         }
     }
@@ -390,5 +401,11 @@ public class ItemContainer : CustomObject
             PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
             Destroy(gameObject);
         }
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(innerObject);
+        Destroy(gameObject);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MiniMap : MonoBehaviourSingleton<MiniMap> {
     public Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
     public GameObject playerIcon;
+    public Text floorT;
 
     int minmapSizeWidth, minmapSizeHeight;
     List<Map.Rect> roomList;
@@ -14,6 +15,11 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
     float width, height;
     int size;
     int mapSizeWidth, mapSizeHeight; // 실제 맵 사이즈
+
+    public void SetFloorText()
+    {
+        floorT.text = GameDataManager.Instance.GetFloor().ToString() + "F";
+    }
 
     public void DrawRoom(Map.Rect _room)
     {
@@ -39,6 +45,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
 
     public void DrawMinimap()
     {
+        SetFloorText();
         renderer = GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
         size = 10; // 미니맵 

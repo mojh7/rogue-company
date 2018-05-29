@@ -155,8 +155,6 @@ namespace Map
             while (true) {
                 count++;
                 Random.InitState((int)System.DateTime.Now.Ticks);
-                if(GameDataManager.Instance.GetGameData() != null)
-                    Random.state = GameDataManager.Instance.GetGameData().GetRandomSeed();
                 temp = Random.state;
                 RefreshData();
                 rects.Enqueue(mainRect);
@@ -168,12 +166,7 @@ namespace Map
                 if (count > 1000)
                     break;
             }
-            if(GameDataManager.Instance.GetGameData() == null)
-            {
-                GameData gameData = new GameData();
-                gameData.SetRandomSeed(temp);
-                GameDataManager.Instance.SetGameData(gameData);
-            }
+ 
         } // 맵 만들기 
 
         void DrawTile()

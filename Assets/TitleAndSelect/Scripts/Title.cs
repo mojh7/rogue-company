@@ -8,7 +8,7 @@ public class Title : MonoBehaviour {
 
     private void Start()
     {
-        if (GameDataManager.Instance.GetGameData() != null)
+        if (GameDataManager.Instance.LoadData())
             RestartButton.SetActive(true);
     }
 

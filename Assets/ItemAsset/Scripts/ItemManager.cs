@@ -7,21 +7,29 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public Sprite coinSprite;
     public Sprite sprite;
     Queue<GameObject> objs;
-
+    private void Start()
+    {
+        objs = new Queue<GameObject>();
+    }
     public void DeleteObjs()
     {
         if (objs == null)
             return;
         while (objs.Count > 0)
         {
-            Destroy(objs.Dequeue());
+            GameObject gameObject = objs.Dequeue();
+            if (gameObject != null)
+            {
+                if(gameObject.GetComponent<ItemContainer>() != null)
+                    gameObject.GetComponent<ItemContainer>().DestroySelf();
+                if (gameObject.GetComponent<ItemBox>() != null)
+                    gameObject.GetComponent<ItemBox>().DestroySelf();
+            }
         }
     }
 
     public void CallItemBox(Vector3 _position,Item _item)
     {
-        if (objs == null)
-            objs = new Queue<GameObject>();
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity);
 
         objs.Enqueue(obj);
@@ -35,7 +43,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     {
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity,transform);
         obj.AddComponent<ItemContainer>().Init(_item);
-
+        objs.Enqueue(obj);
         StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1, 2), 5)));
 
         return obj;
@@ -62,5 +70,6 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         _object.GetComponent<PolygonCollider2D>().enabled = true;
+        _object.GetComponent<ItemContainer>().ReAlign();
     }
 }

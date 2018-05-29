@@ -25,6 +25,7 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     public void GoUpFloor()
     {
         GameDataManager.Instance.SetFloor();
+        GameDataManager.Instance.Savedata();
         ItemManager.Instance.DeleteObjs();
         PlayerManager.Instance.DeletePlayer();
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
