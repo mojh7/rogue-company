@@ -73,9 +73,9 @@ public class Enemy : Character {
         ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position);
     }
 
-    public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate)
+    public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false)
     {
-        // Debug.Log(damage + ", " + knockBack + ", " + criticalRate);
+        Debug.Log(damage + ", " + knockBack + ", " + criticalRate);
 
         if (State.ALIVE != pState)
             return;
@@ -97,8 +97,17 @@ public class Enemy : Character {
 
         // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
         rgbody.velocity = Vector3.zero;
-        rgbody.AddForce(knockBack * _dir);
-        //rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
+        
+        // bullet과 충돌 Object 위치 차이 기반의 넉백  
+        if(positionBasedKnockBack)
+        {
+            rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
+        }
+        // bullet 방향 기반의 넉백
+        else
+        {
+            rgbody.AddForce(knockBack * _dir);
+        }
 
         StopCoroutine(KnockBackCheck());
         StartCoroutine(KnockBackCheck());

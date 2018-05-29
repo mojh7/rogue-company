@@ -77,7 +77,7 @@ public abstract class Character : MonoBehaviour
 
     /*--abstract--*/
     protected abstract void Die();
-    public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate);
+    public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false);
 
     
     /**/
@@ -219,7 +219,7 @@ public class Player : Character
         UIManager.Instance.gameOverObj.SetActive(true);
     }
 
-    public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate)
+    public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate, bool positionBasedKnockBack = false)
     {
         hp -= damage;
         playerHpUi.UpdateHPUI(hp);

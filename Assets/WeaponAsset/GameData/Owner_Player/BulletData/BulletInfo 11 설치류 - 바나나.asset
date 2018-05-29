@@ -9,13 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: BulletInfo 11
+  m_Name: "BulletInfo 11 \uC124\uCE58\uB958 - \uBC14\uB098\uB098"
   m_EditorClassIdentifier: 
   memo: "\uC124\uCE58\uB958 - \uBC14\uB098\uB098"
   ownerType: 0
   bulletName: 
-  damage: 50
-  knockBack: 500
+  damage: 0
+  knockBack: 0
   criticalRate: 0
   speed: 0
   acceleration: 0

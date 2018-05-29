@@ -54,6 +54,8 @@ public class BulletInfo : ScriptableObject
     public bool showsParticle;
     [Header("각도(rotation) 고정 유무")]
     public bool isFixedAngle;
+    [Header("넉백 방향 True : position 차이 기반, False : Bullet direction 기반")]
+    public bool positionBasedKnockBack;
 
 
     [Header("DeleteAfterSummonBulletProperty 에서 생성할 bullet id")]
@@ -187,6 +189,7 @@ public class BulletInfo : ScriptableObject
         info.showsRotationAnimation = showsRotationAnimation;
         info.showsParticle = showsParticle;
         info.isFixedAngle = isFixedAngle;
+        info.positionBasedKnockBack = positionBasedKnockBack;
 
         info.deleteAfterSummonBulletId = deleteAfterSummonBulletId;
         info.deleteAfterSummonPatternId = deleteAfterSummonPatternId;
@@ -244,6 +247,9 @@ public class BulletInfo : ScriptableObject
                     break;
                 case CollisionPropertyType.Laser:
                     collisionProperties.Add(new LaserCollisionProperty());
+                    break;
+                case CollisionPropertyType.Undeleted:
+                    collisionProperties.Add(new UndeletedCollisionProperty());
                     break;
                 default:
                     break;

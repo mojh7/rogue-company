@@ -96,7 +96,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -113,7 +113,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         {
             Debug.Log("Player 피격 Collsion");
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -163,7 +163,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -179,7 +179,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
         {
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -265,7 +265,54 @@ class LaserCollisionProperty : CollisionProperty
     }
 }
 
+// 삭제되지 않은 충돌 속성, lifeTime에 의한 삭제만 이루어짐
+class UndeletedCollisionProperty : CollisionProperty
+{
+    public override CollisionProperty Clone()
+    {
+        return new UndeletedCollisionProperty();
+    }
 
+    // collision
+    public override void Collision(ref Collision2D coll)
+    {
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+    }
+
+    // trigger
+    public override void Collision(ref Collider2D coll)
+    {
+        // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        {
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+ 
+    }
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+    }
+}
 // baseNormalCollsion에 bounce충돌 같이 있는데 따로 빼놓을 예정
 
 /*

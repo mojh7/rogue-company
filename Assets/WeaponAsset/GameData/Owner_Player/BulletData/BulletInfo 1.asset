@@ -26,7 +26,7 @@ MonoBehaviour:
   pierceCount: 1
   bounceCount: 0
   lifeTime: -1
-  effectId: 1
+  effectId: 3
   soundId: -1
   spriteAnimation: 0
   bulletSprite: {fileID: 21300002, guid: fc289d39972eca14084789fc8a816b16, type: 3}
