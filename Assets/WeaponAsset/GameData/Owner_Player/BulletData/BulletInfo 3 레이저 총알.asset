@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: BulletInfo 3
+  m_Name: "BulletInfo 3 \uB808\uC774\uC800 \uCD1D\uC54C"
   m_EditorClassIdentifier: 
   memo: "\uBAA8\uC7A5\uD604\n\uB808\uC774\uC800 \uC804\uC6A9 \uCD1D\uC54C"
   ownerType: 0
@@ -34,6 +34,7 @@ MonoBehaviour:
   showsRotationAnimation: 0
   showsParticle: 0
   isFixedAngle: 0
+  positionBasedKnockBack: 0
   deleteAfterSummonBulletId: 0
   deleteAfterSummonPatternId: 0
   bounceAble: 0

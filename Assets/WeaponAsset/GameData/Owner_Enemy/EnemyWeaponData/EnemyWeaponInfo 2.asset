@@ -20,7 +20,7 @@ MonoBehaviour:
   attackAniType: 2
   touchMode: 0
   weaponType: 0
-  ammoCapacity: 0
+  ammoCapacity: -1
   ammo: 0
   bulletMoveSpeed: 3.5
   range: 10

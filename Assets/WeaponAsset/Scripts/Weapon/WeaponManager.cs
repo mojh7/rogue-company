@@ -31,6 +31,7 @@ public class WeaponManager : MonoBehaviour {
 
     // 아직 owner중 object 고려 안 했음
     private Character owner;
+    private Player player;
     private OwnerType ownerType;
     // owner의 공격 방향 각도, 방향 벡터 와 현재 위치 함수이며 weapon->bulletPattern->bullet 방향으로 전달 함.
     private DelGetDirDegree ownerDirDegree;
@@ -190,7 +191,7 @@ public class WeaponManager : MonoBehaviour {
                 }*/
             }
         }
-        OnOffWeaponActive();
+        UpdateCurrentWeapon();
     }
     
     /// <summary> Owner 정보 등록 </summary>
@@ -204,8 +205,8 @@ public class WeaponManager : MonoBehaviour {
         ownerPos = GetPosition;
         if(OwnerType.Player == ownerType)
         {
-            Player player = owner as Player;
-            ownerBuff = player.GetBuffManager();
+           player = owner as Player;
+           ownerBuff = player.GetBuffManager();
         }
     }
 
@@ -235,14 +236,27 @@ public class WeaponManager : MonoBehaviour {
         equipWeaponSlot[currentWeaponIndex].StopAttack();
     }
 
-    /// <summary> 전체 무기 object Active off, 현재 착용 무기만 on </summary>
-    public void OnOffWeaponActive()
+    /// <summary> 현재 착용 무기 대해서 내용 업데이트, 현재 착용 무기 외의 모든 무기 off </summary>
+    public void UpdateCurrentWeapon()
     {
         for(int i = 0; i < weaponCount; i++)
         {
             equipWeaponSlot[i].gameObject.SetActive(false);
         }
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
+        if(OwnerType.Player == ownerType)
+        {
+            player.GetWeaponSwitchButton().UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
+            player.GetWeaponSwitchButton().UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
+        }
+    }
+
+    public void UpdateAmmoView(WeaponInfo info)
+    {
+        if(OwnerType.Player == ownerType)
+        {
+            player.GetWeaponSwitchButton().UpdateAmmoView(info);
+        }
     }
 
     /// <summary> 무기 교체, changeNextWepaon 값 true : 다음 무기, false : 이전 무기 </summary>
@@ -255,19 +269,14 @@ public class WeaponManager : MonoBehaviour {
             // 다음 무기로 교체
             if (changeNextWeapon)
             {
-                Debug.Log("다음 무기로 교체");
-                equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(false);
                 currentWeaponIndex = (currentWeaponIndex + 1) % weaponCount;
-                equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
             }
             // 이전 무기로 교체
             else
             {
-                Debug.Log("이전 무기로 교체");
-                equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(false);
                 currentWeaponIndex = (currentWeaponIndex - 1 + weaponCount) % weaponCount;
-                equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
             }
+            UpdateCurrentWeapon();
         }
     }
 
@@ -289,7 +298,7 @@ public class WeaponManager : MonoBehaviour {
             weapon.ObjTransform.SetParent(registerPoint, false);
             weapon.RegisterWeapon(this);
             currentWeaponIndex = weaponCount++;
-            OnOffWeaponActive();         
+            UpdateCurrentWeapon();      
         }
         // 현재 착용중인 무기 버리고 습득 무기로 바꾸고 장착
         else
@@ -299,7 +308,7 @@ public class WeaponManager : MonoBehaviour {
             equipWeaponSlot[currentWeaponIndex] = weapon;
             weapon.ObjTransform.SetParent(registerPoint, false);
             weapon.RegisterWeapon(this);
-            OnOffWeaponActive();
+            UpdateCurrentWeapon();
             GameObject obj = ItemManager.Instance.CreateItem(dropedWeapon, transform.position);
             dropedWeapon.ObjTransform.SetParent(obj.transform, false);
         }

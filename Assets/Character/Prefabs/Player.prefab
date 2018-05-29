@@ -390,7 +390,7 @@ MonoBehaviour:
   registerPoint: {fileID: 4425038906070500}
   chargeGauge: {fileID: 114540869918100208}
   equipAllWeapons: 0
-  startWeaponId: 9
+  startWeaponId: 0
 --- !u!114 &114209391037703390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -411,6 +411,7 @@ MonoBehaviour:
     joystick: {fileID: 0}
   renderer: {fileID: 212429882799322652}
   playerHpUi: {fileID: 0}
+  weaponSwitchButton: {fileID: 0}
 --- !u!114 &114540869918100208
 MonoBehaviour:
   m_ObjectHideFlags: 1

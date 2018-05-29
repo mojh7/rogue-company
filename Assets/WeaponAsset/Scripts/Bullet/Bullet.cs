@@ -484,8 +484,10 @@ public class Bullet : MonoBehaviour
     }
 
 
-    // 애니메이션 트리거 작동 특성상 init 쪽에서 바로 sprite.bounds 체크하려니 안됨 일정 텀 주고 해야되서 일단 코루틴으로 했고
-    // 애니메이션 없는 sprite는 처음에 init 때 크기 측정해도 되는데 애니메이션은 연구좀 해야됨.
+    // FIXME: init 쪽에서 바로 sprite.bounds 체크하려니 안됨(애니메이션 트리거 작동 특성상 setTrigger 이후 한 박자 뒤에 바뀌나봄)일정 텀 주고
+    // sprite.bounds 측정해야되서 일단 코루틴으로 0.01초 미뤄서 체크, 애니메이션 없는 sprite는 처음에 init 때 sprite 크기 측정해도 되는데 애니메이션 있는 sprite는 연구좀 해야됨. 
+    // fixedUpdate에서 매번 돌리면 프레임 많이 떨어짐.(애니메이션 있는 sprite는 sprite 크기가 매번 달라서 이런 식으로 해야 될 수도 있긴 함.)
+
     // 땜빵용 코드
     private IEnumerator SetColliderSize()
     {

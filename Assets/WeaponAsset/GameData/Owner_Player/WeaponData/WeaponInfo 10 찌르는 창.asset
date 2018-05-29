@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: "WeaponInfo 10 \uCC0C\uB974\uB294 \uCC3D"
   m_EditorClassIdentifier: 
   memo: "\uADFC\uC811 \uBB34\uAE30 \uD14C\uC2A4\uD2B8 \uCC3D"
+  ownerType: 0
   weaponName: "\uD14C\uC2A4\uD2B87"
   sprite: {fileID: 21300028, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   scaleX: 1
@@ -19,7 +20,7 @@ MonoBehaviour:
   attackAniType: 1
   touchMode: 0
   weaponType: 1
-  ammoCapacity: 0
+  ammoCapacity: -1
   ammo: 0
   bulletMoveSpeed: 0
   range: 0

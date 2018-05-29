@@ -48,11 +48,11 @@ public class Weapon : Item {
 
     private BuffManager ownerBuff;
 
-    // 무기 테스트용
-    public int weaponId;
+    [SerializeField] private int weaponId;
     
     #endregion
     #region getter
+    public Sprite GetWeaponSprite() { return spriteRenderer.sprite; }
     public Transform ObjTransform { get { return objTransform; } set { objTransform = value; } }
     public OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
@@ -170,12 +170,23 @@ public class Weapon : Item {
     // 실제 공격 함수, 무기 상태를 Attack으로 바꾸고 공격 패턴 한 사이클 실행.
     public void Attack(float damageIncreaseRate)
     {
-        weaponState = WeaponState.Attack;
-        
-        // 공격 애니메이션 실행
-        // 공격 타입에 따른 공격 실행 (원거리 : 탄 뿌리기 후 cost(탄) 소모)
-        PlayAttackAnimation();
-        StartCoroutine(PatternCycle(damageIncreaseRate));
+        // 사용 할 수 있는 탄약이 존재 하거나, 탄약 최대치가 무한대 인 경우 (일단 info.ammoCapacity = -1 일 때 무한대로 놓고 있음)
+        // 일단 1회 공격 사이클 돌릴 때 무조건 info.ammo -1 처리
+        if(info.ammo > 0 || info.ammoCapacity < 0)
+        {
+            weaponState = WeaponState.Attack;
+            info.ammo -= 1;
+            // weaponManager 에서 onwerType = player 인 것만 실행 되게 체크함
+            weaponManager.UpdateAmmoView(info);
+            // 공격 애니메이션 실행
+            // 공격 타입에 따른 공격 실행 (원거리 : 탄 뿌리기 후 cost(탄) 소모)
+            PlayAttackAnimation();
+            StartCoroutine(PatternCycle(damageIncreaseRate));
+        }
+        else
+        {
+            Debug.Log("총알 부족으로 인한 공격 실패");
+        }
     }
 
 

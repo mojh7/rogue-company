@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: "WeaponInfo 8 \uBD80\uCC44"
   m_EditorClassIdentifier: 
   memo: "\uBD80\uCC44, wind \uC5EC\uB7EC\uBC29\uD5A5"
+  ownerType: 0
   weaponName: "\uBD80\uCC44"
   sprite: {fileID: 21300030, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   scaleX: 1
@@ -19,8 +20,8 @@ MonoBehaviour:
   attackAniType: 0
   touchMode: 0
   weaponType: 3
-  ammoCapacity: 0
-  ammo: 0
+  ammoCapacity: 50
+  ammo: 50
   bulletMoveSpeed: 6
   range: 8
   damage: 0
