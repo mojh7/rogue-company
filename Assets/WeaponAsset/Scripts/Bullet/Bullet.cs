@@ -217,7 +217,6 @@ public class Bullet : MonoBehaviour
         spriteRenderer.sprite = null;
         laserViewObj.SetActive(true);
 
-        Debug.Log(info.damage);
         // 0529 레이저 임시, 파란색 레이저
         laserStartPointAnimator.SetTrigger("BlueLaser");
         laserEndPointAnimator.SetTrigger("BlueLaser");
