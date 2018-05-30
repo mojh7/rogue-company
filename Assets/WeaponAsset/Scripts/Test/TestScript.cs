@@ -158,6 +158,17 @@ public class TestScript : MonoBehaviour {
         createdObj.GetComponent<Transform>().position = pos;
     }
 
+    public void CreateEffect(int id, Vector3 pos)
+    {
+        if (id < 0) return;
+        GameObject createdObj;
+        createdObj = Instantiate(effectObj);
+        createdObj.SetActive(true);
+        createdObj.GetComponent<Effect>().Init(id, pos);
+    }
+
+
+
     public void ListTest()
     {
         WeaponBuff a = new WeaponBuff();

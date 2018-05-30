@@ -76,7 +76,8 @@ public class Effect : MonoBehaviour {
         {
             StopCoroutine("DeleteOnLifeTime");
         }
-        ObjectPoolManager.Instance.DeleteEffect(gameObject);
+        Destroy(gameObject);
+        // ObjectPoolManager.Instance.DeleteEffect(gameObject);
     }
 
     // delete 함수 n초뒤에 실행

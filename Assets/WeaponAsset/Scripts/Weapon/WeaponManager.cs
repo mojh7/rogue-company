@@ -363,6 +363,17 @@ public class WeaponManager : MonoBehaviour {
         StartCoroutine("PickAndDropWeaponDelay");
         return true;
     }
+
+    public void RemoveWeapons()
+    {
+        for(int i = 0; i < weaponCount; i++)
+        {
+            Debug.Log("z : " + PlayerManager.Instance.GetPlayer().transform.parent);
+            equipWeaponSlot[i].transform.SetParent(PlayerManager.Instance.GetPlayer().transform.parent);
+            ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
+        }
+    }
+
     #endregion
 
     IEnumerable PickAndDropWeaponDelay()

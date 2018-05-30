@@ -32,11 +32,12 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         // 0530 모장현
         GameDataManager.Instance.LoadData();
         GameStateManager.Instance.SetLoadsGameData(true);
+        PlayerManager.Instance.DeletePlayer();
+
         ObjectPoolManager.Instance.ClearWeapon();
         ObjectPoolManager.Instance.ClearBullet();
-        ObjectPoolManager.Instance.ClearEffect();
+        // ObjectPoolManager.Instance.ClearEffect();
 
-        PlayerManager.Instance.DeletePlayer();
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
         SpawnPlayer();
         DrawUI();

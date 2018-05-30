@@ -66,7 +66,9 @@ public class BulletInfo : ScriptableObject
 
     // 튕기는 총알 테스트용, 반사 o / x
     public bool bounceAble;
-    
+
+    [Header("근접 무기 다른 owner 총알 block on / off")]
+    public bool bulletBlockAble;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -116,6 +118,7 @@ public class BulletInfo : ScriptableObject
         isFixedAngle = false;
 
         bounceAble = false;
+        bulletBlockAble = false;
     }
 
     /*
@@ -194,6 +197,7 @@ public class BulletInfo : ScriptableObject
         info.deleteAfterSummonBulletId = deleteAfterSummonBulletId;
         info.deleteAfterSummonPatternId = deleteAfterSummonPatternId;
         info.bounceAble = bounceAble;
+        info.bulletBlockAble = bulletBlockAble;
 
 
         /*---*/

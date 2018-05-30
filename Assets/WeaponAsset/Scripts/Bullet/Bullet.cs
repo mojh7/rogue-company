@@ -217,6 +217,14 @@ public class Bullet : MonoBehaviour
         }
         //--------------------------------
 
+        if (true == info.bulletBlockAble)
+        {
+            objTransform.tag = "PlayerBlockBullet";
+        }
+        else
+        {
+            objTransform.tag = "Bullet";
+        }
 
         // component on/off
         boxCollider.enabled = false;
@@ -333,6 +341,15 @@ public class Bullet : MonoBehaviour
         {
             boxCollider.isTrigger = true;
         }
+
+        if (true == info.bulletBlockAble)
+        {
+            objTransform.tag = "PlayerBlockBullet";
+        }
+        else
+        {
+            objTransform.tag = "Bullet";
+        }
         //boxCollider.size
 
     }
@@ -424,7 +441,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
-        if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
+        if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall") || coll.transform.CompareTag("PlayerBlockBullet"))
         {
             int length = info.collisionPropertiesLength;
             for (int i = 0; i < length; i++)
@@ -437,7 +454,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
-        if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
+        if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall") || coll.CompareTag("PlayerBlockBullet"))
         {
             int length = info.collisionPropertiesLength;
             for (int i = 0; i < length; i++)

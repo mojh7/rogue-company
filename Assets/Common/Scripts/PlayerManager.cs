@@ -6,11 +6,12 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
 
     public GameObject playerPrefab;
     GameObject m_playerObj;
+    Player m_player;
 
     // 0513 모장현
     public Player GetPlayer()
     {
-        return m_playerObj.GetComponent<Player>();
+        return m_player;
     }
 
     public Vector3 GetPlayerPosition()
@@ -28,6 +29,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
     public void SpawnPlayer()
     {
         m_playerObj = Instantiate(playerPrefab,RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
+        m_player = m_playerObj.GetComponent<Player>();
         RoomManager.Instance.FindCurrentRoom(); // 플레이어 방찾기.
     }
 

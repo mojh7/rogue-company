@@ -92,6 +92,13 @@ class BaseNormalCollisionProperty : CollisionProperty
     // collision
     public override void Collision(ref Collision2D coll)
     {
+        // 0531 근접 무기 총알 블락 땜빵 코드
+        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("PlayerBlockBullet"))
+        {
+            delDestroyBullet();
+        }
+
+
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
         if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
@@ -159,8 +166,14 @@ class BaseNormalCollisionProperty : CollisionProperty
     // trigger
     public override void Collision(ref Collider2D coll)
     {
+        // 0531 근접 무기 총알 블락 땜빵 코드
+        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("PlayerBlockBullet"))
+        {
+            delDestroyBullet();
+        }
+
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
-        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
         {
             // 공격 처리
             coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
@@ -176,7 +189,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 delDestroyBullet();
             }
         }
-        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("Player"))
         {
             // 공격 처리
             coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
@@ -294,12 +307,12 @@ class UndeletedCollisionProperty : CollisionProperty
     public override void Collision(ref Collider2D coll)
     {
         // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
-        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
         {
             coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
             Ignore(ref coll);
         }
-        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("Player"))
         {
             // 공격 처리
             coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
@@ -786,7 +799,8 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        ObjectPoolManager.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
+        // ObjectPoolManager.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
+        TestScript.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 

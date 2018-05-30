@@ -46,7 +46,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         // bullet 오브젝트풀 초기화
         bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax);
         // effect 오브젝트풀 초기화
-        effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
+        //effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
     }
 
     #region function
@@ -86,13 +86,13 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     }
 
     /// <summary> effect 생성 </summary>
-    public void CreateEffect(int id, Vector3 pos)
-    {
-        if (id < 0) return;
-        pos.z = 0;
-        GameObject createdObj = effectPool.NewItem();
-        createdObj.GetComponent<Effect>().Init(id, pos);
-    }
+    //public void CreateEffect(int id, Vector3 pos)
+    //{
+    //    if (id < 0) return;
+    //    pos.z = 0;
+    //    GameObject createdObj = effectPool.NewItem();
+    //    createdObj.GetComponent<Effect>().Init(id, pos);
+    //}
     #endregion
 
 
@@ -111,11 +111,10 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     }
 
     /// <summary> effect object 삭제(회수) </summary>
-    public void DeleteEffect(GameObject obj)
-    {
-        Debug.Log(obj);
-        effectPool.RemoveItem(obj);
-    }
+    //public void DeleteEffect(GameObject obj)
+    //{
+    //    effectPool.RemoveItem(obj);
+    //}
 
 
 
@@ -127,11 +126,20 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     {
         bulletPool.ClearItem();
     }
-    public void ClearEffect()
-    {
-        effectPool.ClearItem();
-    }
+    //public void ClearEffect()
+    //{
+    //    effectPool.ClearItem();
+    //}
 
     #endregion
+
+
+    private void OnApplicationQuit()
+    {
+        //weaponPool.Dispose();
+        //bulletPool.Dispose();
+        //effectPool.Dispose();
+
+    }
     #endregion 
 }

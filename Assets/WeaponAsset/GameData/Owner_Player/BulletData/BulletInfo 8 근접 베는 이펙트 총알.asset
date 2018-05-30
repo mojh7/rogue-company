@@ -34,9 +34,11 @@ MonoBehaviour:
   showsRotationAnimation: 0
   showsParticle: 0
   isFixedAngle: 0
+  positionBasedKnockBack: 0
   deleteAfterSummonBulletId: 0
   deleteAfterSummonPatternId: 0
   bounceAble: 0
+  bulletBlockAble: 1
   collisionPropertiesEdit: 02000000
   updatePropertiesEdit: 
   deletePropertiesEdit: 00000000
