@@ -42,6 +42,7 @@ public class Bullet : MonoBehaviour
     private Coroutine rotationAnimation;
     private Coroutine scaleAnimation;
     private Coroutine deleteOnlifeTime;
+    private Coroutine setColliderSize;
 
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;      // 총알 방향 각도.
@@ -99,9 +100,24 @@ public class Bullet : MonoBehaviour
             Debug.Log("T : " + Time.time + ", spriteAniRenderer : " + spriteAniRenderer.sprite);
             boxCollider.size = spriteAniRenderer.sprite.bounds.size;
         }*/
-        for (int i = 0; i < info.updatePropertiesLength; i++)
+        if(null != info)
         {
-            info.updateProperties[i].Update();
+            int length = info.updatePropertiesLength;
+            for (int i = 0; i < length; i++)
+            {
+                info.updateProperties[i].Update();
+            }
+        }
+    }
+
+
+    // 총알 전체 회수할 때 onDisable로 회수 처리 하려함.
+    void OnDisable()
+    {
+        if(null != info)
+        {
+            CommonDelete();
+            info = null;
         }
     }
     #endregion
@@ -263,7 +279,7 @@ public class Bullet : MonoBehaviour
             animator.SetTrigger(info.spriteAnimation.ToString());
             spriteRenderer.sprite = null;
             boxCollider.size = new Vector2(0.1f, 0.1f);
-            StartCoroutine("SetColliderSize");
+            setColliderSize = StartCoroutine("SetColliderSize");
         }
         // sprite 애니메이션 미 적용
         else
@@ -275,13 +291,13 @@ public class Bullet : MonoBehaviour
         }
 
         // rotate 360도 계속 회전하는 애니메이션 적용
-        if (info.showsRotationAnimation == true)
+        if (true == info.showsRotationAnimation)
         {
             rotationAnimation = StartCoroutine("RotationAnimation");
         }
 
         // scale이 바뀌면서 커지고 작아지는 애니메이션 적용
-        if (info.showsScaleAnimation == true)
+        if (true == info.showsScaleAnimation)
         {
             scaleAnimation = StartCoroutine("ScaleAnimation");
         }
@@ -407,12 +423,15 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
-        if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
+        if (null != info)
         {
-            //Debug.Log("Collision 벽 충돌");
-            for (int i = 0; i < info.collisionPropertiesLength; i++)
+            if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
             {
-                info.collisionProperties[i].Collision(ref coll);
+                int length = info.collisionPropertiesLength;
+                for (int i = 0; i < length; i++)
+                {
+                    info.collisionProperties[i].Collision(ref coll);
+                }
             }
         }
     }
@@ -420,12 +439,15 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
-        if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
+        if(null != info)
         {
-            //Debug.Log("Trigger 벽 충돌");
-            for (int i = 0; i < info.collisionPropertiesLength; i++)
+            if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
             {
-                info.collisionProperties[i].Collision(ref coll);
+                int length = info.collisionPropertiesLength;
+                for (int i = 0; i < length; i++)
+                {
+                    info.collisionProperties[i].Collision(ref coll);
+                }
             }
         }
     }
@@ -433,38 +455,47 @@ public class Bullet : MonoBehaviour
     /// <summary> 삭제 속성 실행 </summary>
     public void DestroyBullet()
     {
-        // 실행 중인 코루틴이 있으면 코루틴 멈춤
-        if(bulletUpdate != null)
-        {
-            StopCoroutine(bulletUpdate);
-        }
-        if (rotationAnimation != null)
-        {
-            StopCoroutine(rotationAnimation);
-        }
-        if (scaleAnimation != null)
-        {
-            StopCoroutine(scaleAnimation);
-        }
-        if (deleteOnlifeTime != null)
-        {
-            StopCoroutine(deleteOnlifeTime);
-        }
-        StopCoroutine("SetColliderSize");
+        CommonDelete();
 
-        viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
-        viewTransform.localScale = new Vector3(1f, 1f, 1f);
+        int length = info.deletePropertiesLength;
 
         // 삭제 속성 모두 실행
-        for (int i = 0; i < info.deletePropertiesLength; i++)
+        for (int i = 0; i < length; i++)
         {
             info.deleteProperties[i].DestroyBullet();
         }
+        info = null;
     }
 
+    /// <summary> 충돌로 인한 삭제, 총알 전체 회수로 인한 삭제시 공통적인 삭제 내용 실행</summary>
+    private void CommonDelete()
+    {
+        // 실행 중인 코루틴이 있으면 코루틴 멈춤
+        if (null != bulletUpdate)
+        {
+            StopCoroutine(bulletUpdate);
+        }
+        if (null != rotationAnimation)
+        {
+            StopCoroutine(rotationAnimation);
+        }
+        if (null != scaleAnimation)
+        {
+            StopCoroutine(scaleAnimation);
+        }
+        if (null != deleteOnlifeTime)
+        {
+            StopCoroutine(deleteOnlifeTime);
+        }
+        if (null != setColliderSize)
+        {
+            StopCoroutine(setColliderSize);
+        }
+
+        viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
+        viewTransform.localScale = new Vector3(1f, 1f, 1f);
+    }
     #endregion
-
-
 
     #region coroutine
 

@@ -141,7 +141,6 @@ public class MemoryPool : IEnumerable, System.IDisposable
                 item.gameObject.SetActive(false);
             }
         }
-        totalCount = 0;
     }
     //--------------------------------------------------------------------------------------
     // 메모리 풀 삭제

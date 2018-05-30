@@ -25,35 +25,72 @@ public class Effect : MonoBehaviour {
     [SerializeField]
     private GameObject particleSystemObject;    // 파티클 시스템을 포함한 Effect의 자식 오브젝트
     private Vector3 scaleVector;
-    
+
+    private Coroutine deleteOnLifeTime;
+
+    private bool active;
 
     void Awake()
     {
         objTransform = GetComponent<Transform>();
         animator = GetComponentInChildren<Animator>();
         scaleVector = new Vector3(1f, 1f, 1f);
+        active = false;
     }
-    
-    public void Init(int id)
+
+    // 전체 회수용.
+    private void OnDisable()
+    {
+        if(true == active)
+        {
+            DeleteEffect();
+        }
+    }
+
+    public void Init(int id, Vector3 pos)
     {
         info = DataStore.Instance.GetEffectInfo(id);
         //info = DataStore.Instance.GetEffectInfo(Random.Range(0, 7));
         scaleVector.x = info.scaleX;
         scaleVector.y = info.scaleY;
         objTransform.localScale = scaleVector;
+        transform.position = pos;
+
         if(info.particleActive == false)
         {
             particleSystemObject.SetActive(false);
         }
         animator.SetTrigger(info.animationName);
-        //
-        // 일단 임시로 생성 삭제고 오브젝트 풀로 옮겨야 됨.
-        // 생성 될 때 처리 및 delete 함수 n초뒤에 실행
-        Invoke("DeleteEffect", info.lifeTime);
+
+        deleteOnLifeTime = StartCoroutine("DeleteOnLifeTime");
+
+        active = true;
     }
+
+  
 
     public void DeleteEffect()
     {
-        Destroy(gameObject);
+        active = false;
+        if (null != deleteOnLifeTime) 
+        {
+            StopCoroutine("DeleteOnLifeTime");
+        }
+        ObjectPoolManager.Instance.DeleteEffect(gameObject);
+    }
+
+    // delete 함수 n초뒤에 실행
+    private IEnumerator DeleteOnLifeTime()
+    {
+        float time = 0;
+        while (true)
+        {
+            if (time >= info.lifeTime)
+            {
+                DeleteEffect();
+            }
+            time += Time.fixedDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
     }
 }

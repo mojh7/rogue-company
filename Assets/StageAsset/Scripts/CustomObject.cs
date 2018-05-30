@@ -157,7 +157,7 @@ public class Spawner : CustomObject
 
         // 0516 모장현
         gameObject.tag = "Enemy";
-        gameObject.layer = 13;
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
     public override void Active()
     {
