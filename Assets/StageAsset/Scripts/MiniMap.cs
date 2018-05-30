@@ -18,7 +18,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
 
     public void SetFloorText()
     {
-        floorT.text = GameDataManager.Instance.GetFloor().ToString() + "F";
+        floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
     }
 
     public void DrawRoom(Map.Rect _room)

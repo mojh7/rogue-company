@@ -9,6 +9,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
     private Player player;
     [SerializeField] private Text ammoViewText;
     [SerializeField] private Image weaponImage;
+    [SerializeField] private GameObject[] weaponIcon;
 
     public void SetPlayer(Player player)
     {

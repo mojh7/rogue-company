@@ -283,13 +283,13 @@ public class WeaponManager : MonoBehaviour {
 
     /// <summary> 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용 / 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기 </summary>
     /// <param name="pickedWeapon">얻어서 장착할 무기</param>
-    public void PickAndDropWeapon(Item pickedWeapon)
+    public bool PickAndDropWeapon(Item pickedWeapon)
     {
 
         Weapon weapon = pickedWeapon as Weapon;
         // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
         if (weapon == null || WeaponState.Idle != equipWeaponSlot[currentWeaponIndex].GetWeaponState() || !canPickAndDropWeapon)
-            return;
+            return false;
 
         // 무기 습득하고 습득한 무기 착용
         if (weaponCount < weaponCountMax)
@@ -313,6 +313,7 @@ public class WeaponManager : MonoBehaviour {
             dropedWeapon.ObjTransform.SetParent(obj.transform, false);
         }
         StartCoroutine("PickAndDropWeaponDelay");
+        return true;
     }
     #endregion
 

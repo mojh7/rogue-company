@@ -398,8 +398,9 @@ public class ItemContainer : CustomObject
         Debug.Log("ItemContainer");
         if (innerObject as Weapon != null)
         {
-            PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
-            Destroy(gameObject);
+            bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
+            if(check)
+                Destroy(gameObject);
         }
     }
 

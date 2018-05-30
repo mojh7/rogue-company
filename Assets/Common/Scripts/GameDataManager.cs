@@ -56,6 +56,9 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager> {
                 File.Delete(dataPath);
             }
             gameData = null;
+            m_floor = 1;
+            m_coin = 0;
+            m_playerType = Player.PlayerType.SOCCER;
         }
     }
     void BinarySerialize(GameData _gameData)
