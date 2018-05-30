@@ -46,26 +46,21 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         // bullet 오브젝트풀 초기화
         bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax);
         // effect 오브젝트풀 초기화
-        // effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
+        effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
     }
 
     #region function
     // 나중에 오브젝트 풀 바껴도 object Create, Delete 함수 내부만 바꾸면 되서 함수 새로 만듬.
 
     #region createObject
-
+    
     public Item CreateWeapon(int weaponId)
     {
         GameObject createdObj = weaponPool.NewItem();
         createdObj.GetComponent<Weapon>().Init(weaponId);
         return createdObj.GetComponent<Item>();
     }
-    /// <summary>
-    /// 해당 weapon Id의 정보를 가진 weapon 생성
-    /// </summary>
-    /// <param name="weaponId">생성할 weapon의 고유 Id</param>
-    /// <param name="pos">생성할 위치</param>
-    /// <returns>생성된 weapon 오브젝트</returns>
+    /// <summary> 해당 weapon Id의 정보를 가진 weapon 생성 </summary>
     public GameObject CreateWeapon(int weaponId, Vector3 pos)
     {
         GameObject createdObj = weaponPool.NewItem();
@@ -74,14 +69,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return createdObj;
     }
 
-    /// <summary>
-    /// 해당 weapon Id의 정보를 가진 weapon 생성 및 parent 설정
-    /// </summary>
-    /// <param name="weaponId"></param>
-    /// <param name="pos"></param>
-    /// <param name="parent"></param>
-    /// <param name="worldPositionStays"></param>
-    /// <returns></returns>
+    /// <summary> 해당 weapon Id의 정보를 가진 weapon 생성 및 parent 설정 </summary>
     public GameObject CreateWeapon(int weaponId, Vector3 pos, Transform parent, bool worldPositionStays = true)
     {
         GameObject createdObj = weaponPool.NewItem();
@@ -91,52 +79,51 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return createdObj;
     }
 
-    /// <summary>
-    /// bullet 생성
-    /// </summary>
-    /// <returns>생성된 bullet</returns>
+    /// <summary> bullet 생성 후 반환 </summary>
     public GameObject CreateBullet()
     {
         return bulletPool.NewItem();
     }
 
-    /// <summary>
-    /// effect 생성
-    /// </summary>
-    /// <returns>생성된 effect</returns>
-    public GameObject CreateEffect()
+    /// <summary> effect 생성 </summary>
+    public void CreateEffect(int id, Vector3 pos)
     {
-        return effectPool.NewItem();
+        if (id < 0) return;
+        pos.z = 0;
+        GameObject createdObj = effectPool.NewItem();
+        createdObj.GetComponent<Effect>().Init(id, pos);
     }
     #endregion
 
+
     #region deleteObject
 
-    /// <summary>
-    /// weapon object 삭제(회수)
-    /// </summary>
-    /// <param name="obj"></param>
+    /// <summary> weapon object 삭제(회수) </summary>
     public void DeleteWeapon(GameObject obj)
     {
         weaponPool.RemoveItem(obj);
     }
 
-    /// <summary>
-    /// bullet object 삭제(회수)
-    /// </summary>
-    /// <param name="obj"></param>
+    /// <summary> bullet object 삭제(회수) </summary>
     public void DeleteBullet(GameObject obj)
     {
         bulletPool.RemoveItem(obj);
     }
 
-    /// <summary>
-    /// effect object 삭제(회수)
-    /// </summary>
-    /// <param name="obj"></param>
+    /// <summary> effect object 삭제(회수) </summary>
     public void DeleteEffect(GameObject obj)
     {
         effectPool.RemoveItem(obj);
+    }
+
+
+    public void ClearBullet()
+    {
+        bulletPool.ClearItem();
+    }
+    public void ClearEffect()
+    {
+        effectPool.ClearItem();
     }
 
     #endregion

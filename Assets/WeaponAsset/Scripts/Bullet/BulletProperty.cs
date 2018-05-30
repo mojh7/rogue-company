@@ -786,7 +786,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        TestScript.Instance.CreateEffect(bulletTransform.position, bullet.info.effectId);
+        ObjectPoolManager.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
