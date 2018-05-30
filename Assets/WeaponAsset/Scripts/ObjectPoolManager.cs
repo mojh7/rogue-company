@@ -117,6 +117,11 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     }
 
 
+
+    public void ClearWeapon()
+    {
+        weaponPool.ClearItem();
+    }
     public void ClearBullet()
     {
         bulletPool.ClearItem();
@@ -127,15 +132,5 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     }
 
     #endregion
-
-    private void OnApplicationQuit()
-    {
-        //메모리 풀을 비웁니다.
-
-        weaponPool.Dispose();
-        bulletPool.Dispose();
-        effectPool.Dispose();
-    }
-    #endregion
-
+    #endregion 
 }

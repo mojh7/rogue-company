@@ -50,6 +50,9 @@ public class Weapon : Item {
 
     [SerializeField] private int weaponId;
     
+
+    // coroutine
+
     #endregion
     #region getter
     public Sprite GetWeaponSprite() { return spriteRenderer.sprite; }
@@ -60,6 +63,7 @@ public class Weapon : Item {
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     public WeaponState GetWeaponState() { return weaponState; }
+    public int GetWeaponId() { return weaponId; }
     #endregion
     #region setter
     public void SetOwnerDirDegree(DelGetDirDegree ownerDirDegree) { this.ownerDirDegree = ownerDirDegree; }
@@ -117,9 +121,7 @@ public class Weapon : Item {
         }
     }
 
-    /// <summary>
-    /// weaponManager에 처음 등록될 때 onwer 정보 얻어오고 bulletPattern 정보 초기화
-    /// </summary>
+    /// <summary> weaponManager에 처음 등록될 때 onwer 정보 얻어오고 bulletPattern 정보 초기화 </summary>
     public void RegisterWeapon(WeaponManager weaponManager)
     {
         this.weaponManager = weaponManager;

@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 이동패턴 구현
-public class MovingPattern : MonoBehaviour
+public class AI_MovingPattern : MonoBehaviour
 {
     // 1. 이동 : 1) 정지 2) 좌우 움직임 3)추적 4) 돌진 5) 시계방향 이동 6) 역추적
 
     #region variables
-
     [SerializeField]
     public GameObject player;
-    public float moveSpeed = 1.5f;
+
+    // Asta
     Vector3[] path;
+    public LayerMask unwalkableMask;
+    int targetIndex;
 
     // 원형 이동
     private float radius = 3;
@@ -21,33 +23,48 @@ public class MovingPattern : MonoBehaviour
     private Vector3 newPos = new Vector3();
 
     // 돌진
-    [SerializeField] [HideInInspector]
-    private GameObject point;
-    public LayerMask unwalkableMask;
+    // 돌진의 Point는 Manager로 변경하자
+    [HideInInspector]
+    public GameObject point;
 
-    int targetIndex;                            // Astar path index
     [SerializeField]
-    private float currentTime;                          // 시간
-    float moveDif;                              // 거리차
+    private float currentTime;              // 시간
+    [SerializeField]
+    public float moveDif;                          // 거리차
+    private float speed = 0;                        // 이동속도를 받아올 변수
+    private Vector3 startDir = Vector3.zero; // LR, UD 의 시작 점
+    [HideInInspector]
+    public bool isTurn = true;              // 몬스터 y축 회전 bool
+    [HideInInspector]
+    public bool isPoint = false;            // 대쉬 여부 확인
 
-    public static MovingPattern instance;       // 인스턴스
-    public bool isPath = false;                 // Astar bool
-    public bool isTurn = true;                 // 몬스터 y축 회전 bool
+    public static AI_MovingPattern instance;    // 인스턴스
 
-    public float test_StopTr = 3f;
-    public Vector3 startDir = Vector3.zero;
+
+    //public float test_StopTr = 3f;
+    //public bool isPath = false;                 // Astar bool
     #endregion
-    
+
+    #region getset
+    public bool _rotate
+    { get { return isTurn; } set { isTurn = value; } }
+    public bool _point
+    { get { return isPoint; } set { isPoint = value; }}
+
+    #endregion
+
     private void Awake()
     {
         player = GameObject.Find("Player");
-        point = transform.Find("point").gameObject;
-        startDir = this.transform.position;
-        Debug.Log(point);
         if (instance == null)
         {
             instance = this;
         }
+        // Init
+        startDir = this.transform.position;
+        isTurn = true;
+        if (isPoint)
+            point = transform.Find("point").gameObject;
     }
 
     void FixedUpdate()
@@ -59,40 +76,46 @@ public class MovingPattern : MonoBehaviour
         // 몬스터 회전.  
         if (isTurn)
         {
-            // 플레이어의 x축보다 작으면 y축으로 90도 회전 크면 y축으로 180도 회전
-            if (transform.position.x < player.transform.position.x)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-            else
-            {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
+            RotationOjbect();
         }
     }
 
     #region moveFun
-    private void Stop()
+
+    public void RotationOjbect()
     {
-        isPath = false;
+        // 플레이어의 x축보다 작으면 y축으로 90도 회전 크면 y축으로 180도 회전
+        if (transform.position.x < player.transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 
-    private void Track()
+    public void Stop()
     {
-        if (!isPath)
-        {
-            isPath = true;
-        }
-        if (moveDif > 2.5f)
+        isTurn = false;
+        speed = 0;
+        Debug.Log("정지상태");
+    }
+
+    public void Track(float trackDis, float trackSpeed)
+    {
+        Debug.Log("??");
+        speed = trackSpeed;
+        if (moveDif > trackDis)
             PathRequestManager.RequestPath(new PathRequest(transform.position, player.transform.position, OnPathFound));
     }
 
-    private void Untrack()
+    public void Untrack()
     {
 
     }
 
-    private void Dash()
+    public void Dash(float dashDis, float dashSpeed)
     {
         // 만일 장애물(Mask사용)이 없고, 플레이어의 거리차가 2이하이면 돌진.
         //int layerMask = (-1) - ((1 << unwalkableMask));
@@ -101,25 +124,25 @@ public class MovingPattern : MonoBehaviour
         //    transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask);
         // 추가, 수정할 것 : mask
 
-        bool isDash = moveDif < 6;                 // 대시범위 안에 있을 때 true
-        bool isAttack = moveDif > test_StopTr;     // 공격범위 밖에 있을 떄 true
+        speed = dashSpeed;
+        bool isDash = moveDif < 6;              // 대시범위 안에 있을 때 true
+        bool isAttack = moveDif > dashDis;     // 공격범위 밖에 있을 떄 true
         if (isDash && isAttack)
         {
             point.gameObject.SetActive(true);
             Vector3 dir = (player.transform.position - transform.position).normalized;
-            this.transform.Translate(dir * moveSpeed * 2 * Time.deltaTime);
+            this.transform.Translate(dir * speed * 2 * Time.deltaTime);
         }
         if (!isAttack)
         {
             point.gameObject.SetActive(false);
         }
-        // Debug.Log(isDash);
     }
 
     int ran;
     int LRpos = 0;        // 왼쪽 오른쪽
     int UDpos = 0;        // 아래 위래
-    private void MoveLR()
+    public void MoveLR(float moveSpeed)
     {
         currentTime += Time.deltaTime;
         if (currentTime > 0.5f && currentTime < 1.5f)
@@ -207,11 +230,11 @@ public class MovingPattern : MonoBehaviour
     float degree2 = 0;                  // Player와 Enemy 사이의 Angle
     Vector3 arcPos = Vector3.zero;     // Enemy가 이동하게 될 호의 한 점
 
-    // Player를 원점으로 반지름 3만큼 해서 1.5f스피드로 
-    private void MoveCir()
+    public void MoveCir(float cirDis, float cirSpeed)
     {
+        speed = cirSpeed;
         // Q) 플레이어 인식 범위는 어떻게??
-        if (moveDif < test_StopTr + 2)
+        if (moveDif < cirDis + 2)
             isCir = true;
 
         // 몬스터가 일정 범위(Test - 5)에 들어가면 Enemy는 angle위치로 이동.
@@ -242,7 +265,7 @@ public class MovingPattern : MonoBehaviour
         if (moveDif > 3)
         {
             // Enemy는 TestPos된 부분을 쫓아가기.
-            this.transform.position = Vector3.MoveTowards(transform.position, arcPos, moveSpeed * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(transform.position, arcPos, speed * Time.deltaTime);
         }
         else
         {
@@ -253,7 +276,7 @@ public class MovingPattern : MonoBehaviour
     }
 
     // Circle이 계속해서 돈다.
-    private void MonsterCircleMove(float runningTime)
+    public void MonsterCircleMove(float runningTime)
     {
         float x = player.transform.position.x + radius * Mathf.Cos(runningTime);
         float y = player.transform.position.y + radius * Mathf.Sin(runningTime);
@@ -272,7 +295,7 @@ public class MovingPattern : MonoBehaviour
         }
     }
 
-    private int RandomInt(int min, int max)
+    public int RandomInt(int min, int max)
     {
         int ran = UnityEngine.Random.Range(min, max);
         return ran;
@@ -308,7 +331,7 @@ public class MovingPattern : MonoBehaviour
                 //currentWaypoint = path[targetIndex];
             }
             transform.position = Vector3.MoveTowards
-                (transform.position, currentWaypoint, moveSpeed * Time.deltaTime);
+                (transform.position, currentWaypoint, speed * Time.deltaTime);
             yield return null;
         }
     }
