@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98bf88ce96d430b408ed6b0c404ef7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tempObj: {fileID: 4947963125661484}
   weaponPrefab: {fileID: 1788915023617148, guid: 2fe5f57666cfafa48aba118757300c57,
     type: 2}
   initWeaponNumMax: 5

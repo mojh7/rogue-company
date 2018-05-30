@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
     GameObject m_playerObj;
     Player m_player;
 
+    
+
     // 0513 모장현
     public Player GetPlayer()
     {
@@ -23,6 +25,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager> {
 
     public void DeletePlayer()
     {
+        m_player.GetWeaponManager().RemoveWeapons();
         Destroy(m_playerObj);
     }
 

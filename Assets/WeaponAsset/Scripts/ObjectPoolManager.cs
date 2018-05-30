@@ -10,6 +10,8 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
     #region variables
 
+    public Transform tempObj;
+
     public GameObject weaponPrefab;
     [SerializeField]
     private int initWeaponNumMax;

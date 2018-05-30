@@ -368,8 +368,9 @@ public class WeaponManager : MonoBehaviour {
     {
         for(int i = 0; i < weaponCount; i++)
         {
-            Debug.Log("z : " + PlayerManager.Instance.GetPlayer().transform.parent);
-            equipWeaponSlot[i].transform.SetParent(PlayerManager.Instance.GetPlayer().transform.parent);
+            // Debug.Log("z : " + ObjectPoolManager.Instance.tempObj);
+            equipWeaponSlot[i].transform.position = Vector3.zero;
+            equipWeaponSlot[i].transform.SetParent(ObjectPoolManager.Instance.tempObj);
             ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
         }
     }
