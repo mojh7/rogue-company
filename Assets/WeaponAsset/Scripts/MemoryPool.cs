@@ -147,7 +147,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
     //--------------------------------------------------------------------------------------
     public void Dispose()
     {
-        //Debug.Log("Memory pool Dispose");
+        // Debug.Log("Memory pool Dispose");
         if (table == null)
         {
             //Debug.Log("Memory pool Dispose table null");

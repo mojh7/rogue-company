@@ -83,6 +83,35 @@ public class WeaponManager : MonoBehaviour {
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
+
+    public int[] GetWeaponIds()
+    {
+        int[] weaponIds = new int[3];
+        for(int i = 0; i < weaponCountMax; i++)
+        {
+            if(null == equipWeaponSlot[i])
+            {
+                weaponIds[i] = -1;
+            }
+            else
+            {
+                weaponIds[i] = equipWeaponSlot[i].GetWeaponId();
+            }
+        }
+        return weaponIds;
+    }
+    public int[] GetWeaponAmmos()
+    {
+        int[] weaponAmmos = new int[3];
+        for (int i = 0; i < weaponCountMax; i++)
+        {
+            if (null != equipWeaponSlot[i])
+            {
+                weaponAmmos[i] = equipWeaponSlot[i].info.ammo;
+            }
+        }
+        return weaponAmmos;
+    }
     #endregion
     #region setter
     public void SetOwnerType(OwnerType ownerType) { this.ownerType = ownerType; }
@@ -164,31 +193,58 @@ public class WeaponManager : MonoBehaviour {
             Weapon weapon;
             equipWeaponSlot = new List<Weapon>();
             currentWeaponIndex = 0;
-            if (equipAllWeapons)
+
+            weaponCountMax = 3;
+
+            Debug.Log("load Game : " + GameStateManager.Instance.GetIsLoadedGame());
+
+            // 로드 게임이 아닐 때 디버그용 무기 셋팅
+            if (false == GameStateManager.Instance.GetIsLoadedGame())
             {
-                weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
-                weaponCount = weaponCountMax;
-                for(int i = 0; i < weaponCountMax; i++)
+                if (equipAllWeapons)
                 {
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(i) as Weapon;
+                    weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
+                    weaponCount = weaponCountMax;
+                    for (int i = 0; i < weaponCountMax; i++)
+                    {
+                        weapon = ObjectPoolManager.Instance.CreateWeapon(i) as Weapon;
+                        equipWeaponSlot.Add(weapon);
+                        weapon.ObjTransform.SetParent(registerPoint, false);
+                        weapon.RegisterWeapon(this);
+                    }
+                }
+                else
+                {
+                    weaponCount = 1;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(startWeaponId) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
                 }
             }
+            // 저장된 데이터를 로드한 게임 일 때
             else
             {
-                weaponCountMax = 3;
-                weaponCount = 1;
-                weapon = ObjectPoolManager.Instance.CreateWeapon(startWeaponId) as Weapon;
-                equipWeaponSlot.Add(weapon);
-                weapon.ObjTransform.SetParent(registerPoint, false);
-                weapon.RegisterWeapon(this);
-                /*
-                for (int i = 0; i < weaponCountMax - 1; i++)
+                int[] weaponIds = GameDataManager.Instance.GetWeaponIds();
+                int[] weaponAmmos = GameDataManager.Instance.GetWeaponAmmos();
+
+                for (int i = 0; i < weaponCountMax; i++)
                 {
-                    equipWeaponSlot.Add(null);
-                }*/
+                    // 무기가 없을 때
+                    if(-1 == weaponIds[i])
+                    {
+                        equipWeaponSlot.Add(null);
+                    }
+                    else
+                    {
+                        weapon = ObjectPoolManager.Instance.CreateWeapon(weaponIds[i]) as Weapon;
+                        equipWeaponSlot.Add(weapon);
+                        weapon.ObjTransform.SetParent(registerPoint, false);
+                        weapon.RegisterWeapon(this);
+                        weapon.info.ammo = weaponAmmos[i];
+                        weaponCount += 1;
+                    }
+                }
             }
         }
         UpdateCurrentWeapon();
@@ -320,7 +376,7 @@ public class WeaponManager : MonoBehaviour {
     IEnumerable PickAndDropWeaponDelay()
     {
         canPickAndDropWeapon = false;
-        yield return YieldInstructionCache.WaitForSeconds(2.0f);
+        yield return YieldInstructionCache.WaitForSeconds(1.0f);
         canPickAndDropWeapon = true;
     }
 }

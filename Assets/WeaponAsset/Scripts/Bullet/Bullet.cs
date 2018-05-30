@@ -54,6 +54,8 @@ public class Bullet : MonoBehaviour
 
     // 코루틴 deltaTime
     private float coroutineDeltaTime = 0.016f;
+
+    private bool active;
     #endregion
 
     #region getter / setter
@@ -77,6 +79,7 @@ public class Bullet : MonoBehaviour
     #region unityFunction
     void Awake()
     {
+        active = false;
         //gameObject.hideFlags = HideFlags.HideInHierarchy;
         objTransform = GetComponent<Transform>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -100,13 +103,9 @@ public class Bullet : MonoBehaviour
             Debug.Log("T : " + Time.time + ", spriteAniRenderer : " + spriteAniRenderer.sprite);
             boxCollider.size = spriteAniRenderer.sprite.bounds.size;
         }*/
-        if(null != info)
+        for (int i = 0; i < info.updatePropertiesLength; i++)
         {
-            int length = info.updatePropertiesLength;
-            for (int i = 0; i < length; i++)
-            {
-                info.updateProperties[i].Update();
-            }
+            info.updateProperties[i].Update();
         }
     }
 
@@ -114,10 +113,9 @@ public class Bullet : MonoBehaviour
     // 총알 전체 회수할 때 onDisable로 회수 처리 하려함.
     void OnDisable()
     {
-        if(null != info)
+        if(true == active)
         {
             CommonDelete();
-            info = null;
         }
     }
     #endregion
@@ -127,6 +125,7 @@ public class Bullet : MonoBehaviour
     // 일반(투사체) 총알 초기화 - position이랑 direction만 받음
     public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction = 0)
     {
+        active = true;
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
         // 투사체 총알 속성 초기화
@@ -150,6 +149,7 @@ public class Bullet : MonoBehaviour
     // 일반(투사체) 총알 초기화
     public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalRate)
     {
+        active = true;
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
         // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
@@ -199,6 +199,7 @@ public class Bullet : MonoBehaviour
     // 레이저 나중에 빔 모양 말고 처음 시작 지점, raycast hit된 지점에 동그란 원 추가 생성 할 수도 있음.
     public void Init(int bulletId, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalRate)
     {
+        active = true;
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
         // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
@@ -423,15 +424,12 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
-        if (null != info)
+        if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
         {
-            if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
+            int length = info.collisionPropertiesLength;
+            for (int i = 0; i < length; i++)
             {
-                int length = info.collisionPropertiesLength;
-                for (int i = 0; i < length; i++)
-                {
-                    info.collisionProperties[i].Collision(ref coll);
-                }
+                info.collisionProperties[i].Collision(ref coll);
             }
         }
     }
@@ -439,15 +437,12 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
-        if(null != info)
+        if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
         {
-            if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
+            int length = info.collisionPropertiesLength;
+            for (int i = 0; i < length; i++)
             {
-                int length = info.collisionPropertiesLength;
-                for (int i = 0; i < length; i++)
-                {
-                    info.collisionProperties[i].Collision(ref coll);
-                }
+                info.collisionProperties[i].Collision(ref coll);
             }
         }
     }
@@ -456,20 +451,18 @@ public class Bullet : MonoBehaviour
     public void DestroyBullet()
     {
         CommonDelete();
-
-        int length = info.deletePropertiesLength;
-
         // 삭제 속성 모두 실행
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < info.deletePropertiesLength; i++)
         {
             info.deleteProperties[i].DestroyBullet();
         }
-        info = null;
     }
 
     /// <summary> 충돌로 인한 삭제, 총알 전체 회수로 인한 삭제시 공통적인 삭제 내용 실행</summary>
     private void CommonDelete()
     {
+        active = false;
+
         // 실행 중인 코루틴이 있으면 코루틴 멈춤
         if (null != bulletUpdate)
         {
