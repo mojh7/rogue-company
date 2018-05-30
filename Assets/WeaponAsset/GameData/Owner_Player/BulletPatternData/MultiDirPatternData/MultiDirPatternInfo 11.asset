@@ -18,7 +18,8 @@ MonoBehaviour:
   deltaAngle: 0
   randomAngle: 10
   bulletId: 14
-  effectId: -1
   speed: 0
   range: 10
   damage: 0
+  knockBack: 0
+  criticalRate: 0

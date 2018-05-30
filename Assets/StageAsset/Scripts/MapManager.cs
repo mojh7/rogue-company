@@ -103,9 +103,10 @@ namespace Map
             CreateMap();
             LinkAllRects();
             DrawTile();
-            LinkAllRecursion();
-            LinkHall();
             rooms.AddRange(halls);
+            LinkRecursion(); // 보스 방을 제외한 방 연결
+            LinkBossRoom(); // 보스 방 연결
+            //LinkHall();
             BakeAvailableArea();
             CreateRoomMaskObj();
         } // office creates
@@ -504,7 +505,7 @@ namespace Map
 
         void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
         {
-            if((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width)/2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
+            if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width)/2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
             {
                 _rectA.EdgeRect(_rectB);
             }
@@ -514,22 +515,50 @@ namespace Map
             }
         }
 
-        void LinkAllRecursion()
+        void LinkRecursion()
         {
             for (int i = 0; i < rooms.Count; i++)
-                RecursionLink(rooms[i]);
+            {
+                if (rooms[i].eRoomType != RoomType.BOSS)
+                {
+                    RecursionLink(rooms[i]);
+                    break;
+                }
+            }
         } // 모두 연결
+
+        void LinkBossRoom()
+        {
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (rooms[i].eRoomType == RoomType.BOSS)
+                {
+                    for (int index = 0; index < rooms[i].edgeRect.Count; index++)
+                    {
+                        if (rooms[i].isRoom || rooms[i].edgeRect[i].isRoom)
+                        {
+                            DrawDoorTile(rooms[i], rooms[i].edgeRect[index]); //문 놓을 곳에 타일 지우기
+                            rooms[i].LinkedEdgeRect(rooms[i].edgeRect[index]);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        } // 보스 방 연결
 
         void RecursionLink(Rect _rect)
         {
+            if (_rect.eRoomType == RoomType.BOSS)
+                return;
             _rect.visited = true;
 
             for (int i = 0; i < _rect.edgeRect.Count; i++)
             {
-                if ((_rect.isRoom || _rect.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/ &&
-                    !_rect.edgeRect[i].visited/*방문한 적 없어야함*/ && _rect.eRoomType != RoomType.BOSS/*보스방이 아니어야함*/)
+                if (!_rect.edgeRect[i].visited/*방문한 적 없어야함*/ && _rect.edgeRect[i].eRoomType != RoomType.BOSS)
                 {
-                    DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
+                    if((_rect.isRoom || _rect.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/)
+                        DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
                     _rect.LinkedEdgeRect(_rect.edgeRect[i]);
                     RecursionLink(_rect.edgeRect[i]);
                 }

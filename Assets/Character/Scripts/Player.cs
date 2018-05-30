@@ -77,7 +77,7 @@ public abstract class Character : MonoBehaviour
 
     /*--abstract--*/
     protected abstract void Die();
-    public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate);
+    public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false);
 
     
     /**/
@@ -107,11 +107,9 @@ public class Player : Character
     private RaycasthitEnemy raycasthitEnemyInfo;
     private int layerMask;  // autoAim을 위한 layerMask
 
-    [SerializeField]
-    private new SpriteRenderer renderer;
-
-    [SerializeField]
-    private PlayerHPUI playerHpUi;
+    [SerializeField] private new SpriteRenderer renderer;
+    [SerializeField] private PlayerHPUI playerHpUi;
+    [SerializeField] private WeaponSwitchButton weaponSwitchButton;
     #endregion
 
     #region getter
@@ -119,6 +117,8 @@ public class Player : Character
     public Vector3 GetInputVector () { return controller.GetInputVector(); }
   
     public BuffManager GetBuffManager() { return buffManager; }
+
+    public WeaponSwitchButton GetWeaponSwitchButton() { return weaponSwitchButton; }
     #endregion
     #region setter
     #endregion
@@ -204,14 +204,17 @@ public class Player : Character
         renderer.color = new Color(1, 1, 1);
         hp = 8.5f;
         pState = State.ALIVE;
-        // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
-        weaponManager.Init(this, OwnerType.Player);
+
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
-        GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>().SetPlayer(this);
+        weaponSwitchButton = GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>();
+        weaponSwitchButton.SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
         playerHpUi.UpdateHPUI(hp);
+
+        // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
+        weaponManager.Init(this, OwnerType.Player);
     }
     protected override void Die()
     {
@@ -219,7 +222,7 @@ public class Player : Character
         UIManager.Instance.gameOverObj.SetActive(true);
     }
 
-    public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate)
+    public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate, bool positionBasedKnockBack = false)
     {
         hp -= damage;
         playerHpUi.UpdateHPUI(hp);
@@ -317,6 +320,7 @@ public class Player : Character
             {
                 raycasthitEnemyInfo.index = i;
                 raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, objTransform.position);
+                // Debug.Log(raycasthitEnemyInfo.distance);
                 hit = Physics2D.Raycast(objTransform.position, enemyList[i].transform.position - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
                 if(hit.collider == null)
                 {

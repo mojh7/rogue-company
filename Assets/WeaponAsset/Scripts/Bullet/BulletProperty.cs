@@ -96,7 +96,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -113,7 +113,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         {
             Debug.Log("Player 피격 Collsion");
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -163,7 +163,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -179,7 +179,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
         {
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate);
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
 
             Ignore(ref coll);
 
@@ -247,14 +247,16 @@ class LaserCollisionProperty : CollisionProperty
 
     public override void Collision(ref Collision2D coll)
     {
-        // enamy or Player Attack
-        // coll.Attacked();
+        // coll.attack
     }
 
     public override void Collision(ref Collider2D coll)
     {
-        // enamy or Player Attack
-        // coll.Attacked();
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage * Time.fixedDeltaTime, bullet.info.knockBack, bullet.info.criticalRate);
+        }
     }
 
     public override void Init(Bullet bullet)
@@ -263,6 +265,55 @@ class LaserCollisionProperty : CollisionProperty
     }
 }
 
+// 삭제되지 않은 충돌 속성, lifeTime에 의한 삭제만 이루어짐
+class UndeletedCollisionProperty : CollisionProperty
+{
+    public override CollisionProperty Clone()
+    {
+        return new UndeletedCollisionProperty();
+    }
+
+    // collision
+    public override void Collision(ref Collision2D coll)
+    {
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+    }
+
+    // trigger
+    public override void Collision(ref Collider2D coll)
+    {
+        // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
+        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        {
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        {
+            // 공격 처리
+            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalRate, bullet.info.positionBasedKnockBack);
+            Ignore(ref coll);
+        }
+ 
+    }
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+    }
+}
+// baseNormalCollsion에 bounce충돌 같이 있는데 따로 빼놓을 예정
 
 /*
 class BounceCollisionProperty : CollisionProperty
@@ -284,10 +335,6 @@ class BounceCollisionProperty : CollisionProperty
 
     public override void Collision(ref Collider2D coll)
     {
-        //createdObj = Instantiate(contactPointObj);
-        //createdObj.GetComponent<Transform>().position = coll.bounds.ClosestPoint(objTransform.position);
-        //
-
         incomingVector = MathCalculator.RotateRadians(Vector3.right, bulletTransform.rotation.eulerAngles.z);
         normalVector = (bulletTransform.position - coll.bounds.ClosestPoint(bulletTransform.position)).normalized;
         reflectVector = Vector3.Reflect(incomingVector, normalVector); //반사각
@@ -299,10 +346,10 @@ class BounceCollisionProperty : CollisionProperty
 
     public override void Init(Bullet bullet)
     {
-        this.bullet = bullet;
-        this.bulletTransform = bullet.objTransform;
+        base.Init(bullet);
     }
-}*/
+}
+*/
 #endregion
 
 
@@ -499,6 +546,8 @@ public class LaserUpdateProperty : UpdateProperty
     private int layerMask;
     private Vector3 pos;
 
+    private bool AttackAble;
+
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
@@ -511,7 +560,9 @@ public class LaserUpdateProperty : UpdateProperty
         addDirVecMagnitude = bullet.GetAddDirVecMagnitude();
         lineRenderer = bullet.GetLineRenderer();
         pos = new Vector3();
+        // 일단 Player 레이저가 Enemy에게 적용 하는 것만
         layerMask = 1 << LayerMask.NameToLayer("Wall");
+        layerMask |= 1 << LayerMask.NameToLayer("Enemy");
     }
 
     public override UpdateProperty Clone()
@@ -523,12 +574,15 @@ public class LaserUpdateProperty : UpdateProperty
     {
         bulletTransform.position = ownerPos();
         pos = ownerPos() + (ownerDirVec() * addDirVecMagnitude);
+        pos.z = 0;
+        bullet.LaserStartPoint.position = pos;
         // 100f => 레이저에도 사정거리 개념을 넣게 된다면 이 부분 값을 변수로 처리할 예정이고 현재는 일단 raycast 체크 범위를 100f까지 함
         hit = Physics2D.Raycast(pos, ownerDirVec(), 100f, layerMask);
-        if (hit.collider != null && hit.collider.CompareTag("Wall")) 
+        if (hit.collider != null && (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Enemy"))) 
         {
             lineRenderer.SetPosition(0, pos);
             lineRenderer.SetPosition(1, hit.point);
+            bullet.LaserEndPoint.position = hit.point;
             delCollisionBullet(hit.collider);
         }
     }
@@ -732,7 +786,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        TestScript.Instance.CreateEffect(bulletTransform.position, bullet.info.effectId);
+        ObjectPoolManager.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 

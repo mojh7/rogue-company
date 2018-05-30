@@ -9,11 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: BulletInfo 3
+  m_Name: "BulletInfo 11 \uC124\uCE58\uB958 - \uBC14\uB098\uB098"
   m_EditorClassIdentifier: 
-  memo: "\uBAA8\uC7A5\uD604\n\uB808\uC774\uC800 \uC804\uC6A9 \uCD1D\uC54C"
-  bulletName: "\uB808\uC774\uC800 \uCD1D\uC54C"
-  damage: 1
+  memo: "\uC124\uCE58\uB958 - \uBC14\uB098\uB098"
+  ownerType: 0
+  bulletName: 
+  damage: 0
   knockBack: 0
   criticalRate: 0
   speed: 0
@@ -24,23 +25,23 @@ MonoBehaviour:
   scaleY: 1
   pierceCount: 1
   bounceCount: 0
-  lifeTime: -1
-  effectId: 0
+  lifeTime: 5
+  effectId: 2
   soundId: -1
   spriteAnimation: 0
-  bulletSprite: {fileID: 0}
+  bulletSprite: {fileID: 21300000, guid: 7d9341c48b965844eb79ae6719359ae0, type: 3}
   showsScaleAnimation: 0
   showsRotationAnimation: 0
   showsParticle: 0
-  isFixedAngle: 0
-  deleteAfterSummonBulletId: 0
+  isFixedAngle: 1
+  deleteAfterSummonBulletId: 15
   deleteAfterSummonPatternId: 0
   bounceAble: 0
-  collisionPropertiesEdit: 01000000
-  updatePropertiesEdit: 02000000
-  deletePropertiesEdit: 01000000
+  collisionPropertiesEdit: 00000000
+  updatePropertiesEdit: 
+  deletePropertiesEdit: 02000000
   collisionPropertiesLength: 1
-  updatePropertiesLength: 1
+  updatePropertiesLength: 0
   deletePropertiesLength: 1
   summonBulletPattern:
     type: 0

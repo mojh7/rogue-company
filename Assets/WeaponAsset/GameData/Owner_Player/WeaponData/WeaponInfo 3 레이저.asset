@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: "WeaponInfo 3 \uB808\uC774\uC800"
   m_EditorClassIdentifier: 
   memo: 
+  ownerType: 0
   weaponName: "\uB808\uC774\uC800\uAC74"
   sprite: {fileID: 21300014, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   scaleX: 1
@@ -23,7 +24,7 @@ MonoBehaviour:
   ammo: 0
   bulletMoveSpeed: 0
   range: 100
-  damage: 6
+  damage: 4
   criticalRate: 0.15
   knockBack: 0
   cooldown: 0

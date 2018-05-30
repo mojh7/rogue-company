@@ -19,26 +19,30 @@ public class Bullet : MonoBehaviour
     public BoxCollider2D boxCollider;
     public CircleCollider2D circleCollider;
     public Rigidbody2D objRigidbody;
-    [SerializeField]
+
     // 레이저용 lineRenderer
-    private LineRenderer lineRenderer;
+    [SerializeField] private LineRenderer lineRenderer;
 
     // spirte, 애니메이션 용 sprite 포함 object
-    [SerializeField]
-    private Transform viewTransform;
-    [SerializeField]
-    private GameObject spriteAnimatorObj;
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Transform viewTransform;
+    [SerializeField] private GameObject spriteAnimatorObj;
+    [SerializeField] private SpriteRenderer spriteAniRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     private Animator animator;
-    [SerializeField]
-    private GameObject paticleObj;
+    [SerializeField] private GameObject paticleObj;
+
+
+    [SerializeField] private GameObject laserViewObj;
+    [SerializeField] private Transform laserStartPoint;
+    [SerializeField] private Animator laserStartPointAnimator;
+    [SerializeField] private Transform laserEndPoint;
+    [SerializeField] private Animator laserEndPointAnimator;
 
     private Coroutine bulletUpdate;
     private Coroutine rotationAnimation;
     private Coroutine scaleAnimation;
     private Coroutine deleteOnlifeTime;
-        
+    private Coroutine setColliderSize;
 
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;      // 총알 방향 각도.
@@ -50,8 +54,14 @@ public class Bullet : MonoBehaviour
 
     // 코루틴 deltaTime
     private float coroutineDeltaTime = 0.016f;
+
+    private bool active;
     #endregion
-    #region getter
+
+    #region getter / setter
+    public Transform LaserStartPoint { get { return laserStartPoint; } set { laserStartPoint = value; } }
+    public Transform LaserEndPoint { get { return laserEndPoint; } set { laserEndPoint = value; } }
+
     public LineRenderer GetLineRenderer() { return lineRenderer; }
     public OwnerType GetOwnerType() { return ownerType; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
@@ -65,11 +75,11 @@ public class Bullet : MonoBehaviour
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
     #endregion
-    #region setter
-    #endregion
+
     #region unityFunction
     void Awake()
     {
+        active = false;
         //gameObject.hideFlags = HideFlags.HideInHierarchy;
         objTransform = GetComponent<Transform>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -86,18 +96,36 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /* 애니메이션 경우 trigger 설정 하고 그 다음 프레임에서 실행
+         * 프레임 너무 떨어짐
+        if(BulletAnimationType.NotPlaySpriteAnimation!= info.spriteAnimation)
+        {
+            Debug.Log("T : " + Time.time + ", spriteAniRenderer : " + spriteAniRenderer.sprite);
+            boxCollider.size = spriteAniRenderer.sprite.bounds.size;
+        }*/
         for (int i = 0; i < info.updatePropertiesLength; i++)
         {
             info.updateProperties[i].Update();
+        }
+    }
+
+
+    // 총알 전체 회수할 때 onDisable로 회수 처리 하려함.
+    void OnDisable()
+    {
+        if(true == active)
+        {
+            CommonDelete();
         }
     }
     #endregion
     #region function
     // 총알 class 초기화
 
-    // 일반 총알 초기화 - position이랑 direction만 받음
+    // 일반(투사체) 총알 초기화 - position이랑 direction만 받음
     public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction = 0)
     {
+        active = true;
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
         // 투사체 총알 속성 초기화
@@ -118,9 +146,10 @@ public class Bullet : MonoBehaviour
         SetDirection(direction);
     }
 
-    // 일반 총알 초기화
-    public void Init(int bulletId, OwnerType ownerType, float speed, float range, int effectId, Vector3 pos, float direction)
+    // 일반(투사체) 총알 초기화
+    public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalRate)
     {
+        active = true;
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
 
         // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
@@ -132,11 +161,18 @@ public class Bullet : MonoBehaviour
         {
             info.range = range;
         }
-        if (effectId != -1)
+        if (damage != 0)
         {
-            info.effectId = effectId;
+            info.damage = damage;
         }
-
+        if (knockBack != 0)
+        {
+            info.knockBack = knockBack;
+        }
+        if (criticalRate != 0)
+        {
+            info.criticalRate = criticalRate;
+        }
         //--------------------------------
 
 
@@ -161,9 +197,27 @@ public class Bullet : MonoBehaviour
 
     // 레이저 총알 초기화
     // 레이저 나중에 빔 모양 말고 처음 시작 지점, raycast hit된 지점에 동그란 원 추가 생성 할 수도 있음.
-    public void Init(int bulletId, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec)
+    public void Init(int bulletId, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalRate)
     {
+        active = true;
         info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
+
+        // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
+        if (damage != 0)
+        {
+            info.damage = damage;
+        }
+        if (knockBack != 0)
+        {
+            info.knockBack = knockBack;
+        }
+        if (criticalRate != 0)
+        {
+            info.criticalRate = criticalRate;
+        }
+        //--------------------------------
+
+
         // component on/off
         boxCollider.enabled = false;
         circleCollider.enabled = false;
@@ -173,14 +227,20 @@ public class Bullet : MonoBehaviour
         lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = 0.4f;
         lineRenderer.endWidth = 0.4f;
-        //lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0, Vector2.zero);
+        lineRenderer.SetPosition(1, Vector2.zero);
 
         // Owner 정보 초기화
         InitOwnerInfo(ownerType);
 
         spriteAnimatorObj.SetActive(false);
         spriteRenderer.sprite = null;
+        laserViewObj.SetActive(true);
 
+        // 0529 레이저 임시, 파란색 레이저
+        laserStartPointAnimator.SetTrigger("BlueLaser");
+        laserEndPointAnimator.SetTrigger("BlueLaser");
+        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
         this.addDirVecMagnitude = addDirVecMagnitude;
@@ -214,26 +274,31 @@ public class Bullet : MonoBehaviour
     private void InitProjectileProperty()
     {
         // sprite 애니메이션 적용
-        if (info.spriteAnimation != BulletAnimationType.NotPlaySpriteAnimation)
+        if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
         {
             spriteAnimatorObj.SetActive(true);
             animator.SetTrigger(info.spriteAnimation.ToString());
             spriteRenderer.sprite = null;
+            boxCollider.size = new Vector2(0.1f, 0.1f);
+            setColliderSize = StartCoroutine("SetColliderSize");
         }
-        else // sprite 애니메이션 미 적용
+        // sprite 애니메이션 미 적용
+        else
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
+            boxCollider.size = spriteRenderer.sprite.bounds.size;
+            //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
         }
 
         // rotate 360도 계속 회전하는 애니메이션 적용
-        if (info.showsRotationAnimation == true)
+        if (true == info.showsRotationAnimation)
         {
             rotationAnimation = StartCoroutine("RotationAnimation");
         }
 
         // scale이 바뀌면서 커지고 작아지는 애니메이션 적용
-        if (info.showsScaleAnimation == true)
+        if (true == info.showsScaleAnimation)
         {
             scaleAnimation = StartCoroutine("ScaleAnimation");
         }
@@ -252,6 +317,8 @@ public class Bullet : MonoBehaviour
         // 파티클이 포함되어있는 오브젝트 on/ off
         paticleObj.SetActive(info.showsParticle);
 
+        laserViewObj.SetActive(false);
+
         // component on/off
         boxCollider.enabled = true;
         lineRenderer.enabled = false;
@@ -266,6 +333,8 @@ public class Bullet : MonoBehaviour
         {
             boxCollider.isTrigger = true;
         }
+        //boxCollider.size
+
     }
 
     /// <summary> collision, update, delete 속성 Class들 초기화  </summary>
@@ -357,8 +426,8 @@ public class Bullet : MonoBehaviour
     {
         if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall"))
         {
-            //Debug.Log("Collision 벽 충돌");
-            for (int i = 0; i < info.collisionPropertiesLength; i++)
+            int length = info.collisionPropertiesLength;
+            for (int i = 0; i < length; i++)
             {
                 info.collisionProperties[i].Collision(ref coll);
             }
@@ -370,8 +439,8 @@ public class Bullet : MonoBehaviour
     {
         if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall"))
         {
-            //Debug.Log("Trigger 벽 충돌");
-            for (int i = 0; i < info.collisionPropertiesLength; i++)
+            int length = info.collisionPropertiesLength;
+            for (int i = 0; i < length; i++)
             {
                 info.collisionProperties[i].Collision(ref coll);
             }
@@ -381,27 +450,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 삭제 속성 실행 </summary>
     public void DestroyBullet()
     {
-        // 실행 중인 코루틴이 있으면 코루틴 멈춤
-        if(bulletUpdate != null)
-        {
-            StopCoroutine(bulletUpdate);
-        }
-        if (rotationAnimation != null)
-        {
-            StopCoroutine(rotationAnimation);
-        }
-        if (scaleAnimation != null)
-        {
-            StopCoroutine(scaleAnimation);
-        }
-        if (deleteOnlifeTime != null)
-        {
-            StopCoroutine(deleteOnlifeTime);
-        }
-
-        viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
-        viewTransform.localScale = new Vector3(1f, 1f, 1f);
-
+        CommonDelete();
         // 삭제 속성 모두 실행
         for (int i = 0; i < info.deletePropertiesLength; i++)
         {
@@ -409,9 +458,37 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    /// <summary> 충돌로 인한 삭제, 총알 전체 회수로 인한 삭제시 공통적인 삭제 내용 실행</summary>
+    private void CommonDelete()
+    {
+        active = false;
+
+        // 실행 중인 코루틴이 있으면 코루틴 멈춤
+        if (null != bulletUpdate)
+        {
+            StopCoroutine(bulletUpdate);
+        }
+        if (null != rotationAnimation)
+        {
+            StopCoroutine(rotationAnimation);
+        }
+        if (null != scaleAnimation)
+        {
+            StopCoroutine(scaleAnimation);
+        }
+        if (null != deleteOnlifeTime)
+        {
+            StopCoroutine(deleteOnlifeTime);
+        }
+        if (null != setColliderSize)
+        {
+            StopCoroutine(setColliderSize);
+        }
+
+        viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
+        viewTransform.localScale = new Vector3(1f, 1f, 1f);
+    }
     #endregion
-
-
 
     #region coroutine
 
@@ -428,6 +505,20 @@ public class Bullet : MonoBehaviour
             }
             yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
         }
+    }
+
+
+    // FIXME: init 쪽에서 바로 sprite.bounds 체크하려니 안됨(애니메이션 트리거 작동 특성상 setTrigger 이후 한 박자 뒤에 바뀌나봄)일정 텀 주고
+    // sprite.bounds 측정해야되서 일단 코루틴으로 0.01초 미뤄서 체크, 애니메이션 없는 sprite는 처음에 init 때 sprite 크기 측정해도 되는데 애니메이션 있는 sprite는 연구좀 해야됨. 
+    // fixedUpdate에서 매번 돌리면 프레임 많이 떨어짐.(애니메이션 있는 sprite는 sprite 크기가 매번 달라서 이런 식으로 해야 될 수도 있긴 함.)
+
+    // 땜빵용 코드
+    private IEnumerator SetColliderSize()
+    {
+        //Debug.Log("t : " + Time.time);
+        yield return YieldInstructionCache.WaitForSeconds(0.01f);
+        boxCollider.size = spriteAniRenderer.sprite.bounds.size;
+        //Debug.Log("t : " + Time.time + ", " + spriteAniRenderer.sprite.bounds.size +", colider Size : " + boxCollider.size);
     }
 
 

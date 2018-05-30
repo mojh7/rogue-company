@@ -27,6 +27,12 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         GameDataManager.Instance.SetFloor();
         GameDataManager.Instance.Savedata();
         ItemManager.Instance.DeleteObjs();
+
+        // 0530 모장현
+        ObjectPoolManager.Instance.ClearWeapon();
+        ObjectPoolManager.Instance.ClearBullet();
+        ObjectPoolManager.Instance.ClearEffect();
+
         PlayerManager.Instance.DeletePlayer();
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
         SpawnPlayer();

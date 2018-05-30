@@ -9,5 +9,7 @@ public class LaserPatternInfo : ScriptableObject
     [TextArea(3, 100)] private string memo;
 
     public int bulletId;        // 총알 Id, laserUpdate와 laserDelete 속성을 꼭 가진 총알 만
-    public int damage;
+    public float damage;        // 총알 한 발 당 데미지
+    public float knockBack;     // 넉백 세기
+    public float criticalRate; // 크리티컬 확률
 }

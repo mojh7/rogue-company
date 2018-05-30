@@ -141,14 +141,13 @@ public class MemoryPool : IEnumerable, System.IDisposable
                 item.gameObject.SetActive(false);
             }
         }
-        totalCount = 0;
     }
     //--------------------------------------------------------------------------------------
     // 메모리 풀 삭제
     //--------------------------------------------------------------------------------------
     public void Dispose()
     {
-        //Debug.Log("Memory pool Dispose");
+        // Debug.Log("Memory pool Dispose");
         if (table == null)
         {
             //Debug.Log("Memory pool Dispose table null");

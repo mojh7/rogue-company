@@ -23,7 +23,7 @@ namespace WeaponAsset
 
     /*---*/
 
-    public enum CollisionPropertyType { BaseNormal, Laser }
+    public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
     public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing }
     public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
 
@@ -146,10 +146,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         return weaponInfos.Length;
     }
 
-
+    // TODO : Player외의 owner에서 데이터 저장할 때 좀 더 좋은 구조로 개선해야됨.(asset 폴더 내에 저장시 현재 셋팅이 player 위주로 되어있음)
 
     /// <summary>
-    /// Owner에 따른 Weapon Data 반환, owner 기본 값 Player
+    /// Owner에 따른 Weapon Data 반환, ownerType 기본 값 Player
     /// </summary>
     /// <param name="id"></param>
     /// <param name="owner"></param>
@@ -169,6 +169,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         }
         return null;
     }
+
+    // TODO : bulletPattern 종류 clone 추가 해야됨
+
     public MultiDirPatternInfo GetMultiDirPatternInfo(int id, OwnerType ownerType = OwnerType.Player)
     {
         switch (ownerType)

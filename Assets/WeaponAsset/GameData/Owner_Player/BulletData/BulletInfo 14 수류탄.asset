@@ -24,7 +24,7 @@ MonoBehaviour:
   scaleX: 2
   scaleY: 2
   pierceCount: 1
-  bounceCount: 1
+  bounceCount: 0
   lifeTime: 1.7
   effectId: -1
   soundId: -1
@@ -36,7 +36,7 @@ MonoBehaviour:
   isFixedAngle: 0
   deleteAfterSummonBulletId: 15
   deleteAfterSummonPatternId: 0
-  bounceAble: 1
+  bounceAble: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 01000000
   deletePropertiesEdit: 02000000

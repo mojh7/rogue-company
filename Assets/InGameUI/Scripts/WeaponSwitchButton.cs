@@ -7,7 +7,9 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
     private Vector2 pos;
     // Use this for initialization
     private Player player;
-
+    [SerializeField] private Text ammoViewText;
+    [SerializeField] private Image weaponImage;
+    [SerializeField] private GameObject[] weaponIcon;
 
     public void SetPlayer(Player player)
     {
@@ -35,5 +37,27 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
             player.GetWeaponManager().ChangeWeapon(false);
         }
         // Debug.Log("WeaponSwapBtn touch up x : " + ped.position.x);
+    }
+
+
+    /// <summary> WeaponSwitchButton UI Weapon Sprite View Update </summary>
+    public void UpdateWeaponSprite(Sprite sprite)
+    {
+        weaponImage.sprite = sprite;
+    }
+
+    /// <summary> WeaponSwitchButton UI Weapon Sprite View Update </summary>
+    public void UpdateAmmoView(WeaponInfo info)
+    {
+        if(info.ammoCapacity < 0)
+        {
+            //∞
+            ammoViewText.text = "oo / oo";
+        }
+        // string bulider??? 그걸로 합쳐야 빠를라나
+        else
+        {
+            ammoViewText.text = info.ammo + " / " + info.ammoCapacity;
+        }
     }
 }
