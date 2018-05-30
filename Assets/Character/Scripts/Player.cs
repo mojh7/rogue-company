@@ -319,7 +319,8 @@ public class Player : Character
             for (int i = 0; i < enemyTotal; i++)
             {
                 raycasthitEnemyInfo.index = i;
-                raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, objTransform.position) + 5f;
+                raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, objTransform.position);
+                // Debug.Log(raycasthitEnemyInfo.distance);
                 hit = Physics2D.Raycast(objTransform.position, enemyList[i].transform.position - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
                 if(hit.collider == null)
                 {

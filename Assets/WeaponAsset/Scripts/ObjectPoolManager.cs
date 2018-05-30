@@ -131,7 +131,10 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     private void OnApplicationQuit()
     {
         //메모리 풀을 비웁니다.
+
+        weaponPool.Dispose();
         bulletPool.Dispose();
+        effectPool.Dispose();
     }
     #endregion
 
