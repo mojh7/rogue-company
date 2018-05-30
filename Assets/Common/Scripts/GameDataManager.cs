@@ -33,6 +33,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager> {
             gameData = new GameData();
         gameData.SetFloor();
         gameData.SetCoin(m_coin);
+        gameData.SetArr(new int[3] { 0, 1, 2 });
         BinarySerialize(gameData);
     }
     public bool LoadData()
