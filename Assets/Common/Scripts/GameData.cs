@@ -9,6 +9,7 @@ class GameData
     int hungry;
     int m_floor;
     int m_coin;
+    int[] weaponIds;//tempVariable
     Player.PlayerType m_playerType;
 
     public GameData()
@@ -16,6 +17,7 @@ class GameData
         m_floor = 1;
         m_coin = 0;
         m_playerType = Player.PlayerType.SOCCER;
+        weaponIds = new int[1];
     }
     #region getter
     public int GetFloor() { return m_floor; }
@@ -26,5 +28,14 @@ class GameData
     public void SetFloor() { m_floor++; }
     public void SetCoin(int _coin) { m_coin = _coin; }
     #endregion
-
+    #region tempFunc
+    public void SetArr(int[] _arr)
+    {
+        weaponIds = _arr;
+    }
+    public int[] GetArr()
+    {
+        return weaponIds;
+    }
+    #endregion
 }

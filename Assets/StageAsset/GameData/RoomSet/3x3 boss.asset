@@ -15,10 +15,10 @@ MonoBehaviour:
   y: 0
   width: 3
   height: 3
-  size: 5
+  size: 3
   gage: 9
   objectDatas:
-  - position: {x: 3, y: 4, z: 4}
+  - position: {x: 2, y: 3, z: 3}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -32,7 +32,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 3, y: 6, z: 6}
+  - position: {x: 2, y: 5, z: 5}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -46,21 +46,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 3, y: 8, z: 8}
-    sprites:
-    - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300008, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300010, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300004, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300014, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300018, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300020, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300022, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
-    isActive: 0
-    objectType: 1
-  - position: {x: 7, y: 7.5, z: 7.5}
+  - position: {x: 4.5, y: 4.5, z: 4.5}
     sprites:
     - {fileID: 21300092, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
     isActive: 0

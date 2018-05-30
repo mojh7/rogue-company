@@ -11,7 +11,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     // 0516 모장현
     private int aliveEnemyTotal;
 
-
     private void Awake()
     {
         enemyList = new List<Enemy>();

@@ -49,12 +49,12 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager> {
     }
     public void ResetData()
     {
+        if (File.Exists(dataPath))
+        {
+            File.Delete(dataPath);
+        }
         if (gameData != null)
         {
-            if (File.Exists(dataPath))
-            {
-                File.Delete(dataPath);
-            }
             gameData = null;
             m_floor = 1;
             m_coin = 0;
