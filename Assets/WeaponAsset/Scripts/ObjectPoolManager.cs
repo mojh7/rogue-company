@@ -113,6 +113,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     /// <summary> effect object 삭제(회수) </summary>
     public void DeleteEffect(GameObject obj)
     {
+        Debug.Log(obj);
         effectPool.RemoveItem(obj);
     }
 

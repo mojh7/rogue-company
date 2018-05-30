@@ -14,14 +14,14 @@ public class Title : MonoBehaviour {
 
     public void LoadSelect()
     {
-        GameStateManager.Instance.SetIsLoadedGame(false);
+        GameStateManager.Instance.SetLoadsGameData(false);
         GameDataManager.Instance.ResetData();
         GameStateManager.Instance.LoadSelect();
     }
 
     public void LoadInGame()
     {
-        GameStateManager.Instance.SetIsLoadedGame(true);
+        GameStateManager.Instance.SetLoadsGameData(true);
         GameStateManager.Instance.LoadInGame();
     }
 }

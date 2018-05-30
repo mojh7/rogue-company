@@ -87,29 +87,25 @@ public class WeaponManager : MonoBehaviour {
     public int[] GetWeaponIds()
     {
         int[] weaponIds = new int[3];
-        for(int i = 0; i < weaponCountMax; i++)
+        for (int i = 0; i < weaponCount; i++)
         {
-            if(null == equipWeaponSlot[i])
-            {
-                weaponIds[i] = -1;
-            }
-            else
-            {
-                weaponIds[i] = equipWeaponSlot[i].GetWeaponId();
-            }
+            weaponIds[i] = equipWeaponSlot[i].GetWeaponId();
         }
+        for (int i = weaponCount; i < weaponCountMax; i++)
+        {
+            weaponIds[i] = -1;
+        }
+        Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", ");
         return weaponIds;
     }
     public int[] GetWeaponAmmos()
     {
         int[] weaponAmmos = new int[3];
-        for (int i = 0; i < weaponCountMax; i++)
+        for (int i = 0; i < weaponCount; i++)
         {
-            if (null != equipWeaponSlot[i])
-            {
-                weaponAmmos[i] = equipWeaponSlot[i].info.ammo;
-            }
+            weaponAmmos[i] = equipWeaponSlot[i].info.ammo;
         }
+        Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponAmmos[0] + ", " + weaponAmmos[1] + ", " + weaponAmmos[2] + ", ");
         return weaponAmmos;
     }
     #endregion
@@ -196,10 +192,10 @@ public class WeaponManager : MonoBehaviour {
 
             weaponCountMax = 3;
 
-            Debug.Log("load Game : " + GameStateManager.Instance.GetIsLoadedGame());
+            //Debug.Log("load Game : " + GameStateManager.Instance.GetLoadsGameData());
 
             // 로드 게임이 아닐 때 디버그용 무기 셋팅
-            if (false == GameStateManager.Instance.GetIsLoadedGame())
+            if (false == GameStateManager.Instance.GetLoadsGameData())
             {
                 if (equipAllWeapons)
                 {
@@ -228,14 +224,9 @@ public class WeaponManager : MonoBehaviour {
                 int[] weaponIds = GameDataManager.Instance.GetWeaponIds();
                 int[] weaponAmmos = GameDataManager.Instance.GetWeaponAmmos();
 
-                for (int i = 0; i < weaponCountMax; i++)
+                for(int i = 0; i < weaponCountMax; i++)
                 {
-                    // 무기가 없을 때
-                    if(-1 == weaponIds[i])
-                    {
-                        equipWeaponSlot.Add(null);
-                    }
-                    else
+                    if(weaponIds[i] >= 0)
                     {
                         weapon = ObjectPoolManager.Instance.CreateWeapon(weaponIds[i]) as Weapon;
                         equipWeaponSlot.Add(weapon);
@@ -245,6 +236,7 @@ public class WeaponManager : MonoBehaviour {
                         weaponCount += 1;
                     }
                 }
+                GameStateManager.Instance.SetLoadsGameData(false);
             }
         }
         UpdateCurrentWeapon();

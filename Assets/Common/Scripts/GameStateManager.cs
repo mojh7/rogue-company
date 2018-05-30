@@ -9,14 +9,13 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     GameState gameState = GameState.NOTSTARTED;
 
     // 0531
-    private bool isLoadedGame;
-    public bool GetIsLoadedGame() { return isLoadedGame; }
-    public void SetIsLoadedGame(bool _isLoadedGame) { isLoadedGame = _isLoadedGame; }
+    private bool loadsGameData = false;
+    public bool GetLoadsGameData() { return loadsGameData; }
+    public void SetLoadsGameData(bool _loadsGameData) { loadsGameData = _loadsGameData; }
 
     #region UnityFunc
     private void Start()
     {
-        isLoadedGame = false;
         DontDestroyOnLoad(this);
         Logo.Instance.LoadLogo();
     }
