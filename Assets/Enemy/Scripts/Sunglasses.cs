@@ -9,7 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Sunglasses : MonoBehaviour {
 
-    #region variables
+    #region varies
     [SerializeField]
     float hp = 0.0f;            // 선글라스 hp
     float mSpeed = 0.0f;         // 선글라스 이동속도
@@ -20,7 +20,6 @@ public class Sunglasses : MonoBehaviour {
     [SerializeField]
     bool isActive = false;              // 개체의 숨결
     bool isRotate = false;              // 개체 회전
-    [SerializeField]
     float moveDif;                      // 거리차
     // Astar
     [SerializeField]
@@ -46,7 +45,7 @@ public class Sunglasses : MonoBehaviour {
     //GameObject[] tearspool;
 
     // Scripts
-    MovingPattern mp = new MovingPattern();
+    AI_MovingPattern mp = new AI_MovingPattern();
     #endregion
 
     // 상태머신 -> 애니메이션

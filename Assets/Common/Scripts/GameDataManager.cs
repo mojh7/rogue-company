@@ -42,6 +42,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager> {
             gameData = new GameData();
         gameData.SetFloor();
         gameData.SetCoin(m_coin);
+
         // 0531 모장현
         gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());
         gameData.SetWeaponAmmos(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponAmmos());

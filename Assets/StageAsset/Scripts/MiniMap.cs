@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class MiniMap : MonoBehaviourSingleton<MiniMap> {
+public class MiniMap : MonoBehaviourSingleton<MiniMap>
+{
     public Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
     public GameObject playerIcon;
+    public Transform mask;
     public Text floorT;
 
+    const int minimapBaseWidth = 400, minimapBaseHeight = 400;
     int minmapSizeWidth, minmapSizeHeight;
     List<Map.Rect> roomList;
     Texture2D texture;
     new RawImage renderer;
     float width, height;
+    const int maskSize = 100;
     int size;
-    int mapSizeWidth, mapSizeHeight; // 실제 맵 사이즈
+    float mapSizeWidth, mapSizeHeight; // 실제 맵 사이즈
+    Vector2 playerPositon;
+    Vector2 oldPos;
+    bool isToggle = false;
 
     public void SetFloorText()
     {
@@ -23,6 +31,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
 
     public void DrawRoom(Map.Rect _room)
     {
+        int gap = size / 2 - 1;
         for (int x = _room.x * size; x < _room.x * size + _room.width * size; x++)
         {
             for (int y = _room.y * size; y < _room.y * size + _room.height * size; y++)
@@ -34,9 +43,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
                     texture.SetPixel(x, y, Color.black);
                 }
                 else
-                {
                     texture.SetPixel(x, y, Color.white);
-                }
                 DrawIcon(_room);
             }
         }
@@ -49,16 +56,17 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
         renderer = GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
         size = 10; // 미니맵 
-        minmapSizeWidth = Map.MapManager.Instance.width * size;
+        minmapSizeWidth = Map.MapManager.Instance.width * size; // 미니맵 픽셀 사이즈
         minmapSizeHeight = Map.MapManager.Instance.height * size;
 
-        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width;
+        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width; // 실제 맵 크기 48
         mapSizeHeight = Map.MapManager.Instance.size * Map.MapManager.Instance.height;
 
         if(Map.MapManager.Instance.width * size > Map.MapManager.Instance.height * size)
-            GetComponent<RectTransform>().sizeDelta = new Vector2(200 * (float)minmapSizeWidth / minmapSizeHeight, 200);
+            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
         else
-            GetComponent<RectTransform>().sizeDelta = new Vector2(200, 200 * (float)minmapSizeHeight / minmapSizeWidth);
+            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth, minimapBaseHeight * (float)mapSizeHeight / mapSizeWidth);
+        oldPos = new Vector2(mask.localPosition.x, mask.localPosition.y);
 
         width = GetComponent<RectTransform>().sizeDelta.x;
         height = GetComponent<RectTransform>().sizeDelta.y;
@@ -136,18 +144,43 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap> {
         }
     } // 방 타입에 따른 미니맵 아이콘 표시
 
-    public void PlayerPositionToMap()
+    void MovePlayerIcon()
     {
-        Vector2 positon = PlayerManager.Instance.GetPlayerPosition();
-        if (positon == Vector2.zero)
-            return;
-        playerIcon.transform.localPosition = new Vector2(positon.x * width / mapSizeWidth - width, positon.y * height / mapSizeHeight - height);
+        Vector2 v = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - width / 2,
+            playerPositon.y / mapSizeHeight * height - maskSize - height / 2 );
+        playerIcon.transform.localPosition = v;
     } // 현재 플레이어 위치 to MiniMap
 
+    void MoveMinimapIcon()
+    {
+        transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
+            -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize);
+    } // 현재 플레이어 위치 to MiniMap
+    public void ToggleMinimap()
+    {
+        if (isToggle)
+        {
+            playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
+            mask.localPosition = oldPos;
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            transform.localPosition = new Vector2(-maskSize, -maskSize);
+            mask.localPosition = new Vector2(maskSize, maskSize);
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.3f); 
+        }
+        isToggle = !isToggle;
+    }
     #region UnityFunc
     private void Update()
     {
-        PlayerPositionToMap();
+        playerPositon = PlayerManager.Instance.GetPlayerPosition();
+
+        if (isToggle)
+            MovePlayerIcon();
+        else
+            MoveMinimapIcon();
     }
     #endregion
 }
