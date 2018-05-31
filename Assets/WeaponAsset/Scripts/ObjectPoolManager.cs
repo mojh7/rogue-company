@@ -40,7 +40,8 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     #endregion
 
 
-    void Start () {
+    private void Awake()
+    {
         // 오브젝트 풀 초기화
 
         // weapon 오브젝트풀 초기화
