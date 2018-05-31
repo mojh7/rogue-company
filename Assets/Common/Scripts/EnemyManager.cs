@@ -60,6 +60,10 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         }
         obj.GetComponent<TempMove>().Init();
         enemy.Init(sprite);
+
+        // 0531 모장현 프로토 타입 용
+        enemy.SetHp(17);
+
         enemyList.Add(enemy);
         obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         aliveEnemyTotal += 1;

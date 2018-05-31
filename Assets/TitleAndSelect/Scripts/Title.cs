@@ -8,6 +8,7 @@ public class Title : MonoBehaviour {
 
     private void Start()
     {
+        AudioManager.Instance.PlayMusic(0);
         if (GameDataManager.Instance.LoadData())
             RestartButton.SetActive(true);
     }

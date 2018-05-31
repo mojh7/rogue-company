@@ -75,6 +75,12 @@ public abstract class Character : MonoBehaviour
     public virtual WeaponManager GetWeaponManager() { return weaponManager; }
     #endregion
 
+
+
+    // 0531 모장현 프로토 타입 용
+    public virtual void SetHp(float _hp) { hp = _hp; }
+    
+
     /*--abstract--*/
     protected abstract void Die();
     public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false);
@@ -201,8 +207,12 @@ public class Player : Character
     #region function
     public void Init()
     {
+        // 0531 음악 임시 실행
+        AudioManager.Instance.PlayMusic(3);
+
+
         renderer.color = new Color(1, 1, 1);
-        hp = 8.5f;
+        hp = 12.5f;
         pState = State.ALIVE;
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
