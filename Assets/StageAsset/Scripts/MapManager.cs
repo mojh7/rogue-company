@@ -876,13 +876,13 @@ namespace Map
                 if (width >= height)
                 {
                     maskObject.transform.localPosition = new Vector2(midX * size, midY * size - 0.5f);
-                    maskObject.transform.localScale = new Vector2(width * size * 2 + 1.3f, height * size * 2 + 2);
+                    maskObject.transform.localScale = new Vector2(width * size * 2 + 1.34375f, height * size * 2 + 2);
                     areaLeftDown = new Vector2(areaLeftDown.x + 0.34375f, areaLeftDown.y);
                     areaRightTop = new Vector2(areaRightTop.x, areaRightTop.y - 1);
                 }
                 else
                 {
-                    maskObject.transform.localScale = new Vector2(width * size * 2 + 1.35f, height * 2 * size);
+                    maskObject.transform.localScale = new Vector2(width * size * 2 + 1.34375f, height * 2 * size);
                     areaLeftDown = new Vector2(areaLeftDown.x, areaLeftDown.y + 1);
                     areaRightTop = new Vector2(areaRightTop.x, areaRightTop.y - 1);
                 }
