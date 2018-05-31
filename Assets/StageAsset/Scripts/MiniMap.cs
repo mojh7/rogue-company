@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 
 public class MiniMap : MonoBehaviourSingleton<MiniMap>
 {
-    public Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
-    public GameObject playerIcon;
-    public Transform mask;
-    public Text floorT;
+    [SerializeField] private Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
+    [SerializeField] private GameObject playerIcon;
+    [SerializeField] private Transform mask;
+    [SerializeField] private Text floorT;
 
     const int minimapBaseWidth = 400, minimapBaseHeight = 400;
     int minmapSizeWidth, minmapSizeHeight;
@@ -23,6 +23,11 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     Vector2 playerPositon;
     Vector2 oldPos;
     bool isToggle = false;
+
+    void EnableMask()
+    {
+        mask.GetComponent<Mask>().enabled = !mask.GetComponent<Mask>().enabled;
+    }
 
     public void SetFloorText()
     {
@@ -158,6 +163,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     } // 현재 플레이어 위치 to MiniMap
     public void ToggleMinimap()
     {
+        EnableMask();
         if (isToggle)
         {
             playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);

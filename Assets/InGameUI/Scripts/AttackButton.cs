@@ -25,6 +25,8 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     {
         if(isAttackTouchDown)
         {
+            if (UIManager.Instance.GetActived())
+                return;
             //Debug.Log("버튼 다운으로 인한 공격 시도");
             player.GetWeaponManager().AttackButtonDown();
         }

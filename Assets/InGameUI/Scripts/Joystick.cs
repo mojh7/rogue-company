@@ -61,7 +61,11 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     // 드래그 중
     public void OnDrag(PointerEventData ped)
     {
-
+        if (UIManager.Instance.GetActived())
+        {
+            inputVector = Vector3.zero;
+            return;
+        }
         Vector2 pos;
         
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(backgroundImage.rectTransform, ped.position, ped.pressEventCamera, out pos))

@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
 
-    public GameObject panel;
-    public Image bgImage;
-    public Image chImage;
-    public Text text;
+    [SerializeField] private GameObject panel;
+    [SerializeField] private Image bgImage;
+    [SerializeField] private Image chImage;
+    [SerializeField] private Text text;
 
     /// <summary>
     /// Show cutscene
@@ -18,6 +18,7 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
     /// <param name="_textDir">문자가 날아오는 방향</param>
     public void ShowCutScene(Vector2 _bgDir, Vector2 _chDir, Vector2 _textDir)
     {
+        UIManager.Instance.SetActivedBool(true);
         Vector2 bgDest = bgImage.rectTransform.localPosition;
         Vector2 chDest = chImage.rectTransform.localPosition;
         Vector2 textDest = text.rectTransform.localPosition;
@@ -34,7 +35,7 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
         MoveToTarget(chImage.transform, chDest, 0.6f);
         MoveToTarget(text.transform, textDest, 0.7f);
     }
-    public void Hide() { panel.SetActive(false); }
+    public void Hide() { panel.SetActive(false); UIManager.Instance.SetActivedBool(false); }
     public void SetCharacter(Sprite _sprite)
     {
         chImage.sprite = _sprite;
@@ -63,7 +64,6 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
 
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        Debug.Log("END");
 
     }
 

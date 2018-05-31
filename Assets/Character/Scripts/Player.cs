@@ -219,7 +219,7 @@ public class Player : Character
     protected override void Die()
     {
         GameStateManager.Instance.GameOver();
-        UIManager.Instance.gameOverObj.SetActive(true);
+        UIManager.Instance.GameOverUI();
     }
 
     public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate, bool positionBasedKnockBack = false)

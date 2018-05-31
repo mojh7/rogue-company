@@ -14,16 +14,30 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviourSingleton<UIManager> {
 
     #region variables
-    public Canvas canvas;
-    public GameObject ingamePanel;
-    public GameObject preventObj;
-    public GameObject menuObj;
-    public GameObject gameOverObj;
-    public Image fadeImage;
-    public Text coinText;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private GameObject ingamePanel;
+    [SerializeField] private GameObject preventObj;
+    [SerializeField] private GameObject menuObj;
+    [SerializeField] private GameObject gameOverObj;
+    [SerializeField] private Image fadeImage;
+    [SerializeField] private Text coinText;
+    bool actived = false;
     #endregion
 
     #region function
+    public void GameOverUI()
+    {
+        gameOverObj.SetActive(true);
+        UIManager.Instance.SetActivedBool(true);
+    }
+
+    public void SetActivedBool(bool _actived) { actived = _actived; }
+
+    public bool GetActived()
+    {
+        return actived;
+    }
+
     public void SetCoinText(int _num)
     {
         coinText.text = _num.ToString();
@@ -49,6 +63,10 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     {
         if (preventObj == null)
             return;
+        if(preventObj.activeSelf)
+            UIManager.Instance.SetActivedBool(false);
+        else
+            UIManager.Instance.SetActivedBool(true);
         preventObj.SetActive(!preventObj.activeSelf);
     }
 
