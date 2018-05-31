@@ -24,7 +24,7 @@ MonoBehaviour:
   ammo: 0
   bulletMoveSpeed: 10
   range: 10
-  damage: 3
+  damage: 2
   criticalRate: 0.1
   knockBack: 0.2857143
   cooldown: 0.3

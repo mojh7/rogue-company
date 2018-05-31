@@ -211,8 +211,13 @@ public class WeaponManager : MonoBehaviour {
                 }
                 else
                 {
-                    weaponCount = 1;
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(startWeaponId) as Weapon;
+                    weaponCount = 2;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(0) as Weapon;
+                    equipWeaponSlot.Add(weapon);
+                    weapon.ObjTransform.SetParent(registerPoint, false);
+                    weapon.RegisterWeapon(this);
+
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(9) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
@@ -370,6 +375,7 @@ public class WeaponManager : MonoBehaviour {
         {
             // Debug.Log("z : " + ObjectPoolManager.Instance.tempObj);
             equipWeaponSlot[i].transform.position = Vector3.zero;
+            equipWeaponSlot[i].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             equipWeaponSlot[i].transform.SetParent(ObjectPoolManager.Instance.tempObj);
             ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
         }
