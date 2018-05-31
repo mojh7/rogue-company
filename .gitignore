@@ -30,4 +30,3 @@ sysinfo.txt
 *.apk
 *.unitypackage
 Assets/Data/save.bin
-*.meta
