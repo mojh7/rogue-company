@@ -381,6 +381,16 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
+    //0603 유성
+    public void EquipWeapon(WeaponInfo weaponInfo)
+    {
+        Weapon weapon = ObjectPoolManager.Instance.CreateWeapon();
+        weapon.Init(weaponInfo, ownerType);
+        equipWeaponSlot.Add(weapon);
+        weapon.ObjTransform.SetParent(registerPoint, false);
+        weapon.RegisterWeapon(this);
+    }
+
     #endregion
 
     IEnumerable PickAndDropWeaponDelay()

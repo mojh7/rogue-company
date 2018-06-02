@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     [SerializeField] private GameObject gameOverObj;
     [SerializeField] private Image fadeImage;
     [SerializeField] private Text coinText;
+    public BossHPUI bossHPUI;
     bool actived = false;
     #endregion
 

@@ -5,14 +5,15 @@ using UnityEngine;
 public class Enemy : Character {
     public Animator anim;
     public new SpriteRenderer renderer;
-
+    
     public bool isKnockBack;
 
+    EnemyData enemyData;
     #region setter
     #endregion
 
     #region getter
-
+    public float GetHP() { return hp; }
     #endregion
 
     #region UnityFunc
@@ -44,6 +45,16 @@ public class Enemy : Character {
 
     #endregion
     #region Func
+    //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
+    public void Init(EnemyData enemyData)
+    {
+        pState = State.ALIVE;
+        hp = enemyData.HP;
+        moveSpeed = enemyData.Speed;
+        weaponManager = GetComponentInChildren<WeaponManager>();
+        weaponManager.Init(this, OwnerType.Enemy);
+        weaponManager.EquipWeapon(enemyData.WeaponInfo);
+    }
     public void Init(Sprite _sprite)
     {
         sprite = _sprite;
@@ -148,4 +159,47 @@ public class Enemy : Character {
         directionDegree = directionVector.GetDegFromVector();
     }
     #endregion
+}
+
+class BossEnemy : Enemy
+{
+    public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false)
+    {
+        base.Attacked(_dir, bulletPos, damage, knockBack, criticalRate, positionBasedKnockBack);
+        UIManager.Instance.bossHPUI.DecreaseHp(damage);
+    }
+}
+
+[CreateAssetMenu(fileName = "EnemyData", menuName = "EnemyData")]
+public class EnemyData : ScriptableObject
+{
+    [SerializeField]
+    private float hp;
+    [SerializeField]
+    private float moveSpeed;
+    [SerializeField]
+    private WeaponInfo weaponInfo;
+
+    public float HP
+    {
+        get
+        {
+            return hp;
+        }
+    }
+    public float Speed
+    {
+        get
+        {
+            return moveSpeed;
+        }
+    }
+    public WeaponInfo WeaponInfo
+    {
+        get
+        {
+            return weaponInfo;
+        }
+    }
+    //이동 패턴 등록
 }

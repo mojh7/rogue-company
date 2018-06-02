@@ -103,7 +103,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager> {
 
     private void Start()
     {
-        dataPath = Application.dataPath + "/Data/save.bin";
+        dataPath = Application.persistentDataPath + "/save.bin";
         DontDestroyOnLoad(this);
     }
 

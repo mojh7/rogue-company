@@ -67,6 +67,8 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         enemyList.Add(enemy);
         obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         aliveEnemyTotal += 1;
+        UIManager.Instance.bossHPUI.Toggle();
+        UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
     }
 
     void CallBack(Vector3 _position)
@@ -120,6 +122,38 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         aliveEnemyTotal -= 1;
         enemyList.Remove(_enemy);
         //enemyTransformList.Remove(_enemy.transform);
+    }
+
+    public void GenerateEnemyFromData(EnemyData enemyData,GameObject gameObject)
+    {
+        Enemy enemy;
+        GameObject obj = objectPool.GetPooledObject();
+        int enemyType = Random.Range(0, sprites.Length);
+        Sprite sprite = sprites[enemyType];
+        obj.transform.localScale = new Vector3(1, 1, 0);
+        enemy = obj.GetComponent<Enemy>();
+        switch (enemyType)
+        {
+            case 0:
+                enemy.anim.SetTrigger("hand");
+                break;
+            case 1:
+                enemy.anim.SetTrigger("zombi");
+                break;
+            case 2:
+                enemy.anim.SetTrigger("note");
+                break;
+            case 3:
+                enemy.anim.SetTrigger("hulk");
+                break;
+            default:
+                break;
+        }
+        obj.GetComponent<TempMove>().Init();
+        enemy.Init(enemyData);
+        enemyList.Add(enemy);
+        obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
+        aliveEnemyTotal += 1;
     }
 
     // 0516 모장현
