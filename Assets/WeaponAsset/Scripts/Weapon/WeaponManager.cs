@@ -120,6 +120,7 @@ public class WeaponManager : MonoBehaviour {
         // Debug.Log("local pos : " + objTransform.localPosition); 디버그는 반올림으로 소숫점 1자리까지만 나오는 듯 x값 0.15 => 디버그 0.2, x값 0.25 => 디버그 0.3로 나옴
         posVector = objTransform.localPosition;   // weaponManager 초기 local Position 값, 좌 우 바뀔 때 x값만 -, + 부호로 바꿔줘서 사용
         rightDirectionPosX = posVector.x;
+        // Debug.Log(gameObject);
     }
 
     // 공격 테스트용
@@ -212,6 +213,7 @@ public class WeaponManager : MonoBehaviour {
                 else
                 {
                     weaponCount = 2;
+                    Debug.Log("wc : " + weaponCount);
                     weapon = ObjectPoolManager.Instance.CreateWeapon(0) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
