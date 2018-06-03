@@ -86,6 +86,33 @@ public class Weapon : Item {
     {
         //무기 습득에 쓸거같음
     }
+    //6.02 이유성
+    public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.Player)
+    {
+        this.ownerType = ownerType;
+
+        // id에 따른 무기 정보 받아오기
+        info = weaponInfo;
+        objTransform = GetComponent<Transform>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        weaponView = new WeaponView(objTransform, spriteRenderer);
+        weaponView.Init(info.sprite, info.scaleX, info.scaleY);
+        weaponState = WeaponState.Idle;
+
+        // 무기 고유 변수들 초기화
+        canChargedAttack = true;
+        ChargedAttackCooldown = 20f;
+        chargedTime = 0f;
+        // 풀 차징 공격 (근거리, 원거리 별) 데미지 증가율
+        if (info.weaponType == WeaponType.Gun || info.weaponType == WeaponType.ShotGun || info.weaponType == WeaponType.Laser)
+        {
+            chargedDamageIncreaseRate = 0.6f;
+        }
+        else if (info.weaponType == WeaponType.Blow || info.weaponType == WeaponType.Strike || info.weaponType == WeaponType.Swing)
+        {
+            chargedDamageIncreaseRate = 0.4f;
+        }
+    }
 
     // DataStore에서 무기 정보 받아오기, weaponView class 초기화
     public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)

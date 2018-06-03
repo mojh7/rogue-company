@@ -152,11 +152,10 @@ namespace Map
         void CreateMap()
         {
             int count = 0;
-            Random.State temp;
+           
             while (true) {
                 count++;
                 Random.InitState((int)System.DateTime.Now.Ticks);
-                temp = Random.state;
                 RefreshData();
                 rects.Enqueue(mainRect);
                 RectToBlock();

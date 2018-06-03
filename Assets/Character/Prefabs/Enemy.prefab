@@ -201,7 +201,7 @@ Transform:
   m_GameObject: {fileID: 1165641018333586}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 12.91, y: 0.47, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children:
   - {fileID: 4838577666682548}
   - {fileID: 4943867487477124}
@@ -502,8 +502,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveCollider2D: {fileID: 58961062934300914}
-  moveSpeed: 6.5
-  hp: 0
+  moveSpeed: 3
+  hp: 10
   weaponManager: {fileID: 114111894182339084}
   spriteObjTransform: {fileID: 4987181072416540}
   anim: {fileID: 95207714401442542}
