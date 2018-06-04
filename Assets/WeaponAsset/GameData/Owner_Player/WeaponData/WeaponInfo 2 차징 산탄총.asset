@@ -36,4 +36,7 @@ MonoBehaviour:
     id: 2
     executionCount: 1
     delay: 0
+    info: {fileID: 11400000, guid: db6532cebd593f84bafe6e98fd5d0923, type: 2}
+    info2: {fileID: 0}
+    info3: {fileID: 0}
   bulletPatternsLength: 1

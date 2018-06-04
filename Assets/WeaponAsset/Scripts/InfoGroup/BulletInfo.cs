@@ -59,9 +59,9 @@ public class BulletInfo : ScriptableObject
 
 
     [Header("DeleteAfterSummonBulletProperty 에서 생성할 bullet id")]
-    public int deleteAfterSummonBulletId;
+    public BulletInfo deleteAfterSummonBulletInfo;
     [Header("DeleteAfterSummonPatternProperty에서 생성할 pattern id")]
-    public int deleteAfterSummonPatternId;
+    public BulletPatternInfo deleteAfterSummonPatternInfo;
 
 
     // 튕기는 총알 테스트용, 반사 o / x
@@ -86,15 +86,11 @@ public class BulletInfo : ScriptableObject
     public int deletePropertiesLength;                  // 삭제 속성 길이
 
 
-    [Header("SummonUpdate 속성 전용 매개 변수")]
+    [Header("SummonUpdate 속성 전용 매개 변수, 생성할 pattern 정보")]
     // summonUpdate 속성 전용, 소환할 bulletPattern, 생성 주기
-    public BulletPatternEditInfo summonBulletPattern;
+    public BulletPatternEditInfo summonBulletPatternEditInfo;
     [Header("SummonUpdate 속성 전용 매개 변수, 생성 주기")]
     public float creationCycle;
-
-    [Header("DeletAfterSummonPattern 속성 전용 매개 변수")]
-    // summonUpdate 속성 전용, 소환할 bulletPattern, 생성 주기
-    public BulletPatternEditInfo deleteAfterSummonPattern;
 
 
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
@@ -162,71 +158,76 @@ public class BulletInfo : ScriptableObject
     // 떠서 Clone으로 새로운 클래스 본떠 만들어 리턴하는 형태로 바꿈.
     public BulletInfo Clone()
     {
-        BulletInfo info = CreateInstance<BulletInfo>();
+        BulletInfo clonedInfo = CreateInstance<BulletInfo>();
 
-        info.ownerType = ownerType;
+        clonedInfo.ownerType = ownerType;
 
-        info.bulletName = bulletName;
-        info.damage = damage;
-        info.knockBack = knockBack;
-        info.criticalRate = criticalRate;
+        clonedInfo.bulletName = bulletName;
+        clonedInfo.damage = damage;
+        clonedInfo.knockBack = knockBack;
+        clonedInfo.criticalRate = criticalRate;
 
-        info.speed = speed;
-        info.acceleration = acceleration;
-        info.deltaSpeedTotalLimit = deltaSpeedTotalLimit;
-        info.range = range;
-        info.scaleX = scaleX;
-        info.scaleY = scaleY;
+        clonedInfo.speed = speed;
+        clonedInfo.acceleration = acceleration;
+        clonedInfo.deltaSpeedTotalLimit = deltaSpeedTotalLimit;
+        clonedInfo.range = range;
+        clonedInfo.scaleX = scaleX;
+        clonedInfo.scaleY = scaleY;
 
-        info.pierceCount = pierceCount;
-        info.bounceCount = bounceCount;
+        clonedInfo.pierceCount = pierceCount;
+        clonedInfo.bounceCount = bounceCount;
 
-        info.lifeTime = lifeTime;
-        info.effectId = effectId;
-        info.soundId = soundId;
+        clonedInfo.lifeTime = lifeTime;
+        clonedInfo.effectId = effectId;
+        clonedInfo.soundId = soundId;
 
-        info.spriteAnimation = spriteAnimation;
-        info.bulletSprite = bulletSprite;
+        clonedInfo.spriteAnimation = spriteAnimation;
+        clonedInfo.bulletSprite = bulletSprite;
 
-        info.showsScaleAnimation = showsScaleAnimation;
-        info.showsRotationAnimation = showsRotationAnimation;
-        info.showsParticle = showsParticle;
-        info.isFixedAngle = isFixedAngle;
-        info.positionBasedKnockBack = positionBasedKnockBack;
+        clonedInfo.showsScaleAnimation = showsScaleAnimation;
+        clonedInfo.showsRotationAnimation = showsRotationAnimation;
+        clonedInfo.showsParticle = showsParticle;
+        clonedInfo.isFixedAngle = isFixedAngle;
+        clonedInfo.positionBasedKnockBack = positionBasedKnockBack;
 
-        info.deleteAfterSummonBulletId = deleteAfterSummonBulletId;
-        info.deleteAfterSummonPatternId = deleteAfterSummonPatternId;
-        info.bounceAble = bounceAble;
-        info.bulletBlockAble = bulletBlockAble;
+        clonedInfo.deleteAfterSummonBulletInfo = deleteAfterSummonBulletInfo;
+        clonedInfo.deleteAfterSummonPatternInfo = deleteAfterSummonPatternInfo;
+        clonedInfo.bounceAble = bounceAble;
+        clonedInfo.bulletBlockAble = bulletBlockAble;
 
 
         /*---*/
 
-        info.collisionPropertiesLength = collisionPropertiesLength;
-        info.updatePropertiesLength = updatePropertiesLength;
-        info.deletePropertiesLength = deletePropertiesLength;
+        clonedInfo.collisionPropertiesLength = collisionPropertiesLength;
+        clonedInfo.updatePropertiesLength = updatePropertiesLength;
+        clonedInfo.deletePropertiesLength = deletePropertiesLength;
 
-        info.collisionProperties = new List<CollisionProperty>();
-        info.updateProperties = new List<UpdateProperty>();
-        info.deleteProperties = new List<DeleteProperty>();
+        clonedInfo.collisionProperties = new List<CollisionProperty>();
+        clonedInfo.updateProperties = new List<UpdateProperty>();
+        clonedInfo.deleteProperties = new List<DeleteProperty>();
 
         // 총알 충돌 속성 초기화
-        for (int i = 0; i < info.collisionPropertiesLength; i++)
+        for (int i = 0; i < clonedInfo.collisionPropertiesLength; i++)
         {
-            info.collisionProperties.Add(collisionProperties[i].Clone());
+            clonedInfo.collisionProperties.Add(collisionProperties[i].Clone());
         }
         // 총알 이동 속성 초기화
-        for (int i = 0; i < info.updatePropertiesLength; i++)
+        for (int i = 0; i < clonedInfo.updatePropertiesLength; i++)
         {
-            info.updateProperties.Add(updateProperties[i].Clone());
+            clonedInfo.updateProperties.Add(updateProperties[i].Clone());
         }
         // 총알 삭제 속성 초기화
-        for (int i = 0; i < info.deletePropertiesLength; i++)
+        for (int i = 0; i < clonedInfo.deletePropertiesLength; i++)
         {
-            info.deleteProperties.Add(deleteProperties[i].Clone());
+            clonedInfo.deleteProperties.Add(deleteProperties[i].Clone());
         }
 
-        return info;
+        /* 이미 값 복사해서 복사할 필요 없는 변수들
+         * summonBulletPatternEditInfo;
+         * creationCycle
+         */
+
+        return clonedInfo;
     }
 
     /// <summary>
@@ -274,23 +275,7 @@ public class BulletInfo : ScriptableObject
                     updateProperties.Add(new LaserUpdateProperty());
                     break;
                 case UpdatePropertyType.Summon:
-                    BulletPattern argumentBulletPattern;
-                    switch (summonBulletPattern.type)
-                    {
-                        case BulletPatternType.MultiDirPattern:
-                            argumentBulletPattern = new MultiDirPattern(summonBulletPattern.id, summonBulletPattern.executionCount, summonBulletPattern.delay, ownerType);
-                            break;
-                        case BulletPatternType.RowPattern:
-                            argumentBulletPattern = new RowPattern(summonBulletPattern.id, summonBulletPattern.executionCount, summonBulletPattern.delay, ownerType);
-                            break;
-                        case BulletPatternType.LaserPattern:
-                            argumentBulletPattern = new LaserPattern(summonBulletPattern.id, ownerType);
-                            break;
-                        default:
-                            argumentBulletPattern = null;
-                            break;
-                    }
-                    updateProperties.Add(new SummonProperty(argumentBulletPattern, creationCycle));
+                    updateProperties.Add(new SummonProperty(BulletPatternInfo.CreatePatternInfo(summonBulletPatternEditInfo, ownerType), creationCycle));
                     break;
                 case UpdatePropertyType.Homing:
                     updateProperties.Add(new HomingProperty());

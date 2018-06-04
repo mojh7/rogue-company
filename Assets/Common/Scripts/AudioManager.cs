@@ -111,11 +111,15 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 
     public void PlayMusic()
     {
+        if (false == playMusic)
+            return;
         musicController.Play();
     }
 
     public void PlayMusic(int clipindex, bool ignoresame = false)
     {
+        if (false == playMusic)
+            return;
         musicController.Play(clipindex, ignoresame);
     }
 

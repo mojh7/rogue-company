@@ -123,10 +123,10 @@ public class Bullet : MonoBehaviour
     // 총알 class 초기화
 
     // 일반(투사체) 총알 초기화 - position이랑 direction만 받음
-    public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction = 0)
+    public void Init(BulletInfo bulletInfo, OwnerType ownerType, Vector3 pos, float direction = 0)
     {
         active = true;
-        info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
+        info = bulletInfo;
 
         // 투사체 총알 속성 초기화
         InitProjectileProperty();
@@ -147,10 +147,10 @@ public class Bullet : MonoBehaviour
     }
 
     // 일반(투사체) 총알 초기화
-    public void Init(int bulletId, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalRate)
+    public void Init(BulletInfo bulletInfo, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalRate)
     {
         active = true;
-        info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
+        info = bulletInfo;
 
         // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
         if (speed != 0)
@@ -197,10 +197,10 @@ public class Bullet : MonoBehaviour
 
     // 레이저 총알 초기화
     // 레이저 나중에 빔 모양 말고 처음 시작 지점, raycast hit된 지점에 동그란 원 추가 생성 할 수도 있음.
-    public void Init(int bulletId, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalRate)
+    public void Init(BulletInfo bulletInfo, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalRate)
     {
         active = true;
-        info = DataStore.Instance.GetBulletInfo(bulletId, ownerType);
+        info = bulletInfo;
 
         // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
         if (damage != 0)

@@ -213,7 +213,7 @@ public class WeaponManager : MonoBehaviour {
                 else
                 {
                     weaponCount = 2;
-                    Debug.Log("wc : " + weaponCount);
+                    // Debug.Log("wc : " + weaponCount);
                     weapon = ObjectPoolManager.Instance.CreateWeapon(0) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
