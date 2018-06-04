@@ -36,19 +36,49 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     public void DrawRoom(Map.Rect _room)
     {
-        int gap = size / 2 - 1;
-        for (int x = _room.x * size; x < _room.x * size + _room.width * size; x++)
+        int minX = _room.x * size;
+        int maxX = (_room.x + _room.width) * size - 1;
+        int minY = _room.y * size;
+        int maxY = (_room.y + _room.height) * size - 1;
+        for (int x = minX; x < (_room.x + _room.width) * size; x++)
         {
-            for (int y = _room.y * size; y < _room.y * size + _room.height * size; y++)
+            for (int y = minY; y < (_room.y + _room.height) * size; y++)
             {
                 if (_room.isRoom &&
-                    (x == _room.x * size || x == _room.x * size + _room.width * size - 1 ||
-                    y == _room.y * size || y == _room.y * size + _room.height * size - 1))
+                    (x == _room.x * size || x == (_room.x + _room.width) * size - 1 ||
+                    y == _room.y * size || y == (_room.y + _room.height) * size - 1))
                 {
-                    texture.SetPixel(x, y, Color.black);
+                    if (y == maxY)
+                    {
+                        texture.SetPixel(x, y, Color.white);
+                        texture.SetPixel(x, y + 1, Color.black);
+                        if(x == maxX)
+                        {
+                            texture.SetPixel(x + 1, y, Color.black);
+                            texture.SetPixel(x + 1, y + 1, Color.black);
+                        }
+                        else if (x == minX)
+                        {
+                            texture.SetPixel(x, y, Color.black);
+                        }
+                    }
+                    else if (x == maxX)
+                    {
+                        texture.SetPixel(x, y, Color.white);
+                        texture.SetPixel(x + 1, y, Color.black);
+                        if(y == minY)
+                        {
+                            texture.SetPixel(x, y, Color.black);
+                            texture.SetPixel(x + 1, y, Color.black);
+                        }
+                    }
+                    else
+                    {
+                        texture.SetPixel(x, y, Color.black);
+                    }
                 }
                 else
-                    texture.SetPixel(x, y, Color.white);
+                    //texture.SetPixel(x, y, Color.white);
                 DrawIcon(_room);
             }
         }
@@ -76,14 +106,14 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         width = GetComponent<RectTransform>().sizeDelta.x;
         height = GetComponent<RectTransform>().sizeDelta.y;
 
-        texture = new Texture2D(minmapSizeWidth, minmapSizeHeight);
+        texture = new Texture2D(minmapSizeWidth + 1, minmapSizeHeight + 1);
         texture.filterMode = FilterMode.Point;
         renderer.texture = texture;
-        for (int i = 0; i < minmapSizeWidth; i++)
+        for (int i = 0; i <= minmapSizeWidth; i++)
         {
-            for (int j = 0; j < minmapSizeHeight; j++)
+            for (int j = 0; j <= minmapSizeHeight; j++)
             {
-                texture.SetPixel(i, j, new Color(1,1,1,0.3f));
+                texture.SetPixel(i, j, Color.white);
             }
         }
         for (int i = 0; i < roomList.Count; i++)
@@ -91,12 +121,12 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             //if(!roomList[i].isRoom)
                 DrawRoom(roomList[i]);
         }
-        for (int i = 0; i < minmapSizeWidth; i++)
+        for (int i = 0; i <= minmapSizeWidth; i++)
         {
-            for (int j = 0; j < minmapSizeHeight; j++)
+            for (int j = 0; j <= minmapSizeHeight; j++)
             {
-                if (i == 0 || i == minmapSizeWidth - 1 ||
-                    j == 0 || j == minmapSizeHeight - 1)
+                if (i == 0 || i == minmapSizeWidth ||
+                    j == 0 || j == minmapSizeHeight)
                 {
                     texture.SetPixel(i, j, Color.black);
                 }

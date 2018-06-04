@@ -758,7 +758,7 @@ namespace Map
         public void LoadMaskObject()
         {
             maskObject.transform.localPosition = new Vector3(midX * size + 0.5f, midY * size - 0.5f, 0);
-            maskObject.transform.localScale = new Vector2(width * size * 2 + 0.6875f, height * size * 2 + 2);
+            maskObject.transform.localScale = new Vector2(width * size * 2 + 0.6875f/* 11/32 * 2 */, height * size * 2 + 2);
         }
 
         public bool IsContain(Vector2 _position)
