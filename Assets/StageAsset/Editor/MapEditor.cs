@@ -201,7 +201,7 @@ public class MapEditor : EditorWindow
         }
 
         tilemap.ClearAllTiles();
-        TileBase[] wall = TileManager.GetInstance().wallTile;
+        RuleTile wall = TileManager.Instance.wallRuleTile;
 
         for (int i = 0; i < width * size; i++)
         {
@@ -211,22 +211,7 @@ public class MapEditor : EditorWindow
                 {
                     if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
                     {
-                        if (i == 0 & j == 0)
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[0]);
-                        else if (i == 0 && j == height * size - 1)
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[5]);
-                        else if (i == width * size - 1 && j == 0)
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[2]);
-                        else if (i == width * size - 1 && j == height * size - 1)
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[7]);
-                        else if (i == 0)
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[3]);
-                        else if (j == 0)
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[1]);
-                        else if (i == width * size - 1)
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[4]);
-                        else
-                            tilemap.SetTile(new Vector3Int(i, j, 0), wall[6]);
+                        tilemap.SetTile(new Vector3Int(i, j, 0), wall);
                     }
                 }
             }

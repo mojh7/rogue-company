@@ -705,29 +705,29 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 4.526e-42
-      e01: NaN
+      e00: 0
+      e01: 0
       e02: 0
       e03: 0
       e10: 0
-      e11: NaN
+      e11: 0
       e12: 0
       e13: 0
-      e20: 3.9454353
-      e21: 2.6444287
+      e20: NaN
+      e21: 0
       e22: 0
       e23: 0
-      e30: 1e-45
-      e31: 1e-45
+      e30: NaN
+      e31: 0
       e32: 0
       e33: 0
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 252222460, g: 0, b: 4.3747125, a: 1e-45}
+    m_Data: {r: 0, g: 0, b: 0, a: 0}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: 0, y: 0, z: 0}
-  m_Size: {x: 14, y: 6, z: 1}
+  m_Origin: {x: 0, y: -1, z: 0}
+  m_Size: {x: 14, y: 7, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -753,7 +753,7 @@ Tilemap:
   - serializedVersion: 1
     m_DirtyIndex: 0
   - serializedVersion: 1
-    m_DirtyIndex: 0
+    m_DirtyIndex: 127
 --- !u!483693784 &197731476
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -1062,6 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6afd8e84566e94ea8d3778faea4aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossEnemy: {fileID: 1580198282056478, guid: 5fa6b5c0fbfe3504ba7b9ce3b31df525, type: 2}
   sprites:
   - {fileID: 21300000, guid: 7cb3e23fc46dcc94c9ff677844bfceb5, type: 3}
   - {fileID: 21300000, guid: ec23ca4e890bd41438d3254b2935d707, type: 3}
@@ -1715,9 +1716,9 @@ MonoBehaviour:
   spriteMaterial: {fileID: 2100000, guid: bd23799e5910e5541987c63760638f1c, type: 2}
   maskPrefab: {fileID: 1284718932488552, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
   width: 10
-  height: 16
+  height: 10
   size: 3
-  area: 12
+  area: 13
   maxHallRate: 0.28
 --- !u!156049354 &572565053
 Grid:
@@ -1777,7 +1778,7 @@ MonoBehaviour:
   roomSetArr:
   - {fileID: 11400000, guid: 9ab716ea23796014f99f3491d8276960, type: 2}
   - {fileID: 11400000, guid: f0275576c359ee34385f243856728af5, type: 2}
-  - {fileID: 11400000, guid: df3b4ce2ff1349644ac6e8123db81fee, type: 2}
+  - {fileID: 11400000, guid: 552ce70c2b14350428b26ea07d1029d6, type: 2}
   - {fileID: 11400000, guid: accfe2ce4e51da94cbb523fdbd237d25, type: 2}
   - {fileID: 11400000, guid: 56a6db67e5581d846ad9c14c8363302d, type: 2}
   - {fileID: 11400000, guid: 6787f557698699e46b3ca7cc767c5600, type: 2}
@@ -1801,15 +1802,7 @@ MonoBehaviour:
   shadowTileMap: {fileID: 1595666683}
   floorTile: {fileID: 11400000, guid: 9c4c0b6c779fe6b4ba968bfbbb24a053, type: 2}
   shadowTile: {fileID: 11400000, guid: 35e4f760c2f1f964b910869e9eec7699, type: 2}
-  wallTile:
-  - {fileID: 11400000, guid: c71955d4a1866f440bfcd17273cdf954, type: 2}
-  - {fileID: 11400000, guid: 916aa15151b83aa4792b7387fed2e3f8, type: 2}
-  - {fileID: 11400000, guid: e5fe91ce7b4c6144685e88cda1c390e2, type: 2}
-  - {fileID: 11400000, guid: b2bc258fc6fa8114cb779d91e277b895, type: 2}
-  - {fileID: 11400000, guid: aea4fba3c53d70447b83bc65d229fd1e, type: 2}
-  - {fileID: 11400000, guid: a6e8e499b86391d46a252c5ee1540f90, type: 2}
-  - {fileID: 11400000, guid: 31884c8144274c546afb6f66a03717f7, type: 2}
-  - {fileID: 11400000, guid: 03a5a867fa4604440861a0840901929b, type: 2}
+  wallRuleTile: {fileID: 11400000, guid: 0b7e2a85e8495504f8cddd33df750a19, type: 2}
 --- !u!1 &579156962
 GameObject:
   m_ObjectHideFlags: 0

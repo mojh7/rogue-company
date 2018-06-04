@@ -34,11 +34,11 @@ public abstract class Character : MonoBehaviour
     public CircleCollider2D interactiveCollider2D;
     public float moveSpeed;     // Character move Speed
 
+    public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
+    public Animator animator;
     protected enum State { NOTSPAWNED, DIE, ALIVE }
     protected Sprite sprite;
-    protected Animator animator;
     //protected float hp;
-    public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     protected State pState;
     protected Rigidbody2D rgbody;
     //public CircleCollider2D interactiveCollider2D;

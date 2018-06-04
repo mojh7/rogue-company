@@ -61,10 +61,10 @@ public struct ObjectData
                 _gameObject.GetComponent<BreakalbeBox>().sprites = sprites;
                 _gameObject.GetComponent<BreakalbeBox>().Init();
                 break;
-            case ObjectType.CHAIR:
-                _gameObject.AddComponent<Chair>();
-                _gameObject.GetComponent<Chair>().sprites = sprites;
-                _gameObject.GetComponent<Chair>().Init();
+            case ObjectType.PUSHBOX:
+                _gameObject.AddComponent<PushBox>();
+                _gameObject.GetComponent<PushBox>().sprites = sprites;
+                _gameObject.GetComponent<PushBox>().Init();
                 break;
             case ObjectType.ITEMBOX:
                 _gameObject.AddComponent<ItemBox>();

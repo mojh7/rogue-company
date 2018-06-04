@@ -48,7 +48,7 @@ public class BossHPUI : MonoBehaviour {
         while (true)
         {
             yield return YieldInstructionCache.WaitForEndOfFrame;
-            t += Time.deltaTime / 10.0f;
+            t += Time.deltaTime / 1f;
 
             temp = Mathf.Lerp(_src, _dest, t);
             _image.fillAmount = temp/max;

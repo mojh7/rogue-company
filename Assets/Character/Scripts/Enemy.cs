@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Character {
-    public Animator anim;
     public new SpriteRenderer renderer;
     
     public bool isKnockBack;
@@ -51,6 +50,7 @@ public class Enemy : Character {
         pState = State.ALIVE;
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
+        animator = enemyData.Animator;
         weaponManager = GetComponentInChildren<WeaponManager>();
         weaponManager.Init(this, OwnerType.Enemy);
         weaponManager.EquipWeapon(enemyData.WeaponInfo);
@@ -75,7 +75,7 @@ public class Enemy : Character {
         gameObject.SetActive(false);
         DropItem();
     }
-    void DropItem()
+    protected void DropItem()
     {
         GameObject coin = new GameObject();
         coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
@@ -161,15 +161,6 @@ public class Enemy : Character {
     #endregion
 }
 
-class BossEnemy : Enemy
-{
-    public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false)
-    {
-        base.Attacked(_dir, bulletPos, damage, knockBack, criticalRate, positionBasedKnockBack);
-        UIManager.Instance.bossHPUI.DecreaseHp(damage);
-    }
-}
-
 [CreateAssetMenu(fileName = "EnemyData", menuName = "EnemyData")]
 public class EnemyData : ScriptableObject
 {
@@ -178,8 +169,9 @@ public class EnemyData : ScriptableObject
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
+    private Animator animator;
+    [SerializeField]
     private WeaponInfo weaponInfo;
-
     public float HP
     {
         get
@@ -194,6 +186,13 @@ public class EnemyData : ScriptableObject
             return moveSpeed;
         }
     }
+    public Animator Animator
+    {
+        get
+        {
+            return animator;
+        }
+    }
     public WeaponInfo WeaponInfo
     {
         get
@@ -201,5 +200,4 @@ public class EnemyData : ScriptableObject
             return weaponInfo;
         }
     }
-    //이동 패턴 등록
 }

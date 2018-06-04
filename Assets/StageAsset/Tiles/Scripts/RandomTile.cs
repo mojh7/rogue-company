@@ -6,12 +6,32 @@ using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "RandomTile", menuName = "Tile/RandomTile", order = 0)]
 public class RandomTile : TileBase {
     public SpriteArray[] mSprites;
     public Tile.ColliderType colliderType;
     Vector3Int mPosition;
+
+    public Sprite GetSprite(Vector3Int position)
+    {
+        Random.InitState(position.GetHashCode());
+        int total = mSprites.Sum(x => x.probability);
+
+        float randomPoint = Random.value * total;
+        for (int i = 0; i < mSprites.Length; i++)
+        {
+            if (randomPoint < mSprites[i].probability)
+            {
+                return mSprites[i].sprite;
+            }
+            else
+            {
+                randomPoint -= mSprites[i].probability;
+            }
+        }
+
+        return mSprites[mSprites.Length - 1].sprite;
+    }
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {

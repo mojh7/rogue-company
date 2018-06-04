@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
 
+    public GameObject bossEnemy;
     public Sprite[] sprites;
     public ObjectPool objectPool;
     public GameObject alertObj;
@@ -34,26 +35,26 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
 
     public void SpawnBoss(int _floor,Vector2 _position)
     {
-        Enemy enemy;
-        GameObject obj = objectPool.GetPooledObject();
+        BossEnemy enemy;
+        GameObject obj = Instantiate(bossEnemy);
         int enemyType = Mathf.Clamp(_floor, 0, sprites.Length - 1);
         Sprite sprite = sprites[enemyType];
         obj.transform.position = _position;
         obj.transform.localScale = new Vector3(2, 2, 0);
-        enemy = obj.GetComponent<Enemy>();
+        enemy = obj.GetComponent<BossEnemy>();
         switch (enemyType)
         {
             case 0:
-                enemy.anim.SetTrigger("hand");
+                enemy.animator.SetTrigger("hand");
                 break;
             case 1:
-                enemy.anim.SetTrigger("zombi");
+                enemy.animator.SetTrigger("zombi");
                 break;
             case 2:
-                enemy.anim.SetTrigger("note");
+                enemy.animator.SetTrigger("note");
                 break;
             case 3:
-                enemy.anim.SetTrigger("hulk");
+                enemy.animator.SetTrigger("hulk");
                 break;
             default:
                 break;
@@ -83,16 +84,16 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         switch (enemyType)
         {
             case 0:
-                enemy.anim.SetTrigger("hand");
+                enemy.animator.SetTrigger("hand");
                 break;
             case 1:
-                enemy.anim.SetTrigger("zombi");
+                enemy.animator.SetTrigger("zombi");
                 break;
             case 2:
-                enemy.anim.SetTrigger("note");
+                enemy.animator.SetTrigger("note");
                 break;
             case 3:
-                enemy.anim.SetTrigger("hulk");
+                enemy.animator.SetTrigger("hulk");
                 break;
             default:
                 break;
@@ -135,16 +136,16 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         switch (enemyType)
         {
             case 0:
-                enemy.anim.SetTrigger("hand");
+                enemy.animator.SetTrigger("hand");
                 break;
             case 1:
-                enemy.anim.SetTrigger("zombi");
+                enemy.animator.SetTrigger("zombi");
                 break;
             case 2:
-                enemy.anim.SetTrigger("note");
+                enemy.animator.SetTrigger("note");
                 break;
             case 3:
-                enemy.anim.SetTrigger("hulk");
+                enemy.animator.SetTrigger("hulk");
                 break;
             default:
                 break;

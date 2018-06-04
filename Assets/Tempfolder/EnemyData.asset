@@ -13,4 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   hp: 10
   moveSpeed: 3
+  animationClip:
+  - {fileID: 7400000, guid: b76cd6f3acd884b43bbafb43bc0743dc, type: 2}
+  - {fileID: 7400000, guid: a6be2ca665865fa449190e067338d574, type: 2}
+  - {fileID: 7400000, guid: dd95358e2a4d801459be63eebc6b3999, type: 2}
   weaponInfo: {fileID: 11400000, guid: 67397e967331d1041aa3bcd64cbed9cf, type: 2}
+  animator: {fileID: 95568173028560904, guid: 2bdf7e22b8611934b9cdec99f35a6b58, type: 2}

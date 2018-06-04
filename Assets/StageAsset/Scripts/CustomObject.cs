@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, CHAIR, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL}
+public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL}
 
 public class CustomObject : MonoBehaviour {
 
@@ -16,9 +16,12 @@ public class CustomObject : MonoBehaviour {
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
+    protected Rigidbody2D rigidbody2D;
 
     public virtual void Init()
     {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2D.bodyType = RigidbodyType2D.Static;
         isAnimate = false;
         if (sprites != null)
             sprite = sprites[Random.Range(0, sprites.Length)];
@@ -58,9 +61,10 @@ public class CustomObject : MonoBehaviour {
     {
         if (!isAvailable || !isAnimate)
             return;
+        isActive = true;
     }
 
-#region UnityFunc
+    #region UnityFunc
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -127,19 +131,36 @@ public class VendingMachine : CustomObject
     }
 }
 
-public class Chair : CustomObject
+public class PushBox : CustomObject
 {
     public override void Init()
     {
         base.Init();
+        rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         isActive = false;
-        isAvailable = false;
-        objectType = ObjectType.CHAIR;
+        isAvailable = true;
+        objectType = ObjectType.PUSHBOX;
     }
     public override void Active()
     {
         base.Active();
-        Debug.Log("Chair");
+        Vector2 dir = transform.position - PlayerManager.Instance.GetPlayerPosition();
+        
+        rigidbody2D.AddForce(dir*1000);
+        StartCoroutine(CoroutinePushed());
+    }
+
+    IEnumerator CoroutinePushed()
+    {
+        while (isActive)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            if (rigidbody2D.velocity.magnitude < 1f)
+            {
+                rigidbody2D.velocity = Vector2.zero;
+                isActive = false;
+            }
+        }
     }
 }
 

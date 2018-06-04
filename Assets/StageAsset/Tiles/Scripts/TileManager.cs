@@ -3,18 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileManager : MonoBehaviour {
-    private static TileManager instance;
-
-    public static TileManager GetInstance()
-    {
-        if (!instance)
-        {
-            instance = GameObject.FindObjectOfType(typeof(TileManager)) as TileManager;
-        }
-
-        return instance;
-    }
+public class TileManager : MonoBehaviourSingleton<TileManager> {
 
     public Tilemap floorTileMap;
     public Tilemap wallTileMap;
@@ -22,5 +11,5 @@ public class TileManager : MonoBehaviour {
 
     public RandomTile floorTile;
     public TileBase shadowTile;
-    public TileBase []wallTile;
+    public RuleTile wallRuleTile;
 }
