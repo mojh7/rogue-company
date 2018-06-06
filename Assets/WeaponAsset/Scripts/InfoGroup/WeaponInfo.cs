@@ -12,7 +12,7 @@ public struct BulletPatternEditInfo
     public int executionCount;      // 한 사이클에서의 실행 횟수
     public float delay;             // 사이클 내에서의 delay
 
-    public BulletPatternEditInfo(BulletPatternInfo patternInfo, int executionCount, float delay, Sprite bulletSprite)
+    public BulletPatternEditInfo(BulletPatternInfo patternInfo, int executionCount, float delay)
     {
         this.patternInfo = patternInfo;
         this.executionCount = executionCount;
@@ -20,15 +20,14 @@ public struct BulletPatternEditInfo
     }
 }
 
-[CreateAssetMenu(fileName = "WeaponInfo", menuName = "GameData/WeaponInfo", order = 0)]
+[CreateAssetMenu(fileName = "WeaponInfo", menuName = "PlayerWeaponData/WeaponInfo", order = 0)]
 public class WeaponInfo : ScriptableObject
 {
     [Tooltip("적용하거나 쓰이는 곳, 사용하는 사람, 간단한 설명 등등 이것 저것 메모할 공간")]
     [SerializeField]
     [TextArea(3, 100)] private string memo;
 
-    [Header("Owner 꼭 설정 해주세요")]
-    [SerializeField] protected OwnerType ownerType;
+    protected OwnerType ownerType;
 
     [Header("기본 스펙")]
     // 기본 스펙
@@ -70,6 +69,7 @@ public class WeaponInfo : ScriptableObject
         scaleY = 1.0f;
 
         ammoCapacity = -1;
+        soundId = -1;
     }
 
     

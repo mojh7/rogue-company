@@ -57,6 +57,7 @@ public class WeaponManager : MonoBehaviour {
     private float rightDirectionPosX;
 
     // for Debug
+    private int saveDataLength;
 
     [Header("Player 전용 게임 시작시 무기 적용, True : 모든 무기 착용, Max = 모든 무기 갯수" +
         " False : startWeaponId 무기 1개 착용, Max = 3")]
@@ -86,7 +87,7 @@ public class WeaponManager : MonoBehaviour {
 
     public int[] GetWeaponIds()
     {
-        int[] weaponIds = new int[3];
+        int[] weaponIds = new int[saveDataLength];
         for (int i = 0; i < weaponCount; i++)
         {
             weaponIds[i] = equipWeaponSlot[i].GetWeaponId();
@@ -95,22 +96,36 @@ public class WeaponManager : MonoBehaviour {
         {
             weaponIds[i] = -1;
         }
-        Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", ");
+        // Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", ");
         return weaponIds;
     }
     public int[] GetWeaponAmmos()
     {
-        int[] weaponAmmos = new int[3];
+        int[] weaponAmmos = new int[saveDataLength];
         for (int i = 0; i < weaponCount; i++)
         {
             weaponAmmos[i] = equipWeaponSlot[i].info.ammo;
         }
-        Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponAmmos[0] + ", " + weaponAmmos[1] + ", " + weaponAmmos[2] + ", ");
+        // Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponAmmos[0] + ", " + weaponAmmos[1] + ", " + weaponAmmos[2] + ", ");
         return weaponAmmos;
     }
     #endregion
     #region setter
     public void SetOwnerType(OwnerType ownerType) { this.ownerType = ownerType; }
+    /// <summary> Owner 정보 등록 </summary>
+    public void SetOwnerInfo(Character owner, OwnerType ownerType)
+    {
+        this.owner = owner;
+        this.ownerType = ownerType;
+        ownerDirDegree = owner.GetDirDegree;
+        ownerDirVec = owner.GetDirVector;
+        ownerPos = GetPosition;
+        if (OwnerType.Player == ownerType)
+        {
+            player = owner as Player;
+            ownerBuff = player.GetBuffManager();
+        }
+    }
     #endregion
     #region UnityFunction
     void Awake()
@@ -191,10 +206,7 @@ public class WeaponManager : MonoBehaviour {
             equipWeaponSlot = new List<Weapon>();
             currentWeaponIndex = 0;
 
-            weaponCountMax = 3;
-
             //Debug.Log("load Game : " + GameStateManager.Instance.GetLoadsGameData());
-
             // 로드 게임이 아닐 때 디버그용 무기 셋팅
             if (false == GameStateManager.Instance.GetLoadsGameData())
             {
@@ -202,6 +214,7 @@ public class WeaponManager : MonoBehaviour {
                 {
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
+                    
                     for (int i = 0; i < weaponCountMax; i++)
                     {
                         weapon = ObjectPoolManager.Instance.CreateWeapon(i) as Weapon;
@@ -212,8 +225,9 @@ public class WeaponManager : MonoBehaviour {
                 }
                 else
                 {
+                    weaponCountMax = 3;
                     weaponCount = 2;
-                    // Debug.Log("wc : " + weaponCount);
+                    
                     weapon = ObjectPoolManager.Instance.CreateWeapon(0) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
@@ -231,7 +245,10 @@ public class WeaponManager : MonoBehaviour {
                 int[] weaponIds = GameDataManager.Instance.GetWeaponIds();
                 int[] weaponAmmos = GameDataManager.Instance.GetWeaponAmmos();
 
-                for(int i = 0; i < weaponCountMax; i++)
+                weaponCountMax = weaponIds.Length;
+                weaponCount = 0;
+
+                for (int i = 0; i < weaponCountMax; i++)
                 {
                     if(weaponIds[i] >= 0)
                     {
@@ -241,29 +258,18 @@ public class WeaponManager : MonoBehaviour {
                         weapon.RegisterWeapon(this);
                         weapon.info.ammo = weaponAmmos[i];
                         weaponCount += 1;
+                        // Debug.Log("weapon count : " + weaponCount + " Load : " + weaponIds[i]);
                     }
                 }
                 GameStateManager.Instance.SetLoadsGameData(false);
             }
+
+            saveDataLength = weaponCountMax;
         }
         UpdateCurrentWeapon();
     }
     
-    /// <summary> Owner 정보 등록 </summary>
-    /// <param name="owner"></param>
-    public void SetOwnerInfo(Character owner, OwnerType ownerType)
-    {
-        this.owner = owner;
-        this.ownerType = ownerType;
-        ownerDirDegree = owner.GetDirDegree;
-        ownerDirVec = owner.GetDirVector;
-        ownerPos = GetPosition;
-        if(OwnerType.Player == ownerType)
-        {
-           player = owner as Player;
-           ownerBuff = player.GetBuffManager();
-        }
-    }
+    
 
     /// <summary> 차징 공격에 사용되는 차징 게이지 UI Update </summary>
     /// <param name="chargedVaule"></param>
@@ -342,7 +348,7 @@ public class WeaponManager : MonoBehaviour {
     {
 
         Weapon weapon = pickedWeapon as Weapon;
-        // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 2초간 무기 줍고 버리기 delay줌
+        // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 1초간 무기 줍고 버리기 delay줌
         if (weapon == null || WeaponState.Idle != equipWeaponSlot[currentWeaponIndex].GetWeaponState() || !canPickAndDropWeapon)
             return false;
 
@@ -358,7 +364,6 @@ public class WeaponManager : MonoBehaviour {
         // 현재 착용중인 무기 버리고 습득 무기로 바꾸고 장착
         else
         {
-
             Weapon dropedWeapon = equipWeaponSlot[currentWeaponIndex];
             equipWeaponSlot[currentWeaponIndex] = weapon;
             weapon.ObjTransform.SetParent(registerPoint, false);

@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
+  m_Script: {fileID: 11500000, guid: fc34f5ffdd80f5643a8fd9d754c53caa, type: 3}
   m_Name: EnemyBulletInfo 3
   m_EditorClassIdentifier: 
   memo: 
@@ -42,8 +42,8 @@ MonoBehaviour:
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 01000000
   deletePropertiesEdit: 00000000
-  collisionPropertiesLength: 1
-  updatePropertiesLength: 1
-  deletePropertiesLength: 1
+  collisionPropertiesLength: 0
+  updatePropertiesLength: 0
+  deletePropertiesLength: 0
   summonBulletPatternInfo: {fileID: 0}
   creationCycle: 0

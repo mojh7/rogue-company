@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: EnemyRowPatternInfo
   m_EditorClassIdentifier: 
   memo: 
-  bulletInfo: {fileID: 11400000, guid: 9bd8ec69fa27765449dabd681e81074d, type: 2}
+  bulletInfo: {fileID: 11400000, guid: 3bbae88bedf29dd4d861db009fd39954, type: 2}
   damage: 0
   knockBack: 0
   criticalRate: 0

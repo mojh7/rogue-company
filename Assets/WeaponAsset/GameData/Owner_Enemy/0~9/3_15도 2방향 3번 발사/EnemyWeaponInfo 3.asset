@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b71188a6c860245ba7e1e7760651ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d7c8f1507d55cc468eeddf8dac94193, type: 3}
   m_Name: EnemyWeaponInfo 3
   m_EditorClassIdentifier: 
   memo: 
@@ -35,4 +35,4 @@ MonoBehaviour:
   - patternInfo: {fileID: 11400000, guid: 0210c772eb0aaee428190967eff43cb7, type: 2}
     executionCount: 3
     delay: 0.4
-  bulletPatternsLength: 1
+  bulletPatternsLength: 0

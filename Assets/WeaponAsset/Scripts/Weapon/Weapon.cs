@@ -90,9 +90,24 @@ public class Weapon : Item {
     public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.Player)
     {
         this.ownerType = ownerType;
+        // weaponInfo Clone
+        info = weaponInfo.Clone();
+        BaseInit();
+    }
 
+    /// <summary> DataStore에서 index 참조로 무기 정보 받아오기, weaponView class 초기화 </summary>
+    public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)
+    {
+        this.ownerType = ownerType;
+        this.weaponId = weaponId;
         // id에 따른 무기 정보 받아오기
-        info = weaponInfo;
+        info = DataStore.Instance.GetWeaponInfo(weaponId, ownerType);
+        BaseInit();
+    }
+
+    /// <summary> weapon 초기화 기본 </summary>
+    public void BaseInit()
+    {
         objTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         weaponView = new WeaponView(objTransform, spriteRenderer);
@@ -109,40 +124,6 @@ public class Weapon : Item {
             chargedDamageIncreaseRate = 0.6f;
         }
         else if (info.weaponType == WeaponType.Blow || info.weaponType == WeaponType.Strike || info.weaponType == WeaponType.Swing)
-        {
-            chargedDamageIncreaseRate = 0.4f;
-        }
-    }
-
-    // DataStore에서 무기 정보 받아오기, weaponView class 초기화
-    public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)
-    {
-        this.ownerType = ownerType;
-
-        // 디버그용으로 -1값으로 들어오면 inspector창에 설정된 weaponID로 초기화 됨
-        if (weaponId >= 0)
-        {
-            this.weaponId = weaponId;
-        }
-
-        // id에 따른 무기 정보 받아오기
-        info = DataStore.Instance.GetWeaponInfo(this.weaponId, ownerType);
-        objTransform = GetComponent<Transform>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        weaponView = new WeaponView(objTransform, spriteRenderer);
-        weaponView.Init(info.sprite, info.scaleX, info.scaleY);
-        weaponState = WeaponState.Idle;      
-        
-        // 무기 고유 변수들 초기화
-        canChargedAttack = true;
-        ChargedAttackCooldown = 20f;
-        chargedTime = 0f;
-        // 풀 차징 공격 (근거리, 원거리 별) 데미지 증가율
-        if (info.weaponType == WeaponType.Gun || info.weaponType == WeaponType.ShotGun || info.weaponType == WeaponType.Laser)
-        {
-            chargedDamageIncreaseRate = 0.6f;
-        }
-        else if(info.weaponType == WeaponType.Blow || info.weaponType == WeaponType.Strike || info.weaponType == WeaponType.Swing)
         {
             chargedDamageIncreaseRate = 0.4f;
         }

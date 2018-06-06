@@ -8,15 +8,14 @@ using WeaponAsset;
  */
 
 // player bullet
-[CreateAssetMenu(fileName = "BulletInfo", menuName = "GameData/BulletInfo", order = 4)]
+[CreateAssetMenu(fileName = "BulletInfo", menuName = "PlayerWeaponData/BulletInfo", order = 1)]
 public class BulletInfo : ScriptableObject
 {
     [Tooltip("적용하는 곳이나, 사용하는 사람이나, 개발시 필요한 정보 등, 기타 등등 메모할 공간")]
     [SerializeField]
     [TextArea(3, 100)] private string memo;
 
-    [Header("Owner 꼭 설정 해주세요")]
-    [SerializeField] protected OwnerType ownerType;
+    protected OwnerType ownerType;
 
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
@@ -107,6 +106,8 @@ public class BulletInfo : ScriptableObject
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
     public BulletInfo()
     {
+        ownerType = OwnerType.Player;
+
         scaleX = 1.0f;
         scaleY = 1.0f;
 
