@@ -7,6 +7,7 @@ using WeaponAsset;
  * 새 변수 추가시 Clone에도 꼭 추가해줘야 됨.
  */
 
+// player bullet
 [CreateAssetMenu(fileName = "BulletInfo", menuName = "GameData/BulletInfo", order = 4)]
 public class BulletInfo : ScriptableObject
 {
@@ -88,10 +89,20 @@ public class BulletInfo : ScriptableObject
 
     [Header("SummonUpdate 속성 전용 매개 변수, 생성할 pattern 정보")]
     // summonUpdate 속성 전용, 소환할 bulletPattern, 생성 주기
-    public BulletPatternEditInfo summonBulletPatternEditInfo;
+    public BulletPatternInfo summonBulletPatternInfo;
     [Header("SummonUpdate 속성 전용 매개 변수, 생성 주기")]
     public float creationCycle;
 
+
+
+    /*
+    // 여러 곳에서 사용할 때 중복 초기화를 막기위한 함수. 처음에 무조건 true
+    private bool isInitializable;
+
+    public void SetIsInitializable(bool isInitializable)
+    {
+        this.isInitializable = isInitializable;
+    }*/
 
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
     public BulletInfo()
@@ -115,6 +126,13 @@ public class BulletInfo : ScriptableObject
 
         bounceAble = false;
         bulletBlockAble = false;
+
+        // isInitializable = true;
+
+        // Debug.Log(name + ", 생성자 : " + isInitializable);
+        // 직렬화 중에 get_name을 호출 할 수 없음, 대신 OnEnable에서 호출할 것
+        // get_name is not allowed to be called during serialization, call it from OnEnable instead. Called from ScriptableObject 'MultiDirPatternInfo'.
+        // See "Script Serialization" page in the Unity Manual for further details.
     }
 
     /*
@@ -222,7 +240,11 @@ public class BulletInfo : ScriptableObject
             clonedInfo.deleteProperties.Add(deleteProperties[i].Clone());
         }
 
-        /* 이미 값 복사해서 복사할 필요 없는 변수들
+        /* private variables */
+        // clonedInfo.isInitializable = isInitializable;
+
+
+        /* 이미 값 복사해서 복사할 필요 없는 변수들 
          * summonBulletPatternEditInfo;
          * creationCycle
          */
@@ -235,6 +257,15 @@ public class BulletInfo : ScriptableObject
     /// </summary>
     public void Init()
     {
+        /*
+        if (false == isInitializable)
+        {
+             Debug.Log(name + ", 중복 초기화");
+            return;
+        }
+        Debug.Log(name + ", 초기화");
+        */
+
         collisionPropertiesLength = collisionPropertiesEdit.Length;
         updatePropertiesLength = updatePropertiesEdit.Length;
         deletePropertiesLength = deletePropertiesEdit.Length;
@@ -275,7 +306,7 @@ public class BulletInfo : ScriptableObject
                     updateProperties.Add(new LaserUpdateProperty());
                     break;
                 case UpdatePropertyType.Summon:
-                    updateProperties.Add(new SummonProperty(BulletPatternInfo.CreatePatternInfo(summonBulletPatternEditInfo, ownerType), creationCycle));
+                    updateProperties.Add(new SummonProperty(BulletPatternInfo.CreatePatternInfo(summonBulletPatternInfo, ownerType), creationCycle));
                     break;
                 case UpdatePropertyType.Homing:
                     updateProperties.Add(new HomingProperty());
@@ -306,6 +337,9 @@ public class BulletInfo : ScriptableObject
                     break;
             }
         }
+
+        // isInitializable = false;
+        // DataStore.Instance.AddInitialedbulletInfo(this);
     }
 
 }

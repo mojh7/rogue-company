@@ -143,7 +143,7 @@ MonoBehaviour:
   tempObj: {fileID: 4947963125661484}
   weaponPrefab: {fileID: 1788915023617148, guid: 2fe5f57666cfafa48aba118757300c57,
     type: 2}
-  initWeaponNumMax: 5
+  initWeaponNumMax: 10
   bulletPrefab: {fileID: 1185920570826238, guid: 2c31d1e7789c6b14e95e75a1051d7b25,
     type: 2}
   initBulletNumMax: 50
@@ -197,57 +197,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57629635f86ed5d44ad4a8afcd838a77, type: 2}
   - {fileID: 11400000, guid: 944082c831deab746a7f1fb870560fac, type: 2}
   - {fileID: 11400000, guid: ee9fc2722ab61b547a534c11ee0b5469, type: 2}
-  multiDirPatternInfos:
-  - {fileID: 11400000, guid: df47a8bb2a456b248bb233c54e65c4f2, type: 2}
-  - {fileID: 11400000, guid: 2f4988b1aa29d22419bf74d8314ede9e, type: 2}
-  - {fileID: 11400000, guid: 2b23fc0689c117348ae809464f5633b2, type: 2}
-  - {fileID: 11400000, guid: 7b5b0f3d44c5c6046b13c47b35c85422, type: 2}
-  - {fileID: 11400000, guid: 279fb0397ff119a4ba51338b93d84196, type: 2}
-  - {fileID: 11400000, guid: a11ddb63df487724e882dc4087fc4f37, type: 2}
-  - {fileID: 11400000, guid: a9d534b727d96394091f113b7e2d4aa0, type: 2}
-  - {fileID: 11400000, guid: 59bc45d29bfb25d468e8d41d34db723f, type: 2}
-  - {fileID: 11400000, guid: c0ddf88f870a0484ea9f24752a3ee53c, type: 2}
-  - {fileID: 11400000, guid: f19e38491686cda45bf125f57d0c23ad, type: 2}
-  - {fileID: 11400000, guid: 30d5c365c84b6564cbc51b54fedda473, type: 2}
-  - {fileID: 11400000, guid: d88dcc5113342124c83ae42f334aa2ae, type: 2}
-  - {fileID: 11400000, guid: 3451ddf373f64c346827ceeca3e377d7, type: 2}
-  - {fileID: 11400000, guid: 1a93a022ed39207469f7d8fc998313b9, type: 2}
-  enemyMultiDirPatternInfos:
-  - {fileID: 11400000, guid: 33f32273d3a6fa44591de4cc310ea633, type: 2}
-  - {fileID: 11400000, guid: c594f1272f97d914abf7d9e1468269cc, type: 2}
-  - {fileID: 11400000, guid: 0210c772eb0aaee428190967eff43cb7, type: 2}
-  rowPatternInfos:
-  - {fileID: 11400000, guid: dd36aad857b2108489b0b7fea2d31a53, type: 2}
-  - {fileID: 11400000, guid: 422c94f15f7218543bb9f24ce4b99396, type: 2}
-  - {fileID: 11400000, guid: bd3dfbcd9dfd8644eb32af9aa8140d09, type: 2}
-  enemyRowPatternInfos:
-  - {fileID: 11400000, guid: 941065f9410e00045891f1212b95cba9, type: 2}
-  laserPatternInfos:
-  - {fileID: 11400000, guid: b5a478b2a743d24488760121bc476eaf, type: 2}
-  enemyLaserPatternInfos: []
-  bulletInfos:
-  - {fileID: 11400000, guid: 32b789b3c16187142bd1bdc20ed5d205, type: 2}
-  - {fileID: 11400000, guid: 2154eba772ade6642b40c5bb57e2af5d, type: 2}
-  - {fileID: 11400000, guid: a76c7aac236746145af9cfefcc29ba76, type: 2}
-  - {fileID: 11400000, guid: 65e8f3ecfe38224478a41364a428c2ca, type: 2}
-  - {fileID: 11400000, guid: c55ab591db25df4409c3ecfe2008d235, type: 2}
-  - {fileID: 11400000, guid: 4829db6d19fed6342ba1646988bd9d87, type: 2}
-  - {fileID: 11400000, guid: 1b89fc8e102676540916cec9a00d2c53, type: 2}
-  - {fileID: 11400000, guid: cd46790d6347907418ca93f7139122de, type: 2}
-  - {fileID: 11400000, guid: b5e55b979ce54e2478a2e6387861accc, type: 2}
-  - {fileID: 11400000, guid: 9c0c06727e544a044863b335b46c9718, type: 2}
-  - {fileID: 11400000, guid: 7ef8a62898856d8448e506285d66ee2b, type: 2}
-  - {fileID: 11400000, guid: 85e28342b85d8f149ad96e2984164dc7, type: 2}
-  - {fileID: 11400000, guid: 298294521b5ec4749921dfe3c19a8611, type: 2}
-  - {fileID: 11400000, guid: 319768ec6c1a48544a69715e34bb824f, type: 2}
-  - {fileID: 11400000, guid: 80384c43c02fefd4398ef8b4366ec2a1, type: 2}
-  - {fileID: 11400000, guid: fbd0779e55945db489784f81d255abf5, type: 2}
-  - {fileID: 11400000, guid: 8a8c976286fb83f48a90d9f91b8f236e, type: 2}
-  enemyBulletInfos:
-  - {fileID: 11400000, guid: f641891b8ea679540b8b85cb88c1b626, type: 2}
-  - {fileID: 11400000, guid: 9bd8ec69fa27765449dabd681e81074d, type: 2}
-  - {fileID: 11400000, guid: d7450161feaaf2e4faf2b6c0139328b6, type: 2}
-  - {fileID: 11400000, guid: eda7cb2e7afe4104c97186dae2c10ee7, type: 2}
   effectInfos:
   - {fileID: 11400000, guid: 39ef06daf634a714f915819f55cf60d3, type: 2}
   - {fileID: 11400000, guid: 9d0c0896fdd418142a3a657517ba17a7, type: 2}

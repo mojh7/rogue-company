@@ -6,6 +6,6 @@ public class LaserPatternInfo : BulletPatternInfo
 {
     public LaserPatternInfo()
     {
-        patternType = BulletPatternType.LaserPattern;
+        // patternType = BulletPatternType.LaserPattern;
     }
 }

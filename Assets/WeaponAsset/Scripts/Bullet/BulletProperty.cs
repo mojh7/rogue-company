@@ -854,13 +854,14 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
     public override void DestroyBullet()
     {
         createdObj = ObjectPoolManager.Instance.CreateBullet();
-        createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo, bullet.GetOwnerType(), bulletTransform.position);
+        createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo.Clone(), bullet.GetOwnerType(), bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
+        bullet.info.deleteAfterSummonBulletInfo.Init();
     }
 }
 

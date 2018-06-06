@@ -10,6 +10,6 @@ public class MultiDirPatternInfo : ProjectilesPatternInfo
 
     public  MultiDirPatternInfo()
     {
-        patternType = BulletPatternType.MultiDirPattern;
+        // patternType = BulletPatternType.MultiDirPattern;
     }
 }

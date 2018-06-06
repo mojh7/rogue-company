@@ -113,28 +113,11 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private WeaponInfo[] enemyWeaponInfos;
 
     [SerializeField]
-    private MultiDirPatternInfo[] multiDirPatternInfos;
-    [SerializeField]
-    private MultiDirPatternInfo[] enemyMultiDirPatternInfos;
-
-    [SerializeField]
-    private RowPatternInfo[] rowPatternInfos;
-    [SerializeField]
-    private RowPatternInfo[] enemyRowPatternInfos;
-
-    [SerializeField]
-    private LaserPatternInfo[] laserPatternInfos;
-    [SerializeField]
-    private LaserPatternInfo[] enemyLaserPatternInfos;
-
-    [SerializeField]
-    private BulletInfo[] bulletInfos;
-
-    [SerializeField]
-    private BulletInfo[] enemyBulletInfos;
-
-    [SerializeField]
     private EffectInfo[] effectInfos;
+
+    
+    // private List<BulletInfo> initializedBulletInfosAtRuntime;
+    // private int initializedBulletInfosLength;
 
     #endregion
 
@@ -170,64 +153,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         return null;
     }
 
-    // TODO : bulletPattern 종류 clone 추가 해야됨
-
-    public MultiDirPatternInfo GetMultiDirPatternInfo(int id, OwnerType ownerType = OwnerType.Player)
-    {
-        switch (ownerType)
-        {
-            case OwnerType.Player:
-                return multiDirPatternInfos[id];
-            case OwnerType.Enemy:
-                return enemyMultiDirPatternInfos[id];
-            case OwnerType.Object:
-            default:
-                break;
-        }
-        return null;
-    }
-    public RowPatternInfo GetRowPatternInfo(int id, OwnerType ownerType = OwnerType.Player)
-    {
-        switch (ownerType)
-        {
-            case OwnerType.Player:
-                return rowPatternInfos[id];
-            case OwnerType.Enemy:
-                return enemyRowPatternInfos[id];
-            case OwnerType.Object:
-            default:
-                break;
-        }
-        return null;
-    }
-    public LaserPatternInfo GetLaserPatternInfo(int id, OwnerType ownerType = OwnerType.Player)
-    {
-        switch (ownerType)
-        {
-            case OwnerType.Player:
-                return laserPatternInfos[id];
-            case OwnerType.Enemy:
-                return enemyLaserPatternInfos[id];
-            case OwnerType.Object:
-            default:
-                break;
-        }
-        return null;
-    }
-    public BulletInfo GetBulletInfo(int id, OwnerType ownerType = OwnerType.Player)
-    {
-        switch (ownerType)
-        {
-            case OwnerType.Player:
-                return bulletInfos[id].Clone();
-            case OwnerType.Enemy:
-                return enemyBulletInfos[id].Clone();
-            case OwnerType.Object:
-            default:
-                break;
-        }
-        return null;
-    }
     public EffectInfo GetEffectInfo(int id) { return effectInfos[id]; }
     #endregion
 
@@ -239,14 +164,15 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     #region UnityFunction
     void Awake()
     {
-        InitBulletInfo();
         InitWepaonInfo();
+        // initializedBulletInfosAtRuntime = new List<BulletInfo>();
+        // initializedBulletInfosLength = 0;
     }
 
     #endregion
     #region Function
 
-    // 무기 정보 관련 초기화
+    /// <summary> 무기 정보 관련 초기화 </summary>
     public void InitWepaonInfo()
     {
         for(int i = 0; i < weaponInfos.Length; i++)
@@ -259,17 +185,42 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         }
     }
 
-    // 총알 정보 관련 초기화 
-    public void InitBulletInfo()
+    /*
+    public void AddInitialedbulletInfo(BulletInfo info)
     {
-        for (int i = 0; i < bulletInfos.Length; i++)
+        initializedBulletInfosAtRuntime.Add(info);
+        initializedBulletInfosLength += 1;
+    }
+    */
+    #endregion
+
+    
+    /*
+    private void OnApplicationQuit()
+    {
+        Debug.Log("DataStore OnApplicationQuit");
+        if(null != initializedBulletInfosAtRuntime)
         {
-            bulletInfos[i].Init();
-        }
-        for (int i = 0; i < enemyBulletInfos.Length; i++)
-        {
-            enemyBulletInfos[i].Init();
+            for(int i = 0; i < initializedBulletInfosLength; i++)
+            {
+                initializedBulletInfosAtRuntime[i].SetIsInitializable(true);
+            }
+            initializedBulletInfosAtRuntime = null;
+            Debug.Log("DataStore OnApplicationQuit BulletInfo Init 실행 여부 on");
         }
     }
-    #endregion
+
+    public void Dispose()
+    {
+        Debug.Log("DataStore Dispose");
+        if (null != initializedBulletInfosAtRuntime)
+        {
+            for (int i = 0; i < initializedBulletInfosLength; i++)
+            {
+                initializedBulletInfosAtRuntime[i].SetIsInitializable(true);
+            }
+            initializedBulletInfosAtRuntime = null;
+            Debug.Log("DataStore Dispose BulletInfo Init 실행 여부 on");
+        }
+    }*/
 }

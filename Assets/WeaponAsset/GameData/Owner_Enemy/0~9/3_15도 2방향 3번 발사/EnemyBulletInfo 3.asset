@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
+  m_Name: EnemyBulletInfo 3
+  m_EditorClassIdentifier: 
+  memo: 
+  ownerType: 1
+  bulletName: 
+  damage: 0.5
+  knockBack: 0
+  criticalRate: 0
+  speed: 0
+  acceleration: -5
+  deltaSpeedTotalLimit: 6
+  range: 0
+  scaleX: 3
+  scaleY: 3
+  pierceCount: 1
+  bounceCount: 0
+  lifeTime: -1
+  effectId: -1
+  soundId: -1
+  spriteAnimation: 0
+  bulletSprite: {fileID: 21300048, guid: 6122f8070214d9c409d3a2800ae1bc98, type: 3}
+  showsScaleAnimation: 0
+  showsRotationAnimation: 0
+  showsParticle: 0
+  isFixedAngle: 0
+  positionBasedKnockBack: 0
+  deleteAfterSummonBulletInfo: {fileID: 0}
+  deleteAfterSummonPatternInfo: {fileID: 0}
+  bounceAble: 0
+  bulletBlockAble: 0
+  collisionPropertiesEdit: 00000000
+  updatePropertiesEdit: 01000000
+  deletePropertiesEdit: 00000000
+  collisionPropertiesLength: 1
+  updatePropertiesLength: 1
+  deletePropertiesLength: 1
+  summonBulletPatternInfo: {fileID: 0}
+  creationCycle: 0

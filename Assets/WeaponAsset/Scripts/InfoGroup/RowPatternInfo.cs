@@ -10,7 +10,7 @@ public class RowPatternInfo : ProjectilesPatternInfo
 
     public RowPatternInfo()
     {
-        patternType = BulletPatternType.RowPattern;
+        // patternType = BulletPatternType.RowPattern;
     }
 
 }

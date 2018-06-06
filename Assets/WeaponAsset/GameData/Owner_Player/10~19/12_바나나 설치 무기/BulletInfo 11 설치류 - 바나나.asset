@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
+  m_Name: "BulletInfo 11 \uC124\uCE58\uB958 - \uBC14\uB098\uB098"
+  m_EditorClassIdentifier: 
+  memo: "\uC124\uCE58\uB958 - \uBC14\uB098\uB098"
+  ownerType: 0
+  bulletName: 
+  damage: 0
+  knockBack: 0
+  criticalRate: 0
+  speed: 0
+  acceleration: 0
+  deltaSpeedTotalLimit: 0
+  range: 0
+  scaleX: 1
+  scaleY: 1
+  pierceCount: 1
+  bounceCount: 0
+  lifeTime: 5
+  effectId: 2
+  soundId: -1
+  spriteAnimation: 0
+  bulletSprite: {fileID: 21300000, guid: 7d9341c48b965844eb79ae6719359ae0, type: 3}
+  showsScaleAnimation: 0
+  showsRotationAnimation: 0
+  showsParticle: 0
+  isFixedAngle: 1
+  positionBasedKnockBack: 0
+  deleteAfterSummonBulletInfo: {fileID: 11400000, guid: 9517718a833786f41a1c419960ef551f,
+    type: 2}
+  deleteAfterSummonPatternInfo: {fileID: 0}
+  bounceAble: 0
+  bulletBlockAble: 0
+  collisionPropertiesEdit: 00000000
+  updatePropertiesEdit: 
+  deletePropertiesEdit: 02000000
+  collisionPropertiesLength: 1
+  updatePropertiesLength: 0
+  deletePropertiesLength: 1
+  summonBulletPatternInfo: {fileID: 0}
+  creationCycle: 0
