@@ -10,8 +10,6 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
     #region variables
 
-    public Transform tempObj;
-
     public GameObject weaponPrefab;
     [SerializeField]
     private int initWeaponNumMax;
@@ -31,12 +29,18 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     [SerializeField]
     private MemoryPool effectPool;
 
+
+    [SerializeField] private Transform weaponsTrasnform;
+    [SerializeField] private Transform bulletsTrasnform;
+    [SerializeField] private Transform effectsTrasnform;
     #endregion
 
     #region getter
     public MemoryPool WeaponPool { get { return weaponPool; } }
     public MemoryPool BulletPool { get { return bulletPool; } }
     public MemoryPool EffectPool { get { return effectPool; } }
+    public Transform GetWeaponsTrasnform() { return weaponsTrasnform; }
+    public Transform GetBulletsTrasnform() { return bulletsTrasnform; }
     #endregion
 
 
@@ -45,9 +49,9 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         // 오브젝트 풀 초기화
 
         // weapon 오브젝트풀 초기화
-        weaponPool = new MemoryPool(weaponPrefab, initWeaponNumMax);
+        weaponPool = new MemoryPool(weaponPrefab, initWeaponNumMax, weaponsTrasnform);
         // bullet 오브젝트풀 초기화
-        bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax);
+        bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax, bulletsTrasnform);
         // effect 오브젝트풀 초기화
         //effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
     }

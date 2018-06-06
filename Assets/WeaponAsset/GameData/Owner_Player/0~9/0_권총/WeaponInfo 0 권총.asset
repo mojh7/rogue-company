@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Name: "WeaponInfo 0 \uAD8C\uCD1D"
   m_EditorClassIdentifier: 
   memo: 
-  ownerType: 0
   weaponName: "\uAD8C\uCD1D"
   sprite: {fileID: 21300016, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   scaleX: 1
@@ -30,7 +29,7 @@ MonoBehaviour:
   cooldown: 0.3
   chargeTime: 0
   soundId: 0
-  addDirVecMagnitude: 0
+  addDirVecMagnitude: 0.2
   bulletPatternEditInfos:
   - patternInfo: {fileID: 11400000, guid: df47a8bb2a456b248bb233c54e65c4f2, type: 2}
     executionCount: 1

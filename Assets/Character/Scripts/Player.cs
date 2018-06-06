@@ -210,9 +210,8 @@ public class Player : Character
         // 0531 음악 임시 실행
         AudioManager.Instance.PlayMusic(3);
 
-
         renderer.color = new Color(1, 1, 1);
-        hp = 12.5f;
+        hp = 1200.5f;
         pState = State.ALIVE;
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
@@ -309,10 +308,12 @@ public class Player : Character
     {       
         int enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
         
-        if (enemyTotal == 0)
+        if (0 == enemyTotal)
         {
             directionVector = controller.GetRecenteNormalInputVector();
             directionDegree = directionVector.GetDegFromVector();
+            //Debug.Log("enemyTotal = 0, 오토 에임 풀림");
+            return;
         }
         else
         {
@@ -320,7 +321,7 @@ public class Player : Character
             
             raycastHitEnemies.Clear();
             int raycasthitEnemyNum = 0;
-            float minDistance = 1000f;
+            float minDistance = 10000f;
             int proximateEnemyIndex = -1;
 
             // Debug.Log("Total : " + enemyTotal);
@@ -343,9 +344,12 @@ public class Player : Character
             {
                 directionVector = controller.GetRecenteNormalInputVector();
                 directionDegree = directionVector.GetDegFromVector();
+                //Debug.Log("raycasthitEnemyNum = 0, player와 enemy사이에 장애물 존재, 오토 에임 풀림");
                 return;
             }
 
+
+           // Debug.Log("raycasthitEnemyNum : " + raycasthitEnemyNum + " 조준 가능한 enemy 존재");
             // 위에서 찾은 enmey들 중 distance가 가장 작은 값인 enemy쪽 방향으로 조준한다.
             for (int j = 0; j < raycasthitEnemyNum; j++)
             {

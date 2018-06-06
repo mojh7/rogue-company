@@ -18,6 +18,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
     [SerializeField]
     private List<Item> table;
     private Object originalObj;
+    private Transform parent;
 
     //-------------------------------------------------------------------------------------
     // 아이템 클래스
@@ -33,9 +34,9 @@ public class MemoryPool : IEnumerable, System.IDisposable
     // 생성자
     //------------------------------------------------------------------------------------
     public MemoryPool() { }
-    public MemoryPool(Object original, int count)
+    public MemoryPool(Object original, int count, Transform parent)
     {
-        Create(original, count);
+        Create(original, count, parent);
     }
     //------------------------------------------------------------------------------------
     // 열거자 기본 재정의
@@ -57,7 +58,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
     // original : 미리 생성해 둘 원본소스
     // count : 풀 최고 갯수
     //-------------------------------------------------------------------------------------
-    public void Create(Object original, int count)
+    public void Create(Object original, int count, Transform parent)
     {
         Dispose();
         originalObj = original;
@@ -68,10 +69,12 @@ public class MemoryPool : IEnumerable, System.IDisposable
             Item item = new Item();
             item.active = false;
             item.gameObject = GameObject.Instantiate(original) as GameObject;
-            item.gameObject.hideFlags = HideFlags.HideInHierarchy;
+            item.gameObject.transform.SetParent(parent);
+            //item.gameObject.hideFlags = HideFlags.HideInHierarchy;
             item.gameObject.SetActive(false);
             table.Add(item);
         }
+        this.parent = parent;
     }
     //-------------------------------------------------------------------------------------
     // 새 아이템 요청 - 쉬고 있는 객체를 반납한다.
@@ -98,7 +101,8 @@ public class MemoryPool : IEnumerable, System.IDisposable
         item = new Item();
         item.active = true;
         item.gameObject = GameObject.Instantiate(originalObj) as GameObject;
-        item.gameObject.hideFlags = HideFlags.HideInHierarchy;
+        item.gameObject.transform.SetParent(parent);
+        //item.gameObject.hideFlags = HideFlags.HideInHierarchy;
         item.gameObject.SetActive(true);
         table.Add(item);
         return item.gameObject;

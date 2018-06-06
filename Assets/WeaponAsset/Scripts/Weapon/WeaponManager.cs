@@ -383,7 +383,7 @@ public class WeaponManager : MonoBehaviour {
             // Debug.Log("z : " + ObjectPoolManager.Instance.tempObj);
             equipWeaponSlot[i].transform.position = Vector3.zero;
             equipWeaponSlot[i].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            equipWeaponSlot[i].transform.SetParent(ObjectPoolManager.Instance.tempObj);
+            equipWeaponSlot[i].transform.SetParent(ObjectPoolManager.Instance.GetWeaponsTrasnform());
             ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
         }
     }
