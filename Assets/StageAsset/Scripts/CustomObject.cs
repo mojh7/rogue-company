@@ -57,11 +57,12 @@ public class CustomObject : MonoBehaviour {
         isAnimate = false;
     }
 
-    public virtual void Active()
+    public virtual bool Active()
     {
         if (!isAvailable || !isAnimate)
-            return;
+            return false;
         isActive = true;
+        return true;
     }
 
     #region UnityFunc
@@ -124,11 +125,6 @@ public class VendingMachine : CustomObject
         isAvailable = false;
         objectType = ObjectType.VENDINMACHINE;
     }
-    public override void Active()
-    {
-        base.Active();
-        Debug.Log("VendingMachine");
-    }
 }
 
 public class PushBox : CustomObject
@@ -141,13 +137,15 @@ public class PushBox : CustomObject
         isAvailable = true;
         objectType = ObjectType.PUSHBOX;
     }
-    public override void Active()
+    public override bool Active()
     {
         base.Active();
         Vector2 dir = transform.position - PlayerManager.Instance.GetPlayerPosition();
         
         rigidbody2D.AddForce(dir*1000);
         StartCoroutine(CoroutinePushed());
+
+        return true;
     }
 
     IEnumerator CoroutinePushed()
@@ -180,11 +178,12 @@ public class Spawner : CustomObject
         gameObject.tag = "Enemy";
         gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
-    public override void Active()
+    public override bool Active()
     {
         base.Active();
         StartCoroutine(SpawnProcess());
         Debug.Log("Spawner");
+        return true;
     }
     IEnumerator SpawnProcess()
     {
@@ -253,7 +252,7 @@ public class Door : CustomObject
         }
         GetComponent<PolygonCollider2D>().isTrigger = false;
     }
-    public override void Active()
+    public override bool Active()
     {
         base.Active();
         if (isActive)
@@ -277,6 +276,8 @@ public class Door : CustomObject
         }
        
         SetCollision();
+
+        return true;
     }
     public void SetAxis(bool _isHorizon)
     {
@@ -301,12 +302,14 @@ public class Alert : CustomObject
         Init();
         callback += _call;
     }
-    public override void Active()
+    public override bool Active()
     {
         base.Active();
         isAnimate = true;
         animator.SetTrigger("alert_indicator");
         StartCoroutine(CheckAnimate());
+
+        return true;
     }
     IEnumerator CheckAnimate()
     {
@@ -335,12 +338,14 @@ public class Portal : CustomObject
     {
         this.gameObject.SetActive(false);
     }
-    public override void Active()
+    public override bool Active()
     {
         base.Active();
         isAvailable = false;
         InGameManager.Instance.GoUpFloor();
         Debug.Log("PlayerEnd");
+
+        return true;
     }
 }
 
@@ -359,13 +364,17 @@ public class ItemBox : CustomObject
     {
         Init();
         item = _item;
+        item.gameObject.SetActive(false);
     }
-    public override void Active()
+    public override bool Active()
     {
         base.Active();
         isAvailable = false;
+        item.gameObject.SetActive(true);
         ItemManager.Instance.CreateItem(item, this.transform.position);
         Destroy(this.gameObject, 3);
+
+        return true;
     }
 
     public void DestroySelf()
@@ -408,27 +417,31 @@ public class ItemContainer : CustomObject
         {
             if (innerObject as Weapon != null || !isAvailable)
                 return;
-            innerObject.gameObject.SetActive(true);
             innerObject.GetComponent<Item>().Active();
             Destroy(gameObject);
         }
     }
 
-    public override void Active()
+    public override bool Active()
     {
         base.Active();
         Debug.Log("ItemContainer");
         if (innerObject as Weapon != null)
         {
             bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
-            if(check)
+            if (check)
+            {
                 Destroy(gameObject);
+                return true;
+            }
         }
+
+        return false;
     }
 
     public void DestroySelf()
     {
-        Destroy(innerObject);
+        Destroy(innerObject.gameObject);
         Destroy(gameObject);
     }
 }

@@ -265,8 +265,8 @@ public class Player : Character
 
         if (null == bestCollider)
             return false;
-        bestCollider.GetComponent<CustomObject>().Active();
-        return true;
+        
+        return bestCollider.GetComponent<CustomObject>().Active(); 
     }
     /// <summary>
     /// 캐릭터 이동, 디버그 용으로 WASD Key로 이동 가능  
