@@ -1560,11 +1560,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdd11745fed8b948bfa8c4ae5477127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unknownIcon: {fileID: 21300000, guid: c8e047defd11ced409d47e0dafd03a4c, type: 3}
-  monsterIcon: {fileID: 21300002, guid: c8e047defd11ced409d47e0dafd03a4c, type: 3}
-  bossIcon: {fileID: 21300004, guid: c8e047defd11ced409d47e0dafd03a4c, type: 3}
-  eventIcon: {fileID: 21300006, guid: c8e047defd11ced409d47e0dafd03a4c, type: 3}
-  storeIcon: {fileID: 21300008, guid: c8e047defd11ced409d47e0dafd03a4c, type: 3}
+  unknownIcon: {fileID: 21300000, guid: bb4b5166c0cf5ce499f55e7f32bee758, type: 3}
+  monsterIcon: {fileID: 21300002, guid: bb4b5166c0cf5ce499f55e7f32bee758, type: 3}
+  bossIcon: {fileID: 21300004, guid: bb4b5166c0cf5ce499f55e7f32bee758, type: 3}
+  eventIcon: {fileID: 21300006, guid: bb4b5166c0cf5ce499f55e7f32bee758, type: 3}
+  storeIcon: {fileID: 21300008, guid: bb4b5166c0cf5ce499f55e7f32bee758, type: 3}
   playerIcon: {fileID: 1536237612}
   mask: {fileID: 1065622464}
   floorT: {fileID: 2140824426}
@@ -1801,7 +1801,7 @@ MonoBehaviour:
   wallTileMap: {fileID: 1632917437}
   shadowTileMap: {fileID: 1595666683}
   floorTile: {fileID: 11400000, guid: 9c4c0b6c779fe6b4ba968bfbbb24a053, type: 2}
-  shadowTile: {fileID: 11400000, guid: 35e4f760c2f1f964b910869e9eec7699, type: 2}
+  shadowTile: {fileID: 11400000, guid: c11cca2517f7956418b7d962eff7462a, type: 2}
   wallRuleTile: {fileID: 11400000, guid: 0b7e2a85e8495504f8cddd33df750a19, type: 2}
 --- !u!1 &579156962
 GameObject:
@@ -5422,14 +5422,14 @@ RectTransform:
   m_GameObject: {fileID: 1893314770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 1536237613}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5, y: 5}
+  m_AnchoredPosition: {x: -2.5, y: 2.5}
   m_SizeDelta: {x: 15, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1893314772
@@ -5451,7 +5451,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 67841b51bf5e1054696091fd78dfdba4, type: 3}
+  m_Sprite: {fileID: 21300010, guid: bb4b5166c0cf5ce499f55e7f32bee758, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

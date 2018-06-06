@@ -170,7 +170,7 @@ namespace Map
         void DrawTile()
         {
             RandomTile floor = TileManager.Instance.floorTile;
-            TileBase shadow = TileManager.Instance.shadowTile;
+            RuleTile shadow = TileManager.Instance.shadowTile;
             RuleTile wallRule = TileManager.Instance.wallRuleTile;
 
             Rect rect;
@@ -215,36 +215,48 @@ namespace Map
                             {
                                 wallTileMap.SetTile(new Vector3Int(x, y, 0), wallRule);
                                 wallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRule);
+                                shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
+                                shadowTileMap.SetTile(new Vector3Int(x, y - 2, 0), shadow);
                             }
                             else if (x == maxX && y == minY)
                             {
                                 wallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRule);
                                 wallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRule);
                                 wallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRule);
+                                shadowTileMap.SetTile(new Vector3Int(x, y - 2, 0), shadow);
+                                shadowTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), shadow);
+                                shadowTileMap.SetTile(new Vector3Int(x + 1, y - 2, 0), shadow);
                             }
                             else if (x == maxX && y == maxY)
                             {
                                 wallTileMap.SetTile(new Vector3Int(x, y, 0), wallRule);
                                 wallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRule);
                                 wallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRule);
+                                shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
+                                shadowTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), shadow);
+                                shadowTileMap.SetTile(new Vector3Int(x + 1, y - 2, 0), shadow);
+
                             }
                             else if (y == minY)
                             {
                                 wallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRule);
+                                shadowTileMap.SetTile(new Vector3Int(x, y - 2, 0), shadow);
                             }
                             else if (x == maxX)
                             {
                                 wallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRule);
+                                shadowTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), shadow);
                             }
                             else
                             {
                                 wallTileMap.SetTile(new Vector3Int(x, y, 0), wallRule);
+                                shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
                             }
                         }
                     }
                 }
             } // 방그리기
-        }
+        } // 맵 그리기
 
         void RectToBlock()
         {

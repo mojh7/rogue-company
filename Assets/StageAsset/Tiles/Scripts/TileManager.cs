@@ -10,6 +10,6 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     public Tilemap shadowTileMap;
 
     public RandomTile floorTile;
-    public TileBase shadowTile;
+    public RuleTile shadowTile;
     public RuleTile wallRuleTile;
 }

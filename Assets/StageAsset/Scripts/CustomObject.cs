@@ -282,6 +282,7 @@ public class Door : CustomObject
     {
         isHorizon = _isHorizon;
     }
+    public bool GetHorizon() { return isHorizon; }
 }
 
 public class Alert : CustomObject

@@ -40,13 +40,19 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         int maxX = (_room.x + _room.width) * size - 1;
         int minY = _room.y * size;
         int maxY = (_room.y + _room.height) * size - 1;
-        for (int x = minX; x < (_room.x + _room.width) * size; x++)
+
+        float mapMidX = _room.midX * Map.MapManager.Instance.size;
+        float mapMidY = _room.midY * Map.MapManager.Instance.size;
+
+        float width = _room.width * _room.size;
+        float height = _room.height * _room.size;
+        for (int x = minX; x <= maxX; x++)
         {
-            for (int y = minY; y < (_room.y + _room.height) * size; y++)
+            for (int y = minY; y <= maxY; y++)
             {
                 if (_room.isRoom &&
-                    (x == _room.x * size || x == (_room.x + _room.width) * size - 1 ||
-                    y == _room.y * size || y == (_room.y + _room.height) * size - 1))
+                    (x == minX || x == maxX ||
+                    y ==minY || y == maxY))
                 {
                     if (y == maxY)
                     {
@@ -77,10 +83,69 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                         texture.SetPixel(x, y, Color.black);
                     }
                 }
-                else
-                    //texture.SetPixel(x, y, Color.white);
+
                 DrawIcon(_room);
             }
+        }
+
+        for (int i = 0; i < _room.doorObjects.Count; i++)
+        {
+            if (!_room.isRoom)
+                break;
+            bool horizon = _room.doorObjects[i].GetComponent<Door>().GetHorizon(); 
+
+            float gap;
+
+            if (!horizon) // 세로
+            {
+                gap = mapMidY - _room.doorObjects[i].transform.position.y;
+
+                int pos = (minX + maxX) / 2;
+
+                int doorPos = (int)Mathf.Floor(_room.doorObjects[i].transform.position.x);
+                float x = doorPos / mapSizeWidth;
+                pos = (int)(x * minmapSizeWidth);
+                if (gap < 0)
+                {
+                    //top
+                    texture.SetPixel(pos - 1, maxY + 1, Color.red);
+                    texture.SetPixel(pos , maxY + 1, Color.red);
+                    texture.SetPixel(pos + 1, maxY + 1, Color.red);
+                }
+                else
+                {
+                    //bottom
+                    texture.SetPixel(pos - 1, minY, Color.red);
+                    texture.SetPixel(pos, minY, Color.red);
+                    texture.SetPixel(pos + 1, minY, Color.red);
+                }
+            }
+            else
+            {
+                gap = mapMidX - _room.doorObjects[i].transform.position.x;
+
+                int pos = (minY + maxY) / 2;
+
+                int doorPos = (int)Mathf.Floor(_room.doorObjects[i].transform.position.y);
+                float y = doorPos / mapSizeHeight;
+                pos = (int)(y * minmapSizeHeight);
+
+                if (gap < 0)
+                {
+                    //right
+                    texture.SetPixel(maxX + 1, pos - 1, Color.red);
+                    texture.SetPixel(maxX + 1, pos, Color.red);
+                    texture.SetPixel(maxX + 1, pos + 1, Color.red);
+                }
+                else
+                {
+                    //left
+                    texture.SetPixel(minX, pos - 1, Color.red);
+                    texture.SetPixel(minX, pos, Color.red);
+                    texture.SetPixel(minX, pos + 1, Color.red);
+                }
+            }
+
         }
         texture.Apply();
     }
@@ -94,7 +159,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         minmapSizeWidth = Map.MapManager.Instance.width * size; // 미니맵 픽셀 사이즈
         minmapSizeHeight = Map.MapManager.Instance.height * size;
 
-        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width; // 실제 맵 크기 48
+        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width; // 실제 맵 크기
         mapSizeHeight = Map.MapManager.Instance.size * Map.MapManager.Instance.height;
 
         if(Map.MapManager.Instance.width * size > Map.MapManager.Instance.height * size)
@@ -113,24 +178,22 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         {
             for (int j = 0; j <= minmapSizeHeight; j++)
             {
-                texture.SetPixel(i, j, Color.white);
+                if (i == 0 || i == minmapSizeWidth ||
+                 j == 0 || j == minmapSizeHeight)
+                {
+                    texture.SetPixel(i, j, Color.black);
+                }
+                else
+                {
+                    texture.SetPixel(i, j, Color.white);
+                }
             }
         }
+
         for (int i = 0; i < roomList.Count; i++)
         {
             //if(!roomList[i].isRoom)
                 DrawRoom(roomList[i]);
-        }
-        for (int i = 0; i <= minmapSizeWidth; i++)
-        {
-            for (int j = 0; j <= minmapSizeHeight; j++)
-            {
-                if (i == 0 || i == minmapSizeWidth ||
-                    j == 0 || j == minmapSizeHeight)
-                {
-                    texture.SetPixel(i, j, Color.black);
-                }
-            }
         }
         texture.Apply();
     } // 미니맵 그리는 함수
@@ -174,7 +237,15 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         {
             for (int j = 0; j < height; j++)
             {
-                texture.SetPixel(x + i, y + j, sprite.texture.GetPixel((int)textureRect.x + i, (int)textureRect.y + j));
+                Color color = sprite.texture.GetPixel((int)textureRect.x + i, (int)textureRect.y + j);
+                if (color == Color.clear)
+                {
+                    texture.SetPixel(x + i, y + j, Color.white);
+                }
+                else
+                {
+                    texture.SetPixel(x + i, y + j, color);
+                }
             }
         }
     } // 방 타입에 따른 미니맵 아이콘 표시
