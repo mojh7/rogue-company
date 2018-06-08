@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+// 바꿔야됨.
+
+
+
 /* Onwer 안에 속해서 각종 Buff를 관리
  * 
  * 패시브 아이템, 시간제 버프 아이템이 Onwer에게 생성되고 발생되면 여기에 등록되었다가

@@ -63,6 +63,9 @@ namespace WeaponAsset
     // 총알 충돌 함수 델리게이트
     public delegate void DelCollisionBullet(Collider2D coll);
 
+
+    // ItemUseEffect 안의 내용으로 옮길 예정
+
     public struct WeaponBuffInfo
     {
         // 단순히 능력치 증가 감소
