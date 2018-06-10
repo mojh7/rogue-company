@@ -21,7 +21,7 @@ public class BulletInfo : ScriptableObject
     private string bulletName;  // 총알 이름, (메모 용)
     public float damage;
     public float knockBack;
-    public float criticalRate;
+    public float criticalChance;
 
     public float speed;         // 속력
     public float acceleration;  // 가속도
@@ -184,7 +184,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.bulletName = bulletName;
         clonedInfo.damage = damage;
         clonedInfo.knockBack = knockBack;
-        clonedInfo.criticalRate = criticalRate;
+        clonedInfo.criticalChance = criticalChance;
 
         clonedInfo.speed = speed;
         clonedInfo.acceleration = acceleration;

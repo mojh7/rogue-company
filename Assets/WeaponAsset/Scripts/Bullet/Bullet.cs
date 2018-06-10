@@ -147,7 +147,7 @@ public class Bullet : MonoBehaviour
     }
 
     // 일반(투사체) 총알 초기화
-    public void Init(BulletInfo bulletInfo, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalRate)
+    public void Init(BulletInfo bulletInfo, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalChance)
     {
         active = true;
         info = bulletInfo;
@@ -169,9 +169,9 @@ public class Bullet : MonoBehaviour
         {
             info.knockBack = knockBack;
         }
-        if (criticalRate != 0)
+        if (criticalChance != 0)
         {
-            info.criticalRate = criticalRate;
+            info.criticalChance = criticalChance;
         }
         //--------------------------------
 
@@ -197,7 +197,7 @@ public class Bullet : MonoBehaviour
 
     // 레이저 총알 초기화
     // 레이저 나중에 빔 모양 말고 처음 시작 지점, raycast hit된 지점에 동그란 원 추가 생성 할 수도 있음.
-    public void Init(BulletInfo bulletInfo, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalRate)
+    public void Init(BulletInfo bulletInfo, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalChance)
     {
         active = true;
         info = bulletInfo;
@@ -211,9 +211,9 @@ public class Bullet : MonoBehaviour
         {
             info.knockBack = knockBack;
         }
-        if (criticalRate != 0)
+        if (criticalChance != 0)
         {
-            info.criticalRate = criticalRate;
+            info.criticalChance = criticalChance;
         }
         //--------------------------------
 

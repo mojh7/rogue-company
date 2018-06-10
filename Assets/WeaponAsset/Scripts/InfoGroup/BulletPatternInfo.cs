@@ -16,7 +16,13 @@ public class BulletPatternInfo : ScriptableObject
     public BulletInfo bulletInfo;
     public float damage;            // 총알 한 발 당 데미지
     public float knockBack;         // 넉백 세기
-    public float criticalRate;      // 크리티컬 확률
+    public float criticalChance;      // 크리티컬 확률
+
+    /// <summary> bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
+    public static BulletPattern CreatePatternInfo(BulletPatternInfo patternInfo, OwnerType ownerType)
+    {
+        return CreatePatternInfo(new BulletPatternEditInfo(patternInfo, 1, 0), ownerType);
+    }
 
     /// <summary> bulletPatternEditInfo에서 bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
     public static BulletPattern CreatePatternInfo(BulletPatternEditInfo patternEditInfo, OwnerType ownerType)
@@ -32,37 +38,14 @@ public class BulletPatternInfo : ScriptableObject
         else if (typeof(RowPatternInfo) == bulletPatternType)
         {
             return new RowPattern(patternEditInfo.patternInfo as RowPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, ownerType);
-
         }
         else if (typeof(LaserPatternInfo) == bulletPatternType)
         {
             return new LaserPattern(patternEditInfo.patternInfo as LaserPatternInfo, ownerType);
         }
-        else
+        else if (typeof(SpreadPatternInfo) == bulletPatternType)
         {
-            return null;
-        }
-    }
-    
-    /// <summary> bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
-    public static BulletPattern CreatePatternInfo(BulletPatternInfo patternInfo, OwnerType ownerType)
-    {
-        System.Type bulletPatternType = patternInfo.GetType();
-
-        // switch문으로 하려 했으나 에러 발생
-        // c# 6 이전 버전에서는 switch식 또는 case 레이블은 bool, char, string, integral, enum 또는 해당하는 nullable 형식이어야 합니다.
-        if (typeof(MultiDirPatternInfo) == bulletPatternType)
-        {
-            return new MultiDirPattern(patternInfo as MultiDirPatternInfo, 1, 0, ownerType);
-        }
-        else if (typeof(RowPatternInfo) == bulletPatternType)
-        {
-            return new RowPattern(patternInfo as RowPatternInfo, 1, 0, ownerType);
-
-        }
-        else if (typeof(LaserPatternInfo) == bulletPatternType)
-        {
-            return new LaserPattern(patternInfo as LaserPatternInfo, ownerType);
+            return new SpreadPattern(patternEditInfo.patternInfo as SpreadPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, ownerType);
         }
         else
         {

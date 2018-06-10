@@ -8,17 +8,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6995211bec7864abb6fa5586e77b3f, type: 3}
-  m_Name: MultiDirPatternInfo 2
+  m_Script: {fileID: 11500000, guid: ad1ce257513307343b33f78a094c2b5e, type: 3}
+  m_Name: SpreadPatternInfo
   m_EditorClassIdentifier: 
   memo: "6\uBC29\uD5A5 \uC0F7\uAC74, \uCC28\uC9D5 \uC0B0\uD0C4\uCD1D"
   bulletInfo: {fileID: 11400000, guid: 298294521b5ec4749921dfe3c19a8611, type: 2}
-  damage: 0
+  damage: 8
   knockBack: 0
-  criticalRate: 0
+  criticalChance: 0
   speed: 8
   range: 4
   bulletCount: 6
-  initAngle: 75
-  deltaAngle: 30
-  randomAngle: 0
+  sectorAngle: 150
+  randomAngle: 5

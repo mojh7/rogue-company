@@ -46,7 +46,7 @@ public class WeaponInfo : ScriptableObject
     public float bulletMoveSpeed;       // 총알 이동속도
     public float range;                 // 사정 거리
     public float damage;                // 공격력
-    public float criticalRate;          // 크리티컬 확률 : 치명타가 뜰 확률
+    public float criticalChance;          // 크리티컬 확률 : 치명타가 뜰 확률
     public float knockBack;             // 넉백, 값이 0 이면 넉백 X
     public float cooldown;              // 쿨타임
     public float chargeTime;            // 차징 시간, 0 = 차징 X, 0 초과 = 1회 차징당 시간
@@ -72,68 +72,6 @@ public class WeaponInfo : ScriptableObject
         soundId = -1;
     }
 
-    
-    /*
-    public WeaponInfo(WeaponInfo info)
-    {
-        Debug.Log(name);
-        weaponName = info.weaponName;
-        sprite = info.sprite;
-        scaleX = info.scaleX;
-        scaleY = info.scaleY;
-
-        attackAniType = info.attackAniType;
-        touchMode = info.touchMode;
-        weaponType = info.weaponType;
-
-        ammoCapacity = info.ammoCapacity;
-        ammo = info.ammo;
-        bulletMoveSpeed = info.bulletMoveSpeed;
-        range = info.range;
-        damage = info.damage;
-        criticalRate = info.criticalRate;
-        knockBack = info.knockBack;
-        cooldown = info.cooldown;
-        chargeTime = info.chargeTime;
-        addDirVecMagnitude = info.addDirVecMagnitude;
-
-        bulletPatterns = new List<BulletPattern>();
-        bulletPatternsLength = info.bulletPatternsLength;
-
-        for (int i = 0; i < info.bulletPatternsLength; i++)
-        {
-            bulletPatterns.Add(info.bulletPatterns[i].Clone());
-        }
-        
-    }*/
-    /*
-    public WeaponInfo(string weaponName, int spriteId, AttackAniType attackAniType, TouchMode touchMode, WeaponType weaponType, float chargeTime, int ammoCapacity, int ammo, float scaleX, float scaleY,
-        float bulletMoveSpeed, float range, float damage, float criticalRate, float knockBack, float cooldown, float addDirVecMagnitude,
-        BulletPattern[] bulletPatterns)
-    {
-        this.name = weaponName;
-        this.spriteId = spriteId;
-        this.attackAniType = attackAniType;
-        this.touchMode = touchMode;
-        this.weaponType = weaponType;
-        this.chargeTime = chargeTime;
-
-        this.ammoCapacity = ammoCapacity;
-        this.ammo = ammo;
-
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
-        this.bulletMoveSpeed = bulletMoveSpeed;
-        this.range = range;
-        this.damage = damage;
-        this.criticalRate = criticalRate;
-        this.knockBack = knockBack;
-        this.cooldown = cooldown;
-        this.addDirVecMagnitude = addDirVecMagnitude;
-        this.bulletPatterns = bulletPatterns;
-    }*/
-
-
     public WeaponInfo Clone()
     {
         WeaponInfo clonedInfo = CreateInstance<WeaponInfo>();
@@ -154,7 +92,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.bulletMoveSpeed = bulletMoveSpeed;
         clonedInfo.range = range;
         clonedInfo.damage = damage;
-        clonedInfo.criticalRate = criticalRate;
+        clonedInfo.criticalChance = criticalChance;
         clonedInfo.knockBack = knockBack;
         clonedInfo.cooldown = cooldown;
         clonedInfo.chargeTime = chargeTime;
