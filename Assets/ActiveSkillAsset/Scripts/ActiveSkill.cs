@@ -7,18 +7,11 @@ using UnityEngine;
  * 
  * weaponAsset 내용이랑 연계해서 만들 것 같다.
  * 
- */ 
+ */
 
 
-public class ActiveSkill : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class ActiveSkill : ScriptableObject
+{
+    WeaponManager weaponManager;
+    EffectApplyType effectApplyTypes;
 }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff2060b33cfbe2f479fcc01b77a156f7, type: 3}
+  m_Name: Soccer
+  m_EditorClassIdentifier: 
+  playerType: 1
+  playerSprite: {fileID: 0}
+  hp: 0
+  moveSpeed: 0
+  hunger: 0
+  hungerMax: 0
+  criticalChance: 0
+  animator: {fileID: 0}
+  startingWeaponInfos:
+  - {fileID: 11400000, guid: 2adec630dc0a36a48b578e8fb4a33d35, type: 2}
