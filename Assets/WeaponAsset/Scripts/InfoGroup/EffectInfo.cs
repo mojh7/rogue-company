@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EffectInfo", menuName = "GameData/EffectInfo", order = 0)]
+[CreateAssetMenu(fileName = "EffectInfo", menuName = "WeaponData/EffectInfo", order = 3)]
 public class EffectInfo : ScriptableObject
 {
     [Tooltip("적용하거나 쓰이는 곳, 사용하는 사람, 간단한 설명 등등 이것 저것 메모할 공간")]

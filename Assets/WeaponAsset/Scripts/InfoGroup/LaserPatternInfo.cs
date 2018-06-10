@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "LaserPatternInfo", menuName = "GameData/LaserPatternInfo", order = 3)]
+[CreateAssetMenu(fileName = "LaserPatternInfo", menuName = "WeaponData/BulletPattern/LaserPatternInfo", order = 2)]
 public class LaserPatternInfo : BulletPatternInfo
 {
     public LaserPatternInfo()

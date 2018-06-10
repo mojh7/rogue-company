@@ -20,7 +20,7 @@ public struct BulletPatternEditInfo
     }
 }
 
-[CreateAssetMenu(fileName = "WeaponInfo", menuName = "PlayerWeaponData/WeaponInfo", order = 0)]
+[CreateAssetMenu(fileName = "WeaponInfo", menuName = "WeaponData/OwnerPlayer/WeaponInfo", order = 0)]
 public class WeaponInfo : ScriptableObject
 {
     [Tooltip("적용하거나 쓰이는 곳, 사용하는 사람, 간단한 설명 등등 이것 저것 메모할 공간")]

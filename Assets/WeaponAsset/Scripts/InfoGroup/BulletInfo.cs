@@ -8,7 +8,7 @@ using WeaponAsset;
  */
 
 // player bullet
-[CreateAssetMenu(fileName = "BulletInfo", menuName = "PlayerWeaponData/BulletInfo", order = 1)]
+[CreateAssetMenu(fileName = "BulletInfo", menuName = "WeaponData/OwnerPlayer/BulletInfo", order = 1)]
 public class BulletInfo : ScriptableObject
 {
     [Tooltip("적용하는 곳이나, 사용하는 사람이나, 개발시 필요한 정보 등, 기타 등등 메모할 공간")]

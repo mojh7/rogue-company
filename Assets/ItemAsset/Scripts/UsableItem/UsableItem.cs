@@ -26,31 +26,22 @@ using UnityEngine;
 // public enum UsableItemUseType { CONSUMABLE, BUFF, PASSIVE, SPECIAL }
 
 /// <summary> 좋은 아이템 S </<>-------- E 덜 좋은 아이템 </summary>
-public enum Rating { S, A, B, C, D, E }
+public enum Rating { NORATING, S, A, B, C, D, E }
+
+// item 상속 받는 중이라, item을 scriptable 할거 아니면 상속 2개 못해서
+// info 클래스 따로 만들어서 scriptable 만들고 정보 관리
 
 // 사용할 수 있는 아이템들
 public abstract class UsableItem : Item {
 
-    protected Rating rating;
-    protected string name;
-    protected string notes;
-    protected int price;
-
-    protected List<UseMethod> useMethods;
-    protected int useMethodsLength;
-
-
-    // 이 두개 같은거 쓸 수도 있고 다른 것 쓸 수도 있음
-    protected Sprite beforeActivedSprite;   // 사용 전 sprite로 아이템 박스에서 땅에 떨어져있는 상태에서의 sprite
-    protected Sprite iconSprite;            // 버프 표시, 아이템 소유 표시 등 아이콘 모양의 sprite
-
+    
     /* virtual로 해야 될 듯?
     protected override void Active()
     {
         Debug.Log("UsableItem use");
-        for(int i = 0; i < itemEffectsLength; i++)
+        for(int i = 0; i < effectApplyTypesLength; i++)
         {
-            itemEffects[i].useItem();
+            effectApplyTypes[i].useItem();
         }
     }
     */
@@ -95,6 +86,15 @@ public class MedicalItem : UsableItem
 
 // 펫
 public class PetItem : UsableItem
+{
+    public override void Active()
+    {
+        throw new System.NotImplementedException();
+    }
+}
+
+// 패시브 아이템(특성 = 유물 = 등등)
+public class PassiveItem : UsableItem
 {
     public override void Active()
     {

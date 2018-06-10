@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-// 바꿔야됨.
+// 예전에 쓴 것들 바꿔야됨.
 
 
 

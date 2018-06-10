@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MultiDirPatternInfo", menuName = "GameData/MultiDirPatternInfo", order = 1)]
+[CreateAssetMenu(fileName = "MultiDirPatternInfo", menuName = "WeaponData/BulletPattern/MultiDirPatternInfo", order = 0)]
 public class MultiDirPatternInfo : ProjectilesPatternInfo
 {
     public float initAngle;     // 초기 각도, -initAngle 으로 계산됨, 시계 방향

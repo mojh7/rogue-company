@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SpreadPatternInfo", menuName = "BulletPattern/SpreadPatternInfo", order = 3)]
+[CreateAssetMenu(fileName = "SpreadPatternInfo", menuName = "WeaponData/BulletPattern/SpreadPatternInfo", order = 3)]
 public class SpreadPatternInfo : ProjectilesPatternInfo
 {
 

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a5474384c10a049918577c8fad6d09, type: 3}
+  m_Name: "1_\uB4DC\uB808\uC2A4\uC154\uCE20"
+  m_EditorClassIdentifier: 
+  memo: "1\uBD84 \uB3D9\uC548 \"\uAC1C\uBCC4 \uBAAC\uC2A4\uD130 \uACF5\uACA9\uB825-10\n(\uB2E8,
+    \uACB0\uACFC\uAC12\uC774 0\uC77C \uACBD\uC6B0\n\uBB34\uC870\uAC74 1\uB85C \uCC98\uB9AC)\"\n\uC274\uB4DC\uB098
+    \uBC29\uC5B4\uB825\uC774\uB098 \uB2E4\uB978 \uCD94\uAC00\uC801\uC778 \uBB34\uC5B8\uAC00\uAC00
+    \uC788\uC5B4\uC57C \uB420\uAC70 \uAC19\uC740\uB370"
+  rating: 0
+  itemName: "\uB4DC\uB808\uC2A4\uC154\uCE20"
+  notes: 
+  price: 0
+  effectApplyTypesLength: 0
