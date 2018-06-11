@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 class GameData
 {
-    int hp;
+    float hp;
     int hungry;
     int m_floor;
     int m_coin;
@@ -18,10 +18,9 @@ class GameData
         m_floor = 1;
         m_coin = 0;
         m_playerType = Player.PlayerType.SOCCER;
-        weaponIds = new int[3];
-        weaponAmmos = new int[3];
     }
     #region getter
+    public float GetHp() { return hp; }
     public int GetFloor() { return m_floor; }
     public int GetCoin() { return m_coin; }
     public int[] GetWeaponIds() { return weaponIds; }
@@ -29,6 +28,7 @@ class GameData
     public Player.PlayerType GetPlayerType() { return m_playerType; }
     #endregion
     #region setter
+    public void SetHp(float _hp) { hp = _hp; }
     public void SetFloor() { m_floor++; }
     public void SetCoin(int _coin) { m_coin = _coin; }
     public void SetWeaponIds(int[] _weaponIds) { weaponIds = _weaponIds; }
