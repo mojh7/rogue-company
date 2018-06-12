@@ -36,7 +36,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public PlayerData GetPlayerData() { return playerData; }
     public PlayerData GetPlayerData(Player.PlayerType playerType)
     {
-        return playerDatas[(int)playerType];
+        return playerDatas[(int)playerType].Clone();
     }
     // 0531 모장현
     public int[] GetWeaponIds() { return m_weaponIds; }

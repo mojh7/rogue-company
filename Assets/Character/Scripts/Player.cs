@@ -122,8 +122,14 @@ public class Player : Character
     #region property
     public PlayerData PlayerData
     {
-        get { return playerData; }
-        set { playerData = value; }
+        get
+        {
+            return playerData;
+        }
+        set
+        {
+            playerData = value;
+        }
     }
     #endregion
 
@@ -240,6 +246,7 @@ public class Player : Character
         if(false == GameStateManager.Instance.GetLoadsGameData())
         {
             this.playerData = playerData;
+            Debug.Log(playerData.Hp + ", " + playerData.MoveSpeed);
         }
         // 저장된 데이터를 로드한 상태일 때
         else
@@ -395,9 +402,24 @@ public class Player : Character
 
 
     // item Player 대상 효과 적용
-    public void ApplyItemEffect(ItemUseEffect itemUseEffect)
+    public void ApplyItemEffect(PlayerTargetEffect itemUseEffect)
     {
-
+        if (itemUseEffect.recoveryHp != 0)
+        {
+            playerData.Hp += itemUseEffect.recoveryHp;
+        }
+        if (itemUseEffect.recoveryHunger != 0)
+        {
+            playerData.Hunger += itemUseEffect.recoveryHunger;
+        }
+        if (itemUseEffect.moveSpeedIncreaseRate != 0)
+        {
+            playerData.MoveSpeed += itemUseEffect.moveSpeedIncreaseRate;
+        }
+        if (itemUseEffect.criticalChanceIncreaseRate != 0)
+        {
+            playerData.CriticalChance += itemUseEffect.criticalChanceIncreaseRate;
+        }
     }
 
     #endregion

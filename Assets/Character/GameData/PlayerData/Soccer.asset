@@ -11,12 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2060b33cfbe2f479fcc01b77a156f7, type: 3}
   m_Name: Soccer
   m_EditorClassIdentifier: 
-  playerType: 1
+  playerType: 0
   playerSprite: {fileID: 0}
-  hp: 3.5
+  hp: 6
   moveSpeed: 5
   hunger: 270
   hungerMax: 270
   criticalChance: 5
-  animator: {fileID: 0}
   startingWeaponInfos: []

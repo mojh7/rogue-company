@@ -9,6 +9,13 @@ public class Logo : MonoBehaviourSingleton<Logo> {
     public Image bridgeLogoImage;
     public Image teamLogoImage;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            LoadTitle();
+    }
+
+
     void LoadTitle()
     {
         GameStateManager.Instance.LoadTitle();

@@ -77,10 +77,10 @@ public abstract class ItemUseEffect
 // 플레이어 대상 적용 효과
 public class PlayerTargetEffect : ItemUseEffect
 {
-    private float recoveryHp;
-    private float moveSpeedIncreaseRate;
-    private float recoveryHunger;
-    private float ciriticalChanceIncreaseRate;
+    public float recoveryHp;
+    public float moveSpeedIncreaseRate;
+    public float recoveryHunger;
+    public float criticalChanceIncreaseRate;
 
 
     /*

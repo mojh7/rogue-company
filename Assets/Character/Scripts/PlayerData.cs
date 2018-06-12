@@ -46,8 +46,6 @@ public class PlayerData : ScriptableObject
      */
 
     [SerializeField]
-    private Animator animator;
-    [SerializeField]
     private WeaponInfo[] startingWeaponInfos;
 
     // 
@@ -58,8 +56,14 @@ public class PlayerData : ScriptableObject
 
     public float Hp
     {
-        get { return hp; }
-        set { hp = value; }
+        get
+        {
+            return hp;
+        }
+        set
+        {
+            hp = value;
+        }
     }
     public float MoveSpeed
     {
@@ -67,12 +71,23 @@ public class PlayerData : ScriptableObject
         {
             return moveSpeed;
         }
+        set
+        {
+            moveSpeed = value;
+        }
     }
     public float Hunger
     {
-        get { return hunger; }
-        set { hunger = value; }
+        get
+        {
+            return hunger;
+        }
+        set
+        {
+            hunger = value;
+        }
     }
+
 
     public float HungerMax
     {
@@ -87,12 +102,9 @@ public class PlayerData : ScriptableObject
         {
             return criticalChance;
         }
-    }
-    public Animator Animator
-    {
-        get
+        set
         {
-            return animator;
+            criticalChance = value;
         }
     }
     public WeaponInfo[] StartingWeaponInfos
@@ -105,5 +117,19 @@ public class PlayerData : ScriptableObject
 
     #endregion
 
+    public PlayerData Clone()
+    {
+        PlayerData clonedInfo = CreateInstance<PlayerData>();
 
+        clonedInfo.playerType = playerType;
+        clonedInfo.playerSprite = playerSprite;
+        clonedInfo.hp = hp;
+        clonedInfo.moveSpeed = moveSpeed;
+        clonedInfo.hunger = hunger;
+        clonedInfo.hungerMax = hungerMax;
+        clonedInfo.criticalChance = criticalChance;
+        clonedInfo.startingWeaponInfos = startingWeaponInfos;
+
+        return clonedInfo;
+    }
 }
