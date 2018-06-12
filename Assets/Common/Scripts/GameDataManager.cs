@@ -103,7 +103,11 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager> {
 
     private void Start()
     {
+#if (UNITY_EDITOR)
+        dataPath = Application.dataPath + "/save.bin";
+#else
         dataPath = Application.persistentDataPath + "/save.bin";
+#endif
         DontDestroyOnLoad(this);
     }
 
