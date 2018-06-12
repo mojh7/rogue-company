@@ -38,13 +38,17 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
         }
         else
         {
+            CustomObject olderInteractiveObject = interactiveObject;
             interactiveObject = player.Interact();
             if (interactiveObject == null)
             {
+                if(olderInteractiveObject != null)
+                    olderInteractiveObject.DeIndicateInfo();
                 ChangeImage(attackSprite);
             }
             else
             {
+                interactiveObject.IndicateInfo();
                 ChangeImage(interactSprite);
             }
         }

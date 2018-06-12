@@ -16,7 +16,8 @@ public class CustomObject : MonoBehaviour {
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
-    protected Rigidbody2D rigidbody2D;
+    protected new Rigidbody2D rigidbody2D;
+    protected TextMesh textMesh;
 
     public bool GetAvailable() { return isAvailable; }
     public bool GetActive() { return isActive; }
@@ -25,6 +26,7 @@ public class CustomObject : MonoBehaviour {
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
+        textMesh = GetComponentInChildren<TextMesh>();
         isAnimate = false;
         if (sprites != null)
             sprite = sprites[Random.Range(0, sprites.Length)];
@@ -68,6 +70,9 @@ public class CustomObject : MonoBehaviour {
         return true;
     }
 
+    public virtual void IndicateInfo() { }
+
+    public virtual void DeIndicateInfo() { }
     #region UnityFunc
     private void Awake()
     {
@@ -416,7 +421,7 @@ public class ItemContainer : CustomObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Interactor"))
         {
             if (innerObject as Weapon != null || !isAvailable)
                 return;
@@ -440,6 +445,18 @@ public class ItemContainer : CustomObject
         }
 
         return false;
+    }
+
+    public override void IndicateInfo()
+    {
+        base.IndicateInfo();
+        textMesh.text = innerObject.GetName();
+    }
+
+    public override void DeIndicateInfo()
+    {
+        base.DeIndicateInfo();
+        textMesh.text = "";
     }
 
     public void DestroySelf()

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour {
-    public abstract void Active();
+public class Item : MonoBehaviour {
+    protected new string name;
+
+    public virtual void Active() { }
+    public virtual string GetName() { return name; }
 }
 
 public class Coin : Item

@@ -113,7 +113,7 @@ public class Weapon : Item {
         weaponView = new WeaponView(objTransform, spriteRenderer);
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
         weaponState = WeaponState.Idle;
-
+        name = info.weaponName;
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
         ChargedAttackCooldown = 20f;
