@@ -14,7 +14,7 @@ using UnityEngine;
  * 아마 2번으로 할 듯
  */
 
-
+[System.Serializable]
 [CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData")]
 public class PlayerData : ScriptableObject
 {
@@ -50,16 +50,16 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private WeaponInfo[] startingWeaponInfos;
 
+    // 
+
     #endregion
 
     #region get/set Property
 
-    public float HP
+    public float Hp
     {
-        get
-        {
-            return hp;
-        }
+        get { return hp; }
+        set { hp = value; }
     }
     public float MoveSpeed
     {

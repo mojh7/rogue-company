@@ -248,6 +248,8 @@ public class WeaponManager : MonoBehaviour {
                 weaponCountMax = weaponIds.Length;
                 weaponCount = 0;
 
+                Debug.Log(weaponCountMax);
+
                 for (int i = 0; i < weaponCountMax; i++)
                 {
                     if(weaponIds[i] >= 0)

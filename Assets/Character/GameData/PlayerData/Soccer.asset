@@ -13,11 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 1
   playerSprite: {fileID: 0}
-  hp: 0
-  moveSpeed: 0
-  hunger: 0
-  hungerMax: 0
-  criticalChance: 0
+  hp: 6
+  moveSpeed: 5
+  hunger: 270
+  hungerMax: 270
+  criticalChance: 5
   animator: {fileID: 0}
-  startingWeaponInfos:
-  - {fileID: 11400000, guid: 2adec630dc0a36a48b578e8fb4a33d35, type: 2}
+  startingWeaponInfos: []

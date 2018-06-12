@@ -97,7 +97,7 @@ public abstract class Character : MonoBehaviour
 public class Player : Character
 {
     #region variables
-    public enum PlayerType { MUSIC, SOCCER, FISH, ARMY }
+    public enum PlayerType { SOCCER, MUSIC, FISH, ARMY }
     //public Joystick joystick;
 
 
@@ -116,6 +116,15 @@ public class Player : Character
     [SerializeField] private new SpriteRenderer renderer;
     [SerializeField] private PlayerHPUI playerHpUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
+    private PlayerData playerData;
+    #endregion
+
+    #region property
+    public PlayerData PlayerData
+    {
+        get { return playerData; }
+        set { playerData = value; }
+    }
     #endregion
 
     #region getter
@@ -126,8 +135,7 @@ public class Player : Character
 
     public WeaponSwitchButton GetWeaponSwitchButton() { return weaponSwitchButton; }
     #endregion
-    #region setter
-    #endregion
+
 
     #region UnityFunction
     void Awake()
@@ -142,7 +150,7 @@ public class Player : Character
         raycasthitEnemyInfo = new RaycasthitEnemy();
         layerMask = 1 << LayerMask.NameToLayer("Wall");
         Physics2D.IgnoreLayerCollision(16, 13); // enemy 본체랑 충돌 무시
-        Init();
+        //Init();
 
         // 임시로 배경음악 시작
         // AudioManager.Instance.PlayMusic(0);
@@ -211,7 +219,7 @@ public class Player : Character
         AudioManager.Instance.PlayMusic(3);
 
         renderer.color = new Color(1, 1, 1);
-        hp = 1200.5f;
+        // hp = 1200.5f;
         pState = State.ALIVE;
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
@@ -220,11 +228,27 @@ public class Player : Character
         weaponSwitchButton.SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
-        playerHpUi.UpdateHPUI(hp);
+        
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, OwnerType.Player);
     }
+
+    public void InitPlayerData(PlayerData playerData)
+    {
+        // 저장된 데이터 없이 새로운 게임을 시작할 때
+        if(false == GameStateManager.Instance.GetLoadsGameData())
+        {
+            this.playerData = playerData;
+        }
+        // 저장된 데이터를 로드한 상태일 때
+        else
+        {
+            this.PlayerData = GameDataManager.Instance.GetPlayerData();
+        }
+        playerHpUi.UpdateHPUI(playerData.Hp);
+    }
+
     protected override void Die()
     {
         GameStateManager.Instance.GameOver();
@@ -233,11 +257,11 @@ public class Player : Character
 
     public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate, bool positionBasedKnockBack = false)
     {
-        hp -= damage;
-        playerHpUi.UpdateHPUI(hp);
+        playerData.Hp -= damage;
+        playerHpUi.UpdateHPUI(playerData.Hp);
         StopCoroutine(CoroutineAttacked());
         StartCoroutine(CoroutineAttacked());
-        if (hp <= 0) Die();
+        if (playerData.Hp <= 0) Die();
     }
 
 
@@ -274,24 +298,24 @@ public class Player : Character
     private void Move()
     {
         // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
-        objTransform.Translate(controller.GetInputVector() * moveSpeed * Time.deltaTime);
+        objTransform.Translate(controller.GetInputVector() * playerData.MoveSpeed * Time.deltaTime);
 
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(Vector2.up * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.up * playerData.MoveSpeed * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector2.down * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.down * playerData.MoveSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.right * playerData.MoveSpeed * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.left * playerData.MoveSpeed * Time.deltaTime);
         }
     }
     /// <summary> 공격 가능 여부 리턴 </summary>
@@ -368,6 +392,13 @@ public class Player : Character
         }
     }
 
+
+
+    // item Player 대상 효과 적용
+    public void ApplyItemEffect(ItemUseEffect itemUseEffect)
+    {
+
+    }
 
     #endregion
 
