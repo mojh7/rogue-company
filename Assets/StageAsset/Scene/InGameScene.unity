@@ -1036,8 +1036,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1354007718219498, guid: b3fa8ade24eb94d4eacb8af79383dd2e,
     type: 2}
-  playerDatas:
-  - {fileID: 11400000, guid: 1d509782ae3783f4b8b0e7b49a615d12, type: 2}
 --- !u!4 &307469664
 Transform:
   m_ObjectHideFlags: 0
@@ -1303,6 +1301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9223e356eb7b74c418d4f17d33758aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  image: {fileID: 1659212611}
+  attackSprite: {fileID: 21300000, guid: 827edc8ae9fd07f41a46050e157ce8e3, type: 3}
+  interactSprite: {fileID: 21300000, guid: d423116438d4ed54b8e012db0bd683ae, type: 3}
 --- !u!1 &500710307
 GameObject:
   m_ObjectHideFlags: 0

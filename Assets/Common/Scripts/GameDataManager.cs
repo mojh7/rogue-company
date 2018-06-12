@@ -98,6 +98,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             m_floor = 1;
             m_coin = 0;
             m_playerType = Player.PlayerType.SOCCER;
+            playerData.Hp = playerDatas[0].Hp;
             playerData = null;
         }
     }

@@ -265,7 +265,7 @@ public class Player : Character
     }
 
 
-    public bool Interact()
+    public CustomObject Interact()
     {
         float bestDistance = interactiveCollider2D.radius * 10;
         Collider2D bestCollider = null;
@@ -276,7 +276,7 @@ public class Player : Character
         {
             if (null == collider2D[i].GetComponent<CustomObject>())
                 continue;
-            if (!collider2D[i].GetComponent<CustomObject>().isAvailable)
+            if (!collider2D[i].GetComponent<CustomObject>().GetAvailable())
                 continue;
             float distance = Vector2.Distance(transform.position, collider2D[i].transform.position);
 
@@ -288,9 +288,9 @@ public class Player : Character
         }
 
         if (null == bestCollider)
-            return false;
-        
-        return bestCollider.GetComponent<CustomObject>().Active(); 
+            return null;
+
+        return bestCollider.GetComponent<CustomObject>();
     }
     /// <summary>
     /// 캐릭터 이동, 디버그 용으로 WASD Key로 이동 가능  

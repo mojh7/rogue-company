@@ -10,13 +10,16 @@ public class CustomObject : MonoBehaviour {
     public ObjectType objectType;
     public Sprite sprite;
     public Sprite[] sprites;
-    public bool isActive;
-    public bool isAvailable;
+    protected bool isActive;
+    protected bool isAvailable;
     protected bool isAnimate;
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
     protected Rigidbody2D rigidbody2D;
+
+    public bool GetAvailable() { return isAvailable; }
+    public bool GetActive() { return isActive; }
 
     public virtual void Init()
     {

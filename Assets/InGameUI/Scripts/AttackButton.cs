@@ -7,6 +7,13 @@ using UnityEngine;
 // 버튼 Down, Up 이벤트에 맞춰서 함수 실행.
 public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
+    [SerializeField]
+    private Image image;
+    [SerializeField]
+    private Sprite attackSprite;
+    [SerializeField]
+    private Sprite interactSprite;
+    private CustomObject interactiveObject;
     private Player player; 
 
     private bool isAttackTouchDown; // true or false
@@ -16,7 +23,6 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     {
         this.player = player;
     }
-
     void Awake()
     {
         isAttackTouchDown = false;
@@ -30,6 +36,22 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
             //Debug.Log("버튼 다운으로 인한 공격 시도");
             player.GetWeaponManager().AttackButtonDown();
         }
+        else
+        {
+            interactiveObject = player.Interact();
+            if (interactiveObject == null)
+            {
+                ChangeImage(attackSprite);
+            }
+            else
+            {
+                ChangeImage(interactSprite);
+            }
+        }
+    }
+    void ChangeImage(Sprite sprite)
+    {
+        image.sprite = sprite;
     }
     // 터치 했을 때
     public void OnPointerDown(PointerEventData ped)
@@ -39,8 +61,14 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
         // 차징 공격 : 차징 중
         //isAttackTouchDown = true;
         //Debug.Log("공격 버튼 다운");
-        if (!player.Interact())
+        if (interactiveObject != null)
+        {
+            interactiveObject.Active();
+        }
+        else
+        {
             isAttackTouchDown = true;
+        }
     }
 
     // 땠을 때
