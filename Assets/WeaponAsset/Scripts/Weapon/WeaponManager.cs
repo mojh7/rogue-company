@@ -212,6 +212,7 @@ public class WeaponManager : MonoBehaviour {
             {
                 if (equipAllWeapons)
                 {
+                    // Debug.Log("a");
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
                     
@@ -225,6 +226,7 @@ public class WeaponManager : MonoBehaviour {
                 }
                 else
                 {
+                    // Debug.Log("b");
                     weaponCountMax = 3;
                     weaponCount = 2;
                     
@@ -242,19 +244,22 @@ public class WeaponManager : MonoBehaviour {
             // 저장된 데이터를 로드한 게임 일 때
             else
             {
+                
                 int[] weaponIds = GameDataManager.Instance.GetWeaponIds();
                 int[] weaponAmmos = GameDataManager.Instance.GetWeaponAmmos();
 
+                
                 weaponCountMax = weaponIds.Length;
+                Debug.Log("무기 로드 weaponCountMax : " + weaponCountMax);
                 weaponCount = 0;
-
-                Debug.Log(weaponCountMax);
 
                 for (int i = 0; i < weaponCountMax; i++)
                 {
                     if(weaponIds[i] >= 0)
                     {
+                        // Debug.Log("i : " + i + ", id : " + weaponIds[i] + ", ammo : " + weaponAmmos[i]);
                         weapon = ObjectPoolManager.Instance.CreateWeapon(weaponIds[i]) as Weapon;
+                        // Debug.Log("weapon obj Name : " + weapon.name + ", " + weapon.transform.parent.name);
                         equipWeaponSlot.Add(weapon);
                         weapon.ObjTransform.SetParent(registerPoint, false);
                         weapon.RegisterWeapon(this);
@@ -263,6 +268,7 @@ public class WeaponManager : MonoBehaviour {
                         // Debug.Log("weapon count : " + weaponCount + " Load : " + weaponIds[i]);
                     }
                 }
+                Debug.Log("무기 로드 완료 weaponCount : " + weaponCount);
                 GameStateManager.Instance.SetLoadsGameData(false);
             }
 
@@ -378,21 +384,23 @@ public class WeaponManager : MonoBehaviour {
         return true;
     }
 
+    /*
     public void RemoveWeapons()
     {
         for(int i = 0; i < weaponCount; i++)
         {
-            // Debug.Log("z : " + ObjectPoolManager.Instance.tempObj);
             equipWeaponSlot[i].transform.position = Vector3.zero;
             equipWeaponSlot[i].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             equipWeaponSlot[i].transform.SetParent(ObjectPoolManager.Instance.GetWeaponsTrasnform());
             ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
         }
     }
+    */
 
     //0603 유성
     public void EquipWeapon(WeaponInfo weaponInfo)
     {
+        Debug.Log(weaponInfo.name);
         Weapon weapon = ObjectPoolManager.Instance.CreateWeapon();
         weapon.Init(weaponInfo, ownerType);
         equipWeaponSlot.Add(weapon);

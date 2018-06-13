@@ -20,6 +20,8 @@ public class MemoryPool : IEnumerable, System.IDisposable
     private Object originalObj;
     private Transform parent;
 
+    private string baseName;
+
     //-------------------------------------------------------------------------------------
     // 아이템 클래스
     //-------------------------------------------------------------------------------------
@@ -34,9 +36,9 @@ public class MemoryPool : IEnumerable, System.IDisposable
     // 생성자
     //------------------------------------------------------------------------------------
     public MemoryPool() { }
-    public MemoryPool(Object original, int count, Transform parent)
+    public MemoryPool(Object original, int count, Transform parent, string baseName)
     {
-        Create(original, count, parent);
+        Create(original, count, parent, baseName);
     }
     //------------------------------------------------------------------------------------
     // 열거자 기본 재정의
@@ -58,17 +60,19 @@ public class MemoryPool : IEnumerable, System.IDisposable
     // original : 미리 생성해 둘 원본소스
     // count : 풀 최고 갯수
     //-------------------------------------------------------------------------------------
-    public void Create(Object original, int count, Transform parent)
+    public void Create(Object original, int count, Transform parent, string baseName)
     {
         Dispose();
         originalObj = original;
         totalCount = count;
+        this.baseName = baseName;
         table = new List<Item>();
         for (int i = 0; i < totalCount; i++)
         {
             Item item = new Item();
             item.active = false;
             item.gameObject = GameObject.Instantiate(original) as GameObject;
+            item.gameObject.name = baseName + i;
             item.gameObject.transform.SetParent(parent);
             //item.gameObject.hideFlags = HideFlags.HideInHierarchy;
             item.gameObject.SetActive(false);
@@ -97,14 +101,15 @@ public class MemoryPool : IEnumerable, System.IDisposable
         }
 
         // 쉬고 있는 객체가 없으면 추가 생성 후 반환
-        totalCount += 1;
         item = new Item();
         item.active = true;
         item.gameObject = GameObject.Instantiate(originalObj) as GameObject;
+        item.gameObject.name = baseName + totalCount;
         item.gameObject.transform.SetParent(parent);
         //item.gameObject.hideFlags = HideFlags.HideInHierarchy;
         item.gameObject.SetActive(true);
         table.Add(item);
+        totalCount += 1;
         return item.gameObject;
     }
     //--------------------------------------------------------------------------------------
@@ -141,6 +146,11 @@ public class MemoryPool : IEnumerable, System.IDisposable
             Item item = table[i];
             if (item != null && item.active)
             {
+                item.gameObject.transform.position = Vector3.zero;
+                item.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                // Debug.Log("회수 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
+                item.gameObject.transform.SetParent(parent);
+                // Debug.Log("회수2 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
                 item.active = false;
                 item.gameObject.SetActive(false);
             }

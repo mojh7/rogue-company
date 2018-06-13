@@ -24,20 +24,17 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     #region Func
     public void GoUpFloor()
     {
-        
         GameDataManager.Instance.SetFloor();
         GameDataManager.Instance.Savedata();
+        ObjectPoolManager.Instance.ClearWeapon();
+        ObjectPoolManager.Instance.ClearBullet();
         ItemManager.Instance.DeleteObjs();
 
-        // 0530 모장현
         GameDataManager.Instance.LoadData();
         GameStateManager.Instance.SetLoadsGameData(true);
         PlayerManager.Instance.DeletePlayer();
-
-        ObjectPoolManager.Instance.ClearWeapon();
-        ObjectPoolManager.Instance.ClearBullet();
+        
         // ObjectPoolManager.Instance.ClearEffect();
-
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
         SpawnPlayer();
         DrawUI();
