@@ -253,6 +253,7 @@ public class Player : Character
 
     public void InitPlayerData(PlayerData playerData)
     {
+        Debug.Log("InitPlayerData hp : " + playerData.Hp);
         this.playerData = playerData;
         playerHpUi.UpdateHPUI(playerData.Hp);
     }

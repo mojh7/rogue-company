@@ -269,7 +269,6 @@ public class WeaponManager : MonoBehaviour {
                     }
                 }
                 Debug.Log("무기 로드 완료 weaponCount : " + weaponCount);
-                GameStateManager.Instance.SetLoadsGameData(false);
             }
 
             saveDataLength = weaponCountMax;

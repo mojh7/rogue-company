@@ -56,6 +56,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         ObjectSetAvailable();
         FindCurrentRoom();
+        Debug.Log("무기를 만들어보자");
         Item item = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10));
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
         if (currentRoom.eRoomType == RoomType.BOSS)

@@ -26,7 +26,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public void SetCoin() { m_coin++; ShowUI(); }
     public void SetFloor() { m_floor++; }
     public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
-    // public void SetPlayerData(PlayerData _playerData) { playerData = _playerData; }
     #endregion
 
     #region getter
@@ -68,6 +67,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         // 0611 모장현
         // gameData.SetPlayerData(PlayerManager.Instance.GetPlayer().PlayerData);
         gameData.SetHp(PlayerManager.Instance.GetPlayer().PlayerData.Hp);
+        Debug.Log("save hp : " + gameData.GetHp());
 
         BinarySerialize(gameData);
     }
@@ -85,8 +85,9 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             //Debug.Log(gameData.GetWeaponIds()[0]);
             // 0611 모장현
             // this.playerData = gameData.GetPlayerData();
-            playerData = playerDatas[(int)m_playerType];
+            playerData = playerDatas[(int)m_playerType].Clone();
             playerData.Hp = gameData.GetHp();
+            Debug.Log("load hp : " + gameData.GetHp());
 
             return true;
         }

@@ -167,6 +167,11 @@ public class Weapon : Item {
             }
             else if(info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
             {
+                if(info.ammo <= 0 && info.ammoCapacity >= 0)
+                {
+                    Debug.Log("총알 부족으로 인한 차징 공격 실패");
+                    return;
+                }
                 weaponState = WeaponState.Charge;
                 // 차징 코루틴 실행
                 if (chargingUpdate == null)

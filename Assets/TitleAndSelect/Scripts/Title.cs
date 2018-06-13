@@ -13,6 +13,7 @@ public class Title : MonoBehaviour {
             RestartButton.SetActive(true);
     }
 
+    // start
     public void LoadSelect()
     {
         GameStateManager.Instance.SetLoadsGameData(false);
@@ -20,6 +21,7 @@ public class Title : MonoBehaviour {
         GameStateManager.Instance.LoadSelect();
     }
 
+    // restart
     public void LoadInGame()
     {
         GameStateManager.Instance.SetLoadsGameData(true);
