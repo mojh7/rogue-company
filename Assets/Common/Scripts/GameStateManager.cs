@@ -10,6 +10,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
 
     // 0531
     private bool loadsGameData = false;
+
     public bool GetLoadsGameData() { return loadsGameData; }
     public void SetLoadsGameData(bool _loadsGameData) { loadsGameData = _loadsGameData; }
 

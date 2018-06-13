@@ -35,7 +35,7 @@ using UnityEngine;
 
 // 버프 류 생성 및 삭제할 때만 버프 내용 업데이트
 // 사용되는 무기, 총알 쪽에서는 정보만 받아오기
-public class BuffManager
+public class BuffManager : MonoBehaviourSingleton<BuffManager>
 {
     #region variables
     private List<WeaponBuff> weaponBuffList;
