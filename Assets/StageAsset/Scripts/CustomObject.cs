@@ -387,7 +387,10 @@ public class ItemBox : CustomObject
 
     public void DestroySelf()
     {
-        Destroy(item);
+        if (typeof(Weapon) != item.GetType())
+        {
+            Destroy(item.gameObject);
+        }
         Destroy(gameObject);
     }
 }
