@@ -220,8 +220,4 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         return currentRoom;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawCube(new Vector3(currentRoom.x, currentRoom.midY, 0), new Vector3(currentRoom.width, currentRoom.height, 0));
-    }
 }
