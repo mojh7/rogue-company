@@ -38,19 +38,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
         m_playerObj = Instantiate(playerPrefab,RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
         m_player = m_playerObj.GetComponent<Player>();
         m_player.Init();
-        // Debug.Log("로드게임인지 ? " + GameStateManager.Instance.GetLoadsGameData());
-        // 저장된 데이터 없이 새로운 게임을 시작할 때
-        if (false == GameStateManager.Instance.GetLoadsGameData())
-        {
-            m_player.InitPlayerData(GameDataManager.Instance.GetPlayerData(Player.PlayerType.SOCCER));
-        }
-        // 저장된 데이터를 로드한 상태일 때
-        else
-        {
-            m_player.InitPlayerData(GameDataManager.Instance.GetPlayerData());
-        }
-
-        GameStateManager.Instance.SetLoadsGameData(false);
+        m_player.InitPlayerData(GameDataManager.Instance.GetPlayerData(Player.PlayerType.SOCCER));
         RoomManager.Instance.FindCurrentRoom(); // 플레이어 방찾기.
     }
     #endregion

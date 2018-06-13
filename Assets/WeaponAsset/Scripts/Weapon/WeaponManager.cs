@@ -206,7 +206,7 @@ public class WeaponManager : MonoBehaviour {
             equipWeaponSlot = new List<Weapon>();
             currentWeaponIndex = 0;
 
-            // Debug.Log("weaponManager Init : " + GameStateManager.Instance.GetLoadsGameData());
+            //Debug.Log("load Game : " + GameStateManager.Instance.GetLoadsGameData());
             // 로드 게임이 아닐 때 디버그용 무기 셋팅
             if (false == GameStateManager.Instance.GetLoadsGameData())
             {
@@ -248,7 +248,7 @@ public class WeaponManager : MonoBehaviour {
                 weaponCountMax = weaponIds.Length;
                 weaponCount = 0;
 
-                Debug.Log("weaponCountMax : " + weaponCountMax);
+                Debug.Log(weaponCountMax);
 
                 for (int i = 0; i < weaponCountMax; i++)
                 {
@@ -263,7 +263,9 @@ public class WeaponManager : MonoBehaviour {
                         // Debug.Log("weapon count : " + weaponCount + " Load : " + weaponIds[i]);
                     }
                 }
+                GameStateManager.Instance.SetLoadsGameData(false);
             }
+
             saveDataLength = weaponCountMax;
         }
         UpdateCurrentWeapon();

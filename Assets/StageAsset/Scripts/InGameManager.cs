@@ -28,11 +28,11 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         GameDataManager.Instance.SetFloor();
         GameDataManager.Instance.Savedata();
         ItemManager.Instance.DeleteObjs();
-        PlayerManager.Instance.DeletePlayer();
 
         // 0530 모장현
         GameDataManager.Instance.LoadData();
         GameStateManager.Instance.SetLoadsGameData(true);
+        PlayerManager.Instance.DeletePlayer();
 
         ObjectPoolManager.Instance.ClearWeapon();
         ObjectPoolManager.Instance.ClearBullet();

@@ -66,7 +66,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());
         gameData.SetWeaponAmmos(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponAmmos());
         // 0611 모장현
-        Debug.Log("save hp : " + PlayerManager.Instance.GetPlayer().PlayerData.Hp);
+        // gameData.SetPlayerData(PlayerManager.Instance.GetPlayer().PlayerData);
         gameData.SetHp(PlayerManager.Instance.GetPlayer().PlayerData.Hp);
 
         BinarySerialize(gameData);
@@ -85,8 +85,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             //Debug.Log(gameData.GetWeaponIds()[0]);
             // 0611 모장현
             // this.playerData = gameData.GetPlayerData();
-            playerData = playerDatas[(int)m_playerType].Clone();
-            Debug.Log("load hp: " + gameData.GetHp());
+            playerData = playerDatas[(int)m_playerType];
             playerData.Hp = gameData.GetHp();
 
             return true;
@@ -105,7 +104,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             m_floor = 1;
             m_coin = 0;
             m_playerType = Player.PlayerType.SOCCER;
-            //playerData.Hp = playerDatas[0].Hp;
+            playerData.Hp = playerDatas[0].Hp;
             playerData = null;
         }
     }

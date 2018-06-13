@@ -27,12 +27,27 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 
 
     [Header("디버그용, 배경음악 안 듣고 싶을 때 꺼주세요")]
-    public bool canplayMusic;
+    public bool playMusic;
+    [Header("디버그용, 배경음악 재생 번호")]
+    public int playMusicId;
 
     void Awake()
     {
         musicController = GetComponentInChildren<MusicController>();
         soundController = GetComponentInChildren<SoundController>();
+    }
+
+
+    void Start()
+    {
+        // for test
+        if (playMusic)
+        {
+            if (playMusicId == -1)
+                PlayMusic(Random.Range(0, 3));
+            else
+                PlayMusic(playMusicId);
+        }
     }
 
     /*
@@ -96,14 +111,14 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 
     public void PlayMusic()
     {
-        if (false == canplayMusic)
+        if (false == playMusic)
             return;
         musicController.Play();
     }
 
     public void PlayMusic(int clipindex, bool ignoresame = false)
     {
-        if (false == canplayMusic)
+        if (false == playMusic)
             return;
         musicController.Play(clipindex, ignoresame);
     }

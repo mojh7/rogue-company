@@ -235,14 +235,24 @@ public class Player : Character
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
         
+
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, OwnerType.Player);
     }
 
     public void InitPlayerData(PlayerData playerData)
     {
-        Debug.Log("InitPlayer hp : " + playerData.Hp + ", speed : " + playerData.MoveSpeed);
-        this.playerData = playerData;
+        // 저장된 데이터 없이 새로운 게임을 시작할 때
+        if(false == GameStateManager.Instance.GetLoadsGameData())
+        {
+            this.playerData = playerData;
+            Debug.Log(playerData.Hp + ", " + playerData.MoveSpeed);
+        }
+        // 저장된 데이터를 로드한 상태일 때
+        else
+        {
+            this.PlayerData = GameDataManager.Instance.GetPlayerData();
+        }
         playerHpUi.UpdateHPUI(playerData.Hp);
     }
 
