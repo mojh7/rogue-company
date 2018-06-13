@@ -8,8 +8,8 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
     public GameObject playerPrefab;
     GameObject m_playerObj;
     Player m_player;
+    public PlayerData[] playerDatas;
 
-    
     #endregion
 
     #region getter
