@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 58181692312182348}
   m_Layer: 0
   m_Name: InteractObj
-  m_TagString: Untagged
+  m_TagString: Interactor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

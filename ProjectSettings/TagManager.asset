@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Bullet
   - PlayerBlockBullet
+  - Interactor
   layers:
   - Default
   - TransparentFX
