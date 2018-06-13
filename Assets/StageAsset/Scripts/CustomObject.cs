@@ -462,7 +462,13 @@ public class ItemContainer : CustomObject
 
     public void DestroySelf()
     {
-        Destroy(innerObject.gameObject);
+        // Debug.Log("inner Type : " + innerObject.GetType());
+        // destroy말고 오브젝트 풀에서 회수 처리 일괄적으로 하는 것 더 생길 수 있겠지만
+        // 일단 무기만 적용, 무기가 아닌 거(코인)이면 destroy
+        if (typeof(Weapon) != innerObject.GetType())
+        {
+            Destroy(innerObject.gameObject);
+        }   
         Destroy(gameObject);
     }
 }

@@ -49,9 +49,9 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         // 오브젝트 풀 초기화
 
         // weapon 오브젝트풀 초기화
-        weaponPool = new MemoryPool(weaponPrefab, initWeaponNumMax, weaponsTrasnform);
+        weaponPool = new MemoryPool(weaponPrefab, initWeaponNumMax, weaponsTrasnform, "Weapon_");
         // bullet 오브젝트풀 초기화
-        bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax, bulletsTrasnform);
+        bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax, bulletsTrasnform, "Bullet_");
         // effect 오브젝트풀 초기화
         //effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
     }

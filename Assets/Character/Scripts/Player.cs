@@ -166,9 +166,20 @@ public class Player : Character
     bool canAutoAim = false;
     bool updateAutoAim = true;
 
+    // bool e = false;
     // Update is called once per frame
     void Update()
     {
+        /*
+        if(false == e && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("무기 장착");
+            e = true;
+            // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
+            weaponManager.Init(this, OwnerType.Player);
+        }
+        */
+
         /*
         // for debug
         if (canAutoAim == false)
@@ -234,25 +245,15 @@ public class Player : Character
         weaponSwitchButton.SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
-        
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, OwnerType.Player);
+
     }
 
     public void InitPlayerData(PlayerData playerData)
     {
-        // 저장된 데이터 없이 새로운 게임을 시작할 때
-        if(false == GameStateManager.Instance.GetLoadsGameData())
-        {
-            this.playerData = playerData;
-            Debug.Log(playerData.Hp + ", " + playerData.MoveSpeed);
-        }
-        // 저장된 데이터를 로드한 상태일 때
-        else
-        {
-            this.PlayerData = GameDataManager.Instance.GetPlayerData();
-        }
+        this.playerData = playerData;
         playerHpUi.UpdateHPUI(playerData.Hp);
     }
 

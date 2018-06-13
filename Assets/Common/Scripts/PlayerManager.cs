@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
     #region function
     public void DeletePlayer()
     {
-        m_player.GetWeaponManager().RemoveWeapons();
+        // m_player.GetWeaponManager().RemoveWeapons();
         Destroy(m_playerObj);
     }
 
