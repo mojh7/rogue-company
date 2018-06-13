@@ -405,6 +405,7 @@ public class ItemContainer : CustomObject
         isAvailable = true;
         objectType = ObjectType.NONE;
         gameObject.tag = "Untagged";
+        gameObject.layer = 0;
     }
 
     public void Init(Item _item)

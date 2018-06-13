@@ -1036,6 +1036,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1354007718219498, guid: b3fa8ade24eb94d4eacb8af79383dd2e,
     type: 2}
+  playerDatas:
+  - {fileID: 11400000, guid: 1d509782ae3783f4b8b0e7b49a615d12, type: 2}
 --- !u!4 &307469664
 Transform:
   m_ObjectHideFlags: 0
@@ -5734,6 +5736,10 @@ Prefab:
         type: 2}
       propertyPath: ShapeModule.radius.value
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165641018333586, guid: e15731d6d5196474ca6960a239c0153a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e15731d6d5196474ca6960a239c0153a, type: 2}

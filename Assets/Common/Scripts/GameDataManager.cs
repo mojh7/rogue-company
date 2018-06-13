@@ -36,6 +36,12 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public PlayerData GetPlayerData() { return playerData; }
     public PlayerData GetPlayerData(Player.PlayerType playerType)
     {
+        // temp
+        if(playerDatas == null)
+        {
+            playerDatas = PlayerManager.Instance.playerDatas;
+        }
+        //temp
         return playerDatas[(int)playerType].Clone();
     }
     // 0531 모장현

@@ -298,7 +298,7 @@ namespace Map
                     }
                     else
                     {
-                        block.isRoom = true;
+                        block.IsRoom();
                         rooms.Add(block);
                     }
                 }
@@ -730,8 +730,8 @@ namespace Map
             midX = x + (float)width / 2;
             midY = y + (float)height / 2;
             size = _size;
-            areaLeftDown = new Vector2(x * size + 1, y * size);
-            areaRightTop = new Vector2((x + width) * size, (y + height) * size - 1);
+            areaLeftDown = new Vector2(x * size + 0.5f, y * size - 0.5f);
+            areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size - 0.5f);
             visited = false;
             downExist = false;
             isClear = false;
@@ -739,6 +739,13 @@ namespace Map
             linkedEdgeRect = new List<Rect>();
             doorObjects = new List<GameObject>();
             availableAreas = new List<Vector3>();
+        }
+
+        public void IsRoom()
+        {
+            isRoom = true;
+            areaLeftDown = new Vector2(x * size + 0.6875f, y * size);
+            areaRightTop = new Vector2((x + width) * size + 0.3125f, (y + height) * size - 1);
         }
 
         public Vector3 GetAvailableArea()
