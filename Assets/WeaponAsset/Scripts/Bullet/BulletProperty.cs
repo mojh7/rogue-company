@@ -565,7 +565,6 @@ public class LaserUpdateProperty : UpdateProperty
     {
         base.Init(bullet);
 
-
         delCollisionBullet = bullet.CollisionBullet;
 
         ownerDirVec = bullet.GetOwnerDirVec();
@@ -574,8 +573,7 @@ public class LaserUpdateProperty : UpdateProperty
         lineRenderer = bullet.GetLineRenderer();
         pos = new Vector3();
         // 일단 Player 레이저가 Enemy에게 적용 하는 것만
-        layerMask = 1 << LayerMask.NameToLayer("Wall");
-        layerMask |= 1 << LayerMask.NameToLayer("Enemy");
+        layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy"));
     }
 
     public override UpdateProperty Clone()
@@ -591,7 +589,8 @@ public class LaserUpdateProperty : UpdateProperty
         bullet.LaserStartPoint.position = pos;
         // 100f => 레이저에도 사정거리 개념을 넣게 된다면 이 부분 값을 변수로 처리할 예정이고 현재는 일단 raycast 체크 범위를 100f까지 함
         hit = Physics2D.Raycast(pos, ownerDirVec(), 100f, layerMask);
-        if (hit.collider != null && (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Enemy"))) 
+        // && (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Enemy")
+        if (hit.collider != null)
         {
             lineRenderer.SetPosition(0, pos);
             lineRenderer.SetPosition(1, hit.point);

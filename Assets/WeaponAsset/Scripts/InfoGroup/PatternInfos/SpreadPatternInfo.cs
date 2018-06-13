@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
+// 정면 무작위 산탄
+
 [CreateAssetMenu(fileName = "SpreadPatternInfo", menuName = "WeaponData/BulletPattern/SpreadPatternInfo", order = 3)]
 public class SpreadPatternInfo : ProjectilesPatternInfo
 {
