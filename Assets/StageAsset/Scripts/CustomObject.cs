@@ -121,7 +121,7 @@ public class BreakalbeBox : CustomObject
     //{
     //    base.Active();
     //    Debug.Log("BreakalbeBox");
-    //}
+    //} 
 }
 
 public class VendingMachine : CustomObject
@@ -137,36 +137,60 @@ public class VendingMachine : CustomObject
 
 public class PushBox : CustomObject
 {
+    Vector2 dir;
     public override void Init()
     {
         base.Init();
-        rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         isActive = false;
         isAvailable = true;
         objectType = ObjectType.PUSHBOX;
     }
+    public override void SetAvailable()
+    {
+        isAvailable = true;
+    }
     public override bool Active()
     {
-        base.Active();
-        Vector2 dir = transform.position - PlayerManager.Instance.GetPlayerPosition();
-        
-        rigidbody2D.AddForce(dir*1000);
-        StartCoroutine(CoroutinePushed());
+        isActive = true;
+        dir = transform.position - PlayerManager.Instance.GetPlayerPosition();
+        dir.Normalize();
+        rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        StartCoroutine(CoroutinePushed(dir));
 
         return true;
     }
 
-    IEnumerator CoroutinePushed()
+    IEnumerator CoroutinePushed(Vector2 direction)
     {
-        while (isActive)
+        float speed = 10;
+        rigidbody2D.velocity = speed * direction;
+        float time = 0.1f;
+        Vector2 start = rigidbody2D.velocity;
+        while (rigidbody2D.velocity.sqrMagnitude > 1)
         {
+            rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity, Vector2.zero, Time.deltaTime / time);
+            Debug.Log(rigidbody2D.velocity);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-            if (rigidbody2D.velocity.magnitude < 1f)
-            {
-                rigidbody2D.velocity = Vector2.zero;
-                isActive = false;
-            }
         }
+        StopMove();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && isActive)
+            Attack(collision);
+    }
+
+    void Attack(Collision2D collision)
+    {
+        collision.gameObject.GetComponent<Enemy>().Attacked(dir, transform.position, 1, 10, 0);
+        StopMove();
+    }
+
+    void StopMove()
+    {
+        rigidbody2D.bodyType = RigidbodyType2D.Static;
+        isActive = false;
     }
 }
 
