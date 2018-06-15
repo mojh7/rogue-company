@@ -23,7 +23,7 @@ MonoBehaviour:
   scaleX: 2
   scaleY: 2
   pierceCount: 1
-  bounceCount: 0
+  bounceCount: 1
   lifeTime: 1.7
   effectId: -1
   soundId: -1

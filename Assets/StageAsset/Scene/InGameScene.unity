@@ -240,48 +240,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 8504319}
---- !u!1001 &82481770
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 3.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -2.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4424549172871396, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &114434092
 GameObject:
   m_ObjectHideFlags: 0
@@ -3255,8 +3213,6 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
-<<<<<<< HEAD
-=======
 --- !u!1 &1085572949
 GameObject:
   m_ObjectHideFlags: 0
@@ -3463,7 +3419,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c31d1e7789c6b14e95e75a1051d7b25, type: 2}
   m_IsPrefabParent: 0
->>>>>>> ed5c142e149f38c5c172b96d31e412e51ef3f0c5
 --- !u!1 &1200268138
 GameObject:
   m_ObjectHideFlags: 0
