@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     Vector2 targetPos = Vector2.zero;
     Vector2 m_velocity = Vector2.zero;
     float m_shakeTime, m_shakeAmount;
-    float m_cameraDepth = -100;
+    float m_cameraDepth = -1;
     bool m_findPlayer = true;
 
     private void FixedUpdate()

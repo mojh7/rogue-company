@@ -31,6 +31,8 @@ struct RaycasthitEnemy
 public abstract class Character : MonoBehaviour
 {
     #region variables
+    [SerializeField]
+    protected new SpriteRenderer renderer;
     public CircleCollider2D interactiveCollider2D;
     public float moveSpeed;     // Character move Speed
 
@@ -113,7 +115,6 @@ public class Player : Character
     private RaycasthitEnemy raycasthitEnemyInfo;
     private int layerMask;  // autoAim을 위한 layerMask
 
-    [SerializeField] private new SpriteRenderer renderer;
     [SerializeField] private PlayerHPUI playerHpUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
     private PlayerData playerData;
@@ -220,7 +221,8 @@ public class Player : Character
             isRightDirection = false;
             scaleVector.x = -1f;
             spriteObjTransform.localScale = scaleVector;
-        }   
+        }
+        renderer.sortingOrder = (int)transform.position.y;
     }
 
     void FixedUpdate()

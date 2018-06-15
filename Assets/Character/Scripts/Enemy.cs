@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Character {
-    public new SpriteRenderer renderer;
-    
     public bool isKnockBack;
 
     EnemyData enemyData;
@@ -26,6 +24,7 @@ public class Enemy : Character {
     {
         AutoAim();
         weaponManager.AttackButtonDown();
+        renderer.sortingOrder = (int)transform.position.y;
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)

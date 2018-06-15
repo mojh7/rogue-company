@@ -11,14 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d30de9d67dc4d4eacfff97a027cc6b, type: 3}
   m_Name: 2x2 monster
   m_EditorClassIdentifier: 
-  x: 7
-  y: 0
+  x: 2
+  y: 2
   width: 2
   height: 2
   size: 5
   gage: 4
   objectDatas:
-  - position: {x: 2.5, y: 5.75, z: 5.75}
+  - position: {x: 2.5, y: 5.75}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -32,7 +32,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 7.25, z: 7.25}
+  - position: {x: 2.5, y: 7.25}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -46,7 +46,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 4.25, z: 4.25}
+  - position: {x: 2.5, y: 4.25}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -60,7 +60,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 2.5, y: 2.75, z: 2.75}
+  - position: {x: 2.5, y: 2.75}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -74,7 +74,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 5.5, y: 5.75, z: 5.75}
+  - position: {x: 5.5, y: 5.75}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -88,7 +88,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 5.5, y: 7.25, z: 7.25}
+  - position: {x: 5.5, y: 7.25}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -102,7 +102,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 5.5, y: 4.25, z: 4.25}
+  - position: {x: 5.5, y: 4.25}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -116,7 +116,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 5.5, y: 2.75, z: 2.75}
+  - position: {x: 5.5, y: 2.75}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -130,7 +130,7 @@ MonoBehaviour:
     - {fileID: 21300024, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     isActive: 0
     objectType: 1
-  - position: {x: 0, y: 0, z: 0}
+  - position: {x: 0, y: 0}
     sprites: []
     isActive: 0
     objectType: 6
