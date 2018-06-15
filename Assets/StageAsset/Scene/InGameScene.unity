@@ -1109,8 +1109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ec85af40f086d47b00fa372eff2309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMusic: 0
-  playMusicId: 0
+  canPlayMusic: 0
 --- !u!4 &363248425 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4105521756193266, guid: 20ca4d3b242002e459806221d87c8d6b,

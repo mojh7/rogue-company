@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
-
 // 아이템 적용 방법, 사용 방법에 따라서 구분됨.
 
 [System.Serializable]

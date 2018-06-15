@@ -14,6 +14,9 @@ using UnityEngine;
  * 아마 2번으로 할 듯
  */
 
+ // armor 쉴드 개념 있는 아이템들 있어서 아예 player 데미지 입는 공식
+ // 데미지 - 방어력으로 하고 저런 아이템 먹으면 방어력 수치 잠깐 올렸다가 내릴려고 함.
+
 [System.Serializable]
 [CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData")]
 public class PlayerData : ScriptableObject
@@ -34,6 +37,8 @@ public class PlayerData : ScriptableObject
     private float hunger;
     [SerializeField]
     private float hungerMax;
+    [SerializeField]
+    private float armor;
     [SerializeField]
     private float criticalChance;
 
@@ -56,63 +61,38 @@ public class PlayerData : ScriptableObject
 
     public float Hp
     {
-        get
-        {
-            return hp;
-        }
-        set
-        {
-            hp = value;
-        }
+        get { return hp; }
+        set { hp = value; }
     }
     public float MoveSpeed
     {
-        get
-        {
-            return moveSpeed;
-        }
-        set
-        {
-            moveSpeed = value;
-        }
+        get { return moveSpeed; }
+        set { moveSpeed = value; }
     }
     public float Hunger
     {
-        get
-        {
-            return hunger;
-        }
-        set
-        {
-            hunger = value;
-        }
+        get { return hunger; }
+        set { hunger = value; }
     }
-
-
     public float HungerMax
     {
-        get
-        {
-            return hungerMax;
-        }
+        get { return hungerMax; }
+        set { hungerMax = value; }
+    }
+
+    public float Armor
+    {
+        get { return armor; }
+        set { armor = value; }
     }
     public float CriticalChance
     {
-        get
-        {
-            return criticalChance;
-        }
-        set
-        {
-            criticalChance = value;
-        }
+        get { return criticalChance; }
+        set { criticalChance = value; }
     }
     public WeaponInfo[] StartingWeaponInfos
     {
-        get
-        {
-            return startingWeaponInfos;
-        }
+        get { return startingWeaponInfos; }
     }
 
     #endregion
@@ -127,6 +107,7 @@ public class PlayerData : ScriptableObject
         clonedInfo.moveSpeed = moveSpeed;
         clonedInfo.hunger = hunger;
         clonedInfo.hungerMax = hungerMax;
+        clonedInfo.armor = armor;
         clonedInfo.criticalChance = criticalChance;
         clonedInfo.startingWeaponInfos = startingWeaponInfos;
 

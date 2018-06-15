@@ -19,8 +19,8 @@ MonoBehaviour:
   attackAniType: 2
   touchMode: 1
   weaponType: 4
-  ammoCapacity: 2
-  ammo: 2
+  ammoCapacity: 7
+  ammo: 7
   bulletMoveSpeed: 8
   range: 4
   damage: 8

@@ -226,6 +226,14 @@ public class WeaponManager : MonoBehaviour {
                 }
                 else
                 {
+                    weaponCountMax = 3;
+                    weaponCount = 1;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(startWeaponId) as Weapon;
+                    equipWeaponSlot.Add(weapon);
+                    weapon.ObjTransform.SetParent(registerPoint, false);
+                    weapon.RegisterWeapon(this);
+
+                    /*
                     // Debug.Log("b");
                     weaponCountMax = 3;
                     weaponCount = 2;
@@ -239,6 +247,7 @@ public class WeaponManager : MonoBehaviour {
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
+                    */
                 }
             }
             // 저장된 데이터를 로드한 게임 일 때

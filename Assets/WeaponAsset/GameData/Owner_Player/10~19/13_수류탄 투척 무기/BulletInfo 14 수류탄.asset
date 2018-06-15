@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Name: "BulletInfo 14 \uC218\uB958\uD0C4"
   m_EditorClassIdentifier: 
   memo: "\uC218\uB958\uD0C4\n\uBB34\uAE3013, \uBA40\uD2F0 11"
-  ownerType: 0
   bulletName: 
   damage: 0
   knockBack: 0
-  criticalRate: 0
+  criticalChance: 0
   speed: 12
   acceleration: -10
   deltaSpeedTotalLimit: 12
@@ -24,7 +23,7 @@ MonoBehaviour:
   scaleX: 2
   scaleY: 2
   pierceCount: 1
-  bounceCount: 0
+  bounceCount: 1
   lifeTime: 1.7
   effectId: -1
   soundId: -1
@@ -38,7 +37,7 @@ MonoBehaviour:
   deleteAfterSummonBulletInfo: {fileID: 11400000, guid: fbd0779e55945db489784f81d255abf5,
     type: 2}
   deleteAfterSummonPatternInfo: {fileID: 0}
-  bounceAble: 0
+  bounceAble: 1
   bulletBlockAble: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 01000000
