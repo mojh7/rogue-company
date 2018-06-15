@@ -389,7 +389,7 @@ MonoBehaviour:
   weaponCountMax: 3
   registerPoint: {fileID: 4425038906070500}
   chargeGauge: {fileID: 114540869918100208}
-  equipAllWeapons: 0
+  equipAllWeapons: 1
   startWeaponId: 13
 --- !u!114 &114209391037703390
 MonoBehaviour:
@@ -402,6 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088610d1677bb8640a4e48f4c65c8915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 212429882799322652}
   interactiveCollider2D: {fileID: 58181692312182348}
   moveSpeed: 5
   hp: 0
@@ -410,7 +411,6 @@ MonoBehaviour:
   spriteObjTransform: {fileID: 4593660546547358}
   controller:
     joystick: {fileID: 0}
-  renderer: {fileID: 212429882799322652}
   playerHpUi: {fileID: 0}
   weaponSwitchButton: {fileID: 0}
 --- !u!114 &114540869918100208

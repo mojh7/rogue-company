@@ -8,7 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class EffectApplyType
 {
-    protected List<ItemUseEffect> itemUseEffects;
+    protected ItemUseEffect itemUseEffect;
     protected int itemUseEffectsLength;
 
     protected bool removable;
@@ -21,6 +21,7 @@ public class ConsumableType : EffectApplyType
 {
     public override void UseItem()
     {
+        PlayerManager.Instance.GetPlayer().ApplyItemEffect(itemUseEffect as PlayerTargetEffect);
         // Player singleton instance Player Info에 효과 적용 하고 아이템 바로 삭제
     }
 }

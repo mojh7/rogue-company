@@ -337,8 +337,7 @@ public class Player : Character
         else return false;
     }
 
-    
-
+    // player 에임 조정, 몬스터 자동 조준 or 조이스틱 방향 
     public void SetAim()
     {       
         int enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
@@ -408,21 +407,24 @@ public class Player : Character
     // item Player 대상 효과 적용
     public void ApplyItemEffect(PlayerTargetEffect itemUseEffect)
     {
-        if (itemUseEffect.recoveryHp != 0)
+        // 주로 즉시 효과 볼 내용들이 적용되서 체력, 허기 회복 두개만 쓸 것 같음.
+
+        Debug.Log("소모품 아이템 플레이어 대상 효과 적용");
+        if (itemUseEffect.Info.recoveryHp != 0)
         {
-            playerData.Hp += itemUseEffect.recoveryHp;
+            playerData.Hp += itemUseEffect.Info.recoveryHp;
         }
-        if (itemUseEffect.recoveryHunger != 0)
+        if (itemUseEffect.Info.recoveryHunger != 0)
         {
-            playerData.Hunger += itemUseEffect.recoveryHunger;
+            playerData.Hunger += itemUseEffect.Info.recoveryHunger;
         }
-        if (itemUseEffect.moveSpeedIncreaseRate != 0)
+        if (itemUseEffect.Info.moveSpeedIncreaseRate != 0)
         {
-            playerData.MoveSpeed += itemUseEffect.moveSpeedIncreaseRate;
+            playerData.MoveSpeed += itemUseEffect.Info.moveSpeedIncreaseRate;
         }
-        if (itemUseEffect.criticalChanceIncreaseRate != 0)
+        if (itemUseEffect.Info.criticalChanceIncreaseRate != 0)
         {
-            playerData.CriticalChance += itemUseEffect.criticalChanceIncreaseRate;
+            playerData.CriticalChance += itemUseEffect.Info.criticalChanceIncreaseRate;
         }
     }
 
