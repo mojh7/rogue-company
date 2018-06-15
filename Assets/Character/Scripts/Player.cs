@@ -115,7 +115,6 @@ public class Player : Character
     private RaycasthitEnemy raycasthitEnemyInfo;
     private int layerMask;  // autoAim을 위한 layerMask
 
-    [SerializeField] private new SpriteRenderer renderer;
     [SerializeField] private PlayerHPUI playerHpUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
     private PlayerData playerData;

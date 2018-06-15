@@ -190,7 +190,7 @@ public class PushBox : CustomObject
     void StopMove()
     {
         rigidbody2D.bodyType = RigidbodyType2D.Static;
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
+        spriteRenderer.sortingOrder = (int)transform.position.y;
         isActive = false;
     }
 }
