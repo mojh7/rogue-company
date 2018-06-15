@@ -84,7 +84,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MainIntensity: 2
+    - _MainIntensity: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -98,7 +98,7 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _TintMapIntensity: 2
+    - _TintMapIntensity: 1
     - _UVSec: 0
     - _UseUIAlphaClip: 0
     - _ZWrite: 1

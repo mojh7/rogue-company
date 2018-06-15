@@ -471,7 +471,7 @@ public class ItemContainer : CustomObject
             bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
             if (check)
             {
-                DettachDestroy();
+                Destroy(gameObject);
                 return true;
             }
         }

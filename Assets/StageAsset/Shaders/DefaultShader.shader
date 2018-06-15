@@ -24,7 +24,7 @@
 			int boundary = 2;
 
 			gi.light.color.rgb *= 1.5;
-			gi.light.color.rgb = clamp(gi.light.color.rgb,0, 2) * 0;
+			gi.light.color.rgb = clamp(gi.light.color.rgb,0, 2) * 0.5;
 			float total = gi.light.color.r + gi.light.color.g + gi.light.color.b;
 			total /= 3;
 
