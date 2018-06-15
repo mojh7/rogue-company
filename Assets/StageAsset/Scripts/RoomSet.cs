@@ -34,12 +34,12 @@ public class RoomSet : ScriptableObject
 [System.Serializable]
 public struct ObjectData
 {
-    public Vector3 position;
+    public Vector2 position;
     public Sprite[] sprites;
     public bool isActive;
     public ObjectType objectType;
 
-    public ObjectData(Vector3 _position, ObjectType _objectType, Sprite[] _sprites)
+    public ObjectData(Vector2 _position, ObjectType _objectType, Sprite[] _sprites)
     {
         position = _position;
         sprites = _sprites;

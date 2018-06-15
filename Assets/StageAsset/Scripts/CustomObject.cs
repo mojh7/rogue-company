@@ -45,11 +45,12 @@ public class CustomObject : MonoBehaviour {
         }
         gameObject.tag = "Wall";
         gameObject.layer = 14;
+        spriteRenderer.sortingOrder = (int)transform.position.y;
     }
 
     public void SetPosition()
     {
-        position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
+        position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     public virtual void SetAvailable()
@@ -169,7 +170,6 @@ public class PushBox : CustomObject
         while (rigidbody2D.velocity.sqrMagnitude > 1)
         {
             rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity, Vector2.zero, Time.deltaTime / time);
-            Debug.Log(rigidbody2D.velocity);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
         StopMove();
@@ -183,13 +183,14 @@ public class PushBox : CustomObject
 
     void Attack(Collision2D collision)
     {
-        collision.gameObject.GetComponent<Enemy>().Attacked(dir, transform.position, 1, 10, 0);
+        collision.gameObject.GetComponent<Enemy>().Attacked(dir, transform.position, 1, 100, 0);
         StopMove();
     }
 
     void StopMove()
     {
         rigidbody2D.bodyType = RigidbodyType2D.Static;
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
         isActive = false;
     }
 }

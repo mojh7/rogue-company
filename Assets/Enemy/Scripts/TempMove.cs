@@ -34,7 +34,6 @@ public class TempMove : MonoBehaviour {
             scale.x = size;
             transform.localScale = scale;
         }
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
     }
     private void Start()
     {

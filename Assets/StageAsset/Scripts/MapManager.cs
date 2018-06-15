@@ -587,7 +587,8 @@ namespace Map
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1]);
             else
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
-            obj.transform.position = new Vector3(x, y, y - 0.5f);
+            //obj.transform.position = new Vector3(x, y, y - 0.5f);
+            obj.transform.position = new Vector3(x, y, 0);//temp
 
             return obj;
         } // Door Object 생성
@@ -641,7 +642,9 @@ namespace Map
                     && _roomSet.objectDatas[i].objectType != ObjectType.SPAWNER)
                     continue;
                 customObjects.Add(objectPool.GetPooledObject());
-                customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
+                //customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
+                customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, 0); //temp
+
                 _roomSet.objectDatas[i].LoadObject(customObjects[index]);
                 index++;
             }
@@ -674,9 +677,9 @@ namespace Map
         void CreateStartPoint()
         {
             if (halls[0].width > halls[0].height)
-                startPosition = new Vector3(halls[0].areaLeftDown.x + (halls[0].areaRightTop.x - halls[0].areaLeftDown.x) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
+                startPosition = new Vector3(halls[0].areaLeftDown.x + (halls[0].areaRightTop.x - halls[0].areaLeftDown.x) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2, 0);
             else
-                startPosition = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2);
+                startPosition = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, 0);
         } // 스타트 포인트
 
         void CreateRoomMaskObj()
@@ -713,7 +716,7 @@ namespace Map
         public List<Rect> linkedEdgeRect;
         public GameObject[] customObjects;
         public List<GameObject> doorObjects;
-        public List<Vector3> availableAreas;
+        public List<Vector2> availableAreas;
         public GameObject maskObject;
         public bool isRoom;
         public bool downExist;
@@ -738,7 +741,7 @@ namespace Map
             edgeRect = new List<Rect>();
             linkedEdgeRect = new List<Rect>();
             doorObjects = new List<GameObject>();
-            availableAreas = new List<Vector3>();
+            availableAreas = new List<Vector2>();
         }
 
         public void IsRoom()
