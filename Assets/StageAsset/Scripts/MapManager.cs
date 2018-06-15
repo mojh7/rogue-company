@@ -166,6 +166,8 @@ namespace Map
                     break;
             }
             TileManager.Instance.verticalWallRuleTile.DeleteNull();
+            TileManager.Instance.horizonWallRuleTile.DeleteNull();
+
         } // 맵 만들기 
 
         void DrawTile()
@@ -612,9 +614,8 @@ namespace Map
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1]);
             else
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
-            //obj.transform.position = new Vector3(x, y, y - 0.5f);
-            obj.transform.position = new Vector3(x, y, 0);//temp
-
+            obj.transform.position = new Vector2(x, y);
+            obj.GetComponent<SpriteRenderer>().sortingOrder = (int)y;
             return obj;
         } // Door Object 생성
 
@@ -667,7 +668,6 @@ namespace Map
                     && _roomSet.objectDatas[i].objectType != ObjectType.SPAWNER)
                     continue;
                 customObjects.Add(objectPool.GetPooledObject());
-                //customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
                 customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, 0); //temp
 
                 _roomSet.objectDatas[i].LoadObject(customObjects[index]);

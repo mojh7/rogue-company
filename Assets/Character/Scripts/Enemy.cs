@@ -79,7 +79,6 @@ public class Enemy : Character {
         GameObject coin = new GameObject();
         coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
         coin.AddComponent<Coin>();
-        coin.AddComponent<CircleCollider2D>().isTrigger = true;
         ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position);
     }
 

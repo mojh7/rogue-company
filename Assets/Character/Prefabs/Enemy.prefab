@@ -532,13 +532,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717b3646def7863468dee476300117c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 212546812185349730}
   interactiveCollider2D: {fileID: 58961062934300914}
   moveSpeed: 3
   hp: 10
   animator: {fileID: 95207714401442542}
   weaponManager: {fileID: 114111894182339084}
   spriteObjTransform: {fileID: 4987181072416540}
-  renderer: {fileID: 212546812185349730}
   isKnockBack: 0
 --- !u!114 &114825992070302146
 MonoBehaviour:
@@ -7483,7 +7483,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bd23799e5910e5541987c63760638f1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
