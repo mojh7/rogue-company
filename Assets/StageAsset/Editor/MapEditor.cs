@@ -201,7 +201,8 @@ public class MapEditor : EditorWindow
         }
 
         tilemap.ClearAllTiles();
-        RuleTile wall = TileManager.Instance.wallRuleTile;
+        RuleTile horizonWallRuleTile = TileManager.Instance.horizonWallRuleTile;
+        RuleTile verticalWallRuleTile = TileManager.Instance.verticalWallRuleTile;
 
         for (int i = 0; i < width * size; i++)
         {
@@ -211,7 +212,7 @@ public class MapEditor : EditorWindow
                 {
                     if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
                     {
-                        tilemap.SetTile(new Vector3Int(i, j, 0), wall);
+                        tilemap.SetTile(new Vector3Int(i, j, 0), horizonWallRuleTile);
                     }
                 }
             }
