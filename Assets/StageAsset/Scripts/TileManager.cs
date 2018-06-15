@@ -6,10 +6,12 @@ using UnityEngine.Tilemaps;
 public class TileManager : MonoBehaviourSingleton<TileManager> {
 
     public Tilemap floorTileMap;
-    public Tilemap wallTileMap;
+    public Tilemap verticalWallTileMap;
+    public Tilemap horizonWallTileMap;
     public Tilemap shadowTileMap;
 
     public RandomTile floorTile;
     public RuleTile shadowTile;
-    public RuleTile wallRuleTile;
+    public RuleTile verticalWallRuleTile;
+    public RuleTile horizonWallRuleTile;
 }
