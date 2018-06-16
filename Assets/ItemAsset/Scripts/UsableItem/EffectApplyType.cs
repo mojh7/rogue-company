@@ -21,8 +21,8 @@ public class ConsumableType : EffectApplyType
 {
     public override void UseItem()
     {
+        // Player 정보에 효과 적용 하고 아이템 바로 삭제
         PlayerManager.Instance.GetPlayer().ApplyItemEffect(itemUseEffect as PlayerTargetEffect);
-        // Player singleton instance Player Info에 효과 적용 하고 아이템 바로 삭제
     }
 }
 
@@ -34,7 +34,8 @@ public class BuffType : EffectApplyType
 
     public override void UseItem()
     {
-        // Player singleton instance get BuffManager register Buff Item, 일정 시간 지난 후 버프매니저에서 버프 아이템 효과 삭제
+        // buffManager에 등록
+        // BuffManager.Instance.RegisterItemEffect(itemUseEffect);
     }
 }
 

@@ -17,11 +17,11 @@ public class WeaponTargetEffectInfo : ItemUseEffect
     public float bulletRangeIncrease;      // 총알 사정 거리 증가율
     public float bulletSpeedIncrease;      // 총알 속력 증가율
 
-    public float chargeTimeIncrease;       // 차징 시간 증가율
+    public float chargeTimeReduction;      // 차징 시간 감소율
     public float chargeDamageIncrease;     // 차징 공격 데미지 증가율
 
     // 임시
-    public int shotgunBulletCountIncrease;      // 샷건류 총알 갯수 증가
+    public int shotgunBulletCountIncrease;      // 샷건류(spread pattern) 총알 갯수 증가
     #endregion
 
     /* 총알 속성 추가 해야 되는 것들

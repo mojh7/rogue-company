@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerTargetEffectInfo : ItemUseEffect
 {
     public float recoveryHp;
-    public float moveSpeedIncreaseRate;
     public float recoveryHunger;
-    public float criticalChanceIncreaseRate;
+    public float moveSpeedIncrease;
+    public float hungerMaxIncrease;
+    public float armorIncrease;
+    public float criticalChanceIncrease;
 }

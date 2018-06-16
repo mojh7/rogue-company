@@ -102,7 +102,6 @@ public class Player : Character
     public enum PlayerType { SOCCER, MUSIC, FISH, ARMY }
     //public Joystick joystick;
 
-
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
     private BuffManager buffManager;
@@ -118,6 +117,7 @@ public class Player : Character
     [SerializeField] private PlayerHPUI playerHpUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
     private PlayerData playerData;
+    private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
     #endregion
 
     #region property
@@ -247,7 +247,7 @@ public class Player : Character
         weaponSwitchButton.SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
-
+        // buffManager = BuffManager.Instance;
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, OwnerType.Player);
 
@@ -418,14 +418,10 @@ public class Player : Character
         {
             playerData.Hunger += itemUseEffect.Info.recoveryHunger;
         }
-        if (itemUseEffect.Info.moveSpeedIncreaseRate != 0)
-        {
-            playerData.MoveSpeed += itemUseEffect.Info.moveSpeedIncreaseRate;
-        }
-        if (itemUseEffect.Info.criticalChanceIncreaseRate != 0)
-        {
-            playerData.CriticalChance += itemUseEffect.Info.criticalChanceIncreaseRate;
-        }
+        /*
+        이런건 버프, 패시브 효과 쪽이 어울림
+        moveSpeedIncrease, hungerMaxIncrease, armorIncrease, criticalChanceIncrease
+        */
     }
 
     #endregion
