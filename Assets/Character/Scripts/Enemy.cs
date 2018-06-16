@@ -44,16 +44,16 @@ public class Enemy : Character {
     #endregion
     #region Func
     //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
-    public void Init(EnemyData enemyData)
-    {
-        pState = State.ALIVE;
-        hp = enemyData.HP;
-        moveSpeed = enemyData.Speed;
-        animator = enemyData.Animator;
-        weaponManager = GetComponentInChildren<WeaponManager>();
-        weaponManager.Init(this, OwnerType.Enemy);
-        weaponManager.EquipWeapon(enemyData.WeaponInfo);
-    }
+    //public void Init(EnemyData enemyData)
+    //{
+    //    pState = State.ALIVE;
+    //    hp = enemyData.HP;
+    //    moveSpeed = enemyData.Speed;
+    //    animator = enemyData.Animator;
+    //    weaponManager = GetComponentInChildren<WeaponManager>();
+    //    weaponManager.Init(this, OwnerType.Enemy);
+    //    weaponManager.EquipWeapon(enemyData.WeaponInfo);
+    //}
     public void Init(Sprite _sprite)
     {
         sprite = _sprite;
@@ -157,45 +157,4 @@ public class Enemy : Character {
         directionDegree = directionVector.GetDegFromVector();
     }
     #endregion
-}
-
-[CreateAssetMenu(fileName = "EnemyData", menuName = "EnemyData")]
-public class EnemyData : ScriptableObject
-{
-    [SerializeField]
-    private float hp;
-    [SerializeField]
-    private float moveSpeed;
-    [SerializeField]
-    private Animator animator;
-    [SerializeField]
-    private WeaponInfo weaponInfo;
-    public float HP
-    {
-        get
-        {
-            return hp;
-        }
-    }
-    public float Speed
-    {
-        get
-        {
-            return moveSpeed;
-        }
-    }
-    public Animator Animator
-    {
-        get
-        {
-            return animator;
-        }
-    }
-    public WeaponInfo WeaponInfo
-    {
-        get
-        {
-            return weaponInfo;
-        }
-    }
 }

@@ -76,7 +76,16 @@ public abstract class Character : MonoBehaviour
     public virtual Vector3 GetPosition() { return transform.position; }
     public virtual WeaponManager GetWeaponManager() { return weaponManager; }
     #endregion
-
+    #region Func
+    public bool IsDie()
+    {
+        if (State.DIE == pState)
+        {
+            return true;
+        }
+        return false;
+    }
+    #endregion
 
 
     // 0531 모장현 프로토 타입 용
