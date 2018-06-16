@@ -151,7 +151,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
                 break;
         }
         obj.GetComponent<TempMove>().Init();
-        enemy.Init(enemyData);
+        //enemy.Init(enemyData);
         enemyList.Add(enemy);
         obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         aliveEnemyTotal += 1;

@@ -431,6 +431,7 @@ public class ItemContainer : CustomObject
         GetComponent<PolygonCollider2D>().isTrigger = true;
         isActive = false;
         isAvailable = true;
+        isAnimate = true;
         objectType = ObjectType.NONE;
         gameObject.tag = "Untagged";
         gameObject.layer = 0;
@@ -441,11 +442,13 @@ public class ItemContainer : CustomObject
         Init();
         innerObject = _item;
         sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
+        ReAlign();
     }
 
-    public void ReAlign()
+    void ReAlign()
     {
-        innerObject.transform.position = transform.position;
+        innerObject.transform.parent = transform;
+        innerObject.transform.localPosition = Vector3.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -454,8 +457,8 @@ public class ItemContainer : CustomObject
         {
             if (innerObject as Weapon != null || !isAvailable)
                 return;
+            DettachDestroy();
             innerObject.GetComponent<Item>().Active();
-            Destroy(gameObject);
         }
     }
 
@@ -488,6 +491,13 @@ public class ItemContainer : CustomObject
         textMesh.text = "";
     }
 
+    void DettachDestroy()
+    {
+        if(innerObject != null)
+            innerObject.transform.parent = null;
+        Destroy(gameObject);
+    }
+
     public void DestroySelf()
     {
         // Debug.Log("inner Type : " + innerObject.GetType());
@@ -496,7 +506,7 @@ public class ItemContainer : CustomObject
         if (typeof(Weapon) != innerObject.GetType())
         {
             Destroy(innerObject.gameObject);
-        }   
-        Destroy(gameObject);
+        }
+        DettachDestroy();
     }
 }

@@ -8,7 +8,6 @@ namespace Map
     public class MapManager : MonoBehaviourSingleton<MapManager>
     {
         public ObjectPool objectPool;
-        public Material spriteMaterial;
         public GameObject maskPrefab;
         [Space(10)]
         [Header("variable")]
@@ -16,13 +15,6 @@ namespace Map
         public int height = 1, size = 3, area = 3;
         public float maxHallRate = 0.15f;
         Map map;
-        public void LightTurn()
-        {
-            if(spriteMaterial.color == Color.white)
-                spriteMaterial.color = Color.grey;
-            else
-                spriteMaterial.color = Color.white;
-        }
         public void GenerateMap(int _floor)
         {
             if (map != null)
@@ -34,8 +26,10 @@ namespace Map
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
             RoomManager.Instance.InitRoomList();
+            BakeMap();
         }
         public Map GetMap() { return map; }
+        void BakeMap() { AStar.TileGrid.Instance.Bake(); }
     }
 
     public class Map
@@ -166,6 +160,8 @@ namespace Map
                     break;
             }
             TileManager.Instance.verticalWallRuleTile.DeleteNull();
+            TileManager.Instance.horizonWallRuleTile.DeleteNull();
+
         } // 맵 만들기 
 
         void DrawTile()
@@ -612,9 +608,8 @@ namespace Map
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1]);
             else
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
-            //obj.transform.position = new Vector3(x, y, y - 0.5f);
-            obj.transform.position = new Vector3(x, y, 0);//temp
-
+            obj.transform.localPosition = new Vector2(x, y);
+            obj.GetComponent<SpriteRenderer>().sortingOrder = (int)y;
             return obj;
         } // Door Object 생성
 
@@ -667,8 +662,7 @@ namespace Map
                     && _roomSet.objectDatas[i].objectType != ObjectType.SPAWNER)
                     continue;
                 customObjects.Add(objectPool.GetPooledObject());
-                //customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, _roomSet.y * size + _roomSet.objectDatas[i].position.y);
-                customObjects[index].transform.position = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, 0); //temp
+                customObjects[index].transform.localPosition = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, 0); //temp
 
                 _roomSet.objectDatas[i].LoadObject(customObjects[index]);
                 index++;
@@ -772,8 +766,8 @@ namespace Map
         public void IsRoom()
         {
             isRoom = true;
-            areaLeftDown = new Vector2(x * size + 0.6875f, y * size);
-            areaRightTop = new Vector2((x + width) * size + 0.3125f, (y + height) * size - 1);
+            areaLeftDown = new Vector2(x * size + 0.6875f, y * size + 1);
+            areaRightTop = new Vector2((x + width) * size + 0.3125f, (y + height) * size);
         }
 
         public Vector3 GetAvailableArea()
@@ -804,7 +798,7 @@ namespace Map
 
         public void LoadMaskObject()
         {
-            maskObject.transform.localPosition = new Vector3(midX * size + 0.5f, midY * size - 0.5f, 0);
+            maskObject.transform.localPosition = new Vector3(midX * size + 0.5f, midY * size + 0.5f, 0);
             maskObject.transform.localScale = new Vector2(width * size * 2 + 0.6875f/* 11/32 * 2 */, height * size * 2 + 2);
         }
 

@@ -28,7 +28,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         }
     }
 
-    public void CallItemBox(Vector3 _position,Item _item)
+    public void CallItemBox(Vector2 _position,Item _item)
     {
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity);
 
@@ -36,7 +36,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         obj.AddComponent<ItemBox>();
         obj.GetComponent<ItemBox>().sprite = sprite;
         obj.GetComponent<ItemBox>().Init(_item);
-        obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, 100);
+        obj.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y);
     }
 
     public GameObject CreateItem(Item _item,Vector3 _position)
@@ -56,7 +56,6 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         float elapsed_time = 0;
         float sX = _object.transform.position.x;
         float sY = _object.transform.position.y;
-        float sZ = sY;
         float vX = _vector.x;
         float vY = _vector.y;
         while (true)
@@ -64,12 +63,11 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             elapsed_time += Time.deltaTime;
             float x = sX + vX * elapsed_time;
             float y = sY + vY * elapsed_time - (0.5f * g * elapsed_time * elapsed_time);
-            _object.transform.position = new Vector3(x,y,sZ);
+            _object.transform.position = new Vector2(x,y);
             if (_object.transform.position.y <= lowerLimit)
                 break;
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         _object.GetComponent<PolygonCollider2D>().enabled = true;
-        _object.GetComponent<ItemContainer>().ReAlign();
     }
 }
