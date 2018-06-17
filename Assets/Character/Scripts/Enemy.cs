@@ -24,7 +24,7 @@ public class Enemy : Character {
     {
         AutoAim();
         weaponManager.AttackButtonDown();
-        renderer.sortingOrder = (int)transform.position.y;
+        renderer.sortingOrder = -(int)transform.position.y;
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)

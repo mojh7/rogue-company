@@ -79,6 +79,10 @@ public class Weapon : Item {
         animator = GetComponent<Animator>();
         
     }
+    private void Update()
+    {
+        spriteRenderer.sortingOrder = -(int)transform.position.y;
+    }
     #endregion
     #region Function
 

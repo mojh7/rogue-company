@@ -32,13 +32,14 @@ namespace AStar
             width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
             grid = new Node[width, height];
+            Vector2 box = new Vector2(nodeDiameter, nodeDiameter);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     Vector3 worldPoint = Vector3.right * (x * nodeDiameter + nodeRadius)
                       + Vector3.up * (y * nodeDiameter + nodeRadius);
-                    bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask));
+                    bool walkable = !(Physics2D.OverlapBox(worldPoint, box, unwalkableMask));
                     grid[x, y] = new Node(walkable, worldPoint, x, y);
                 }
             }
