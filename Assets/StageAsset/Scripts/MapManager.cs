@@ -26,10 +26,8 @@ namespace Map
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
             RoomManager.Instance.InitRoomList();
-            BakeMap();
         }
         public Map GetMap() { return map; }
-        void BakeMap() { AStar.TileGrid.Instance.Bake(); }
     }
 
     public class Map
@@ -94,6 +92,7 @@ namespace Map
         public void Generate() 
         {
             CreateMap();
+            BakeMap();
             LinkAllRects();
             rooms.AddRange(halls);
             LinkRecursion(); // 보스 방을 제외한 방 연결
@@ -117,6 +116,8 @@ namespace Map
                 necessaryRoomSet.Add(_roomSet[i]);
             }
         } // 필수 방 세팅
+
+        void BakeMap() { AStar.TileGrid.Instance.Bake(); }
 
         void RefreshData()
         {
@@ -609,7 +610,7 @@ namespace Map
             else
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
             obj.transform.localPosition = new Vector2(x, y);
-            obj.GetComponent<SpriteRenderer>().sortingOrder = (int)y;
+            obj.GetComponent<SpriteRenderer>().sortingOrder = -(int)y;
             return obj;
         } // Door Object 생성
 

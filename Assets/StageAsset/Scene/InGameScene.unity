@@ -5242,7 +5242,7 @@ MonoBehaviour:
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 16384
-  nodeRadius: 0.2
+  nodeRadius: 0.25
 --- !u!114 &1789695045
 MonoBehaviour:
   m_ObjectHideFlags: 0

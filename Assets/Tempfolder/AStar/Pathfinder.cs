@@ -98,9 +98,10 @@ namespace AStar
             List<Vector2> waypoints = new List<Vector2>();
             Vector2 directionOld = Vector2.zero;
 
-            for (int i = 1; i < path.Count; i++)
+            int gap = 1;
+            for (int i = gap; i < path.Count; i++)
             {
-                Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
+                Vector2 directionNew = new Vector2(path[i - gap].gridX - path[i].gridX, path[i - gap].gridY - path[i].gridY);
                 if (directionNew != directionOld)
                 {
                     waypoints.Add(path[i].worldPos);

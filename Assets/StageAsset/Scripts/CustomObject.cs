@@ -45,7 +45,7 @@ public class CustomObject : MonoBehaviour {
         }
         gameObject.tag = "Wall";
         gameObject.layer = 14;
-        spriteRenderer.sortingOrder = (int)transform.position.y;
+        spriteRenderer.sortingOrder = -(int)transform.position.y;
     }
 
     public void SetPosition()
@@ -190,7 +190,7 @@ public class PushBox : CustomObject
     void StopMove()
     {
         rigidbody2D.bodyType = RigidbodyType2D.Static;
-        spriteRenderer.sortingOrder = (int)transform.position.y;
+        spriteRenderer.sortingOrder = -(int)transform.position.y;
         isActive = false;
     }
 }
