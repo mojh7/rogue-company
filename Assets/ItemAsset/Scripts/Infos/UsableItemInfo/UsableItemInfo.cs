@@ -22,12 +22,14 @@ public class UsableItemInfo : ScriptableObject
     protected int price;
 
     [SerializeField]
-    protected List<EffectApplyType> effectApplyTypes;
-    [SerializeField]
-    protected int effectApplyTypesLength;
-
+    protected EffectApplyType[] effectApplyTypes;
 
     // 이 두개 같은거 쓸 수도 있고 다른 것 쓸 수도 있음
     protected Sprite beforeActivedSprite;   // 사용 전 sprite로 아이템 박스에서 땅에 떨어져있는 상태에서의 sprite
     protected Sprite iconSprite;            // 버프 표시, 아이템 소유 표시 등 아이콘 모양의 sprite
+
+    public EffectApplyType[] EffectApplyTypes
+    {
+        get { return effectApplyTypes; }
+    }
 }

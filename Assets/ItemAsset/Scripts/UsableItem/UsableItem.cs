@@ -10,19 +10,19 @@ public enum Rating { NORATING, S, A, B, C, D, E }
 // info 클래스 따로 만들어서 scriptable 만들고 정보 관리
 
 // 사용할 수 있는 아이템들
-public abstract class UsableItem : Item {
-
+public abstract class UsableItem : Item
+{
+    private UsableItemInfo info;
     
-    /* virtual로 해야 될 듯?
-    protected override void Active()
+    public override void Active()
     {
         Debug.Log("UsableItem use");
-        for(int i = 0; i < effectApplyTypesLength; i++)
+        for(int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
-            effectApplyTypes[i].useItem();
+            info.EffectApplyTypes[i].UseItem();
         }
     }
-    */
+    
 }
 
 // 음식 아이템

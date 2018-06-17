@@ -58,7 +58,7 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
     {
         get { return playerTargetEffectTotal; }
     }
-    public  WeaponTargetEffect WeaponTargetEffectTotal
+    public WeaponTargetEffect WeaponTargetEffectTotal
     {
         get { return weaponTargetEffectTotal; }
     }
@@ -71,34 +71,72 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
         weaponTargetEffects = new List<WeaponTargetEffect>();
         playerTargetEffectsLength = 0;
         weaponTargetEffectsLength = 0;
-        playerTargetEffectTotal = new PlayerTargetEffect();
-        weaponTargetEffectTotal = new WeaponTargetEffect();
+        InitPlayerTargetEffectTotal();
+        InitWeaponTargetEffectTotal();
     }
+
     #endregion
 
     #region function
 
+    public void InitPlayerTargetEffectTotal()
+    {
+        playerTargetEffectTotal = new PlayerTargetEffect
+        {
+            hungerMaxIncrease = 1f,
+            moveSpeedIncrease = 1f,
+            criticalChanceIncrease = 1f,
+            armorIncrease = 0
+        };
+    }
+    
+
+    public void InitWeaponTargetEffectTotal()
+    {
+        weaponTargetEffectTotal = new WeaponTargetEffect
+        {
+            cooldownReduction = 1f,
+            damageIncrease = 1f,
+            knockBackIncrease = 1f,
+            bulletScaleIncrease = 1f,
+            bulletRangeIncrease = 1f,
+            bulletSpeedIncrease = 1f,
+            chargeTimeReduction = 1f,
+            chargeDamageIncrease = 1f,
+
+            ammoCapacityIncrease = 0,
+            shotgunBulletCountIncrease = 0
+        };
+    }
+
+
     // effectiveTime = 효과 적용시간 
     // default = -1 => 패시브
     // 0초과된 값 => 일정 시간 동안 효과 적용되는 버프 아이템
-    public void RegisterItemEffect(PlayerTargetEffect targetEffect, float effectiveTime = -1f)
+    public void RegisterItemEffect(ItemUseEffect itemUseEffect, float effectiveTime = -1f)
     {
-        playerTargetEffects.Add(targetEffect);
-        playerTargetEffectsLength += 1;
+        
+        if (typeof(PlayerTargetEffect) == itemUseEffect.GetType())
+        {
+            PlayerTargetEffect targetEffect = itemUseEffect as PlayerTargetEffect;
+            playerTargetEffects.Add(targetEffect);
+            playerTargetEffectsLength += 1;
 
-        UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
-        if (effectiveTime > 0)
-            StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
-    }
+            UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
+            if (effectiveTime > 0)
+                StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
+        }
+        else
+        {
+            WeaponTargetEffect targetEffect = itemUseEffect as WeaponTargetEffect;
+            weaponTargetEffects.Add(targetEffect);
+            weaponTargetEffectsLength += 1;
 
-    public void RegisterItemEffect(WeaponTargetEffect targetEffect, float effectiveTime = -1f)
-    {
-        weaponTargetEffects.Add(targetEffect);
-        weaponTargetEffectsLength += 1;
-
-        UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
-        if (effectiveTime > 0)
-            StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
+            UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
+            if (effectiveTime > 0)
+                StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
+        }
+        
     }
 
     // 버프 제거
@@ -126,12 +164,14 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
         else
             sign = -1;
 
-        // playerTargetEffectTotal.Info.recoveryHp += TargetEffect.Info.recoveryHp;
-        // playerTargetEffectTotal.Info.recoveryHunger += TargetEffect.info.recoveryHunger;
-        playerTargetEffectTotal.Info.moveSpeedIncrease += targetEffect.Info.moveSpeedIncrease * sign;
-        playerTargetEffectTotal.Info.hungerMaxIncrease += targetEffect.Info.hungerMaxIncrease * sign;
-        playerTargetEffectTotal.Info.armorIncrease += targetEffect.Info.armorIncrease * sign;
-        playerTargetEffectTotal.Info.criticalChanceIncrease += targetEffect.Info.criticalChanceIncrease * sign;
+        // playerTargetEffectTotal.recoveryHp += TargetEffect.recoveryHp;
+        // playerTargetEffectTotal.recoveryHunger += TargetEffect.recoveryHunger;
+        playerTargetEffectTotal.moveSpeedIncrease += targetEffect.moveSpeedIncrease * sign;
+        playerTargetEffectTotal.hungerMaxIncrease += targetEffect.hungerMaxIncrease * sign;
+        playerTargetEffectTotal.armorIncrease += targetEffect.armorIncrease * sign;
+        playerTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
+
+        PlayerManager.Instance.GetPlayer().UpdatePlayerData();
     }
 
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
@@ -142,19 +182,19 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
         else
             sign = -1;
 
-        weaponTargetEffectTotal.Info.cooldownReduction += targetEffect.Info.cooldownReduction * sign;
-        weaponTargetEffectTotal.Info.damageIncrease += targetEffect.Info.damageIncrease * sign;
-        weaponTargetEffectTotal.Info.criticalChanceIncrease += targetEffect.Info.criticalChanceIncrease * sign;
-        weaponTargetEffectTotal.Info.knockBackIncrease += targetEffect.Info.knockBackIncrease * sign;
-        weaponTargetEffectTotal.Info.ammoCapacityIncrease += targetEffect.Info.ammoCapacityIncrease * sign;
+        weaponTargetEffectTotal.cooldownReduction += targetEffect.cooldownReduction * sign;
+        weaponTargetEffectTotal.damageIncrease += targetEffect.damageIncrease * sign;
+        weaponTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
+        weaponTargetEffectTotal.knockBackIncrease += targetEffect.knockBackIncrease * sign;
+        weaponTargetEffectTotal.ammoCapacityIncrease += targetEffect.ammoCapacityIncrease * sign;
 
-        weaponTargetEffectTotal.Info.bulletScaleIncrease += targetEffect.Info.bulletScaleIncrease * sign;
-        weaponTargetEffectTotal.Info.bulletRangeIncrease += targetEffect.Info.bulletRangeIncrease * sign;
-        weaponTargetEffectTotal.Info.bulletSpeedIncrease += targetEffect.Info.bulletSpeedIncrease * sign;
+        weaponTargetEffectTotal.bulletScaleIncrease += targetEffect.bulletScaleIncrease * sign;
+        weaponTargetEffectTotal.bulletRangeIncrease += targetEffect.bulletRangeIncrease * sign;
+        weaponTargetEffectTotal.bulletSpeedIncrease += targetEffect.bulletSpeedIncrease * sign;
 
-        weaponTargetEffectTotal.Info.chargeTimeReduction += targetEffect.Info.chargeTimeReduction * sign;
-        weaponTargetEffectTotal.Info.chargeDamageIncrease += targetEffect.Info.chargeDamageIncrease * sign;
-        weaponTargetEffectTotal.Info.shotgunBulletCountIncrease += targetEffect.Info.shotgunBulletCountIncrease * sign;
+        weaponTargetEffectTotal.chargeTimeReduction += targetEffect.chargeTimeReduction * sign;
+        weaponTargetEffectTotal.chargeDamageIncrease += targetEffect.chargeDamageIncrease * sign;
+        weaponTargetEffectTotal.shotgunBulletCountIncrease += targetEffect.shotgunBulletCountIncrease * sign;
     }
 
 

@@ -153,7 +153,7 @@ public class Player : Character
     #endregion
 
 
-    #region UnityFunction
+    #region UnityFunc
     void Awake()
     {
         //pState = PlayerState.IDLE;
@@ -190,19 +190,6 @@ public class Player : Character
         }
         */
 
-        /*
-        // for debug
-        if (canAutoAim == false)
-        {
-            directionVector = controller.GetRecenteNormalInputVector();
-            directionDegree = directionVector.GetDegFromVector();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            canAutoAim = !canAutoAim;
-            SetAim();
-            Debug.Log("autoAim : " + canAutoAim);
-        }*/
         if (Input.GetKeyDown(KeyCode.B))
         {
             updateAutoAim = !updateAutoAim;
@@ -256,7 +243,7 @@ public class Player : Character
         weaponSwitchButton.SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
-        // buffManager = BuffManager.Instance;
+        buffManager = BuffManager.Instance;
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, OwnerType.Player);
 
@@ -266,6 +253,7 @@ public class Player : Character
     {
         Debug.Log("InitPlayerData hp : " + playerData.Hp);
         this.playerData = playerData;
+        originPlayerData = playerData;
         playerHpUi.UpdateHPUI(playerData.Hp);
     }
 
@@ -419,13 +407,13 @@ public class Player : Character
         // 주로 즉시 효과 볼 내용들이 적용되서 체력, 허기 회복 두개만 쓸 것 같음.
 
         Debug.Log("소모품 아이템 플레이어 대상 효과 적용");
-        if (itemUseEffect.Info.recoveryHp != 0)
+        if (itemUseEffect.recoveryHp != 0)
         {
-            playerData.Hp += itemUseEffect.Info.recoveryHp;
+            playerData.Hp += itemUseEffect.recoveryHp;
         }
-        if (itemUseEffect.Info.recoveryHunger != 0)
+        if (itemUseEffect.recoveryHunger != 0)
         {
-            playerData.Hunger += itemUseEffect.Info.recoveryHunger;
+            playerData.Hunger += itemUseEffect.recoveryHunger;
         }
         /*
         이런건 버프, 패시브 효과 쪽이 어울림
@@ -433,6 +421,14 @@ public class Player : Character
         */
     }
 
+    public void UpdatePlayerData()
+    {
+        // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.
+        playerData.HungerMax = originPlayerData.HungerMax * buffManager.PlayerTargetEffectTotal.hungerMaxIncrease;
+        playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.PlayerTargetEffectTotal.moveSpeedIncrease;
+        playerData.Armor = originPlayerData.Armor * buffManager.PlayerTargetEffectTotal.armorIncrease;
+        playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.PlayerTargetEffectTotal.criticalChanceIncrease;
+    }
     #endregion
 
     #region coroutine
