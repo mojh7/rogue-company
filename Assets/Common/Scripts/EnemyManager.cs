@@ -59,7 +59,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
             default:
                 break;
         }
-        obj.GetComponent<TempMove>().Init();
         enemy.Init(sprite);
 
         // 0531 모장현 프로토 타입 용
@@ -98,7 +97,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
             default:
                 break;
         }
-        obj.GetComponent<TempMove>().Init();
 
         enemy.Init(sprite);
         enemyList.Add(enemy);
@@ -122,39 +120,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
             return;
         aliveEnemyTotal -= 1;
         enemyList.Remove(_enemy);
-        //enemyTransformList.Remove(_enemy.transform);
-    }
-
-    public void GenerateEnemyFromData(EnemyData enemyData,GameObject gameObject)
-    {
-        Enemy enemy;
-        GameObject obj = objectPool.GetPooledObject();
-        int enemyType = Random.Range(0, sprites.Length);
-        Sprite sprite = sprites[enemyType];
-        obj.transform.localScale = new Vector3(1, 1, 0);
-        enemy = obj.GetComponent<Enemy>();
-        switch (enemyType)
-        {
-            case 0:
-                enemy.animator.SetTrigger("hand");
-                break;
-            case 1:
-                enemy.animator.SetTrigger("zombi");
-                break;
-            case 2:
-                enemy.animator.SetTrigger("note");
-                break;
-            case 3:
-                enemy.animator.SetTrigger("hulk");
-                break;
-            default:
-                break;
-        }
-        obj.GetComponent<TempMove>().Init();
-        //enemy.Init(enemyData);
-        enemyList.Add(enemy);
-        obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
-        aliveEnemyTotal += 1;
     }
 
     // 0516 모장현

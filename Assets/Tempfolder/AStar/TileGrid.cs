@@ -39,7 +39,7 @@ namespace AStar
                 {
                     Vector3 worldPoint = Vector3.right * (x * nodeDiameter + nodeRadius)
                       + Vector3.up * (y * nodeDiameter + nodeRadius);
-                    bool walkable = !(Physics2D.OverlapBox(worldPoint, box, unwalkableMask));
+                    bool walkable = !(Physics2D.OverlapBox(worldPoint, box, 0, unwalkableMask));
                     grid[x, y] = new Node(walkable, worldPoint, x, y);
                 }
             }
@@ -124,7 +124,7 @@ namespace AStar
     {
 
         public bool walkable;
-        public Vector3 worldPos;
+        public Vector2 worldPos;
         public int gridX;
         public int gridY;
 

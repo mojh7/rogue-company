@@ -24,7 +24,19 @@ public class Enemy : Character {
     {
         AutoAim();
         weaponManager.AttackButtonDown();
-        renderer.sortingOrder = -(int)transform.position.y;
+        renderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
+        if (-90 <= directionDegree && directionDegree < 90)
+        {
+            isRightDirection = true;
+            scaleVector.x = -Mathf.Abs(scaleVector.x);
+            spriteObjTransform.localScale = scaleVector;
+        }
+        else
+        {
+            isRightDirection = false;
+            scaleVector.x = Mathf.Abs(scaleVector.x);
+            spriteObjTransform.localScale = scaleVector;
+        }
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)
@@ -60,6 +72,7 @@ public class Enemy : Character {
         pState = State.ALIVE;
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
+        scaleVector = transform.localScale;
         hp = 5;
 
         // 0526 임시용
@@ -153,7 +166,6 @@ public class Enemy : Character {
     public void AutoAim()
     {
         directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
-            //controller.GetRecenteNormalInputVector();
         directionDegree = directionVector.GetDegFromVector();
     }
     #endregion

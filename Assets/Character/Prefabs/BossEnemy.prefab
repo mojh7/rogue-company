@@ -134,12 +134,12 @@ GameObject:
   - component: {fileID: 4424652418556560}
   - component: {fileID: 61290379085985094}
   - component: {fileID: 50482854385639964}
-  - component: {fileID: 114757820394376320}
   - component: {fileID: 114016821012750974}
+  - component: {fileID: 114174861763835864}
   m_Layer: 13
   m_Name: BossEnemy
   m_TagString: Enemy
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1577725955494882426, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -479,6 +479,17 @@ MonoBehaviour:
   chargeGauge: {fileID: 114378316425296558}
   equipAllWeapons: 0
   startWeaponId: 0
+--- !u!114 &114174861763835864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1580198282056478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4808cd4359bde40a77b35d2da6a433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114378316425296558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -509,17 +520,6 @@ MonoBehaviour:
   animator: {fileID: 0}
   weaponState: 0
   weaponId: 0
---- !u!114 &114757820394376320
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1580198282056478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3497bfed6182cb046a2146bcdd5d8ab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!198 &198694329906796120
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -4125,7 +4125,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: bd23799e5910e5541987c63760638f1c, type: 2}
+  - {fileID: 2100000, guid: b85f2e428116657498df6d0e7399529f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
