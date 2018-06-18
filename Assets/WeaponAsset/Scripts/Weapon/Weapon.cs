@@ -81,7 +81,7 @@ public class Weapon : Item {
     }
     private void Update()
     {
-        spriteRenderer.sortingOrder = -(int)transform.position.y;
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
     }
     #endregion
     #region Function

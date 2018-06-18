@@ -91,10 +91,11 @@ namespace Map
         #region MakeMap
         public void Generate() 
         {
+            ClearTile();
             CreateMap();
-            BakeMap();
             LinkAllRects();
             rooms.AddRange(halls);
+            BakeMap();
             LinkRecursion(); // 보스 방을 제외한 방 연결
             LinkBossRoom(); // 보스 방 연결
             DrawTile();
@@ -165,6 +166,14 @@ namespace Map
 
         } // 맵 만들기 
 
+        void ClearTile()
+        {
+            floorTileMap.ClearAllTiles();
+            verticalWallTileMap.ClearAllTiles();
+            horizonWallTileMap.ClearAllTiles();
+            shadowTileMap.ClearAllTiles();
+        }
+
         void DrawTile()
         {
             RandomTile floor = TileManager.Instance.floorTile;
@@ -173,10 +182,7 @@ namespace Map
             RuleTile horizonRuleTile = TileManager.Instance.horizonWallRuleTile;
 
             Rect rect;
-            floorTileMap.ClearAllTiles();
-            verticalWallTileMap.ClearAllTiles();
-            horizonWallTileMap.ClearAllTiles();
-            shadowTileMap.ClearAllTiles();
+
             for (int i = 0; i <= width * size * 2; i++)
             {
                 for (int j = -1; j < height * size * 2; j++)
@@ -610,7 +616,7 @@ namespace Map
             else
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
             obj.transform.localPosition = new Vector2(x, y);
-            obj.GetComponent<SpriteRenderer>().sortingOrder = -(int)y;
+            obj.GetComponent<SpriteRenderer>().sortingOrder = -Mathf.RoundToInt(y);
             return obj;
         } // Door Object 생성
 
@@ -753,8 +759,8 @@ namespace Map
             midX = x + (float)width / 2;
             midY = y + (float)height / 2;
             size = _size;
-            areaLeftDown = new Vector2(x * size + 0.5f, y * size - 0.5f);
-            areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size - 0.5f);
+            areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
+            areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
             visited = false;
             downExist = false;
             isClear = false;

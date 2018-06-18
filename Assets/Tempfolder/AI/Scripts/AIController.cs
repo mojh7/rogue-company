@@ -6,8 +6,5 @@ public class AIController : MonoBehaviour {
     [SerializeField]
     BT.BehaviorTree behaviorTree;
 
-    private void Update()
-    {
-        behaviorTree.Active();
-    }
+
 }

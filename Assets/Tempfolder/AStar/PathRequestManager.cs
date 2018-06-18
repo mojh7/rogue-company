@@ -45,6 +45,15 @@ namespace AStar
             threadStart.Invoke();
         }
 
+        public static void RequestPath(PathRequest request, float radius)
+        {
+            ThreadStart threadStart = delegate
+            {
+                instance.pathfinder.FindPath(request, instance.FinishedProcessingPath, radius);
+            };
+            threadStart.Invoke();
+        }
+
         public void FinishedProcessingPath(PathResult result)
         {
             lock (results)

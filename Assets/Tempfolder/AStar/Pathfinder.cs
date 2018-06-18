@@ -77,6 +77,62 @@ namespace AStar
 
         }
 
+        public void FindPath(PathRequest request, Action<PathResult> callback, float raduis)
+        {
+
+            Vector2[] waypoints = new Vector2[0];
+            bool pathSuccess = false;
+
+            Node startNode = grid.NodeFromWorldPoint(request.pathStart);
+            Node targetNode = grid.NodeFromWorldPoint(request.pathEnd);
+
+            Vector2 anglePos = request.pathStart - request.pathEnd;
+            float distance = raduis - 1;
+            float rad = (float)Mathf.Atan2(anglePos.y, anglePos.x);
+            startNode.parent = startNode;
+            float tenRad = 10 * Mathf.Deg2Rad;
+            float maxRad = 360 * Mathf.Deg2Rad;
+
+            float term = 0;
+
+            Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
+            HashSet<Node> closedSet = new HashSet<Node>();
+
+            openSet.Add(startNode);
+
+            while (openSet.Count > 0)
+            {
+                term += tenRad;
+                Node currentNode = openSet.RemoveFirst();
+                closedSet.Add(currentNode);
+
+                if (term > maxRad)
+                {
+                    targetNode = currentNode;
+                    pathSuccess = true;
+                    break;
+                }
+
+                Vector2 pos = targetNode.worldPos + distance * new Vector2(Mathf.Cos(rad + term), Mathf.Sin(rad + term));
+                Node neighbour = grid.NodeFromWorldPoint(pos);
+
+                if (neighbour != currentNode && !closedSet.Contains(neighbour))
+                {
+                    neighbour.parent = currentNode;
+                }
+                openSet.Add(neighbour);
+            }
+            
+            if (pathSuccess)
+            {
+                waypoints = RetracePath(startNode, targetNode);
+                pathSuccess = waypoints.Length > 0;
+            }
+
+            callback(new PathResult(waypoints, pathSuccess, request.callback));
+
+        }
+
         Vector2[] RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
@@ -92,7 +148,7 @@ namespace AStar
             return waypoints;
 
         }
-
+ 
         Vector2[] SimplifyPath(List<Node> path)
         {
             List<Vector2> waypoints = new List<Vector2>();

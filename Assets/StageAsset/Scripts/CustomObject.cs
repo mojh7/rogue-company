@@ -44,8 +44,8 @@ public class CustomObject : MonoBehaviour {
             GetComponent<PolygonCollider2D>().isTrigger = false;
         }
         gameObject.tag = "Wall";
-        gameObject.layer = 14;
-        spriteRenderer.sortingOrder = -(int)transform.position.y;
+        gameObject.layer = 1;
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
     }
 
     public void SetPosition()
@@ -190,7 +190,7 @@ public class PushBox : CustomObject
     void StopMove()
     {
         rigidbody2D.bodyType = RigidbodyType2D.Static;
-        spriteRenderer.sortingOrder = -(int)transform.position.y;
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
         isActive = false;
     }
 }
@@ -215,7 +215,6 @@ public class Spawner : CustomObject
     {
         base.Active();
         StartCoroutine(SpawnProcess());
-        Debug.Log("Spawner");
         return true;
     }
     IEnumerator SpawnProcess()
