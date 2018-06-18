@@ -40,15 +40,15 @@ namespace BT
         }
  
     }
- 
-    #region baseNode
 
-    abstract class Task
+    #region baseNode
+    abstract class Task : ScriptableObject
     {
         public abstract bool Run();
     }
     abstract class CompositeTask : Task
     {
+        [SerializeField]
         private List<Task> mChildren;
 
         protected CompositeTask() { mChildren = new List<Task>(); }
@@ -64,6 +64,7 @@ namespace BT
     }
     abstract class DecorateTask : Task
     {
+        [SerializeField]
         private Task mChildren;
 
         public void AddChild(Task task)
@@ -88,6 +89,7 @@ namespace BT
             return success;
         }
     }
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/Selector")]
     class Selector : CompositeTask
     {
         public override bool Run()
@@ -100,6 +102,7 @@ namespace BT
             return false;
         }
     }
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/Sequence")]
     class Sequence : CompositeTask
     {
         public override bool Run()
@@ -115,10 +118,13 @@ namespace BT
     #endregion
 
     #region Decoator
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/DistanceLessDecorate")]
     class DistanceLessDecorate : DecorateTask
     {
         Character character;
+        [SerializeField]
         Character target;
+        [SerializeField]
         float distance;
         public DistanceLessDecorate(Character character, float distance)
         {
@@ -138,10 +144,13 @@ namespace BT
             }
         }
     }
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/DistanceGreaterDecorate")]
     class DistanceGreaterDecorate : DecorateTask
     {
         Character character;
+        [SerializeField]
         Character target;
+        [SerializeField]
         float distance;
         public DistanceGreaterDecorate(Character character, float distance)
         {
@@ -164,6 +173,7 @@ namespace BT
     #endregion
 
     #region Action
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/CharacterDeadAction")]
     class CharacterDeadAction : Action
     {
         public CharacterDeadAction(Character character) : base(character)
@@ -183,6 +193,7 @@ namespace BT
         }
 
     }
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/AStarTrackAtion")]
     class AStarTrackAtion : Action
     {
         MovingPattern movingPattern;
@@ -197,9 +208,11 @@ namespace BT
             return movingPattern.AStarTracking();
         }
     }
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/RoundingTrackAction")]
     class RoundingTrackAction : Action
     {
         MovingPattern movingPattern;
+        [SerializeField]
         float radius;
 
         public RoundingTrackAction(Character character, float radius) : base(character)
@@ -213,6 +226,7 @@ namespace BT
             return movingPattern.RoundingTracking();
         }
     }
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/RushTrackAtion")]
     class RushTrackAtion : Action
     {
         MovingPattern movingPattern;
@@ -227,7 +241,7 @@ namespace BT
             return movingPattern.RushTracking();
         }
     }
-
+    [CreateAssetMenu(fileName = "Task", menuName = "Task/AttackAction")]
     class AttackAction : Action
     {
 
