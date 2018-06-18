@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Name: BuffType
   m_EditorClassIdentifier: 
   memo: 
+  itemUseEffect:
+  - {fileID: 11400000, guid: 66ca742f876179e4ebe5dab27c072963, type: 2}
+  effectiveTime: 120

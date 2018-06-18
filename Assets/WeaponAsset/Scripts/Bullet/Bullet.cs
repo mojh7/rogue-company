@@ -505,6 +505,13 @@ public class Bullet : MonoBehaviour
         viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
         viewTransform.localScale = new Vector3(1f, 1f, 1f);
     }
+
+
+    public void ApplyWeaponBuff()
+    {
+
+    }
+
     #endregion
 
     #region coroutine

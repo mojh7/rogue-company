@@ -16,4 +16,5 @@ MonoBehaviour:
   itemName: "\uD2B8\uB808\uC774\uB2DD\uBCF5"
   notes: 
   price: 0
-  effectApplyTypesLength: 0
+  effectApplyTypes:
+  - {fileID: 11400000, guid: 0e135664d4d4f4a47bf6aae13d5fa821, type: 2}

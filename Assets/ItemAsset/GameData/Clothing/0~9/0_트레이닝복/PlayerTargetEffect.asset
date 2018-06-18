@@ -14,7 +14,7 @@ MonoBehaviour:
   memo: 
   recoveryHp: 0
   recoveryHunger: 0
-  moveSpeedIncrease: 0
   hungerMaxIncrease: 0
-  armorIncrease: 0
+  moveSpeedIncrease: 0.15
   criticalChanceIncrease: 0
+  armorIncrease: 0

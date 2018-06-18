@@ -79,6 +79,11 @@ public abstract class BulletPattern
     public abstract void StartAttack(float damageIncreaseRate, OwnerType ownerType); // 공격 시도 시작
     public abstract void StopAttack();  // 공격 시도 시작 후 멈췄을 때
     public abstract void CreateBullet(float damageIncreaseRate);
+
+    public virtual void ApplyWeaponBuff()
+    {
+
+    }
 }
 
 //  1~N개의 총알(1종류)을 다양한 방향으로 일정한 각도 텀을 두고 발사하는 패턴

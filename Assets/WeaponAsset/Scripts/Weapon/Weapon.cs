@@ -25,6 +25,7 @@ using WeaponAsset;
 public class Weapon : Item {
 
     #region Variables
+    public WeaponInfo originInfo;
     public WeaponInfo info;
     public WeaponView weaponView;
     public Animator animator;
@@ -96,6 +97,8 @@ public class Weapon : Item {
         this.ownerType = ownerType;
         // weaponInfo Clone
         info = weaponInfo.Clone();
+        if (OwnerType.Player == ownerType)
+            originInfo = weaponInfo;
         BaseInit();
     }
 
@@ -105,7 +108,9 @@ public class Weapon : Item {
         this.ownerType = ownerType;
         this.weaponId = weaponId;
         // id에 따른 무기 정보 받아오기
-        info = DataStore.Instance.GetWeaponInfo(weaponId, ownerType);
+        info = DataStore.Instance.GetWeaponInfo(weaponId, ownerType).Clone();
+        if (OwnerType.Player == ownerType)
+            originInfo = DataStore.Instance.GetWeaponInfo(weaponId, ownerType);
         BaseInit();
     }
 
@@ -275,6 +280,16 @@ public class Weapon : Item {
                 break;
         }
     }
+
+    public void ApplyWeaponBuff()
+    {
+        WeaponTargetEffect total = BuffManager.Instance.WeaponTargetEffectTotal;
+        info.cooldown = originInfo.cooldown * total.cooldownReduction;
+        info.chargeTime = originInfo.chargeTime * total.chargeTimeReduction;
+    }
+
+
+
 
     // 공격 패턴 한 사이클.
     private IEnumerator PatternCycle(float damageIncreaseRate)

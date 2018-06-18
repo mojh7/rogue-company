@@ -392,18 +392,6 @@ public class WeaponManager : MonoBehaviour {
         return true;
     }
 
-    /*
-    public void RemoveWeapons()
-    {
-        for(int i = 0; i < weaponCount; i++)
-        {
-            equipWeaponSlot[i].transform.position = Vector3.zero;
-            equipWeaponSlot[i].transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            equipWeaponSlot[i].transform.SetParent(ObjectPoolManager.Instance.GetWeaponsTrasnform());
-            ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
-        }
-    }
-    */
 
     //0603 유성
     public void EquipWeapon(WeaponInfo weaponInfo)

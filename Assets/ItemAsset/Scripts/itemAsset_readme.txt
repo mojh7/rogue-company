@@ -64,7 +64,7 @@ ItemUseEffect이란
 1. PlayerTargetEffect - player 정보 대상
 
 # 플레이어 적용 효과들 구현할 만한 것들
- 1. 회복 류
+ 1. 회복류
   - hp, 허기
 
  2. 일정시간 상승류

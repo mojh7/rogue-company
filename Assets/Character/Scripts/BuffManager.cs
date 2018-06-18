@@ -166,10 +166,13 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
 
         // playerTargetEffectTotal.recoveryHp += TargetEffect.recoveryHp;
         // playerTargetEffectTotal.recoveryHunger += TargetEffect.recoveryHunger;
+        
+        // 합 연산
         playerTargetEffectTotal.moveSpeedIncrease += targetEffect.moveSpeedIncrease * sign;
+        playerTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
+
         playerTargetEffectTotal.hungerMaxIncrease += targetEffect.hungerMaxIncrease * sign;
         playerTargetEffectTotal.armorIncrease += targetEffect.armorIncrease * sign;
-        playerTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
 
         PlayerManager.Instance.GetPlayer().UpdatePlayerData();
     }
@@ -177,24 +180,38 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
     {
         int sign;
+        // 등록할 때
         if (TargetEffectTotalUpdateType.REGISTER == updateType)
             sign = 1;
+        // 제거할 때
         else
             sign = -1;
 
-        weaponTargetEffectTotal.cooldownReduction += targetEffect.cooldownReduction * sign;
+        // 합 연산
         weaponTargetEffectTotal.damageIncrease += targetEffect.damageIncrease * sign;
         weaponTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
         weaponTargetEffectTotal.knockBackIncrease += targetEffect.knockBackIncrease * sign;
         weaponTargetEffectTotal.ammoCapacityIncrease += targetEffect.ammoCapacityIncrease * sign;
-
+        weaponTargetEffectTotal.chargeDamageIncrease += targetEffect.chargeDamageIncrease * sign;
         weaponTargetEffectTotal.bulletScaleIncrease += targetEffect.bulletScaleIncrease * sign;
         weaponTargetEffectTotal.bulletRangeIncrease += targetEffect.bulletRangeIncrease * sign;
         weaponTargetEffectTotal.bulletSpeedIncrease += targetEffect.bulletSpeedIncrease * sign;
 
-        weaponTargetEffectTotal.chargeTimeReduction += targetEffect.chargeTimeReduction * sign;
-        weaponTargetEffectTotal.chargeDamageIncrease += targetEffect.chargeDamageIncrease * sign;
+        // 일정 수치 증가
         weaponTargetEffectTotal.shotgunBulletCountIncrease += targetEffect.shotgunBulletCountIncrease * sign;
+
+        // 곱 연산
+        if(1 == sign)
+        {
+            weaponTargetEffectTotal.cooldownReduction *= (1.0f - targetEffect.cooldownReduction);
+            weaponTargetEffectTotal.chargeTimeReduction *= (1.0f - targetEffect.chargeTimeReduction);
+        }
+        else
+        {
+            weaponTargetEffectTotal.cooldownReduction /= (1.0f - targetEffect.cooldownReduction);
+            weaponTargetEffectTotal.chargeTimeReduction /= (1.0f - targetEffect.chargeTimeReduction);
+        }
+
     }
 
 

@@ -44,20 +44,6 @@ namespace WeaponAsset
     /*---*/
 
 
-    // 한 폴더에 넣으면 양이 많아져서 폴더 와 List 넣을 때 구분해서 넣고 쓸 때도 구분하기 위한 enum
-    public enum BulletDataType
-    {
-        Player = 0,
-        Enemy = 1,
-        Object = 2,
-        Explosion = 3,
-        Summon = 4
-    }
-  
-
-    /*---*/
-
-
     // 총알 삭제 함수 델리게이트
     public delegate void DelDestroyBullet();
     // 총알 충돌 함수 델리게이트
@@ -145,10 +131,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         switch(ownerType)
         {
             case OwnerType.Player:
-                return weaponInfos[id].Clone();
+                return weaponInfos[id];
             // 구분 만 해놓고 아직 player 이외의 owner weaponDataList 안 만듬, 봐서 bullet, Pattern도 이렇게 처리 할듯
             case OwnerType.Enemy:
-                return enemyWeaponInfos[id].Clone();
+                return enemyWeaponInfos[id];
             case OwnerType.Object:
             default:
                 break;
