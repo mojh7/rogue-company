@@ -20,6 +20,9 @@ public class WeaponTargetEffect : ItemUseEffect
     public float bulletRangeIncrease;      // 총알 사정 거리 증가율
     public float bulletSpeedIncrease;      // 총알 속력 증가율
 
+    public float increasesGainingToHunger; // 허기 획득량 상승
+    public float accuracyIncrease;         // 집탄률, 탄 정확도 상승
+
     // 곱 연산
     public float cooldownReduction;        // 무기 재사용 시간 감소율
     public float chargeTimeReduction;      // 차징 시간 감소율
@@ -38,6 +41,13 @@ public class WeaponTargetEffect : ItemUseEffect
      * 등등
      */
     #region addProperties
+
+    public bool canBlockbullet;             // 근접 무기류 적 총알 막기 on
+    public bool canDrainHp;                 // 흡혈
+    public bool canIncreasePierceCount;     // 비 관통 무기들 관통 횟수 +1 추가
+    public bool becomesSpiderMine;          // 함정 무기 스파이더 마인화
+    public bool bounceAble;                 // 총알이 벽에 1회 튕길 수 있음.
+    public bool canBounceBulletWithMeleeWeapons; // 근접 무기로 총알 반사
 
     #endregion
 }

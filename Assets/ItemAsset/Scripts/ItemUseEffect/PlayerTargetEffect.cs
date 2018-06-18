@@ -20,4 +20,6 @@ public class PlayerTargetEffect : ItemUseEffect
     // 합 공식
     public float moveSpeedIncrease;
     public float criticalChanceIncrease;
+
+    
 }

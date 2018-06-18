@@ -159,8 +159,10 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
     public void UpdateTargetEffectTotal(PlayerTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
     {
         int sign;
+        // 등록
         if (TargetEffectTotalUpdateType.REGISTER == updateType)
             sign = 1;
+        // 제거
         else
             sign = -1;
 
@@ -180,12 +182,19 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
     {
         int sign;
-        // 등록할 때
+        bool boolSign;
+        // 등록
         if (TargetEffectTotalUpdateType.REGISTER == updateType)
+        {
             sign = 1;
-        // 제거할 때
+            boolSign = true;
+        }
+        // 제거
         else
+        {
             sign = -1;
+            boolSign = false;
+        }
 
         // 합 연산
         weaponTargetEffectTotal.damageIncrease += targetEffect.damageIncrease * sign;
@@ -196,6 +205,8 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
         weaponTargetEffectTotal.bulletScaleIncrease += targetEffect.bulletScaleIncrease * sign;
         weaponTargetEffectTotal.bulletRangeIncrease += targetEffect.bulletRangeIncrease * sign;
         weaponTargetEffectTotal.bulletSpeedIncrease += targetEffect.bulletSpeedIncrease * sign;
+        weaponTargetEffectTotal.increasesGainingToHunger += targetEffect.increasesGainingToHunger * sign;
+        weaponTargetEffectTotal.accuracyIncrease += targetEffect.accuracyIncrease * sign;
 
         // 일정 수치 증가
         weaponTargetEffectTotal.shotgunBulletCountIncrease += targetEffect.shotgunBulletCountIncrease * sign;
@@ -212,6 +223,19 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
             weaponTargetEffectTotal.chargeTimeReduction /= (1.0f - targetEffect.chargeTimeReduction);
         }
 
+        // bool형 on / off 종류, 해당 되는 항목들은 정보아이템 등록시  true, 제거시 false로 total 정보를 설정 함. 
+        if (targetEffect.canBlockbullet)
+            weaponTargetEffectTotal.canBlockbullet = boolSign;
+        if (targetEffect.canDrainHp)
+            weaponTargetEffectTotal.canDrainHp = boolSign;
+        if (targetEffect.canIncreasePierceCount)
+            weaponTargetEffectTotal.canIncreasePierceCount = boolSign;
+        if (targetEffect.becomesSpiderMine)
+            weaponTargetEffectTotal.becomesSpiderMine = boolSign;
+        if (targetEffect.bounceAble)
+            weaponTargetEffectTotal.bounceAble = boolSign;
+        if (targetEffect.canBounceBulletWithMeleeWeapons)
+            weaponTargetEffectTotal.canBounceBulletWithMeleeWeapons = boolSign;
     }
 
 

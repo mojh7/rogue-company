@@ -13,11 +13,10 @@ MonoBehaviour:
     \uC774\uD399\uD2B8 \uCD1D\uC54C"
   m_EditorClassIdentifier: 
   memo: "\uADFC\uC811 \uBCA0\uB294 \uC774\uD399\uD2B8 \uCD1D\uC54C\n"
-  ownerType: 0
   bulletName: "\uADFC\uC811 \uBB34\uAE30\uC6A9 \uCD1D\uC54C"
   damage: 4
   knockBack: 400
-  criticalRate: 0
+  criticalChance: 0
   speed: 0
   acceleration: 0
   deltaSpeedTotalLimit: 0
@@ -39,7 +38,7 @@ MonoBehaviour:
   deleteAfterSummonBulletInfo: {fileID: 0}
   deleteAfterSummonPatternInfo: {fileID: 0}
   bounceAble: 0
-  bulletBlockAble: 1
+  bulletBlockAble: 0
   collisionPropertiesEdit: 02000000
   updatePropertiesEdit: 
   deletePropertiesEdit: 00000000
@@ -48,4 +47,3 @@ MonoBehaviour:
   deletePropertiesLength: 1
   summonBulletPatternInfo: {fileID: 0}
   creationCycle: 0
-  isInitializable: 1
