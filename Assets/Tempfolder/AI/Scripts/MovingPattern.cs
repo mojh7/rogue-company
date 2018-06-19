@@ -5,7 +5,6 @@ using System;
 
 public class MovingPattern : MonoBehaviour
 {
-    Transform target;
     float speed = 1;
     float baseSpeed;
     Vector2[] path;
@@ -13,26 +12,21 @@ public class MovingPattern : MonoBehaviour
     RoundingTracker roundingTracker;
     RushTracker rushTracker;
 
-    private void Start()
+    private void Awake()
     {
         baseSpeed = speed;
     }
-    void OnEnable()
-    {
-        target = PlayerManager.Instance.GetPlayer().transform;
-        this.GetComponent<BT.BehaviorTree>().Init();
-    }
 
     #region Initialize
-    public void AStarTracker()
+    public void AStarTracker(Transform target)
     {
         aStarTracker = new AStarTracker(transform, ref target, Follwing);
     }
-    public void RoundingTracker(float radius)
+    public void RoundingTracker(Transform target, float radius)
     {
         roundingTracker = new RoundingTracker(transform, ref target, Follwing, radius);
     }
-    public void RushTracker()
+    public void RushTracker(Transform target)
     {
         rushTracker = new RushTracker(transform, ref target, Follwing);
     }
@@ -125,6 +119,11 @@ abstract class Tracker
     protected Transform target;
     protected Transform transform;
     protected Action<Vector2[]> callback;
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+    }
 
     public abstract void Update();
 

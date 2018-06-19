@@ -4,24 +4,60 @@ using UnityEngine;
 
 namespace BT
 {
-    public class BlackBoard : MonoBehaviourSingleton<BlackBoard>
+    public class BlackBoard
     {
-        public Hashtable data;
+        private Dictionary<string, object> data = new Dictionary<string, object>();
 
-        private void Awake()
+        public object this[string key]
         {
-            data = new Hashtable();
+            get
+            {
+                return Get(key);
+            }
+            set
+            {
+                Set(key, value);
+            }
         }
-        public void Init()
+
+        public bool Isset(string key)
         {
-            if(!data.ContainsKey("Player"))
-                data.Add("Player", PlayerManager.Instance.GetPlayer());
+            return this.data.ContainsKey(key);
+        }
+
+        public void Set(string key)
+        {
+            if (!Isset(key))
+            {
+                Set(key, null);
+            }
+        }
+
+        public object Get(string key)
+        {
+            if (this.data.ContainsKey(key))
+            {
+                return data[key];
+            }
             else
-                data["Player"] = PlayerManager.Instance.GetPlayer();
-            if (!data.ContainsKey("Enemy"))
-                data.Add("Enemy",EnemyManager.Instance.GetEnemyList);
+            {
+                return null;
+            }
+        }
+
+        public void Set(string key, object value)
+        {
+            if (!this.data.ContainsKey(key))
+            {
+                this.data[key] = value;
+            }
             else
-                data["Enemy"] = EnemyManager.Instance.GetEnemyList;
+            {
+                if ((this.data[key] == null && value != null) || (this.data[key] != null && !this.data[key].Equals(value)))
+                {
+                    this.data[key] = value;
+                }
+            }
         }
     }
 }

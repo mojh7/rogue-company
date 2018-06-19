@@ -69,6 +69,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         aliveEnemyTotal += 1;
         UIManager.Instance.bossHPUI.Toggle();
         UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
+        obj.GetComponent<AIController>().Init();
     }
 
     void CallBack(Vector3 _position)
@@ -102,6 +103,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         enemyList.Add(enemy);
         obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         aliveEnemyTotal += 1;
+        obj.GetComponent<AIController>().Init();
     }
 
     public List<Enemy> GetEnemyList

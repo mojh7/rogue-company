@@ -58,14 +58,14 @@ GameObject:
   - component: {fileID: 114547188195020388}
   - component: {fileID: 114698620388580024}
   - component: {fileID: 58905957617046142}
-  - component: {fileID: 114491000411268340}
+  - component: {fileID: 114130998968841644}
   m_Layer: 13
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: -1577725955494882426, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1215492876198480
 GameObject:
   m_ObjectHideFlags: 1
@@ -534,11 +534,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713af1ca8a1936148a762cde0d492894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originInfo: {fileID: 0}
   info: {fileID: 0}
   animator: {fileID: 0}
   weaponState: 0
   weaponId: 0
---- !u!114 &114491000411268340
+--- !u!114 &114130998968841644
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -546,7 +547,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1165641018333586}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d688b2e2e8206347a6df2b2ef793e46, type: 3}
+  m_Script: {fileID: 11500000, guid: ee3730f906c0f7d42adc6027a8cfbfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114547188195020388

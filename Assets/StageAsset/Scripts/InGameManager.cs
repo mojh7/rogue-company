@@ -14,7 +14,6 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         GenerateMap();
         SpawnPlayer();
         DrawUI();
-        BT.BlackBoard.Instance.Init();
     }
     private void Update()
     {
@@ -39,8 +38,6 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
         SpawnPlayer();
         DrawUI();
-
-        BT.BlackBoard.Instance.Init();
     } // 데이터 저장 타이밍
     void GenerateMap()
     {
