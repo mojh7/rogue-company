@@ -464,7 +464,6 @@ public class ItemContainer : CustomObject
     public override bool Active()
     {
         base.Active();
-        Debug.Log("ItemContainer");
         if (innerObject as Weapon != null)
         {
             bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);

@@ -16,10 +16,13 @@ public class AIController : MonoBehaviour {
 
     public void Init()
     {
+        if(privateBlackBoard == null)
+            privateBlackBoard = new BT.BlackBoard();
         privateBlackBoard["Character"] = this.GetComponent<Character>();
         privateBlackBoard["Target"] = PlayerManager.Instance.GetPlayer();
 
         behaviorTree = new BT.BehaviorTree(privateBlackBoard);
+
         behaviorTree.Start();
     }
 }

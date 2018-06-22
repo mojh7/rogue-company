@@ -69,6 +69,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 }
             }
         }
+        MiniMap.Instance.DrawRoom(currentRoom);
     }
 
     void SpawnMonster()
@@ -177,7 +178,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         ObjectSetAvailable();
         currentRoom.maskObject.SetActive(true);
-        MiniMap.Instance.DrawRoom(currentRoom);
     }
 
     void InitBossRoom()

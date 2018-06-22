@@ -60,14 +60,19 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         float vY = _vector.y;
         while (true)
         {
+            if (_object == null)
+                break;
             elapsed_time += Time.deltaTime;
             float x = sX + vX * elapsed_time;
             float y = sY + vY * elapsed_time - (0.5f * g * elapsed_time * elapsed_time);
-            _object.transform.position = new Vector2(x,y);
+            _object.transform.position = new Vector2(x, y);
             if (_object.transform.position.y <= lowerLimit)
                 break;
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        _object.GetComponent<PolygonCollider2D>().enabled = true;
+        if (_object != null)
+        {
+            _object.GetComponent<PolygonCollider2D>().enabled = true;
+        }
     }
 }

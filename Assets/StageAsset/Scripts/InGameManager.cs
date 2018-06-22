@@ -26,18 +26,19 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     {
         GameDataManager.Instance.SetFloor();
         GameDataManager.Instance.Savedata();
-        ObjectPoolManager.Instance.ClearWeapon();
-        ObjectPoolManager.Instance.ClearBullet();
-        ItemManager.Instance.DeleteObjs();
+        //ObjectPoolManager.Instance.ClearWeapon();
+        //ObjectPoolManager.Instance.ClearBullet();
+        //ItemManager.Instance.DeleteObjs();
 
         GameDataManager.Instance.LoadData();
         GameStateManager.Instance.SetLoadsGameData(true);
-        PlayerManager.Instance.DeletePlayer();
-        
+        GameStateManager.Instance.LoadInGame();
+        //PlayerManager.Instance.DeletePlayer();
+        //UnityContext.DestroyClock();
         // ObjectPoolManager.Instance.ClearEffect();
-        Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
-        SpawnPlayer();
-        DrawUI();
+        //Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
+        //SpawnPlayer();
+        //DrawUI();
     } // 데이터 저장 타이밍
     void GenerateMap()
     {

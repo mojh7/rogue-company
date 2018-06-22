@@ -29,13 +29,13 @@ public class Enemy : Character {
         {
             isRightDirection = true;
             scaleVector.x = -Mathf.Abs(scaleVector.x);
-            spriteObjTransform.localScale = scaleVector;
+            transform.localScale = scaleVector;
         }
         else
         {
             isRightDirection = false;
             scaleVector.x = Mathf.Abs(scaleVector.x);
-            spriteObjTransform.localScale = scaleVector;
+            transform.localScale = scaleVector;
         }
     }
     /*

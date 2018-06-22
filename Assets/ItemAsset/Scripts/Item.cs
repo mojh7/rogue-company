@@ -17,7 +17,6 @@ public class Coin : Item
     {
         if (!isActive)
         {
-            Debug.Log("Coin");
             GameDataManager.Instance.SetCoin();
             isActive = !isActive;
             MoveToTarget();

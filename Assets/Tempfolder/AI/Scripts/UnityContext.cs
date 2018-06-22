@@ -23,6 +23,8 @@ public class UnityContext : MonoBehaviour
 
     public static Clock GetClock()
     {
+        if(GetInstance().clock == null)
+            GetInstance().clock = new Clock();
         return GetInstance().clock;
     }
 
@@ -40,8 +42,13 @@ public class UnityContext : MonoBehaviour
 
     private Clock clock = new Clock();
 
+    public static void DestroyClock()
+    {
+        GetInstance().clock = null;
+    }
     void Update()
     {
-        clock.Update(Time.deltaTime);
+        if(clock != null)
+            clock.Update(Time.deltaTime);
     }
 }
