@@ -21,7 +21,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData")]
 public class PlayerData : ScriptableObject
 {
-
     #region variables
 
     [SerializeField]
@@ -41,7 +40,12 @@ public class PlayerData : ScriptableObject
     private float armor;
     [SerializeField]
     private float criticalChance;
+    [SerializeField]
+    private WeaponInfo[] startingWeaponInfos;
 
+    // on / off bool;
+    private bool canDrainHp;
+    private bool cannotDamagedWhenFalling;
     /*
      * 패시브
      * passiveItem;
@@ -50,8 +54,7 @@ public class PlayerData : ScriptableObject
      * activeSkill
      */
 
-    [SerializeField]
-    private WeaponInfo[] startingWeaponInfos;
+
 
     // 
 

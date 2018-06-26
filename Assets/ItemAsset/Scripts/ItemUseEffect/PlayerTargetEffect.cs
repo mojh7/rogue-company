@@ -19,7 +19,14 @@ public class PlayerTargetEffect : ItemUseEffect
 
     // 합 공식
     public float moveSpeedIncrease;
-    public float criticalChanceIncrease;
+    public float criticalChanceIncrease; // 2. 치명타 확률 증가율
 
-    
+    // 기타 옵션
+    public float discountRateOfVendingMachineItems; // 자판기 아이템의 할인율
+    public float discountRateOfCafeteriaItems;      // 카페테리아 아이템의 할인율
+    public float discountRateAllItems;              // 모든 아이템의 할인율
+    public float rewardOfEndGameIncrease;           // 게임 끝날 때 보상 증가율
+    // on / off
+    public bool canDrainHp; // 4. 흡혈 : 적 n명 처치당 체력 +0.5(반 칸) 회복
+
 }

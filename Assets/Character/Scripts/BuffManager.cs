@@ -86,7 +86,12 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
             hungerMaxIncrease = 1f,
             moveSpeedIncrease = 1f,
             criticalChanceIncrease = 1f,
-            armorIncrease = 0
+            armorIncrease = 0,
+            discountRateOfVendingMachineItems = 1f,
+            discountRateOfCafeteriaItems = 1f,
+            discountRateAllItems = 1f,
+            rewardOfEndGameIncrease = 1f,
+            canDrainHp = false
         };
     }
     
@@ -139,7 +144,7 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
         
     }
 
-    // 버프 제거
+    /// <summary> 버프 제거 </summary> 
     public void RemoveTargetEffect(PlayerTargetEffect targetEffect)
     {
         playerTargetEffects.Remove(targetEffect);
@@ -159,22 +164,35 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
     public void UpdateTargetEffectTotal(PlayerTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
     {
         int sign;
+        bool boolSign;
         // 등록
         if (TargetEffectTotalUpdateType.REGISTER == updateType)
+        {
             sign = 1;
+            boolSign = true;
+        }
         // 제거
         else
+        {
             sign = -1;
+            boolSign = false;
+        }
 
         // playerTargetEffectTotal.recoveryHp += TargetEffect.recoveryHp;
         // playerTargetEffectTotal.recoveryHunger += TargetEffect.recoveryHunger;
-        
+
         // 합 연산
         playerTargetEffectTotal.moveSpeedIncrease += targetEffect.moveSpeedIncrease * sign;
         playerTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
 
         playerTargetEffectTotal.hungerMaxIncrease += targetEffect.hungerMaxIncrease * sign;
         playerTargetEffectTotal.armorIncrease += targetEffect.armorIncrease * sign;
+
+
+        playerTargetEffectTotal.discountRateOfVendingMachineItems += targetEffect.discountRateOfVendingMachineItems;
+        playerTargetEffectTotal.discountRateOfCafeteriaItems += targetEffect.discountRateOfCafeteriaItems;
+        playerTargetEffectTotal.discountRateAllItems += targetEffect.discountRateAllItems;
+        playerTargetEffectTotal.rewardOfEndGameIncrease += targetEffect.rewardOfEndGameIncrease;
 
         PlayerManager.Instance.GetPlayer().UpdatePlayerData();
     }
@@ -198,7 +216,7 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
 
         // 합 연산
         weaponTargetEffectTotal.damageIncrease += targetEffect.damageIncrease * sign;
-        weaponTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
+        //weaponTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
         weaponTargetEffectTotal.knockBackIncrease += targetEffect.knockBackIncrease * sign;
         weaponTargetEffectTotal.ammoCapacityIncrease += targetEffect.ammoCapacityIncrease * sign;
         weaponTargetEffectTotal.chargeDamageIncrease += targetEffect.chargeDamageIncrease * sign;
@@ -224,18 +242,17 @@ public class BuffManager : MonoBehaviourSingleton<BuffManager>
         }
 
         // bool형 on / off 종류, 해당 되는 항목들은 정보아이템 등록시  true, 제거시 false로 total 정보를 설정 함. 
-        if (targetEffect.canBlockbullet)
-            weaponTargetEffectTotal.canBlockbullet = boolSign;
-        if (targetEffect.canDrainHp)
-            weaponTargetEffectTotal.canDrainHp = boolSign;
+
         if (targetEffect.canIncreasePierceCount)
             weaponTargetEffectTotal.canIncreasePierceCount = boolSign;
         if (targetEffect.becomesSpiderMine)
             weaponTargetEffectTotal.becomesSpiderMine = boolSign;
         if (targetEffect.bounceAble)
             weaponTargetEffectTotal.bounceAble = boolSign;
-        if (targetEffect.canBounceBulletWithMeleeWeapons)
-            weaponTargetEffectTotal.canBounceBulletWithMeleeWeapons = boolSign;
+        if (targetEffect.blowWeaponsCanBlockBullet)
+            weaponTargetEffectTotal.blowWeaponsCanBlockBullet = boolSign;
+        if (targetEffect.swingWeaponsCanReflectBullet)
+            weaponTargetEffectTotal.swingWeaponsCanReflectBullet = boolSign;
     }
 
 

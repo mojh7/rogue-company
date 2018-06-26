@@ -45,11 +45,13 @@ public class Bullet : MonoBehaviour
     private Coroutine setColliderSize;
 
     private Vector3 dirVector; // 총알 방향 벡터
-    private float dirDegree;      // 총알 방향 각도.
+    private float dirDegree;   // 총알 방향 각도.
 
     private OwnerType ownerType;
+    private WeaponType weaponType;
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
+    private BuffManager ownerBuff;
     private float addDirVecMagnitude;
 
     // 코루틴 deltaTime
@@ -217,7 +219,7 @@ public class Bullet : MonoBehaviour
         }
         //--------------------------------
 
-        if (true == info.bulletBlockAble)
+        if (true == info.canBlockBullet)
         {
             objTransform.tag = "PlayerBlockBullet";
         }
@@ -304,8 +306,7 @@ public class Bullet : MonoBehaviour
         {
             rotationAnimation = StartCoroutine("RotationAnimation");
         }
-
-        // scale이 바뀌면서 커지고 작아지는 애니메이션 적용
+        // scale이 커지고 작아지는 애니메이션 적용
         if (true == info.showsScaleAnimation)
         {
             scaleAnimation = StartCoroutine("ScaleAnimation");
@@ -342,7 +343,7 @@ public class Bullet : MonoBehaviour
             boxCollider.isTrigger = true;
         }
 
-        if (true == info.bulletBlockAble)
+        if (true == info.canBlockBullet)
         {
             objTransform.tag = "PlayerBlockBullet";
         }
@@ -350,8 +351,6 @@ public class Bullet : MonoBehaviour
         {
             objTransform.tag = "Bullet";
         }
-        //boxCollider.size
-
     }
 
     /// <summary> collision, update, delete 속성 Class들 초기화  </summary>
@@ -509,6 +508,13 @@ public class Bullet : MonoBehaviour
 
     public void ApplyWeaponBuff()
     {
+        // 때리기형 근접 무기 적 총알 막기
+        if (WeaponType.Blow == weaponType && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
+            info.canBlockBullet = true;
+        // 날리기형 근접 무기 적 총알
+        if (WeaponType.Swing == weaponType && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
+            info.canReflectBullet = true;
+
 
     }
 

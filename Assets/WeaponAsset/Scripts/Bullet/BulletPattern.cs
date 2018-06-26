@@ -10,7 +10,8 @@ using WeaponAsset;
 // 지금 안쓰고 차차 코딩하면서 쓸 듯
 public class TransferBulletInfo
 {
-    public float speed;
+    public WeaponType weaponType;
+    public float bulletMoveSpeed;
     public float range;
     public float damage;
     public float knockBack;
@@ -53,6 +54,7 @@ public abstract class BulletPattern
     protected DelGetPosition ownerPos;
 
     protected BuffManager ownerBuff;
+    protected TransferBulletInfo transferBulletInfo;
     public float GetDelay()
     {
         return delay;
@@ -73,17 +75,64 @@ public abstract class BulletPattern
         ownerBuff = weapon.GetOwnerBuff();
 
         addDirVecMagnitude = weapon.info.addDirVecMagnitude;
+
+        transferBulletInfo = new TransferBulletInfo();
     }
     public virtual void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0) { }
     public abstract BulletPattern Clone();
     public abstract void StartAttack(float damageIncreaseRate, OwnerType ownerType); // 공격 시도 시작
-    public abstract void StopAttack();  // 공격 시도 시작 후 멈췄을 때
+    public virtual void StopAttack() { }  // 공격 시도 시작 후 멈췄을 때
     public abstract void CreateBullet(float damageIncreaseRate);
 
-    public virtual void ApplyWeaponBuff()
+    /// <summary>
+    /// 값이 0이 아니면 => 값 전달하기, 값이 0이면 전달할 필요 X
+    /// </summary>
+    public virtual void UpdateTransferBulletInfo()
     {
+        transferBulletInfo.weaponType = weapon.info.weaponType;
 
+        if (weapon.info.bulletMoveSpeed != 0)
+        {
+            transferBulletInfo.bulletMoveSpeed = weapon.info.bulletMoveSpeed;
+        }
+        else
+        {
+            transferBulletInfo.bulletMoveSpeed = 0;
+        }
+        if (weapon.info.range != 0)
+        {
+            transferBulletInfo.range = weapon.info.range;
+        }
+        else
+        {
+            transferBulletInfo.range = 0;
+        }
+        if (weapon.info.damage != 0)
+        {
+            transferBulletInfo.damage = weapon.info.damage;
+        }
+        else
+        {
+            transferBulletInfo.damage = 0;
+        }
+        if (weapon.info.knockBack != 0)
+        {
+            transferBulletInfo.knockBack = weapon.info.knockBack;
+        }
+        else
+        {
+            transferBulletInfo.knockBack = 0;
+        }
+        if (weapon.info.criticalChance != 0)
+        {
+            transferBulletInfo.criticalChance = weapon.info.criticalChance;
+        }
+        else
+        {
+            transferBulletInfo.criticalChance = 0;
+        }
     }
+    public abstract void UpdateWeaponBuff();
 }
 
 //  1~N개의 총알(1종류)을 다양한 방향으로 일정한 각도 텀을 두고 발사하는 패턴
@@ -148,11 +197,6 @@ public class MultiDirPattern : BulletPattern
         CreateBullet(damageIncreaseRate);
     }
 
-    public override void StopAttack()
-    {
-
-    }
-
     // 이미 저장된 정보 이용.
     public override void CreateBullet(float damageIncreaseRate)
     {
@@ -162,6 +206,15 @@ public class MultiDirPattern : BulletPattern
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle)
                 , info.speed, info.range, info.damage, info.knockBack, info.criticalChance);
         }
+    }
+
+    public override void UpdateWeaponBuff()
+    {
+    }
+
+    public override void UpdateTransferBulletInfo()
+    {
+        base.UpdateTransferBulletInfo();
     }
 }
 
@@ -250,11 +303,6 @@ public class RowPattern : BulletPattern
         CreateBullet(damageIncreaseRate);
     }
 
-    public override void StopAttack()
-    {
-
-    }
-
     /// <summary> 패턴대로 총알 생성 </summary>
     public override void CreateBullet(float damageIncreaseRate)
     {
@@ -266,6 +314,14 @@ public class RowPattern : BulletPattern
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * i), ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle)
                 , info.speed, info.range, info.damage, info.knockBack, info.criticalChance);
         }
+    }
+
+    public override void UpdateWeaponBuff()
+    {
+    }
+    public override void UpdateTransferBulletInfo()
+    {
+        base.UpdateTransferBulletInfo();
     }
 }
 
@@ -327,7 +383,6 @@ public class LaserPattern : BulletPattern
             CreateBullet(damageIncreaseRate);
             canCreateLaser = false;
         }
-        
     }
 
     public override void StopAttack()
@@ -343,6 +398,14 @@ public class LaserPattern : BulletPattern
         createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerType, addDirVecMagnitude, ownerPos, ownerDirVec
             , info.damage, info.knockBack, info.criticalChance);
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
+    }
+
+    public override void UpdateWeaponBuff()
+    {
+    }
+    public override void UpdateTransferBulletInfo()
+    {
+        base.UpdateTransferBulletInfo();
     }
 }
 
@@ -413,5 +476,13 @@ public class SpreadPattern : BulletPattern
 
     public override void StopAttack()
     {
+    }
+
+    public override void UpdateWeaponBuff()
+    {
+    }
+    public override void UpdateTransferBulletInfo()
+    {
+        base.UpdateTransferBulletInfo();
     }
 }

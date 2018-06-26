@@ -67,8 +67,10 @@ public class BulletInfo : ScriptableObject
     // 튕기는 총알 테스트용, 반사 o / x
     public bool bounceAble;
 
-    [Header("근접 무기 다른 owner 총알 block on / off")]
-    public bool bulletBlockAble;
+    [Header("근접 무기 다른 owner 총알 막기 on / off")]
+    public bool canBlockBullet;
+    [Header("근접 무기 다른 owner 총알 튕겨내기 on / off")]
+    public bool canReflectBullet;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -126,7 +128,7 @@ public class BulletInfo : ScriptableObject
         isFixedAngle = false;
 
         bounceAble = false;
-        bulletBlockAble = false;
+        canBlockBullet = false;
 
         // isInitializable = true;
 
@@ -135,42 +137,6 @@ public class BulletInfo : ScriptableObject
         // get_name is not allowed to be called during serialization, call it from OnEnable instead. Called from ScriptableObject 'MultiDirPatternInfo'.
         // See "Script Serialization" page in the Unity Manual for further details.
     }
-
-    /*
-    public BulletInfo(BulletInfo info)
-    {
-        this.bulletName = info.bulletName;
-        this.damage = info.damage;
-        this.speed = info.speed;
-        this.range = info.range;
-        this.scaleX = info.scaleX;
-        this.scaleY = info.scaleY;
-
-        collisionPropertiesLength = info.collisionPropertiesLength;
-        updatePropertiesLength = info.updatePropertiesLength;
-        deletePropertiesLength = info.deletePropertiesLength;
-
-        collisionProperties = new List<CollisionProperty>();
-        updateProperties = new List<UpdateProperty>();
-        deleteProperties = new List<DeleteProperty>();
-
-        // 총알 충돌 속성 초기화
-        for (int i = 0; i < collisionPropertiesLength; i++)
-        {
-            collisionProperties.Add(info.collisionProperties[i].Clone());
-        }
-        // 총알 이동 속성 초기화
-        for (int i = 0; i < updatePropertiesLength; i++)
-        {
-            updateProperties.Add(info.updateProperties[i].Clone());
-        }
-        // 총알 삭제 속성 초기화
-        for (int i = 0; i < deletePropertiesLength; i++)
-        {
-            deleteProperties.Add(info.deleteProperties[i].Clone());
-        }
-    }
-    */
 
     // 복사 생성자 쓸랬다가 로그 보는 곳에 BulletInfo must be 
     // instantiated using the ScriptableObject.CreateInstance method instead of new BulletInfo.
@@ -212,7 +178,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.deleteAfterSummonBulletInfo = deleteAfterSummonBulletInfo;
         clonedInfo.deleteAfterSummonPatternInfo = deleteAfterSummonPatternInfo;
         clonedInfo.bounceAble = bounceAble;
-        clonedInfo.bulletBlockAble = bulletBlockAble;
+        clonedInfo.canBlockBullet = canBlockBullet;
+        clonedInfo.canReflectBullet = canReflectBullet;
 
 
         /*---*/
@@ -253,9 +220,7 @@ public class BulletInfo : ScriptableObject
         return clonedInfo;
     }
 
-    /// <summary>
-    /// edit시 enum으로 처리한 속성들 실제로 collision, update, delete 속성 정보로 만듬
-    /// </summary>
+    /// <summary> edit시 enum으로 처리한 속성들 실제로 collision, update, delete 속성 정보로 만듬 </summary>
     public void Init()
     {
         /*

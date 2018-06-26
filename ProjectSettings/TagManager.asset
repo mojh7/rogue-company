@@ -28,8 +28,8 @@ TagManager:
   - PlayerBullet
   - Player
   - EnemyBullet
-  - PlayerBlockBullet
-  - 
+  - PlayerCanBlock
+  - ' '
   - 
   - 
   - 

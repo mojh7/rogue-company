@@ -15,10 +15,10 @@ MonoBehaviour:
   bulletInfo: {fileID: 11400000, guid: 8a8c976286fb83f48a90d9f91b8f236e, type: 2}
   damage: 0
   knockBack: 0
-  criticalRate: 0
+  criticalChance: 0
   speed: 0
   range: 0
-  bulletCount: 4
-  initAngle: 45
-  deltaAngle: 90
+  bulletCount: 8
+  initAngle: 225
+  deltaAngle: 10
   randomAngle: 0

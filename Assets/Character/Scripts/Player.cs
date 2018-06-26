@@ -16,7 +16,7 @@ using WeaponAsset;
 #endregion
 */
 
-public enum OwnerType { Player, Enemy, Object }
+public enum OwnerType { Player, Enemy, Pet, Object }
 
 struct RaycasthitEnemy
 {
@@ -254,6 +254,7 @@ public class Player : Character
         Debug.Log("InitPlayerData hp : " + playerData.Hp);
         this.playerData = playerData;
         originPlayerData = playerData;
+        UpdatePlayerData();
         playerHpUi.UpdateHPUI(playerData.Hp);
     }
 

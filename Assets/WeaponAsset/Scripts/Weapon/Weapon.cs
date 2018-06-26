@@ -181,6 +181,7 @@ public class Weapon : Item {
                     Debug.Log("총알 부족으로 인한 차징 공격 실패");
                     return;
                 }
+                UpdateWeaponBuff();
                 weaponState = WeaponState.Charge;
                 // 차징 코루틴 실행
                 if (chargingUpdate == null)
@@ -198,6 +199,7 @@ public class Weapon : Item {
         // 일단 1회 공격 사이클 돌릴 때 무조건 info.ammo -1 처리
         if(info.ammo > 0 || info.ammoCapacity < 0)
         {
+            UpdateWeaponBuff();
             weaponState = WeaponState.Attack;
             info.ammo -= 1;
             // weaponManager 에서 onwerType = player 인 것만 실행 되게 체크함
@@ -281,14 +283,11 @@ public class Weapon : Item {
         }
     }
 
-    public void ApplyWeaponBuff()
+    public void UpdateWeaponBuff()
     {
-        WeaponTargetEffect total = BuffManager.Instance.WeaponTargetEffectTotal;
-        info.cooldown = originInfo.cooldown * total.cooldownReduction;
-        info.chargeTime = originInfo.chargeTime * total.chargeTimeReduction;
+        info.cooldown = originInfo.cooldown * ownerBuff.WeaponTargetEffectTotal.cooldownReduction;
+        info.chargeTime = originInfo.chargeTime * ownerBuff.WeaponTargetEffectTotal.chargeTimeReduction;
     }
-
-
 
 
     // 공격 패턴 한 사이클.
@@ -296,8 +295,7 @@ public class Weapon : Item {
     {
         // 공격 한 사이클 실행
         for (int i = 0; i < info.bulletPatternsLength; i++)
-        {
-            
+        { 
             for(int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
             {
                 // 공격 사운드 실행

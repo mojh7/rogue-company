@@ -111,7 +111,6 @@ public class WeaponManager : MonoBehaviour {
     }
     #endregion
     #region setter
-    public void SetOwnerType(OwnerType ownerType) { this.ownerType = ownerType; }
     /// <summary> Owner 정보 등록 </summary>
     public void SetOwnerInfo(Character owner, OwnerType ownerType)
     {
@@ -288,7 +287,6 @@ public class WeaponManager : MonoBehaviour {
     
 
     /// <summary> 차징 공격에 사용되는 차징 게이지 UI Update </summary>
-    /// <param name="chargedVaule"></param>
     public void UpdateChargingUI(float chargedVaule)
     {
         chargeGauge.UpdateChargeGauge(chargedVaule);
@@ -306,10 +304,6 @@ public class WeaponManager : MonoBehaviour {
     /// <summary> 공격 버튼 뗐을 때 </summary>
     public void AttackButtonUP()
     {
-        //if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.PickAndDrop)
-        //{
-        //    equipWeaponSlot[currentWeaponIndex].SetWeaponState(WeaponState.Idle);
-        //}
         equipWeaponSlot[currentWeaponIndex].StopAttack();
     }
 

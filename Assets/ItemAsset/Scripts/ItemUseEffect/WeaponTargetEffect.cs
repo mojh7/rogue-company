@@ -10,8 +10,7 @@ public class WeaponTargetEffect : ItemUseEffect
     #region ability
 
     // 합 연산
-    public float damageIncrease;           // 공격력 증가율
-    public float criticalChanceIncrease;   // 치명타 확률 증가율, 플레이어에 적용되게 하면 모든 무기 적용이고 무기 종류에 따른 크리티컬 증감 효과 해야 될듯      
+    public float damageIncrease;           // 3. 공격력 증가율
     public float knockBackIncrease;        // 넉백 증가율
     public float ammoCapacityIncrease;     // 탄창 Maximum 증가율, int형으로 갯수로 해야 될 수도
     public float chargeDamageIncrease;     // 차징 공격 데미지 증가율
@@ -22,13 +21,17 @@ public class WeaponTargetEffect : ItemUseEffect
 
     public float increasesGainingToHunger; // 허기 획득량 상승
     public float accuracyIncrease;         // 집탄률, 탄 정확도 상승
+    public float shotgunsAccuracyIncrease; // 샷건총 집탄률, 탄 정확도 상승
 
     // 곱 연산
-    public float cooldownReduction;        // 무기 재사용 시간 감소율
+    public float cooldownReduction;        // 9. 무기 재사용 시간 감소율
     public float chargeTimeReduction;      // 차징 시간 감소율
 
     // 일정 수치 상승
-    public int shotgunBulletCountIncrease;      // 샷건류(spread pattern) 총알 갯수 증가
+    public int shotgunBulletCountIncrease; // 샷건류(spread pattern) 총알 갯수 증가
+            
+
+
     #endregion
 
     /* 총알 속성 추가 해야 되는 것들, on / off 류
@@ -42,12 +45,13 @@ public class WeaponTargetEffect : ItemUseEffect
      */
     #region addProperties
 
-    public bool canBlockbullet;             // 근접 무기류 적 총알 막기 on
-    public bool canDrainHp;                 // 흡혈
-    public bool canIncreasePierceCount;     // 비 관통 무기들 관통 횟수 +1 추가
-    public bool becomesSpiderMine;          // 함정 무기 스파이더 마인화
-    public bool bounceAble;                 // 총알이 벽에 1회 튕길 수 있음.
-    public bool canBounceBulletWithMeleeWeapons; // 근접 무기로 총알 반사
+    public bool canIncreasePierceCount;     // 1. 비 관통 무기들 관통 횟수 +1 추가
+    public bool becomesSpiderMine;          // 10. 함정 무기 스파이더 마인화
+    public bool bounceAble;                 // 8. 총알이 벽에 1회 튕길 수 있음.
+    public bool shotgunBulletCanHoming;     // 5. 샷건 총알 n초 후 유도 총알로 바뀜, n초 미정
+
+    public bool blowWeaponsCanBlockBullet;       // 6. A분류 근거리 무기 총알 막기
+    public bool swingWeaponsCanReflectBullet;    // 7. B분류 근거리 무기 총알 튕겨내기
 
     #endregion
 }
