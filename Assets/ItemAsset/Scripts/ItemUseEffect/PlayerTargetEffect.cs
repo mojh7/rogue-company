@@ -6,27 +6,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerTargetEffect", menuName = "ItemAsset/ItemUseEffect/PlayerTargetEffect", order = 0)]
 public class PlayerTargetEffect : ItemUseEffect
 {
-    // 일정 량 회복
+    // 합 옵션
     public float recoveryHp;
     public float recoveryHunger;
-    // public float hpMaxIncrease;
-
-    // 일정 수치 증가
     public int armorIncrease;
+    public float criticalChanceIncrease; // 2. 치명타 확률 증가율    
 
-    // ???
-    public float hungerMaxIncrease;
-
-    // 합 공식
+    // 곱 옵션 - 합 연산
     public float moveSpeedIncrease;
-    public float criticalChanceIncrease; // 2. 치명타 확률 증가율
+    public float rewardOfEndGameIncrease;           // 게임 끝날 때 보상 증가율
 
-    // 기타 옵션
+    // 곱 옵션 - 곱 연산
     public float discountRateOfVendingMachineItems; // 자판기 아이템의 할인율
     public float discountRateOfCafeteriaItems;      // 카페테리아 아이템의 할인율
     public float discountRateAllItems;              // 모든 아이템의 할인율
-    public float rewardOfEndGameIncrease;           // 게임 끝날 때 보상 증가율
+
+    // 미정
+    public float hungerMaxIncrease;
+    // public float hpMaxIncrease;
+
     // on / off
     public bool canDrainHp; // 4. 흡혈 : 적 n명 처치당 체력 +0.5(반 칸) 회복
-
 }

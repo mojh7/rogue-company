@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Name: "BulletInfo 3 \uB808\uC774\uC800 \uCD1D\uC54C"
   m_EditorClassIdentifier: 
   memo: "\uBAA8\uC7A5\uD604\n\uB808\uC774\uC800 \uC804\uC6A9 \uCD1D\uC54C"
-  ownerType: 0
+  bulletType: 1
   bulletName: "\uB808\uC774\uC800 \uCD1D\uC54C"
   damage: 0
   knockBack: 0
-  criticalRate: 0
+  criticalChance: 0
   speed: 0
   acceleration: 0
   deltaSpeedTotalLimit: 0
@@ -38,15 +38,28 @@ MonoBehaviour:
   deleteAfterSummonBulletInfo: {fileID: 0}
   deleteAfterSummonPatternInfo: {fileID: 0}
   bounceAble: 0
-  bulletBlockAble: 0
+  canBlockBullet: 0
+  canReflectBullet: 0
+  statusEffectInfo:
+    nonOverlappingPoisonDamage: 0
+    nonOverlappingPoisonEffectiveTime: 0
+    overlappingPoisonDamage: 0
+    overlappingPoisonEffectiveTime: 0
+    nonOverlappingBurnDamage: 0
+    nonOverlappingBurnEffectiveTime: 0
+    overlappingBurnDamage: 0
+    overlappingBurnEffectiveTime: 0
+    slow: 0
+    slowEffectiveTime: 0
+    canStun: 0
+    stunEffectiveTime: 0
+    canFreeze: 0
+    freezeEffectiveTime: 0
   collisionPropertiesEdit: 01000000
   updatePropertiesEdit: 02000000
   deletePropertiesEdit: 01000000
   collisionPropertiesLength: 1
   updatePropertiesLength: 1
   deletePropertiesLength: 1
-  summonBulletPatternEditInfo:
-    patternInfo: {fileID: 0}
-    executionCount: 0
-    delay: 0
+  summonBulletPatternInfo: {fileID: 0}
   creationCycle: 0

@@ -16,6 +16,8 @@ public class BulletInfo : ScriptableObject
     [TextArea(3, 100)] private string memo;
 
     protected OwnerType ownerType;
+    [SerializeField]
+    protected BulletType bulletType;
 
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
@@ -40,6 +42,8 @@ public class BulletInfo : ScriptableObject
 
     [Tooltip("총알 생성 시 발생 소리, 0이상 이면 적용, ex: 폭발 총알")]
     public int soundId;
+
+    public ColiderType coliderType;
 
     [Header("Not Play Animation이 아니면 해당 애니메이션 적용")]
     public BulletAnimationType spriteAnimation;
@@ -71,6 +75,11 @@ public class BulletInfo : ScriptableObject
     public bool canBlockBullet;
     [Header("근접 무기 다른 owner 총알 튕겨내기 on / off")]
     public bool canReflectBullet;
+
+    [Header("startDelay초 후 총알 유도 시작")]
+    public float startDelay;
+
+    public StatusEffectInfo statusEffectInfo;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -166,6 +175,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.effectId = effectId;
         clonedInfo.soundId = soundId;
 
+        clonedInfo.coliderType = coliderType;
         clonedInfo.spriteAnimation = spriteAnimation;
         clonedInfo.bulletSprite = bulletSprite;
 
@@ -180,7 +190,10 @@ public class BulletInfo : ScriptableObject
         clonedInfo.bounceAble = bounceAble;
         clonedInfo.canBlockBullet = canBlockBullet;
         clonedInfo.canReflectBullet = canReflectBullet;
+        clonedInfo.startDelay = startDelay;
+        clonedInfo.statusEffectInfo = statusEffectInfo;
 
+        //clonedInfo = ; 
 
         /*---*/
 

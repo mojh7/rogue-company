@@ -14,9 +14,6 @@ public class BulletPatternInfo : ScriptableObject
 
     [Tooltip("총알 Info, laser 무기는 꼭 laserUpdate와 laserDelete 속성을 가진 총알 만 쓰기")]
     public BulletInfo bulletInfo;
-    public float damage;            // 총알 한 발 당 데미지
-    public float knockBack;         // 넉백 세기
-    public float criticalChance;      // 크리티컬 확률
 
     /// <summary> bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
     public static BulletPattern CreatePatternInfo(BulletPatternInfo patternInfo, OwnerType ownerType)
@@ -57,9 +54,5 @@ public class BulletPatternInfo : ScriptableObject
 public class ProjectilesPatternInfo : BulletPatternInfo
 {
     [Header("투사체 총알 정보")]
-
-    public float speed;         // 총알 속도
-    public float range;         // 사정 거리
-
     public int bulletCount;     // 총알 갯수
 }

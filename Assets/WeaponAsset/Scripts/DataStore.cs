@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
@@ -20,9 +20,10 @@ namespace WeaponAsset
     public enum WeaponType { Blow, Strike, Swing, Gun, ShotGun, Laser }
     public enum AttackAniType { Blow, Strike, Shot }
     public enum TouchMode { Normal, Charge }
-
+    public enum BulletType { projectile, Laser, Melee}
     /*---*/
 
+    public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
     public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing }
     public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }

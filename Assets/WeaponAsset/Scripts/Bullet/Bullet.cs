@@ -4,6 +4,8 @@ using UnityEngine;
 using WeaponAsset;
 
 
+
+
 /// <summary>
 /// Bullet Class
 /// 
@@ -48,10 +50,10 @@ public class Bullet : MonoBehaviour
     private float dirDegree;   // 총알 방향 각도.
 
     private OwnerType ownerType;
-    private WeaponType weaponType;
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
     private BuffManager ownerBuff;
+    private TransferBulletInfo transferBulletInfo;
     private float addDirVecMagnitude;
 
     // 코루틴 deltaTime
@@ -149,12 +151,14 @@ public class Bullet : MonoBehaviour
     }
 
     // 일반(투사체) 총알 초기화
-    public void Init(BulletInfo bulletInfo, OwnerType ownerType, Vector3 pos, float direction, float speed, float range, float damage, float knockBack, float criticalChance)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
-
+        this.transferBulletInfo = transferBulletInfo;
+        this.ownerBuff = ownerBuff;
         // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
+        /*
         if (speed != 0)
         {
             info.speed = speed;
@@ -174,19 +178,22 @@ public class Bullet : MonoBehaviour
         if (criticalChance != 0)
         {
             info.criticalChance = criticalChance;
-        }
+        }*/
         //--------------------------------
 
 
-        // 투사체 총알 속성 초기화
-        InitProjectileProperty();
 
         // Owner 정보 초기화
         InitOwnerInfo(ownerType);
 
+        // Owner buff 적용
+        ApplyWeaponBuff();
+
+        // 투사체 총알 속성 초기화
+        InitProjectileProperty();
+
         // 총알 속성들 초기화
         InitPropertyClass();
-
 
         // 처음 위치 설정
         objTransform.position = pos;
@@ -198,35 +205,12 @@ public class Bullet : MonoBehaviour
     }
 
     // 레이저 총알 초기화
-    // 레이저 나중에 빔 모양 말고 처음 시작 지점, raycast hit된 지점에 동그란 원 추가 생성 할 수도 있음.
-    public void Init(BulletInfo bulletInfo, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, float damage, float knockBack, float criticalChance)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
-
-        // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
-        if (damage != 0)
-        {
-            info.damage = damage;
-        }
-        if (knockBack != 0)
-        {
-            info.knockBack = knockBack;
-        }
-        if (criticalChance != 0)
-        {
-            info.criticalChance = criticalChance;
-        }
-        //--------------------------------
-
-        if (true == info.canBlockBullet)
-        {
-            objTransform.tag = "PlayerBlockBullet";
-        }
-        else
-        {
-            objTransform.tag = "Bullet";
-        }
+        this.transferBulletInfo = transferBulletInfo;
+        this.ownerBuff = ownerBuff;
 
         // component on/off
         boxCollider.enabled = false;
@@ -242,6 +226,8 @@ public class Bullet : MonoBehaviour
 
         // Owner 정보 초기화
         InitOwnerInfo(ownerType);
+        // Owner buff 적용, InitPropertyClass 이전에 실행 해야됨.
+        ApplyWeaponBuff();
 
         spriteAnimatorObj.SetActive(false);
         spriteRenderer.sprite = null;
@@ -255,6 +241,7 @@ public class Bullet : MonoBehaviour
         this.ownerDirVec = ownerDirVec;
         this.addDirVecMagnitude = addDirVecMagnitude;
         objTransform.position = ownerPos();
+
         InitPropertyClass();
         //bulletUpdate = StartCoroutine("BulletUpdate");
     }
@@ -274,7 +261,6 @@ public class Bullet : MonoBehaviour
             default:
                 break;
         }
-
     }
 
     /// <summary>
@@ -334,7 +320,7 @@ public class Bullet : MonoBehaviour
         //lineRenderer.positionCount = 0;
 
         // 튕기는 총알 테스트 용, 일단 컬라이더 임시로 박스만 쓰는 중
-        if (info.bounceAble == true)
+        if (true == info.bounceAble)
         {
             boxCollider.isTrigger = false;
         }
@@ -345,7 +331,17 @@ public class Bullet : MonoBehaviour
 
         if (true == info.canBlockBullet)
         {
-            objTransform.tag = "PlayerBlockBullet";
+            if (OwnerType.Player == ownerType)
+                objTransform.tag = "PlayerCanBlockBullet";
+            if (OwnerType.Enemy == ownerType)
+                objTransform.tag = "EnemyCanReflectBullet";
+        }
+        else if(true == info.canReflectBullet)
+        {
+            if (OwnerType.Player == ownerType)
+                objTransform.tag = "PlayerCanBlockBullet";
+            if (OwnerType.Enemy == ownerType)
+                objTransform.tag = "EnmeyCanReflectBullet";
         }
         else
         {
@@ -437,15 +433,32 @@ public class Bullet : MonoBehaviour
         CollisionBullet(coll);
     }
 
+    // 이거 collisionPropery안에서도 또 tag 체크하는데 봐서 간소화 시킬 수 있으면 간소화 시킬 예정
+
     /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
-        if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall") || coll.transform.CompareTag("PlayerBlockBullet"))
+        int length = info.collisionPropertiesLength;
+        if (OwnerType.Player == ownerType)
         {
-            int length = info.collisionPropertiesLength;
-            for (int i = 0; i < length; i++)
+            if(coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall") ||
+                coll.transform.CompareTag("PlayerCanBlockBullet") || coll.transform.CompareTag("PlayerCanReflectBullet"))
             {
-                info.collisionProperties[i].Collision(ref coll);
+                for (int i = 0; i < length; i++)
+                {
+                    info.collisionProperties[i].Collision(ref coll);
+                }
+            }
+        }
+        else if(OwnerType.Enemy == ownerType)
+        {
+            if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Wall") ||
+                coll.transform.CompareTag("EnemyCanBlockBullet") || coll.transform.CompareTag("EnemyCanReflectBullet"))
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    info.collisionProperties[i].Collision(ref coll);
+                }
             }
         }
     }
@@ -453,12 +466,27 @@ public class Bullet : MonoBehaviour
     /// <summary> 충돌 속성 실행 Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
-        if (coll.CompareTag("Player") || coll.CompareTag("Enemy") || coll.CompareTag("Wall") || coll.CompareTag("PlayerBlockBullet"))
+        int length = info.collisionPropertiesLength;
+        if (OwnerType.Player == ownerType)
         {
-            int length = info.collisionPropertiesLength;
-            for (int i = 0; i < length; i++)
+            if (coll.CompareTag("Enemy") || coll.CompareTag("Wall") ||
+                coll.CompareTag("PlayerCanBlockBullet") || coll.CompareTag("PlayerCanReflectBullet"))
             {
-                info.collisionProperties[i].Collision(ref coll);
+                for (int i = 0; i < length; i++)
+                {
+                    info.collisionProperties[i].Collision(ref coll);
+                }
+            }
+        }
+        else if (OwnerType.Enemy == ownerType)
+        {
+            if (coll.CompareTag("Player") || coll.CompareTag("Wall") ||
+                coll.CompareTag("EnemyCanBlockBullet") || coll.CompareTag("EnemyCanReflectBullet"))
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    info.collisionProperties[i].Collision(ref coll);
+                }
             }
         }
     }
@@ -509,15 +537,64 @@ public class Bullet : MonoBehaviour
     public void ApplyWeaponBuff()
     {
         // 때리기형 근접 무기 적 총알 막기
-        if (WeaponType.Blow == weaponType && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
+        if (WeaponType.Blow == transferBulletInfo.weaponType && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
             info.canBlockBullet = true;
         // 날리기형 근접 무기 적 총알
-        if (WeaponType.Swing == weaponType && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
+        if (WeaponType.Swing == transferBulletInfo.weaponType && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
             info.canReflectBullet = true;
+        // 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
+        if (WeaponType.ShotGun == transferBulletInfo.weaponType && ownerBuff.WeaponTargetEffectTotal.shotgunBulletCanHoming)
+        { 
+            info.startDelay = 0.5f;
+            info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
 
+            //HomingProperty 중복 생성 방지
+            if (HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(HomingProperty)))
+            {
+                info.updateProperties.Add(new HomingProperty());
+                info.updatePropertiesLength += 1;
+            }
+        }
 
     }
 
+    /// <summary> bullet Properties 안에 해당 property가 포함 되어 있는지 여부 확인</summary>
+    public bool HasIncludedUpdateProperty(BulletPropertyType bulletPropertyType, System.Type type)
+    {
+        switch(bulletPropertyType)
+        {
+            case BulletPropertyType.Collision:
+                for (int i = 0; i < info.collisionPropertiesLength; i++)
+                {
+                    if (type == info.collisionProperties[i].GetType())
+                    {
+                        return true;
+                    }
+                }
+                break;
+            case BulletPropertyType.Update:
+                for (int i = 0; i < info.updatePropertiesLength; i++)
+                {
+                    if (type == info.updateProperties[i].GetType())
+                    {
+                        return true;
+                    }
+                }
+                break;
+            case BulletPropertyType.Delete:
+                for (int i = 0; i < info.deletePropertiesLength; i++)
+                {
+                    if (type == info.deleteProperties[i].GetType())
+                    {
+                        return true;
+                    }
+                }
+                break;                
+            default:
+                break;
+        }
+        return false;
+    }
     #endregion
 
     #region coroutine
