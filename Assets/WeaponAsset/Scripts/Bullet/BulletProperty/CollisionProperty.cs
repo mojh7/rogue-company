@@ -123,7 +123,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         }
         else if (OwnerType.Player == bullet.GetOwnerType())
         {
-            if (coll.transform.CompareTag("EnmeyCanBlockBullet"))
+            if (coll.transform.CompareTag("EnemyCanBlockBullet"))
             {
                 delDestroyBullet();
             }
@@ -186,7 +186,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         }
         else if (OwnerType.Player == bullet.GetOwnerType())
         {
-            if (coll.CompareTag("EnmeyCanBlockBullet"))
+            if (coll.CompareTag("EnemyCanBlockBullet"))
             {
                 delDestroyBullet();
             }
@@ -222,7 +222,7 @@ class BaseNormalCollisionProperty : CollisionProperty
     protected override void Bounce(ref Collision2D coll)
     {
         // bounce 가능 횟수가 남아있으면 총알을 반사각으로 튕겨내고 없으면 delete 처리
-        if (bounceCount > 0)
+        if (bullet.info.bounceAble && bounceCount > 0)
         {
             reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
             bullet.SetDirection(reflectVector);

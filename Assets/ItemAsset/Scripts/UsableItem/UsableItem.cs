@@ -30,7 +30,7 @@ public class FoodItem : UsableItem
 {
     public override void Active()
     {
-        throw new System.NotImplementedException();
+        base.Active();
     }
 }
 
@@ -39,7 +39,7 @@ public class ClothingItem : UsableItem
 {
     public override void Active()
     {
-        throw new System.NotImplementedException();
+        base.Active();
     }
 }
 
@@ -48,7 +48,7 @@ public class MiscItem : UsableItem
 {
     public override void Active()
     {
-        throw new System.NotImplementedException();
+        base.Active();
     }
 }
 
@@ -58,7 +58,7 @@ public class MedicalItem : UsableItem
 {
     public override void Active()
     {
-        throw new System.NotImplementedException();
+        base.Active();
     }
 }
 
@@ -67,7 +67,7 @@ public class PetItem : UsableItem
 {
     public override void Active()
     {
-        throw new System.NotImplementedException();
+        base.Active();
     }
 }
 
@@ -76,6 +76,6 @@ public class PassiveItem : UsableItem
 {
     public override void Active()
     {
-        throw new System.NotImplementedException();
+        base.Active();
     }
 }

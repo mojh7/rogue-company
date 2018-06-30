@@ -15,7 +15,7 @@ public class BuffType : EffectApplyType
         // buffManager에 등록
         for (int i = 0; i < itemUseEffect.Length; i++)
         {
-            BuffManager.Instance.RegisterItemEffect(itemUseEffect[i], effectiveTime );
+            PlayerBuffManager.Instance.BuffManager.RegisterItemEffect(itemUseEffect[i], effectiveTime);
         }
     }
 }

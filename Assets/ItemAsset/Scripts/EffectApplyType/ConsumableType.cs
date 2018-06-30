@@ -12,7 +12,7 @@ public class ConsumableType : EffectApplyType
         for (int i = 0; i < itemUseEffect.Length; i++)
         {
             // Player 정보에 효과 적용 하고 아이템 바로 삭제
-            PlayerManager.Instance.GetPlayer().ApplyItemEffect(itemUseEffect[i] as PlayerTargetEffect);
+            PlayerManager.Instance.GetPlayer().ApplyItemEffect(itemUseEffect[i] as CharacterTargetEffect);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// [CreateAssetMenu(fileName = "StatusEffectInfo", menuName = "WeaponData/StatusEffectInfo", order = 4)]
+/// <summary> 상태이상(CC기 포함) 효과 정보 </summary>
 [System.Serializable]
 public class StatusEffectInfo
 {
@@ -10,10 +10,7 @@ public class StatusEffectInfo
     public float overlappingPoisonDamage;
     public float overlappingPoisonEffectiveTime;
 
-    public float nonOverlappingBurnDamage;
-    public float nonOverlappingBurnEffectiveTime;
-    public float overlappingBurnDamage;
-    public float overlappingBurnEffectiveTime;
+    public bool canBurn;
 
     public float slow;
     public float slowEffectiveTime;

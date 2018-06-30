@@ -38,6 +38,7 @@ public abstract class Character : MonoBehaviour
 
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     public Animator animator;
+    protected BuffManager buffManager;
     protected enum State { NOTSPAWNED, DIE, ALIVE }
     protected Sprite sprite;
     //protected float hp;
@@ -60,6 +61,11 @@ public abstract class Character : MonoBehaviour
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
 
+    /// <summary> 상태 이상 효과 적용 </summary>
+    public virtual void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
+    {
+
+    }
 
     #endregion
 
@@ -75,6 +81,7 @@ public abstract class Character : MonoBehaviour
     }
     public virtual Vector3 GetPosition() { return transform.position; }
     public virtual WeaponManager GetWeaponManager() { return weaponManager; }
+    public BuffManager GetBuffManager() { return buffManager; }
     #endregion
     #region Func
     public bool IsDie()
@@ -113,7 +120,7 @@ public class Player : Character
 
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
-    private BuffManager buffManager;
+    
     private Transform objTransform;
     /// <summary> player 크기 </summary>
     private float playerScale;
@@ -122,6 +129,7 @@ public class Player : Character
     private List<RaycasthitEnemy> raycastHitEnemies;
     private RaycasthitEnemy raycasthitEnemyInfo;
     private int layerMask;  // autoAim을 위한 layerMask
+    private int killedEnemyCount;
 
     [SerializeField] private PlayerHPUI playerHpUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
@@ -141,13 +149,18 @@ public class Player : Character
             playerData = value;
         }
     }
+    public int KilledEnemyCount
+    {
+        get
+        {
+            return killedEnemyCount;
+        }
+    }
     #endregion
 
     #region getter
     public PlayerController PlayerController { get { return controller; } }
     public Vector3 GetInputVector () { return controller.GetInputVector(); }
-  
-    public BuffManager GetBuffManager() { return buffManager; }
 
     public WeaponSwitchButton GetWeaponSwitchButton() { return weaponSwitchButton; }
     #endregion
@@ -160,7 +173,6 @@ public class Player : Character
         objTransform = GetComponent<Transform>();
         playerScale = 1f;
         scaleVector = new Vector3(1f, 1f, 1f);
-        buffManager = new BuffManager();
         isRightDirection = true;
         raycastHitEnemies = new List<RaycasthitEnemy>();
         raycasthitEnemyInfo = new RaycasthitEnemy();
@@ -243,7 +255,7 @@ public class Player : Character
         weaponSwitchButton.SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
-        buffManager = BuffManager.Instance;
+        buffManager = PlayerBuffManager.Instance.BuffManager;
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, OwnerType.Player);
 
@@ -335,6 +347,28 @@ public class Player : Character
         else return false;
     }
 
+    public void CountKilledEnemy()
+    {
+        if (false == buffManager.CharacterTargetEffectTotal.canDrainHp) return;
+        killedEnemyCount += 1;
+        if(killedEnemyCount == 5)
+        {
+            RecoverHp(0.5f);
+            killedEnemyCount = 0;
+        }
+    }
+
+    public bool RecoverHp(float recoveryHp)
+    {
+        if (playerData.Hp + recoveryHp <= playerData.HpMax)
+        {
+            playerData.Hp += recoveryHp;
+            return true;
+        }
+        else
+            return false;
+    }
+
     // player 에임 조정, 몬스터 자동 조준 or 조이스틱 방향 
     public void SetAim()
     {       
@@ -401,9 +435,8 @@ public class Player : Character
     }
 
 
-
     // item Player 대상 효과 적용
-    public void ApplyItemEffect(PlayerTargetEffect itemUseEffect)
+    public void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
     {
         // 주로 즉시 효과 볼 내용들이 적용되서 체력, 허기 회복 두개만 쓸 것 같음.
 
@@ -425,10 +458,10 @@ public class Player : Character
     public void UpdatePlayerData()
     {
         // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.
-        playerData.HungerMax = originPlayerData.HungerMax * buffManager.PlayerTargetEffectTotal.hungerMaxIncrease;
-        playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.PlayerTargetEffectTotal.moveSpeedIncrease;
-        playerData.Armor = originPlayerData.Armor * buffManager.PlayerTargetEffectTotal.armorIncrease;
-        playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.PlayerTargetEffectTotal.criticalChanceIncrease;
+        playerData.HungerMax = originPlayerData.HungerMax * buffManager.CharacterTargetEffectTotal.hungerMaxIncrease;
+        playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrease;
+        playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrease;
+        playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.CharacterTargetEffectTotal.criticalChanceIncrease;
     }
     #endregion
 

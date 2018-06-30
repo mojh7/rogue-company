@@ -41,6 +41,13 @@ public class SpreadPattern : BulletPattern
         info.bulletInfo.Init();
     }
 
+    public override void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
+        DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
+    {
+        info.bulletInfo.Init();
+        base.Init(ownerBuff, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
+    }
+
     public override void StartAttack(float damageIncreaseRate, OwnerType ownerType)
     {
         this.ownerType = ownerType;

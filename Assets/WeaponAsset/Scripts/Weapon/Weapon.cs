@@ -55,7 +55,7 @@ public class Weapon : Item {
     // coroutine
 
     #endregion
-    #region getter
+    #region getter / setter
     public Sprite GetWeaponSprite() { return spriteRenderer.sprite; }
     public Transform ObjTransform { get { return objTransform; } set { objTransform = value; } }
     public OwnerType GetOwnerType() { return ownerType; }
@@ -65,13 +65,6 @@ public class Weapon : Item {
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     public WeaponState GetWeaponState() { return weaponState; }
     public int GetWeaponId() { return weaponId; }
-    #endregion
-    #region setter
-    public void SetOwnerDirDegree(DelGetDirDegree ownerDirDegree) { this.ownerDirDegree = ownerDirDegree; }
-    public void SetOwnerDirVec(DelGetPosition ownerDirVec) { this.ownerDirVec = ownerDirVec; }
-    public void SetOwnerPos(DelGetPosition ownerPos) { this.ownerPos = ownerPos; }
-    public void SetOwnerBuff(BuffManager ownerBuff) { this.ownerBuff = ownerBuff; }
-    public void SetWeaponState(WeaponState state) { weaponState = state; }
     #endregion
 
     #region UnityFunction
@@ -97,8 +90,7 @@ public class Weapon : Item {
         this.ownerType = ownerType;
         // weaponInfo Clone
         info = weaponInfo.Clone();
-        if (OwnerType.Player == ownerType)
-            originInfo = weaponInfo;
+        originInfo = weaponInfo;
         BaseInit();
     }
 
@@ -109,8 +101,7 @@ public class Weapon : Item {
         this.weaponId = weaponId;
         // id에 따른 무기 정보 받아오기
         info = DataStore.Instance.GetWeaponInfo(weaponId, ownerType).Clone();
-        if (OwnerType.Player == ownerType)
-            originInfo = DataStore.Instance.GetWeaponInfo(weaponId, ownerType);
+        originInfo = DataStore.Instance.GetWeaponInfo(weaponId, ownerType);
         BaseInit();
     }
 
@@ -149,7 +140,6 @@ public class Weapon : Item {
         ownerDirVec = weaponManager.GetOwnerDirVec();
         ownerPos = weaponManager.GetOwnerPos();
         ownerBuff = weaponManager.GetOwnerBuff();
-
 
         // 공격 패턴(bulletPattern) 초기화
         for (int i = 0; i < info.bulletPatternsLength; i++)
@@ -230,8 +220,6 @@ public class Weapon : Item {
         }
         else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Charge)
         {
-            
-            //Debug.Log(chargedTime + ", " + info.chargeTime);
             // 차징 중지 후 공격 실행, 풀 차징 시에만 추가 효과 얻음
             if (chargedTime + 0.01f >= info.chargeTime)
             {
@@ -285,6 +273,7 @@ public class Weapon : Item {
 
     public void UpdateWeaponBuff()
     {
+        // 9. 공격속도 증가 +n% (무기 재사용 시간 감소 n% 감소), n 미정 
         info.cooldown = originInfo.cooldown * ownerBuff.WeaponTargetEffectTotal.cooldownReduction;
         info.chargeTime = originInfo.chargeTime * ownerBuff.WeaponTargetEffectTotal.chargeTimeReduction;
     }

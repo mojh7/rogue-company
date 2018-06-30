@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * 캐릭터 여러 개 만들 때 방법 및 관리 고민
- * 
- * 1. Player 클래스 상속 받은 자식 클래스 여러개 사용, 캐릭터(음악, 운동, 군인 등등)하나 하나씩 자식 클래스로 두어서 관리
- * 
- * 2. Player Class 한 개로만 쓰고 따로 Player Info 클래스로 만들어서 scriptable class로 정보 관리
- * 
- * 3. 1 + 2번 혼합 방식
- * 
- * 아마 2번으로 할 듯
- */
+ * 0630 0100 - 강의헌
+ * 모든 캐릭터 최대 체력 15개 통일, hpMax = 15로 일단 통일
+ * 허나 시작할 때 체력 모두 다름.(= 시작 시 초반에 주워지는 현재 체력 캐릭터 마다 각각 다름)
+ * 현재는 패시브로 최대 체력 늘어나는 패시브 아예 안 만듬.
+ * 최대 체력이 15라는걸 알리려는게 따로 없는 것 같음.
+ * 체력 최대체력일 때 회복 물약 안 먹어지게 처리
+ */ 
 
  // armor 쉴드 개념 있는 아이템들 있어서 아예 player 데미지 입는 공식
  // 데미지 - 방어력으로 하고 저런 아이템 먹으면 방어력 수치 잠깐 올렸다가 내릴려고 함.
@@ -30,6 +27,9 @@ public class PlayerData : ScriptableObject
 
     [SerializeField]
     private float hp;
+    // 모든 캐릭터 최대 체력 15개 통일 완전히 확정나면 SerializeField 제거
+    [SerializeField]
+    private float hpMax;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
@@ -56,16 +56,20 @@ public class PlayerData : ScriptableObject
 
 
 
-    // 
+// 
 
-    #endregion
+#endregion
 
-    #region get/set Property
+#region get/set Property
 
-    public float Hp
+public float Hp
     {
         get { return hp; }
         set { hp = value; }
+    }
+    public float HpMax
+    {
+        get { return hpMax; }
     }
     public float MoveSpeed
     {
@@ -99,6 +103,11 @@ public class PlayerData : ScriptableObject
     }
 
     #endregion
+
+    public PlayerData()
+    {
+        hpMax = 15;
+    }
 
     public PlayerData Clone()
     {

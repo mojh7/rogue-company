@@ -17,7 +17,7 @@ namespace WeaponAsset
     public delegate Vector3 DelGetPosition();   // owner position이지만 일단 player position 용도로만 사용.
 
     public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
-    public enum WeaponType { Blow, Strike, Swing, Gun, ShotGun, Laser }
+    public enum WeaponType { Blow, Strike, Swing, Gun, ShotGun, Laser, Trap }
     public enum AttackAniType { Blow, Strike, Shot }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { projectile, Laser, Melee}

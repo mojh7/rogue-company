@@ -92,7 +92,7 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
     public override void DestroyBullet()
     {
         createdObj = ObjectPoolManager.Instance.CreateBullet();
-        createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo.Clone(), bullet.GetOwnerType(), bulletTransform.position);
+        createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo.Clone(), ownerBuff, transferBulletInfo, bullet.GetOwnerType(), bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
@@ -102,6 +102,9 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
         bullet.info.deleteAfterSummonBulletInfo.Init();
     }
 }
+
+// 이거 아직 제대로 구현 안함
+// 손봐야 될게 있음
 
 /// <summary> 총알 삭제시 새로운 BulletPattern 생성</summary>
 public class DeleteAfterSummonPatternProperty : DeleteProperty

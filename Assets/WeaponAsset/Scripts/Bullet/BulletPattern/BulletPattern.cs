@@ -16,6 +16,10 @@ public class TransferBulletInfo
     public float damage;
     public float knockBack;
     public float criticalChance;
+
+    public float chargedDamageIncrease;
+
+    public StatusEffectInfo statusEffectInfo;
 }
 
 [System.Serializable]
@@ -59,7 +63,20 @@ public abstract class BulletPattern
         transferBulletInfo = new TransferBulletInfo();
         UpdateTransferBulletInfo();
     }
-    public virtual void Init(DelGetDirDegree dirDegree, DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0) { }
+    /// <summary> updateProperty - SummonProperty용 초기화 </summary>
+    public virtual void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
+        DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
+    {
+        ownerDirDegree = dirDegree;
+        ownerDirVec = dirVec;
+        ownerPos = pos;
+        this.ownerBuff = ownerBuff;
+        this.addDirVecMagnitude = addDirVecMagnitude;
+        this.transferBulletInfo = new TransferBulletInfo
+        {
+            weaponType = transferBulletInfo.weaponType
+        };
+    }
     public abstract BulletPattern Clone();
     public abstract void StartAttack(float damageIncreaseRate, OwnerType ownerType); // 공격 시도 시작
     public virtual void StopAttack() { }  // 공격 시도 시작 후 멈췄을 때
@@ -68,7 +85,7 @@ public abstract class BulletPattern
     /// <summary>
     /// 값이 0이 아니면 => 값 전달하기, 값이 0이면 전달할 필요 X
     /// </summary>
-    public void UpdateTransferBulletInfo()
+    protected void UpdateTransferBulletInfo()
     {
         transferBulletInfo.weaponType = weapon.info.weaponType;
 

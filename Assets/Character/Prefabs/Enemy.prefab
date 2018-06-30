@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 114698620388580024}
   - component: {fileID: 58905957617046142}
   - component: {fileID: 114130998968841644}
+  - component: {fileID: 114073492097125210}
   m_Layer: 13
   m_Name: Enemy
   m_TagString: Enemy
@@ -503,6 +504,17 @@ MonoBehaviour:
   backGround: {fileID: 1475328703926188}
   gaugeSpriteObj: {fileID: 1215492876198480}
   fullChargedScaleX: 1.8
+--- !u!114 &114073492097125210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165641018333586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd5294aad6d6f7408ebeddf04099edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114111894182339084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -587,7 +599,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1761548997466228}
   serializedVersion: 5
-  lengthInSec: 5
+  lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
   looping: 1
@@ -640,7 +652,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1636483074
+  randomSeed: 2125506766
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -688,7 +700,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.8
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1105,7 +1117,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 0.8
       mode: 0
       spread: 0
       speed:
@@ -1200,7 +1212,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 10
       maxCurve:
         serializedVersion: 2

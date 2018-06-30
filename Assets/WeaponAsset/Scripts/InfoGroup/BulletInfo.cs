@@ -70,11 +70,12 @@ public class BulletInfo : ScriptableObject
 
     // 튕기는 총알 테스트용, 반사 o / x
     public bool bounceAble;
-
     [Header("근접 무기 다른 owner 총알 막기 on / off")]
     public bool canBlockBullet;
     [Header("근접 무기 다른 owner 총알 튕겨내기 on / off")]
     public bool canReflectBullet;
+    [Header("Trap무기 SpiderMine화")]
+    public bool becomeSpiderMine;
 
     [Header("startDelay초 후 총알 유도 시작")]
     public float startDelay;
@@ -138,6 +139,8 @@ public class BulletInfo : ScriptableObject
 
         bounceAble = false;
         canBlockBullet = false;
+        canReflectBullet = false;
+        becomeSpiderMine = false;
 
         // isInitializable = true;
 
@@ -190,6 +193,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.bounceAble = bounceAble;
         clonedInfo.canBlockBullet = canBlockBullet;
         clonedInfo.canReflectBullet = canReflectBullet;
+        clonedInfo.becomeSpiderMine = becomeSpiderMine;
         clonedInfo.startDelay = startDelay;
         clonedInfo.statusEffectInfo = statusEffectInfo;
 

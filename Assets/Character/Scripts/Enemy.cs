@@ -17,6 +17,7 @@ public class Enemy : Character {
     private void Awake()
     {
         rgbody = GetComponent<Rigidbody2D>();
+        buffManager = GetComponent<BuffManager>();
         isKnockBack = false;
     }
 
@@ -75,6 +76,8 @@ public class Enemy : Character {
         scaleVector = transform.localScale;
         hp = 5;
 
+        // 0630 Enemy용 buffManager 초기화
+        buffManager.Init();
         // 0526 임시용
         weaponManager = GetComponentInChildren<WeaponManager>();
         weaponManager.Init(this, OwnerType.Enemy);

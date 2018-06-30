@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bd91c5998d4ed344b4367a94d3fe522, type: 3}
-  m_Name: "BulletInfo 1 \uB0A0\uB77C\uAC00\uB294 \uCD1D\uC54C"
+  m_Name: "BulletInfo 1 \uB0A0\uB77C\uAC00\uB294 \uBCA0\uAE30 \uC794\uC0C1"
   m_EditorClassIdentifier: 
   memo: 
   bulletType: 2
@@ -17,10 +17,10 @@ MonoBehaviour:
   damage: 2
   knockBack: 200
   criticalChance: 0
-  speed: 0
+  speed: 4
   acceleration: 0
   deltaSpeedTotalLimit: 0
-  range: 0
+  range: 10
   scaleX: 2
   scaleY: 2
   pierceCount: 2
@@ -28,6 +28,7 @@ MonoBehaviour:
   lifeTime: -1
   effectId: -1
   soundId: -1
+  coliderType: 0
   spriteAnimation: 0
   bulletSprite: {fileID: 21300000, guid: 6ec5974fb15af5540b063653a59b1056, type: 3}
   showsScaleAnimation: 0
@@ -40,15 +41,14 @@ MonoBehaviour:
   bounceAble: 0
   canBlockBullet: 0
   canReflectBullet: 0
+  becomeSpiderMine: 0
+  startDelay: 0
   statusEffectInfo:
     nonOverlappingPoisonDamage: 0
     nonOverlappingPoisonEffectiveTime: 0
     overlappingPoisonDamage: 0
     overlappingPoisonEffectiveTime: 0
-    nonOverlappingBurnDamage: 0
-    nonOverlappingBurnEffectiveTime: 0
-    overlappingBurnDamage: 0
-    overlappingBurnEffectiveTime: 0
+    canBurn: 0
     slow: 0
     slowEffectiveTime: 0
     canStun: 0

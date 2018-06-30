@@ -112,17 +112,17 @@ public class WeaponManager : MonoBehaviour {
     #endregion
     #region setter
     /// <summary> Owner 정보 등록 </summary>
-    public void SetOwnerInfo(Character owner, OwnerType ownerType)
+    private void SetOwnerInfo(Character owner, OwnerType ownerType)
     {
         this.owner = owner;
         this.ownerType = ownerType;
         ownerDirDegree = owner.GetDirDegree;
         ownerDirVec = owner.GetDirVector;
         ownerPos = GetPosition;
+        ownerBuff = owner.GetBuffManager();
         if (OwnerType.Player == ownerType)
         {
             player = owner as Player;
-            ownerBuff = player.GetBuffManager();
         }
     }
     #endregion

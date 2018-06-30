@@ -247,7 +247,7 @@ public class SummonProperty : UpdateProperty
         bulletDirDegree = bullet.GetDirDegree;
         bulletDirVec = () => { return Vector3.zero; };
         bulletPos = bullet.GetPosition;
-        bulletPattern.Init(bulletDirDegree, bulletDirVec, bulletPos);
+        bulletPattern.Init(ownerBuff, transferBulletInfo, bulletDirDegree, bulletDirVec, bulletPos);
     }
     public override UpdateProperty Clone()
     {

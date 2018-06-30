@@ -70,6 +70,8 @@ public class Bullet : MonoBehaviour
     public OwnerType GetOwnerType() { return ownerType; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
+    public BuffManager GetOwnerBuff() { return ownerBuff; }
+    public TransferBulletInfo GetTransferBulletInfo() { return transferBulletInfo; }
 
     // 현재 바라보는 방향의 euler z 각도 반환
     public Vector3 GetPosition() { return objTransform.position; }
@@ -126,11 +128,14 @@ public class Bullet : MonoBehaviour
     #region function
     // 총알 class 초기화
 
-    // 일반(투사체) 총알 초기화 - position이랑 direction만 받음
-    public void Init(BulletInfo bulletInfo, OwnerType ownerType, Vector3 pos, float direction = 0)
+    /// <summary>일반(투사체) 총알 초기화 - position이랑 direction만 받음, DeleteAfterSummonBulletProperty 전용 초기화</summary>
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo,  OwnerType ownerType, Vector3 pos, float direction = 0)
     {
         active = true;
         info = bulletInfo;
+        this.transferBulletInfo = transferBulletInfo;
+
+        UpdateTransferBulletInfo();
 
         // 투사체 총알 속성 초기화
         InitProjectileProperty();
@@ -157,31 +162,8 @@ public class Bullet : MonoBehaviour
         info = bulletInfo;
         this.transferBulletInfo = transferBulletInfo;
         this.ownerBuff = ownerBuff;
-        // bullet 고유의 정보가 아닌 bulletPattern이나 weapon의 정보를 따라 쓰려고 할 때, 값을 덮어씀.
-        /*
-        if (speed != 0)
-        {
-            info.speed = speed;
-        }
-        if (range != 0)
-        {
-            info.range = range;
-        }
-        if (damage != 0)
-        {
-            info.damage = damage;
-        }
-        if (knockBack != 0)
-        {
-            info.knockBack = knockBack;
-        }
-        if (criticalChance != 0)
-        {
-            info.criticalChance = criticalChance;
-        }*/
-        //--------------------------------
 
-
+        UpdateTransferBulletInfo();
 
         // Owner 정보 초기화
         InitOwnerInfo(ownerType);
@@ -211,6 +193,8 @@ public class Bullet : MonoBehaviour
         info = bulletInfo;
         this.transferBulletInfo = transferBulletInfo;
         this.ownerBuff = ownerBuff;
+
+        UpdateTransferBulletInfo();
 
         // component on/off
         boxCollider.enabled = false;
@@ -533,18 +517,42 @@ public class Bullet : MonoBehaviour
         viewTransform.localScale = new Vector3(1f, 1f, 1f);
     }
 
+    /// <summary> weapon -> bulletPattern으로 넘어온 정보 최신화, 이후 enemy에 정보 넘김. </summary>
+    private void UpdateTransferBulletInfo()
+    {
+        // pattern에서 넘어온 정보의 값이 존재 할 경우(0이 아닐 경우) bulletInfo 값에 덮어쓰고 0일 경우 기존 bulletInfo값 그대로 씀.
+        if (transferBulletInfo.bulletMoveSpeed != 0)
+            info.speed = transferBulletInfo.bulletMoveSpeed;
+        if (transferBulletInfo.range != 0)
+            info.range = transferBulletInfo.range;
+        if (transferBulletInfo.damage != 0)
+            info.damage = transferBulletInfo.damage;
+        if (transferBulletInfo.knockBack != 0)
+            info.knockBack = transferBulletInfo.knockBack;
+        if (transferBulletInfo.criticalChance != 0)
+            info.criticalChance = transferBulletInfo.criticalChance;
+    }
+
+    /// <summary> 매개변수 weaponType와 동일 타입인지 확인 후 bool 반환</summary>
+    /// <param name="weaponType">확인할 weapontype</param>
+    public bool CheckEqualWeaponType(WeaponType weaponType)
+    {
+        if (weaponType == transferBulletInfo.weaponType)
+            return true;
+        else
+            return false;
+    }
 
     public void ApplyWeaponBuff()
     {
-        // 때리기형 근접 무기 적 총알 막기
-        if (WeaponType.Blow == transferBulletInfo.weaponType && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
-            info.canBlockBullet = true;
-        // 날리기형 근접 무기 적 총알
-        if (WeaponType.Swing == transferBulletInfo.weaponType && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
-            info.canReflectBullet = true;
-        // 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
-        if (WeaponType.ShotGun == transferBulletInfo.weaponType && ownerBuff.WeaponTargetEffectTotal.shotgunBulletCanHoming)
-        { 
+        // 1. c분류 원거리 무기 관통 횟수+1 증가 (혹은 관통 횟수 제한x ??), 일단 Gun종류 pireceCount +1
+        if(CheckEqualWeaponType(WeaponType.Gun) && ownerBuff.WeaponTargetEffectTotal.canIncreasePierceCount)
+        {
+            info.pierceCount += 1;
+        }
+        // 5. 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
+        if (CheckEqualWeaponType(WeaponType.ShotGun) && ownerBuff.WeaponTargetEffectTotal.shotgunBulletCanHoming)
+        {
             info.startDelay = 0.5f;
             info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
 
@@ -555,7 +563,32 @@ public class Bullet : MonoBehaviour
                 info.updatePropertiesLength += 1;
             }
         }
+        // 6. 때리기형 근접 무기 적 총알 막기
+        if (CheckEqualWeaponType(WeaponType.Blow) && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
+            info.canBlockBullet = true;
+        // 7. 날리기형 근접 무기 적 총알
+        if (CheckEqualWeaponType(WeaponType.Swing) && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
+            info.canReflectBullet = true;
+        // 8. d분류 원거리 무기 공격 시 총알이 벽에 1회 튕겨집니다. 일단 임시로 Gun종류 bounceCount +1, bounceAble = true; 
+        if (CheckEqualWeaponType(WeaponType.Gun) && ownerBuff.WeaponTargetEffectTotal.bounceAble)
+        {
+            info.bounceAble = true;
+            info.bounceCount += 1;
+        }
+        // 10. 함정 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
+        if (CheckEqualWeaponType(WeaponType.Trap) && ownerBuff.WeaponTargetEffectTotal.becomesSpiderMine)
+        {
+            info.becomeSpiderMine = true;
+        }
 
+        // bulletInfo 수치들 공식 최종 적용
+        
+        // 2.모든 무기 공격력 n % 증가, n 미정
+        info.damage = info.damage * ownerBuff.WeaponTargetEffectTotal.damageIncrease + transferBulletInfo.chargedDamageIncrease;
+        // 3.모든 무기 치명타 확률 n% 증가, n 미정
+        float criticalChanceIncrease = ownerBuff.WeaponTargetEffectTotal.criticalChanceIncrease;
+        if (OwnerType.Player == ownerType) criticalChanceIncrease += PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance;
+        info.criticalChance = info.criticalChance * criticalChanceIncrease;
     }
 
     /// <summary> bullet Properties 안에 해당 property가 포함 되어 있는지 여부 확인</summary>

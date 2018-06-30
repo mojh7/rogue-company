@@ -11,7 +11,7 @@ public class PassiveType : EffectApplyType
         // buffManager에 등록
         for (int i = 0; i < itemUseEffect.Length; i++)
         {
-            BuffManager.Instance.RegisterItemEffect(itemUseEffect[i]);
+            PlayerBuffManager.Instance.BuffManager.RegisterItemEffect(itemUseEffect[i]);
         }
     }
 }
