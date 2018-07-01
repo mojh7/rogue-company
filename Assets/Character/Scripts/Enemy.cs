@@ -98,33 +98,47 @@ public class Enemy : Character {
         ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position);
     }
 
-    public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false)
+    /// <summary>총알에서 전달된 정보로 공격 처리</summary>
+    public override float Attacked(TransferBulletInfo transferredInfo)
     {
-        //Debug.Log(damage + ", " + knockBack + ", " + criticalRate);
-
         if (State.ALIVE != pState)
-            return;
-
+            return 0;
         float criticalCheck = Random.Range(0f, 1f);
-        /*
-        if(criticalCheck < criticalRate)
+        float damage = transferredInfo.damage;
+        // 크리티컬 공격
+        if(criticalCheck < transferredInfo.criticalChance)
         {
-            Debug.Log("critical Attack");
+            damage *= 2f;
         }
-        else
-        {
-            Debug.Log("normal Attack");
-        }*/
-
         hp -= damage;
+        StopCoroutine(CoroutineAttacked());
+        StartCoroutine(CoroutineAttacked());
+        if (hp <= 0)
+            Die();
+        return damage;
+    }
+
+    /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
+    public float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
+    {
+        if (State.ALIVE != pState)
+            return 0;
+        float criticalCheck = Random.Range(0f, 1f);
+        // 크리티컬 공격
+        if (criticalCheck < criticalChance)
+        {
+            damage *= 2f;
+        }
+        hp -= damage;
+
         if (knockBack > 0)
             isKnockBack = true;
 
         // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
         rgbody.velocity = Vector3.zero;
-        
+
         // bullet과 충돌 Object 위치 차이 기반의 넉백  
-        if(positionBasedKnockBack)
+        if (positionBasedKnockBack)
         {
             rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
         }
@@ -140,7 +154,45 @@ public class Enemy : Character {
         StartCoroutine(CoroutineAttacked());
         if (hp <= 0)
             Die();
+        return damage;
     }
+
+    public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
+    {
+        if (State.ALIVE != pState)
+            return;
+
+        if (null == statusEffectInfo) return;
+        // 독
+        // 화상
+
+        // 넉백 + 밀기, - 당기기
+        if (0 != statusEffectInfo.knockBack)
+        {
+            isKnockBack = true;
+
+            // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
+            rgbody.velocity = Vector3.zero;
+
+            // bullet과 충돌 Object 위치 차이 기반의 넉백  
+            if (statusEffectInfo.positionBasedKnockBack)
+            {
+                rgbody.AddForce(statusEffectInfo.knockBack * ((Vector2)transform.position - statusEffectInfo.bulletPos).normalized);
+            }
+            // bullet 방향 기반의 넉백
+            else
+            {
+                rgbody.AddForce(statusEffectInfo.knockBack * statusEffectInfo.bulletDir);
+            }
+
+            StopCoroutine(KnockBackCheck());
+            StartCoroutine(KnockBackCheck());
+        }
+
+        // 슬로우
+        // 스턴
+    }
+
     IEnumerator CoroutineAttacked()
     {
         renderer.color = new Color(1, 0, 0);

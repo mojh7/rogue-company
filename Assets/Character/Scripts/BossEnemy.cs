@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class BossEnemy : Enemy
 {
-    public override void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false)
-    {
-        base.Attacked(_dir, bulletPos, damage, knockBack, criticalRate, positionBasedKnockBack);
-        UIManager.Instance.bossHPUI.DecreaseHp(damage); 
+
+    public override float Attacked(TransferBulletInfo transferBulletInfo)
+    {        
+        float damage = base.Attacked(transferBulletInfo);
+        UIManager.Instance.bossHPUI.DecreaseHp(damage);
+        return damage;
     }
 
     protected override void Die()

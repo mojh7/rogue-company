@@ -72,6 +72,7 @@ public class Bullet : MonoBehaviour
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     public TransferBulletInfo GetTransferBulletInfo() { return transferBulletInfo; }
+    public StatusEffectInfo GetStatusEffectInfo() { return info.statusEffectInfo; }
 
     // 현재 바라보는 방향의 euler z 각도 반환
     public Vector3 GetPosition() { return objTransform.position; }
@@ -133,10 +134,10 @@ public class Bullet : MonoBehaviour
     {
         active = true;
         info = bulletInfo;
-        this.transferBulletInfo = transferBulletInfo;
+        this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
 
         UpdateTransferBulletInfo();
-
+        ApplyWeaponBuff();
         // 투사체 총알 속성 초기화
         InitProjectileProperty();
 
@@ -160,7 +161,7 @@ public class Bullet : MonoBehaviour
     {
         active = true;
         info = bulletInfo;
-        this.transferBulletInfo = transferBulletInfo;
+        this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
 
         UpdateTransferBulletInfo();
@@ -191,7 +192,7 @@ public class Bullet : MonoBehaviour
     {
         active = true;
         info = bulletInfo;
-        this.transferBulletInfo = transferBulletInfo;
+        this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
 
         UpdateTransferBulletInfo();
@@ -201,6 +202,7 @@ public class Bullet : MonoBehaviour
         circleCollider.enabled = false;
         lineRenderer.enabled = true;
 
+        paticleObj.SetActive(false);
         lineRenderer.startColor = Color.blue;
         lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = 0.4f;
@@ -521,15 +523,13 @@ public class Bullet : MonoBehaviour
     private void UpdateTransferBulletInfo()
     {
         // pattern에서 넘어온 정보의 값이 존재 할 경우(0이 아닐 경우) bulletInfo 값에 덮어쓰고 0일 경우 기존 bulletInfo값 그대로 씀.
-        if (transferBulletInfo.bulletMoveSpeed != 0)
+        if (0 != transferBulletInfo.bulletMoveSpeed)
             info.speed = transferBulletInfo.bulletMoveSpeed;
-        if (transferBulletInfo.range != 0)
+        if (0 != transferBulletInfo.range)
             info.range = transferBulletInfo.range;
-        if (transferBulletInfo.damage != 0)
-            info.damage = transferBulletInfo.damage;
-        if (transferBulletInfo.knockBack != 0)
-            info.knockBack = transferBulletInfo.knockBack;
-        if (transferBulletInfo.criticalChance != 0)
+        if (0 != transferBulletInfo.damage)
+            info.damage = transferBulletInfo.damage;        
+        if (0 != transferBulletInfo.criticalChance)
             info.criticalChance = transferBulletInfo.criticalChance;
     }
 
@@ -584,7 +584,7 @@ public class Bullet : MonoBehaviour
         // bulletInfo 수치들 공식 최종 적용
         
         // 2.모든 무기 공격력 n % 증가, n 미정
-        info.damage = info.damage * ownerBuff.WeaponTargetEffectTotal.damageIncrease + transferBulletInfo.chargedDamageIncrease;
+        info.damage = info.damage * (ownerBuff.WeaponTargetEffectTotal.damageIncrease + transferBulletInfo.chargedDamageIncrease);
         // 3.모든 무기 치명타 확률 n% 증가, n 미정
         float criticalChanceIncrease = ownerBuff.WeaponTargetEffectTotal.criticalChanceIncrease;
         if (OwnerType.Player == ownerType) criticalChanceIncrease += PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance;

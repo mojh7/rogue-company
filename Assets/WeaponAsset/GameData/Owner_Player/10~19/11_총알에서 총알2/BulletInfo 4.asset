@@ -12,11 +12,27 @@ MonoBehaviour:
   m_Name: BulletInfo 4
   m_EditorClassIdentifier: 
   memo: "\uCD1D\uC54C\uC5D0\uC11C \uCD1D\uC54C2"
-  ownerType: 0
+  bulletType: 0
   bulletName: "\uC18C\uD658 \uC18D\uC131 \uD3EC\uD568 \uCD1D\uC54C2"
+  statusEffectInfo:
+    bulletPos: {x: 0, y: 0}
+    bulletDir: {x: 0, y: 0}
+    nonOverlappingPoisonDamage: 0
+    nonOverlappingPoisonEffectiveTime: 0
+    overlappingPoisonDamage: 0
+    overlappingPoisonEffectiveTime: 0
+    canBurn: 0
+    knockBack: 100
+    positionBasedKnockBack: 0
+    slow: 0
+    slowEffectiveTime: 0
+    canStun: 0
+    stunEffectiveTime: 0
+    canFreeze: 0
+    freezeEffectiveTime: 0
   damage: 1
   knockBack: 100
-  criticalRate: 0
+  criticalChance: 0
   speed: 0
   acceleration: 0
   deltaSpeedTotalLimit: 0
@@ -28,6 +44,7 @@ MonoBehaviour:
   lifeTime: -1
   effectId: 2
   soundId: -1
+  coliderType: 0
   spriteAnimation: 0
   bulletSprite: {fileID: 21300002, guid: 1c2d76a80f074ab4489b63d608cd2fb9, type: 3}
   showsScaleAnimation: 0
@@ -38,7 +55,10 @@ MonoBehaviour:
   deleteAfterSummonBulletInfo: {fileID: 0}
   deleteAfterSummonPatternInfo: {fileID: 0}
   bounceAble: 0
-  bulletBlockAble: 0
+  canBlockBullet: 0
+  canReflectBullet: 0
+  becomeSpiderMine: 0
+  startDelay: 0
   collisionPropertiesEdit: 00000000
   updatePropertiesEdit: 0000000003000000
   deletePropertiesEdit: 00000000

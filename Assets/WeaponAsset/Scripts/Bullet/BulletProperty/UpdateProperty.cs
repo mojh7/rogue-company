@@ -326,7 +326,10 @@ public class HomingProperty : UpdateProperty
     public override void Update()
     {
         if (timeCount < startDelay)
+        {
+            timeCount += Time.fixedDeltaTime;
             return;
+        }
         if (timeCount >= lifeTime)
         {
             delDestroyBullet();

@@ -6,7 +6,7 @@ using WeaponAsset;
 // 패턴 추가시 InfoGroup 에서 해당 pattern info도 만들고
 // BulletPatternInfo 클래스에서 CreatePatternInfo함수에 내용 추가 해야됨.
 
-// bullet 정보중에서 weapon->pattern->bullet 순으로 전달 되야할 정보들 담는 그릇
+// bullet 정보중에서 weapon->pattern->bullet 순으로 전달 되야할 정보들
 [System.Serializable]
 public class TransferBulletInfo
 {
@@ -14,12 +14,22 @@ public class TransferBulletInfo
     public float bulletMoveSpeed;
     public float range;
     public float damage;
-    public float knockBack;
     public float criticalChance;
-
     public float chargedDamageIncrease;
 
-    public StatusEffectInfo statusEffectInfo;
+    public TransferBulletInfo()
+    {
+    }
+
+    public TransferBulletInfo(TransferBulletInfo info)
+    {
+        weaponType = info.weaponType;
+        bulletMoveSpeed = info.bulletMoveSpeed;
+        range = info.range;
+        damage = info.damage;
+        criticalChance = info.criticalChance;
+        chargedDamageIncrease = info.chargedDamageIncrease;
+    }
 }
 
 [System.Serializable]
@@ -112,14 +122,6 @@ public abstract class BulletPattern
         else
         {
             transferBulletInfo.damage = 0;
-        }
-        if (weapon.info.knockBack != 0)
-        {
-            transferBulletInfo.knockBack = weapon.info.knockBack;
-        }
-        else
-        {
-            transferBulletInfo.knockBack = 0;
         }
         if (weapon.info.criticalChance != 0)
         {

@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 114016821012750974}
   - component: {fileID: 114174861763835864}
   - component: {fileID: 114207633351495418}
+  - component: {fileID: 114637376265716510}
   m_Layer: 13
   m_Name: BossEnemy
   m_TagString: Enemy
@@ -457,6 +458,7 @@ MonoBehaviour:
   moveSpeed: 3
   hp: 10
   animator: {fileID: 95475384359410530}
+  buffManager: {fileID: 0}
   weaponManager: {fileID: 114033262091695116}
   spriteObjTransform: {fileID: 4311940639225528}
   isKnockBack: 0
@@ -533,6 +535,17 @@ MonoBehaviour:
   animator: {fileID: 0}
   weaponState: 0
   weaponId: 0
+--- !u!114 &114637376265716510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1580198282056478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd5294aad6d6f7408ebeddf04099edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198694329906796120
 ParticleSystem:
   m_ObjectHideFlags: 1

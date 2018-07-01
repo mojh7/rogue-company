@@ -13,6 +13,7 @@ public abstract class BulletProperty
     protected DelDestroyBullet delDestroyBullet;
     protected BuffManager ownerBuff;
     protected TransferBulletInfo transferBulletInfo;
+    protected StatusEffectInfo statusEffectInfo;
     protected DelCollisionBullet delCollisionBullet;
 
     /// <summary> bullet class에 정보를 받아와서 속성에 맞는 초기화 </summary>
@@ -25,6 +26,7 @@ public abstract class BulletProperty
         delDestroyBullet = bullet.DestroyBullet;
         ownerBuff = bullet.GetOwnerBuff();
         transferBulletInfo = bullet.GetTransferBulletInfo();
+        statusEffectInfo = bullet.GetStatusEffectInfo();
     }
     //protected WeaponState.Owner owner;
 }

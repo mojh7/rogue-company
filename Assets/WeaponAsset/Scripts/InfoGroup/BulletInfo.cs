@@ -21,8 +21,9 @@ public class BulletInfo : ScriptableObject
 
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
+    [Header("상태 이상, CC기 정보")]
+    public StatusEffectInfo statusEffectInfo;
     public float damage;
-    public float knockBack;
     public float criticalChance;
 
     public float speed;         // 속력
@@ -80,7 +81,6 @@ public class BulletInfo : ScriptableObject
     [Header("startDelay초 후 총알 유도 시작")]
     public float startDelay;
 
-    public StatusEffectInfo statusEffectInfo;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -160,8 +160,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.ownerType = ownerType;
 
         clonedInfo.bulletName = bulletName;
+        clonedInfo.statusEffectInfo = new StatusEffectInfo(statusEffectInfo);
         clonedInfo.damage = damage;
-        clonedInfo.knockBack = knockBack;
         clonedInfo.criticalChance = criticalChance;
 
         clonedInfo.speed = speed;
@@ -195,7 +195,6 @@ public class BulletInfo : ScriptableObject
         clonedInfo.canReflectBullet = canReflectBullet;
         clonedInfo.becomeSpiderMine = becomeSpiderMine;
         clonedInfo.startDelay = startDelay;
-        clonedInfo.statusEffectInfo = statusEffectInfo;
 
         //clonedInfo = ; 
 

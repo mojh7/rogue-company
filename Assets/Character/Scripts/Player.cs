@@ -38,6 +38,8 @@ public abstract class Character : MonoBehaviour
 
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     public Animator animator;
+    // 디버그용 SerializeField
+    [SerializeField]
     protected BuffManager buffManager;
     protected enum State { NOTSPAWNED, DIE, ALIVE }
     protected Sprite sprite;
@@ -60,13 +62,6 @@ public abstract class Character : MonoBehaviour
 
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
-
-    /// <summary> 상태 이상 효과 적용 </summary>
-    public virtual void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
-    {
-
-    }
-
     #endregion
 
     #region getter
@@ -101,9 +96,14 @@ public abstract class Character : MonoBehaviour
 
     /*--abstract--*/
     protected abstract void Die();
-    public abstract void Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalRate, bool positionBasedKnockBack = false);
+    public abstract float Attacked(TransferBulletInfo info);
+    /// <summary> 상태 이상 효과 적용 </summary>
+    public virtual void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
+    {
+        // Enemy랑 Player랑 효과 다르게 받아야 될 게 생길 듯
+    }
 
-    
+
     /**/
 
 }
@@ -276,15 +276,15 @@ public class Player : Character
         UIManager.Instance.GameOverUI();
     }
 
-    public override void Attacked(Vector2 _direction, Vector2 bulletPos, float damage,  float knockBack, float criticalRate, bool positionBasedKnockBack = false)
+    public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
-        playerData.Hp -= damage;
+        playerData.Hp -= transferredBulletInfo.damage;
         playerHpUi.UpdateHPUI(playerData.Hp);
         StopCoroutine(CoroutineAttacked());
         StartCoroutine(CoroutineAttacked());
         if (playerData.Hp <= 0) Die();
+        return transferredBulletInfo.damage;
     }
-
 
     public CustomObject Interact()
     {
@@ -453,6 +453,10 @@ public class Player : Character
         이런건 버프, 패시브 효과 쪽이 어울림
         moveSpeedIncrease, hungerMaxIncrease, armorIncrease, criticalChanceIncrease
         */
+    }
+
+    public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
+    {
     }
 
     public void UpdatePlayerData()

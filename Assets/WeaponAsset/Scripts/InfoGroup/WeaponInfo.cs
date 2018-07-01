@@ -47,7 +47,6 @@ public class WeaponInfo : ScriptableObject
     public float range;                 // 사정 거리
     public float damage;                // 공격력
     public float criticalChance;          // 크리티컬 확률 : 치명타가 뜰 확률
-    public float knockBack;             // 넉백, 값이 0 이면 넉백 X
     public float cooldown;              // 쿨타임
     public float chargeTime;            // 차징 시간, 0 = 차징 X, 0 초과 = 1회 차징당 시간
 
@@ -93,7 +92,6 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.range = range;
         clonedInfo.damage = damage;
         clonedInfo.criticalChance = criticalChance;
-        clonedInfo.knockBack = knockBack;
         clonedInfo.cooldown = cooldown;
         clonedInfo.chargeTime = chargeTime;
         clonedInfo.addDirVecMagnitude = addDirVecMagnitude;

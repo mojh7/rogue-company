@@ -44,29 +44,41 @@ public abstract class CollisionProperty : BulletProperty
     {
         Physics2D.IgnoreCollision(coll, bulletCollider2D);
     }
-    protected void Attack(ref Collision2D coll)
+    protected virtual void Attack(ref Collision2D coll)
     {
-        coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalChance, bullet.info.positionBasedKnockBack);
+        coll.gameObject.GetComponent<Character>().Attacked(transferBulletInfo);
     }
-    protected void Attack(ref Collider2D coll)
+    protected virtual void Attack(ref Collider2D coll)
     {
-        coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalChance, bullet.info.positionBasedKnockBack);
+        coll.gameObject.GetComponent<Character>().Attacked(transferBulletInfo);
+    }
+    protected virtual void AffectStatusEffect(ref Collision2D coll)
+    {
+        coll.gameObject.GetComponent<Character>().ApplyStatusEffect(statusEffectInfo);
+    }
+    protected virtual void AffectStatusEffect(ref Collider2D coll)
+    {
+        coll.gameObject.GetComponent<Character>().ApplyStatusEffect(statusEffectInfo);
     }
 
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
+        transferBulletInfo.damage = bullet.info.damage;
+        transferBulletInfo.criticalChance = bullet.info.criticalChance;
         bulletCollider2D = bullet.boxCollider;
     }
 }
 
 // 이름 바꿔야 될 것 같긴 한데, 사실상 투사체 총알 충돌 처리 = BaseNormalCollsion, 레이저 총알 처리 = LaserCollision
 
-// 판단 여부 관통 가능/불가능, bounce 가능/불가능
 
+// 클래스 내부 내용 더 바꿀 수 있을 듯
 // 총알 에서 판단할 여부
-// 관통 o/x, 공격 o/x, 바운스 o/x
+// 관통 o/x, 바운스 o/x, 사라지는 여부 공격 횟수 or 시간
 // 대상에 따른 구분
+// 관통 o/x, 공격 o/x, 바운스 o/x
+
 // Player, 몬스터 - 관통 처리, 공격 o
 // 벽 - 바운스 처리, 공격 x
 // 내구도 있는 맵 내 오브젝트 - 바운스 처리, 공격 o
@@ -85,13 +97,13 @@ class BaseNormalCollisionProperty : CollisionProperty
     // collision
     public override void Collision(ref Collision2D coll)
     {
-        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x
+        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (ex : 벽)
         if (coll.transform.CompareTag("Wall"))
         {
             Bounce(ref coll);
         }
         /*
-        // Owner 상관 없는 처리이고 바운스 처리 o, 공격 o
+        // Owner 상관 없는 처리이고 바운스 처리 o, 공격 o (ex : 바퀴 달린 의자, 내구도 있는 오브젝트)
         else if(coll.transform.CompareTag("바퀴 달린 의자와 같은 종류"))
         {
             Bounce(ref coll);
@@ -110,9 +122,10 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
                 bullet.RotateDirection(180);
             }
-            // 관통 처리 o, 공격 o
+            // Enemy가 Player 공격 : 관통 처리 o, 공격 o
             else if (coll.transform.CompareTag("Player"))
             {
+                AffectStatusEffect(ref coll);
                 Attack(ref coll);
                 Ignore(ref coll);
                 pierceCount -= 1;
@@ -133,9 +146,10 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
                 bullet.RotateDirection(180);
             }
-            // 관통 처리 o, 공격 o
+            // Player가 Enemy 공격 : 관통 처리 o, 공격 o
             else if (coll.transform.CompareTag("Enemy"))
             {
+                AffectStatusEffect(ref coll);
                 Attack(ref coll);
                 Ignore(ref coll);
                 pierceCount -= 1;
@@ -173,9 +187,10 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
                 bullet.RotateDirection(180);
             }
-            // 관통 처리 o, 공격 o
+            // Enemy가 Player공격 : 관통 처리 o, 공격 o
             else if (coll.CompareTag("Player"))
             {
+                AffectStatusEffect(ref coll);
                 Attack(ref coll);
                 Ignore(ref coll);
                 pierceCount -= 1;
@@ -196,9 +211,10 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
                 bullet.RotateDirection(180);
             }
-            // 관통 처리 o, 공격 o
+            // Player가 Enemy 공격 : 관통 처리 o, 공격 o
             else if (coll.CompareTag("Enemy"))
             {
+                AffectStatusEffect(ref coll);
                 Attack(ref coll);
                 Ignore(ref coll);
                 pierceCount -= 1;
@@ -255,13 +271,14 @@ class LaserCollisionProperty : CollisionProperty
         if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
         {
             // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage * Time.fixedDeltaTime, bullet.info.knockBack, bullet.info.criticalChance);
+            Attack(ref coll);
         }
     }
 
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
+        transferBulletInfo.damage = bullet.info.damage * Time.fixedDeltaTime;
     }
 
     protected override void Bounce(ref Collision2D coll)
@@ -281,16 +298,23 @@ class UndeletedCollisionProperty : CollisionProperty
     // collision
     public override void Collision(ref Collision2D coll)
     {
-        if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        /* Owner 상관 없는 처리이고 바운스 처리 o, 공격 o (ex : 바퀴 달린 의자, 내구도 있는 오브젝트)
+        if(coll.transform.CompareTag("바퀴 달린 의자와 같은 종류"))
         {
-            // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalChance, bullet.info.positionBasedKnockBack);
+            Attack(ref coll);
+            Ignore(ref coll);
+        }*/
+        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        {
+            // Enemy가 Player 공격 : 관통 처리 o, 공격 o
+            AffectStatusEffect(ref coll);
+            Attack(ref coll);
             Ignore(ref coll);
         }
-        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        else if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
-            // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalChance, bullet.info.positionBasedKnockBack);
+            AffectStatusEffect(ref coll);
+            Attack(ref coll);
             Ignore(ref coll);
         }
     }
@@ -298,24 +322,29 @@ class UndeletedCollisionProperty : CollisionProperty
     // trigger
     public override void Collision(ref Collider2D coll)
     {
-        // 공격 가능 object, 관통 횟수 == 1 이면 총알 delete 처리
-        if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
+        /* Owner 상관 없는 처리이고 바운스 처리 o, 공격 o (ex : 바퀴 달린 의자, 내구도 있는 오브젝트)
+        if(coll.transform.CompareTag("바퀴 달린 의자와 같은 종류"))
         {
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalChance, bullet.info.positionBasedKnockBack);
+            Attack(ref coll);
+            Ignore(ref coll);
+        }*/
+        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("Player"))
+        {
+            // Enemy가 Player 공격 : 관통 처리 o, 공격 o
+            AffectStatusEffect(ref coll);
+            Attack(ref coll);
             Ignore(ref coll);
         }
-        else if (OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("Player"))
+        else if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
         {
-            // 공격 처리
-            coll.gameObject.GetComponent<Character>().Attacked(bullet.GetDirVector(), bulletTransform.position, bullet.info.damage, bullet.info.knockBack, bullet.info.criticalChance, bullet.info.positionBasedKnockBack);
+            AffectStatusEffect(ref coll);
+            Attack(ref coll);
             Ignore(ref coll);
         }
-
     }
 
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
     }
-
 }
