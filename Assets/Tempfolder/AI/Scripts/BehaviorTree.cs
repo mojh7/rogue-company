@@ -108,39 +108,59 @@ namespace BT
     //}
 
     #region baseNode
-
+    /// <summary>
+    /// 행동 트리 기본 추상 노드
+    /// </summary>
     abstract class Task : ScriptableObject
     {
         public Root RootTask;
+        protected Character character;
 
+        /// <summary>
+        /// 부모 노드 설정과 함께 부모 노드의 blackboard에서 데이터를 불러와 생성합니다.
+        /// </summary>
+        /// <param name="rootTask">루트 노드</param>
         protected virtual void SetRoot(Root rootTask)
         {
             this.RootTask = rootTask;
         }
-
-        public virtual BlackBoard BlackBoard
+        /// <summary>
+        /// 데이터 저장소 프로퍼티
+        /// </summary>
+        public BlackBoard BlackBoard
         {
             get
             {
                 return RootTask.BlackBoard;
             }
         }
-
-        public virtual Clock Clock
+        /// <summary>
+        /// 스케쥴러 프로퍼티
+        /// </summary>
+        public Clock Clock
         {
             get
             {
                 return RootTask.Clock;
             }
         }
-
+        /// <summary>
+        /// 노드 실행 함수
+        /// </summary>
+        /// <returns></returns>
         public abstract bool Run();
-
+        /// <summary>
+        /// 자식 추가 함수
+        /// </summary>
+        /// <param name="task">자식 노드</param>
         public virtual void AddChild(Task task)
         {
             task.SetRoot(this.RootTask);
         }
     }
+    /// <summary>
+    /// 추상 합성 노드로 자식 노드를 List형태로 갖고있습니다.
+    /// </summary>
     abstract class CompositeTask : Task
     {
         [SerializeField]
@@ -153,11 +173,18 @@ namespace BT
             base.AddChild(task);
             mChildren.Add(task);
         }
+        /// <summary>
+        /// 자식 리스트 반환 함수
+        /// </summary>
+        /// <returns>자식 노드 리스트 반환</returns>
         protected List<Task> GetChildren()
         {
             return mChildren;
         }
     }
+    /// <summary>
+    /// 추상 데코레이터 노드로 하나의 자식을 갖고 있습니다.
+    /// </summary>
     abstract class DecorateTask : Task
     {
         [SerializeField]
@@ -168,11 +195,18 @@ namespace BT
             base.AddChild(task);
             mChildren = task;
         }
+        /// <summary>
+        /// 자식 반환 함수
+        /// </summary>
+        /// <returns>자식 노드 반환</returns>
         protected Task GetChildren()
         {
             return mChildren;
         }
     }
+    /// <summary>
+    /// 추상 액션 노드로 실질적인 행동(공격, 이동, 능력 증가, 패턴, 사망)을 수행하게됩니다.
+    /// </summary>
     abstract class ActionTask : Task
     {
         protected Character character;
@@ -185,10 +219,16 @@ namespace BT
             return success;
         }
     }
+    /// <summary>
+    /// 무조건 루트에 있어야함. 데이터 저장을 위한 Blackboard와 스케쥴링을 위한 Clock 변수가 담겨있습니다.
+    /// </summary>
     class Root : DecorateTask
     {
+        /// <summary>
+        /// 데이터 저장소
+        /// </summary>
         private BlackBoard blackboard;
-        public override BlackBoard BlackBoard
+        public new BlackBoard BlackBoard
         {
             get
             {
@@ -196,13 +236,17 @@ namespace BT
             }
         }
         private Clock clock;
-        public override Clock Clock
+        public new Clock Clock
         {
             get
             {
                 return clock;
             }
         }
+        /// <summary>
+        /// 데이터 저장소 및 스케줄러 생성
+        /// </summary>
+        /// <param name="blackboard">데이터 저장소</param>
         public Root(BlackBoard blackboard)
         {
             this.blackboard = blackboard;
@@ -215,22 +259,32 @@ namespace BT
             return true;
         }
     }
+    /// <summary>
+    /// 일정 주파수마다 실행되는 노드 한번 실행할 때마다 Clock에 저장,업데이트가 됩니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/Service")]
     class Service : CompositeTask
     {
         float frequency;
-        private float randomVariation;
 
         public Service(float frequency)
         {
             this.frequency = frequency;
-            this.randomVariation = frequency * 0.05f;
-
         }
-
+        protected override void SetRoot(Root rootTask)
+        {
+            base.SetRoot(rootTask);
+            this.character = RootTask.BlackBoard["Character"] as Character;
+        }
+        /// <summary>
+        /// Clcok 스케줄러에 Run함수를 저장하여 주파수마다 실행되도록 합니다.
+        /// </summary>
+        /// <returns></returns>
         public override bool Run()
         {
-            Clock.AddTimer(frequency, randomVariation, -1, Run);
+            if (character == null)
+                return false;
+            Clock.AddTimer(frequency, -1, Run);
 
             foreach (var task in GetChildren())
             {
@@ -239,6 +293,10 @@ namespace BT
             return true;
         }
     }
+    /// <summary>
+    /// 가지고 있는 자식들을 순회하다가 자식 노드가 성공적으로 수행될 경우 순회를 중단하고 true를 반환함.
+    /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/Selector")]
     class Selector : CompositeTask
     {
@@ -252,6 +310,10 @@ namespace BT
             return false;
         }
     }
+    /// <summary>
+    /// 가지고 있는 자식들을 순회하다가 자식 노드 중 하나라도 실패할 경우 순회를 중단하고 false를 반환함.
+    /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/Sequence")]
     class Sequence : CompositeTask
     {
@@ -260,18 +322,20 @@ namespace BT
             foreach (var task in GetChildren())
             {
                 if (!task.Run())
-                    return true;
+                    return false;
             }
-            return false;
+            return true;
         }
     }
     #endregion
 
     #region Decoator
+    /// <summary>
+    /// 조건에 따라 자식의 수행 여부를 정하는 조건 노드입니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/DistanceLessDecorate")]
     class DistanceLessDecorate : DecorateTask
     {
-        Character character;
         [SerializeField]
         Character target;
         [SerializeField]
@@ -301,7 +365,6 @@ namespace BT
     [CreateAssetMenu(fileName = "Task", menuName = "Task/DistanceGreaterDecorate")]
     class DistanceGreaterDecorate : DecorateTask
     {
-        Character character;
         [SerializeField]
         Character target;
         [SerializeField]
@@ -331,6 +394,9 @@ namespace BT
     #endregion
 
     #region Action
+    /// <summary>
+    /// 캐릭터 사망시 행동을 담은 노드입니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/CharacterDeadAction")]
     class CharacterDeadAction : ActionTask
     {
@@ -339,7 +405,6 @@ namespace BT
             base.SetRoot(rootTask);
             this.character = RootTask.BlackBoard["Character"] as Character;
         }
-
         public override bool Run()
         {
             if (character.IsDie())
@@ -354,6 +419,9 @@ namespace BT
         }
 
     }
+    /// <summary>
+    /// 기본 A* 추적 행동을 담은 노드입니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/AStarTrackAtion")]
     class AStarTrackAtion : ActionTask
     {
@@ -373,6 +441,9 @@ namespace BT
             return movingPattern.AStarTracking();
         }
     }
+    /// <summary>
+    /// 기본 회전 추적 행동을 담은 노드입니다. 
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/RoundingTrackAction")]
     class RoundingTrackAction : ActionTask
     {
@@ -399,6 +470,9 @@ namespace BT
             return movingPattern.RoundingTracking();
         }
     }
+    /// <summary>
+    /// 기본 A* 돌진 행동을 담은 노드입니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/RushTrackAtion")]
     class RushTrackAtion : ActionTask
     {
@@ -418,6 +492,9 @@ namespace BT
             return movingPattern.RushTracking();
         }
     }
+    /// <summary>
+    /// 기본 공격 행동을 담은 노드입니다.
+    /// </summary>
     [CreateAssetMenu(fileName = "Task", menuName = "Task/AttackAction")]
     class AttackAction : ActionTask
     {

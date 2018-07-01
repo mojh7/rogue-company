@@ -24,7 +24,9 @@ namespace AStar
                 return width * height;
             }
         }
-
+        /// <summary>
+        /// Map의 오브젝트 충돌 여부를 검사하여 Grid 생성.
+        /// </summary>
         public void Bake()
         {
             gridWorldSize = new Vector2(Map.MapManager.Instance.width * Map.MapManager.Instance.size + 1, Map.MapManager.Instance.height * Map.MapManager.Instance.size + 1);

@@ -18,14 +18,27 @@ public class MovingPattern : MonoBehaviour
     }
 
     #region Initialize
+    /// <summary>
+    /// 추적 클래스 생성.
+    /// </summary>
+    /// <param name="target">목표.</param>
     public void AStarTracker(Transform target)
     {
         aStarTracker = new AStarTracker(transform, ref target, Follwing);
     }
+    /// <summary>
+    /// 회전 추적 클래스 생성.
+    /// </summary>
+    /// <param name="target">목표.</param>
+    /// <param name="radius">반지름 거리.</param>
     public void RoundingTracker(Transform target, float radius)
     {
         roundingTracker = new RoundingTracker(transform, ref target, Follwing, radius);
     }
+    /// <summary>
+    /// 돌진 추적 클래스 생성.
+    /// </summary>
+    /// <param name="target">목표.</param>
     public void RushTracker(Transform target)
     {
         rushTracker = new RushTracker(transform, ref target, Follwing);
@@ -33,6 +46,9 @@ public class MovingPattern : MonoBehaviour
     #endregion
 
     #region Func
+    /// <summary>
+    /// 추적 행동.
+    /// </summary>
     public bool AStarTracking()
     {
         if (aStarTracker == null)
@@ -41,6 +57,9 @@ public class MovingPattern : MonoBehaviour
         aStarTracker.Update();
         return true;
     }
+    /// <summary>
+    /// 회전 추적 행동.
+    /// </summary>
     public bool RoundingTracking()
     {
         if (roundingTracker == null)
@@ -49,6 +68,9 @@ public class MovingPattern : MonoBehaviour
         roundingTracker.Update();
         return true;
     }
+    /// <summary>
+    /// 돌진 추적 행동 (기본 속도가 5배로 증가).
+    /// </summary>
     public bool RushTracking()
     {
         if (rushTracker == null)
@@ -60,6 +82,10 @@ public class MovingPattern : MonoBehaviour
     #endregion
 
     #region CallBack
+    /// <summary>
+    /// path를 추적하는 코루틴 함수 실행.
+    /// </summary>
+    /// <param name="path">추적 알고리즘에 의해 제공 된 매개변수.</param>
     void Follwing(Vector2[] path)
     {
         this.path = path;
@@ -67,7 +93,9 @@ public class MovingPattern : MonoBehaviour
         if (this.gameObject.activeSelf)
             StartCoroutine("FollowPath");
     }
-
+    /// <summary>
+    /// path를 추적하는 코루틴.
+    /// </summary>
     IEnumerator FollowPath()
     {
         int targetIndex = 0;
@@ -113,20 +141,31 @@ public class MovingPattern : MonoBehaviour
         }
     }
 }
-
+/// <summary>
+/// 추상 추적 클래스.
+/// </summary>
 abstract class Tracker
 {
     protected Transform target;
     protected Transform transform;
     protected Action<Vector2[]> callback;
-
+    /// <summary>
+    /// 타겟 설정.
+    /// </summary>
+    /// <param name="target">목표.</param>
     public void SetTarget(Transform target)
     {
         this.target = target;
     }
-
+    /// <summary>
+    /// 추적 알고리즘를 통해 path 업데이트.
+    /// </summary>
     public abstract void Update();
-
+    /// <summary>
+    /// 성공적으로 path를 찾았을 경우 AI컨트롤러의 FollowPath를 실행.
+    /// </summary>
+    /// <param name="newPath">알고리즘에 의해 반환 된 path.</param>
+    /// <param name="pathSuccessful">알고리즘 성공 여부.</param>
     protected void OnPathFound(Vector2[] newPath, bool pathSuccessful)
     {
         if (pathSuccessful)

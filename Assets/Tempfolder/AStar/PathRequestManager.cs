@@ -35,7 +35,9 @@ namespace AStar
                 }
             }
         }
-
+        /// <summary>
+        /// 추적 요청
+        /// </summary>
         public static void RequestPath(PathRequest request)
         {
             ThreadStart threadStart = delegate
@@ -44,7 +46,9 @@ namespace AStar
             };
             threadStart.Invoke();
         }
-
+        /// <summary>
+        /// 회전 추적 요청
+        /// </summary>
         public static void RequestPath(PathRequest request, float radius)
         {
             ThreadStart threadStart = delegate

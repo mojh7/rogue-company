@@ -13,7 +13,9 @@ namespace AStar
         {
             grid = GetComponent<TileGrid>();
         }
-
+        /// <summary>
+        /// 기본 추적 알고리즘에 의해 path를 찾는 함수.
+        /// </summary>
         public void FindPath(PathRequest request, Action<PathResult> callback)
         {
 
@@ -76,7 +78,11 @@ namespace AStar
             callback(new PathResult(waypoints, pathSuccess, request.callback));
 
         }
-
+        /// <summary>
+        /// 회전 추적 알고리즘에 의해 path를 찾는 함수.
+        /// distance * Vector2(Cos(Θ) , Sin(Θ))
+        /// 를 통해 계산된 Vector2와 가까운 Node를 List에 담아 path로 반환.
+        /// </summary>
         public void FindPath(PathRequest request, Action<PathResult> callback, float raduis)
         {
 
