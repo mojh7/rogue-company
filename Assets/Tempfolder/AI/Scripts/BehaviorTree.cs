@@ -22,9 +22,9 @@ namespace BT
 
             Selector selector = new Selector();
             CharacterDeadAction characterDead = new CharacterDeadAction();
-            DistanceLessDecorate distanceLessDecorate6 = new DistanceLessDecorate(6);
-            DistanceGreaterDecorate distanceGreaterDecorate2 = new DistanceGreaterDecorate(2);
-            DistanceLessDecorate distanceLessDecorate2 = new DistanceLessDecorate(2);
+            DistanceDecorate distanceLessDecorate6 = new DistanceDecorate(BehaviorCondition.LESS, 6);
+            DistanceDecorate distanceGreaterDecorate2 = new DistanceDecorate(BehaviorCondition.GREATER, 2);
+            DistanceDecorate distanceLessDecorate2 = new DistanceDecorate(BehaviorCondition.LESS, 2);
             RoundingTrackAction roundingTrackAction = new RoundingTrackAction(2);
             AStarTrackAtion aStarTrackAtion = new AStarTrackAtion();
             RushTrackAtion rushTrackAtion = new RushTrackAtion();
@@ -219,6 +219,44 @@ namespace BT
             return success;
         }
     }
+    #endregion
+
+    #region Composite
+    /// <summary>
+    /// 가지고 있는 자식들을 순회하다가 자식 노드가 성공적으로 수행될 경우 순회를 중단하고 true를 반환함.
+    /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
+    /// </summary>
+    class Selector : CompositeTask
+    {
+        public override bool Run()
+        {
+            foreach (var task in GetChildren())
+            {
+                if (task.Run())
+                    return true;
+            }
+            return false;
+        }
+    }
+    /// <summary>
+    /// 가지고 있는 자식들을 순회하다가 자식 노드 중 하나라도 실패할 경우 순회를 중단하고 false를 반환함.
+    /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
+    /// </summary>
+    class Sequence : CompositeTask
+    {
+        public override bool Run()
+        {
+            foreach (var task in GetChildren())
+            {
+                if (!task.Run())
+                    return false;
+            }
+            return true;
+        }
+    }
+    #endregion
+
+    #region Decoator
     /// <summary>
     /// 무조건 루트에 있어야함. 데이터 저장을 위한 Blackboard와 스케쥴링을 위한 Clock 변수가 담겨있습니다.
     /// </summary>
@@ -262,7 +300,6 @@ namespace BT
     /// <summary>
     /// 일정 주파수마다 실행되는 노드 한번 실행할 때마다 Clock에 저장,업데이트가 됩니다.
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/Service")]
     class Service : CompositeTask
     {
         float frequency;
@@ -294,53 +331,63 @@ namespace BT
         }
     }
     /// <summary>
-    /// 가지고 있는 자식들을 순회하다가 자식 노드가 성공적으로 수행될 경우 순회를 중단하고 true를 반환함.
-    /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
+    /// 조건에 따라 자식의 수행 여부를 정하는 추상 조건 노드입니다.
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/Selector")]
-    class Selector : CompositeTask
+    abstract class ConditionDecorate : DecorateTask
     {
-        public override bool Run()
+        BehaviorCondition condition;
+
+        public ConditionDecorate(BehaviorCondition condition)
         {
-            foreach (var task in GetChildren())
+            this.condition = condition;
+        }
+        /// <summary>
+        /// 조건 체크
+        /// </summary>
+        /// <param name="a">값</param>
+        /// <param name="b">비교 기준</param>
+        /// <returns></returns>
+        protected bool Check(float a, float b)
+        {
+            switch (condition)
             {
-                if (task.Run())
-                    return true;
+                case BehaviorCondition.LESS:
+                    if (a < b)
+                        return true;
+                    break;
+                case BehaviorCondition.GREATER:
+                    if (a > b)
+                        return true;
+                    break;
+                case BehaviorCondition.EQUAL:
+                    if (a == b)
+                        return true;
+                    break;
+                case BehaviorCondition.LESSOREQUAL:
+                    if (a <= b)
+                        return true;
+                    break;
+                case BehaviorCondition.GREATEROREUAQL:
+                    if (a >= b)
+                        return true;
+                    break;
+                default:
+                    break;
             }
+
             return false;
         }
     }
     /// <summary>
-    /// 가지고 있는 자식들을 순회하다가 자식 노드 중 하나라도 실패할 경우 순회를 중단하고 false를 반환함.
-    /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
+    /// 거리 조건에 따라 자식의 수행 여부를 정하는 조건 노드입니다.
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/Sequence")]
-    class Sequence : CompositeTask
-    {
-        public override bool Run()
-        {
-            foreach (var task in GetChildren())
-            {
-                if (!task.Run())
-                    return false;
-            }
-            return true;
-        }
-    }
-    #endregion
-
-    #region Decoator
-    /// <summary>
-    /// 조건에 따라 자식의 수행 여부를 정하는 조건 노드입니다.
-    /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/DistanceLessDecorate")]
-    class DistanceLessDecorate : DecorateTask
+    class DistanceDecorate : ConditionDecorate
     {
         [SerializeField]
         Character target;
         [SerializeField]
         float distance;
-        public DistanceLessDecorate(float distance)
+        public DistanceDecorate(BehaviorCondition condition, float distance) : base(condition)
         {
             this.distance = distance;
         }
@@ -352,36 +399,7 @@ namespace BT
         }
         public override bool Run()
         {
-            if (Vector2.Distance(character.transform.position, target.transform.position) <= distance)
-            {
-                return GetChildren().Run();
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/DistanceGreaterDecorate")]
-    class DistanceGreaterDecorate : DecorateTask
-    {
-        [SerializeField]
-        Character target;
-        [SerializeField]
-        float distance;
-        public DistanceGreaterDecorate(float distance)
-        {
-            this.distance = distance;
-        }
-        protected override void SetRoot(Root rootTask)
-        {
-            base.SetRoot(rootTask);
-            this.character = RootTask.BlackBoard["Character"] as Character;
-            this.target = RootTask.BlackBoard["Target"] as Character;
-        }
-        public override bool Run()
-        {
-            if (Vector2.Distance(character.transform.position, target.transform.position) > distance)
+            if(Check(Vector2.Distance(character.transform.position, target.transform.position),distance))
             {
                 return GetChildren().Run();
             }
@@ -397,7 +415,6 @@ namespace BT
     /// <summary>
     /// 캐릭터 사망시 행동을 담은 노드입니다.
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/CharacterDeadAction")]
     class CharacterDeadAction : ActionTask
     {
         protected override void SetRoot(Root rootTask)
@@ -422,7 +439,6 @@ namespace BT
     /// <summary>
     /// 기본 A* 추적 행동을 담은 노드입니다.
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/AStarTrackAtion")]
     class AStarTrackAtion : ActionTask
     {
         MovingPattern movingPattern;
@@ -444,7 +460,6 @@ namespace BT
     /// <summary>
     /// 기본 회전 추적 행동을 담은 노드입니다. 
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/RoundingTrackAction")]
     class RoundingTrackAction : ActionTask
     {
         MovingPattern movingPattern;
@@ -473,7 +488,6 @@ namespace BT
     /// <summary>
     /// 기본 A* 돌진 행동을 담은 노드입니다.
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/RushTrackAtion")]
     class RushTrackAtion : ActionTask
     {
         MovingPattern movingPattern;
@@ -495,7 +509,6 @@ namespace BT
     /// <summary>
     /// 기본 공격 행동을 담은 노드입니다.
     /// </summary>
-    [CreateAssetMenu(fileName = "Task", menuName = "Task/AttackAction")]
     class AttackAction : ActionTask
     {
 
