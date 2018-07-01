@@ -11,10 +11,12 @@ public class MovingPattern : MonoBehaviour
     AStarTracker aStarTracker;
     RoundingTracker roundingTracker;
     RushTracker rushTracker;
+    Rigidbody2D rb2d;
 
     private void Awake()
     {
         baseSpeed = speed;
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     #region Initialize
@@ -100,9 +102,11 @@ public class MovingPattern : MonoBehaviour
     {
         int targetIndex = 0;
         Vector3 currentWaypoint = path[0];
+        Vector3 position;
         while (true)
         {
-            if (transform.position == currentWaypoint)
+            position = transform.position;
+            if (position == currentWaypoint)
             {
                 targetIndex++;
                 if (targetIndex >= path.Length)
@@ -111,8 +115,9 @@ public class MovingPattern : MonoBehaviour
                 }
                 currentWaypoint = path[targetIndex];
             }
-
-            transform.position = Vector2.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+            Vector2 dir = currentWaypoint - position;
+            dir.Normalize();
+            rb2d.velocity = dir * speed;
             yield return null;
 
         }

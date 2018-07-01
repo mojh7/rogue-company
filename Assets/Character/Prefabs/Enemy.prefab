@@ -220,7 +220,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165641018333586}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.27, y: -3.99, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children:
   - {fileID: 4838577666682548}
@@ -578,6 +578,7 @@ MonoBehaviour:
   moveSpeed: 3
   hp: 10
   animator: {fileID: 95207714401442542}
+  buffManager: {fileID: 0}
   weaponManager: {fileID: 114111894182339084}
   spriteObjTransform: {fileID: 4987181072416540}
   isKnockBack: 0
