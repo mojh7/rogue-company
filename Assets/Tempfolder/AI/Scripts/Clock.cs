@@ -22,10 +22,6 @@ public class Clock
     private HashSet<System.Func<bool>> removeTimers = new HashSet<System.Func<bool>>();
     private Dictionary<System.Func<bool>, Timer> addTimers = new Dictionary<System.Func<bool>, Timer>();
 
-    private List<System.Action> updateObservers = new List<System.Action>();
-    private HashSet<System.Action> removeObservers = new HashSet<System.Action>();
-    private HashSet<System.Action> addObservers = new HashSet<System.Action>();
-
     private Timer getTimerFromPool(double absoluteTime, int repeat)
     {
         int i = 0;
@@ -55,7 +51,11 @@ public class Clock
         timer.repeat = repeat;
         return timer;
     }
-
+    /// <summary>
+    /// UnityContext에 의해 실행되는 스케줄링 함수.
+    /// 매개변수로 경과시간을 계산.
+    /// </summary>
+    /// <param name="deltaTime">Time.deltaTime</param>
     public void Update(float deltaTime)
     {
         this.elapsedTime += deltaTime;
@@ -105,11 +105,14 @@ public class Clock
 
         this.isInUpdate = false;
     }
-
-    public void AddTimer(float time, float randomVariance, int repeat, System.Func<bool> action)
-    {
-        time = time - randomVariance * 0.5f + randomVariance * UnityEngine.Random.value;
-        
+    /// <summary>
+    /// 스케줄링 리스트에 행동을 저장합니다.
+    /// </summary>
+    /// <param name="time">반복 간격</param>
+    /// <param name="repeat">반복 횟수, -1일 경우 무한</param>
+    /// <param name="action">행동 대리자</param>
+    public void AddTimer(float time, int repeat, System.Func<bool> action)
+    {        
         if (!isInUpdate)
         {
             if (this.timers.ContainsKey(action))
@@ -140,7 +143,10 @@ public class Clock
             }
         }
     }
-
+    /// <summary>
+    /// 스케줄링 리스트에 행동을 삭제합니다.
+    /// </summary>
+    /// <param name="action"></param>
     public void RemoveTimer(System.Func<bool> action)
     {
         if (!isInUpdate)
@@ -161,67 +167,6 @@ public class Clock
             {
                 this.addTimers[action].used = false;
                 this.addTimers.Remove(action);
-            }
-        }
-    }
-
-    public void AddUpdateObserver(System.Action action)
-    {
-        if (!isInUpdate)
-        {
-            this.updateObservers.Add(action);
-        }
-        else
-        {
-            if (!this.updateObservers.Contains(action))
-            {
-                this.addObservers.Add(action);
-            }
-            if (this.removeObservers.Contains(action))
-            {
-                this.removeObservers.Remove(action);
-            }
-        }
-    }
-
-    public void RemoveUpdateObserver(System.Action action)
-    {
-        if (!isInUpdate)
-        {
-            this.updateObservers.Remove(action);
-        }
-        else
-        {
-            if (this.updateObservers.Contains(action))
-            {
-                this.removeObservers.Add(action);
-            }
-            if (this.addObservers.Contains(action))
-            {
-                this.addObservers.Remove(action);
-            }
-        }
-    }
-
-    public bool HasUpdateObserver(System.Action action)
-    {
-        if (!isInUpdate)
-        {
-            return this.updateObservers.Contains(action);
-        }
-        else
-        {
-            if (this.removeObservers.Contains(action))
-            {
-                return false;
-            }
-            else if (this.addObservers.Contains(action))
-            {
-                return true;
-            }
-            else
-            {
-                return this.updateObservers.Contains(action);
             }
         }
     }
