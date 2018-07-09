@@ -27,6 +27,9 @@ public class CustomObject : MonoBehaviour {
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
+#if UNITY_EDITOR
+        spriteRenderer = GetComponent<SpriteRenderer>();
+#endif
         isAnimate = false;
         if (sprites != null)
             sprite = sprites[Random.Range(0, sprites.Length)];

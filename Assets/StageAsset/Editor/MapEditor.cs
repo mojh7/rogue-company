@@ -79,17 +79,16 @@ public class MapEditor : EditorWindow
                         op = true;
                 }
             }
-            if (!op)
+            if (op && objectType == ObjectType.NONE || objectType == ObjectType.SPAWNER)
                 return;
         }
-        if (objectType == ObjectType.NONE || objectType == ObjectType.SPAWNER)
-            return;
+   
         GameObject gameObject = new GameObject();
         gameObject.name = "Object";
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
-
+        gameObject.AddComponent<Rigidbody2D>();
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
         gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
@@ -208,12 +207,13 @@ public class MapEditor : EditorWindow
         {
             for(int j = 0; j < height * size; j++)
             {
-                if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
+                if (i == 0 || i == width * size - 1)
                 {
-                    if (i == 0 || j == 0 || i == width * size - 1 || j == height * size - 1)
-                    {
-                        tilemap.SetTile(new Vector3Int(i, j, 0), horizonWallRuleTile);
-                    }
+                    tilemap.SetTile(new Vector3Int(i, j, 0), verticalWallRuleTile);
+                }
+                else if (j == height * size - 1 || j == 0)
+                {
+                    tilemap.SetTile(new Vector3Int(i, j, 0), horizonWallRuleTile);
                 }
             }
         }
@@ -244,6 +244,7 @@ public class MapEditor : EditorWindow
         GameObject gameObject = new GameObject();
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
+        gameObject.AddComponent<Rigidbody2D>();
         _objectData.LoadObject(gameObject);
         gameObject.name = "Object";
         gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);
