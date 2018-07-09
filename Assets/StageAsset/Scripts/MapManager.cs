@@ -25,6 +25,7 @@ namespace Map
             map = new Map(width, height, size, area, maxHallRate, _floor, objectPool);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
+            map.AddFallRock();
             RoomManager.Instance.InitRoomList();
         }
         public Map GetMap() { return map; }
@@ -76,6 +77,20 @@ namespace Map
         {
             currentRoom = halls[0];
             return rooms;
+        }
+
+        public void AddFallRock()
+        {
+            for(int i = 0; i < rooms.Count; i++)
+            {
+                if(!rooms[i].isRoom)
+                {
+                    GameObject obj = Object.Instantiate(ResourceManager.Instance.ObjectPrefabs);
+                    obj.transform.position = rooms[i].GetAvailableArea(); 
+                    obj.AddComponent<FallRockTrap>();
+                    obj.GetComponent<FallRockTrap>().Init(ResourceManager.Instance.Rock);
+                }
+            }
         }
 
         bool CoinFlip(int percent)

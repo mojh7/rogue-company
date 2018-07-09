@@ -508,3 +508,96 @@ public class ItemContainer : CustomObject
         DettachDestroy();
     }
 }
+
+public class FallRockTrap : CustomObject
+{
+    Sprite tempSprite;
+    public override void Init()
+    {
+        base.Init();
+    }
+    public void Init(Sprite sprite)
+    {
+        Init();
+        isAvailable = true;
+        this.tempSprite = sprite;
+        List<Vector2> list = new List<Vector2>();
+        int num = tempSprite.GetPhysicsShapeCount();
+        GetComponent<PolygonCollider2D>().pathCount = num;
+        for (int i = 0; i < num; i++)
+        {
+            tempSprite.GetPhysicsShape(i, list);
+            GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
+        }
+        GetComponent<PolygonCollider2D>().isTrigger = false;
+    }
+    public override bool Active()
+    {
+        this.gameObject.AddComponent<Alert>();
+        this.gameObject.GetComponent<Alert>().sprite = null;
+        this.gameObject.GetComponent<Alert>().Init(CallBack);
+        this.gameObject.GetComponent<Alert>().Active();
+        Destroy(this);
+        return true;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Interactor") && isAvailable)
+        {
+            isAvailable = false;
+            Active();
+        }
+    }
+    void CallBack(Vector3 _position)
+    {
+        GameObject obj = Object.Instantiate(ResourceManager.Instance.ObjectPrefabs);
+        obj.AddComponent<Rock>();
+        obj.GetComponent<Rock>().Init();
+        obj.GetComponent<Rock>().sprite = tempSprite;
+        obj.transform.position = _position;
+        obj.GetComponent<Rock>().Active();
+    }
+}
+
+public class Rock : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        GetComponent<PolygonCollider2D>().enabled = false;
+    }
+    public override bool Active()
+    {
+        StartCoroutine(Dropping());
+        return base.Active();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Interactor") && isAvailable)
+        {
+            isAvailable = false;
+            //collision.GetComponent<Player>().Attacked();
+        }
+    }
+
+    IEnumerator Dropping()
+    {
+        float lowerLimit = transform.position.y;
+        transform.position = new Vector2(transform.position.x, transform.position.y + 1.5f);
+        float elapsed_time = 0;
+        float sX = transform.position.x;
+        float sY = transform.position.y;
+        while (true)
+        {
+            elapsed_time += Time.deltaTime;
+            float x = sX;
+            float y = sY - (0.5f * 20 * elapsed_time * elapsed_time);
+            transform.position = new Vector2(x, y);
+            if (transform.position.y <= lowerLimit)
+                break;
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+        GetComponent<PolygonCollider2D>().enabled = true;
+    }
+
+}
