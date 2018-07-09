@@ -51,6 +51,7 @@ public abstract class Character : MonoBehaviour
     #endregion
     #region variables
     // 디버그용 SerializeField
+    protected bool isKnockBack;
     [SerializeField]
     protected Sprite sprite;
     protected CharacterInfo.State pState;
@@ -120,6 +121,31 @@ public abstract class Character : MonoBehaviour
     }
     /**/
 
+    /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
+    public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
+
+    protected IEnumerator CoroutineAttacked()
+    {
+        renderer.color = new Color(1, 0, 0);
+        yield return YieldInstructionCache.WaitForSeconds(0.1f);
+        renderer.color = new Color(1, 1, 1);
+    }
+
+    protected IEnumerator KnockBackCheck()
+    {
+
+        while (true)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
+            {
+                isKnockBack = false;
+            }
+        }
+
+        /*yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime * 25);
+        isKnockBack = false;*/
+    }
 }
 
 

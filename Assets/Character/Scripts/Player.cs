@@ -77,6 +77,7 @@ public class Player : Character
     void Awake()
     {
         //pState = PlayerState.IDLE;
+        rgbody = GetComponent<Rigidbody2D>();
         objTransform = GetComponent<Transform>();
         playerScale = 1f;
         scaleVector = new Vector3(1f, 1f, 1f);
@@ -153,7 +154,6 @@ public class Player : Character
         AudioManager.Instance.PlayMusic(3);
 
         renderer.color = new Color(1, 1, 1);
-        // hp = 1200.5f;
         pState = CharacterInfo.State.ALIVE;
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
@@ -193,6 +193,43 @@ public class Player : Character
         if (playerData.Hp <= 0) Die();
         return transferredBulletInfo.damage;
     }
+
+    public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
+    {
+        if (CharacterInfo.State.ALIVE != pState)
+            return 0;
+        float criticalCheck = Random.Range(0f, 1f);
+        // 크리티컬 공격
+        playerData.Hp -= damage;
+
+        if (knockBack > 0)
+            isKnockBack = true;
+
+        // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
+        rgbody.velocity = Vector3.zero;
+
+        // bullet과 충돌 Object 위치 차이 기반의 넉백  
+        if (positionBasedKnockBack)
+        {
+            rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
+        }
+        // bullet 방향 기반의 넉백
+        else
+        {
+            rgbody.AddForce(knockBack * _dir);
+        }
+        playerHpUi.UpdateHPUI(playerData.Hp);
+
+        StopCoroutine(KnockBackCheck());
+        StartCoroutine(KnockBackCheck());
+        StopCoroutine(CoroutineAttacked());
+        StartCoroutine(CoroutineAttacked());
+
+        if (playerData.Hp <= 0) Die();
+
+        return damage;
+    }
+
 
     public CustomObject Interact()
     {

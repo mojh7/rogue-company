@@ -402,13 +402,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088610d1677bb8640a4e48f4c65c8915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 212429882799322652}
-  interactiveCollider2D: {fileID: 58181692312182348}
   moveSpeed: 5
-  hp: 0
-  animator: {fileID: 0}
+  hp: 10
+  renderer: {fileID: 212429882799322652}
   weaponManager: {fileID: 114154553307704316}
   spriteObjTransform: {fileID: 4593660546547358}
+  interactiveCollider2D: {fileID: 58181692312182348}
+  animator: {fileID: 0}
+  sprite: {fileID: 0}
   controller:
     joystick: {fileID: 0}
   playerHpUi: {fileID: 0}

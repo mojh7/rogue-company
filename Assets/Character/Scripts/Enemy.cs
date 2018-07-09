@@ -26,7 +26,6 @@ public static class StatusConstants
 
 public class Enemy : Character
 {
-    public bool isKnockBack;
     EnemyData enemyData;
 
     private bool isPoisoning;
@@ -76,19 +75,7 @@ public class Enemy : Character
             transform.localScale = scaleVector;
         }
     }
-    /*
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (CharacterInfo.State.ALIVE != pState)
-            return;
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            Vector2 dir = collision.gameObject.GetComponent<Bullet>().GetDirVector();
-            Attacked(dir);
-            if (hp<=0)
-                Die();
-        }
-    }*/
+
 
 
     #endregion
@@ -162,7 +149,6 @@ public class Enemy : Character
         coin.AddComponent<Coin>();
         ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position);
     }
-
     /// <summary>총알에서 전달된 정보로 공격 처리</summary>
     public override float Attacked(TransferBulletInfo transferredInfo)
     {
@@ -183,8 +169,7 @@ public class Enemy : Character
         return damage;
     }
 
-    /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
-    public float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
+    public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
     {
         if (CharacterInfo.State.ALIVE != pState)
             return 0;
@@ -217,10 +202,12 @@ public class Enemy : Character
         StartCoroutine(KnockBackCheck());
         StopCoroutine(CoroutineAttacked());
         StartCoroutine(CoroutineAttacked());
+
         if (hp <= 0)
             Die();
         return damage;
     }
+
 
     public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
     {
@@ -374,28 +361,7 @@ public class Enemy : Character
         delayStateCount = 0;
     }
 
-    IEnumerator CoroutineAttacked()
-    {
-        renderer.color = new Color(1, 0, 0);
-        yield return YieldInstructionCache.WaitForSeconds(0.1f);
-        renderer.color = new Color(1, 1, 1);
-    }
 
-    IEnumerator KnockBackCheck()
-    {
-        
-        while(true)
-        {
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
-            {
-                isKnockBack = false;
-            }
-        }
-        
-        /*yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime * 25);
-        isKnockBack = false;*/
-    }
 
     // 0526 땜빵
 

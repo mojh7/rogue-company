@@ -13,9 +13,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 0
   playerSprite: {fileID: 0}
-  hp: 10000000
+  hp: 5
+  hpMax: 15
   moveSpeed: 5
   hunger: 270
   hungerMax: 270
+  armor: 0
   criticalChance: 5
   startingWeaponInfos: []

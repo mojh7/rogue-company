@@ -47,7 +47,7 @@ public class CustomObject : MonoBehaviour {
             GetComponent<PolygonCollider2D>().isTrigger = false;
         }
         gameObject.tag = "Wall";
-        gameObject.layer = 1;
+        gameObject.layer = 14;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
     }
 
@@ -211,8 +211,8 @@ public class Spawner : CustomObject
         objectType = ObjectType.SPAWNER;
 
         // 0516 모장현
-        gameObject.tag = "Enemy";
-        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        gameObject.tag = "Untagged";
+        gameObject.layer = 0;
     }
     public override bool Active()
     {
@@ -567,6 +567,7 @@ public class Rock : CustomObject
     public override void Init()
     {
         base.Init();
+        isAvailable = true;
         GetComponent<PolygonCollider2D>().enabled = false;
     }
     public override bool Active()
@@ -574,12 +575,14 @@ public class Rock : CustomObject
         StartCoroutine(Dropping());
         return base.Active();
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Interactor") && isAvailable)
+        GameObject obj = collision.gameObject;
+        if (( obj.CompareTag("Player") || obj.CompareTag("Enemy")) && isAvailable)
         {
             isAvailable = false;
-            //collision.GetComponent<Player>().Attacked();
+            Vector2 dir = obj.transform.position - transform.position;
+            obj.GetComponent<Character>().Attacked(dir, transform.position, 1, 200, 0);
         }
     }
 
@@ -601,6 +604,10 @@ public class Rock : CustomObject
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         GetComponent<PolygonCollider2D>().enabled = true;
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
+        yield return YieldInstructionCache.WaitForEndOfFrame;
+
+        isAvailable = false;
     }
 
 }
