@@ -17,7 +17,7 @@ public class LaserPattern : BulletPattern
 
 
     // 기존에 저장된 정보 이외의 내용으로 변수 초기화
-    public LaserPattern(LaserPatternInfo patternInfo, OwnerType ownerType)
+    public LaserPattern(LaserPatternInfo patternInfo, CharacterInfo.OwnerType ownerType)
     {
         this.info = patternInfo;
         this.executionCount = 1;
@@ -52,7 +52,7 @@ public class LaserPattern : BulletPattern
         return new LaserPattern(info, ownerType);
     }
 
-    public override void StartAttack(float damageIncreaseRate, OwnerType ownerType)
+    public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)
     {
         this.ownerType = ownerType;
         if (canCreateLaser == true)

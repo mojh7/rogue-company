@@ -2,8 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace CharacterInfo
+{
+    public enum charType
+    {
+        Player, Enemy, Boss
+    }
+    public enum OwnerType
+    {
+        Player, Enemy, Pet, Object
+    }
+    public enum State
+    {
+        NOTSPAWNED, DIE, ALIVE
+    }
 
-public enum OwnerType { Player, Enemy, Pet, Object }
+}
 
 struct RaycasthitEnemy
 {
@@ -17,33 +31,34 @@ struct RaycasthitEnemy
 
 public abstract class Character : MonoBehaviour
 {
-    #region variables
+    #region Status
+    public float moveSpeed;     // Character move Speed
+    public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
+
+    #endregion
+    #region Componets
     [SerializeField]
     protected new SpriteRenderer renderer;
-    public CircleCollider2D interactiveCollider2D;
-    public float moveSpeed;     // Character move Speed
-
-    public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
-    public Animator animator;
-    // 디버그용 SerializeField
-    [SerializeField]
-    protected BuffManager buffManager;
-    protected enum State { NOTSPAWNED, DIE, ALIVE }
-    protected Sprite sprite;
-    //protected float hp;
-    protected State pState;
-    protected Rigidbody2D rgbody;
-    //public CircleCollider2D interactiveCollider2D;
-    //public float moveSpeed;     // Character move Speed
-
-    protected bool isAutoAiming;    // 오토에임 적용 유무
     [SerializeField]
     protected WeaponManager weaponManager;
+    [SerializeField]
+    protected Transform spriteObjTransform; // sprite 컴포넌트가 붙여있는 object, player에 경우 inspector 창에서 붙여줌
+    public CircleCollider2D interactiveCollider2D;
+    public Animator animator;
+    protected BuffManager buffManager;
+    protected Rigidbody2D rgbody;
+
+    #endregion
+    #region variables
+    // 디버그용 SerializeField
+    [SerializeField]
+    protected Sprite sprite;
+    protected CharacterInfo.State pState;
+
+    protected bool isAutoAiming;    // 오토에임 적용 유무
 
     protected Vector3 directionVector;
     protected float directionDegree;  // 바라보는 각도(총구 방향)
-    [SerializeField]
-    protected Transform spriteObjTransform; // sprite 컴포넌트가 붙여있는 object, player에 경우 inspector 창에서 붙여줌
 
     protected bool isRightDirection;    // character 방향이 우측이냐(true) 아니냐(flase = 좌측)
 
@@ -68,7 +83,7 @@ public abstract class Character : MonoBehaviour
     #region Func
     public bool IsDie()
     {
-        if (State.DIE == pState)
+        if (CharacterInfo.State.DIE == pState)
         {
             return true;
         }

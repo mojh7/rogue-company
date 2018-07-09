@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CharacterInfo
-{
-    public enum charType
-    {
-        Player, Enemy, Boss
-    }
-}
 
 public class AnimationHandler : MonoBehaviour {
 

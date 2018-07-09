@@ -154,7 +154,7 @@ public class Player : Character
 
         renderer.color = new Color(1, 1, 1);
         // hp = 1200.5f;
-        pState = State.ALIVE;
+        pState = CharacterInfo.State.ALIVE;
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
@@ -165,7 +165,7 @@ public class Player : Character
         buffManager = PlayerBuffManager.Instance.BuffManager;
         buffManager.SetOwner(this);
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
-        weaponManager.Init(this, OwnerType.Player);
+        weaponManager.Init(this, CharacterInfo.OwnerType.Player);
 
     }
 
@@ -250,7 +250,7 @@ public class Player : Character
     /// <summary> 공격 가능 여부 리턴 </summary>
     public bool AttackAble()
     {
-        if (pState == State.ALIVE)
+        if (pState == CharacterInfo.State.ALIVE)
             return true;
         else return false;
     }

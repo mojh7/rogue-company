@@ -14,7 +14,7 @@ public class BossEnemy : Enemy
 
     protected override void Die()
     {
-        pState = State.DIE;
+        pState = CharacterInfo.State.DIE;
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         Destroy(this.gameObject);

@@ -27,7 +27,7 @@ public class WeaponInfo : ScriptableObject
     [SerializeField]
     [TextArea(3, 100)] private string memo;
 
-    protected OwnerType ownerType;
+    protected CharacterInfo.OwnerType ownerType;
 
     [Header("기본 스펙")]
     // 기본 스펙

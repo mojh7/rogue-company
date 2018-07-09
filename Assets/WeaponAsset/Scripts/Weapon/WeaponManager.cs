@@ -32,7 +32,7 @@ public class WeaponManager : MonoBehaviour {
     // 아직 owner중 object 고려 안 했음
     private Character owner;
     private Player player;
-    private OwnerType ownerType;
+    private CharacterInfo.OwnerType ownerType;
     // owner의 공격 방향 각도, 방향 벡터 와 현재 위치 함수이며 weapon->bulletPattern->bullet 방향으로 전달 함.
     private DelGetDirDegree ownerDirDegree;
     private DelGetPosition ownerDirVec;
@@ -79,7 +79,7 @@ public class WeaponManager : MonoBehaviour {
         }
     }
     public Vector3 GetPosition() { return objTransform.position; }
-    public OwnerType GetOwnerType() { return ownerType; }
+    public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
@@ -112,7 +112,7 @@ public class WeaponManager : MonoBehaviour {
     #endregion
     #region setter
     /// <summary> Owner 정보 등록 </summary>
-    private void SetOwnerInfo(Character owner, OwnerType ownerType)
+    private void SetOwnerInfo(Character owner, CharacterInfo.OwnerType ownerType)
     {
         this.owner = owner;
         this.ownerType = ownerType;
@@ -120,7 +120,7 @@ public class WeaponManager : MonoBehaviour {
         ownerDirVec = owner.GetDirVector;
         ownerPos = GetPosition;
         ownerBuff = owner.GetBuffManager();
-        if (OwnerType.Player == ownerType)
+        if (CharacterInfo.OwnerType.Player == ownerType)
         {
             player = owner as Player;
         }
@@ -180,12 +180,12 @@ public class WeaponManager : MonoBehaviour {
     #endregion
 
     #region Function
-    public void Init(Character owner, OwnerType ownerType)
+    public void Init(Character owner, CharacterInfo.OwnerType ownerType)
     {
         SetOwnerInfo(owner, ownerType);
         
         // 0526 몬스터 무기 땜빵
-        if(OwnerType.Enemy == ownerType)
+        if(CharacterInfo.OwnerType.Enemy == ownerType)
         {
             weaponCountMax = 1;
             weaponCount = weaponCountMax;
@@ -199,7 +199,7 @@ public class WeaponManager : MonoBehaviour {
         }
 
         // 0529 Player 무기 디버그용 
-        else if(OwnerType.Player == ownerType)
+        else if(CharacterInfo.OwnerType.Player == ownerType)
         {
             Weapon weapon;
             equipWeaponSlot = new List<Weapon>();
@@ -315,7 +315,7 @@ public class WeaponManager : MonoBehaviour {
             equipWeaponSlot[i].gameObject.SetActive(false);
         }
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
-        if(OwnerType.Player == ownerType)
+        if(CharacterInfo.OwnerType.Player == ownerType)
         {
             player.GetWeaponSwitchButton().UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
             player.GetWeaponSwitchButton().UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
@@ -324,7 +324,7 @@ public class WeaponManager : MonoBehaviour {
 
     public void UpdateAmmoView(WeaponInfo info)
     {
-        if(OwnerType.Player == ownerType)
+        if(CharacterInfo.OwnerType.Player == ownerType)
         {
             player.GetWeaponSwitchButton().UpdateAmmoView(info);
         }

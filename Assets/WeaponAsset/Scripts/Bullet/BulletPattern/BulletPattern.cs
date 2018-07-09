@@ -42,7 +42,7 @@ public abstract class BulletPattern
     protected float addDirVecMagnitude;         // onwer 총구 방향으로 총알 위치 추가 적인 위치 조절 값
     protected float accuracyIncrease;
 
-    protected OwnerType ownerType;
+    protected CharacterInfo.OwnerType ownerType;
     protected DelGetDirDegree ownerDirDegree;
     protected DelGetPosition ownerDirVec;
     protected DelGetPosition ownerPos;
@@ -88,7 +88,7 @@ public abstract class BulletPattern
         };
     }
     public abstract BulletPattern Clone();
-    public abstract void StartAttack(float damageIncreaseRate, OwnerType ownerType); // 공격 시도 시작
+    public abstract void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType); // 공격 시도 시작
     public virtual void StopAttack() { }  // 공격 시도 시작 후 멈췄을 때
     public abstract void CreateBullet(float damageIncreaseRate);
 

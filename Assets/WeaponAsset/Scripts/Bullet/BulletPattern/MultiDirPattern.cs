@@ -9,7 +9,7 @@ public class MultiDirPattern : BulletPattern
     private MultiDirPatternInfo info;
 
     // 기존 정보를 참조하는 방식으로 변수 초기화
-    public MultiDirPattern(MultiDirPatternInfo patternInfo, int executionCount, float delay, OwnerType ownerType)
+    public MultiDirPattern(MultiDirPatternInfo patternInfo, int executionCount, float delay, CharacterInfo.OwnerType ownerType)
     {
         info = patternInfo;
         this.executionCount = executionCount;
@@ -35,7 +35,7 @@ public class MultiDirPattern : BulletPattern
         return new MultiDirPattern(info, executionCount, delay, ownerType);
     }
 
-    public override void StartAttack(float damageIncreaseRate, OwnerType ownerType)
+    public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)
     {
         this.ownerType = ownerType;
         CreateBullet(damageIncreaseRate);

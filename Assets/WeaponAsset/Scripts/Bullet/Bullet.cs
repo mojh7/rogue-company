@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;   // 총알 방향 각도.
 
-    private OwnerType ownerType;
+    private CharacterInfo.OwnerType ownerType;
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
     private BuffManager ownerBuff;
@@ -67,7 +67,7 @@ public class Bullet : MonoBehaviour
     public Transform LaserEndPoint { get { return laserEndPoint; } set { laserEndPoint = value; } }
 
     public LineRenderer GetLineRenderer() { return lineRenderer; }
-    public OwnerType GetOwnerType() { return ownerType; }
+    public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
@@ -130,7 +130,7 @@ public class Bullet : MonoBehaviour
     // 총알 class 초기화
 
     /// <summary>일반(투사체) 총알 초기화 - position이랑 direction만 받음, DeleteAfterSummonBulletProperty 전용 초기화</summary>
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo,  OwnerType ownerType, Vector3 pos, float direction = 0)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo,  CharacterInfo.OwnerType ownerType, Vector3 pos, float direction = 0)
     {
         active = true;
         info = bulletInfo;
@@ -157,7 +157,7 @@ public class Bullet : MonoBehaviour
     }
 
     // 일반(투사체) 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, CharacterInfo.OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
@@ -188,7 +188,7 @@ public class Bullet : MonoBehaviour
     }
 
     // 레이저 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, CharacterInfo.OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
@@ -232,16 +232,16 @@ public class Bullet : MonoBehaviour
         //bulletUpdate = StartCoroutine("BulletUpdate");
     }
 
-    private void InitOwnerInfo(OwnerType ownerType)
+    private void InitOwnerInfo(CharacterInfo.OwnerType ownerType)
     {
         this.ownerType = ownerType;
         // Enemy 13, Wall 14, Bullet 15, Player 16번
         switch (ownerType)
         {
-            case OwnerType.Enemy:
+            case CharacterInfo.OwnerType.Enemy:
                 gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
                 break;
-            case OwnerType.Player:
+            case CharacterInfo.OwnerType.Player:
                 gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
                 break;
             default:
@@ -317,16 +317,16 @@ public class Bullet : MonoBehaviour
 
         if (true == info.canBlockBullet)
         {
-            if (OwnerType.Player == ownerType)
+            if (CharacterInfo.OwnerType.Player == ownerType)
                 objTransform.tag = "PlayerCanBlockBullet";
-            if (OwnerType.Enemy == ownerType)
+            if (CharacterInfo.OwnerType.Enemy == ownerType)
                 objTransform.tag = "EnemyCanReflectBullet";
         }
         else if(true == info.canReflectBullet)
         {
-            if (OwnerType.Player == ownerType)
+            if (CharacterInfo.OwnerType.Player == ownerType)
                 objTransform.tag = "PlayerCanBlockBullet";
-            if (OwnerType.Enemy == ownerType)
+            if (CharacterInfo.OwnerType.Enemy == ownerType)
                 objTransform.tag = "EnmeyCanReflectBullet";
         }
         else
@@ -425,7 +425,7 @@ public class Bullet : MonoBehaviour
     public void CollisionBullet(Collision2D coll)
     {
         int length = info.collisionPropertiesLength;
-        if (OwnerType.Player == ownerType)
+        if (CharacterInfo.OwnerType.Player == ownerType)
         {
             if(coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall") ||
                 coll.transform.CompareTag("PlayerCanBlockBullet") || coll.transform.CompareTag("PlayerCanReflectBullet"))
@@ -436,7 +436,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        else if(OwnerType.Enemy == ownerType)
+        else if(CharacterInfo.OwnerType.Enemy == ownerType)
         {
             if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Wall") ||
                 coll.transform.CompareTag("EnemyCanBlockBullet") || coll.transform.CompareTag("EnemyCanReflectBullet"))
@@ -453,7 +453,7 @@ public class Bullet : MonoBehaviour
     public void CollisionBullet(Collider2D coll)
     {
         int length = info.collisionPropertiesLength;
-        if (OwnerType.Player == ownerType)
+        if (CharacterInfo.OwnerType.Player == ownerType)
         {
             if (coll.CompareTag("Enemy") || coll.CompareTag("Wall") ||
                 coll.CompareTag("PlayerCanBlockBullet") || coll.CompareTag("PlayerCanReflectBullet"))
@@ -464,7 +464,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        else if (OwnerType.Enemy == ownerType)
+        else if (CharacterInfo.OwnerType.Enemy == ownerType)
         {
             if (coll.CompareTag("Player") || coll.CompareTag("Wall") ||
                 coll.CompareTag("EnemyCanBlockBullet") || coll.CompareTag("EnemyCanReflectBullet"))

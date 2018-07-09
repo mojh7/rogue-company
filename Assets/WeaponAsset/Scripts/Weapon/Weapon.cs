@@ -36,7 +36,7 @@ public class Weapon : Item {
     private Transform objTransform;
     private SpriteRenderer spriteRenderer;
 
-    private OwnerType ownerType;
+    private CharacterInfo.OwnerType ownerType;
     private DelGetDirDegree ownerDirDegree;   // 소유자 각도
     private DelGetPosition ownerDirVec; // 소유자 각도 벡터(vector3)
     private DelGetPosition ownerPos;    // 소유자 초기 위치(vector3)
@@ -58,7 +58,7 @@ public class Weapon : Item {
     #region getter / setter
     public Sprite GetWeaponSprite() { return spriteRenderer.sprite; }
     public Transform ObjTransform { get { return objTransform; } set { objTransform = value; } }
-    public OwnerType GetOwnerType() { return ownerType; }
+    public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
@@ -85,7 +85,7 @@ public class Weapon : Item {
         //무기 습득에 쓸거같음
     }
     //6.02 이유성
-    public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.Player)
+    public void Init(WeaponInfo weaponInfo, CharacterInfo.OwnerType ownerType = CharacterInfo.OwnerType.Player)
     {
         this.ownerType = ownerType;
         // weaponInfo Clone
@@ -95,7 +95,7 @@ public class Weapon : Item {
     }
 
     /// <summary> DataStore에서 index 참조로 무기 정보 받아오기, weaponView class 초기화 </summary>
-    public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)
+    public void Init(int weaponId, CharacterInfo.OwnerType ownerType = CharacterInfo.OwnerType.Player)
     {
         this.ownerType = ownerType;
         this.weaponId = weaponId;

@@ -16,13 +16,13 @@ public class BulletPatternInfo : ScriptableObject
     public BulletInfo bulletInfo;
 
     /// <summary> bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
-    public static BulletPattern CreatePatternInfo(BulletPatternInfo patternInfo, OwnerType ownerType)
+    public static BulletPattern CreatePatternInfo(BulletPatternInfo patternInfo, CharacterInfo.OwnerType ownerType)
     {
         return CreatePatternInfo(new BulletPatternEditInfo(patternInfo, 1, 0), ownerType);
     }
 
     /// <summary> bulletPatternEditInfo에서 bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
-    public static BulletPattern CreatePatternInfo(BulletPatternEditInfo patternEditInfo, OwnerType ownerType)
+    public static BulletPattern CreatePatternInfo(BulletPatternEditInfo patternEditInfo, CharacterInfo.OwnerType ownerType)
     {
         System.Type bulletPatternType = patternEditInfo.patternInfo.GetType();
 

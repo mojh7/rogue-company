@@ -86,16 +86,16 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     /// <param name="id"></param>
     /// <param name="owner"></param>
     /// <returns></returns>
-    public WeaponInfo GetWeaponInfo(int id, OwnerType ownerType = OwnerType.Player)
+    public WeaponInfo GetWeaponInfo(int id, CharacterInfo.OwnerType ownerType = CharacterInfo.OwnerType.Player)
     {
         switch(ownerType)
         {
-            case OwnerType.Player:
+            case CharacterInfo.OwnerType.Player:
                 return weaponInfos[id];
             // 구분 만 해놓고 아직 player 이외의 owner weaponDataList 안 만듬, 봐서 bullet, Pattern도 이렇게 처리 할듯
-            case OwnerType.Enemy:
+            case CharacterInfo.OwnerType.Enemy:
                 return enemyWeaponInfos[id];
-            case OwnerType.Object:
+            case CharacterInfo.OwnerType.Object:
             default:
                 break;
         }

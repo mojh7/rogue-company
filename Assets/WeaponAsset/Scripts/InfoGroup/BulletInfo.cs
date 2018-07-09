@@ -15,7 +15,7 @@ public class BulletInfo : ScriptableObject
     [SerializeField]
     [TextArea(3, 100)] private string memo;
 
-    protected OwnerType ownerType;
+    protected CharacterInfo.OwnerType ownerType;
     [SerializeField]
     protected BulletType bulletType;
 
@@ -118,7 +118,7 @@ public class BulletInfo : ScriptableObject
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
     public BulletInfo()
     {
-        ownerType = OwnerType.Player;
+        ownerType = CharacterInfo.OwnerType.Player;
 
         scaleX = 1.0f;
         scaleY = 1.0f;

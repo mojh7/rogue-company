@@ -79,7 +79,7 @@ public class Enemy : Character
     /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (State.ALIVE != pState)
+        if (CharacterInfo.State.ALIVE != pState)
             return;
         if (collision.gameObject.CompareTag("Bullet"))
         {
@@ -96,7 +96,7 @@ public class Enemy : Character
     //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
     //public void Init(EnemyData enemyData)
     //{
-    //    pState = State.ALIVE;
+    //    pState = CharacterInfo.State.ALIVE;
     //    hp = enemyData.HP;
     //    moveSpeed = enemyData.Speed;
     //    animator = enemyData.Animator;
@@ -107,7 +107,7 @@ public class Enemy : Character
     public void Init(Sprite _sprite)
     {
         sprite = _sprite;
-        pState = State.ALIVE;
+        pState = CharacterInfo.State.ALIVE;
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
         scaleVector = transform.localScale;
@@ -127,11 +127,11 @@ public class Enemy : Character
         buffManager.SetOwner(this);
         // 0526 임시용
         weaponManager = GetComponentInChildren<WeaponManager>();
-        weaponManager.Init(this, OwnerType.Enemy);
+        weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
     }
     protected override void Die()
     {
-        pState = State.DIE;
+        pState = CharacterInfo.State.DIE;
         StopCoroutine(poisonCoroutine);
         StopCoroutine(burnCoroutine);
         StopCoroutine(nagCoroutine);
@@ -152,7 +152,7 @@ public class Enemy : Character
     /// <summary>총알에서 전달된 정보로 공격 처리</summary>
     public override float Attacked(TransferBulletInfo transferredInfo)
     {
-        if (State.ALIVE != pState)
+        if (CharacterInfo.State.ALIVE != pState)
             return 0;
         float criticalCheck = Random.Range(0f, 1f);
         float damage = transferredInfo.damage;
@@ -172,7 +172,7 @@ public class Enemy : Character
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
     {
-        if (State.ALIVE != pState)
+        if (CharacterInfo.State.ALIVE != pState)
             return 0;
         float criticalCheck = Random.Range(0f, 1f);
         // 크리티컬 공격
@@ -215,7 +215,7 @@ public class Enemy : Character
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
-        if (State.ALIVE != pState)
+        if (CharacterInfo.State.ALIVE != pState)
             return;
 
         if (null == statusEffectInfo) return;

@@ -7,6 +7,6 @@ public class EnemyWeaponInfo : WeaponInfo
 {
     public EnemyWeaponInfo()
     {
-        ownerType = OwnerType.Enemy;
+        ownerType = CharacterInfo.OwnerType.Enemy;
     }
 }

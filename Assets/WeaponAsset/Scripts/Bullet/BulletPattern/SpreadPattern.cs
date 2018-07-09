@@ -10,7 +10,7 @@ public class SpreadPattern : BulletPattern
     private SpreadPatternInfo info;
     private float sectorAngle;
     private int bulletCount;
-    public SpreadPattern(SpreadPatternInfo patternInfo, int executionCount, float delay, OwnerType ownerType)
+    public SpreadPattern(SpreadPatternInfo patternInfo, int executionCount, float delay, CharacterInfo.OwnerType ownerType)
     {
         info = patternInfo;
         this.executionCount = executionCount;
@@ -48,7 +48,7 @@ public class SpreadPattern : BulletPattern
         base.Init(ownerBuff, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
     }
 
-    public override void StartAttack(float damageIncreaseRate, OwnerType ownerType)
+    public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)
     {
         this.ownerType = ownerType;
         CreateBullet(damageIncreaseRate);
