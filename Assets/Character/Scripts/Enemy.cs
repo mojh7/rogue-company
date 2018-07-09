@@ -132,10 +132,24 @@ public class Enemy : Character
     protected override void Die()
     {
         pState = CharacterInfo.State.DIE;
-        StopCoroutine(poisonCoroutine);
-        StopCoroutine(burnCoroutine);
-        StopCoroutine(nagCoroutine);
-        StopCoroutine(delayStateCoroutine);
+        // 실행 중인 코루틴이 있으면 코루틴 멈춤
+        if (null != poisonCoroutine)
+        {
+            StopCoroutine(poisonCoroutine);
+        }
+        if (null != burnCoroutine)
+        {
+            StopCoroutine(burnCoroutine);
+        }
+        if (null != nagCoroutine)
+        {
+            StopCoroutine(nagCoroutine);
+        }
+        if (null != delayStateCoroutine)
+        {
+            StopCoroutine(delayStateCoroutine);
+        }
+        
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
