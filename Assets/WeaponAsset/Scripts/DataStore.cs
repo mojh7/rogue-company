@@ -49,47 +49,6 @@ namespace WeaponAsset
     public delegate void DelDestroyBullet();
     // 총알 충돌 함수 델리게이트
     public delegate void DelCollisionBullet(Collider2D coll);
-
-
-    // ItemUseEffect 안의 내용으로 옮길 예정
-
-    public struct WeaponBuffInfo
-    {
-        // 단순히 능력치 증가 감소
-        #region ability
-        public float cooldownIncreaseRate;         // 쿨타임 증가율
-        public float damageIncreaseRate;           // 공격력 증가율
-        public float criticalRateIncreaseRate;     // 치명타 확률 증가율      
-        public float knockBackIncreaseRate;        // 넉백 증가율
-        public float ammoCapacityIncreaseRate;     // 탄창 Maximum 증가율, int형으로 갯수로 해야 될 수도
-
-        public float bulletScaleIncreaseRate;      // 총알 크기 증가율
-        public float bulletRangeIncreaseRate;      // 총알 사정 거리 증가율
-        public float bulletSpeedIncreaseRate;      // 총알 속력 증가율
-
-        public float chargeTimeIncreaseRate;       // 차징 시간 증가율
-        public float chargeDamageIncreaseRate;     // 차징 공격 데미지 증가율
-
-        // 임시
-        public int bulletCountIncreaseCount;      // 다방향 패턴 총알 갯수 증가
-        #endregion
-
-        // 속성 추가 삭제
-        #region property
-        // 추가 속성
-        public List<CollisionProperty> addCollisionProperties;
-        public List<UpdateProperty> addUpdateProperties;
-        public List<DeleteProperty> addDeleteProperties;
-        // 추가 속성 길이
-        public int addCollisionPropertiesLength;
-        public int addUpdatePropertiesLength;
-        public int addDeletePropertiesLength;
-        // buffManager에서 buffList에 속성 추가할 때에 첫 번째 index
-        public int addedCollisionPropertyFirstIndex;
-        public int addedUpdatePropertyFirstIndex;
-        public int addedDeletePropertyFirstIndex;
-        #endregion
-    }
 }
 
 

@@ -2,10 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Character {
-    public bool isKnockBack;
+public struct StatusConstant
+{
+    public float value;         // 각 상태이상 별로 세기, 값
+    public float effectiveTime; // 효과 유지 시간
+    public int overlapCountMax; // 중첩 횟수 최대치
+    public StatusConstant(float value, float effectiveTime, int overlapCountMax)
+    {
+        this.value = value;
+        this.effectiveTime = effectiveTime;
+        this.overlapCountMax = overlapCountMax;
+    }
+}
 
+public static class StatusConstants
+{
+    public static float damageTerm = 0.1f;
+    public static StatusConstant poisonInfo = new StatusConstant(0.05f, 3f, 3);
+    public static StatusConstant burnInfo   = new StatusConstant(0.05f, 3f, 3);
+    public static StatusConstant nagInfo    = new StatusConstant(0.5f, 4f, 2);
+    public static StatusConstant delayStateInfo = new StatusConstant(0.5f, 3f, 3);
+}
+
+public class Enemy : Character
+{
+    public bool isKnockBack;
     EnemyData enemyData;
+
+    private bool isPoisoning;
+    private int PoisonCount;
+    private bool isBurning;
+    private int burnCount;
+    private bool isNagging;
+    private int nagCount;
+    public bool isDelayingState;
+    private int delayStateCount;
+
+    private Coroutine poisonCoroutine;
+    private Coroutine burnCoroutine;
+    private Coroutine nagCoroutine;
+    private Coroutine delayStateCoroutine;
+
     #region setter
     #endregion
 
@@ -76,8 +113,18 @@ public class Enemy : Character {
         scaleVector = transform.localScale;
         hp = 5;
 
+        isPoisoning = false;
+        PoisonCount = 0;
+        isBurning = false;
+        burnCount = 0;
+        isNagging = false;
+        nagCount = 0;
+        isDelayingState = false;
+        delayStateCount = 0;
+
         // 0630 Enemy용 buffManager 초기화
         buffManager.Init();
+        buffManager.SetOwner(this);
         // 0526 임시용
         weaponManager = GetComponentInChildren<WeaponManager>();
         weaponManager.Init(this, OwnerType.Enemy);
@@ -85,6 +132,10 @@ public class Enemy : Character {
     protected override void Die()
     {
         pState = State.DIE;
+        StopCoroutine(poisonCoroutine);
+        StopCoroutine(burnCoroutine);
+        StopCoroutine(nagCoroutine);
+        StopCoroutine(delayStateCoroutine);
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
@@ -157,6 +208,11 @@ public class Enemy : Character {
         return damage;
     }
 
+    public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
+    {
+
+    }
+
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
         if (State.ALIVE != pState)
@@ -164,9 +220,18 @@ public class Enemy : Character {
 
         if (null == statusEffectInfo) return;
         // 독
-        // 화상
+        if(true == statusEffectInfo.canPoison)
+        {
+            Poison();
+        }
 
-        // 넉백 + 밀기, - 당기기
+        // 화상
+        if(true == statusEffectInfo.canBurn)
+        {
+            Burn();
+        }
+
+        // 넉백 : + 밀기, - 당기기
         if (0 != statusEffectInfo.knockBack)
         {
             isKnockBack = true;
@@ -189,8 +254,110 @@ public class Enemy : Character {
             StartCoroutine(KnockBackCheck());
         }
 
-        // 슬로우
-        // 스턴
+        if (true == statusEffectInfo.canNag)
+        {
+            Nag();
+        }
+
+        if (true == statusEffectInfo.canDelayState)
+        {
+            DelayState();
+        }
+    }
+    public void Poison()
+    {
+        if (PoisonCount >= StatusConstants.poisonInfo.overlapCountMax)
+            return;
+        if(false == isPoisoning)
+        {
+            poisonCoroutine = StartCoroutine(PoisonCoroutine());
+        }
+        else
+        {
+
+        }
+        PoisonCount += 1;
+    }
+    public void Burn()
+    {
+        if (burnCount >= StatusConstants.burnInfo.overlapCountMax)
+            return;
+        burnCount += 1;
+    }
+
+    // 이동 translate, velocity, addForce ??
+    public override void Nag()
+    { 
+        // 처음 거는거
+        if(false == isNagging)
+        {
+            NagCoroutine();
+        }
+        else
+        {
+            if(nagCount >= StatusConstants.nagInfo.overlapCountMax)
+            {
+
+            }
+        }
+            
+        {
+
+        }
+    }
+
+    //
+    public override void DelayState()
+    {
+        if(false == isDelayingState)
+        {
+            delayStateCoroutine = StartCoroutine(DelayStateCoroutine());
+            delayStateCount += 1;
+            isDelayingState = true;
+        }
+        else
+        {
+            if (delayStateCount >= StatusConstants.delayStateInfo.overlapCountMax)
+                return;
+            else
+            {
+                delayStateCount += 1;
+            }
+        }
+    }
+    IEnumerator PoisonCoroutine()
+    {
+        
+        yield return YieldInstructionCache.WaitForSeconds(StatusConstants.damageTerm);
+    }
+
+    IEnumerator BurnCoroutine()
+    {
+
+        yield return YieldInstructionCache.WaitForSeconds(StatusConstants.damageTerm);
+    }
+
+    IEnumerator NagCoroutine()
+    {
+        yield return YieldInstructionCache.WaitForSeconds(StatusConstants.nagInfo.value);
+    }
+
+    IEnumerator DelayStateCoroutine()
+    {
+        int delayStateCount = this. delayStateCount;
+        while (true)
+        {
+            CharacterTargetEffect characterTargetEffect = new CharacterTargetEffect();
+            WeaponTargetEffect weaponTargetEffect = new WeaponTargetEffect();
+            characterTargetEffect.moveSpeedIncrease = -StatusConstants.delayStateInfo.value;
+            weaponTargetEffect.bulletSpeedIncrease = -StatusConstants.delayStateInfo.value;
+            buffManager.RegisterItemEffect(characterTargetEffect, StatusConstants.delayStateInfo.effectiveTime);
+            buffManager.RegisterItemEffect(weaponTargetEffect, StatusConstants.delayStateInfo.effectiveTime);
+            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.delayStateInfo.effectiveTime);
+            if (delayStateCount == 1) break;
+        }
+        isDelayingState = false;
+        delayStateCount = 0;
     }
 
     IEnumerator CoroutineAttacked()

@@ -97,13 +97,25 @@ public abstract class Character : MonoBehaviour
     /*--abstract--*/
     protected abstract void Die();
     public abstract float Attacked(TransferBulletInfo info);
+
+    // item Character 대상 효과 적용
+    public abstract void ApplyItemEffect(CharacterTargetEffect itemUseEffect);
+
     /// <summary> 상태 이상 효과 적용 </summary>
     public virtual void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
         // Enemy랑 Player랑 효과 다르게 받아야 될 게 생길 듯
     }
 
+    public virtual void Nag()
+    {
 
+    }
+
+    public virtual void DelayState()
+    {
+
+    }
     /**/
 
 }
@@ -256,6 +268,7 @@ public class Player : Character
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
         buffManager = PlayerBuffManager.Instance.BuffManager;
+        buffManager.SetOwner(this);
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, OwnerType.Player);
 
@@ -436,7 +449,7 @@ public class Player : Character
 
 
     // item Player 대상 효과 적용
-    public void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
+    public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
     {
         // 주로 즉시 효과 볼 내용들이 적용되서 체력, 허기 회복 두개만 쓸 것 같음.
 

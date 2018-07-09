@@ -10,9 +10,10 @@ public class CharacterTargetEffect : ItemUseEffect
     public float recoveryHp;
     public float recoveryHunger;
     public int armorIncrease;
-    public float criticalChanceIncrease; // 2. 치명타 확률 증가율    
+
 
     // 곱 옵션 - 합 연산
+    public float criticalChanceIncrease; // 2. 치명타 확률 증가율
     public float moveSpeedIncrease;
     public float rewardOfEndGameIncrease;           // 게임 끝날 때 보상 증가율
 

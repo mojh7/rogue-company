@@ -19,6 +19,7 @@ public class BuffManager : MonoBehaviour
     private int characterTargetEffectsLength;
     private List<WeaponTargetEffect> weaponTargetEffects;
     private int weaponTargetEffectsLength;
+    private Character owner;
 
     private CharacterTargetEffect characterTargetEffectTotal;
     private WeaponTargetEffect weaponTargetEffectTotal;
@@ -46,14 +47,19 @@ public class BuffManager : MonoBehaviour
         InitWeaponTargetEffectTotal();
     }
 
+    public void SetOwner(Character owner)
+    {
+        this.owner = owner;
+    }
+
     /// <summary> 캐릭터 대상 효과 종합 초기화 </summary>
     public void InitCharacterTargetEffectTotal()
     {
         characterTargetEffectTotal = new CharacterTargetEffect
         {
             armorIncrease = 0,
-            criticalChanceIncrease = 0,
 
+            criticalChanceIncrease = 1f,
             moveSpeedIncrease = 1f,
             rewardOfEndGameIncrease = 1f,
 
@@ -72,7 +78,7 @@ public class BuffManager : MonoBehaviour
         weaponTargetEffectTotal = new WeaponTargetEffect
         {
             shotgunBulletCountIncrease = 0,
-            criticalChanceIncrease = 0,
+            //criticalChanceIncrease = 0,
 
             damageIncrease = 1f,
             knockBackIncrease = 1f,
@@ -167,9 +173,9 @@ public class BuffManager : MonoBehaviour
 
         // 합 연산
         CharacterTargetEffectTotal.armorIncrease += targetEffect.armorIncrease * sign;
-        CharacterTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
 
         // 곱 옵션 - 합 연산
+        CharacterTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
         CharacterTargetEffectTotal.moveSpeedIncrease += targetEffect.moveSpeedIncrease * sign;
         CharacterTargetEffectTotal.rewardOfEndGameIncrease += targetEffect.rewardOfEndGameIncrease * sign;
         //CharacterTargetEffectTotal += targetEffect * sign;
@@ -218,7 +224,7 @@ public class BuffManager : MonoBehaviour
         }
         // 합 옵션
         weaponTargetEffectTotal.shotgunBulletCountIncrease += targetEffect.shotgunBulletCountIncrease * sign;
-        weaponTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
+        //weaponTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
         //weaponTargetEffectTotal += targetEffect * sign;        
 
         // 곱 옵션 - 합 연산

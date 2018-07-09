@@ -17,10 +17,7 @@ MonoBehaviour:
   statusEffectInfo:
     bulletPos: {x: 0, y: 0}
     bulletDir: {x: 0, y: 0}
-    nonOverlappingPoisonDamage: 0
-    nonOverlappingPoisonEffectiveTime: 0
-    overlappingPoisonDamage: 0
-    overlappingPoisonEffectiveTime: 0
+    canPoison: 0
     canBurn: 0
     knockBack: 200
     positionBasedKnockBack: 0
@@ -31,12 +28,11 @@ MonoBehaviour:
     canFreeze: 0
     freezeEffectiveTime: 0
   damage: 1
-  knockBack: 200
   criticalChance: 0
-  speed: 0.3
+  speed: 1
   acceleration: 0
   deltaSpeedTotalLimit: 0
-  range: 1.2
+  range: 2
   scaleX: 1.5
   scaleY: 1.5
   pierceCount: 1

@@ -10,7 +10,7 @@ public class WeaponTargetEffect : ItemUseEffect
     #region ability
     // 합 옵션
     public int shotgunBulletCountIncrease; // 샷건류(spread pattern) 총알 갯수 증가
-    public float criticalChanceIncrease;   // 모든 무기 크리티컬 확률 증가
+    // public float criticalChanceIncrease;   // 모든 무기 크리티컬 확률 증가
 
     // 곱 옵션 - 합 연산
     public float damageIncrease;           // 3. 공격력 증가율

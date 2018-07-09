@@ -169,40 +169,17 @@ public class TestScript : MonoBehaviour {
 
 
 
-    public void ListTest()
-    {
-        WeaponBuff a = new WeaponBuff();
-        WeaponBuff b = new WeaponBuff();
-        WeaponBuff c = new WeaponBuff();
-        WeaponBuff d = new WeaponBuff();
-        WeaponBuff e = new WeaponBuff();
-        List<WeaponBuff> wList = new List<WeaponBuff>();
-        wList.Add(a);
-        wList.Add(b);
-        wList.Add(c);
-        wList.Add(d);
-        if (a == b)
-        {
-            Debug.Log("a == b");
-        }
-        else
-        {
-            Debug.Log("a != b"); 
-        }
-        // output : a != b"
-        int t = 0;
-        int t2 = 0;
-        int t3 = 0;
+ 
         // 내부적으로 compare로 비교해서 값 비교 되는 걸로 넣어야 될듯 클래스 안됨
         //Debug.Log(t = wList.BinarySearch(c));
         //Debug.Log(t2 = wList.BinarySearch(e));
 
         // 바이너리서치 오름 차순이어야됨
-        List<int> aa = new List<int>(){1, 2, 3, 4, 5, 6};
+        // List<int> aa = new List<int>(){1, 2, 3, 4, 5, 6};
         //Debug.Log(t = aa.BinarySearch(1)); // 0
         //Debug.Log(t2 = aa.BinarySearch(5)); // 4
         //Debug.Log(t3 = aa.BinarySearch(8)); // 2
-    }
+ 
 
     public int Abc(int b)
     {

@@ -10,17 +10,23 @@ public class StatusEffectInfo
     [HideInInspector]
     public Vector2 bulletDir;
 
-    // 지속 데미지류
+    // 체력 손실
     public bool canPoison;
     //public float overlappingPoisonDamage;
     //public float overlappingPoisonEffectiveTime;
 
     public bool canBurn;
 
-    // 이동, 공격 등 상태 방해 제한류
+    // 이상 행동
     public float knockBack;
     public bool positionBasedKnockBack;
 
+    // 잔소리
+    public bool canNag;
+    // 이동 지연
+    public bool canDelayState;
+
+    /*
     public float slow;
     public float slowEffectiveTime;
 
@@ -29,6 +35,7 @@ public class StatusEffectInfo
 
     public bool canFreeze;
     public float freezeEffectiveTime;
+    */
 
     // 효과들??
     // 슬로우 이동 방해
@@ -44,8 +51,13 @@ public class StatusEffectInfo
     {
         canPoison = info.canPoison;
         canBurn = info.canBurn;
+
         knockBack = info.knockBack;
         positionBasedKnockBack = info.positionBasedKnockBack;
+        canNag = info.canNag;
+        canDelayState = info.canDelayState;
+        
+        /*
         slow = info.slow;
         slowEffectiveTime = info.slowEffectiveTime;
 
@@ -54,5 +66,6 @@ public class StatusEffectInfo
 
         canFreeze = info.canFreeze;
         freezeEffectiveTime = info.freezeEffectiveTime;
+        */
     }
 }
