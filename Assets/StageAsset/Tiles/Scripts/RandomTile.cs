@@ -3,10 +3,6 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-[CreateAssetMenu(fileName = "RandomTile", menuName = "Tile/RandomTile", order = 0)]
 public class RandomTile : TileBase {
     public SpriteArray[] mSprites;
     public Tile.ColliderType colliderType;

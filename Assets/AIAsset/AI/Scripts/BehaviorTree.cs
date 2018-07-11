@@ -45,73 +45,11 @@ namespace BT
         }
     }
 
-    //class BehaviorNodeData : ScriptableObject
-    //{
-    //    List<Task> tasks;
-
-    //    public Task Building()
-    //    {
-    //        if (tasks.Count == 0)
-    //            return null;
-    //        Task root = tasks[0];
-
-    //        for(int i = 0; i < tasks.Count; i++)
-    //        {
-    //            Task task = tasks[i];
-    //            BehaivorSwitch.Instance.Switch(root,task);
-    //        }
-    //        return tasks[0];
-    //    }
-
-    //    public class BehaivorSwitch
-    //    {
-    //        private static BehaivorSwitch instance = null;
-    //        static readonly object padlock = new object();
-    //        Dictionary<Type, Action<object>> matches = new Dictionary<Type, Action<object>>();
-    //        BehaivorSwitch Case<T>(Action<T> action) { matches.Add(typeof(T), (x) => action((T)x)); return this; }
-    //        void Switch(object x) { matches[x.GetType()](x); }
-
-    //        BehaivorSwitch()
-    //        {
-
-    //        }
-
-    //        public static BehaivorSwitch Instance
-    //        {
-    //            get
-    //            {
-    //                if (instance == null)
-    //                {
-    //                    lock (padlock)
-    //                    {
-    //                        if (instance == null)
-    //                        {
-    //                            instance = new BehaivorSwitch();
-    //                        }
-    //                    }
-    //                }
-    //                return instance;
-    //            }
-    //        }
-
-    //        public Task Switch(Task parent, Task child)
-    //        {
-    //            var caseSwitch = new BehaivorSwitch()
-    //                .Case((CompositeTask x) => parent.AddChild(child))
-    //                .Case((DecorateTask x) => parent.AddChild(child))
-    //                .Case((ActionTask x) => parent.AddChild(child));
-
-    //            caseSwitch.Switch(parent, child);
-    //            return parent;
-    //        }
-    //    }
-    //}
-
     #region baseNode
     /// <summary>
     /// 행동 트리 기본 추상 노드
     /// </summary>
-    abstract class Task : ScriptableObject
+    public  abstract class Task : ScriptableObject
     {
         public Root RootTask;
         protected Character character;
@@ -161,7 +99,7 @@ namespace BT
     /// <summary>
     /// 추상 합성 노드로 자식 노드를 List형태로 갖고있습니다.
     /// </summary>
-    abstract class CompositeTask : Task
+    public abstract class CompositeTask : Task
     {
         [SerializeField]
         private List<Task> mChildren;
@@ -185,7 +123,7 @@ namespace BT
     /// <summary>
     /// 추상 데코레이터 노드로 하나의 자식을 갖고 있습니다.
     /// </summary>
-    abstract class DecorateTask : Task
+    public abstract class DecorateTask : Task
     {
         [SerializeField]
         private Task mChildren;
@@ -207,9 +145,8 @@ namespace BT
     /// <summary>
     /// 추상 액션 노드로 실질적인 행동(공격, 이동, 능력 증가, 패턴, 사망)을 수행하게됩니다.
     /// </summary>
-    abstract class ActionTask : Task
+    public abstract class ActionTask : Task
     {
-        protected Character character;
         protected bool success;
         protected ActionTask()
         {
@@ -226,7 +163,7 @@ namespace BT
     /// 가지고 있는 자식들을 순회하다가 자식 노드가 성공적으로 수행될 경우 순회를 중단하고 true를 반환함.
     /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
     /// </summary>
-    class Selector : CompositeTask
+    public class Selector : CompositeTask
     {
         public override bool Run()
         {
@@ -242,7 +179,7 @@ namespace BT
     /// 가지고 있는 자식들을 순회하다가 자식 노드 중 하나라도 실패할 경우 순회를 중단하고 false를 반환함.
     /// list 순회이므로 자식 노드의 삽입 순서가 실행 우선순위가 됩니다.
     /// </summary>
-    class Sequence : CompositeTask
+    public class Sequence : CompositeTask
     {
         public override bool Run()
         {
@@ -260,7 +197,7 @@ namespace BT
     /// <summary>
     /// 무조건 루트에 있어야함. 데이터 저장을 위한 Blackboard와 스케쥴링을 위한 Clock 변수가 담겨있습니다.
     /// </summary>
-    class Root : DecorateTask
+    public class Root : DecorateTask
     {
         /// <summary>
         /// 데이터 저장소
@@ -281,6 +218,11 @@ namespace BT
                 return clock;
             }
         }
+        public Root()
+        {
+            this.clock = UnityContext.GetClock();
+            SetRoot(this);
+        }
         /// <summary>
         /// 데이터 저장소 및 스케줄러 생성
         /// </summary>
@@ -300,7 +242,7 @@ namespace BT
     /// <summary>
     /// 일정 주파수마다 실행되는 노드 한번 실행할 때마다 Clock에 저장,업데이트가 됩니다.
     /// </summary>
-    class Service : CompositeTask
+    public class Service : CompositeTask
     {
         float frequency;
 
@@ -333,7 +275,7 @@ namespace BT
     /// <summary>
     /// 조건에 따라 자식의 수행 여부를 정하는 추상 조건 노드입니다.
     /// </summary>
-    abstract class ConditionDecorate : DecorateTask
+    public abstract class ConditionDecorate : DecorateTask
     {
         BehaviorCondition condition;
 
@@ -381,7 +323,7 @@ namespace BT
     /// <summary>
     /// 거리 조건에 따라 자식의 수행 여부를 정하는 조건 노드입니다.
     /// </summary>
-    class DistanceDecorate : ConditionDecorate
+    public class DistanceDecorate : ConditionDecorate
     {
         [SerializeField]
         Character target;
@@ -415,7 +357,7 @@ namespace BT
     /// <summary>
     /// 캐릭터 사망시 행동을 담은 노드입니다.
     /// </summary>
-    class CharacterDeadAction : ActionTask
+    public class CharacterDeadAction : ActionTask
     {
         protected override void SetRoot(Root rootTask)
         {
@@ -439,7 +381,7 @@ namespace BT
     /// <summary>
     /// 기본 A* 추적 행동을 담은 노드입니다.
     /// </summary>
-    class AStarTrackAtion : ActionTask
+    public class AStarTrackAtion : ActionTask
     {
         MovingPattern movingPattern;
         Character target;
@@ -460,7 +402,7 @@ namespace BT
     /// <summary>
     /// 기본 회전 추적 행동을 담은 노드입니다. 
     /// </summary>
-    class RoundingTrackAction : ActionTask
+    public class RoundingTrackAction : ActionTask
     {
         MovingPattern movingPattern;
         Character target;
@@ -488,7 +430,7 @@ namespace BT
     /// <summary>
     /// 기본 A* 돌진 행동을 담은 노드입니다.
     /// </summary>
-    class RushTrackAtion : ActionTask
+    public class RushTrackAtion : ActionTask
     {
         MovingPattern movingPattern;
         Character target;
@@ -509,7 +451,7 @@ namespace BT
     /// <summary>
     /// 기본 공격 행동을 담은 노드입니다.
     /// </summary>
-    class AttackAction : ActionTask
+    public class AttackAction : ActionTask
     {
 
         public AttackAction() 
