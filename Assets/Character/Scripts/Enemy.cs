@@ -23,6 +23,7 @@ public static class StatusConstants
     public static StatusConstant delayStateInfo;
     public static float graduallyDamageCycle;
     public static int graduallyDamageCountMax;
+    public static Vector2[] nagDirVector;
     //public static int damageCount = graduallyDamageCycle;
     static StatusConstants()
     {
@@ -30,6 +31,9 @@ public static class StatusConstants
         poisonInfo = new StatusConstant(0.05f, 3f, 3);
         burnInfo = new StatusConstant(0.05f, 3f, 3);
         nagInfo = new StatusConstant(0.5f, 4f, 2);
+        nagDirVector = new Vector2[8]
+        { new Vector2(0, 1), new Vector2(0, -1), new Vector2(0, -1), new Vector2(0, 1),
+         new Vector2(-1, 0), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-1, 0)};
         delayStateInfo = new StatusConstant(0.5f, 3f, 3);
         graduallyDamageCycle = 0.1f;
         graduallyDamageCountMax = (int)(poisonInfo.effectiveTime / graduallyDamageCycle);
@@ -49,8 +53,10 @@ public class Enemy : Character
     private int burnOverlappingCount;
     private int[] burnCount;
     private bool isNagging;
+    private int nagOverlappingCount;
     private int nagCount;
-    public bool isDelayingState;
+    private bool isDelayingState;
+    private int delayStateOverlappingCount;
     private int delayStateCount;
 
     private Coroutine poisonCoroutine;
@@ -120,7 +126,19 @@ public class Enemy : Character
         hpMax = 7;
         hp = hpMax;
 
+        InitStatusEffects();
 
+        // 0630 Enemy용 buffManager 초기화
+        buffManager.Init();
+        buffManager.SetOwner(this);
+        // 0526 임시용
+        weaponManager = GetComponentInChildren<WeaponManager>();
+        weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
+    }
+
+    /// <summary> 상태 이상 효과 관련 초기화 </summary>
+    private void InitStatusEffects()
+    {
         isPoisoning = false;
         poisonOverlappingCount = 0;
         poisonCount = new int[3];
@@ -131,13 +149,6 @@ public class Enemy : Character
         nagCount = 0;
         isDelayingState = false;
         delayStateCount = 0;
-
-        // 0630 Enemy용 buffManager 초기화
-        buffManager.Init();
-        buffManager.SetOwner(this);
-        // 0526 임시용
-        weaponManager = GetComponentInChildren<WeaponManager>();
-        weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
     }
     protected override void Die()
     {
@@ -327,42 +338,29 @@ public class Enemy : Character
 
     // 이동 translate, velocity, addForce ??
     public override void Nag()
-    { 
-        // 처음 거는거
-        if(false == isNagging)
-        {
-            NagCoroutine();
-        }
-        else
-        {
-            if(nagCount >= StatusConstants.nagInfo.overlapCountMax)
-            {
+    {
+        if (nagCount >= StatusConstants.nagInfo.overlapCountMax)
+            return;
 
-            }
-        }
-            
+        nagCount += 1;
+        nagOverlappingCount += 1;
+        if (false == isNagging)
         {
-
+            nagCoroutine = StartCoroutine(NagCoroutine());
         }
     }
 
     //
     public override void DelayState()
     {
-        if(false == isDelayingState)
+        if (delayStateCount >= StatusConstants.delayStateInfo.overlapCountMax)
+            return;
+
+        delayStateCount += 1;
+        delayStateOverlappingCount += 1;
+        if (false == isDelayingState)
         {
             delayStateCoroutine = StartCoroutine(DelayStateCoroutine());
-            delayStateCount += 1;
-            isDelayingState = true;
-        }
-        else
-        {
-            if (delayStateCount >= StatusConstants.delayStateInfo.overlapCountMax)
-                return;
-            else
-            {
-                delayStateCount += 1;
-            }
         }
     }
 
@@ -379,32 +377,30 @@ public class Enemy : Character
     }
     IEnumerator PoisonCoroutine()
     {
-        while(isPoisoning)
+        isPoisoning = true;
+        while (poisonOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.graduallyDamageCycle);
             hp = hpMax * (StatusConstants.poisonInfo.value * 0.5f) * (poisonOverlappingCount + 1);
-            for(int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
+            for (int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
             {
-                if(poisonCount[i] > 0)
+                if (poisonCount[i] > 0)
                 {
                     poisonCount[i] -= 1;
-                    if(0 == poisonCount[i])
+                    if (0 == poisonCount[i])
                     {
                         poisonOverlappingCount -= 1;
                     }
                 }
             }
-            if(0 == poisonOverlappingCount)
-            {
-                isPoisoning = false;
-            }
         }
+        isPoisoning = false;
     }
-
 
     IEnumerator BurnCoroutine()
     {
-        while (isBurning)
+        isBurning = true;
+        while (burnOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.graduallyDamageCycle);
             hp = hpMax * (StatusConstants.burnInfo.value * 0.5f) * (burnOverlappingCount + 1);
@@ -419,22 +415,32 @@ public class Enemy : Character
                     }
                 }
             }
-            if (0 == burnOverlappingCount)
-            {
-                isBurning = false;
-            }
         }
+        isBurning = false;
     }
 
+    // 해야 됨, 이동 방식 뭘로하지 addForce Translate ????
+    // 이런거 할 때 ai 잠시 멈춰야 될 것 같은데
     IEnumerator NagCoroutine()
     {
-        yield return YieldInstructionCache.WaitForSeconds(StatusConstants.nagInfo.value);
+        isNagging = true;
+        while(nagOverlappingCount > 0)
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                rgbody.AddForce(50f * StatusConstants.nagDirVector[i]);
+                yield return YieldInstructionCache.WaitForSeconds(StatusConstants.nagInfo.value);
+            }
+            nagOverlappingCount -= 1;
+        }
+        nagCount = 0;
+        isNagging = false;
     }
 
     IEnumerator DelayStateCoroutine()
     {
-        int delayStateCount = this. delayStateCount;
-        while (true)
+        isDelayingState = true;
+        while (delayStateOverlappingCount > 0)
         {
             CharacterTargetEffect characterTargetEffect = new CharacterTargetEffect();
             WeaponTargetEffect weaponTargetEffect = new WeaponTargetEffect();
@@ -443,16 +449,13 @@ public class Enemy : Character
             buffManager.RegisterItemEffect(characterTargetEffect, StatusConstants.delayStateInfo.effectiveTime);
             buffManager.RegisterItemEffect(weaponTargetEffect, StatusConstants.delayStateInfo.effectiveTime);
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.delayStateInfo.effectiveTime);
-            if (delayStateCount == 1) break;
+            delayStateOverlappingCount -= 1;
         }
-        isDelayingState = false;
         delayStateCount = 0;
+        isDelayingState = false;
     }
-
-
-
+    
     // 0526 땜빵
-
     public void AutoAim()
     {
         directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
