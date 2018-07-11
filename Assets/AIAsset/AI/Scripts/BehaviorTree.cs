@@ -17,7 +17,7 @@ namespace BT
 
         void Init()
         {
-            root = new Root(blackBoard);
+            root = new Root();
             Service service = new Service(0.05f);
 
             Selector selector = new Selector();
@@ -37,6 +37,8 @@ namespace BT
                 selector.AddChild(distanceLessDecorate2);
                     distanceLessDecorate2.AddChild(roundingTrackAction);
                 selector.AddChild(aStarTrackAtion);
+
+            root.Init(blackBoard);
         }
 
         public void Start()
@@ -49,19 +51,20 @@ namespace BT
     /// <summary>
     /// 행동 트리 기본 추상 노드
     /// </summary>
-    public  abstract class Task : ScriptableObject
+    [System.Serializable]
+    public class Task : ScriptableObject
     {
         public Root RootTask;
         protected Character character;
 
-        /// <summary>
-        /// 부모 노드 설정과 함께 부모 노드의 blackboard에서 데이터를 불러와 생성합니다.
-        /// </summary>
-        /// <param name="rootTask">루트 노드</param>
-        protected virtual void SetRoot(Root rootTask)
-        {
-            this.RootTask = rootTask;
-        }
+        ///// <summary>
+        ///// 부모 노드 설정과 함께 부모 노드의 blackboard에서 데이터를 불러와 생성합니다.
+        ///// </summary>
+        ///// <param name="rootTask">루트 노드</param>
+        //protected virtual void SetRoot(Root rootTask)
+        //{
+        //    this.RootTask = rootTask;
+        //}
         /// <summary>
         /// 데이터 저장소 프로퍼티
         /// </summary>
@@ -86,20 +89,28 @@ namespace BT
         /// 노드 실행 함수
         /// </summary>
         /// <returns></returns>
-        public abstract bool Run();
+        public virtual bool Run() { return false; }
         /// <summary>
         /// 자식 추가 함수
         /// </summary>
         /// <param name="task">자식 노드</param>
         public virtual void AddChild(Task task)
         {
-            task.SetRoot(this.RootTask);
+            //task.SetRoot(this.RootTask);
+        }
+        /// <summary>
+        /// RootTask 설정 및 Blackboard에서 데이터 인출
+        /// </summary>
+        /// <param name="task">부모 Task</param>
+        public virtual void Init(Task task)
+        {
+            RootTask = task.RootTask;
         }
     }
     /// <summary>
     /// 추상 합성 노드로 자식 노드를 List형태로 갖고있습니다.
     /// </summary>
-    public abstract class CompositeTask : Task
+    public class CompositeTask : Task
     {
         [SerializeField]
         private List<Task> mChildren;
@@ -110,6 +121,14 @@ namespace BT
         {
             base.AddChild(task);
             mChildren.Add(task);
+        }
+        public override void Init(Task task)
+        {
+            base.Init(task);
+            for(int i = 0; i < mChildren.Count; i++)
+            {
+                mChildren[i].Init(this);
+            }
         }
         /// <summary>
         /// 자식 리스트 반환 함수
@@ -123,7 +142,7 @@ namespace BT
     /// <summary>
     /// 추상 데코레이터 노드로 하나의 자식을 갖고 있습니다.
     /// </summary>
-    public abstract class DecorateTask : Task
+    public class DecorateTask : Task
     {
         [SerializeField]
         private Task mChildren;
@@ -132,6 +151,11 @@ namespace BT
         {
             base.AddChild(task);
             mChildren = task;
+        }
+        public override void Init(Task task)
+        {
+            base.Init(task);
+            mChildren.Init(this);
         }
         /// <summary>
         /// 자식 반환 함수
@@ -145,9 +169,10 @@ namespace BT
     /// <summary>
     /// 추상 액션 노드로 실질적인 행동(공격, 이동, 능력 증가, 패턴, 사망)을 수행하게됩니다.
     /// </summary>
-    public abstract class ActionTask : Task
+    public class ActionTask : Task
     {
         protected bool success;
+
         protected ActionTask()
         {
         }
@@ -218,11 +243,7 @@ namespace BT
                 return clock;
             }
         }
-        public Root()
-        {
-            this.clock = UnityContext.GetClock();
-            SetRoot(this);
-        }
+        public Root() { }
         /// <summary>
         /// 데이터 저장소 및 스케줄러 생성
         /// </summary>
@@ -231,7 +252,13 @@ namespace BT
         {
             this.blackboard = blackboard;
             this.clock = UnityContext.GetClock();
-            SetRoot(this);
+        }
+        public void Init(BlackBoard blackboard)
+        {
+            this.blackboard = blackboard;
+            this.clock = UnityContext.GetClock();
+            RootTask = this;
+            GetChildren().Init(this);
         }
         public override bool Run()
         {
@@ -244,15 +271,16 @@ namespace BT
     /// </summary>
     public class Service : CompositeTask
     {
+        [SerializeField]
         float frequency;
 
         public Service(float frequency)
         {
             this.frequency = frequency;
         }
-        protected override void SetRoot(Root rootTask)
+        public override void Init(Task task)
         {
-            base.SetRoot(rootTask);
+            base.Init(task);
             this.character = RootTask.BlackBoard["Character"] as Character;
         }
         /// <summary>
@@ -275,9 +303,10 @@ namespace BT
     /// <summary>
     /// 조건에 따라 자식의 수행 여부를 정하는 추상 조건 노드입니다.
     /// </summary>
-    public abstract class ConditionDecorate : DecorateTask
+    public class ConditionDecorate : DecorateTask
     {
-        BehaviorCondition condition;
+        [SerializeField]
+        protected BehaviorCondition condition;
 
         public ConditionDecorate(BehaviorCondition condition)
         {
@@ -325,7 +354,6 @@ namespace BT
     /// </summary>
     public class DistanceDecorate : ConditionDecorate
     {
-        [SerializeField]
         Character target;
         [SerializeField]
         float distance;
@@ -333,9 +361,9 @@ namespace BT
         {
             this.distance = distance;
         }
-        protected override void SetRoot(Root rootTask)
+        public override void Init(Task task)
         {
-            base.SetRoot(rootTask);
+            base.Init(task);
             this.character = RootTask.BlackBoard["Character"] as Character;
             this.target = RootTask.BlackBoard["Target"] as Character;
         }
@@ -359,9 +387,9 @@ namespace BT
     /// </summary>
     public class CharacterDeadAction : ActionTask
     {
-        protected override void SetRoot(Root rootTask)
+        public override void Init(Task task)
         {
-            base.SetRoot(rootTask);
+            base.Init(task);
             this.character = RootTask.BlackBoard["Character"] as Character;
         }
         public override bool Run()
@@ -386,9 +414,9 @@ namespace BT
         MovingPattern movingPattern;
         Character target;
 
-        protected override void SetRoot(Root rootTask)
+        public override void Init(Task task)
         {
-            base.SetRoot(rootTask);
+            base.Init(task);
             this.character = RootTask.BlackBoard["Character"] as Character;
             this.target = RootTask.BlackBoard["Target"] as Character;
             movingPattern = character.GetComponent<MovingPattern>();
@@ -414,9 +442,9 @@ namespace BT
         { 
             this.radius = radius;
         }
-        protected override void SetRoot(Root rootTask)
+        public override void Init(Task task)
         {
-            base.SetRoot(rootTask);
+            base.Init(task);
             this.character = RootTask.BlackBoard["Character"] as Character;
             this.target = RootTask.BlackBoard["Target"] as Character;
             movingPattern = character.GetComponent<MovingPattern>();
@@ -435,9 +463,9 @@ namespace BT
         MovingPattern movingPattern;
         Character target;
 
-        protected override void SetRoot(Root rootTask)
+        public override void Init(Task task)
         {
-            base.SetRoot(rootTask);
+            base.Init(task);
             this.character = RootTask.BlackBoard["Character"] as Character;
             this.target = RootTask.BlackBoard["Target"] as Character;
             movingPattern = character.GetComponent<MovingPattern>();

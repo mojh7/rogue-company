@@ -177,7 +177,7 @@ namespace BT
                         case EDecorateTask.Service:
                             return new Service(value);
                         case EDecorateTask.DistanceDecorate:
-                            return new DistanceDecorate(BehaviorCondition.EQUAL, value);
+                            return new DistanceDecorate(behaviorCondition, value);
                     }
                     break;
                 case TaskType.ActionTask:

@@ -15,6 +15,11 @@ namespace BT
 
         private TaskNode rootNode;
 
+        private string title;
+
+        private string path = "Assets/";
+        private string assetPathAndName;
+
         private bool makeTransitionMode = false;
         [MenuItem("Custom/Node Eidtor")]
         static void ShowEditor()
@@ -124,7 +129,7 @@ namespace BT
             {
                 n.DrawCurves();
             }
-            if(rootNode == null)
+            if (rootNode == null)
             {
                 rootNode = CreateRoot();
                 windows.Add(rootNode);
@@ -134,6 +139,7 @@ namespace BT
             {
                 windows[i].windowRect = GUI.Window(i, windows[i].windowRect, DrawNodeWindow, windows[i].windowTitle);
             }
+            title = EditorGUILayout.TextField("Title", title);
             if (GUILayout.Button("Save Tree"))
             {
                 SaveTree();
@@ -144,9 +150,10 @@ namespace BT
         void SaveTree()
         {
             Task parent = rootNode.CreateBehaviorNode();
-            RecursionNode(rootNode,parent);
-            string path = "Assets/";
-            string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + rootNode.windowTitle + ".asset");
+            assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + title + ".asset");
+
+            RecursionNode(rootNode, parent);
+
             AssetDatabase.CreateAsset(parent, assetPathAndName);
 
             AssetDatabase.SaveAssets();
@@ -155,9 +162,10 @@ namespace BT
         }
         void RecursionNode(TaskNode taskNode, Task parent)
         {
-            for(int i = 0; i < taskNode.childrens.Count; i++)
+            for (int i = 0; i < taskNode.childrens.Count; i++)
             {
                 Task child = taskNode.childrens[i].CreateBehaviorNode();
+                AssetDatabase.AddObjectToAsset(child, assetPathAndName);
                 parent.AddChild(child);
                 RecursionNode(taskNode.childrens[i], child);
             }
