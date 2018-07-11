@@ -72,6 +72,11 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         obj.GetComponent<AIController>().Init();
     }
 
+    public void CreateEnemyWithAI(Vector2 position, BT.Task task)
+    {
+
+    }
+
     void CallBack(Vector3 _position)
     {
         Enemy enemy;

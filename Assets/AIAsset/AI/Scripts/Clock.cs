@@ -170,4 +170,8 @@ public class Clock
             }
         }
     }
+    public void RemoveAllTimer()
+    {
+        timers.Clear();
+    }
 }

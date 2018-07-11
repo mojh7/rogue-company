@@ -562,6 +562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3730f906c0f7d42adc6027a8cfbfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  root: {fileID: 11400000, guid: dbfdb9b0194e99643b9d810cc7aaa00f, type: 2}
 --- !u!114 &114547188195020388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -573,15 +574,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717b3646def7863468dee476300117c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 212546812185349730}
-  interactiveCollider2D: {fileID: 58961062934300914}
   moveSpeed: 3
   hp: 10
-  animator: {fileID: 95207714401442542}
-  buffManager: {fileID: 0}
+  renderer: {fileID: 212546812185349730}
   weaponManager: {fileID: 114111894182339084}
   spriteObjTransform: {fileID: 4987181072416540}
-  isKnockBack: 0
+  interactiveCollider2D: {fileID: 58961062934300914}
+  animator: {fileID: 95207714401442542}
+  sprite: {fileID: 0}
 --- !u!114 &114698620388580024
 MonoBehaviour:
   m_ObjectHideFlags: 1

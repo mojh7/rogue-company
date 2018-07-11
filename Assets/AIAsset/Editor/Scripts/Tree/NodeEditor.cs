@@ -15,7 +15,7 @@ namespace BT
 
         private TaskNode rootNode;
 
-        private string title;
+        private new string title;
 
         private string path = "Assets/";
         private string assetPathAndName;
@@ -42,6 +42,8 @@ namespace BT
 
                     for (int i = 0; i < windows.Count; i++)
                     {
+                        if (windows[i] == null)
+                            continue;
                         if (windows[i].windowRect.Contains(mousePos))
                         {
                             selectedWindow = i;
@@ -67,6 +69,8 @@ namespace BT
 
                 for (int i = 0; i < windows.Count; i++)
                 {
+                    if (windows[i] == null)
+                        continue;
                     if (windows[i].windowRect.Contains(mousePos))
                     {
                         selectedWindow = i;
@@ -97,6 +101,8 @@ namespace BT
 
                 for (int i = 0; i < windows.Count; i++)
                 {
+                    if (windows[i] == null)
+                        continue;
                     if (windows[i].windowRect.Contains(mousePos))
                     {
                         selectedWindow = i;
@@ -127,7 +133,8 @@ namespace BT
             }
             foreach (TaskNode n in windows)
             {
-                n.DrawCurves();
+                if(n!= null)
+                    n.DrawCurves();
             }
             if (rootNode == null)
             {
@@ -137,6 +144,8 @@ namespace BT
             BeginWindows();
             for (int i = 0; i < windows.Count; i++)
             {
+                if (windows[i] == null)
+                    continue;
                 windows[i].windowRect = GUI.Window(i, windows[i].windowRect, DrawNodeWindow, windows[i].windowTitle);
             }
             title = EditorGUILayout.TextField("Title", title);
@@ -150,21 +159,27 @@ namespace BT
         void SaveTree()
         {
             Task parent = rootNode.CreateBehaviorNode();
+            if (title == "" || title == null)
+                title = "Task";
             assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + title + ".asset");
 
             RecursionNode(rootNode, parent);
+
 
             AssetDatabase.CreateAsset(parent, assetPathAndName);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             EditorUtility.FocusProjectWindow();
+            Selection.activeObject = parent;
+
         }
         void RecursionNode(TaskNode taskNode, Task parent)
         {
             for (int i = 0; i < taskNode.childrens.Count; i++)
             {
                 Task child = taskNode.childrens[i].CreateBehaviorNode();
+                child.hideFlags = HideFlags.HideAndDontSave;
                 AssetDatabase.AddObjectToAsset(child, assetPathAndName);
                 parent.AddChild(child);
                 RecursionNode(taskNode.childrens[i], child);
