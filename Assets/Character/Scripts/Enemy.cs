@@ -17,21 +17,37 @@ public struct StatusConstant
 
 public static class StatusConstants
 {
-    public static float damageTerm = 0.1f;
-    public static StatusConstant poisonInfo = new StatusConstant(0.05f, 3f, 3);
-    public static StatusConstant burnInfo   = new StatusConstant(0.05f, 3f, 3);
-    public static StatusConstant nagInfo    = new StatusConstant(0.5f, 4f, 2);
-    public static StatusConstant delayStateInfo = new StatusConstant(0.5f, 3f, 3);
+    public static StatusConstant poisonInfo;
+    public static StatusConstant burnInfo;
+    public static StatusConstant nagInfo;
+    public static StatusConstant delayStateInfo;
+    public static float graduallyDamageCycle;
+    public static int graduallyDamageCountMax;
+    //public static int damageCount = graduallyDamageCycle;
+    static StatusConstants()
+    {
+        // 독, 화상 데미지 점화식 ( fd / 2 ) ( n + 1 )
+        poisonInfo = new StatusConstant(0.05f, 3f, 3);
+        burnInfo = new StatusConstant(0.05f, 3f, 3);
+        nagInfo = new StatusConstant(0.5f, 4f, 2);
+        delayStateInfo = new StatusConstant(0.5f, 3f, 3);
+        graduallyDamageCycle = 0.1f;
+        graduallyDamageCountMax = (int)(poisonInfo.effectiveTime / graduallyDamageCycle);
+        Debug.Log("상태 이상 공격 횟수 : " + graduallyDamageCountMax);
+    }
 }
+
 
 public class Enemy : Character
 {
     EnemyData enemyData;
 
     private bool isPoisoning;
-    private int PoisonCount;
+    private int poisonOverlappingCount;
+    private int[] poisonCount;
     private bool isBurning;
-    private int burnCount;
+    private int burnOverlappingCount;
+    private int[] burnCount;
     private bool isNagging;
     private int nagCount;
     public bool isDelayingState;
@@ -42,6 +58,8 @@ public class Enemy : Character
     private Coroutine nagCoroutine;
     private Coroutine delayStateCoroutine;
 
+    // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
+    private float hpMax;
     #region setter
     #endregion
 
@@ -98,12 +116,17 @@ public class Enemy : Character
         renderer.sprite = sprite;
         renderer.color = new Color(1, 1, 1);
         scaleVector = transform.localScale;
-        hp = 5;
+
+        hpMax = 7;
+        hp = hpMax;
+
 
         isPoisoning = false;
-        PoisonCount = 0;
+        poisonOverlappingCount = 0;
+        poisonCount = new int[3];
         isBurning = false;
-        burnCount = 0;
+        burnOverlappingCount = 0;
+        burnCount = new int[3];
         isNagging = false;
         nagCount = 0;
         isDelayingState = false;
@@ -267,23 +290,39 @@ public class Enemy : Character
     }
     public void Poison()
     {
-        if (PoisonCount >= StatusConstants.poisonInfo.overlapCountMax)
+        if (poisonOverlappingCount >= StatusConstants.poisonInfo.overlapCountMax)
             return;
-        if(false == isPoisoning)
+        poisonOverlappingCount += 1;
+        for (int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
+        {
+            if (0 == poisonCount[i])
+            {
+                poisonCount[i] = StatusConstants.graduallyDamageCountMax;
+                break;
+            }
+        }
+        if (false == isPoisoning)
         {
             poisonCoroutine = StartCoroutine(PoisonCoroutine());
         }
-        else
-        {
-
-        }
-        PoisonCount += 1;
     }
     public void Burn()
     {
-        if (burnCount >= StatusConstants.burnInfo.overlapCountMax)
+        if (burnOverlappingCount >= StatusConstants.burnInfo.overlapCountMax)
             return;
-        burnCount += 1;
+        burnOverlappingCount += 1;
+        for (int i = 0; i < StatusConstants.burnInfo.overlapCountMax; i++)
+        {
+            if (0 == burnCount[i])
+            {
+                burnCount[i] = StatusConstants.graduallyDamageCountMax;
+                break;
+            }
+        }
+        if (false == isBurning)
+        {
+            burnCoroutine = StartCoroutine(BurnCoroutine());
+        }
     }
 
     // 이동 translate, velocity, addForce ??
@@ -326,16 +365,65 @@ public class Enemy : Character
             }
         }
     }
+
+    private bool CanApplyPoison()
+    {
+        for(int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
+        {
+            if(poisonCount[i] > 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     IEnumerator PoisonCoroutine()
     {
-        
-        yield return YieldInstructionCache.WaitForSeconds(StatusConstants.damageTerm);
+        while(isPoisoning)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.graduallyDamageCycle);
+            hp = hpMax * (StatusConstants.poisonInfo.value * 0.5f) * (poisonOverlappingCount + 1);
+            for(int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
+            {
+                if(poisonCount[i] > 0)
+                {
+                    poisonCount[i] -= 1;
+                    if(0 == poisonCount[i])
+                    {
+                        poisonOverlappingCount -= 1;
+                    }
+                }
+            }
+            if(0 == poisonOverlappingCount)
+            {
+                isPoisoning = false;
+            }
+        }
     }
+
 
     IEnumerator BurnCoroutine()
     {
-
-        yield return YieldInstructionCache.WaitForSeconds(StatusConstants.damageTerm);
+        while (isBurning)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.graduallyDamageCycle);
+            hp = hpMax * (StatusConstants.burnInfo.value * 0.5f) * (burnOverlappingCount + 1);
+            for (int i = 0; i < StatusConstants.burnInfo.overlapCountMax; i++)
+            {
+                if (burnCount[i] > 0)
+                {
+                    burnCount[i] -= 1;
+                    if (0 == burnCount[i])
+                    {
+                        burnOverlappingCount -= 1;
+                    }
+                }
+            }
+            if (0 == burnOverlappingCount)
+            {
+                isBurning = false;
+            }
+        }
     }
 
     IEnumerator NagCoroutine()
