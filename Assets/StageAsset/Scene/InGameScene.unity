@@ -2628,6 +2628,7 @@ MonoBehaviour:
   Rock: {fileID: 21300000, guid: f80df05265dfa924bb62a1962dae007e, type: 3}
   ObjectPrefabs: {fileID: 1904508229586870, guid: 6b316fdc30608134982526328ea367dc,
     type: 2}
+  task: {fileID: 0}
 --- !u!4 &791075140
 Transform:
   m_ObjectHideFlags: 0

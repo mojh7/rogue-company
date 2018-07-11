@@ -15,7 +15,7 @@ public class MapEditor : EditorWindow
     Sprite objectSprite;
     Sprite[] objectSprites;
     RoomSet worldRoomSet;
-    [MenuItem("Custom/Map")]
+    [MenuItem("Custom/RoomEditor")]
 
     static public void ShowWindow()
     {
