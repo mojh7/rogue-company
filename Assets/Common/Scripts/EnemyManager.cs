@@ -57,7 +57,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
 
         UIManager.Instance.bossHPUI.Toggle();
         UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
-        obj.GetComponent<AIController>().Init();
     }
 
     void CallBack(Vector3 position)
@@ -68,8 +67,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         enemy = obj.AddComponent<Enemy>();
         enemy.Init(enemyData);
         enemyList.Add(enemy);
-
-        obj.GetComponent<AIController>().Init();
     }
     #endregion
    

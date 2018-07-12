@@ -39,11 +39,12 @@ public abstract class Character : MonoBehaviour
     protected AnimationHandler animationHandler;
     protected BuffManager buffManager;
     protected Rigidbody2D rgbody;
+    protected AIController aiController;
     #endregion
     #region variables
     // 디버그용 SerializeField
     protected bool isActiveAI;
-    protected bool isKnockBack;
+    protected bool isKnockBack = false;
     [SerializeField]
     protected Sprite sprite;
     protected CharacterInfo.State pState;
@@ -88,14 +89,16 @@ public abstract class Character : MonoBehaviour
     #endregion
     public virtual void Init()
     {
-        CharacterComponets Componets = GetComponent<CharacterComponets>();
-        weaponManager = Componets.WeaponManager;
-        spriteRenderer = Componets.SpriteRenderer;
-        spriteTransform = Componets.SpriteTransform;
-        interactiveCollider2D = Componets.InteractiveCollider2D;
-        animationHandler = Componets.AnimationHandler;
-        buffManager = Componets.BuffManager;
-        rgbody = Componets.Rigidbody2D;
+        CharacterComponents Components = GetComponent<CharacterComponents>();
+        Components.Init();
+        weaponManager = Components.WeaponManager;
+        spriteRenderer = Components.SpriteRenderer;
+        spriteTransform = Components.SpriteTransform;
+        interactiveCollider2D = Components.InteractiveCollider2D;
+        animationHandler = Components.AnimationHandler;
+        buffManager = Components.BuffManager;
+        rgbody = Components.Rigidbody2D;
+        aiController = Components.AIController;
     }
     /*--abstract--*/
     protected abstract void Die();

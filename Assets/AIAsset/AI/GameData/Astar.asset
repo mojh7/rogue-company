@@ -8,35 +8,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Astar
-  m_EditorClassIdentifier: Assembly-CSharp:BT:Root
+  m_Script: {fileID: 11500000, guid: 9f2e3ee17fb247d449adabd8134b2ae4, type: 3}
+  m_Name: Task
+  m_EditorClassIdentifier: 
   RootTask: {fileID: 0}
-  mChildren: {fileID: 114111514921219180}
---- !u!114 &114047399239521278
+  mChildren: {fileID: 114486677654709752}
+--- !u!114 &114140339616604660
 MonoBehaviour:
-  m_ObjectHideFlags: 61
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp:BT:AStarTrackAtion
+  m_Script: {fileID: 11500000, guid: 25b8bbdd8fa89544fb0d4b02ebbf01f1, type: 3}
+  m_Name: AStarTrackAtion
+  m_EditorClassIdentifier: 
   RootTask: {fileID: 0}
---- !u!114 &114111514921219180
+--- !u!114 &114486677654709752
 MonoBehaviour:
-  m_ObjectHideFlags: 61
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp:BT:DistanceDecorate
+  m_Script: {fileID: 11500000, guid: 4ec9624ea53a1d2499c9ae6113bda4d1, type: 3}
+  m_Name: Service
+  m_EditorClassIdentifier: 
   RootTask: {fileID: 0}
-  mChildren: {fileID: 114047399239521278}
-  condition: 0
-  distance: 10
+  mChildren:
+  - {fileID: 114140339616604660}
+  frequency: 0.5

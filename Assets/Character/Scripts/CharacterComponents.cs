@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterComponets : MonoBehaviour {
+public class CharacterComponents : MonoBehaviour {
     #region components
     [SerializeField]
     private WeaponManager weaponManager;
@@ -13,11 +13,9 @@ public class CharacterComponets : MonoBehaviour {
     [SerializeField]
     private Animator animator;
     [SerializeField]
-    private CircleCollider2D interactiveCollider2D;
-    [SerializeField]
     private AnimationHandler animationHandler;
-    private BuffManager buffManager;
-    private Rigidbody2D rgbody;
+    [SerializeField]
+    private CircleCollider2D interactiveCollider2D;
     #endregion
     #region parameter
     public WeaponManager WeaponManager
@@ -48,13 +46,6 @@ public class CharacterComponets : MonoBehaviour {
             return animator;
         }
     }
-    public CircleCollider2D InteractiveCollider2D
-    {
-        get
-        {
-            return interactiveCollider2D;
-        }
-    }
     public AnimationHandler AnimationHandler
     {
         get
@@ -62,27 +53,25 @@ public class CharacterComponets : MonoBehaviour {
             return animationHandler;
         }
     }
-    public BuffManager BuffManager
+    public CircleCollider2D InteractiveCollider2D
     {
         get
         {
-            return buffManager;
+            return interactiveCollider2D;
         }
     }
-    public Rigidbody2D Rigidbody2D
+
+    public BuffManager BuffManager { get; private set; }
+    public Rigidbody2D Rigidbody2D { get; private set; }
+    public AIController AIController { get; private set; }
+    #endregion
+    #region Func
+    public void Init()
     {
-        get
-        {
-            return rgbody;
-        }
+        BuffManager = GetComponent<BuffManager>();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+        AIController = GetComponent<AIController>();
     }
     #endregion
-    #region UnityFunc
-    private void Start()
-    {
-        buffManager = GetComponent<BuffManager>();
-        rgbody = GetComponent<Rigidbody2D>();
-    }
-    #endregion
-    
+   
 }

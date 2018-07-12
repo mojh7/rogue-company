@@ -19,10 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4508251691537976}
+  - component: {fileID: 114749004372237712}
   - component: {fileID: 114209391037703390}
   - component: {fileID: 61054499879308170}
   - component: {fileID: 50455717362438088}
-  - component: {fileID: 114000895485056452}
   m_Layer: 16
   m_Name: Player
   m_TagString: Player
@@ -392,23 +392,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114000895485056452
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1354007718219498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 281c97d7b515ba642b1de85d9890d744, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponManager: {fileID: 114154553307704316}
-  spriteRenderer: {fileID: 212429882799322652}
-  spriteTransform: {fileID: 4593660546547358}
-  animator: {fileID: 95500506440898494}
-  interactiveCollider2D: {fileID: 58181692312182348}
-  animationHandler: {fileID: 114442412460284288}
 --- !u!114 &114154553307704316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -472,6 +455,23 @@ MonoBehaviour:
   backGround: {fileID: 1688397474745204}
   gaugeSpriteObj: {fileID: 1934923345996920}
   fullChargedScaleX: 1.8
+--- !u!114 &114749004372237712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1354007718219498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281c97d7b515ba642b1de85d9890d744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponManager: {fileID: 114154553307704316}
+  spriteRenderer: {fileID: 212429882799322652}
+  spriteTransform: {fileID: 4593660546547358}
+  animator: {fileID: 95500506440898494}
+  animationHandler: {fileID: 114442412460284288}
+  interactiveCollider2D: {fileID: 58181692312182348}
 --- !u!198 &198306169087476722
 ParticleSystem:
   m_ObjectHideFlags: 1

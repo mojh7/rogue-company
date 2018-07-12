@@ -54,9 +54,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4015020130621506}
   - component: {fileID: 50190816242305214}
+  - component: {fileID: 114459228846154140}
   - component: {fileID: 58905957617046142}
-  - component: {fileID: 114547188195020388}
-  - component: {fileID: 114253806728331714}
   - component: {fileID: 114130998968841644}
   - component: {fileID: 114698620388580024}
   - component: {fileID: 114073492097125210}
@@ -538,8 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3730f906c0f7d42adc6027a8cfbfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 11400000, guid: 521aa8a6b6bf1694bb8d3754f850e56e, type: 2}
---- !u!114 &114253806728331714
+--- !u!114 &114459228846154140
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -554,22 +552,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212546812185349730}
   spriteTransform: {fileID: 4987181072416540}
   animator: {fileID: 95207714401442542}
-  interactiveCollider2D: {fileID: 58961062934300914}
   animationHandler: {fileID: 114728404786420894}
---- !u!114 &114547188195020388
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165641018333586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717b3646def7863468dee476300117c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  hp: 10
-  sprite: {fileID: 0}
+  interactiveCollider2D: {fileID: 58961062934300914}
 --- !u!114 &114698620388580024
 MonoBehaviour:
   m_ObjectHideFlags: 1

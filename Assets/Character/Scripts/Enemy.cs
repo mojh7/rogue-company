@@ -45,8 +45,6 @@ public static class StatusConstants
 
 public class Enemy : Character
 {
-    EnemyData enemyData;
-
     private bool isPoisoning;
     private int poisonOverlappingCount;
     private int[] poisonCount;
@@ -75,12 +73,6 @@ public class Enemy : Character
     #endregion
 
     #region UnityFunc
-    private void Awake()
-    {
-        isKnockBack = false;
-        base.Init();
-    }
-
     private void Update()
     {
         AutoAim();
@@ -104,15 +96,16 @@ public class Enemy : Character
     //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
     public void Init(EnemyData enemyData)
     {
+        base.Init();
         pState = CharacterInfo.State.ALIVE;
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
         weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
         weaponManager.EquipWeapon(enemyData.WeaponInfo);
-
+        aiController.Init(enemyData.Task);
+        animationHandler.Init(enemyData.AnimatorController);
 
         InitStatusEffects();
-
         // 0630 Enemy용 buffManager 초기화
         buffManager.Init();
         buffManager.SetOwner(this);
@@ -156,6 +149,7 @@ public class Enemy : Character
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
         DropItem();
+        Destroy(this);
     }
     protected void DropItem()
     {

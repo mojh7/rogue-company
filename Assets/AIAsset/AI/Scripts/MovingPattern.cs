@@ -192,6 +192,8 @@ class AStarTracker : Tracker
 
     public override void Update()
     {
+        if (transform == null || target == null)
+            return;
         AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound));
     }
 }
@@ -210,6 +212,8 @@ class RoundingTracker : Tracker
 
     public override void Update()
     {
+        if (transform == null || target == null)
+            return;
         AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound), radius);
     }
 
@@ -225,6 +229,8 @@ class RushTracker : Tracker
     }
     public override void Update()
     {
+        if (transform == null || target == null)
+            return;
         AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound));
     }
 }

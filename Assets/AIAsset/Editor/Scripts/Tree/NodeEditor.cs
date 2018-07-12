@@ -164,22 +164,17 @@ namespace BT
             assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + title + ".asset");
 
             RecursionNode(rootNode, parent);
-
-
             AssetDatabase.CreateAsset(parent, assetPathAndName);
-
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            EditorUtility.FocusProjectWindow();
             Selection.activeObject = parent;
-
         }
-        void RecursionNode(TaskNode taskNode, Task parent)
+    void RecursionNode(TaskNode taskNode, Task parent)
         {
             for (int i = 0; i < taskNode.childrens.Count; i++)
             {
                 Task child = taskNode.childrens[i].CreateBehaviorNode();
-                child.hideFlags = HideFlags.HideAndDontSave;
+                child.name = child.GetType().ToString();
                 AssetDatabase.AddObjectToAsset(child, assetPathAndName);
                 parent.AddChild(child);
                 RecursionNode(taskNode.childrens[i], child);

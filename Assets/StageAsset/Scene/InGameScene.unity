@@ -1069,11 +1069,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 4d124d7e442ea494dba2f646d3058111, type: 2}
-  sprites:
-  - {fileID: 21300000, guid: 7cb3e23fc46dcc94c9ff677844bfceb5, type: 3}
-  - {fileID: 21300000, guid: ec23ca4e890bd41438d3254b2935d707, type: 3}
-  - {fileID: 21300000, guid: 55d3f81b0030f8047bca257de8e80a94, type: 3}
-  - {fileID: 21300000, guid: 6a5c007ec9742da468b724d885f9268b, type: 3}
   objectPool: {fileID: 418867811}
   alertObj: {fileID: 1904508229586870, guid: 6b316fdc30608134982526328ea367dc, type: 2}
 --- !u!114 &307469666
@@ -6091,6 +6086,10 @@ Prefab:
     - target: {fileID: 4015020130621506, guid: e15731d6d5196474ca6960a239c0153a, type: 2}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165641018333586, guid: e15731d6d5196474ca6960a239c0153a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e15731d6d5196474ca6960a239c0153a, type: 2}
