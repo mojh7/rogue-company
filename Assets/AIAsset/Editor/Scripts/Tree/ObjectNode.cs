@@ -28,13 +28,11 @@ namespace BT
 
         public TaskNode()
         {
-            windowTitle = "Task";
             childrens = new List<TaskNode>();
         }
 
         public TaskNode(bool isRoot)
         {
-            windowTitle = "Root";
             childrens = new List<TaskNode>();
             taskType = TaskType.DecorateTask;
             decorateTask = EDecorateTask.Root;
@@ -94,12 +92,15 @@ namespace BT
             {
                 case TaskType.CompositeTask:
                     compositeTask = (ECompositeTask)EditorGUILayout.EnumPopup("CompositeTask", compositeTask);
+                    windowTitle = compositeTask.ToString();
                     break;
                 case TaskType.DecorateTask:
-                    decorateTask = (EDecorateTask)EditorGUILayout.EnumPopup("DecorateTask", decorateTask);      
+                    decorateTask = (EDecorateTask)EditorGUILayout.EnumPopup("DecorateTask", decorateTask);
+                    windowTitle = decorateTask.ToString();
                     break;
                 case TaskType.ActionTask:
                     actionTask = (EActionTask)EditorGUILayout.EnumPopup("ActionTask", actionTask);
+                    windowTitle = actionTask.ToString();
                     break;
             }
             if (decorateTask == EDecorateTask.DistanceDecorate)

@@ -46,6 +46,7 @@ public abstract class Character : MonoBehaviour
     #endregion
     #region variables
     // 디버그용 SerializeField
+    protected bool isActiveAI;
     protected bool isKnockBack;
     [SerializeField]
     protected Sprite sprite;
@@ -63,6 +64,10 @@ public abstract class Character : MonoBehaviour
     #endregion
 
     #region getter
+    public bool GetAIAct()
+    {
+        return isActiveAI;
+    }
     public virtual bool GetRightDirection() { return isRightDirection; }
     public virtual Vector3 GetDirVector()
     {
