@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: 287fc5375aec92b478c4934af4c6c4a7
-timeCreated: 1531228628
+guid: 96b2e00ff9aa9d1419673d40bd25bd60
+timeCreated: 1531393322
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: passiveInventory
-    21300002: closeIcon
+    21300000: bag_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -92,27 +91,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: passiveInventory
+      name: bag_0
       rect:
         serializedVersion: 2
-        x: 194
-        y: 43
-        width: 100
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: closeIcon
-      rect:
-        serializedVersion: 2
-        x: 257
-        y: 453
-        width: 10
-        height: 10
+        x: 10
+        y: 28
+        width: 103
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
