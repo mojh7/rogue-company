@@ -6,15 +6,15 @@ using UnityEngine;
 public class AnimationHandler : MonoBehaviour {
 
     Animator animator;
-    CharacterInfo.charType charType;
+
     private void Start()
     {
         this.animator = GetComponent<Animator>();
     }
 
-    public void Init(CharacterInfo.charType charType)
+    public void Init(RuntimeAnimatorController  animatorController)
     {
-        this.charType = charType;
+        this.animator.runtimeAnimatorController = animatorController;
         animator.SetTrigger("idle");
     }
 

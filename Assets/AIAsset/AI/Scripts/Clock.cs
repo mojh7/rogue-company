@@ -170,6 +170,7 @@ public class Clock
             }
         }
     }
+    //TODO : 몬스터가 죽어도 스케쥴러에 메소드가 남으므로 이를 삭제하기 위한 함수, 언제 부를지, 최적화 필요
     public void RemoveAllTimer()
     {
         timers.Clear();

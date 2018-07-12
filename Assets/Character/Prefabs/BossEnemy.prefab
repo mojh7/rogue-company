@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 61290379085985094}
   - component: {fileID: 50482854385639964}
   - component: {fileID: 114016821012750974}
-  - component: {fileID: 114174861763835864}
   - component: {fileID: 114207633351495418}
+  - component: {fileID: 114174861763835864}
   - component: {fileID: 114637376265716510}
   m_Layer: 13
   m_Name: BossEnemy
@@ -144,7 +144,7 @@ GameObject:
   m_Icon: {fileID: -1577725955494882426, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1785581155823564
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,15 +453,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a3cde8de066b84398b20598c10e059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 212973809329603506}
-  interactiveCollider2D: {fileID: 58770651119485722}
   moveSpeed: 3
   hp: 10
-  animator: {fileID: 95475384359410530}
-  buffManager: {fileID: 0}
+  renderer: {fileID: 212973809329603506}
   weaponManager: {fileID: 114033262091695116}
-  spriteObjTransform: {fileID: 4311940639225528}
-  isKnockBack: 0
+  spriteObjTransform: {fileID: 0}
+  interactiveCollider2D: {fileID: 58770651119485722}
+  animator: {fileID: 95475384359410530}
+  sprite: {fileID: 0}
 --- !u!114 &114033262091695116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -504,6 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3730f906c0f7d42adc6027a8cfbfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  root: {fileID: 0}
 --- !u!114 &114378316425296558
 MonoBehaviour:
   m_ObjectHideFlags: 1

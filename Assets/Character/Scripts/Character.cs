@@ -4,10 +4,6 @@ using UnityEngine;
 
 namespace CharacterInfo
 {
-    public enum charType
-    {
-        Player, Enemy, Boss
-    }
     public enum OwnerType
     {
         Player, Enemy, Pet, Object
@@ -27,7 +23,6 @@ struct RaycasthitEnemy
 
 // 무기 매니저를 착용 하고 쓸 수 있는 owner들 (player, character, object)에서 써야 될 함수 변수들에 대한 걸 따로 묶어서 인터페이스화 해서 쓸 예정
 // 그래야 character는 palyer, enemy에만 적용 하는건데 무기 착용 object에 대한 처리가 애매해짐.
-
 
 public abstract class Character : MonoBehaviour
 {
@@ -95,7 +90,6 @@ public abstract class Character : MonoBehaviour
 
     // 0531 모장현 프로토 타입 용
     public virtual void SetHp(float _hp) { hp = _hp; }
-
 
     /*--abstract--*/
     protected abstract void Die();

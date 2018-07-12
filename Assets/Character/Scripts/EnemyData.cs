@@ -5,15 +5,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyData", menuName = "Enemy/EnemyData")]
 public class EnemyData : ScriptableObject
 {
+    #region serializeFiled
     [SerializeField]
     private float hp;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
-    private Animator animator;
+    private RuntimeAnimatorController animatorController;
     [SerializeField]
     private WeaponInfo weaponInfo;
-
+    [SerializeField]
+    private BT.Task task;
+    #endregion
+  
+    #region property
     public float HP
     {
         get
@@ -28,11 +33,11 @@ public class EnemyData : ScriptableObject
             return moveSpeed;
         }
     }
-    public Animator Animator
+    public RuntimeAnimatorController AnimatorController
     {
         get
         {
-            return animator;
+            return animatorController;
         }
     }
     public WeaponInfo WeaponInfo
@@ -42,4 +47,13 @@ public class EnemyData : ScriptableObject
             return weaponInfo;
         }
     }
+    public BT.Task Task
+    {
+        get
+        {
+            return task;
+        }
+    }
+    #endregion
+
 }

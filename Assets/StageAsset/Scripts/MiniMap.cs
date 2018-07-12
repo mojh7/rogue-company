@@ -33,7 +33,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
     }
-
+    //TODO : 따로 thread로 가능한지 확인
     public void DrawRoom(Map.Rect _room)
     {
         int minX = _room.x * size;
@@ -202,7 +202,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         this.gameObject.SetActive(!this.gameObject.activeSelf);
     }
-
+    //TODO : 따로 thread로 가능한지 확인
     void DrawIcon(Map.Rect _rect)
     {
         if (!_rect.isRoom)

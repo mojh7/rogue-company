@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 0
   playerSprite: {fileID: 0}
-  hp: 5
+  hp: 1000
   hpMax: 15
   moveSpeed: 5
   hunger: 270

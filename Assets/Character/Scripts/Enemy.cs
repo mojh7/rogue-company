@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#region sturct
 public struct StatusConstant
 {
     public float value;         // 각 상태이상 별로 세기, 값
@@ -40,7 +41,7 @@ public static class StatusConstants
         Debug.Log("상태 이상 공격 횟수 : " + graduallyDamageCountMax);
     }
 }
-
+#endregion
 
 public class Enemy : Character
 {
@@ -85,7 +86,7 @@ public class Enemy : Character
     {
         AutoAim();
         weaponManager.AttackButtonDown();
-        renderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
+        renderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
         {
             isRightDirection = true;
@@ -99,9 +100,6 @@ public class Enemy : Character
             transform.localScale = scaleVector;
         }
     }
-
-
-
     #endregion
     #region Func
     //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
@@ -241,7 +239,6 @@ public class Enemy : Character
             Die();
         return damage;
     }
-
 
     public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
     {

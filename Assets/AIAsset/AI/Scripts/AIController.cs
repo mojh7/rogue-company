@@ -12,6 +12,7 @@ public class AIController : MonoBehaviour {
     {
         privateBlackBoard = new BT.BlackBoard();
     }
+
     private void Start()
     {
         Init();

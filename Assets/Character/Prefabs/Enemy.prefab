@@ -53,12 +53,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4015020130621506}
-  - component: {fileID: 61499521210896754}
   - component: {fileID: 50190816242305214}
-  - component: {fileID: 114547188195020388}
-  - component: {fileID: 114698620388580024}
   - component: {fileID: 58905957617046142}
+  - component: {fileID: 114547188195020388}
   - component: {fileID: 114130998968841644}
+  - component: {fileID: 114698620388580024}
   - component: {fileID: 114073492097125210}
   m_Layer: 13
   m_Name: Enemy
@@ -430,31 +429,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.6
---- !u!61 &61499521210896754
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165641018333586}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.07770032, y: -0.058275223}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.59375, y: 0.90625}
-    newSize: {x: 0.32, y: 0.18}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.37839735, y: 0.7960367}
-  m_EdgeRadius: 0
 --- !u!95 &95179218189420144
 Animator:
   serializedVersion: 3
@@ -562,7 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3730f906c0f7d42adc6027a8cfbfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 11400000, guid: dbfdb9b0194e99643b9d810cc7aaa00f, type: 2}
+  root: {fileID: 11400000, guid: 521aa8a6b6bf1694bb8d3754f850e56e, type: 2}
 --- !u!114 &114547188195020388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -578,7 +552,7 @@ MonoBehaviour:
   hp: 10
   renderer: {fileID: 212546812185349730}
   weaponManager: {fileID: 114111894182339084}
-  spriteObjTransform: {fileID: 4987181072416540}
+  spriteObjTransform: {fileID: 0}
   interactiveCollider2D: {fileID: 58961062934300914}
   animator: {fileID: 95207714401442542}
   sprite: {fileID: 0}
