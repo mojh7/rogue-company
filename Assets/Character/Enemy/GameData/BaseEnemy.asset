@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fc3360099fbe749b0d89c8bd76b3f2, type: 3}
+  m_Name: BaseEnemy
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: ef63b6e121030ce419adeb14038ccd99, type: 3}
+  hp: 10
+  speed: 5
+  animatorController: {fileID: 9100000, guid: afc6cf34dffbf4342a11f38d9501025e, type: 2}
+  weaponInfo: {fileID: 11400000, guid: e22cf6b2a51447641b3cc21901929187, type: 2}
+  task: {fileID: 11400000, guid: 521aa8a6b6bf1694bb8d3754f850e56e, type: 2}

@@ -77,7 +77,6 @@ public class Player : Character
     void Awake()
     {
         //pState = PlayerState.IDLE;
-        rgbody = GetComponent<Rigidbody2D>();
         objTransform = GetComponent<Transform>();
         playerScale = 1f;
         scaleVector = new Vector3(1f, 1f, 1f);
@@ -86,7 +85,6 @@ public class Player : Character
         raycasthitEnemyInfo = new RaycasthitEnemy();
         layerMask = 1 << LayerMask.NameToLayer("Wall");
         Physics2D.IgnoreLayerCollision(16, 13); // enemy 본체랑 충돌 무시
-        //Init();
 
         // 임시로 배경음악 시작
         // AudioManager.Instance.PlayMusic(0);
@@ -130,15 +128,15 @@ public class Player : Character
         {
             isRightDirection = true;
             scaleVector.x = 1f;
-            spriteObjTransform.localScale = scaleVector;
+            spriteTransform.localScale = scaleVector;
         }
         else
         {
             isRightDirection = false;
             scaleVector.x = -1f;
-            spriteObjTransform.localScale = scaleVector;
+            spriteTransform.localScale = scaleVector;
         }
-        renderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 
     void FixedUpdate()
@@ -148,12 +146,10 @@ public class Player : Character
     #endregion
 
     #region function
-    public void Init()
+    public override void Init()
     {
-        // 0531 음악 임시 실행
-        AudioManager.Instance.PlayMusic(3);
+        base.Init();
 
-        renderer.color = new Color(1, 1, 1);
         pState = CharacterInfo.State.ALIVE;
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
@@ -188,8 +184,6 @@ public class Player : Character
     {
         playerData.Hp -= transferredBulletInfo.damage;
         playerHpUi.UpdateHPUI(playerData.Hp);
-        StopCoroutine(CoroutineAttacked());
-        StartCoroutine(CoroutineAttacked());
         if (playerData.Hp <= 0) Die();
         return transferredBulletInfo.damage;
     }
@@ -222,8 +216,6 @@ public class Player : Character
 
         StopCoroutine(KnockBackCheck());
         StartCoroutine(KnockBackCheck());
-        StopCoroutine(CoroutineAttacked());
-        StartCoroutine(CoroutineAttacked());
 
         if (playerData.Hp <= 0) Die();
 
@@ -411,15 +403,6 @@ public class Player : Character
         playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrease;
         playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrease;
         playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.CharacterTargetEffectTotal.criticalChanceIncrease;
-    }
-    #endregion
-
-    #region coroutine
-    IEnumerator CoroutineAttacked()
-    {
-        renderer.color = new Color(1, 0, 0);
-        yield return YieldInstructionCache.WaitForSeconds(0.1f);
-        renderer.color = new Color(1, 1, 1);
     }
     #endregion
 }

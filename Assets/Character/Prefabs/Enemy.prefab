@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 50190816242305214}
   - component: {fileID: 58905957617046142}
   - component: {fileID: 114547188195020388}
+  - component: {fileID: 114253806728331714}
   - component: {fileID: 114130998968841644}
   - component: {fileID: 114698620388580024}
   - component: {fileID: 114073492097125210}
@@ -188,6 +189,7 @@ GameObject:
   - component: {fileID: 4987181072416540}
   - component: {fileID: 212546812185349730}
   - component: {fileID: 95207714401442542}
+  - component: {fileID: 114728404786420894}
   m_Layer: 0
   m_Name: EnemySprite
   m_TagString: Untagged
@@ -537,6 +539,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 11400000, guid: 521aa8a6b6bf1694bb8d3754f850e56e, type: 2}
+--- !u!114 &114253806728331714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165641018333586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281c97d7b515ba642b1de85d9890d744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponManager: {fileID: 114111894182339084}
+  spriteRenderer: {fileID: 212546812185349730}
+  spriteTransform: {fileID: 4987181072416540}
+  animator: {fileID: 95207714401442542}
+  interactiveCollider2D: {fileID: 58961062934300914}
+  animationHandler: {fileID: 114728404786420894}
 --- !u!114 &114547188195020388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,11 +569,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   hp: 10
-  renderer: {fileID: 212546812185349730}
-  weaponManager: {fileID: 114111894182339084}
-  spriteObjTransform: {fileID: 0}
-  interactiveCollider2D: {fileID: 58961062934300914}
-  animator: {fileID: 95207714401442542}
   sprite: {fileID: 0}
 --- !u!114 &114698620388580024
 MonoBehaviour:
@@ -565,6 +579,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f4808cd4359bde40a77b35d2da6a433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114728404786420894
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691559608275742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f1de658d4913f48b2a3b25e732495b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!198 &198023019186739420
