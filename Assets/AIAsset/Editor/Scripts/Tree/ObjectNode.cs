@@ -102,14 +102,11 @@ namespace BT
                     actionTask = (EActionTask)EditorGUILayout.EnumPopup("ActionTask", actionTask);
                     break;
             }
-            if(taskType == TaskType.DecorateTask && decorateTask != EDecorateTask.Root)
+            if (decorateTask == EDecorateTask.DistanceDecorate)
             {
-                if (decorateTask == EDecorateTask.DistanceDecorate)
-                {
-                    behaviorCondition = (BehaviorCondition)EditorGUILayout.EnumPopup("BehaviorCondition", behaviorCondition);
-                }
-                value = EditorGUILayout.FloatField("Value", value);
+                behaviorCondition = (BehaviorCondition)EditorGUILayout.EnumPopup("BehaviorCondition", behaviorCondition);
             }
+            value = EditorGUILayout.FloatField("Value", value);
 
             if (e.type == EventType.Repaint)
             {
@@ -163,36 +160,36 @@ namespace BT
                 case TaskType.CompositeTask:
                     switch (compositeTask)
                     {
+                        case ECompositeTask.Service:
+                            return ScriptableObject.CreateInstance<Service>().Set(value);
                         case ECompositeTask.Selector:
-                            return new Selector();
+                            return ScriptableObject.CreateInstance<Selector>();
                         case ECompositeTask.Sequence:
-                            return new Sequence();
+                            return ScriptableObject.CreateInstance<Sequence>();
                     }
                     break;
                 case TaskType.DecorateTask:
                     switch (decorateTask)
                     {
                         case EDecorateTask.Root:
-                            return new Root();
-                        case EDecorateTask.Service:
-                            return new Service(value);
+                            return ScriptableObject.CreateInstance<Root>();
                         case EDecorateTask.DistanceDecorate:
-                            return new DistanceDecorate(behaviorCondition, value);
+                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition,value);
                     }
                     break;
                 case TaskType.ActionTask:
                     switch (actionTask)
                     {
                         case EActionTask.CharacterDeadAction:
-                            return new CharacterDeadAction();
+                            return ScriptableObject.CreateInstance<CharacterDeadAction>();
                         case EActionTask.AStarTrackAtion:
-                            return new AStarTrackAtion();
+                            return ScriptableObject.CreateInstance<AStarTrackAtion>();
                         case EActionTask.RoundingTrackAction:
-                            return new RoundingTrackAction(value);
+                            return ScriptableObject.CreateInstance<RoundingTrackAction>().Set(value);
                         case EActionTask.RushTrackAtion:
-                            return new RushTrackAtion();
+                            return ScriptableObject.CreateInstance<RushTrackAtion>();
                         case EActionTask.AttackAction:
-                            return new AttackAction();
+                            return ScriptableObject.CreateInstance<AttackAction>();
                     }
                     break;
             }

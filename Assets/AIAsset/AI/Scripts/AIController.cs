@@ -5,10 +5,14 @@ using UnityEngine;
 public class AIController : MonoBehaviour {
     BT.BehaviorTree behaviorTree;
     BT.BlackBoard privateBlackBoard;
+    [SerializeField]
+    BT.Task root;
+
     private void Awake()
     {
         privateBlackBoard = new BT.BlackBoard();
     }
+
     private void Start()
     {
         Init();
@@ -20,9 +24,9 @@ public class AIController : MonoBehaviour {
             privateBlackBoard = new BT.BlackBoard();
         privateBlackBoard["Character"] = this.GetComponent<Character>();
         privateBlackBoard["Target"] = PlayerManager.Instance.GetPlayer();
+        root = root.Clone();
+        behaviorTree = new BT.BehaviorTree(privateBlackBoard, root);
 
-        behaviorTree = new BT.BehaviorTree(privateBlackBoard);
-
-        behaviorTree.Start();
+        behaviorTree.Run();
     }
 }

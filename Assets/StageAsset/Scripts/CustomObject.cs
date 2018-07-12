@@ -48,7 +48,7 @@ public class CustomObject : MonoBehaviour {
         }
         gameObject.tag = "Wall";
         gameObject.layer = 14;
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 
     public void SetPosition()
@@ -163,7 +163,7 @@ public class PushBox : CustomObject
 
         return true;
     }
-
+    //TODO : 캐릭터가 밀리는 문제가 발생
     IEnumerator CoroutinePushed(Vector2 direction)
     {
         float speed = 10;
@@ -193,7 +193,7 @@ public class PushBox : CustomObject
     void StopMove()
     {
         rigidbody2D.bodyType = RigidbodyType2D.Static;
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         isActive = false;
     }
 }
@@ -604,7 +604,7 @@ public class Rock : CustomObject
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         GetComponent<PolygonCollider2D>().enabled = true;
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         yield return YieldInstructionCache.WaitForEndOfFrame;
 
         isAvailable = false;

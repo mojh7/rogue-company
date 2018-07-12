@@ -9,6 +9,7 @@
 
     public enum ECompositeTask
     {
+        Service,
         Selector,
         Sequence
     }
@@ -16,7 +17,6 @@
     public enum EDecorateTask
     {
         Root,
-        Service,
         DistanceDecorate
     }
 

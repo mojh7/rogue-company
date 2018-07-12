@@ -18,6 +18,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         aliveEnemyTotal = 0;
     }
 
+    #region 바꿔야되는것들
     public void Generate(Vector3 _position)
     {
         GameObject obj = Instantiate(alertObj,_position,Quaternion.identity,this.transform);
@@ -65,7 +66,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         enemy.SetHp(17);
 
         enemyList.Add(enemy);
-        obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         aliveEnemyTotal += 1;
         UIManager.Instance.bossHPUI.Toggle();
         UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
@@ -101,11 +101,11 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
 
         enemy.Init(sprite);
         enemyList.Add(enemy);
-        obj.GetComponent<BoxCollider2D>().size = sprite.bounds.size;
         aliveEnemyTotal += 1;
         obj.GetComponent<AIController>().Init();
     }
-
+    #endregion
+   
     public List<Enemy> GetEnemyList
     {
         get

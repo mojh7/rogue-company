@@ -138,7 +138,7 @@ public class Player : Character
             scaleVector.x = -1f;
             spriteObjTransform.localScale = scaleVector;
         }
-        renderer.sortingOrder = -Mathf.RoundToInt(transform.position.y);
+        renderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 
     void FixedUpdate()
