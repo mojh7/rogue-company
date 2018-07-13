@@ -32,6 +32,7 @@ public abstract class Character : MonoBehaviour
 
     #endregion
     #region Componets
+    protected CharacterComponents Components;
     protected WeaponManager weaponManager;
     protected SpriteRenderer spriteRenderer;
     protected Transform spriteTransform;
@@ -60,6 +61,10 @@ public abstract class Character : MonoBehaviour
     protected Vector3 scaleVector;
     #endregion
     #region getter
+    public CharacterComponents GetCharacterComponents()
+    {
+        return Components;
+    }
     public bool GetAIAct()
     {
         return isActiveAI;
@@ -89,7 +94,7 @@ public abstract class Character : MonoBehaviour
     #endregion
     public virtual void Init()
     {
-        CharacterComponents Components = GetComponent<CharacterComponents>();
+        Components = GetComponent<CharacterComponents>();
         Components.Init();
         weaponManager = Components.WeaponManager;
         spriteRenderer = Components.SpriteRenderer;

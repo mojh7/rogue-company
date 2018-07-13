@@ -6,7 +6,6 @@ public class AIController : MonoBehaviour {
     #region BehaviorTree
     BT.BehaviorTree behaviorTree;
     BT.BlackBoard privateBlackBoard;
-    BT.Task root;
     #endregion
     #region Components
     MovingPattern movingPattern;
@@ -19,7 +18,7 @@ public class AIController : MonoBehaviour {
         privateBlackBoard = new BT.BlackBoard();
         movingPattern = GetComponent<MovingPattern>();
     }
-
+    #region Func
     public void Init(float speed, AnimationHandler animationHandler, BT.Task task)
     {
         //Components
@@ -32,8 +31,13 @@ public class AIController : MonoBehaviour {
         privateBlackBoard["Character"] = this.GetComponent<Character>();
         privateBlackBoard["Animation"] = this.animationHandler;
         privateBlackBoard["Target"] = PlayerManager.Instance.GetPlayer();
-        root = task.Clone();
-        behaviorTree = new BT.BehaviorTree(privateBlackBoard, root);
+        behaviorTree = new BT.BehaviorTree(privateBlackBoard, task.Clone());
+
         behaviorTree.Run();
     }
+    public void Stop()
+    {
+        movingPattern.Stop();
+    }
+    #endregion
 }

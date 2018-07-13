@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BT
 {
+    //TODO : 몬스터가 죽으면 BlackBoard가 삭제되는지 않되는지 모르겠음. 
     public class BlackBoard
     {
         private Dictionary<string, object> data = new Dictionary<string, object>();

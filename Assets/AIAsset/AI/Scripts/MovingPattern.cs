@@ -29,6 +29,10 @@ public class MovingPattern : MonoBehaviour
     {
         baseSpeed = speed;
     }
+    public void Stop()
+    {
+        StopCoroutine(FollowPath());
+    }
     #endregion
 
     #region MovingInitialize
