@@ -22,7 +22,16 @@ public class RushTrackAtion : ActionTask
     }
     public override bool Run()
     {
-        return movingPattern.RushTracking();
+        success = movingPattern.RushTracking();
+        if (success)
+        {
+            animationHandler.Walk();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     public override Task Clone()
     {

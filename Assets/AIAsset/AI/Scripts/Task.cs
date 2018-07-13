@@ -13,7 +13,6 @@ namespace BT
     {
         public Root RootTask;
         protected Character character;
-
         /// <summary>
         /// 데이터 저장소 프로퍼티
         /// </summary>
@@ -120,7 +119,12 @@ namespace BT
     public abstract class ActionTask : Task
     {
         protected bool success;
-
+        protected AnimationHandler animationHandler;
+        public override void Init(Task task)
+        {
+            base.Init(task);
+            animationHandler = RootTask.BlackBoard["Animation"] as AnimationHandler;
+        }
         public override bool Run()
         {
             return success;

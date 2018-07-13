@@ -30,7 +30,16 @@ public class RoundingTrackAction : ActionTask
     }
     public override bool Run()
     {
-        return movingPattern.RoundingTracking();
+        success = movingPattern.RoundingTracking();
+        if (success)
+        {
+            animationHandler.Walk();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     public override Task Clone()
     {

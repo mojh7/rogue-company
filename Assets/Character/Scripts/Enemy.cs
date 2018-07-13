@@ -102,13 +102,15 @@ public class Enemy : Character
         moveSpeed = enemyData.Speed;
         weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
         weaponManager.EquipWeapon(enemyData.WeaponInfo);
-        aiController.Init(enemyData.Task);
         animationHandler.Init(enemyData.AnimatorController);
+        aiController.Init(moveSpeed, animationHandler, enemyData.Task);
 
         InitStatusEffects();
         // 0630 Enemy용 buffManager 초기화
         buffManager.Init();
         buffManager.SetOwner(this);
+
+        scaleVector = new Vector3(1f, 1f, 1f);
     }
     /// <summary> 상태 이상 효과 관련 초기화 </summary>
     private void InitStatusEffects()
@@ -433,4 +435,24 @@ public class Enemy : Character
         directionDegree = directionVector.GetDegFromVector();
     }
     #endregion
+}
+
+public class BossEnemy : Enemy
+{
+
+    public override float Attacked(TransferBulletInfo transferBulletInfo)
+    {
+        float damage = base.Attacked(transferBulletInfo);
+        UIManager.Instance.bossHPUI.DecreaseHp(damage);
+        return damage;
+    }
+
+    protected override void Die()
+    {
+        pState = CharacterInfo.State.DIE;
+        EnemyManager.Instance.DeleteEnemy(this);
+        RoomManager.Instance.DieMonster();
+        Destroy(this.gameObject);
+        DropItem();
+    }
 }

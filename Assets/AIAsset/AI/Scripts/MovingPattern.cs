@@ -5,21 +5,33 @@ using System;
 
 public class MovingPattern : MonoBehaviour
 {
-    float speed = 1;
-    float baseSpeed;
-    Vector2[] path;
+ 
+    #region movingPattern
     AStarTracker aStarTracker;
     RoundingTracker roundingTracker;
     RushTracker rushTracker;
+    #endregion
+    #region components
     Rigidbody2D rb2d;
-
+    #endregion
+    #region variables
+    float speed = 1;
+    float baseSpeed;
+    Vector2[] path;
+    #endregion
     private void Awake()
     {
-        baseSpeed = speed;
         rb2d = GetComponent<Rigidbody2D>();
     }
 
     #region Initialize
+    public void Init(float speed)
+    {
+        baseSpeed = speed;
+    }
+    #endregion
+
+    #region MovingInitialize
     /// <summary>
     /// 추적 클래스 생성.
     /// </summary>
@@ -47,7 +59,7 @@ public class MovingPattern : MonoBehaviour
     }
     #endregion
 
-    #region Func
+    #region MovingFunc
     /// <summary>
     /// 추적 행동.
     /// </summary>
@@ -56,8 +68,8 @@ public class MovingPattern : MonoBehaviour
         if (aStarTracker == null)
             return false;
         speed = baseSpeed;
-        aStarTracker.Update();
-        return true;
+
+        return aStarTracker.Update();
     }
     /// <summary>
     /// 회전 추적 행동.
@@ -67,8 +79,7 @@ public class MovingPattern : MonoBehaviour
         if (roundingTracker == null)
             return false;
         speed = baseSpeed;
-        roundingTracker.Update();
-        return true;
+        return roundingTracker.Update();
     }
     /// <summary>
     /// 돌진 추적 행동 (기본 속도가 5배로 증가).
@@ -78,8 +89,8 @@ public class MovingPattern : MonoBehaviour
         if (rushTracker == null)
             return false;
         speed = baseSpeed * 5;
-        rushTracker.Update();
-        return true;
+
+        return rushTracker.Update();
     }
     #endregion
 
@@ -116,8 +127,8 @@ public class MovingPattern : MonoBehaviour
                 currentWaypoint = path[targetIndex];
             }
             Vector2 dir = currentWaypoint - position;
-            dir.Normalize();
-            rb2d.velocity = dir * speed;
+            
+            rb2d.velocity = dir.normalized * speed;
             yield return null;
 
         }
@@ -165,7 +176,7 @@ abstract class Tracker
     /// <summary>
     /// 추적 알고리즘를 통해 path 업데이트.
     /// </summary>
-    public abstract void Update();
+    public abstract bool Update();
     /// <summary>
     /// 성공적으로 path를 찾았을 경우 AI컨트롤러의 FollowPath를 실행.
     /// </summary>
@@ -190,11 +201,12 @@ class AStarTracker : Tracker
         this.callback = callback;
     }
 
-    public override void Update()
+    public override bool Update()
     {
         if (transform == null || target == null)
-            return;
+            return false;
         AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound));
+        return true;
     }
 }
 
@@ -210,11 +222,12 @@ class RoundingTracker : Tracker
         this.radius = radius;
     }
 
-    public override void Update()
+    public override bool Update()
     {
         if (transform == null || target == null)
-            return;
+            return false;
         AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound), radius);
+        return true;
     }
 
 }
@@ -227,10 +240,11 @@ class RushTracker : Tracker
         this.target = target;
         this.callback = callback;
     }
-    public override void Update()
+    public override bool Update()
     {
         if (transform == null || target == null)
-            return;
+            return false;
         AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound));
+        return true;
     }
 }

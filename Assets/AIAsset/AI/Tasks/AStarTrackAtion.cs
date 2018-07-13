@@ -22,7 +22,16 @@ public class AStarTrackAtion : ActionTask
     }
     public override bool Run()
     {
-        return movingPattern.AStarTracking();
+        success = movingPattern.AStarTracking(); 
+        if(success)
+        {
+            animationHandler.Walk();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     public override Task Clone()
     {
