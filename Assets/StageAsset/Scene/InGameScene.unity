@@ -1576,11 +1576,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114976532569142166, guid: 8f1c9920431a37b4b8ce6df689663825,
-        type: 2}
-      propertyPath: passiveItemsInfo.Array.size
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4947963125661484, guid: 8f1c9920431a37b4b8ce6df689663825, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
