@@ -8,19 +8,19 @@ public class WeaponTargetEffect : ItemUseEffect
 {
     // 단순히 능력치 증가 감소
     #region ability
-    // 합 옵션
+    [Header("합 옵션")]
     public int shotgunBulletCountIncrease; // 샷건류(spread pattern) 총알 갯수 증가
     // public float criticalChanceIncrease;   // 모든 무기 크리티컬 확률 증가
 
-    // 곱 옵션 - 합 연산
+    [Header("곱 옵션 - 합 연산")]
     public float damageIncrease;           // 3. 공격력 증가율
     public float knockBackIncrease;        // 넉백 증가율
     public float chargeDamageIncrease;     // 차징 공격 데미지 증가율
     public float bulletScaleIncrease;      // 총알 크기 증가율
     public float bulletRangeIncrease;      // 총알 사정 거리 증가율
     public float bulletSpeedIncrease;      // 총알 속력 증가율
-    
-    // 곱 옵션 - 곱 연산
+
+    [Header("곱 옵션 - 곱 연산")]
     public float cooldownReduction;        // 9. 무기 재사용 시간 감소율
     public float chargeTimeReduction;      // 차징 시간 감소율
     public float accuracyIncrease;         // 집탄률, 탄 정확도 상승

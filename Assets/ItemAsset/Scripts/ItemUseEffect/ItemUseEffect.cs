@@ -12,6 +12,6 @@ public abstract class ItemUseEffect : ScriptableObject
 {
     [Tooltip("개발용 메모장")]
     [SerializeField]
-    [TextArea(3, 100)] private string memo;
+    [TextArea(3, 100)] private string note;
 }
 

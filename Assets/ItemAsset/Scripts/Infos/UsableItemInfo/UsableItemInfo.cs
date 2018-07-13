@@ -34,4 +34,9 @@ public class UsableItemInfo : ScriptableObject
     {
         get { return effectApplyTypes; }
     }
+
+    public Sprite Sprite
+    {
+        get { return sprite; }
+    }
 }

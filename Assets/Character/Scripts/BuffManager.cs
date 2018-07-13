@@ -4,21 +4,27 @@ using UnityEngine;
 
 
 // 버프 류 생성 및 삭제할 때만 버프 내용 업데이트
-// 사용되는 무기, 총알 쪽에서는 정보만 받아오기
+// owner 관련 효과는 종합 정보 가지고 있다가 owner쪽 함수 실행하고 종합 정보 값 넘겨서 업데이트 하기
+// 무기 관련 효과는 종합 정보 가지고 있다가 사용되는 무기, 총알 쪽에서 buffManager를 접근해서 사용하기
 
 // StartCoroutine 함수 monobehaviour 상속 받아야 됨.
-
 // 버프, 패시브효과 관리
 
 public class BuffManager : MonoBehaviour
 {
     public enum TargetEffectTotalUpdateType { REGISTER, REMOVE }
+    public enum EffectApplyType { BUFF, PASSIVE }
 
     #region variables
-    private List<CharacterTargetEffect> characterTargetEffects;
-    private int characterTargetEffectsLength;
-    private List<WeaponTargetEffect> weaponTargetEffects;
-    private int weaponTargetEffectsLength;
+    private List<ItemUseEffect> passiveEffects;
+    private int passiveEffectsLength;
+    private List<ItemUseEffect> buffEffects;
+    private int buffEffectsLength;
+
+    //private List<CharacterTargetEffect> characterTargetEffects;
+    //private int characterTargetEffectsLength;
+    //private List<WeaponTargetEffect> weaponTargetEffects;
+    //private int weaponTargetEffectsLength;
     private Character owner;
 
     private CharacterTargetEffect characterTargetEffectTotal;
@@ -26,6 +32,22 @@ public class BuffManager : MonoBehaviour
     #endregion
 
     #region get / set property
+    public List<ItemUseEffect> PassiveEffects
+    {
+        get { return passiveEffects; }
+    }
+    public int PassiveEffectsLength
+    {
+        get { return passiveEffectsLength; }
+    }
+    public List<ItemUseEffect> BuffEffects
+    {
+        get { return buffEffects; }
+    }
+    public int BuffEffectsLength
+    {
+        get { return buffEffectsLength; }
+    }
     public CharacterTargetEffect CharacterTargetEffectTotal
     {
         get { return characterTargetEffectTotal; }
@@ -39,10 +61,14 @@ public class BuffManager : MonoBehaviour
     #region function
     public void Init()
     {
-        characterTargetEffects = new List<CharacterTargetEffect>();
-        weaponTargetEffects = new List<WeaponTargetEffect>();
-        characterTargetEffectsLength = 0;
-        weaponTargetEffectsLength = 0;
+        passiveEffects = new List<ItemUseEffect>();
+        buffEffects = new List<ItemUseEffect>();
+        //characterTargetEffects = new List<CharacterTargetEffect>();
+        //weaponTargetEffects = new List<WeaponTargetEffect>();
+        passiveEffectsLength = 0;
+        buffEffectsLength = 0;
+        //characterTargetEffectsLength = 0;
+        //weaponTargetEffectsLength = 0;
         InitCharacterTargetEffectTotal();
         InitWeaponTargetEffectTotal();
     }
@@ -110,23 +136,31 @@ public class BuffManager : MonoBehaviour
     /// <param name="effectiveTime">효과 적용 시간, default = -1, 0초과된 값 => 일정 시간 동안 효과 적용되는 버프 아이템</param>
     public void RegisterItemEffect(ItemUseEffect itemUseEffect, float effectiveTime = -1f)
     {
+        if (-1 == effectiveTime)
+        {
+            passiveEffects.Add(itemUseEffect);
+            passiveEffectsLength += 1;
+        }
+        else
+        {
+            buffEffects.Add(itemUseEffect);
+            buffEffectsLength += 1;
+        }
+
         if (typeof(CharacterTargetEffect) == itemUseEffect.GetType())
         {
             CharacterTargetEffect targetEffect = itemUseEffect as CharacterTargetEffect;
-            characterTargetEffects.Add(targetEffect);
-            characterTargetEffectsLength += 1;
-
+            //characterTargetEffects.Add(targetEffect);
+            //characterTargetEffectsLength += 1;
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
-
             if (effectiveTime > 0)
                 StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
         }
         else
         {
             WeaponTargetEffect targetEffect = itemUseEffect as WeaponTargetEffect;
-            weaponTargetEffects.Add(targetEffect);
-            weaponTargetEffectsLength += 1;
-
+            //weaponTargetEffects.Add(targetEffect);
+            //weaponTargetEffectsLength += 1;
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
             if (effectiveTime > 0)
                 StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
@@ -135,19 +169,33 @@ public class BuffManager : MonoBehaviour
     }
 
     /// <summary> 캐릭터 대상 버프 제거 </summary> 
-    public void RemoveTargetEffect(CharacterTargetEffect targetEffect)
+    public void RemoveTargetEffect(CharacterTargetEffect targetEffect, EffectApplyType effectApplyType)
     {
-        characterTargetEffects.Remove(targetEffect);
-        characterTargetEffectsLength -= 1;
-
+        if (EffectApplyType.BUFF == effectApplyType)
+        {
+            passiveEffects.Remove(targetEffect);
+            passiveEffectsLength -= 1;
+        }
+        else
+        {
+            buffEffects.Remove(targetEffect);
+            buffEffectsLength -= 1;
+        }
         UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REMOVE);
     }
     /// <summary> 무기 대상 버프 제거 </summary> 
-    public void RemoveTargetEffect(WeaponTargetEffect targetEffect)
+    public void RemoveTargetEffect(WeaponTargetEffect targetEffect, EffectApplyType effectApplyType)
     {
-        weaponTargetEffects.Remove(targetEffect);
-        weaponTargetEffectsLength -= 1;
-
+        if (EffectApplyType.BUFF == effectApplyType)
+        {
+            passiveEffects.Remove(targetEffect);
+            passiveEffectsLength -= 1;
+        }
+        else
+        {
+            buffEffects.Remove(targetEffect);
+            buffEffectsLength -= 1;
+        }
         UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REMOVE);
     }
 
@@ -203,7 +251,7 @@ public class BuffManager : MonoBehaviour
         if (targetEffect.canDrainHp)
             CharacterTargetEffectTotal.canDrainHp = boolSign;
 
-        PlayerManager.Instance.GetPlayer().UpdatePlayerData();
+        owner.ApplyItemEffect(characterTargetEffectTotal);
     }
 
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
@@ -280,7 +328,7 @@ public class BuffManager : MonoBehaviour
         {
             if (time >= effectiveTime)
             {
-                RemoveTargetEffect(targetEffect);
+                RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
             }
             time += Time.fixedTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedTime);
@@ -294,7 +342,7 @@ public class BuffManager : MonoBehaviour
         {
             if (time >= effectiveTime)
             {
-                RemoveTargetEffect(targetEffect);
+                RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
             }
             time += Time.fixedTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedTime);

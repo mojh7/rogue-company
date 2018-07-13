@@ -149,7 +149,6 @@ public class Player : Character
     public override void Init()
     {
         base.Init();
-
         pState = CharacterInfo.State.ALIVE;
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
@@ -390,12 +389,17 @@ public class Player : Character
         이런건 버프, 패시브 효과 쪽이 어울림
         moveSpeedIncrease, hungerMaxIncrease, armorIncrease, criticalChanceIncrease
         */
+        playerData.HungerMax = originPlayerData.HungerMax * itemUseEffect.hungerMaxIncrease;
+        playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrease;
+        playerData.Armor = originPlayerData.Armor * itemUseEffect.armorIncrease;
+        playerData.CriticalChance = originPlayerData.CriticalChance * itemUseEffect.criticalChanceIncrease;
     }
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
     }
 
+    // 안 쓸거 같음.
     public void UpdatePlayerData()
     {
         // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.

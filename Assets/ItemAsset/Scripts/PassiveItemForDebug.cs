@@ -23,9 +23,10 @@ public class PassiveItemForDebug : MonoBehaviour
     private int slotRow;
     [SerializeField]
     private int slotColumn;
+    private int slotCountMax;
     [SerializeField]
     private Vector2 intervalPos;
-    private GameObject[,] passiveSlots;
+    private PassiveSlot[] passiveSlots;
     #endregion
 
     #region UnityFunc
@@ -33,7 +34,8 @@ public class PassiveItemForDebug : MonoBehaviour
     void Start ()
     {
         CreatePassiveSlots(standardPos.position);
-	}
+        slotCountMax = slotRow * slotColumn;
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -56,7 +58,8 @@ public class PassiveItemForDebug : MonoBehaviour
     #region function
     private void CreatePassiveSlots(Vector3 standardPos)
     {
-        passiveSlots = new GameObject[slotRow, slotColumn];
+        passiveSlots = new PassiveSlot[slotCountMax];
+        GameObject createdObj;
         Vector3 currentPos = new Vector3();
         for (int y = 0; y < slotRow; y++)
         {
@@ -64,9 +67,10 @@ public class PassiveItemForDebug : MonoBehaviour
             {
                 currentPos.x = standardPos.x + x * intervalPos.x;
                 currentPos.y = standardPos.y - y * intervalPos.y;
-                passiveSlots[y, x] = Instantiate(passiveSlotPrefab);
-                passiveSlots[y, x].transform.position = currentPos;
-                passiveSlots[y, x].transform.SetParent(passiveSlotsParent);
+                createdObj = Instantiate(passiveSlotPrefab);
+                createdObj.transform.position = currentPos;
+                createdObj.transform.SetParent(passiveSlotsParent);
+                passiveSlots[y * slotRow + x] = createdObj.GetComponent<PassiveSlot>();
             }
         }
     }
@@ -74,6 +78,19 @@ public class PassiveItemForDebug : MonoBehaviour
     public void ChangePassive()
     {
 
+    }
+
+    public void UpdatePassiveSlots()
+    {
+        int passiveLength = PlayerBuffManager.Instance.BuffManager.PassiveEffectsLength;
+        for(int i = 0; i < passiveLength; i++)
+        {
+           // passiveSlots[i].UpdatePassiveSlot(PlayerBuffManager.Instance.BuffManager.PassiveEffects[i].Sprite);
+        }
+        for (int i = passiveLength; i < slotCountMax; i++)
+        {
+            passiveSlots[i].UpdatePassiveSlot(null);
+        }
     }
     #endregion
 }

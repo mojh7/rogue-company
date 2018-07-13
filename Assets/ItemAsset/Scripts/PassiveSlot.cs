@@ -17,4 +17,12 @@ public class PassiveSlot : MonoBehaviour
 	void Update () {
 		
 	}
+
+    public void UpdatePassiveSlot(Sprite sprite)
+    {
+        //if(null == sprite)
+        //{
+            passiveImage.sprite = sprite;
+        //}
+    }
 }

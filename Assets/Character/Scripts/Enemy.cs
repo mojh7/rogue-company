@@ -218,7 +218,7 @@ public class Enemy : Character
 
     public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
     {
-
+        // 개발 중
     }
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
