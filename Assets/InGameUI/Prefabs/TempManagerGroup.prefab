@@ -340,6 +340,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60fb502214afd7c4b820f6eed060d3c3, type: 2}
   - {fileID: 11400000, guid: 147a80288cdee914ba4f219401b971a9, type: 2}
   - {fileID: 11400000, guid: e22cf6b2a51447641b3cc21901929187, type: 2}
+  passiveItemsInfo: []
   effectInfos:
   - {fileID: 11400000, guid: 39ef06daf634a714f915819f55cf60d3, type: 2}
   - {fileID: 11400000, guid: 9d0c0896fdd418142a3a657517ba17a7, type: 2}

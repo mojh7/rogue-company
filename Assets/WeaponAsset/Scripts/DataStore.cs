@@ -60,6 +60,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private WeaponInfo[] weaponInfos;
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
+    [SerializeField]
+    private UsableItemInfo[] passiveItemsInfo;
+
 
     [SerializeField]
     private EffectInfo[] effectInfos;
@@ -132,6 +135,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         {
             enemyWeaponInfos[i].Init();
         }
+        //passiveItems
     }
 
     /*
