@@ -3,33 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIController : MonoBehaviour {
-    #region BehaviorTree
+    #region behaviorTree
     BT.BehaviorTree behaviorTree;
     BT.BlackBoard privateBlackBoard;
+
     #endregion
-    #region Components
-    MovingPattern movingPattern;
-    AnimationHandler animationHandler;
+    #region parameter
+    public MovingPattern MovingPattern
+    {
+        get;
+        private set;
+    }
+    public AnimationHandler AnimationHandler
+    {
+        get;
+        private set;
+    }
     #endregion
 
 
     private void Awake()
     {
         privateBlackBoard = new BT.BlackBoard();
-        movingPattern = GetComponent<MovingPattern>();
+        MovingPattern = GetComponent<MovingPattern>();
     }
     #region Func
     public void Init(float speed, AnimationHandler animationHandler, BT.Task task)
     {
         //Components
-        movingPattern.Init(speed);
-        this.animationHandler = animationHandler;
+        MovingPattern.Init(speed);
+        this.AnimationHandler = animationHandler;
 
         //BehaviorTree
         if (privateBlackBoard == null)
             privateBlackBoard = new BT.BlackBoard();
         privateBlackBoard["Character"] = this.GetComponent<Character>();
-        privateBlackBoard["Animation"] = this.animationHandler;
+        privateBlackBoard["Animation"] = this.AnimationHandler;
         privateBlackBoard["Target"] = PlayerManager.Instance.GetPlayer();
         behaviorTree = new BT.BehaviorTree(privateBlackBoard, task.Clone());
 
@@ -37,7 +46,7 @@ public class AIController : MonoBehaviour {
     }
     public void Stop()
     {
-        movingPattern.Stop();
+        MovingPattern.Stop();
     }
     #endregion
 }

@@ -25,7 +25,7 @@ public class RoundingTrackAction : ActionTask
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
         this.target = RootTask.BlackBoard["Target"] as Character;
-        movingPattern = character.GetComponent<MovingPattern>();
+        movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
         movingPattern.RoundingTracker(target.transform, radius);
     }
     public override bool Run()

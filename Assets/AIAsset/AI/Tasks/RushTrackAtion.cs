@@ -17,7 +17,7 @@ public class RushTrackAtion : ActionTask
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
         this.target = RootTask.BlackBoard["Target"] as Character;
-        movingPattern = character.GetComponent<MovingPattern>();
+        movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
         movingPattern.RushTracker(target.transform);
     }
     public override bool Run()
