@@ -20,6 +20,8 @@ public class UsableItemInfo : ScriptableObject
     protected string notes; // 설명
     [SerializeField]
     protected int price;
+    [SerializeField]
+    protected Sprite sprite;
 
     [SerializeField]
     protected EffectApplyType[] effectApplyTypes;
