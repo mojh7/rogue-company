@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4508251691537976}
+  - component: {fileID: 114749004372237712}
   - component: {fileID: 114209391037703390}
   - component: {fileID: 61054499879308170}
   - component: {fileID: 50455717362438088}
@@ -38,6 +39,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4593660546547358}
   - component: {fileID: 212429882799322652}
+  - component: {fileID: 95500506440898494}
+  - component: {fileID: 114442412460284288}
   m_Layer: 16
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -372,6 +375,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.37839735, y: 0.7960367}
   m_EdgeRadius: 0
+--- !u!95 &95500506440898494
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1470796893768518}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114154553307704316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,16 +424,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   hp: 10
-  renderer: {fileID: 212429882799322652}
-  weaponManager: {fileID: 114154553307704316}
-  spriteObjTransform: {fileID: 4593660546547358}
-  interactiveCollider2D: {fileID: 58181692312182348}
-  animator: {fileID: 0}
   sprite: {fileID: 0}
   controller:
     joystick: {fileID: 0}
   playerHpUi: {fileID: 0}
   weaponSwitchButton: {fileID: 0}
+--- !u!114 &114442412460284288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1470796893768518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f1de658d4913f48b2a3b25e732495b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114540869918100208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -429,6 +455,23 @@ MonoBehaviour:
   backGround: {fileID: 1688397474745204}
   gaugeSpriteObj: {fileID: 1934923345996920}
   fullChargedScaleX: 1.8
+--- !u!114 &114749004372237712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1354007718219498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281c97d7b515ba642b1de85d9890d744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponManager: {fileID: 114154553307704316}
+  spriteRenderer: {fileID: 212429882799322652}
+  spriteTransform: {fileID: 4593660546547358}
+  animator: {fileID: 95500506440898494}
+  animationHandler: {fileID: 114442412460284288}
+  interactiveCollider2D: {fileID: 58181692312182348}
 --- !u!198 &198306169087476722
 ParticleSystem:
   m_ObjectHideFlags: 1

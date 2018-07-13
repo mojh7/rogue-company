@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
 
-    public GameObject bossEnemy;
-    public Sprite[] sprites;
+    private Sprite sprite;
+    [SerializeField]
+    private EnemyData enemyData;
     public ObjectPool objectPool;
     public GameObject alertObj;
     private List<Enemy> enemyList;
@@ -30,79 +31,42 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
 
     public Sprite GetBossSprite(int _floor)
     {
-        Sprite sprite = sprites[Mathf.Clamp(_floor, 0, sprites.Length - 1)];
         return sprite;
     }
 
-    public void SpawnBoss(int _floor,Vector2 _position)
+    GameObject SpawnEnemy(Vector3 position)
     {
-        BossEnemy enemy;
-        GameObject obj = Instantiate(bossEnemy);
-        int enemyType = Mathf.Clamp(_floor, 0, sprites.Length - 1);
-        Sprite sprite = sprites[enemyType];
-        obj.transform.position = _position;
-        obj.transform.localScale = new Vector3(2, 2, 0);
-        enemy = obj.GetComponent<BossEnemy>();
-        switch (enemyType)
-        {
-            case 0:
-                enemy.animator.SetTrigger("hand");
-                break;
-            case 1:
-                enemy.animator.SetTrigger("zombi");
-                break;
-            case 2:
-                enemy.animator.SetTrigger("note");
-                break;
-            case 3:
-                enemy.animator.SetTrigger("hulk");
-                break;
-            default:
-                break;
-        }
-        enemy.Init(sprite);
+        GameObject obj = objectPool.GetPooledObject();
+        obj.transform.position = position;
+        obj.transform.localScale = new Vector3(1, 1, 0);
 
-        // 0531 모장현 프로토 타입 용
-        enemy.SetHp(17);
-
-        enemyList.Add(enemy);
         aliveEnemyTotal += 1;
-        UIManager.Instance.bossHPUI.Toggle();
-        UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
-        obj.GetComponent<AIController>().Init();
+
+        return obj;
     }
 
-    void CallBack(Vector3 _position)
+    public void SpawnBoss(int _floor,Vector2 position)
+    {
+        sprite = enemyData.Sprite;
+        BossEnemy enemy;
+        GameObject obj = SpawnEnemy(position);
+
+        enemy = obj.AddComponent<BossEnemy>();
+        enemy.Init(enemyData);
+        enemyList.Add(enemy);
+
+        UIManager.Instance.bossHPUI.Toggle();
+        UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
+    }
+
+    void CallBack(Vector3 position)
     {
         Enemy enemy;
-        GameObject obj = objectPool.GetPooledObject();
-        int enemyType = Random.Range(0, sprites.Length);
-        Sprite sprite = sprites[enemyType];
-        obj.transform.position = _position;
-        obj.transform.localScale = new Vector3(1, 1, 0);
-        enemy = obj.GetComponent<Enemy>();
-        switch (enemyType)
-        {
-            case 0:
-                enemy.animator.SetTrigger("hand");
-                break;
-            case 1:
-                enemy.animator.SetTrigger("zombi");
-                break;
-            case 2:
-                enemy.animator.SetTrigger("note");
-                break;
-            case 3:
-                enemy.animator.SetTrigger("hulk");
-                break;
-            default:
-                break;
-        }
+        GameObject obj = SpawnEnemy(position);
 
-        enemy.Init(sprite);
+        enemy = obj.AddComponent<Enemy>();
+        enemy.Init(enemyData);
         enemyList.Add(enemy);
-        aliveEnemyTotal += 1;
-        obj.GetComponent<AIController>().Init();
     }
     #endregion
    

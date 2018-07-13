@@ -7,33 +7,29 @@ public class AnimationHandler : MonoBehaviour {
 
     Animator animator;
 
-    private void Start()
-    {
-        this.animator = GetComponent<Animator>();
-    }
-
     public void Init(RuntimeAnimatorController  animatorController)
     {
+        this.animator = GetComponent<Animator>();
         this.animator.runtimeAnimatorController = animatorController;
         animator.SetTrigger("idle");
     }
 
-    public void Attack(uint i)
+    public void Attack()
     {
         animator.SetTrigger("attack");
     }
 
-    public void Attacked(uint i)
+    public void Attacked()
     {
         animator.SetTrigger("attaked");
     }
 
-    public void Walk(uint i)
+    public void Walk()
     {
         animator.SetTrigger("walk");
     }
 
-    public void Run(uint i)
+    public void Run()
     {
         animator.SetTrigger("run");
     }

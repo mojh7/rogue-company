@@ -3,30 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AIController : MonoBehaviour {
+    #region behaviorTree
     BT.BehaviorTree behaviorTree;
     BT.BlackBoard privateBlackBoard;
-    [SerializeField]
-    BT.Task root;
+
+    #endregion
+    #region parameter
+    public MovingPattern MovingPattern
+    {
+        get;
+        private set;
+    }
+    public AnimationHandler AnimationHandler
+    {
+        get;
+        private set;
+    }
+    #endregion
+
 
     private void Awake()
     {
         privateBlackBoard = new BT.BlackBoard();
+        MovingPattern = GetComponent<MovingPattern>();
     }
-
-    private void Start()
+    #region Func
+    public void Init(float speed, AnimationHandler animationHandler, BT.Task task)
     {
-        Init();
-    }
+        //Components
+        MovingPattern.Init(speed);
+        this.AnimationHandler = animationHandler;
 
-    public void Init()
-    {
-        if(privateBlackBoard == null)
+        //BehaviorTree
+        if (privateBlackBoard == null)
             privateBlackBoard = new BT.BlackBoard();
         privateBlackBoard["Character"] = this.GetComponent<Character>();
+        privateBlackBoard["Animation"] = this.AnimationHandler;
         privateBlackBoard["Target"] = PlayerManager.Instance.GetPlayer();
-        root = root.Clone();
-        behaviorTree = new BT.BehaviorTree(privateBlackBoard, root);
+        behaviorTree = new BT.BehaviorTree(privateBlackBoard, task.Clone());
 
         behaviorTree.Run();
     }
+    public void Stop()
+    {
+        MovingPattern.Stop();
+    }
+    #endregion
 }

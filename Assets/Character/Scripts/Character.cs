@@ -32,22 +32,20 @@ public abstract class Character : MonoBehaviour
 
     #endregion
     #region Componets
-    [SerializeField]
-    protected new SpriteRenderer renderer;
-    [SerializeField]
+    protected CharacterComponents Components;
     protected WeaponManager weaponManager;
-    [SerializeField]
-    protected Transform spriteObjTransform; // sprite 컴포넌트가 붙여있는 object, player에 경우 inspector 창에서 붙여줌
-    public CircleCollider2D interactiveCollider2D;
-    public Animator animator;
+    protected SpriteRenderer spriteRenderer;
+    protected Transform spriteTransform;
+    protected CircleCollider2D interactiveCollider2D;
+    protected AnimationHandler animationHandler;
     protected BuffManager buffManager;
     protected Rigidbody2D rgbody;
-
+    protected AIController aiController;
     #endregion
     #region variables
     // 디버그용 SerializeField
     protected bool isActiveAI;
-    protected bool isKnockBack;
+    protected bool isKnockBack = false;
     [SerializeField]
     protected Sprite sprite;
     protected CharacterInfo.State pState;
@@ -62,8 +60,11 @@ public abstract class Character : MonoBehaviour
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
     #endregion
-
     #region getter
+    public CharacterComponents GetCharacterComponents()
+    {
+        return Components;
+    }
     public bool GetAIAct()
     {
         return isActiveAI;
@@ -91,11 +92,19 @@ public abstract class Character : MonoBehaviour
         return false;
     }
     #endregion
-
-
-    // 0531 모장현 프로토 타입 용
-    public virtual void SetHp(float _hp) { hp = _hp; }
-
+    public virtual void Init()
+    {
+        Components = GetComponent<CharacterComponents>();
+        Components.Init();
+        weaponManager = Components.WeaponManager;
+        spriteRenderer = Components.SpriteRenderer;
+        spriteTransform = Components.SpriteTransform;
+        interactiveCollider2D = Components.InteractiveCollider2D;
+        animationHandler = Components.AnimationHandler;
+        buffManager = Components.BuffManager;
+        rgbody = Components.Rigidbody2D;
+        aiController = Components.AIController;
+    }
     /*--abstract--*/
     protected abstract void Die();
     public abstract float Attacked(TransferBulletInfo info);
@@ -122,13 +131,6 @@ public abstract class Character : MonoBehaviour
 
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
-
-    protected IEnumerator CoroutineAttacked()
-    {
-        renderer.color = new Color(1, 0, 0);
-        yield return YieldInstructionCache.WaitForSeconds(0.1f);
-        renderer.color = new Color(1, 1, 1);
-    }
 
     protected IEnumerator KnockBackCheck()
     {

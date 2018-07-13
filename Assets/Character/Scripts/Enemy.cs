@@ -45,8 +45,6 @@ public static class StatusConstants
 
 public class Enemy : Character
 {
-    EnemyData enemyData;
-
     private bool isPoisoning;
     private int poisonOverlappingCount;
     private int[] poisonCount;
@@ -75,18 +73,11 @@ public class Enemy : Character
     #endregion
 
     #region UnityFunc
-    private void Awake()
-    {
-        rgbody = GetComponent<Rigidbody2D>();
-        buffManager = GetComponent<BuffManager>();
-        isKnockBack = false;
-    }
-
     private void Update()
     {
         AutoAim();
         weaponManager.AttackButtonDown();
-        renderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
         {
             isRightDirection = true;
@@ -103,37 +94,24 @@ public class Enemy : Character
     #endregion
     #region Func
     //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
-    //public void Init(EnemyData enemyData)
-    //{
-    //    pState = CharacterInfo.State.ALIVE;
-    //    hp = enemyData.HP;
-    //    moveSpeed = enemyData.Speed;
-    //    animator = enemyData.Animator;
-    //    weaponManager = GetComponentInChildren<WeaponManager>();
-    //    weaponManager.Init(this, OwnerType.Enemy);
-    //    weaponManager.EquipWeapon(enemyData.WeaponInfo);
-    //}
-    public void Init(Sprite _sprite)
+    public void Init(EnemyData enemyData)
     {
-        sprite = _sprite;
+        base.Init();
         pState = CharacterInfo.State.ALIVE;
-        renderer.sprite = sprite;
-        renderer.color = new Color(1, 1, 1);
-        scaleVector = transform.localScale;
-
-        hpMax = 7;
-        hp = hpMax;
+        hp = enemyData.HP;
+        moveSpeed = enemyData.Speed;
+        weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
+        weaponManager.EquipWeapon(enemyData.WeaponInfo);
+        animationHandler.Init(enemyData.AnimatorController);
+        aiController.Init(moveSpeed, animationHandler, enemyData.Task);
 
         InitStatusEffects();
-
         // 0630 Enemy용 buffManager 초기화
         buffManager.Init();
         buffManager.SetOwner(this);
-        // 0526 임시용
-        weaponManager = GetComponentInChildren<WeaponManager>();
-        weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
-    }
 
+        scaleVector = new Vector3(1f, 1f, 1f);
+    }
     /// <summary> 상태 이상 효과 관련 초기화 </summary>
     private void InitStatusEffects()
     {
@@ -173,6 +151,7 @@ public class Enemy : Character
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
         DropItem();
+        Destroy(this);
     }
     protected void DropItem()
     {
@@ -194,8 +173,7 @@ public class Enemy : Character
             damage *= 2f;
         }
         hp -= damage;
-        StopCoroutine(CoroutineAttacked());
-        StartCoroutine(CoroutineAttacked());
+
         if (hp <= 0)
             Die();
         return damage;
@@ -232,8 +210,6 @@ public class Enemy : Character
 
         StopCoroutine(KnockBackCheck());
         StartCoroutine(KnockBackCheck());
-        StopCoroutine(CoroutineAttacked());
-        StartCoroutine(CoroutineAttacked());
 
         if (hp <= 0)
             Die();
@@ -459,4 +435,24 @@ public class Enemy : Character
         directionDegree = directionVector.GetDegFromVector();
     }
     #endregion
+}
+
+public class BossEnemy : Enemy
+{
+
+    public override float Attacked(TransferBulletInfo transferBulletInfo)
+    {
+        float damage = base.Attacked(transferBulletInfo);
+        UIManager.Instance.bossHPUI.DecreaseHp(damage);
+        return damage;
+    }
+
+    protected override void Die()
+    {
+        pState = CharacterInfo.State.DIE;
+        EnemyManager.Instance.DeleteEnemy(this);
+        RoomManager.Instance.DieMonster();
+        Destroy(this.gameObject);
+        DropItem();
+    }
 }

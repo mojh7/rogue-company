@@ -7,9 +7,11 @@ public class EnemyData : ScriptableObject
 {
     #region serializeFiled
     [SerializeField]
+    private Sprite sprite;
+    [SerializeField]
     private float hp;
     [SerializeField]
-    private float moveSpeed;
+    private float speed;
     [SerializeField]
     private RuntimeAnimatorController animatorController;
     [SerializeField]
@@ -19,6 +21,13 @@ public class EnemyData : ScriptableObject
     #endregion
   
     #region property
+    public Sprite Sprite
+    {
+        get
+        {
+            return sprite;
+        }
+    }
     public float HP
     {
         get
@@ -30,7 +39,7 @@ public class EnemyData : ScriptableObject
     {
         get
         {
-            return moveSpeed;
+            return speed;
         }
     }
     public RuntimeAnimatorController AnimatorController
