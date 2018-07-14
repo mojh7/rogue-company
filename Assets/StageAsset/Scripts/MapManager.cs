@@ -679,10 +679,12 @@ namespace Map
 
             for (int i = 0; i < _roomSet.objectDatas.Count; i++)
             {
-                if (_roomSet.width * size - size <= _roomSet.objectDatas[i].position.x /*범위안에 있는지 확인*/
-                    || _roomSet.height * size - size <= _roomSet.objectDatas[i].position.y /*범위안에 있는지 확인*/
-                    && _roomSet.objectDatas[i].objectType != ObjectType.SPAWNER)
-                    continue;
+                //if (_roomSet.width * size - size <= _roomSet.objectDatas[i].position.x /*범위안에 있는지 확인*/
+                //    || _roomSet.height * size - size <= _roomSet.objectDatas[i].position.y /*범위안에 있는지 확인*/
+                //    )
+                //    continue;
+                //if (_roomSet.objectDatas[i].objectType == ObjectType.SPAWNER)
+                //    continue;
                 customObjects.Add(objectPool.GetPooledObject());
                 customObjects[index].transform.localPosition = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, 0); //temp
 

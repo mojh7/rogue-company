@@ -45,6 +45,7 @@ public class CustomObject : MonoBehaviour {
                 GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
             }
             GetComponent<PolygonCollider2D>().isTrigger = false;
+            GetComponent<PolygonCollider2D>().enabled = true;
         }
         gameObject.tag = "Wall";
         gameObject.layer = 14;
@@ -134,7 +135,7 @@ public class VendingMachine : CustomObject
     {
         base.Init();
         isActive = false;
-        isAvailable = false;
+        isAvailable = true;
         objectType = ObjectType.VENDINMACHINE;
     }
 
@@ -217,7 +218,7 @@ public class Spawner : CustomObject
         base.Init();
         isActive = false;
         isAvailable = false;
-        GetComponent<PolygonCollider2D>().SetPath(0, null);
+        GetComponent<PolygonCollider2D>().enabled = false;
         objectType = ObjectType.SPAWNER;
 
         // 0516 모장현

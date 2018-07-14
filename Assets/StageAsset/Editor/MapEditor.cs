@@ -103,6 +103,7 @@ public class MapEditor : EditorWindow
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
+        gameObject.AddComponent<Rigidbody2D>();
 
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);

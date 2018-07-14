@@ -13,6 +13,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     public void InitRoomList()
     {
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
+        for(int i = 0;i<roomList.Count;i++)
+        {
+            DisalbeObject(roomList[i]);
+        }
     } // 룸리스트 받아오기
 
     public int GetGage()
@@ -42,13 +46,29 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         }
     } // 작동 가능여부 turn
 
-    //void EnableObjects()
-    //{
-    //    if (!currentRoom.isRoom)
-    //        return;
-    //    for (int j = 0; j < currentRoom.customObjects.Length; j++)
-    //        currentRoom.customObjects[j].SetActive(true);
-    //}
+    void EnableObjects()
+    {
+        if (!currentRoom.isRoom)
+            return;
+        for (int j = 0; j < currentRoom.customObjects.Length; j++)
+            currentRoom.customObjects[j].SetActive(true);
+    }
+
+    public void DisableObjects()
+    {
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            DisalbeObject(roomList[i]);
+        }
+    }
+
+    void DisalbeObject(Map.Rect _room)
+    {
+        if (_room.customObjects == null)
+            return;
+        for (int j = 0; j < _room.customObjects.Length; j++)
+            _room.customObjects[j].SetActive(false);
+    }
 
     void ClearRoom()
     {
@@ -70,6 +90,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
         }
         MiniMap.Instance.DrawRoom(currentRoom);
+        DisalbeObject(this.currentRoom);
     }
 
     void SpawnMonster()
@@ -88,22 +109,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
         }
     } // 몬스터 소환
-
-    //public void DisableObjects()
-    //{
-    //    for (int i = 0; i < roomList.Count; i++)
-    //    {
-    //        DisalbeObject(roomList[i]);
-    //    }
-    //}
-
-    //void DisalbeObject(Map.Rect _room)
-    //{
-    //    if (_room.customObjects == null)
-    //        return;
-    //    for (int j = 0; j < _room.customObjects.Length; j++)
-    //        _room.customObjects[j].SetActive(false);
-    //}
 
     public Vector3 Spawned()
     {
@@ -178,11 +183,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         ObjectSetAvailable();
         currentRoom.maskObject.SetActive(true);
+        EnableObjects();
     }
 
     void InitBossRoom()
     {
         StartCoroutine(CoroutineBoss());
+        EnableObjects();
     }
 
     IEnumerator CoroutineBoss()

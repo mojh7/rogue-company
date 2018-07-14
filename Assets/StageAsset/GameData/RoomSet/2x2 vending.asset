@@ -18,7 +18,7 @@ MonoBehaviour:
   size: 3
   gage: 0
   objectDatas:
-  - position: {x: 2.5, y: 1.77}
+  - position: {x: 3, y: 2.78}
     sprites:
     - {fileID: 21300002, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
     - {fileID: 21300006, guid: 9f24d6aaeca77104f8232ace9e0622a8, type: 3}
@@ -36,12 +36,12 @@ MonoBehaviour:
     sprites: []
     isActive: 0
     objectType: 6
-  - position: {x: 2.5, y: 1.52}
+  - position: {x: 3, y: 2.51}
     sprites:
     - {fileID: 21300286, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
     isActive: 0
     objectType: 3
-  - position: {x: 1.24, y: 4.87}
+  - position: {x: 3, y: 5.29}
     sprites:
     - {fileID: 21300248, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
     - {fileID: 21300250, guid: 65a834a28f185294b83fb009b33e3c37, type: 3}
