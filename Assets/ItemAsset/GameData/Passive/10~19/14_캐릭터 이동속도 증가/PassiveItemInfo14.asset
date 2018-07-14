@@ -14,7 +14,7 @@ MonoBehaviour:
   memo: "\uCE90\uB9AD\uD130 \uC774\uB3D9\uC18D\uB3C4 n% \uC0C1\uC2B9"
   rating: 0
   itemName: 
-  notes: 
+  notes: "\uCE90\uB9AD\uD130 \uC774\uB3D9\uC18D\uB3C4 n% \uC0C1\uC2B9"
   price: 0
   sprite: {fileID: 21300000, guid: 623eef8991a4d1a41874c3dba019f39c, type: 3}
   effectApplyTypes:

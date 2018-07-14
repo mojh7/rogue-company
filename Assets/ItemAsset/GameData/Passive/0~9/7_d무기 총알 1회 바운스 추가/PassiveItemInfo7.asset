@@ -15,7 +15,8 @@ MonoBehaviour:
     \uBCBD\uC5D0 1\uD68C \uD295\uACA8\uC9D1\uB2C8\uB2E4."
   rating: 0
   itemName: 
-  notes: 
+  notes: "d\uBD84\uB958 \uC6D0\uAC70\uB9AC \uBB34\uAE30 \uACF5\uACA9 \uC2DC \uCD1D\uC54C\uC774
+    \uBCBD\uC5D0 1\uD68C \uD295\uACA8\uC9D1\uB2C8\uB2E4."
   price: 0
   sprite: {fileID: 21300014, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
   effectApplyTypes:

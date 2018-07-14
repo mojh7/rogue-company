@@ -14,7 +14,7 @@ MonoBehaviour:
   memo: "\uACF5\uACA9\uC18D\uB3C4 +n% ( = \uCFE8\uB2E4\uC6B4 -n%), n \uBBF8\uC815"
   rating: 0
   itemName: 
-  notes: 
+  notes: "\uACF5\uACA9\uC18D\uB3C4 +n% ( = \uCFE8\uB2E4\uC6B4 -n%), n \uBBF8\uC815"
   price: 0
   sprite: {fileID: 21300020, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
   effectApplyTypes:

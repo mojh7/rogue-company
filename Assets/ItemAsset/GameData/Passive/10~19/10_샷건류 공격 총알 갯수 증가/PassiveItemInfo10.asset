@@ -15,7 +15,8 @@ MonoBehaviour:
     (n = 2~3??)"
   rating: 0
   itemName: 
-  notes: 
+  notes: "\uC0F7\uAC74\uB958 \uCD1D\uC54C \uAC2F\uC218 n\uAC1C \uC99D\uAC00, n \uBBF8\uC815
+    (n = 2~3??)"
   price: 0
   sprite: {fileID: 21300004, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
   effectApplyTypes:

@@ -15,7 +15,8 @@ MonoBehaviour:
     = 5"
   rating: 0
   itemName: 
-  notes: 
+  notes: "\uC801 n\uBA85 \uC81C\uAC70\uC2DC \uD53C +0.5\uD68C\uBCF5, \uD604\uC7AC
+    n = 5"
   price: 0
   sprite: {fileID: 21300026, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
   effectApplyTypes:

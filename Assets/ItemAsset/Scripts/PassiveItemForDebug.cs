@@ -69,6 +69,7 @@ public class PassiveItemForDebug : MonoBehaviour
                 Debug.Log("패시브 아이템 테스트창 on");
             }
             passiveDebugObj.SetActive(!passiveDebugObj.activeSelf);
+            effectTotalViewObj.SetActive(passiveDebugObj.activeSelf);
         }
     }
     #endregion
@@ -76,7 +77,6 @@ public class PassiveItemForDebug : MonoBehaviour
     #region function
     private void CreatePassiveSlots(Vector3 standardPos)
     {
-        Debug.Log("row : " + slotRow + ", col : " + slotColumn + ", slot Max : " + slotCountMax);
         passiveSlotIds = new List<int>();
         passiveSlotIdsLength = 0;
         passiveSlots = new PassiveSlot[slotCountMax];
@@ -86,19 +86,24 @@ public class PassiveItemForDebug : MonoBehaviour
         {
             for(int x = 0; x < slotColumn; x++)
             {
-                Debug.Log("x : " + x + ", y : " + y);
                 currentPos.x = standardPos.x + x * intervalPos.x;
                 currentPos.y = standardPos.y - y * intervalPos.y;
                 createdObj = Instantiate(passiveSlotPrefab);
+                createdObj.name = "패시브 슬룻 " + (y * slotRow + x);
                 createdObj.transform.position = currentPos;
                 createdObj.transform.SetParent(passiveSlotsParent);
-                passiveSlots[y * slotRow + x] = createdObj.GetComponent<PassiveSlot>();
+                passiveSlots[y * slotColumn + x] = createdObj.GetComponent<PassiveSlot>();
             }
         }
     }
 
     public void ApplyPassiveForDebug()
     {
+        if (passiveSlotIdsLength >= slotCountMax)
+        {
+            Debug.Log("패시브 슬룻 꽉참. 아이템 적용 안됨.");
+            return;
+        }
         Debug.Log(currentIndex + "번 패시브 아이템 사용 for debug");
         passiveSlotIds.Add(currentIndex);
         passiveSlotIdsLength += 1;
@@ -140,7 +145,7 @@ public class PassiveItemForDebug : MonoBehaviour
         for (int i = passiveSlotIdsLength; i < slotCountMax; i++)
         {
             Debug.Log("껄껄2 : " + i);
-            passiveSlots[i].UpdatePassiveSlot(null);
+            //passiveSlots[i].UpdatePassiveSlot(null);
         }
     }
     #endregion

@@ -15,7 +15,8 @@ MonoBehaviour:
     \uC9D1\uD0C4\uB960, \uD0C4 \uC815\uD655\uB3C4 n% \uC0C1\uC2B9, n \uBBF8\uC815"
   rating: 0
   itemName: 
-  notes: 
+  notes: "\uBAA8\uB4E0 \uBB34\uAE30(or \uD2B9\uC815\uBB34\uAE30 = \uC0F7\uAC74\uB958)
+    \uC9D1\uD0C4\uB960, \uD0C4 \uC815\uD655\uB3C4 n% \uC0C1\uC2B9, n \uBBF8\uC815"
   price: 0
   sprite: {fileID: 21300008, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
   effectApplyTypes:

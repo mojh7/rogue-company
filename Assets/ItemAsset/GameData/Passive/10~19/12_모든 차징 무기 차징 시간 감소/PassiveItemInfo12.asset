@@ -15,7 +15,8 @@ MonoBehaviour:
     n \uBBF8\uC815"
   rating: 0
   itemName: 
-  notes: 
+  notes: "\uBAA8\uB4E0 \uCC28\uC9D5 \uBB34\uAE30 \uCC28\uC9D5 \uC2DC\uAC04 n% \uAC10\uC18C,
+    n \uBBF8\uC815"
   price: 0
   sprite: {fileID: 21300000, guid: d6864503227c0b04e94812cb77e143ca, type: 3}
   effectApplyTypes:
