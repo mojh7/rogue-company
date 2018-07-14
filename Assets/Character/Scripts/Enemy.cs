@@ -146,11 +146,11 @@ public class Enemy : Character
         {
             StopCoroutine(delayStateCoroutine);
         }
-        
+
+        DropItem();
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
-        DropItem();
         Destroy(this);
     }
     protected void DropItem()

@@ -88,6 +88,7 @@ public class CustomObject : MonoBehaviour {
 
     private void LateUpdate()
     {
+        //TODO : 최적화가 필요함 obj마다 너무 콜을 많이함
         if (!isAnimate)
             spriteRenderer.sprite = sprite;
     }
@@ -136,6 +137,7 @@ public class VendingMachine : CustomObject
         base.Init();
         isActive = false;
         isAvailable = true;
+        isAnimate = true;
         objectType = ObjectType.VENDINMACHINE;
     }
 
@@ -143,7 +145,12 @@ public class VendingMachine : CustomObject
     {
         if(base.Active())
         {
-            ItemManager.Instance.CreateItem(ItemManager.Instance.CreateVendingItem(), this.position);
+            //TODO : 지금은 코인인데 음료수가 들어가야함.
+            GameObject coin = new GameObject();
+            coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
+            coin.AddComponent<Coin>();
+            Vector2 pos = new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y - .8f);
+            ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), pos);
             return true;
         }
         return base.Active();
@@ -227,7 +234,6 @@ public class Spawner : CustomObject
     }
     public override bool Active()
     {
-        base.Active();
         StartCoroutine(SpawnProcess());
         return true;
     }
@@ -468,7 +474,7 @@ public class ItemContainer : CustomObject
     {
         if (collision.CompareTag("Interactor"))
         {
-            if (innerObject as Weapon != null || !isAvailable)
+            if (innerObject.GetType() == typeof(Weapon) || !isAvailable)
                 return;
             DettachDestroy();
             innerObject.GetComponent<Item>().Active();
@@ -477,8 +483,7 @@ public class ItemContainer : CustomObject
 
     public override bool Active()
     {
-        base.Active();
-        if (innerObject as Weapon != null)
+        if (innerObject.GetType() == typeof(Weapon))
         {
             bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
             if (check)
@@ -489,6 +494,14 @@ public class ItemContainer : CustomObject
         }
 
         return false;
+    }
+
+    public void SubAcitve()
+    {
+        if(innerObject != null)
+        {
+            innerObject.SubActive();
+        }
     }
 
     public override void IndicateInfo()
@@ -503,7 +516,7 @@ public class ItemContainer : CustomObject
         textMesh.text = "";
     }
 
-    void DettachDestroy()
+    public void DettachDestroy()
     {
         if(innerObject != null)
             innerObject.transform.parent = null;

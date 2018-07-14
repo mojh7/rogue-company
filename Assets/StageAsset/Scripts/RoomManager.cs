@@ -79,6 +79,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         Debug.Log("무기를 만들어보자");
         Item item = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10));
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
+        ItemManager.Instance.CollectItem();
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
             for (int i = 0; i < currentRoom.customObjects.Length; i++)
@@ -162,12 +163,16 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                     if (currentRoom.gage > 0)
                     {
                         InitRoom();
+                        EnableObjects();
                         SpawnMonster();
                         break;
                     }
                 }
-                if(currentRoom.isRoom)
+                if (currentRoom.isRoom)
+                {
                     MiniMap.Instance.DrawRoom(currentRoom);
+                    EnableObjects();
+                }
             }
             else
                 currentRoom = GetCurrentRect(PlayerManager.Instance.GetPlayerPosition());
@@ -183,13 +188,11 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         ObjectSetAvailable();
         currentRoom.maskObject.SetActive(true);
-        EnableObjects();
     }
 
     void InitBossRoom()
     {
         StartCoroutine(CoroutineBoss());
-        EnableObjects();
     }
 
     IEnumerator CoroutineBoss()

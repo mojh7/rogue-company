@@ -4,8 +4,10 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour {
     protected new string name;
+    public System.Action action;
 
     public virtual void Active() { }
+    public virtual void SubActive() { }
     public virtual string GetName() { return name; }
 }
 
@@ -23,6 +25,13 @@ public class Coin : Item
         }
     }
 
+    public override void SubActive()
+    {
+        GameDataManager.Instance.SetCoin();
+        isActive = !isActive;
+        MoveToTarget();
+    }
+
     void MoveToTarget()
     {
         float distance = Vector2.Distance(transform.position, PlayerManager.Instance.GetPlayerPosition());
@@ -33,14 +42,13 @@ public class Coin : Item
     IEnumerator CoroutineMoveToTarget(Transform _transform, float _duration)
     {
         float elapsed = 0.0f;
-        Vector2 start = _transform.localPosition;
+        Vector2 start = _transform.position;
         Vector2 target;
         while (elapsed < _duration)
         {
             target = PlayerManager.Instance.GetPlayerPosition();
-            elapsed += Time.deltaTime;
-            _transform.localPosition = Vector2.Lerp(start, target, elapsed / _duration);
-
+            elapsed += Time.deltaTime + elapsed * elapsed / 50;
+            _transform.position = Vector2.Lerp(start, target, elapsed / _duration);
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Heap<T> where T : IHeapItem<T>{
+public class Heap<T> where T : IHeapItem<T>
+{
     T[] items;
     int currentItemCount;
 
@@ -33,7 +34,7 @@ public class Heap<T> where T : IHeapItem<T>{
     public void UpdateItem(T item)
     {
         SortUp(item);
-        
+
     }
 
     public int Count
@@ -82,7 +83,7 @@ public class Heap<T> where T : IHeapItem<T>{
                 return;
             }
         }
-        
+
     }
 
     void SortUp(T item)

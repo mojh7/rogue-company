@@ -7,10 +7,14 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public Sprite coinSprite;
     public Sprite sprite;
     Queue<GameObject> objs;
+    Queue<ItemContainer> withdraws;
+    #region UnityFunc
     private void Start()
     {
         objs = new Queue<GameObject>();
+        withdraws = new Queue<ItemContainer>();
     }
+    #endregion
     #region Func
     public void DeleteObjs()
     {
@@ -45,21 +49,31 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         GameObject obj = Instantiate(customObject, _position, Quaternion.identity,transform);
         obj.AddComponent<ItemContainer>().Init(_item);
         objs.Enqueue(obj);
+        if (_item.GetType() == typeof(Coin))
+        {
+            withdraws.Enqueue(obj.GetComponent<ItemContainer>());
+        }
         StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1, 2), 5)));
 
         return obj;
     }
 
-    public Item CreateVendingItem()
+    public void CollectItem()
     {
-        GameObject gameObject = new GameObject();
-        gameObject.AddComponent<Coin>();
-
-        return gameObject.GetComponent<Coin>();
+        if (withdraws == null)
+            return;
+        while (withdraws.Count > 0)
+        {
+            ItemContainer itemContainer = withdraws.Dequeue();
+            if(itemContainer != null)
+            {
+                itemContainer.DettachDestroy();
+                itemContainer.SubAcitve();
+            }
+        }
     }
     #endregion
-  
-
+    #region Coroutine
     IEnumerator CoroutineDropping(GameObject _object, Vector2 _vector)
     {
         int g = 20;
@@ -86,4 +100,5 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             _object.GetComponent<PolygonCollider2D>().enabled = true;
         }
     }
+    #endregion
 }
