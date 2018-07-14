@@ -452,7 +452,8 @@ public class BossEnemy : Enemy
         pState = CharacterInfo.State.DIE;
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
         DropItem();
+        Destroy(this);
     }
 }
