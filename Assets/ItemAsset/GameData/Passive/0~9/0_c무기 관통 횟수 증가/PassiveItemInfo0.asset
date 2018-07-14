@@ -15,7 +15,8 @@ MonoBehaviour:
     \uC99D\uAC00 (\uD639\uC740 \uAD00\uD1B5 \uD69F\uC218 \uC81C\uD55Cx ??)"
   rating: 0
   itemName: 
-  notes: 
+  notes: "c\uBD84\uB958 \uC6D0\uAC70\uB9AC \uBB34\uAE30 \uAD00\uD1B5 \uD69F\uC218+1
+    \uC99D\uAC00 (\uD639\uC740 \uAD00\uD1B5 \uD69F\uC218 \uC81C\uD55Cx ??)"
   price: 0
   sprite: {fileID: 21300000, guid: 42afc92e30a6af1449a621667b4cbe22, type: 3}
   effectApplyTypes:

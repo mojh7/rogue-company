@@ -17,6 +17,8 @@ public class UsableItemInfo : ScriptableObject
     [SerializeField]
     protected string itemName;
     [SerializeField]
+    [TextArea(3, 50)]
+    [Header("아이템 설명")]
     protected string notes; // 설명
     [SerializeField]
     protected int price;
@@ -38,5 +40,10 @@ public class UsableItemInfo : ScriptableObject
     public Sprite Sprite
     {
         get { return sprite; }
+    }
+
+    public string Notes
+    {
+        get { return notes; }
     }
 }

@@ -61,8 +61,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
     [SerializeField]
-    private UsableItemInfo[] passiveItemsInfo;
-
+    private UsableItemInfo[] passiveItemInfos;
 
     [SerializeField]
     private EffectInfo[] effectInfos;
@@ -79,6 +78,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     public int GetWeaponInfosLength()
     {
         return weaponInfos.Length;
+    }
+    public int GetPassiveItemInfosLength()
+    {
+        return passiveItemInfos.Length;
     }
 
     // TODO : Player외의 owner에서 데이터 저장할 때 좀 더 좋은 구조로 개선해야됨.(asset 폴더 내에 저장시 현재 셋팅이 player 위주로 되어있음)
@@ -106,6 +109,11 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     }
 
     public EffectInfo GetEffectInfo(int id) { return effectInfos[id]; }
+
+    public UsableItemInfo GetPassiveItemInfo(int id)
+    {
+        return passiveItemInfos[id];
+    }
     #endregion
 
 

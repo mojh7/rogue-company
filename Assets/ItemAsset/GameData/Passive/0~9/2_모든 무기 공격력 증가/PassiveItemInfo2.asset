@@ -14,7 +14,7 @@ MonoBehaviour:
   memo: "\uBAA8\uB4E0 \uBB34\uAE30 \uACF5\uACA9\uB825 n% \uC99D\uAC00, n \uBBF8\uC815"
   rating: 0
   itemName: 
-  notes: 
+  notes: "\uBAA8\uB4E0 \uBB34\uAE30 \uACF5\uACA9\uB825 n% \uC99D\uAC00, n \uBBF8\uC815"
   price: 0
   sprite: {fileID: 21300000, guid: 2be709aa55a9d334e809698bf8dfc14d, type: 3}
   effectApplyTypes:
