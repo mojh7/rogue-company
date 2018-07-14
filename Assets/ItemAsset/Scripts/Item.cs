@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour {
+public abstract class Item : MonoBehaviour {
     protected new string name;
 
     public virtual void Active() { }

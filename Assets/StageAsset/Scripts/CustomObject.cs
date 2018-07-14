@@ -137,6 +137,16 @@ public class VendingMachine : CustomObject
         isAvailable = false;
         objectType = ObjectType.VENDINMACHINE;
     }
+
+    public override bool Active()
+    {
+        if(base.Active())
+        {
+            ItemManager.Instance.CreateItem(ItemManager.Instance.CreateVendingItem(), this.position);
+            return true;
+        }
+        return base.Active();
+    }
 }
 
 public class PushBox : CustomObject

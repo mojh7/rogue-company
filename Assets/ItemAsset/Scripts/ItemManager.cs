@@ -11,6 +11,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     {
         objs = new Queue<GameObject>();
     }
+    #region Func
     public void DeleteObjs()
     {
         if (objs == null)
@@ -48,6 +49,16 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
 
         return obj;
     }
+
+    public Item CreateVendingItem()
+    {
+        GameObject gameObject = new GameObject();
+        gameObject.AddComponent<Coin>();
+
+        return gameObject.GetComponent<Coin>();
+    }
+    #endregion
+  
 
     IEnumerator CoroutineDropping(GameObject _object, Vector2 _vector)
     {
