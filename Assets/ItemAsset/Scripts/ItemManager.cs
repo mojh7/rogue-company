@@ -73,8 +73,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         }
     }
     #endregion
-  
-
+    #region Coroutine
     IEnumerator CoroutineDropping(GameObject _object, Vector2 _vector)
     {
         int g = 20;
@@ -101,4 +100,5 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             _object.GetComponent<PolygonCollider2D>().enabled = true;
         }
     }
+    #endregion
 }

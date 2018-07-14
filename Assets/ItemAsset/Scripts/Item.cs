@@ -31,6 +31,7 @@ public class Coin : Item
         isActive = !isActive;
         MoveToTarget();
     }
+
     void MoveToTarget()
     {
         float distance = Vector2.Distance(transform.position, PlayerManager.Instance.GetPlayerPosition());
