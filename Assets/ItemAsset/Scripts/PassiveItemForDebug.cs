@@ -16,11 +16,17 @@ public class PassiveItemForDebug : MonoBehaviour
     [SerializeField]
     private GameObject passiveSlotPrefab;
     [SerializeField]
-    private Text EffectTotalText;
+    private Text EffectTotalNameText;
+    [SerializeField]
+    private Text EffectTotalValueText;
     [SerializeField]
     private Text SelectPassiveIdText;
     [SerializeField]
     private Text SelectPassiveMemoText;
+
+    // effect Total text 변수 명, 효과
+    private string variableNames;
+    private List<string> variableValues;
 
     private int currentIndex;
     private int passiveItemIndexMax;
@@ -53,6 +59,8 @@ public class PassiveItemForDebug : MonoBehaviour
         
         CreatePassiveSlots(standardPos.position);
         UpdatePassiveSelectImage();
+        UpdateEffectTotalNameText();
+        UpdateEffectTotalValueText();
     }
 	
 	// Update is called once per frame
@@ -75,6 +83,7 @@ public class PassiveItemForDebug : MonoBehaviour
     #endregion
 
     #region function
+
     private void CreatePassiveSlots(Vector3 standardPos)
     {
         passiveSlotIds = new List<int>();
@@ -113,6 +122,7 @@ public class PassiveItemForDebug : MonoBehaviour
             passive.EffectApplyTypes[i].UseItem();
         }
         UpdatePassiveSlots();
+        UpdateEffectTotalValueText();
     }
 
     public void UpdatePassiveSelectImage()
@@ -139,14 +149,83 @@ public class PassiveItemForDebug : MonoBehaviour
         Debug.Log("UpdatePassiveSlots : " + currentIndex + ", " + passiveSlotIdsLength);
         for(int i = 0; i < passiveSlotIdsLength; i++)
         {
-            Debug.Log("껄껄 : " + i + ", " + passiveSlotIds[i]);
+            //Debug.Log("a : " + i + ", " + passiveSlotIds[i]);
             passiveSlots[i].UpdatePassiveSlot(DataStore.Instance.GetPassiveItemInfo(passiveSlotIds[i]).Sprite);
         }
         for (int i = passiveSlotIdsLength; i < slotCountMax; i++)
         {
-            Debug.Log("껄껄2 : " + i);
+            //Debug.Log("b : " + i);
             //passiveSlots[i].UpdatePassiveSlot(null);
         }
+    }
+
+    private void UpdateEffectTotalNameText()
+    {
+        variableNames ="--캐릭터 Effect Total Name value--\n" +
+            "criticalChanceIncrease\n" +
+            "moveSpeedIncrease\n" +
+            "rewardOfEndGameIncrease\n" +
+            "discountRateOfVendingMachineItems\n" +
+            "discountRateOfCafeteriaItems\n" +
+            "discountRateAllItems\n" +
+            "canDrainHp\n" +
+            "-----\n" +
+            "Weapon\n" +
+            "shotgunBulletCountIncrease\n" +
+            "damageIncrease\n" +
+            "knockBackIncrease\n" +
+            "chargeDamageIncrease\n" +
+            "bulletScaleIncrease\n" +
+            "bulletRangeIncrease\n" +
+            "bulletSpeedIncrease\n" +
+            "cooldownReduction\n" +
+            "chargeTimeReduction\n" +
+            "accuracyIncrease\n" +
+            "shotgunsAccuracyIncrease\n" +
+            "canIncreasePierceCount\n" +
+            "becomesSpiderMine\n" +
+            "bounceAble\n" +
+            "shotgunBulletCanHoming\n" +
+            "blowWeaponsCanBlockBullet\n" +
+            "swingWeaponsCanReflectBullet\n" +
+            "\n" +
+            "\n";
+        EffectTotalNameText.text = variableNames;
+    }
+
+    public void UpdateEffectTotalValueText()
+    {
+        CharacterTargetEffect characterTotal = PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal;
+        WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal;
+        string variableValues = "\n" +
+            characterTotal.criticalChanceIncrease + "\n" +
+            characterTotal.moveSpeedIncrease + "\n" +
+            characterTotal.rewardOfEndGameIncrease + "\n" +
+            characterTotal.discountRateOfVendingMachineItems + "\n" +
+            characterTotal.discountRateOfCafeteriaItems + "\n" +
+            characterTotal.discountRateAllItems + "\n" +
+            characterTotal.canDrainHp + "\n" +
+            "---\n" +
+            "Weapon\n" +
+            weaponTotal.shotgunBulletCountIncrease + "\n" +
+            weaponTotal.damageIncrease + "\n" +
+            weaponTotal.knockBackIncrease + "\n" +
+            weaponTotal.chargeDamageIncrease + "\n" +
+            weaponTotal.bulletScaleIncrease + "\n" +
+            weaponTotal.bulletRangeIncrease + "\n" +
+            weaponTotal.bulletSpeedIncrease + "\n" +
+            weaponTotal.cooldownReduction + "\n" +
+            weaponTotal.chargeTimeReduction + "\n" +
+            weaponTotal.accuracyIncrease + "\n" +
+            weaponTotal.shotgunsAccuracyIncrease + "\n" +
+
+            weaponTotal.canIncreasePierceCount + "\n" +
+            weaponTotal.becomesSpiderMine + "\n" +
+            weaponTotal.bounceAble + "\n" +
+            weaponTotal.shotgunBulletCanHoming + "\n" +
+            weaponTotal.blowWeaponsCanBlockBullet + "\n" +
+            weaponTotal.swingWeaponsCanReflectBullet;
+        EffectTotalValueText.text = variableValues;
     }
     #endregion
 }

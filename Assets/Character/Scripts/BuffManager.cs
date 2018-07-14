@@ -312,6 +312,8 @@ public class BuffManager : MonoBehaviour
             weaponTargetEffectTotal.becomesSpiderMine = boolSign;
         if (targetEffect.bounceAble)
             weaponTargetEffectTotal.bounceAble = boolSign;
+        if (targetEffect.shotgunBulletCanHoming)
+            weaponTargetEffectTotal.shotgunBulletCanHoming = boolSign;
         if (targetEffect.blowWeaponsCanBlockBullet)
             weaponTargetEffectTotal.blowWeaponsCanBlockBullet = boolSign;
         if (targetEffect.swingWeaponsCanReflectBullet)
