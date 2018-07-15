@@ -19,11 +19,12 @@ public class BoolDecorate : DecorateTask
     {
         if (func())
         {
-            aIController.Stop();
+            aIController.Go();
             return GetChildren().Run();
         }
         else
         {
+            aIController.Stop();
             return false;
         }
     }
