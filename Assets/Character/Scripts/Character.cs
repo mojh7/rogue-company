@@ -44,7 +44,7 @@ public abstract class Character : MonoBehaviour
     #endregion
     #region variables
     // 디버그용 SerializeField
-    protected bool isActiveAI;
+    public bool isActiveAI;
     protected bool isKnockBack = false;
     [SerializeField]
     protected Sprite sprite;

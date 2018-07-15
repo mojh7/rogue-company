@@ -17,6 +17,7 @@
     public enum EDecorateTask
     {
         Root,
+        Bool,
         DistanceDecorate
     }
 

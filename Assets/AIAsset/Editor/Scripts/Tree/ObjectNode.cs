@@ -156,6 +156,7 @@ namespace BT
 
         public Task CreateBehaviorNode()
         {
+            //TODO: AI 노드 추가마다 설정
             switch (taskType)
             {
                 case TaskType.CompositeTask:
@@ -174,6 +175,8 @@ namespace BT
                     {
                         case EDecorateTask.Root:
                             return ScriptableObject.CreateInstance<Root>();
+                        case EDecorateTask.Bool:
+                            return ScriptableObject.CreateInstance<BoolDecorate>();
                         case EDecorateTask.DistanceDecorate:
                             return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition,value);
                     }

@@ -12,20 +12,8 @@ MonoBehaviour:
   m_Name: Astar
   m_EditorClassIdentifier: 
   RootTask: {fileID: 0}
-  mChildren: {fileID: 114863830650487342}
---- !u!114 &114202693947069086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25b8bbdd8fa89544fb0d4b02ebbf01f1, type: 3}
-  m_Name: AStarTrackAtion
-  m_EditorClassIdentifier: 
-  RootTask: {fileID: 0}
---- !u!114 &114863830650487342
+  mChildren: {fileID: 114060622038055336}
+--- !u!114 &114060622038055336
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -38,5 +26,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RootTask: {fileID: 0}
   mChildren:
-  - {fileID: 114202693947069086}
+  - {fileID: 114375836134570422}
   frequency: 0.5
+--- !u!114 &114375836134570422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7d1c13e7ebe9846bccfbc3e913ffc3, type: 3}
+  m_Name: BoolDecorate
+  m_EditorClassIdentifier: 
+  RootTask: {fileID: 0}
+  mChildren: {fileID: 114730314994584370}
+--- !u!114 &114730314994584370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b8bbdd8fa89544fb0d4b02ebbf01f1, type: 3}
+  m_Name: AStarTrackAtion
+  m_EditorClassIdentifier: 
+  RootTask: {fileID: 0}
