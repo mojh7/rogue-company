@@ -15,32 +15,6 @@ public struct StatusConstant
         this.overlapCountMax = overlapCountMax;
     }
 }
-
-public static class StatusConstants
-{
-    public static StatusConstant poisonInfo;
-    public static StatusConstant burnInfo;
-    public static StatusConstant nagInfo;
-    public static StatusConstant delayStateInfo;
-    public static float graduallyDamageCycle;
-    public static int graduallyDamageCountMax;
-    public static Vector2[] nagDirVector;
-    //public static int damageCount = graduallyDamageCycle;
-    static StatusConstants()
-    {
-        // 독, 화상 데미지 점화식 ( fd / 2 ) ( n + 1 )
-        poisonInfo = new StatusConstant(0.05f, 3f, 3);
-        burnInfo = new StatusConstant(0.05f, 3f, 3);
-        nagInfo = new StatusConstant(0.5f, 4f, 2);
-        nagDirVector = new Vector2[8]
-        { new Vector2(0, 1), new Vector2(0, -1), new Vector2(0, -1), new Vector2(0, 1),
-         new Vector2(-1, 0), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-1, 0)};
-        delayStateInfo = new StatusConstant(0.5f, 3f, 3);
-        graduallyDamageCycle = 0.1f;
-        graduallyDamageCountMax = (int)(poisonInfo.effectiveTime / graduallyDamageCycle);
-        Debug.Log("상태 이상 공격 횟수 : " + graduallyDamageCountMax);
-    }
-}
 #endregion
 
 public class Enemy : Character
@@ -274,14 +248,14 @@ public class Enemy : Character
     }
     public void Poison()
     {
-        if (poisonOverlappingCount >= StatusConstants.poisonInfo.overlapCountMax)
+        if (poisonOverlappingCount >= StatusConstants.Instance.PoisonInfo.overlapCountMax)
             return;
         poisonOverlappingCount += 1;
-        for (int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
+        for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
         {
             if (0 == poisonCount[i])
             {
-                poisonCount[i] = StatusConstants.graduallyDamageCountMax;
+                poisonCount[i] = StatusConstants.Instance.GraduallyDamageCountMax;
                 break;
             }
         }
@@ -292,14 +266,14 @@ public class Enemy : Character
     }
     public void Burn()
     {
-        if (burnOverlappingCount >= StatusConstants.burnInfo.overlapCountMax)
+        if (burnOverlappingCount >= StatusConstants.Instance.BurnInfo.overlapCountMax)
             return;
         burnOverlappingCount += 1;
-        for (int i = 0; i < StatusConstants.burnInfo.overlapCountMax; i++)
+        for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
         {
             if (0 == burnCount[i])
             {
-                burnCount[i] = StatusConstants.graduallyDamageCountMax;
+                burnCount[i] = StatusConstants.Instance.GraduallyDamageCountMax;
                 break;
             }
         }
@@ -312,23 +286,29 @@ public class Enemy : Character
     // 이동 translate, velocity, addForce ??
     public override void Nag()
     {
-        if (nagCount >= StatusConstants.nagInfo.overlapCountMax)
+        Debug.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
+        if (nagCount >= StatusConstants.Instance.NagInfo.overlapCountMax)
+        {
+            Debug.Log("중첩 횟수 제한으로 인한 return");
             return;
-
+        }
+            
+        
         nagCount += 1;
         nagOverlappingCount += 1;
         if (false == isNagging)
         {
             nagCoroutine = StartCoroutine(NagCoroutine());
         }
+        Debug.Log(gameObject.name + " 잔소리 적용");
     }
 
     //
     public override void DelayState()
     {
-        if (delayStateCount >= StatusConstants.delayStateInfo.overlapCountMax)
+        if (delayStateCount >= StatusConstants.Instance.DelayStateInfo.overlapCountMax)
             return;
-
+        Debug.Log(gameObject.name + " 이동지연 적용");
         delayStateCount += 1;
         delayStateOverlappingCount += 1;
         if (false == isDelayingState)
@@ -337,25 +317,42 @@ public class Enemy : Character
         }
     }
 
-    private bool CanApplyPoison()
+    // 0526 땜빵
+    public void AutoAim()
     {
-        for(int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
-        {
-            if(poisonCount[i] > 0)
-            {
-                return true;
-            }
-        }
-        return false;
+        directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
+        directionDegree = directionVector.GetDegFromVector();
     }
+
+    private void AddCrowdControlCount()
+    {
+        crowdControlCount += 1;
+        if(crowdControlCount > 0)
+        {
+            isActiveAI = false;
+            Debug.Log(name + " AI Off");
+        }
+    }
+
+    private void SubCrowdControlCount()
+    {
+        crowdControlCount -= 1;
+        if (0 == crowdControlCount)
+        {
+            isActiveAI = true;
+            Debug.Log(name + " AI ON");
+        }
+    }
+    #endregion
+    #region coroutine
     IEnumerator PoisonCoroutine()
     {
         isPoisoning = true;
         while (poisonOverlappingCount > 0)
         {
-            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.graduallyDamageCycle);
-            hp = hpMax * (StatusConstants.poisonInfo.value * 0.5f) * (poisonOverlappingCount + 1);
-            for (int i = 0; i < StatusConstants.poisonInfo.overlapCountMax; i++)
+            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
+            hp = hpMax * (StatusConstants.Instance.PoisonInfo.value * 0.5f) * (poisonOverlappingCount + 1);
+            for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
             {
                 if (poisonCount[i] > 0)
                 {
@@ -375,9 +372,9 @@ public class Enemy : Character
         isBurning = true;
         while (burnOverlappingCount > 0)
         {
-            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.graduallyDamageCycle);
-            hp = hpMax * (StatusConstants.burnInfo.value * 0.5f) * (burnOverlappingCount + 1);
-            for (int i = 0; i < StatusConstants.burnInfo.overlapCountMax; i++)
+            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
+            hp = hpMax * (StatusConstants.Instance.BurnInfo.value * 0.5f) * (burnOverlappingCount + 1);
+            for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
             {
                 if (burnCount[i] > 0)
                 {
@@ -397,15 +394,21 @@ public class Enemy : Character
     IEnumerator NagCoroutine()
     {
         isNagging = true;
-        while(nagOverlappingCount > 0)
+        AddCrowdControlCount();
+        Debug.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
+        while (nagOverlappingCount > 0)
         {
             for(int i = 0; i < 8; i++)
             {
-                rgbody.AddForce(50f * StatusConstants.nagDirVector[i]);
-                yield return YieldInstructionCache.WaitForSeconds(StatusConstants.nagInfo.value);
+                Debug.Log("잔소리 i = " + i);
+                rgbody.AddForce(100f * StatusConstants.Instance.NagDirVector[i]);
+                yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.NagInfo.value);
+                isActiveAI = false;
             }
             nagOverlappingCount -= 1;
         }
+        Debug.Log("상태이상 잔소리 끝");
+        SubCrowdControlCount();
         nagCount = 0;
         isNagging = false;
     }
@@ -417,22 +420,15 @@ public class Enemy : Character
         {
             CharacterTargetEffect characterTargetEffect = new CharacterTargetEffect();
             WeaponTargetEffect weaponTargetEffect = new WeaponTargetEffect();
-            characterTargetEffect.moveSpeedIncrease = -StatusConstants.delayStateInfo.value;
-            weaponTargetEffect.bulletSpeedIncrease = -StatusConstants.delayStateInfo.value;
-            buffManager.RegisterItemEffect(characterTargetEffect, StatusConstants.delayStateInfo.effectiveTime);
-            buffManager.RegisterItemEffect(weaponTargetEffect, StatusConstants.delayStateInfo.effectiveTime);
-            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.delayStateInfo.effectiveTime);
+            characterTargetEffect.moveSpeedIncrease = -StatusConstants.Instance.DelayStateInfo.value;
+            weaponTargetEffect.bulletSpeedIncrease = -StatusConstants.Instance.DelayStateInfo.value;
+            buffManager.RegisterItemEffect(characterTargetEffect, StatusConstants.Instance.DelayStateInfo.effectiveTime);
+            buffManager.RegisterItemEffect(weaponTargetEffect, StatusConstants.Instance.DelayStateInfo.effectiveTime);
+            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.DelayStateInfo.effectiveTime);
             delayStateOverlappingCount -= 1;
         }
         delayStateCount = 0;
         isDelayingState = false;
-    }
-    
-    // 0526 땜빵
-    public void AutoAim()
-    {
-        directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
-        directionDegree = directionVector.GetDegFromVector();
     }
     #endregion
 }

@@ -51,7 +51,7 @@ public abstract class Character : MonoBehaviour
     protected CharacterInfo.State pState;
 
     protected bool isAutoAiming;    // 오토에임 적용 유무
-
+    protected int crowdControlCount; // 행동 제한 상태 이상 적용 된 갯수
     protected Vector3 directionVector;
     protected float directionDegree;  // 바라보는 각도(총구 방향)
 
@@ -104,6 +104,7 @@ public abstract class Character : MonoBehaviour
         buffManager = Components.BuffManager;
         rgbody = Components.Rigidbody2D;
         aiController = Components.AIController;
+        crowdControlCount = 0;
     }
     /*--abstract--*/
     protected abstract void Die();
