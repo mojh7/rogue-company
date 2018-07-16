@@ -9,10 +9,19 @@ using UnityEngine;
  * 
  */
 
-
 public class ActiveSkill : MonoBehaviour
 {
     private ActiveSkillInfo info;
-    private WeaponManager weaponManager;
+    [SerializeField]
+    private SkillWeaponManager skillWeaponManager;
     private EffectApplyType effectApplyTypes;
+
+    private Player owner;
+    public void Init(Player owner)
+    {
+        Debug.Log("ActiveSkill class 초기화");
+        this.owner = owner;
+        // skillWeaponManager 초기화
+        // info 초기화
+    }
 }

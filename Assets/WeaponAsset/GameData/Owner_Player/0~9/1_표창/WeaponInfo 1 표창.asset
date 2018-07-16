@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Name: "WeaponInfo 1 \uD45C\uCC3D"
   m_EditorClassIdentifier: 
   memo: 
-  ownerType: 0
   weaponName: "\uB2CC\uC790 \uC218\uB9AC\uAC80"
   sprite: {fileID: 21300002, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   scaleX: 1
@@ -25,11 +24,12 @@ MonoBehaviour:
   bulletMoveSpeed: 5
   range: 7
   damage: 2
-  criticalRate: 0.15
-  knockBack: 0.3
+  criticalChance: 0
   cooldown: 1
   chargeTime: 0
   soundId: 1
+  cameraShakeAmount: 0.15
+  cameraShakeTime: 0.03
   addDirVecMagnitude: 0.5
   bulletPatternEditInfos:
   - patternInfo: {fileID: 11400000, guid: 2f4988b1aa29d22419bf74d8314ede9e, type: 2}

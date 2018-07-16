@@ -146,7 +146,6 @@ public class MovingPattern : MonoBehaviour
             Vector2 dir = currentWaypoint - position;
             
             rb2d.velocity = dir.normalized * speed;
-            Debug.Log("Work");
             yield return null;
 
         }

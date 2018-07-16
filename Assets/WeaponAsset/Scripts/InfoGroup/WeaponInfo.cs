@@ -46,11 +46,13 @@ public class WeaponInfo : ScriptableObject
     public float bulletMoveSpeed;       // 총알 이동속도
     public float range;                 // 사정 거리
     public float damage;                // 공격력
-    public float criticalChance;          // 크리티컬 확률 : 치명타가 뜰 확률
+    public float criticalChance;        // 크리티컬 확률 : 치명타가 뜰 확률
     public float cooldown;              // 쿨타임
     public float chargeTime;            // 차징 시간, 0 = 차징 X, 0 초과 = 1회 차징당 시간
 
     public int soundId;                 // 공격시 효과음 id
+    public float cameraShakeAmount;     // 카메라 흔들림 양
+    public float cameraShakeTime;       // 카메라 흔들림 시간
 
     [Tooltip("총알 발사시 초기 position이 중심에서 멀어지는 정도")]
     public float addDirVecMagnitude;    // onwer가 바라보는 방향의 벡터의 크기 값, bullet 초기 위치 = owner position + owner 방향 벡터 * addDirVecMagnitude
@@ -96,6 +98,8 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.chargeTime = chargeTime;
         clonedInfo.addDirVecMagnitude = addDirVecMagnitude;
         clonedInfo.soundId = soundId;
+        clonedInfo.cameraShakeAmount = cameraShakeAmount;
+        clonedInfo.cameraShakeTime = cameraShakeTime;
 
         clonedInfo.bulletPatterns = new List<BulletPattern>();
         clonedInfo.bulletPatternsLength = bulletPatternsLength;

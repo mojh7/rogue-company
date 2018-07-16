@@ -2,25 +2,23 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class ActiveSkillButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+public class ActiveSkillButton : MonoBehaviour, IPointerDownHandler
 {
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-    }
+    [SerializeField]
+    private Image fireImage;
+    private Player player;
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-    }
+    //public bool IsAttackTouchDown { get { return isAttackTouchDown; } }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
+    }
+    // 터치 했을 때
+    public void OnPointerDown(PointerEventData ped)
+    {
+        if (UIManager.Instance.GetActived())
+            return;
+        player.ActiveSkill();
+    }
 }

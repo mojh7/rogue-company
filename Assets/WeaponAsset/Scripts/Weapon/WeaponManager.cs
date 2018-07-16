@@ -63,7 +63,9 @@ public class WeaponManager : MonoBehaviour {
         " False : startWeaponId 무기 1개 착용, Max = 3")]
     public bool equipAllWeapons = false;
     public int startWeaponId = 0;
-
+    
+    [SerializeField]
+    private bool stopsUpdate;
     #endregion
     #region getter
     /// <summary> weapon State 참조하여 Idle인지 확인 후 공격 가능 여부 리턴 </summary>
@@ -143,6 +145,8 @@ public class WeaponManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (stopsUpdate) return;
+
         //-------------------- 공격 테스트 용
         if(Input.GetKey(KeyCode.Space))
         {
@@ -283,8 +287,6 @@ public class WeaponManager : MonoBehaviour {
         }
         UpdateCurrentWeapon();
     }
-    
-    
 
     /// <summary> 차징 공격에 사용되는 차징 게이지 UI Update </summary>
     public void UpdateChargingUI(float chargedVaule)
@@ -406,4 +408,10 @@ public class WeaponManager : MonoBehaviour {
         yield return YieldInstructionCache.WaitForSeconds(1.0f);
         canPickAndDropWeapon = true;
     }
+}
+
+// 공격키 누를 때(쿨타임 다름), 상시 알아서 공격, 특정 조건일 때??
+public class SubWeaponManager : WeaponManager
+{
+    
 }
