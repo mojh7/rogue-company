@@ -15,23 +15,36 @@ public class MovingPattern : MonoBehaviour
     Rigidbody2D rb2d;
     #endregion
     #region variables
+    bool isActive;
     float speed = 1;
     float baseSpeed;
     Vector2[] path;
+    Vector2 zero = Vector2.zero;
     #endregion
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    #region Initialize
+    #region Func
     public void Init(float speed)
     {
         baseSpeed = speed;
+        isActive = true;
+    }
+    public void Go()
+    {
+        isActive = true;
     }
     public void Stop()
     {
-        StopCoroutine(FollowPath());
+        if(!isActive)
+        {
+            return;
+        }
+        StopCoroutine("FollowPath");
+        rb2d.velocity = zero;
+        isActive = false;
     }
     #endregion
 
@@ -107,7 +120,7 @@ public class MovingPattern : MonoBehaviour
     {
         this.path = path;
         StopCoroutine("FollowPath");
-        if (this.gameObject.activeSelf)
+        if (this.gameObject.activeSelf && isActive)
             StartCoroutine("FollowPath");
     }
     /// <summary>
@@ -133,6 +146,7 @@ public class MovingPattern : MonoBehaviour
             Vector2 dir = currentWaypoint - position;
             
             rb2d.velocity = dir.normalized * speed;
+            Debug.Log("Work");
             yield return null;
 
         }

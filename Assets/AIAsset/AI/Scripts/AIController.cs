@@ -44,6 +44,10 @@ public class AIController : MonoBehaviour {
 
         behaviorTree.Run();
     }
+    public void Go()
+    {
+        MovingPattern.Go();
+    }
     public void Stop()
     {
         MovingPattern.Stop();

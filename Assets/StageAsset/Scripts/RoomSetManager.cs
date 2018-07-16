@@ -45,7 +45,7 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
         {
             if (_width == roomSetGroup[i].width && _height == roomSetGroup[i].height)
             {
-                if (Random.Range(0, 10) >= 8)
+                if (Random.Range(0, 10) >= 2)
                     roomSet = roomSetGroup[i].GetMonsterRoomSet();
                 else
                     roomSet = roomSetGroup[i].GetOtherRoomSet();
