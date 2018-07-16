@@ -2,13 +2,15 @@
 
 public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
 {
+    /*
     private StatusConstant poisonInfo;
     private StatusConstant burnInfo;
-    private StatusConstant nagInfo;
+    //private StatusConstant nagInfo;
     private StatusConstant delayStateInfo;
     private float graduallyDamageCycle;
     private int graduallyDamageCountMax;
     private Vector2[] nagDirVector;
+    */
 
     #region
     public StatusConstant PoisonInfo { get; private set; }
@@ -24,24 +26,24 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
     private void Awake()
     {
         // 독, 화상 데미지 점화식 ( fd / 2 ) ( n + 1 )
-        poisonInfo = new StatusConstant(0.05f, 3f, 3);
-        burnInfo = new StatusConstant(0.05f, 3f, 3);
-        nagInfo = new StatusConstant(0.5f, 4f, 2);
-        nagDirVector = new Vector2[8]
+        PoisonInfo = new StatusConstant(0.05f, 3f, 3);
+        BurnInfo = new StatusConstant(0.05f, 3f, 3);
+        NagInfo = new StatusConstant(0.5f, 4f, 2);
+        NagDirVector = new Vector2[8]
         { new Vector2(0, 1), new Vector2(0, -1), new Vector2(0, -1), new Vector2(0, 1),
          new Vector2(-1, 0), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-1, 0)};
-        delayStateInfo = new StatusConstant(0.5f, 3f, 3);
-        graduallyDamageCycle = 0.1f;
+        DelayStateInfo = new StatusConstant(0.5f, 3f, 3);
+        GraduallyDamageCycle = 0.1f;
         // (int)(poisonInfo.effectiveTime / graduallyDamageCycle); 왜 29 나오지??
-        graduallyDamageCountMax = 30;
+        GraduallyDamageCountMax = 30;
         /*
-        Debug.Log("poison : " + poisonInfo.value + ", " + poisonInfo.effectiveTime + ", " + poisonInfo.overlapCountMax);
-        Debug.Log("burn : " + burnInfo.value + ", " + burnInfo.effectiveTime + ", " + burnInfo.overlapCountMax);
-        Debug.Log("nag : " + nagInfo.value + ", " + nagInfo.effectiveTime + ", " + nagInfo.overlapCountMax);
-        Debug.Log("delayState : " + poisonInfo.value + ", " + poisonInfo.effectiveTime + ", " + poisonInfo.overlapCountMax);
-        Debug.Log("nagDirVector[0] : " + nagDirVector[0] + ", [3] : " + nagDirVector[3]);
-        Debug.Log("지속 데미지 주기 : " + graduallyDamageCycle);
-        Debug.Log("지속 데미지 횟수 : " + graduallyDamageCountMax);
+        Debug.Log("poison : " + PoisonInfo.value + ", " + PoisonInfo.effectiveTime + ", " + PoisonInfo.overlapCountMax);
+        Debug.Log("burn : " + BurnInfo.value + ", " + BurnInfo.effectiveTime + ", " + BurnInfo.overlapCountMax);
+        Debug.Log("nag : " + NagInfo.value + ", " + NagInfo.effectiveTime + ", " + NagInfo.overlapCountMax);
+        Debug.Log("delayState : " + PoisonInfo.value + ", " + PoisonInfo.effectiveTime + ", " + PoisonInfo.overlapCountMax);
+        Debug.Log("nagDirVector[0] : " + NagDirVector[0] + ", [3] : " + NagDirVector[3]);
+        Debug.Log("지속 데미지 주기 : " + GraduallyDamageCycle);
+        Debug.Log("지속 데미지 횟수 : " + GraduallyDamageCountMax);
         */
     }
 }

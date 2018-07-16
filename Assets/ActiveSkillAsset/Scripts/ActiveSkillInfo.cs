@@ -10,9 +10,10 @@ using UnityEngine;
  */
 
 
-public class ActiveSkill : MonoBehaviour
+public class ActiveSkillInfo : ScriptableObject
 {
-    private ActiveSkillInfo info;
-    private WeaponManager weaponManager;
+    [SerializeField]
+    private Weapon[] weaponManager;
+    [SerializeField]
     private EffectApplyType effectApplyTypes;
 }
