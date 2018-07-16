@@ -51,14 +51,9 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         if (!currentRoom.isRoom)
             return;
         for (int j = 0; j < currentRoom.customObjects.Length; j++)
-            currentRoom.customObjects[j].SetActive(true);
-    }
-
-    public void DisableObjects()
-    {
-        for (int i = 0; i < roomList.Count; i++)
         {
-            DisalbeObject(roomList[i]);
+            if(currentRoom.customObjects[j].GetType() != typeof(Portal))
+                currentRoom.customObjects[j].SetActive(true);
         }
     }
 
@@ -91,7 +86,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
         }
         MiniMap.Instance.DrawRoom(currentRoom);
-        DisalbeObject(this.currentRoom);
     }
 
     void SpawnMonster()
@@ -155,6 +149,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 if (currentRoom.eRoomType == RoomType.BOSS)
                 {
                     InitRoom();
+                    EnableObjects();
                     InitBossRoom();
                     break;
                 }

@@ -16,4 +16,4 @@ MonoBehaviour:
   speed: 2
   animatorController: {fileID: 9100000, guid: 14297bcc8aae8f7489bea901c85fdb97, type: 2}
   weaponInfo: {fileID: 11400000, guid: e22cf6b2a51447641b3cc21901929187, type: 2}
-  task: {fileID: 11400000, guid: 183a31692a3134d47aa6a2efb6bd464a, type: 2}
+  task: {fileID: 11400000, guid: c4f7efc3fa4585043b8c0b18cbed655a, type: 2}
