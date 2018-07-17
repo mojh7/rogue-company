@@ -75,7 +75,10 @@ public class Enemy : Character
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
         weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
-        weaponManager.EquipWeapon(enemyData.WeaponInfo);
+        for(int i=0;i<enemyData.WeaponInfo.Count;i++)
+        {
+            weaponManager.EquipWeapon(enemyData.WeaponInfo[i]);
+        }
         animationHandler.Init(enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, enemyData.Task);
 

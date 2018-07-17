@@ -15,7 +15,7 @@ public class EnemyData : ScriptableObject
     [SerializeField]
     private RuntimeAnimatorController animatorController;
     [SerializeField]
-    private WeaponInfo weaponInfo;
+    private List<WeaponInfo> weaponInfo;
     [SerializeField]
     private BT.Task task;
     #endregion
@@ -49,7 +49,7 @@ public class EnemyData : ScriptableObject
             return animatorController;
         }
     }
-    public WeaponInfo WeaponInfo
+    public List<WeaponInfo> WeaponInfo
     {
         get
         {

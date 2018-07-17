@@ -21,7 +21,6 @@ public class AIController : MonoBehaviour {
     }
     #endregion
 
-
     private void Awake()
     {
         privateBlackBoard = new BT.BlackBoard();
