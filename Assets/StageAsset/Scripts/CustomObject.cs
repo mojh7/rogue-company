@@ -579,8 +579,8 @@ public class FallRockTrap : CustomObject
     {
         GameObject obj = Object.Instantiate(ResourceManager.Instance.ObjectPrefabs);
         obj.AddComponent<Rock>();
-        obj.GetComponent<Rock>().Init();
         obj.GetComponent<Rock>().sprite = tempSprite;
+        obj.GetComponent<Rock>().Init();
         obj.transform.position = _position;
         obj.GetComponent<Rock>().Active();
     }

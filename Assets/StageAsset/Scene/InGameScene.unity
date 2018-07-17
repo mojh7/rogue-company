@@ -653,7 +653,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 4d124d7e442ea494dba2f646d3058111, type: 2}
   objectPool: {fileID: 418867811}
-  alertObj: {fileID: 1904508229586870, guid: 6b316fdc30608134982526328ea367dc, type: 2}
 --- !u!114 &307469666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,8 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0792ba27dba5e34bb053b3cdb51eda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customObject: {fileID: 1904508229586870, guid: 6b316fdc30608134982526328ea367dc,
-    type: 2}
   coinSprite: {fileID: 21300000, guid: 81dcf1f5b3fbd074ea5272628fbc10d0, type: 3}
   sprite: {fileID: 21300000, guid: 862dfa97db426c94bb184c99660245d3, type: 3}
 --- !u!114 &307469667
@@ -911,7 +908,7 @@ MonoBehaviour:
   height: 10
   size: 3
   area: 13
-  maxHallRate: 0.28
+  maxHallRate: 0.2
 --- !u!156049354 &572565053
 Grid:
   m_ObjectHideFlags: 0
@@ -974,7 +971,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61fa9a10ccc6bc849b89f2cb79ff2f43, type: 2}
   - {fileID: 11400000, guid: 2f9cfb6d7f20009448796701830a5b75, type: 2}
   - {fileID: 11400000, guid: ae6443b73de77d446b1858096a348c8f, type: 2}
-  - {fileID: 11400000, guid: 9d01d6f2ef1ab4f43a6f56446dabf89f, type: 2}
+  - {fileID: 11400000, guid: b7b575cef93568f4693282837594d0cc, type: 2}
   - {fileID: 11400000, guid: 99bcd3dcf5eb8974d85393d754dc841c, type: 2}
   firstFloorSet:
   - {fileID: 11400000, guid: a2347df51f1815244b78c69cc9e2279b, type: 2}

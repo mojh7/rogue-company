@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
-    public GameObject customObject;
     public Sprite coinSprite;
     public Sprite sprite;
+    GameObject customObject;
     Queue<GameObject> objs;
     Queue<ItemContainer> withdraws;
     #region UnityFunc
@@ -13,6 +13,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     {
         objs = new Queue<GameObject>();
         withdraws = new Queue<ItemContainer>();
+        customObject = ResourceManager.Instance.ObjectPrefabs;
     }
     #endregion
     #region Func

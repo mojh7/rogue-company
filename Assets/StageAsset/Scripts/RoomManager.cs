@@ -50,10 +50,12 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         if (!currentRoom.isRoom)
             return;
-        for (int j = 0; j < currentRoom.customObjects.Length; j++)
+        for (int i = 0; i < currentRoom.customObjects.Length; i ++)
         {
-            if(currentRoom.customObjects[j].GetType() != typeof(Portal))
-                currentRoom.customObjects[j].SetActive(true);
+            if (currentRoom.customObjects[i].GetComponent<Portal>() == null)
+            {
+                currentRoom.customObjects[i].SetActive(true);
+            }
         }
     }
 

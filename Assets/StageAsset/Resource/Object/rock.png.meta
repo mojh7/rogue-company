@@ -62,7 +62,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -114,10 +114,20 @@ TextureImporter:
         width: 60
         height: 54
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -30, y: 27}
+        - {x: -30, y: -27}
+        - {x: 26, y: -27}
+        - {x: 30, y: -23}
+        - {x: 30, y: 27}
+      physicsShape:
+      - - {x: -30, y: 27}
+        - {x: -30, y: -27}
+        - {x: 26, y: -27}
+        - {x: 30, y: -23}
+        - {x: 30, y: 27}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_1
@@ -128,10 +138,22 @@ TextureImporter:
         width: 54
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -22, y: 33}
+        - {x: -27, y: 32}
+        - {x: -27, y: -33}
+        - {x: 27, y: -33}
+        - {x: 27, y: 27}
+        - {x: 21, y: 33}
+      physicsShape:
+      - - {x: -22, y: 33}
+        - {x: -27, y: 32}
+        - {x: -27, y: -33}
+        - {x: 27, y: -33}
+        - {x: 27, y: 27}
+        - {x: 21, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_2
@@ -142,10 +164,26 @@ TextureImporter:
         width: 78
         height: 72
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -34, y: 36}
+        - {x: -39, y: 31}
+        - {x: -39, y: -28}
+        - {x: -38, y: -36}
+        - {x: 31, y: -36}
+        - {x: 39, y: -30}
+        - {x: 39, y: 28}
+        - {x: 38, y: 36}
+      physicsShape:
+      - - {x: -34, y: 36}
+        - {x: -39, y: 31}
+        - {x: -39, y: -28}
+        - {x: -38, y: -36}
+        - {x: 31, y: -36}
+        - {x: 39, y: -30}
+        - {x: 39, y: 28}
+        - {x: 38, y: 36}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_3
@@ -156,10 +194,22 @@ TextureImporter:
         width: 54
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -27, y: 33}
+        - {x: -27, y: -33}
+        - {x: 23, y: -33}
+        - {x: 27, y: -29}
+        - {x: 27, y: 32}
+        - {x: 21, y: 33}
+      physicsShape:
+      - - {x: -27, y: 33}
+        - {x: -27, y: -33}
+        - {x: 23, y: -33}
+        - {x: 27, y: -29}
+        - {x: 27, y: 32}
+        - {x: 21, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_4
@@ -170,10 +220,20 @@ TextureImporter:
         width: 60
         height: 54
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -30, y: 27}
+        - {x: -30, y: -27}
+        - {x: 26, y: -27}
+        - {x: 30, y: -23}
+        - {x: 30, y: 27}
+      physicsShape:
+      - - {x: -30, y: 27}
+        - {x: -30, y: -27}
+        - {x: 26, y: -27}
+        - {x: 30, y: -23}
+        - {x: 30, y: 27}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_5
@@ -184,10 +244,24 @@ TextureImporter:
         width: 54
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -17, y: 33}
+        - {x: -27, y: 28}
+        - {x: -27, y: -33}
+        - {x: 20, y: -33}
+        - {x: 27, y: -26}
+        - {x: 27, y: 19}
+        - {x: 15, y: 33}
+      physicsShape:
+      - - {x: -17, y: 33}
+        - {x: -27, y: 28}
+        - {x: -27, y: -33}
+        - {x: 20, y: -33}
+        - {x: 27, y: -26}
+        - {x: 27, y: 19}
+        - {x: 15, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_6
@@ -198,10 +272,22 @@ TextureImporter:
         width: 78
         height: 72
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -35, y: 36}
+        - {x: -39, y: 32}
+        - {x: -39, y: -36}
+        - {x: 39, y: -36}
+        - {x: 39, y: 23}
+        - {x: 35, y: 36}
+      physicsShape:
+      - - {x: -35, y: 36}
+        - {x: -39, y: 32}
+        - {x: -39, y: -36}
+        - {x: 39, y: -36}
+        - {x: 39, y: 23}
+        - {x: 35, y: 36}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_7
@@ -212,10 +298,24 @@ TextureImporter:
         width: 66
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: 18, y: 33}
+        - {x: -29, y: 33}
+        - {x: -33, y: 31}
+        - {x: -33, y: -33}
+        - {x: 33, y: -33}
+        - {x: 33, y: 22}
+        - {x: 27, y: 29}
+      physicsShape:
+      - - {x: 18, y: 33}
+        - {x: -29, y: 33}
+        - {x: -33, y: 31}
+        - {x: -33, y: -33}
+        - {x: 33, y: -33}
+        - {x: 33, y: 22}
+        - {x: 27, y: 29}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_8
@@ -226,10 +326,26 @@ TextureImporter:
         width: 60
         height: 54
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -26, y: 27}
+        - {x: -30, y: 3}
+        - {x: -30, y: -17}
+        - {x: -24, y: -27}
+        - {x: 21, y: -27}
+        - {x: 26, y: -26}
+        - {x: 30, y: -18}
+        - {x: 30, y: 27}
+      physicsShape:
+      - - {x: -26, y: 27}
+        - {x: -30, y: 3}
+        - {x: -30, y: -17}
+        - {x: -24, y: -27}
+        - {x: 21, y: -27}
+        - {x: 26, y: -26}
+        - {x: 30, y: -18}
+        - {x: 30, y: 27}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_9
@@ -240,10 +356,22 @@ TextureImporter:
         width: 54
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -22, y: 33}
+        - {x: -27, y: 32}
+        - {x: -27, y: -33}
+        - {x: 27, y: -33}
+        - {x: 27, y: 27}
+        - {x: 21, y: 33}
+      physicsShape:
+      - - {x: -22, y: 33}
+        - {x: -27, y: 32}
+        - {x: -27, y: -33}
+        - {x: 27, y: -33}
+        - {x: 27, y: 27}
+        - {x: 21, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_10
@@ -254,10 +382,24 @@ TextureImporter:
         width: 78
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -38, y: 33}
+        - {x: -39, y: 29}
+        - {x: -39, y: -33}
+        - {x: 35, y: -33}
+        - {x: 39, y: -25}
+        - {x: 39, y: 26}
+        - {x: 32, y: 33}
+      physicsShape:
+      - - {x: -38, y: 33}
+        - {x: -39, y: 29}
+        - {x: -39, y: -33}
+        - {x: 35, y: -33}
+        - {x: 39, y: -25}
+        - {x: 39, y: 26}
+        - {x: 32, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_11
@@ -268,10 +410,18 @@ TextureImporter:
         width: 60
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -30, y: 33}
+        - {x: -30, y: -33}
+        - {x: 30, y: -33}
+        - {x: 30, y: 33}
+      physicsShape:
+      - - {x: -30, y: 33}
+        - {x: -30, y: -33}
+        - {x: 30, y: -33}
+        - {x: 30, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_12
@@ -282,10 +432,22 @@ TextureImporter:
         width: 54
         height: 54
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -23}
+        - {x: -23, y: -27}
+        - {x: 23, y: -27}
+        - {x: 27, y: -23}
+        - {x: 27, y: 27}
+      physicsShape:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -23}
+        - {x: -23, y: -27}
+        - {x: 23, y: -27}
+        - {x: 27, y: -23}
+        - {x: 27, y: 27}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_13
@@ -296,10 +458,22 @@ TextureImporter:
         width: 54
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -22, y: 33}
+        - {x: -27, y: 32}
+        - {x: -27, y: -33}
+        - {x: 27, y: -33}
+        - {x: 27, y: 27}
+        - {x: 21, y: 33}
+      physicsShape:
+      - - {x: -22, y: 33}
+        - {x: -27, y: 32}
+        - {x: -27, y: -33}
+        - {x: 27, y: -33}
+        - {x: 27, y: 27}
+        - {x: 21, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_14
@@ -310,10 +484,26 @@ TextureImporter:
         width: 78
         height: 72
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -34, y: 36}
+        - {x: -39, y: 31}
+        - {x: -39, y: -28}
+        - {x: -38, y: -36}
+        - {x: 31, y: -36}
+        - {x: 39, y: -30}
+        - {x: 39, y: 28}
+        - {x: 38, y: 36}
+      physicsShape:
+      - - {x: -34, y: 36}
+        - {x: -39, y: 31}
+        - {x: -39, y: -28}
+        - {x: -38, y: -36}
+        - {x: 31, y: -36}
+        - {x: 39, y: -30}
+        - {x: 39, y: 28}
+        - {x: 38, y: 36}
       tessellationDetail: 0
     - serializedVersion: 2
       name: rock_15
@@ -324,10 +514,22 @@ TextureImporter:
         width: 48
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -24, y: -29}
+        - {x: -20, y: -33}
+        - {x: 24, y: -33}
+        - {x: 24, y: 33}
+        - {x: -17, y: 33}
+        - {x: -24, y: 26}
+      physicsShape:
+      - - {x: -24, y: -29}
+        - {x: -20, y: -33}
+        - {x: 24, y: -33}
+        - {x: 24, y: 33}
+        - {x: -17, y: 33}
+        - {x: -24, y: 26}
       tessellationDetail: 0
     outline: []
     physicsShape: []

@@ -8,15 +8,17 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     [SerializeField]
     private EnemyData enemyData;
     public ObjectPool objectPool;
-    public GameObject alertObj;
     private List<Enemy> enemyList;
+    GameObject alertObj;
+
     // 0516 모장현
     private int aliveEnemyTotal;
 
-    private void Awake()
+    private void Start()
     {
         enemyList = new List<Enemy>();
         aliveEnemyTotal = 0;
+        alertObj = ResourceManager.Instance.ObjectPrefabs;
     }
 
     #region 바꿔야되는것들

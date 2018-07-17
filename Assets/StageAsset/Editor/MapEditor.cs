@@ -167,7 +167,7 @@ public class MapEditor : EditorWindow
             path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
         }
 
-        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path +width+'x'+height +' '+ _name + ".asset");
+        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + width + 'x' + height + roomType.ToString() + " " + _name + ".asset");
 
         AssetDatabase.CreateAsset(_roomSet, assetPathAndName);
 

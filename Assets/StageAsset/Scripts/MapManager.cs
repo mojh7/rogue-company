@@ -383,14 +383,14 @@ namespace Map
 
             if(flag)
             {
-                int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(4, 7) /10);
+                int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(3, 8) /10);
                 _rectA = new Rect(_currentRect.x, _currentRect.y, x1 - _currentRect.x, _currentRect.height, size);
                 _hall = new Rect(_rectA.x + _rectA.width, _currentRect.y, 1, _currentRect.height, size);
                 _rectB = new Rect(_hall.x + _hall.width, _currentRect.y, _currentRect.width - _rectA.width - _hall.width, _currentRect.height, size);
             }
             else
             {
-                int y1 = (int)((_currentRect.y + 0.5f) + _currentRect.height * (float)Random.Range(4, 7) / 10);
+                int y1 = (int)((_currentRect.y + 0.5f) + _currentRect.height * (float)Random.Range(3, 8) / 10);
                 _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, y1 - _currentRect.y, size);
                 _hall = new Rect(_currentRect.x, _rectA.y + _rectA.height, _currentRect.width, 1, size);
                 _rectB = new Rect(_currentRect.x, _hall.y + _hall.height, _currentRect.width, _currentRect.height - _rectA.height - _hall.height, size);
@@ -416,13 +416,13 @@ namespace Map
             
             if(flag) // 가로
             {
-                int width = (int)((_currentBlock.width + 0.5f) * (float)Random.Range(4, 7) / 10);
+                int width = (int)((_currentBlock.width + 0.5f) * (float)Random.Range(3, 8) / 10);
                 _blockA = new Rect(_currentBlock.x, _currentBlock.y, width, _currentBlock.height, size);
                 _blockB = new Rect(_currentBlock.x + width, _currentBlock.y, _currentBlock.width - width, _currentBlock.height, size);
             }
             else
             {
-                int height = (int)((_currentBlock.height + 0.5f) * (float)Random.Range(4, 7) / 10);
+                int height = (int)((_currentBlock.height + 0.5f) * (float)Random.Range(3, 8) / 10);
                 _blockA = new Rect(_currentBlock.x, _currentBlock.y, _currentBlock.width, height, size);
                 _blockB = new Rect(_currentBlock.x, _currentBlock.y + height, _currentBlock.width, _currentBlock.height - height, size);
             }
@@ -679,12 +679,6 @@ namespace Map
 
             for (int i = 0; i < _roomSet.objectDatas.Count; i++)
             {
-                //if (_roomSet.width * size - size <= _roomSet.objectDatas[i].position.x /*범위안에 있는지 확인*/
-                //    || _roomSet.height * size - size <= _roomSet.objectDatas[i].position.y /*범위안에 있는지 확인*/
-                //    )
-                //    continue;
-                //if (_roomSet.objectDatas[i].objectType == ObjectType.SPAWNER)
-                //    continue;
                 customObjects.Add(objectPool.GetPooledObject());
                 customObjects[index].transform.localPosition = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, 0); //temp
 
