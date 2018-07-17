@@ -510,6 +510,7 @@ MonoBehaviour:
   chargeGauge: {fileID: 114060570871698758}
   equipAllWeapons: 0
   startWeaponId: 0
+  stopsUpdate: 0
 --- !u!114 &114129316639124374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7508,7 +7509,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: b85f2e428116657498df6d0e7399529f, type: 2}
+  - {fileID: 2100000, guid: bd23799e5910e5541987c63760638f1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -324,7 +324,7 @@ namespace Map
                     SplitBlock(block);
                 else
                 {
-                    if (block.area <= 2)
+                    if (block.area < 6)
                     {
                         block.isRoom = false;
                         halls.Add(block);

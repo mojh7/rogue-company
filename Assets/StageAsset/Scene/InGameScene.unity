@@ -904,10 +904,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPool: {fileID: 162180390}
   maskPrefab: {fileID: 1284718932488552, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
-  width: 10
-  height: 10
+  width: 15
+  height: 15
   size: 3
-  area: 13
+  area: 17
   maxHallRate: 0.2
 --- !u!156049354 &572565053
 Grid:
