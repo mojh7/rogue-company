@@ -87,7 +87,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 }
             }
         }
-        MiniMap.Instance.DrawRoom(currentRoom);
+        MiniMap.Instance.ClearRoom(currentRoom);
     }
 
     void SpawnMonster()
@@ -167,7 +167,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 }
                 if (currentRoom.isRoom)
                 {
-                    MiniMap.Instance.DrawRoom(currentRoom);
+                    MiniMap.Instance.ClearRoom(currentRoom);
                     EnableObjects();
                 }
             }
