@@ -235,22 +235,6 @@ public class WeaponManager : MonoBehaviour {
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
-
-                    /*
-                    // Debug.Log("b");
-                    weaponCountMax = 3;
-                    weaponCount = 2;
-                    
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(0) as Weapon;
-                    equipWeaponSlot.Add(weapon);
-                    weapon.ObjTransform.SetParent(registerPoint, false);
-                    weapon.RegisterWeapon(this);
-
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(9) as Weapon;
-                    equipWeaponSlot.Add(weapon);
-                    weapon.ObjTransform.SetParent(registerPoint, false);
-                    weapon.RegisterWeapon(this);
-                    */
                 }
             }
             // 저장된 데이터를 로드한 게임 일 때

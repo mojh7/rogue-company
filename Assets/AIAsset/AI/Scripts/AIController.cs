@@ -43,11 +43,11 @@ public class AIController : MonoBehaviour {
 
         behaviorTree.Run();
     }
-    public void Go()
+    public void PlayMove()
     {
-        MovingPattern.Go();
+        MovingPattern.Play();
     }
-    public void Stop()
+    public void StopMove()
     {
         MovingPattern.Stop();
     }

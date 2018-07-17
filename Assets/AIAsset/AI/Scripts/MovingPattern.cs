@@ -32,7 +32,7 @@ public class MovingPattern : MonoBehaviour
         baseSpeed = speed;
         isActive = true;
     }
-    public void Go()
+    public void Play()
     {
         isActive = true;
     }
