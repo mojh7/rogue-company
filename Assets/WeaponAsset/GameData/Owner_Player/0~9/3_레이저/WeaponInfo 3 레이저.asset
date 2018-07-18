@@ -28,8 +28,9 @@ MonoBehaviour:
   cooldown: 0
   chargeTime: 0
   soundId: -1
-  cameraShakeAmount: 0.02
-  cameraShakeTime: 0.005
+  cameraShakeAmount: 0.1
+  cameraShakeTime: 0.01
+  cameraShakeType: 6
   addDirVecMagnitude: 0.5
   bulletPatternEditInfos:
   - patternInfo: {fileID: 11400000, guid: b5a478b2a743d24488760121bc476eaf, type: 2}

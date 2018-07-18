@@ -25,10 +25,12 @@ MonoBehaviour:
   range: 0
   damage: 0
   criticalChance: 0
-  knockBack: 0
   cooldown: 0.6
   chargeTime: 0
   soundId: 0
+  cameraShakeAmount: 0.3
+  cameraShakeTime: 0.3
+  cameraShakeType: 1
   addDirVecMagnitude: 1.2
   bulletPatternEditInfos:
   - patternInfo: {fileID: 11400000, guid: ba37ab0b921f51c439516f9c01917e5f, type: 2}

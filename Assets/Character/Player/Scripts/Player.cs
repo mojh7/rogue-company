@@ -438,7 +438,6 @@ public class PlayerController
     // 조이스틱 방향
     private Vector3 inputVector;
 
-    
     public PlayerController(Joystick joystick)
     {
         this.joystick = joystick;

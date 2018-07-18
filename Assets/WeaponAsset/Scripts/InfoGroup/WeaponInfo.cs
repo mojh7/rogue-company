@@ -53,6 +53,7 @@ public class WeaponInfo : ScriptableObject
     public int soundId;                 // 공격시 효과음 id
     public float cameraShakeAmount;     // 카메라 흔들림 양
     public float cameraShakeTime;       // 카메라 흔들림 시간
+    public CameraController.CameraShakeType cameraShakeType;       // 카메라 흔들림 타입
 
     [Tooltip("총알 발사시 초기 position이 중심에서 멀어지는 정도")]
     public float addDirVecMagnitude;    // onwer가 바라보는 방향의 벡터의 크기 값, bullet 초기 위치 = owner position + owner 방향 벡터 * addDirVecMagnitude
@@ -100,6 +101,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.soundId = soundId;
         clonedInfo.cameraShakeAmount = cameraShakeAmount;
         clonedInfo.cameraShakeTime = cameraShakeTime;
+        clonedInfo.cameraShakeType = cameraShakeType;
 
         clonedInfo.bulletPatterns = new List<BulletPattern>();
         clonedInfo.bulletPatternsLength = bulletPatternsLength;

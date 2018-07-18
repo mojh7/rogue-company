@@ -20,4 +20,5 @@ MonoBehaviour:
   hungerMax: 270
   armor: 0
   criticalChance: 5
-  startingWeaponInfos: []
+  startingWeaponInfos:
+  - {fileID: 0}

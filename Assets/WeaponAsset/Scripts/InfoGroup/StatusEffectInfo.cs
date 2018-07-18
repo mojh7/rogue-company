@@ -5,10 +5,6 @@ using System.Collections;
 [System.Serializable]
 public class StatusEffectInfo
 {
-    [HideInInspector]
-    public Vector2 bulletPos;
-    [HideInInspector]
-    public Vector2 bulletDir;
 
     // 체력 손실
     public bool canPoison;
@@ -46,6 +42,9 @@ public class StatusEffectInfo
     // 추가할 만한 것들
     // 공포, 매혹
     // 넉백도 여기로?
+
+    public Vector2 BulletPos { get; set; }
+    public Vector2 BulletDir { get; set; }
 
     public StatusEffectInfo(StatusEffectInfo info)
     {

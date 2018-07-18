@@ -143,7 +143,8 @@ public abstract class Character : MonoBehaviour
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
             if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
             {
-                isKnockBack = false;
+                //isKnockBack = false;
+                isActiveAI = true;
             }
         }
 

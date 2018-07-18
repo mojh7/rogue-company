@@ -30,6 +30,7 @@ MonoBehaviour:
   soundId: 6
   cameraShakeAmount: 0.08
   cameraShakeTime: 0.03
+  cameraShakeType: 2
   addDirVecMagnitude: 0.3
   bulletPatternEditInfos:
   - patternInfo: {fileID: 11400000, guid: 279fb0397ff119a4ba51338b93d84196, type: 2}

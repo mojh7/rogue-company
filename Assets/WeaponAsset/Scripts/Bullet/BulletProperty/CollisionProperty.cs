@@ -54,10 +54,14 @@ public abstract class CollisionProperty : BulletProperty
     }
     protected virtual void AffectStatusEffect(ref Collision2D coll)
     {
+        statusEffectInfo.BulletPos = bullet.transform.position;
+        statusEffectInfo.BulletDir = bullet.GetDirVector();
         coll.gameObject.GetComponent<Character>().ApplyStatusEffect(statusEffectInfo);
     }
     protected virtual void AffectStatusEffect(ref Collider2D coll)
     {
+        statusEffectInfo.BulletPos = bullet.transform.position;
+        statusEffectInfo.BulletDir = bullet.GetDirVector();
         coll.gameObject.GetComponent<Character>().ApplyStatusEffect(statusEffectInfo);
     }
 

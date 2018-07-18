@@ -15,13 +15,11 @@ MonoBehaviour:
   bulletType: 0
   bulletName: "\uC77C\uBC18 \uCD1D\uC54C"
   statusEffectInfo:
-    bulletPos: {x: 0, y: 0}
-    bulletDir: {x: 0, y: 0}
     canPoison: 0
     canBurn: 0
     knockBack: 200
     positionBasedKnockBack: 0
-    canNag: 1
+    canNag: 0
     canDelayState: 0
   damage: 0.5
   criticalChance: 0

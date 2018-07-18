@@ -202,8 +202,8 @@ public class Enemy : Character
     {
         if (CharacterInfo.State.ALIVE != pState)
             return;
-
         if (null == statusEffectInfo) return;
+
         // 독
         if(true == statusEffectInfo.canPoison)
         {
@@ -219,24 +219,7 @@ public class Enemy : Character
         // 넉백 : + 밀기, - 당기기
         if (0 != statusEffectInfo.knockBack)
         {
-            isKnockBack = true;
-
-            // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
-            rgbody.velocity = Vector3.zero;
-
-            // bullet과 충돌 Object 위치 차이 기반의 넉백  
-            if (statusEffectInfo.positionBasedKnockBack)
-            {
-                rgbody.AddForce(statusEffectInfo.knockBack * ((Vector2)transform.position - statusEffectInfo.bulletPos).normalized);
-            }
-            // bullet 방향 기반의 넉백
-            else
-            {
-                rgbody.AddForce(statusEffectInfo.knockBack * statusEffectInfo.bulletDir);
-            }
-
-            StopCoroutine(KnockBackCheck());
-            StartCoroutine(KnockBackCheck());
+            KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
         }
 
         if (true == statusEffectInfo.canNag)
@@ -286,17 +269,39 @@ public class Enemy : Character
         }
     }
 
+    public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
+    {
+        //isKnockBack = true;
+        //Debug.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
+        isActiveAI = false;
+        // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
+        rgbody.velocity = Vector3.zero;
+
+        // bullet과 충돌 Object 위치 차이 기반의 넉백  
+        if (positionBasedKnockBack)
+        {
+            rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
+        }
+        // bullet 방향 기반의 넉백
+        else
+        {
+            rgbody.AddForce(knockBack * bulletDir);
+        }
+        
+        StopCoroutine(KnockBackCheck());
+        StartCoroutine(KnockBackCheck());
+    }
+
     // 이동 translate, velocity, addForce ??
     public override void Nag()
     {
+        rgbody.velocity = Vector3.zero;
         Debug.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
         if (nagCount >= StatusConstants.Instance.NagInfo.overlapCountMax)
         {
             Debug.Log("중첩 횟수 제한으로 인한 return");
             return;
         }
-            
-        
         nagCount += 1;
         nagOverlappingCount += 1;
         if (false == isNagging)
@@ -397,6 +402,7 @@ public class Enemy : Character
     IEnumerator NagCoroutine()
     {
         isNagging = true;
+        rgbody.velocity = Vector2.zero;
         AddCrowdControlCount();
         Debug.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
         while (nagOverlappingCount > 0)
@@ -404,7 +410,8 @@ public class Enemy : Character
             for(int i = 0; i < 8; i++)
             {
                 Debug.Log("잔소리 i = " + i);
-                rgbody.AddForce(100f * StatusConstants.Instance.NagDirVector[i]);
+                rgbody.velocity = 3f * StatusConstants.Instance.NagDirVector[i];
+                //rgbody.AddForce(150f * StatusConstants.Instance.NagDirVector[i]);
                 yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.NagInfo.value);
                 isActiveAI = false;
             }

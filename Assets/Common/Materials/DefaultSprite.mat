@@ -85,7 +85,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DitherColorCount: 12
-    - _DitherIntensity: 1
+    - _DitherIntensity: 0
     - _DstBlend: 0
     - _EdgeLightBoost: 1
     - _EnableExternalAlpha: 0
