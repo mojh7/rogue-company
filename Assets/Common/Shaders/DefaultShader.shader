@@ -3,9 +3,10 @@
 		_Color("Color", Color) = (1,1,1,1)
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_DitherPattern("Dither pattern", 2D) = "gray"{}
+		_NormalMap("Normal Map", 2D) = "white"{}
 		_MainIntensity("Main intensity", Range(0, 2)) = 1
+		[HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
 		_DitherIntensity("Dither intensity", Range(0, 2)) = 1
-		_TintMapIntensity("Tint map intensity", Range(0, 2)) = 1
 	}
 	SubShader {
 		Tags{ "RenderType" = "Transparent" "Queue" = "Transparent" }
@@ -18,15 +19,63 @@
 		#pragma target 3.0
 		#include "UnityPBSLighting.cginc"
 
+		sampler2D _MainTex;
+		sampler2D _DitherPattern;
+		sampler2D _NormalMap;
+
+		struct Input {
+			float2 uv_MainTex;
+			float4 screenPos;
+			float3 worldPos;
+			fixed4 color;
+		};
+
+		half _Glossiness;
+		half _Metallic;
+		fixed4 _Color;
+		half _MainIntensity;
+		half _DitherIntensity;
+		int _UnevenResolution;
+		half4 _Flip;
+
+
+		void vert(inout appdata_full v, out Input o)
+		{
+			v.vertex.xy *= _Flip.xy;
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+			o.color = v.color * _Color;
+		}
+
+		void surf(Input IN, inout SurfaceOutputStandard o) {
+
+			if (_UnevenResolution == 1) IN.uv_MainTex.xy += 1.0 / 1024.0;
+
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
+			o.Albedo = c.rgb;
+
+			o.Alpha = c.a;
+			o.Metallic = 0;
+
+			half3 normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
+			o.Normal = normalize(normal);
+
+			o.Smoothness = _DitherIntensity * tex2D(_DitherPattern, IN.screenPos.xy * _ScreenParams.xy / 8 + _WorldSpaceCameraPos.xy).r;
+
+
+			float albedoValue = (c.r + c.g + c.b) / 3;
+
+			o.Albedo = o.Albedo * _MainIntensity;
+		}
+
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
 			float ditherPattern = s.Smoothness;
-			int boundary = 2;
+			int boundary = 4;
 
 			gi.light.color.rgb *= 1.5;
-			gi.light.color.rgb = clamp(gi.light.color.rgb,0, 2) * 0.5;
+			gi.light.color.rgb = clamp(gi.light.color.rgb, 0, 2);
 			float total = gi.light.color.r + gi.light.color.g + gi.light.color.b;
-			total /= 3;
+			total /= 2;
 
 			float clampedLight = floor(total * boundary) / boundary;
 			float nextLight = ceil(total * boundary) / boundary;
@@ -44,51 +93,6 @@
 			LightingStandard_GI(s, data, gi);
 		}
 
-		sampler2D _MainTex;
-
-		struct Input {
-			float2 uv_MainTex;
-			float4 screenPos;
-			float3 worldPos;
-			fixed4 color;
-		};
-
-		half _Glossiness;
-		half _Metallic;
-		fixed4 _Color;
-		sampler2D _DitherPattern;
-		sampler2D _TintMap;
-		half _MainIntensity;
-		half _DitherIntensity;
-		half _TintMapIntensity;
-		int _UnevenResolution;
-		void vert(inout appdata_full v, out Input o)
-		{
-			UNITY_INITIALIZE_OUTPUT(Input, o);
-			o.color = v.color * _Color;
-		}
-
-		void surf(Input IN, inout SurfaceOutputStandard o) {
-
-			if (_UnevenResolution == 1) IN.uv_MainTex.xy += 1.0 / 1024.0;
-
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
-			o.Albedo = c.rgb;
-
-			o.Alpha = c.a;
-			o.Metallic = 0;
-
-			o.Smoothness = _DitherIntensity * tex2D(_DitherPattern, IN.screenPos.xy * _ScreenParams.xy / 8 + _WorldSpaceCameraPos.xy).r;
-
-
-			fixed4 tintmap = tex2D(_TintMap, (IN.worldPos.xy / 256) + .5);
-			float albedoValue = (c.r + c.g + c.b) / 3;
-
-			float3 tinted;
-
-			tinted = 2 * o.Albedo * tintmap.rgb;
-			o.Albedo = _MainIntensity * saturate(tinted) * _TintMapIntensity + o.Albedo * (1 - _TintMapIntensity);
-		}
 
 		ENDCG
 	}
