@@ -16,23 +16,13 @@ MonoBehaviour:
   bulletType: 2
   bulletName: "\uADFC\uC811 \uBB34\uAE30\uC6A9 \uCD1D\uC54C"
   statusEffectInfo:
-    bulletPos: {x: 0, y: 0}
-    bulletDir: {x: 0, y: 0}
-    nonOverlappingPoisonDamage: 0
-    nonOverlappingPoisonEffectiveTime: 0
-    overlappingPoisonDamage: 0
-    overlappingPoisonEffectiveTime: 0
+    canPoison: 0
     canBurn: 0
     knockBack: 400
     positionBasedKnockBack: 0
-    slow: 0
-    slowEffectiveTime: 0
-    canStun: 0
-    stunEffectiveTime: 0
-    canFreeze: 0
-    freezeEffectiveTime: 0
-  damage: 4
-  knockBack: 400
+    canNag: 0
+    canDelayState: 0
+  damage: 1
   criticalChance: 0
   speed: 0
   acceleration: 0

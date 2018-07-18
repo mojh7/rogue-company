@@ -405,15 +405,14 @@ public class Enemy : Character
         rgbody.velocity = Vector2.zero;
         AddCrowdControlCount();
         DebugX.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
+        DebugX.Log("상태이상 잔소리 시작,111 ");
         while (nagOverlappingCount > 0)
         {
             for(int i = 0; i < 8; i++)
             {
-                Debug.Log("잔소리 i = " + i);
+                //DebugX.Log("잔소리 i = " + i);
                 rgbody.velocity = 3f * StatusConstants.Instance.NagDirVector[i];
                 //rgbody.AddForce(150f * StatusConstants.Instance.NagDirVector[i]);
-                DebugX.Log("잔소리 i = " + i);
-                rgbody.AddForce(100f * StatusConstants.Instance.NagDirVector[i]);
                 yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.NagInfo.value);
                 isActiveAI = false;
             }
