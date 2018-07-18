@@ -27,7 +27,7 @@ public class SpreadPattern : BulletPattern
         ApplyWeaponBuff();
         float initAngle = sectorAngle / 2;
         float deltaAngle = sectorAngle / (bulletCount - 1);
-        //Debug.Log(bulletCount);
+        //DebugX.Log(bulletCount);
         for (int i = 0; i < bulletCount; i++)
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();

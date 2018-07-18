@@ -73,7 +73,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         ObjectSetAvailable();
         FindCurrentRoom();
-        Debug.Log("무기를 만들어보자");
+        DebugX.Log("무기를 만들어보자");
         Item item = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10));
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
         ItemManager.Instance.CollectItem();
@@ -210,7 +210,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         UIManager.Instance.TogglePreventObj();
         CutSceneUI.Instance.Hide();
-        Debug.Log(GameDataManager.Instance.GetFloor());
+        DebugX.Log(GameDataManager.Instance.GetFloor());
         EnemyManager.Instance.SpawnBoss(GameDataManager.Instance.GetFloor(), (currentRoom.areaLeftDown + currentRoom.areaRightTop) / 2);
         monsterNum++;
         SpawnMonster();

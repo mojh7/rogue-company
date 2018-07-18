@@ -56,7 +56,7 @@ public class WeaponManager : MonoBehaviour {
     // 우측 바라보고 있을 때의 weaponManager의 position 초기 x값, 좌측 볼 때 - 이 값을 지정 해줘야 됨.
     private float rightDirectionPosX;
 
-    // for Debug
+    // for DebugX
     private int saveDataLength;
 
     [Header("Player 전용 게임 시작시 무기 적용, True : 모든 무기 착용, Max = 모든 무기 갯수" +
@@ -98,7 +98,7 @@ public class WeaponManager : MonoBehaviour {
         {
             weaponIds[i] = -1;
         }
-        // Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", ");
+        // DebugX.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", ");
         return weaponIds;
     }
     public int[] GetWeaponAmmos()
@@ -108,7 +108,7 @@ public class WeaponManager : MonoBehaviour {
         {
             weaponAmmos[i] = equipWeaponSlot[i].info.ammo;
         }
-        // Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponAmmos[0] + ", " + weaponAmmos[1] + ", " + weaponAmmos[2] + ", ");
+        // DebugX.Log(weaponCount + ", " + weaponCountMax + ", " + weaponAmmos[0] + ", " + weaponAmmos[1] + ", " + weaponAmmos[2] + ", ");
         return weaponAmmos;
     }
     #endregion
@@ -133,10 +133,10 @@ public class WeaponManager : MonoBehaviour {
     {
         objTransform = GetComponent<Transform>();
         scaleVector = new Vector3(1f, 1f, 1f);
-        // Debug.Log("local pos : " + objTransform.localPosition); 디버그는 반올림으로 소숫점 1자리까지만 나오는 듯 x값 0.15 => 디버그 0.2, x값 0.25 => 디버그 0.3로 나옴
+        // DebugX.Log("local pos : " + objTransform.localPosition); 디버그는 반올림으로 소숫점 1자리까지만 나오는 듯 x값 0.15 => 디버그 0.2, x값 0.25 => 디버그 0.3로 나옴
         posVector = objTransform.localPosition;   // weaponManager 초기 local Position 값, 좌 우 바뀔 때 x값만 -, + 부호로 바꿔줘서 사용
         rightDirectionPosX = posVector.x;
-        // Debug.Log(gameObject);
+        // DebugX.Log(gameObject);
     }
 
     // 공격 테스트용
@@ -209,13 +209,13 @@ public class WeaponManager : MonoBehaviour {
             equipWeaponSlot = new List<Weapon>();
             currentWeaponIndex = 0;
 
-            //Debug.Log("load Game : " + GameStateManager.Instance.GetLoadsGameData());
+            //DebugX.Log("load Game : " + GameStateManager.Instance.GetLoadsGameData());
             // 로드 게임이 아닐 때 디버그용 무기 셋팅
             if (false == GameStateManager.Instance.GetLoadsGameData())
             {
                 if (equipAllWeapons)
                 {
-                    // Debug.Log("a");
+                    // DebugX.Log("a");
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
                     
@@ -246,25 +246,25 @@ public class WeaponManager : MonoBehaviour {
 
                 
                 weaponCountMax = weaponIds.Length;
-                Debug.Log("무기 로드 weaponCountMax : " + weaponCountMax);
+                DebugX.Log("무기 로드 weaponCountMax : " + weaponCountMax);
                 weaponCount = 0;
 
                 for (int i = 0; i < weaponCountMax; i++)
                 {
                     if(weaponIds[i] >= 0)
                     {
-                        // Debug.Log("i : " + i + ", id : " + weaponIds[i] + ", ammo : " + weaponAmmos[i]);
+                        // DebugX.Log("i : " + i + ", id : " + weaponIds[i] + ", ammo : " + weaponAmmos[i]);
                         weapon = ObjectPoolManager.Instance.CreateWeapon(weaponIds[i]) as Weapon;
-                        // Debug.Log("weapon obj Name : " + weapon.name + ", " + weapon.transform.parent.name);
+                        // DebugX.Log("weapon obj Name : " + weapon.name + ", " + weapon.transform.parent.name);
                         equipWeaponSlot.Add(weapon);
                         weapon.ObjTransform.SetParent(registerPoint, false);
                         weapon.RegisterWeapon(this);
                         weapon.info.ammo = weaponAmmos[i];
                         weaponCount += 1;
-                        // Debug.Log("weapon count : " + weaponCount + " Load : " + weaponIds[i]);
+                        // DebugX.Log("weapon count : " + weaponCount + " Load : " + weaponIds[i]);
                     }
                 }
-                Debug.Log("무기 로드 완료 weaponCount : " + weaponCount);
+                DebugX.Log("무기 로드 완료 weaponCount : " + weaponCount);
             }
 
             saveDataLength = weaponCountMax;
@@ -376,7 +376,7 @@ public class WeaponManager : MonoBehaviour {
     //0603 유성
     public void EquipWeapon(WeaponInfo weaponInfo)
     {
-        Debug.Log(weaponInfo.name);
+        DebugX.Log(weaponInfo.name);
         Weapon weapon = ObjectPoolManager.Instance.CreateWeapon();
         weapon.Init(weaponInfo, ownerType);
         equipWeaponSlot.Add(weapon);

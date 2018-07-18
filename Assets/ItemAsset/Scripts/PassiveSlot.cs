@@ -8,16 +8,6 @@ public class PassiveSlot : MonoBehaviour
     [SerializeField]
     private Image passiveImage;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void UpdatePassiveSlot(Sprite sprite)
     {
         //if(null == sprite)

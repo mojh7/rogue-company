@@ -144,7 +144,7 @@ public class BulletInfo : ScriptableObject
 
         // isInitializable = true;
 
-        // Debug.Log(name + ", 생성자 : " + isInitializable);
+        // DebugX.Log(name + ", 생성자 : " + isInitializable);
         // 직렬화 중에 get_name을 호출 할 수 없음, 대신 OnEnable에서 호출할 것
         // get_name is not allowed to be called during serialization, call it from OnEnable instead. Called from ScriptableObject 'MultiDirPatternInfo'.
         // See "Script Serialization" page in the Unity Manual for further details.
@@ -242,10 +242,10 @@ public class BulletInfo : ScriptableObject
         /*
         if (false == isInitializable)
         {
-             Debug.Log(name + ", 중복 초기화");
+             DebugX.Log(name + ", 중복 초기화");
             return;
         }
-        Debug.Log(name + ", 초기화");
+        DebugX.Log(name + ", 초기화");
         */
 
         collisionPropertiesLength = collisionPropertiesEdit.Length;

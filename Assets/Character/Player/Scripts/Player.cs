@@ -105,7 +105,7 @@ public class Player : Character
         /*
         if(false == e && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("무기 장착");
+            DebugX.Log("무기 장착");
             e = true;
             // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
             weaponManager.Init(this, OwnerType.Player);
@@ -115,7 +115,7 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.B))
         {
             updateAutoAim = !updateAutoAim;
-            Debug.Log("updateAutoAim : " + updateAutoAim);
+            DebugX.Log("updateAutoAim : " + updateAutoAim);
         }
         if (updateAutoAim)
         {
@@ -177,7 +177,7 @@ public class Player : Character
 
     public void InitPlayerData(PlayerData playerData)
     {
-        Debug.Log("InitPlayerData hp : " + playerData.Hp);
+        DebugX.Log("InitPlayerData hp : " + playerData.Hp);
         this.playerData = playerData;
         originPlayerData = playerData;
         UpdatePlayerData();
@@ -236,7 +236,7 @@ public class Player : Character
     {
         if(100 == skillGauge)
         {
-            Debug.Log("Player 스킬 활성화");
+            DebugX.Log("Player 스킬 활성화");
             //skillGauge = 0;
         }
     }
@@ -274,7 +274,7 @@ public class Player : Character
     {
         // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
         objTransform.Translate(controller.GetInputVector() * playerData.MoveSpeed * Time.deltaTime);
-        if(controller.GetInputVector().magnitude > 0.1f)
+        if(controller.GetInputVector().sqrMagnitude > 0.1f)
         {
             animationHandler.Walk();
         }
@@ -339,7 +339,7 @@ public class Player : Character
         {
             directionVector = controller.GetRecenteNormalInputVector();
             directionDegree = directionVector.GetDegFromVector();
-            //Debug.Log("enemyTotal = 0, 오토 에임 풀림");
+            //DebugX.Log("enemyTotal = 0, 오토 에임 풀림");
             return;
         }
         else
@@ -351,14 +351,14 @@ public class Player : Character
             float minDistance = 10000f;
             int proximateEnemyIndex = -1;
 
-            // Debug.Log("Total : " + enemyTotal);
+            // DebugX.Log("Total : " + enemyTotal);
 
             // raycast로 player와 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
             for (int i = 0; i < enemyTotal; i++)
             {
                 raycasthitEnemyInfo.index = i;
                 raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, objTransform.position);
-                // Debug.Log(raycasthitEnemyInfo.distance);
+                // DebugX.Log(raycasthitEnemyInfo.distance);
                 hit = Physics2D.Raycast(objTransform.position, enemyList[i].transform.position - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
                 if(hit.collider == null)
                 {
@@ -371,12 +371,12 @@ public class Player : Character
             {
                 directionVector = controller.GetRecenteNormalInputVector();
                 directionDegree = directionVector.GetDegFromVector();
-                //Debug.Log("raycasthitEnemyNum = 0, player와 enemy사이에 장애물 존재, 오토 에임 풀림");
+                //DebugX.Log("raycasthitEnemyNum = 0, player와 enemy사이에 장애물 존재, 오토 에임 풀림");
                 return;
             }
 
 
-           // Debug.Log("raycasthitEnemyNum : " + raycasthitEnemyNum + " 조준 가능한 enemy 존재");
+           // DebugX.Log("raycasthitEnemyNum : " + raycasthitEnemyNum + " 조준 가능한 enemy 존재");
             // 위에서 찾은 enmey들 중 distance가 가장 작은 값인 enemy쪽 방향으로 조준한다.
             for (int j = 0; j < raycasthitEnemyNum; j++)
             {
@@ -390,7 +390,7 @@ public class Player : Character
             directionVector = (enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform.position - objTransform.position);
             directionVector.z = 0;
             directionVector.Normalize();
-            //Debug.Log(directionVector.magnitude);
+            //DebugX.Log(directionVector.magnitude);
             directionDegree = directionVector.GetDegFromVector();
         }
     }
@@ -401,7 +401,7 @@ public class Player : Character
     {
         // 주로 즉시 효과 볼 내용들이 적용되서 체력, 허기 회복 두개만 쓸 것 같음.
 
-        Debug.Log("소모품 아이템 플레이어 대상 효과 적용");
+        DebugX.Log("소모품 아이템 플레이어 대상 효과 적용");
         if (itemUseEffect.recoveryHp != 0)
         {
             playerData.Hp += itemUseEffect.recoveryHp;
@@ -475,7 +475,7 @@ public class PlayerController
     /// </summary>
     public Vector3 GetRecenteNormalInputVector()
     {
-        //Debug.Log(joystick.GetRecenteNormalInputVector().magnitude);
+        //DebugX.Log(joystick.GetRecenteNormalInputVector().magnitude);
         return joystick.GetRecenteNormalInputVector();
     }
     

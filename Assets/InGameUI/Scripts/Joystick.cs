@@ -72,7 +72,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
         {
             pos.x = (pos.x / backgroundImage.rectTransform.sizeDelta.x);
             pos.y = (pos.y / backgroundImage.rectTransform.sizeDelta.y);
-            //Debug.Log("2 : " + pos.x + ", " + pos.y);
+            //DebugX.Log("2 : " + pos.x + ", " + pos.y);
 
             inputVector = new Vector3(pos.x * 2, pos.y * 2, 0);
             if (inputVector.magnitude > 1.0f)

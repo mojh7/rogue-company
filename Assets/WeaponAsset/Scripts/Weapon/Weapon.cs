@@ -168,7 +168,7 @@ public class Weapon : Item {
             {
                 if(info.ammo <= 0 && info.ammoCapacity >= 0)
                 {
-                    Debug.Log("총알 부족으로 인한 차징 공격 실패");
+                    DebugX.Log("총알 부족으로 인한 차징 공격 실패");
                     return;
                 }
                 UpdateWeaponBuff();
@@ -201,7 +201,7 @@ public class Weapon : Item {
         }
         else
         {
-            Debug.Log("총알 부족으로 인한 공격 실패");
+            DebugX.Log("총알 부족으로 인한 공격 실패");
         }
     }
 

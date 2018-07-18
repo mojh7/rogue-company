@@ -106,7 +106,7 @@ public class Bullet : MonoBehaviour
          * 프레임 너무 떨어짐
         if(BulletAnimationType.NotPlaySpriteAnimation!= info.spriteAnimation)
         {
-            Debug.Log("T : " + Time.time + ", spriteAniRenderer : " + spriteAniRenderer.sprite);
+            DebugX.Log("T : " + Time.time + ", spriteAniRenderer : " + spriteAniRenderer.sprite);
             boxCollider.size = spriteAniRenderer.sprite.bounds.size;
         }*/
         for (int i = 0; i < info.updatePropertiesLength; i++)
@@ -269,7 +269,7 @@ public class Bullet : MonoBehaviour
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
             boxCollider.size = spriteRenderer.sprite.bounds.size;
-            //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
+            //DebugX.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
         }
 
         // rotate 360도 계속 회전하는 애니메이션 적용
@@ -655,10 +655,10 @@ public class Bullet : MonoBehaviour
     // 땜빵용 코드
     private IEnumerator SetColliderSize()
     {
-        //Debug.Log("t : " + Time.time);
+        //DebugX.Log("t : " + Time.time);
         yield return YieldInstructionCache.WaitForSeconds(0.01f);
         boxCollider.size = spriteAniRenderer.sprite.bounds.size;
-        //Debug.Log("t : " + Time.time + ", " + spriteAniRenderer.sprite.bounds.size +", colider Size : " + boxCollider.size);
+        //DebugX.Log("t : " + Time.time + ", " + spriteAniRenderer.sprite.bounds.size +", colider Size : " + boxCollider.size);
     }
 
 

@@ -83,16 +83,16 @@ public class TestScript : MonoBehaviour {
 
         //for(int i = 0; i < 100; i++)
         //{
-        //    Debug.Log(Random.Range(0f, 1f));
+        //    DebugX.Log(Random.Range(0f, 1f));
         //}
 
 
         //ListTest();
-        //Debug.Log(Abc(2));
-        //Debug.Log(Abc(2f));
+        //DebugX.Log(Abc(2));
+        //DebugX.Log(Abc(2f));
         degree = 1.5f;
         TestPointerfunc(GetDir);
-        //Debug.Log("함수 넘기기 : " + c()); // 1.5
+        //DebugX.Log("함수 넘기기 : " + c()); // 1.5
         //BulletProperty = test;
 
         // 델리게이트 테스트
@@ -136,20 +136,17 @@ public class TestScript : MonoBehaviour {
         // struct의 각각의 값에 직접적인 접근 불가능
         clList[0].a += 5;
         /*
-        Debug.Log("s1 : " + s1.a);
-        Debug.Log("s2 : " + s2.a);
-        Debug.Log("s3 : " + s3.a);
-        Debug.Log("stList[0] : " + stList[0]);
+        DebugX.Log("s1 : " + s1.a);
+        DebugX.Log("s2 : " + s2.a);
+        DebugX.Log("s3 : " + s3.a);
+        DebugX.Log("stList[0] : " + stList[0]);
 
-        Debug.Log("c1 : " + c1.a);
-        Debug.Log("c2 : " + c2.a);
-        Debug.Log("c3 : " + c3.a);
-        Debug.Log("clList[0] : " + clList[0]);*/
+        DebugX.Log("c1 : " + c1.a);
+        DebugX.Log("c2 : " + c2.a);
+        DebugX.Log("c3 : " + c3.a);
+        DebugX.Log("clList[0] : " + clList[0]);*/
     }
 
-    // Update is called once per frame
-    //void Update () {
-    //}
 
     public void CreateContactObj(Vector3 pos)
     {
@@ -171,14 +168,14 @@ public class TestScript : MonoBehaviour {
 
  
         // 내부적으로 compare로 비교해서 값 비교 되는 걸로 넣어야 될듯 클래스 안됨
-        //Debug.Log(t = wList.BinarySearch(c));
-        //Debug.Log(t2 = wList.BinarySearch(e));
+        //DebugX.Log(t = wList.BinarySearch(c));
+        //DebugX.Log(t2 = wList.BinarySearch(e));
 
         // 바이너리서치 오름 차순이어야됨
         // List<int> aa = new List<int>(){1, 2, 3, 4, 5, 6};
-        //Debug.Log(t = aa.BinarySearch(1)); // 0
-        //Debug.Log(t2 = aa.BinarySearch(5)); // 4
-        //Debug.Log(t3 = aa.BinarySearch(8)); // 2
+        //DebugX.Log(t = aa.BinarySearch(1)); // 0
+        //DebugX.Log(t2 = aa.BinarySearch(5)); // 4
+        //DebugX.Log(t3 = aa.BinarySearch(8)); // 2
  
 
     public int Abc(int b)
@@ -193,12 +190,12 @@ public class TestScript : MonoBehaviour {
 
     public void Test(int num)
     {
-        Debug.Log("Bridge : " + num);
+        DebugX.Log("Bridge : " + num);
     }
 
     public void TestStr(int num)
     {
-        Debug.Log("B : " + num);
+        DebugX.Log("B : " + num);
     }
 
     private Parent p = new Child(); // 업 캐스팅
@@ -218,7 +215,7 @@ public abstract class Parent
     // 자식에서는 override 해도 되고 안 해도 됨.
     public virtual void Fun()
     {
-        Debug.Log("Parent function");
+        DebugX.Log("Parent function");
     }
 
     // protected abstract void AA(); 로 하면
@@ -235,17 +232,17 @@ public class Child : Parent
 {
     public void Create(int n)
     {
-        Debug.Log("Child " + n);
+        DebugX.Log("Child " + n);
     }
     
     public override void Fun()
     {
-        Debug.Log("Child function");
+        DebugX.Log("Child function");
     }
 
     public override void AA()
     {
-        Debug.Log("Child AA function");
+        DebugX.Log("Child AA function");
     }
 }
 
@@ -254,12 +251,12 @@ public class Child2 : Parent
     
     public void Create(int a, int b)
     {
-        Debug.Log("Child2 " + a + ", " + b);
+        DebugX.Log("Child2 " + a + ", " + b);
     }
 
     public override void AA()
     {
-        Debug.Log("Child2 AA function");
+        DebugX.Log("Child2 AA function");
     }
 }
 
@@ -277,7 +274,7 @@ public interface ITestInterface
      * public abstract void Sleep();
      * public virtual void Sleep2()
         {
-        Debug.Log("Sleep2");
+        DebugX.Log("Sleep2");
         }
      */
 

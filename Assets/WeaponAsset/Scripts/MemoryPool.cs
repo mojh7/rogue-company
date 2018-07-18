@@ -128,7 +128,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
             {
                 item.active = false;
                 item.gameObject.SetActive(false);
-                //Debug.Log(item.gameObject + ", " + item.gameObject.activeSelf +", RemoveItem");
+                //DebugX.Log(item.gameObject + ", " + item.gameObject.activeSelf +", RemoveItem");
                 break;
             }
         }
@@ -138,7 +138,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
     //--------------------------------------------------------------------------------------
     public void ClearItem()
     {
-        Debug.Log("Memory pool Clear item");
+        DebugX.Log("Memory pool Clear item");
         if (table == null)
             return;
         for (int i = 0; i < totalCount; i++)
@@ -148,9 +148,9 @@ public class MemoryPool : IEnumerable, System.IDisposable
             {
                 item.gameObject.transform.position = Vector3.zero;
                 item.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                // Debug.Log("회수 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
+                // DebugX.Log("회수 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
                 item.gameObject.transform.SetParent(parent);
-                // Debug.Log("회수2 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
+                // DebugX.Log("회수2 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
                 item.active = false;
                 item.gameObject.SetActive(false);
             }
@@ -161,10 +161,10 @@ public class MemoryPool : IEnumerable, System.IDisposable
     //--------------------------------------------------------------------------------------
     public void Dispose()
     {
-        // Debug.Log("Memory pool Dispose");
+        // DebugX.Log("Memory pool Dispose");
         if (table == null)
         {
-            //Debug.Log("Memory pool Dispose table null");
+            //DebugX.Log("Memory pool Dispose table null");
             return;
         }
 
