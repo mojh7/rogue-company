@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Threading;
+
 
 public class MiniMap : MonoBehaviourSingleton<MiniMap>
 {
@@ -29,12 +31,73 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         mask.GetComponent<Mask>().enabled = !mask.GetComponent<Mask>().enabled;
     }
 
+    void DrawCall(Map.Rect _room,System.Action<Map.Rect> action)
+    {
+        ThreadStart threadStart = delegate
+        {
+            action(_room);
+        };
+        threadStart.Invoke();
+    }
+    
     public void SetFloorText()
     {
         floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
     }
     //TODO : 따로 thread로 가능한지 확인
-    public void DrawRoom(Map.Rect _room)
+    void DrawIcon(Map.Rect _rect)
+    {
+        if (!_rect.isRoom)
+            return;
+        Sprite sprite;
+        switch (_rect.eRoomType)
+        {
+            default:
+            case RoomType.MONSTER:
+                sprite = monsterIcon;
+                break;
+            case RoomType.BOSS:
+                sprite = bossIcon;
+                break;
+            case RoomType.EVENT:
+                sprite = eventIcon;
+                break;
+            case RoomType.STORE:
+                sprite = storeIcon;
+                break;
+        }
+        if (!_rect.isClear)
+            sprite = unknownIcon;
+        int x = _rect.x * size + _rect.width * size / 2;
+        int y = _rect.y * size + _rect.height * size / 2;
+        Rect textureRect = sprite.textureRect;
+        float width = textureRect.width;
+        float height = textureRect.height;
+        x -= (int)width / 2;
+        y -= (int)height / 2;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Color color = sprite.texture.GetPixel((int)textureRect.x + i, (int)textureRect.y + j);
+                if (color == Color.clear)
+                {
+                    texture.SetPixel(x + i, y + j, Color.white);
+                }
+                else
+                {
+                    texture.SetPixel(x + i, y + j, color);
+                }
+            }
+        }
+    } // 방 타입에 따른 미니맵 아이콘 표시
+    //TODO : 따로 thread로 가능한지 확인
+    public void ClearRoom(Map.Rect _room)
+    {
+        DrawCall(_room, DrawRoom);
+    }
+
+    void DrawRoom(Map.Rect _room)
     {
         int minX = _room.x * size;
         int maxX = (_room.x + _room.width) * size - 1;
@@ -82,7 +145,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                     }
                 }
 
-                DrawIcon(_room);
+                DrawCall(_room,DrawIcon);
             }
         }
         for (int i = 0; i < _room.doorObjects.Count; i++)
@@ -205,7 +268,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         for (int i = 0; i < roomList.Count; i++)
         {
             if (!roomList[i].isRoom)
-                DrawHall(roomList[i]);
+                DrawCall(roomList[i], DrawHall);
         }
 
         for (int i = 0; i <= minmapSizeWidth; i++)
@@ -227,53 +290,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         this.gameObject.SetActive(!this.gameObject.activeSelf);
     }
-    //TODO : 따로 thread로 가능한지 확인
-    void DrawIcon(Map.Rect _rect)
-    {
-        if (!_rect.isRoom)
-            return;
-        Sprite sprite;
-        switch (_rect.eRoomType)
-        {
-            default:
-            case RoomType.MONSTER:
-                sprite = monsterIcon;
-                break;
-            case RoomType.BOSS:
-                sprite = bossIcon;
-                break;
-            case RoomType.EVENT:
-                sprite = eventIcon;
-                break;
-            case RoomType.STORE:
-                sprite = storeIcon;
-                break;
-        }
-        if (!_rect.isClear)
-            sprite = unknownIcon;
-        int x = _rect.x * size + _rect.width * size / 2;
-        int y = _rect.y * size + _rect.height * size / 2;
-        Rect textureRect = sprite.textureRect;
-        float width = textureRect.width;
-        float height = textureRect.height;
-        x -= (int)width / 2;
-        y -= (int)height / 2;
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                Color color = sprite.texture.GetPixel((int)textureRect.x + i, (int)textureRect.y + j);
-                if (color == Color.clear)
-                {
-                    texture.SetPixel(x + i, y + j, Color.white);
-                }
-                else
-                {
-                    texture.SetPixel(x + i, y + j, color);
-                }
-            }
-        }
-    } // 방 타입에 따른 미니맵 아이콘 표시
 
     void MovePlayerIcon()
     {

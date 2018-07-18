@@ -272,7 +272,7 @@ public class Enemy : Character
     public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
     {
         //isKnockBack = true;
-        //Debug.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
+        //DebugX.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
         isActiveAI = false;
         // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
         rgbody.velocity = Vector3.zero;
@@ -296,10 +296,10 @@ public class Enemy : Character
     public override void Nag()
     {
         rgbody.velocity = Vector3.zero;
-        Debug.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
+        DebugX.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
         if (nagCount >= StatusConstants.Instance.NagInfo.overlapCountMax)
         {
-            Debug.Log("중첩 횟수 제한으로 인한 return");
+            DebugX.Log("중첩 횟수 제한으로 인한 return");
             return;
         }
         nagCount += 1;
@@ -308,7 +308,7 @@ public class Enemy : Character
         {
             nagCoroutine = StartCoroutine(NagCoroutine());
         }
-        Debug.Log(gameObject.name + " 잔소리 적용");
+        DebugX.Log(gameObject.name + " 잔소리 적용");
     }
 
     //
@@ -316,7 +316,7 @@ public class Enemy : Character
     {
         if (delayStateCount >= StatusConstants.Instance.DelayStateInfo.overlapCountMax)
             return;
-        Debug.Log(gameObject.name + " 이동지연 적용");
+        DebugX.Log(gameObject.name + " 이동지연 적용");
         delayStateCount += 1;
         delayStateOverlappingCount += 1;
         if (false == isDelayingState)
@@ -338,7 +338,7 @@ public class Enemy : Character
         if(crowdControlCount > 0)
         {
             isActiveAI = false;
-            Debug.Log(name + " AI Off");
+            DebugX.Log(name + " AI Off");
         }
     }
 
@@ -348,7 +348,7 @@ public class Enemy : Character
         if (0 == crowdControlCount)
         {
             isActiveAI = true;
-            Debug.Log(name + " AI ON");
+            DebugX.Log(name + " AI ON");
         }
     }
     #endregion
@@ -404,7 +404,7 @@ public class Enemy : Character
         isNagging = true;
         rgbody.velocity = Vector2.zero;
         AddCrowdControlCount();
-        Debug.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
+        DebugX.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
         while (nagOverlappingCount > 0)
         {
             for(int i = 0; i < 8; i++)
@@ -412,12 +412,14 @@ public class Enemy : Character
                 Debug.Log("잔소리 i = " + i);
                 rgbody.velocity = 3f * StatusConstants.Instance.NagDirVector[i];
                 //rgbody.AddForce(150f * StatusConstants.Instance.NagDirVector[i]);
+                DebugX.Log("잔소리 i = " + i);
+                rgbody.AddForce(100f * StatusConstants.Instance.NagDirVector[i]);
                 yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.NagInfo.value);
                 isActiveAI = false;
             }
             nagOverlappingCount -= 1;
         }
-        Debug.Log("상태이상 잔소리 끝");
+        DebugX.Log("상태이상 잔소리 끝");
         SubCrowdControlCount();
         nagCount = 0;
         isNagging = false;

@@ -17,7 +17,8 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     Vector2 weaponReverseDirection;
     float m_shakeTime, m_shakeAmount;
     CameraShakeType m_cameraShakeType;
-    float m_cameraDepth = -10;
+    [SerializeField]
+    float m_cameraDepth = -1;
     bool m_findPlayer = true;
     Vector2 shakePos;
 

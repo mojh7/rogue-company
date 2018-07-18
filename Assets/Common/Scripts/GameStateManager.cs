@@ -14,6 +14,10 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     public void SetLoadsGameData(bool _loadsGameData) { loadsGameData = _loadsGameData; }
 
     #region UnityFunc
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
     private void Start()
     {
         DontDestroyOnLoad(this);

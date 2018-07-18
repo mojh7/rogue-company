@@ -19,7 +19,7 @@ public class ActiveSkill : MonoBehaviour
     private Player owner;
     public void Init(Player owner)
     {
-        Debug.Log("ActiveSkill class 초기화");
+        DebugX.Log("ActiveSkill class 초기화");
         this.owner = owner;
         // skillWeaponManager 초기화
         // info 초기화

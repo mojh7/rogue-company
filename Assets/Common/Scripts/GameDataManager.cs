@@ -67,7 +67,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         // 0611 모장현
         // gameData.SetPlayerData(PlayerManager.Instance.GetPlayer().PlayerData);
         gameData.SetHp(PlayerManager.Instance.GetPlayer().PlayerData.Hp);
-        Debug.Log("save hp : " + gameData.GetHp());
+        DebugX.Log("save hp : " + gameData.GetHp());
 
         BinarySerialize(gameData);
     }
@@ -82,12 +82,12 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             // 0531 모장현
             m_weaponIds = gameData.GetWeaponIds();
             m_weaponAmmos = gameData.GetWeaponAmmos();
-            //Debug.Log(gameData.GetWeaponIds()[0]);
+            //DebugX.Log(gameData.GetWeaponIds()[0]);
             // 0611 모장현
             // this.playerData = gameData.GetPlayerData();
             playerData = playerDatas[(int)m_playerType].Clone();
             playerData.Hp = gameData.GetHp();
-            Debug.Log("load hp : " + gameData.GetHp());
+            DebugX.Log("load hp : " + gameData.GetHp());
 
             return true;
         }

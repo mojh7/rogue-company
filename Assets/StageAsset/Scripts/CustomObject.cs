@@ -24,6 +24,7 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Init()
     {
+        this.gameObject.hideFlags = HideFlags.HideInHierarchy;
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
@@ -110,7 +111,7 @@ public class UnbreakableBox : CustomObject
     //public override void Active()
     //{
     //    base.Active();
-    //    Debug.Log("Unbreakalbe");
+    //    DebugX.Log("Unbreakalbe");
     //}
 }
 
@@ -126,7 +127,7 @@ public class BreakalbeBox : CustomObject
     //public override void Active()
     //{
     //    base.Active();
-    //    Debug.Log("BreakalbeBox");
+    //    DebugX.Log("BreakalbeBox");
     //} 
 }
 
@@ -395,7 +396,7 @@ public class Portal : CustomObject
         base.Active();
         isAvailable = false;
         InGameManager.Instance.GoUpFloor();
-        Debug.Log("PlayerEnd");
+        DebugX.Log("PlayerEnd");
 
         return true;
     }
@@ -525,7 +526,7 @@ public class ItemContainer : CustomObject
 
     public void DestroySelf()
     {
-        // Debug.Log("inner Type : " + innerObject.GetType());
+        // DebugX.Log("inner Type : " + innerObject.GetType());
         // destroy말고 오브젝트 풀에서 회수 처리 일괄적으로 하는 것 더 생길 수 있겠지만
         // 일단 무기만 적용, 무기가 아닌 거(코인)이면 destroy
         if (typeof(Weapon) != innerObject.GetType())
@@ -550,6 +551,8 @@ public class FallRockTrap : CustomObject
         this.tempSprite = sprite;
         List<Vector2> list = new List<Vector2>();
         int num = tempSprite.GetPhysicsShapeCount();
+        gameObject.tag = "Untagged";
+        gameObject.layer = 0;
         GetComponent<PolygonCollider2D>().pathCount = num;
         for (int i = 0; i < num; i++)
         {

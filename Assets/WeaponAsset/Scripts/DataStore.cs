@@ -159,7 +159,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     /*
     private void OnApplicationQuit()
     {
-        Debug.Log("DataStore OnApplicationQuit");
+        DebugX.Log("DataStore OnApplicationQuit");
         if(null != initializedBulletInfosAtRuntime)
         {
             for(int i = 0; i < initializedBulletInfosLength; i++)
@@ -167,13 +167,13 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 initializedBulletInfosAtRuntime[i].SetIsInitializable(true);
             }
             initializedBulletInfosAtRuntime = null;
-            Debug.Log("DataStore OnApplicationQuit BulletInfo Init 실행 여부 on");
+            DebugX.Log("DataStore OnApplicationQuit BulletInfo Init 실행 여부 on");
         }
     }
 
     public void Dispose()
     {
-        Debug.Log("DataStore Dispose");
+        DebugX.Log("DataStore Dispose");
         if (null != initializedBulletInfosAtRuntime)
         {
             for (int i = 0; i < initializedBulletInfosLength; i++)
@@ -181,7 +181,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 initializedBulletInfosAtRuntime[i].SetIsInitializable(true);
             }
             initializedBulletInfosAtRuntime = null;
-            Debug.Log("DataStore Dispose BulletInfo Init 실행 여부 on");
+            DebugX.Log("DataStore Dispose BulletInfo Init 실행 여부 on");
         }
     }*/
 }

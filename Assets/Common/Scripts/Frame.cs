@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Frame : MonoBehaviour {
 
+#if UNITY_EDITOR
     float deltaTime = 0.0f;
 
     void Update()
@@ -26,6 +27,5 @@ public class Frame : MonoBehaviour {
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
         GUI.Label(rect, text, style);
     }
-
-
+#endif
 }
