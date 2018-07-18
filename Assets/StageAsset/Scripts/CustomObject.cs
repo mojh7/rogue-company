@@ -551,6 +551,8 @@ public class FallRockTrap : CustomObject
         this.tempSprite = sprite;
         List<Vector2> list = new List<Vector2>();
         int num = tempSprite.GetPhysicsShapeCount();
+        gameObject.tag = "Untagged";
+        gameObject.layer = 0;
         GetComponent<PolygonCollider2D>().pathCount = num;
         for (int i = 0; i < num; i++)
         {

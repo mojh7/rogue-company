@@ -3,10 +3,11 @@
 		_Color("Color", Color) = (1,1,1,1)
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_DitherPattern("Dither pattern", 2D) = "gray"{}
-		_NormalMap("Normal Map", 2D) = "white"{}
+		_NormalMap("NormalMap", 2D) = "white" {}
 		_MainIntensity("Main intensity", Range(0, 2)) = 1
 		[HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
 		_DitherIntensity("Dither intensity", Range(0, 2)) = 1
+		_LightIntensity("Light intensity", Range(0, 1)) = 1
 	}
 	SubShader {
 		Tags{ "RenderType" = "Transparent" "Queue" = "Transparent" }
@@ -25,6 +26,7 @@
 
 		struct Input {
 			float2 uv_MainTex;
+			float2 uv_NormalMap;
 			float4 screenPos;
 			float3 worldPos;
 			fixed4 color;
@@ -35,6 +37,7 @@
 		fixed4 _Color;
 		half _MainIntensity;
 		half _DitherIntensity;
+		half _LightIntensity;
 		int _UnevenResolution;
 		half4 _Flip;
 
@@ -48,40 +51,34 @@
 
 		void surf(Input IN, inout SurfaceOutputStandard o) {
 
-			if (_UnevenResolution == 1) IN.uv_MainTex.xy += 1.0 / 1024.0;
-
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
 			o.Albedo = c.rgb;
-
 			o.Alpha = c.a;
+			//o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
+			if (_UnevenResolution == 1) IN.uv_MainTex.xy += 1.0 / 1024.0;
 			o.Metallic = 0;
-
-			half3 normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
-			o.Normal = normalize(normal);
 
 			o.Smoothness = _DitherIntensity * tex2D(_DitherPattern, IN.screenPos.xy * _ScreenParams.xy / 8 + _WorldSpaceCameraPos.xy).r;
 
-
-			float albedoValue = (c.r + c.g + c.b) / 3;
-
-			o.Albedo = o.Albedo * _MainIntensity;
+			o.Albedo = saturate(o.Albedo) * _MainIntensity;
 		}
 
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
 			float ditherPattern = s.Smoothness;
-			int boundary = 4;
+			int res = 10;
 
-			gi.light.color.rgb *= 1.5;
+			gi.light.color.rgb *= _LightIntensity;
 			gi.light.color.rgb = clamp(gi.light.color.rgb, 0, 2);
-			float total = gi.light.color.r + gi.light.color.g + gi.light.color.b;
-			total /= 2;
+			float vall = gi.light.color.r + gi.light.color.g + gi.light.color.b;
+			vall /= 3;
 
-			float clampedLight = floor(total * boundary) / boundary;
-			float nextLight = ceil(total * boundary) / boundary;
-			float lerp = frac(total * boundary);
+			float clampedLight = floor(vall * res) / res;
+			float nextLight = ceil(vall * res) / res;
+			float lerp = frac(vall * res);
 			float stepper = step(ditherPattern, lerp);
 			gi.light.color *= clampedLight * (1 - stepper) + nextLight * stepper;
+			
 			s.Smoothness = 0;
 			s.Metallic = 0;
 			half4 standard = LightingStandard(s, lightDir, gi);

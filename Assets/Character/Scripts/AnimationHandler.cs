@@ -14,6 +14,11 @@ public class AnimationHandler : MonoBehaviour {
         animator.SetTrigger("idle");
     }
 
+    public void Idle()
+    {
+        animator.SetTrigger("idle");
+    }
+
     public void Attack()
     {
         animator.SetTrigger("attack");

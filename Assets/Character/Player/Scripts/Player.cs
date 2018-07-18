@@ -156,6 +156,7 @@ public class Player : Character
         pState = CharacterInfo.State.ALIVE;
 
         skillGauge = 100;
+        animationHandler.Init(PlayerManager.Instance.runtimeAnimator);
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
@@ -273,7 +274,14 @@ public class Player : Character
     {
         // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
         objTransform.Translate(controller.GetInputVector() * playerData.MoveSpeed * Time.deltaTime);
-
+        if(controller.GetInputVector().magnitude > 0.1f)
+        {
+            animationHandler.Walk();
+        }
+        else
+        {
+            animationHandler.Idle();
+        }
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(Vector2.up * playerData.MoveSpeed * Time.deltaTime);

@@ -11,7 +11,9 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
     Player player;
 
     #endregion
-
+    #region components
+    public RuntimeAnimatorController runtimeAnimator;
+    #endregion
     #region getter
     // 0513 모장현
     public Player GetPlayer()
