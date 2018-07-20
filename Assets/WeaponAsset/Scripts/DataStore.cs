@@ -29,9 +29,9 @@ namespace WeaponAsset
         BOMB, GAS_SHELL, TRAP,
         WAND, TRASH
     }
-    
+
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW
-    public enum AttackAniType { Blow, Strike, Shot }
+    public enum AttackAniType { NULL, BLOW, STRIKE, SWING, PUNCH, SHOT }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { projectile, Laser, Melee}
     /*---*/

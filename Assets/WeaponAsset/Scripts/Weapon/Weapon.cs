@@ -257,13 +257,13 @@ public class Weapon : Item {
         // 총은 반동 주기
         switch (info.attackAniType)
         {
-            case AttackAniType.Blow:
+            case AttackAniType.BLOW:
                 animator.SetTrigger("blow");
                 break;
-            case AttackAniType.Strike:
+            case AttackAniType.STRIKE:
                 animator.SetTrigger("strike");
                 break;
-            case AttackAniType.Shot:
+            case AttackAniType.SHOT:
                 animator.SetTrigger("shot");
                 break;
             default:

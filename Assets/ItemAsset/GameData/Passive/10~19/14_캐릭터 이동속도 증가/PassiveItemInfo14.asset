@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: 
   notes: "\uCE90\uB9AD\uD130 \uC774\uB3D9\uC18D\uB3C4 n% \uC0C1\uC2B9"
   price: 0
-  sprite: {fileID: 21300000, guid: 623eef8991a4d1a41874c3dba019f39c, type: 3}
+  sprite: {fileID: 21300028, guid: 76a4ef1f10574624cb5208c65a6db51d, type: 3}
   effectApplyTypes:
   - {fileID: 11400000, guid: ada92f321e7ffdf4183bf07dccc7df05, type: 2}

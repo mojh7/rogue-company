@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b71188a6c860245ba7e1e7760651ce, type: 3}
+  m_Name: "WeaponInfo 15 \uBD80\uBA54\uB791"
+  m_EditorClassIdentifier: 
+  memo: 
+  weaponName: "\uBD80\uBA54\uB791"
+  sprite: {fileID: 21300038, guid: 76a4ef1f10574624cb5208c65a6db51d, type: 3}
+  scaleX: 2
+  scaleY: 2
+  attackAniType: 0
+  touchMode: 0
+  weaponType: 0
+  ammoCapacity: -1
+  ammo: 0
+  bulletMoveSpeed: 0
+  range: 0
+  damage: 0
+  criticalChance: 0
+  cooldown: 0.6
+  chargeTime: 0
+  soundId: -1
+  cameraShakeAmount: 0.2
+  cameraShakeTime: 0.05
+  cameraShakeType: 1
+  addDirVecMagnitude: 0.3
+  bulletPatternEditInfos:
+  - patternInfo: {fileID: 11400000, guid: 4c7e0be6527829e479b39a7d624418a8, type: 2}
+    executionCount: 1
+    delay: 0
+  bulletPatternsLength: 2

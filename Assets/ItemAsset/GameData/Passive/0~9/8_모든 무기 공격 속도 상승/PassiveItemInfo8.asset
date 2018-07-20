@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: 
   notes: "\uACF5\uACA9\uC18D\uB3C4 +n% ( = \uCFE8\uB2E4\uC6B4 -n%), n \uBBF8\uC815"
   price: 0
-  sprite: {fileID: 21300020, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
+  sprite: {fileID: 21300016, guid: 76a4ef1f10574624cb5208c65a6db51d, type: 3}
   effectApplyTypes:
   - {fileID: 11400000, guid: b7925e61563b12746b75e2a5ffdc6bb2, type: 2}

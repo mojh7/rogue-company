@@ -5,41 +5,33 @@ using System.Collections;
 [System.Serializable]
 public class StatusEffectInfo
 {
-
-    // 체력 손실
+    [Header("화상 및 독")]
     public bool canPoison;
-    //public float overlappingPoisonDamage;
-    //public float overlappingPoisonEffectiveTime;
-
     public bool canBurn;
 
-    // 이상 행동
+    [Header("넉백 세기와 넉백 방식")]
     public float knockBack;
     public bool positionBasedKnockBack;
 
-    // 잔소리
+    [Header("잔소리")]
     public bool canNag;
-    // 이동 지연
+
+    [Header("이동 지연")]
     public bool canDelayState;
 
-    /*
+    [Header("슬로우 강도, 시간")]
     public float slow;
     public float slowEffectiveTime;
 
-    public bool canStun;
-    public float stunEffectiveTime;
-
-    public bool canFreeze;
-    public float freezeEffectiveTime;
-    */
-
-    // 효과들??
-    // 슬로우 이동 방해
-    // 빙결 이동 제한
-    // 스턴 이동, 공격 제한
-    // 공포 이동 제어(player 반대 방향), 공격 제한
-
-    // 추가할 만한 것들
+    [Header("스턴 시간")]
+    public float stun;
+    [Header("속박 시간")]
+    public float fetter;
+    [Header("공포 시간")]
+    public float fear;
+    [Header("매혹 시간")]
+    public float charm;
+    //[Header("")]
     // 공포, 매혹
     // 넉백도 여기로?
 
@@ -50,21 +42,15 @@ public class StatusEffectInfo
     {
         canPoison = info.canPoison;
         canBurn = info.canBurn;
-
         knockBack = info.knockBack;
         positionBasedKnockBack = info.positionBasedKnockBack;
         canNag = info.canNag;
         canDelayState = info.canDelayState;
-        
-        /*
         slow = info.slow;
         slowEffectiveTime = info.slowEffectiveTime;
-
-        canStun = info.canStun;
-        stunEffectiveTime = info.stunEffectiveTime;
-
-        canFreeze = info.canFreeze;
-        freezeEffectiveTime = info.freezeEffectiveTime;
-        */
+        stun = info.stun;
+        fetter = info.fetter;
+        fear = info.fear;
+        charm = info.charm;
     }
 }

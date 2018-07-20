@@ -18,6 +18,6 @@ MonoBehaviour:
   notes: "\uC0F7\uAC74\uB958 \uCD1D\uC54C \uAC2F\uC218 n\uAC1C \uC99D\uAC00, n \uBBF8\uC815
     (n = 2~3??)"
   price: 0
-  sprite: {fileID: 21300004, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
+  sprite: {fileID: 21300020, guid: 76a4ef1f10574624cb5208c65a6db51d, type: 3}
   effectApplyTypes:
   - {fileID: 11400000, guid: df7fe7a92771d084daa5117a69841143, type: 2}

@@ -18,6 +18,6 @@ MonoBehaviour:
   notes: "\uC801 n\uBA85 \uC81C\uAC70\uC2DC \uD53C +0.5\uD68C\uBCF5, \uD604\uC7AC
     n = 5"
   price: 0
-  sprite: {fileID: 21300026, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
+  sprite: {fileID: 21300006, guid: 76a4ef1f10574624cb5208c65a6db51d, type: 3}
   effectApplyTypes:
   - {fileID: 11400000, guid: ec0d5729a9dfcb04fb33f1a188b1e498, type: 2}

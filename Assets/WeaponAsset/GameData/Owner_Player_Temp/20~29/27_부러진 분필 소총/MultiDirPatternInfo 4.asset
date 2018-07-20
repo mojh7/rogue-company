@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6995211bec7864abb6fa5586e77b3f, type: 3}
+  m_Name: MultiDirPatternInfo 4
+  m_EditorClassIdentifier: 
+  memo: "\uC5EC\uB7EC\uBC29\uD5A5\uC73C\uB85C \uC5EC\uB7EC\uBC88 \uC3D8\uAE30\n\uB3C4\uB11B
+    \uBAA8\uC591 \uC9C0\uD321\uC774\n"
+  bulletInfo: {fileID: 11400000, guid: cd46790d6347907418ca93f7139122de, type: 2}
+  damage: 0
+  knockBack: 0
+  criticalRate: 0
+  speed: 6
+  range: 8
+  bulletCount: 1
+  initAngle: 0
+  deltaAngle: 0
+  randomAngle: 30

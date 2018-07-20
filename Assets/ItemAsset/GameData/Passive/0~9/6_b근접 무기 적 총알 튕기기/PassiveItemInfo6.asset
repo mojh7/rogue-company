@@ -18,6 +18,6 @@ MonoBehaviour:
   notes: "b\uBD84\uB958 \uADFC\uC811 \uBB34\uAE30 \uACF5\uACA9 \uC2DC \uC801\uC758
     \uCD1D\uC54C\uC744 \uD295\uACA8\uB0C5\uB2C8\uB2E4"
   price: 0
-  sprite: {fileID: 21300000, guid: 4483e8a2e5bb13042a6977fba5c09a9d, type: 3}
+  sprite: {fileID: 21300012, guid: 76a4ef1f10574624cb5208c65a6db51d, type: 3}
   effectApplyTypes:
   - {fileID: 11400000, guid: 8e7946bbc89a0ed48a9925d0fea70fdc, type: 2}
