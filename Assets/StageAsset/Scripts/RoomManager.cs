@@ -148,6 +148,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             if (!currentRoom.isClear)
             {
                 currentRoom.isClear = true;
+                NeignborDraw(currentRoom);
                 if (currentRoom.eRoomType == RoomType.BOSS)
                 {
                     InitRoom();
@@ -176,6 +177,19 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             currentRoom.maskObject.SetActive(true);
 
             yield return YieldInstructionCache.WaitForSeconds(0.01f);
+        }
+    }
+
+    void NeignborDraw(Map.Rect room)
+    {
+        if (!room.isRoom)
+            return;
+        for (int i = 0; i < room.linkedEdgeRect.Count; i++)
+        {
+            if(room.linkedEdgeRect[i].isRoom)
+            {
+                MiniMap.Instance.ClearRoom(room.linkedEdgeRect[i]);
+            }
         }
     }
 
