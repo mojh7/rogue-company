@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
 
     public enum CameraShakeType { NOTSHAKE, RANDOM, WEAPON_REVERSE_DIRECTION, UP, DOWN, UP_DOWN, RIGHT_LEFT}
     Player m_player;
+    Transform cameraTransform;
     Vector2 targetPos = Vector2.zero;
     Vector2 m_velocity = Vector2.zero;
     Vector2 weaponReverseDirection;
@@ -21,7 +22,10 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     float m_cameraDepth = -1;
     bool m_findPlayer = true;
     Vector2 shakePos;
-
+    private void Start()
+    {
+        cameraTransform = this.transform;
+    }
     private void FixedUpdate()
     {
         if (m_findPlayer)
@@ -32,17 +36,21 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
             ShakeCamera(m_shakeAmount);
     }
     #region func
+    void Focus()
+    {
+        cameraTransform.position = m_player.GetPosition();
+    }
     void FindOther(Vector2 _targetPos)
     {
-        Vector2 temp = Vector2.SmoothDamp(transform.position, _targetPos, ref m_velocity, 5, 0.5f, .45f);
-        transform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
+        Vector2 temp = Vector2.SmoothDamp(cameraTransform.position, _targetPos, ref m_velocity, 5, 0.5f, .45f);
+        cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
     }
     void FindPlayer()
     {
         if (m_player == null)
         {
             m_player = PlayerManager.Instance.GetPlayer();
-            transform.position = new Vector2(m_player.transform.position.x, m_player.transform.position.y);
+            cameraTransform.position = new Vector2(m_player.transform.position.x, m_player.transform.position.y);
             return;
         }
         Vector2 targetPos = new Vector2(m_player.transform.position.x, m_player.transform.position.y) 
@@ -51,9 +59,9 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
         //TODO : Player타겟으로 돌아올 때의 속도? 를 멀 수록 빨리 온다던가 가속, 감속 같은 처리를 해야할 듯 지속적으로 개선
 
         //Vector2 temp = Vector2.SmoothDamp(transform.position, targetPos, ref m_velocity, Random.Range(1f, 3.5f), 0.5f, Random.Range(.35f, .55f));
-        Vector2 temp = Vector2.SmoothDamp(transform.position, targetPos, ref m_velocity, 3, 0.7f, .45f);
+        Vector2 temp = Vector2.SmoothDamp(cameraTransform.position, targetPos, ref m_velocity, 3, 0.7f, .45f);
         //Vector2 temp = Vector2.SmoothDamp(transform.position, targetPos, ref m_velocity, 5, 0.5f, .45f);
-        transform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
+        cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
     }
     public void Shake(float _amount, float _time, CameraShakeType _cameraShakeType, Vector2 _dir)
     {
@@ -65,7 +73,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     void ShakeCamera(float _amount)
     {
         //TODO : sin, cos sin^2, cos^2 등을 이용해서 가속, 감속? 속도 커브를 좀 다양하게 해야 할듯, 지속적으로 개선
-
+        Focus();
         switch (m_cameraShakeType)
         {
             case CameraShakeType.RANDOM:
@@ -73,12 +81,9 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
                 break;
             case CameraShakeType.WEAPON_REVERSE_DIRECTION:
                 shakePos = _amount * weaponReverseDirection;
-                    //Random.Range(0f, _amount) * weaponReverseDirection ;
-                //weaponReverseDirection * Random.Range(0.5f, 1.0f) * _amount;
                 break;
             case CameraShakeType.UP:
                 shakePos = Random.Range(0, _amount) * Vector2.up ;
-                //Vector2.up * Random.Range(0.5f, 1.0f) * _amount;
                 break;
             case CameraShakeType.DOWN:
                 shakePos = Vector2.down * Random.Range(0.5f, 1.0f) * _amount;
@@ -92,7 +97,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
             default:
                 return;
         }
-        transform.position = new Vector3(transform.position.x + shakePos.x, transform.position.y + shakePos.y, m_cameraDepth);
+        cameraTransform.position = new Vector3(cameraTransform.position.x + shakePos.x, cameraTransform.position.y + shakePos.y, m_cameraDepth);
         m_shakeTime -= Time.fixedDeltaTime;
     }
     #endregion

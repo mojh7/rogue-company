@@ -241,10 +241,10 @@ public class Player : Character
         Collider2D bestCollider = null;
 
         Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius);
-
+        
         for (int i = 0; i < collider2D.Length; i++)
         {
-            if (null == collider2D[i].GetComponent<CustomObject>())
+            if (!collider2D[i].GetComponent<CustomObject>())
                 continue;
             if (!collider2D[i].GetComponent<CustomObject>().GetAvailable())
                 continue;

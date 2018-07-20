@@ -44,7 +44,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
     }
-    //TODO : 따로 thread로 가능한지 확인
+
     void DrawIcon(Map.Rect _rect)
     {
         if (!_rect.isRoom)
@@ -66,8 +66,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 sprite = storeIcon;
                 break;
         }
-        if (!_rect.isClear)
-            sprite = unknownIcon;
+        //if (!_rect.isClear)
+        //    sprite = unknownIcon;
         int x = _rect.x * size + _rect.width * size / 2;
         int y = _rect.y * size + _rect.height * size / 2;
         Rect textureRect = sprite.textureRect;
@@ -91,7 +91,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
     } // 방 타입에 따른 미니맵 아이콘 표시
-    //TODO : 따로 thread로 가능한지 확인
+
     public void ClearRoom(Map.Rect _room)
     {
         DrawCall(_room, DrawRoom);
