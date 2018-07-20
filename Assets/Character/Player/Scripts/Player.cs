@@ -80,7 +80,6 @@ public class Player : Character
     #region UnityFunc
     void Awake()
     {
-        //pState = PlayerState.IDLE;
         objTransform = GetComponent<Transform>();
         playerScale = 1f;
         scaleVector = new Vector3(1f, 1f, 1f);
@@ -88,10 +87,6 @@ public class Player : Character
         raycastHitEnemies = new List<RaycasthitEnemy>();
         raycasthitEnemyInfo = new RaycasthitEnemy();
         layerMask = 1 << LayerMask.NameToLayer("Wall");
-        Physics2D.IgnoreLayerCollision(16, 13); // enemy 본체랑 충돌 무시
-
-        // 임시로 배경음악 시작
-        // AudioManager.Instance.PlayMusic(0);
     }
 
     //for debug
@@ -432,6 +427,21 @@ public class Player : Character
         playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrease;
         playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrease;
         playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.CharacterTargetEffectTotal.criticalChanceIncrease;
+    }
+    #endregion
+
+    #region coroutine
+    private IEnumerator KnockBackCheck()
+    {
+        while (true)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
+            {
+                //isActiveAI = true;
+                //aiController.PlayMove();
+            }
+        }
     }
     #endregion
 }

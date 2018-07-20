@@ -30,7 +30,7 @@ MonoBehaviour:
   scaleX: 2
   scaleY: 2
   pierceCount: 9999
-  bounceCount: 0
+  bounceCount: 2
   lifeTime: -1
   effectId: -1
   soundId: 1
@@ -44,7 +44,7 @@ MonoBehaviour:
   positionBasedKnockBack: 0
   deleteAfterSummonBulletInfo: {fileID: 0}
   deleteAfterSummonPatternInfo: {fileID: 0}
-  bounceAble: 0
+  bounceAble: 1
   canBlockBullet: 0
   canReflectBullet: 0
   becomeSpiderMine: 0

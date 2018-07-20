@@ -17,7 +17,7 @@ MonoBehaviour:
   statusEffectInfo:
     canPoison: 0
     canBurn: 0
-    knockBack: 200
+    knockBack: 150
     positionBasedKnockBack: 0
     canNag: 0
     canDelayState: 0

@@ -16,7 +16,7 @@ MonoBehaviour:
   sprite: {fileID: 21300016, guid: fc289d39972eca14084789fc8a816b16, type: 3}
   scaleX: 1
   scaleY: 1
-  attackAniType: 2
+  attackAniType: 1
   touchMode: 0
   weaponType: 3
   ammoCapacity: -1

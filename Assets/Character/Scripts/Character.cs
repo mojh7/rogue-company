@@ -134,24 +134,6 @@ public abstract class Character : MonoBehaviour
 
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
-
-    protected IEnumerator KnockBackCheck()
-    {
-
-        while (true)
-        {
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
-            {
-                //isKnockBack = false;
-                isActiveAI = true;
-                aiController.PlayMove();
-            }
-        }
-
-        /*yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime * 25);
-        isKnockBack = false;*/
-    }
 }
 
 

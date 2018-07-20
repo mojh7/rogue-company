@@ -340,6 +340,7 @@ public class Enemy : Character
         if(crowdControlCount > 0)
         {
             isActiveAI = false;
+            aiController.StopMove();
             DebugX.Log(name + " AI Off");
         }
     }
@@ -350,6 +351,7 @@ public class Enemy : Character
         if (0 == crowdControlCount)
         {
             isActiveAI = true;
+            aiController.PlayMove();
             DebugX.Log(name + " AI ON");
         }
     }
@@ -406,15 +408,12 @@ public class Enemy : Character
         isNagging = true;
         rgbody.velocity = Vector2.zero;
         AddCrowdControlCount();
-        DebugX.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
-        DebugX.Log("상태이상 잔소리 시작,111 ");
+        Debug.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
         while (nagOverlappingCount > 0)
         {
             for(int i = 0; i < 8; i++)
             {
-                //DebugX.Log("잔소리 i = " + i);
                 rgbody.velocity = 3f * StatusConstants.Instance.NagDirVector[i];
-                //rgbody.AddForce(150f * StatusConstants.Instance.NagDirVector[i]);
                 yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.NagInfo.value);
                 isActiveAI = false;
             }
@@ -443,6 +442,20 @@ public class Enemy : Character
         delayStateCount = 0;
         isDelayingState = false;
     }
+
+    private IEnumerator KnockBackCheck()
+    {
+        while (true)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
+            {
+                isActiveAI = true;
+                aiController.PlayMove();
+            }
+        }
+    }
+
     #endregion
 }
 
