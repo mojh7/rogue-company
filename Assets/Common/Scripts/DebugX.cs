@@ -4,7 +4,7 @@ using System.Diagnostics;
 public class DebugX
 {
     [Conditional("UnityEditor")]
-    public static void Log(string msg)
+    public static void Log(object msg)
     {
         UnityEngine.Debug.Log(msg);
     }
