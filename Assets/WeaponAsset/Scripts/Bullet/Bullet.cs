@@ -545,12 +545,12 @@ public class Bullet : MonoBehaviour
     public void ApplyWeaponBuff()
     {
         // 1. c분류 원거리 무기 관통 횟수+1 증가 (혹은 관통 횟수 제한x ??), 일단 Gun종류 pireceCount +1
-        if(CheckEqualWeaponType(WeaponType.Gun) && ownerBuff.WeaponTargetEffectTotal.canIncreasePierceCount)
+        if(CheckEqualWeaponType(WeaponType.PISTOL) && ownerBuff.WeaponTargetEffectTotal.canIncreasePierceCount)
         {
             info.pierceCount += 1;
         }
         // 5. 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
-        if (CheckEqualWeaponType(WeaponType.ShotGun) && ownerBuff.WeaponTargetEffectTotal.shotgunBulletCanHoming)
+        if (CheckEqualWeaponType(WeaponType.SHOTGUN) && ownerBuff.WeaponTargetEffectTotal.shotgunBulletCanHoming)
         {
             info.startDelay = 0.5f;
             info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
@@ -563,19 +563,19 @@ public class Bullet : MonoBehaviour
             }
         }
         // 6. 때리기형 근접 무기 적 총알 막기
-        if (CheckEqualWeaponType(WeaponType.Blow) && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
+        if (CheckEqualWeaponType(WeaponType.SWORD) && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
             info.canBlockBullet = true;
         // 7. 날리기형 근접 무기 적 총알
-        if (CheckEqualWeaponType(WeaponType.Swing) && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
+        if (CheckEqualWeaponType(WeaponType.CLUB) && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
             info.canReflectBullet = true;
         // 8. d분류 원거리 무기 공격 시 총알이 벽에 1회 튕겨집니다. 일단 임시로 Gun종류 bounceCount +1, bounceAble = true; 
-        if (CheckEqualWeaponType(WeaponType.Gun) && ownerBuff.WeaponTargetEffectTotal.bounceAble)
+        if (CheckEqualWeaponType(WeaponType.WAND) && ownerBuff.WeaponTargetEffectTotal.bounceAble)
         {
             info.bounceAble = true;
             info.bounceCount += 1;
         }
         // 10. 함정 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
-        if (CheckEqualWeaponType(WeaponType.Trap) && ownerBuff.WeaponTargetEffectTotal.becomesSpiderMine)
+        if (CheckEqualWeaponType(WeaponType.TRAP) && ownerBuff.WeaponTargetEffectTotal.becomesSpiderMine)
         {
             info.becomeSpiderMine = true;
         }

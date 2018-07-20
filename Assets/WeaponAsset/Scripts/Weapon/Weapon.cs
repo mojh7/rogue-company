@@ -119,11 +119,11 @@ public class Weapon : Item {
         ChargedAttackCooldown = 20f;
         chargedTime = 0f;
         // 풀 차징 공격 (근거리, 원거리 별) 데미지 증가율
-        if (info.weaponType == WeaponType.Gun || info.weaponType == WeaponType.ShotGun || info.weaponType == WeaponType.Laser)
+        if (info.weaponType == WeaponType.PISTOL || info.weaponType == WeaponType.SHOTGUN || info.weaponType == WeaponType.LASER)
         {
             chargedDamageIncreaseRate = 0.6f;
         }
-        else if (info.weaponType == WeaponType.Blow || info.weaponType == WeaponType.Strike || info.weaponType == WeaponType.Swing)
+        else if (info.weaponType == WeaponType.SWORD || info.weaponType == WeaponType.KNUCKLE || info.weaponType == WeaponType.CLUB)
         {
             chargedDamageIncreaseRate = 0.4f;
         }

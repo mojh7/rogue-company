@@ -793,6 +793,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114976532569142166, guid: 8f1c9920431a37b4b8ce6df689663825,
+        type: 2}
+      propertyPath: weaponInfos.Array.size
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 4947963125661484, guid: 8f1c9920431a37b4b8ce6df689663825, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -825,6 +830,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114976532569142166, guid: 8f1c9920431a37b4b8ce6df689663825,
+        type: 2}
+      propertyPath: weaponInfos.Array.data[15]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8394dbed30c429449b6628f1b289c159,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f1c9920431a37b4b8ce6df689663825, type: 2}
   m_IsPrefabParent: 0
@@ -1687,7 +1698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60da138dc482b344bd834bd5d78ffc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pixelsPerUnit: 32
+  pixelsPerUnit: 100
   verticalNum: 7
 --- !u!81 &1697834005
 AudioListener:

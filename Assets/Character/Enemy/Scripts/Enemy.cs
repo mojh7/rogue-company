@@ -272,7 +272,9 @@ public class Enemy : Character
     public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
     {
         //isKnockBack = true;
-        //DebugX.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
+        Debug.Log("넉백");
+        DebugX.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
+        aiController.StopMove();
         isActiveAI = false;
         // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
         rgbody.velocity = Vector3.zero;

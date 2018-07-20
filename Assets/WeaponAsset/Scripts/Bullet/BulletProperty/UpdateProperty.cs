@@ -170,7 +170,6 @@ public class AccelerationMotionProperty : UpdateProperty
     }
 }
 
-
 /// <summary> laser bullet Update </summary>
 public class LaserUpdateProperty : UpdateProperty
 {

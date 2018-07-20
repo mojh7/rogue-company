@@ -145,6 +145,7 @@ public abstract class Character : MonoBehaviour
             {
                 //isKnockBack = false;
                 isActiveAI = true;
+                aiController.PlayMove();
             }
         }
 
