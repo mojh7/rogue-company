@@ -48,7 +48,6 @@ public class CustomObject : MonoBehaviour {
             GetComponent<PolygonCollider2D>().isTrigger = false;
             GetComponent<PolygonCollider2D>().enabled = true;
         }
-        gameObject.tag = "Wall";
         gameObject.layer = 14;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
@@ -229,8 +228,6 @@ public class Spawner : CustomObject
         GetComponent<PolygonCollider2D>().enabled = false;
         objectType = ObjectType.SPAWNER;
 
-        // 0516 모장현
-        gameObject.tag = "Untagged";
         gameObject.layer = 0;
     }
     public override bool Active()
@@ -282,7 +279,6 @@ public class Door : CustomObject
     {
         base.Init();
         objectType = ObjectType.NONE;
-        tag = "Wall";
     }
     public void Init(Sprite _openSprite,Sprite _closeSprite)
     {
@@ -453,7 +449,6 @@ public class ItemContainer : CustomObject
         isAvailable = true;
         isAnimate = true;
         objectType = ObjectType.NONE;
-        gameObject.tag = "Untagged";
         gameObject.layer = 0;
     }
 
@@ -551,7 +546,6 @@ public class FallRockTrap : CustomObject
         this.tempSprite = sprite;
         List<Vector2> list = new List<Vector2>();
         int num = tempSprite.GetPhysicsShapeCount();
-        gameObject.tag = "Untagged";
         gameObject.layer = 0;
         GetComponent<PolygonCollider2D>().pathCount = num;
         for (int i = 0; i < num; i++)

@@ -31,3 +31,4 @@ sysinfo.txt
 *.unitypackage
 Assets/Data/save.bin
 Assets/save.bin
+Assets/save.bin.meta
