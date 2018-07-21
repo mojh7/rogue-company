@@ -47,9 +47,7 @@
 			vall /= 3;
 			float clampedLight = floor(vall * bound) / bound;
 			float nextLight = ceil(vall * bound) / bound;
-			//float lerp = frac(vall * bound);
-			//float stepper = step(0, lerp);
-			//gi.light.color *= clampedLight * (1 - stepper) + nextLight * stepper;
+
 			s.Smoothness = 0;
 			s.Metallic = 0;
 			gi.light.color *= clampedLight * 0.5f + nextLight * 0.5f;

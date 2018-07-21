@@ -37,7 +37,7 @@ namespace Map
         Queue<Rect> rects, blocks;
         List<Rect> halls, rooms;
         List<RoomSet> necessaryRoomSet;
-        Tilemap verticalWallTileMap, horizonWallTileMap, floorTileMap, shadowTileMap;
+        Tilemap verticalWallTileMap, horizonWallTileMap, floorTileMap, shadowTileMap, fogTileMap;
         float MaxHallRate = 0.15f;
         int MinumRoomArea = 4;
         int TotalHallArea = 0;
@@ -66,6 +66,7 @@ namespace Map
             shadowTileMap = TileManager.Instance.shadowTileMap;
             verticalWallTileMap = TileManager.Instance.verticalWallTileMap;
             horizonWallTileMap = TileManager.Instance.horizonWallTileMap;
+            fogTileMap = TileManager.Instance.fogTileMap;
         } // 생성자
 
         public void Destruct()
@@ -98,6 +99,16 @@ namespace Map
             return startPosition;
         }
 
+        public void RemoveFog(Rect rect)
+        {
+            for (int x = rect.x * size + 1; x < (rect.x + rect.width) * size; x++)
+            {
+                for (int y = rect.y * size; y < (rect.y + rect.height) * size - 1; y++)
+                {
+                    fogTileMap.SetTile(new Vector3Int(x, y, 0), null);
+                }
+            }
+        }
         #region MakeMap
         public void Generate() 
         {
@@ -108,10 +119,9 @@ namespace Map
             BakeMap();
             LinkRecursion(); // 보스 방을 제외한 방 연결
             LinkBossRoom(); // 보스 방 연결
+            LinkHall(); // 홀 연결
             DrawTile();
-            //LinkHall();
             BakeAvailableArea();
-            CreateRoomMaskObj();
         } // office creates
 
         public void AddNecessaryRoomSet(RoomSet[] _roomSet)
@@ -140,8 +150,6 @@ namespace Map
                 if (rooms[i].doorObjects != null)
                     for (int j = 0; j < rooms[i].doorObjects.Count; j++)
                         Object.DestroyImmediate(rooms[i].doorObjects[j].GetComponent<CustomObject>());
-                if (rooms[i].maskObject != null)
-                    Object.Destroy(rooms[i].maskObject);
             }
 
             objectPool.Deactivation();
@@ -190,6 +198,7 @@ namespace Map
             RuleTile shadow = TileManager.Instance.shadowTile;
             RuleTile verticalRuleTile = TileManager.Instance.verticalWallRuleTile;
             RuleTile horizonRuleTile = TileManager.Instance.horizonWallRuleTile;
+            RuleTile fogTile = TileManager.Instance.fogTile;
 
             Rect rect;
 
@@ -224,12 +233,15 @@ namespace Map
                 {
                     for (int y = rect.y * size; y < (rect.y + rect.height) * size; y++)
                     {
+                        fogTileMap.SetTile(new Vector3Int(x, y, 0), fogTile);
+
                         if (x == minX || y == minY ||
                                     x == maxX || y == maxY)
                         {
                             if (x == minX
                                 && y == minY)
                             {
+                                fogTileMap.SetTile(new Vector3Int(x, y - 1, 0), fogTile);
                                 verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), verticalRuleTile);
                                 verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), verticalRuleTile);
                                 horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), horizonRuleTile);
@@ -239,6 +251,10 @@ namespace Map
                             }
                             else if (x == maxX && y == minY)
                             {
+                                fogTileMap.SetTile(new Vector3Int(x, y - 1, 0), fogTile);
+                                fogTileMap.SetTile(new Vector3Int(x + 1, y, 0), fogTile);
+                                fogTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), fogTile);
+
                                 verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), verticalRuleTile);
                                 verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), verticalRuleTile);
                                 verticalWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), verticalRuleTile);
@@ -251,6 +267,9 @@ namespace Map
                             }
                             else if (x == maxX && y == maxY)
                             {
+                                fogTileMap.SetTile(new Vector3Int(x + 1, y, 0), fogTile);
+                                fogTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), fogTile);
+
                                 verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), verticalRuleTile);
                                 verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), verticalRuleTile);
                                 verticalWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), verticalRuleTile);
@@ -264,12 +283,16 @@ namespace Map
                             }
                             else if (y == minY)
                             {
+                                fogTileMap.SetTile(new Vector3Int(x, y - 1, 0), fogTile);
+
                                 verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), verticalRuleTile);
                                 horizonWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), horizonRuleTile);
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 2, 0), shadow);
                             }
                             else if (x == maxX)
                             {
+                                fogTileMap.SetTile(new Vector3Int(x + 1, y, 0), fogTile);
+
                                 verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), verticalRuleTile);
                                 horizonWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), horizonRuleTile);
                                 shadowTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), shadow);
@@ -515,7 +538,7 @@ namespace Map
             {
                 for (int i = 0; i < halls[indx].edgeRect.Count; i++)
                 {
-                    if (UtilityClass.CoinFlip(80) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    if (UtilityClass.CoinFlip(50) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
                     {
                         DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
                     }
@@ -713,21 +736,6 @@ namespace Map
             else
                 startPosition = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, 0);
         } // 스타트 포인트
-
-        void CreateRoomMaskObj()
-        {
-            GameObject maskPrefab = MapManager.Instance.maskPrefab;
-            for (int i = 0; i < rooms.Count; i++)
-            {
-                rooms[i].maskObject = Object.Instantiate(maskPrefab);
-                rooms[i].maskObject.hideFlags = HideFlags.HideInHierarchy;
-                rooms[i].LoadMaskObject();
-                if (!rooms[i].isRoom)
-                    rooms[i].maskObject.SetActive(true);
-                else
-                    rooms[i].maskObject.SetActive(false);
-            }
-        }
         #endregion
 
     }
@@ -749,7 +757,6 @@ namespace Map
         public GameObject[] customObjects;
         public List<GameObject> doorObjects;
         public List<Vector2> availableAreas;
-        public GameObject maskObject;
         public bool isRoom;
         public bool downExist;
         public bool isClear;
@@ -807,12 +814,6 @@ namespace Map
             else
                 return false;
             return true;
-        }
-
-        public void LoadMaskObject()
-        {
-            maskObject.transform.localPosition = new Vector3(midX * size + 0.5f, midY * size + 0.5f, 0);
-            maskObject.transform.localScale = new Vector2(width * size * 2 + 0.6875f/* 11/32 * 2 */, height * size * 2 + 2);
         }
 
         public bool IsContain(Vector2 _position)

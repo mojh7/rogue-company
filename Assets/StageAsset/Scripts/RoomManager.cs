@@ -147,6 +147,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         {
             if (!currentRoom.isClear)
             {
+                MapManager.Instance.GetMap().RemoveFog(currentRoom);
+
                 currentRoom.isClear = true;
                 NeignborDraw(currentRoom);
                 if (currentRoom.eRoomType == RoomType.BOSS)
@@ -174,7 +176,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
             else
                 currentRoom = GetCurrentRect(PlayerManager.Instance.GetPlayerPosition());
-            currentRoom.maskObject.SetActive(true);
 
             yield return YieldInstructionCache.WaitForSeconds(0.01f);
         }
@@ -198,7 +199,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         MiniMap.Instance.HideMiniMap();
         DoorActive();
         ObjectSetAvailable();
-        currentRoom.maskObject.SetActive(true);
     }
 
     void InitBossRoom()
@@ -216,7 +216,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     void BossInitScene()
     {
         UIManager.Instance.TogglePreventObj();
-        CutSceneUI.Instance.SetCharacter(EnemyManager.Instance.GetBossSprite(GameDataManager.Instance.GetFloor()));
+        CutSceneUI.Instance.SetCharacter(EnemyManager.Instance.GetBossSprite());
         CutSceneUI.Instance.ShowCutScene(Vector2.right, Vector2.down, Vector2.up);
     }
 
@@ -224,7 +224,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         UIManager.Instance.TogglePreventObj();
         CutSceneUI.Instance.Hide();
-        DebugX.Log(GameDataManager.Instance.GetFloor());
         EnemyManager.Instance.SpawnBoss(GameDataManager.Instance.GetFloor(), (currentRoom.areaLeftDown + currentRoom.areaRightTop) / 2);
         monsterNum++;
         SpawnMonster();
