@@ -42,8 +42,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 2800000, guid: f9aab32e24a740243ab14e47f90a0da3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DitherPattern:
-        m_Texture: {fileID: 2800000, guid: 6e7cd2e0ad32e6d459171e5b8568019e, type: 3}
+        m_Texture: {fileID: 2800000, guid: e97f61a52a629c342bb6e28636af47b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -55,7 +59,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6cfdfd8408062024784286e23c2e0be9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 23bd89e5e66e3834eb647776a542380a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -82,6 +86,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -90,17 +98,25 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ToonShade:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - PixelSnap: 1
+    - _Ambient: 0.1
     - _AmplifyDepth: 1
     - _Boundary: 1
     - _BumpScale: 1
     - _CelShadingLevels: 0
     - _ColorMask: 15
-    - _Cutoff: 0.5
+    - _Cutoff: 0.75
+    - _DepthFactor: 2
+    - _DepthPower: 5
     - _DetailNormalMapScale: 1
+    - _DistanceFactor: 4
     - _DitherColorCount: 12
-    - _DitherIntensity: 1
+    - _DitherIntensity: 0
     - _DstBlend: 0
     - _EdgeLightBoost: 1
     - _EnableExternalAlpha: 0
@@ -114,8 +130,11 @@ Material:
     - _Mode: 0
     - _NormalIntensity: 2
     - _OcclusionStrength: 1
+    - _Outline: 0.025
     - _Parallax: 0.02
+    - _PerspectiveFactor: 5
     - _Rotation: 0
+    - _ShadowDepth: 0.15
     - _Shininess: 0.01
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -125,7 +144,9 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
+    - _Threshold: 0
     - _TintMapIntensity: 0.37
+    - _Treshold: 2.5
     - _UVSec: 0
     - _UseUIAlphaClip: 0
     - _ZWrite: 1
@@ -134,7 +155,9 @@ Material:
     - _DarknessColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 0.5}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _Specular: {r: 0, g: 0, b: 0, a: 0}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

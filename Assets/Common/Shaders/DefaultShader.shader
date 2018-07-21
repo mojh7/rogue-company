@@ -2,11 +2,9 @@
 	Properties {
 		_Color("Color", Color) = (1,1,1,1)
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
-		_DitherPattern("Dither pattern", 2D) = "gray"{}
 		[HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
 		[HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
 		_Boundary("Boundary Number", Int) = 1
-		_DitherIntensity("Dither intensity", Range(0, 2)) = 1
 		_LightIntensity("Light intensity", Range(0, 1)) = 1
 	}
 	SubShader {
@@ -22,7 +20,6 @@
 
 
 		sampler2D _MainTex;
-		sampler2D _DitherPattern;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -35,7 +32,6 @@
 		half _Metallic;
 		fixed4 _Color;
 		half _MainIntensity;
-		half _DitherIntensity;
 		half _LightIntensity;
 		int _UnevenResolution;
 		int _Boundary;
@@ -43,21 +39,20 @@
 
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
-			float ditherPattern = s.Smoothness;
-			int res = _Boundary;
+			int bound = _Boundary;
 
 			gi.light.color.rgb *= _LightIntensity;
-			gi.light.color.rgb = clamp(gi.light.color.rgb, 0, 2);
+			gi.light.color.rgb = clamp(gi.light.color.rgb, 0, 1);
 			float vall = gi.light.color.r + gi.light.color.g + gi.light.color.b;
 			vall /= 3;
-
-			float clampedLight = floor(vall * res) / res;
-			float nextLight = ceil(vall * res) / res;
-			float lerp = frac(vall * res);
-			float stepper = step(ditherPattern, lerp);
-			gi.light.color *= clampedLight * (1 - stepper) + nextLight * stepper;
+			float clampedLight = floor(vall * bound) / bound;
+			float nextLight = ceil(vall * bound) / bound;
+			//float lerp = frac(vall * bound);
+			//float stepper = step(0, lerp);
+			//gi.light.color *= clampedLight * (1 - stepper) + nextLight * stepper;
 			s.Smoothness = 0;
 			s.Metallic = 0;
+			gi.light.color *= clampedLight * 0.5f + nextLight * 0.5f;
 			half4 standard = LightingStandard(s, lightDir, gi);
 			return standard;
 		}
@@ -81,10 +76,6 @@
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
-			o.Metallic = 0;
-
-			o.Smoothness = _DitherIntensity * tex2D(_DitherPattern, IN.screenPos.xy * _ScreenParams.xy / 8 + _WorldSpaceCameraPos.xy).r;
-
 			o.Albedo = saturate(o.Albedo);
 		}
 

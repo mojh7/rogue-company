@@ -13,7 +13,6 @@ public class ScaleWithCamera : MonoBehaviour
     void Awake()
     {
         camera = gameObject.GetComponent<Camera>();
-        Assert.IsNotNull(camera);
 
         SetOrthographicSize();
     }
