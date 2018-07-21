@@ -17,4 +17,4 @@ MonoBehaviour:
   animatorController: {fileID: 9100000, guid: 14297bcc8aae8f7489bea901c85fdb97, type: 2}
   weaponInfo:
   - {fileID: 11400000, guid: 38a1921f47391054099ee37d65a305a6, type: 2}
-  task: {fileID: 11400000, guid: c4f7efc3fa4585043b8c0b18cbed655a, type: 2}
+  task: {fileID: 11400000, guid: dda3da4d62baac444aa815051c9e71e7, type: 2}
