@@ -62,12 +62,12 @@ SpriteAtlas:
   - {fileID: 21300030, guid: c252bdacaf158eb43997e316b60e5c4e, type: 3}
   - {fileID: 21300028, guid: c252bdacaf158eb43997e316b60e5c4e, type: 3}
   - {fileID: 21300014, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
+  - {fileID: 21300000, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300016, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300002, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300012, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300034, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300024, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
-  - {fileID: 21300000, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300020, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300022, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
   - {fileID: 21300026, guid: 7f79ddda3d4353742bbcefa013036158, type: 3}
@@ -108,12 +108,12 @@ SpriteAtlas:
   - mapSet_15
   - mapSet_14
   - attacked1
+  - idle0
   - KakaoTalk_20180718_185518212_8
   - KakaoTalk_20180718_185518212_1
   - attacked0
   - KakaoTalk_20180718_185518212_17
   - walk2
-  - idle0
   - walk0
   - walk1
   - walk3

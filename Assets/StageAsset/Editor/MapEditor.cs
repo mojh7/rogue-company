@@ -5,7 +5,7 @@ using System.IO;
 
 public class MapEditor : EditorWindow
 {
-    int width, height, size, gage;
+    int width, height, size = 3, gage;
     string roomName;
     GameObject obj;
     GameObject roomObj;
@@ -34,7 +34,7 @@ public class MapEditor : EditorWindow
         height = EditorGUILayout.IntField("height", height);
         gage = EditorGUILayout.IntField("gage", gage);
         roomType = (RoomType)EditorGUILayout.EnumPopup("RoomType", roomType);
-        size = EditorGUILayout.IntField("size", size);
+       // size = EditorGUILayout.IntField("size", size);
         if (GUILayout.Button("Create Room"))
         {
             CreateTilemap();

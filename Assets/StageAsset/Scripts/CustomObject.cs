@@ -24,7 +24,6 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Init()
     {
-        this.gameObject.hideFlags = HideFlags.HideInHierarchy;
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
@@ -107,11 +106,6 @@ public class UnbreakableBox : CustomObject
     public override void SetAvailable()
     {
     }
-    //public override void Active()
-    //{
-    //    base.Active();
-    //    DebugX.Log("Unbreakalbe");
-    //}
 }
 
 public class BreakalbeBox : CustomObject
@@ -123,11 +117,6 @@ public class BreakalbeBox : CustomObject
         isAvailable = false;
         objectType = ObjectType.BREAKABLE;
     }
-    //public override void Active()
-    //{
-    //    base.Active();
-    //    DebugX.Log("BreakalbeBox");
-    //} 
 }
 
 public class VendingMachine : CustomObject
