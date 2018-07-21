@@ -24,6 +24,7 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Init()
     {
+        gameObject.hideFlags = HideFlags.HideInHierarchy;
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
@@ -438,7 +439,6 @@ public class ItemContainer : CustomObject
         isAvailable = true;
         isAnimate = true;
         objectType = ObjectType.NONE;
-        gameObject.layer = 0;
     }
 
     public void Init(Item _item)
@@ -588,14 +588,14 @@ public class Rock : CustomObject
     private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject obj = collision.gameObject;
-        if (( obj.CompareTag("Player") || obj.CompareTag("Enemy")) && isAvailable)
+
+        if (UtilityClass.CheckLayer(obj.gameObject.layer, 16,13) && isAvailable)
         {
             isAvailable = false;
             Vector2 dir = obj.transform.position - transform.position;
             obj.GetComponent<Character>().Attacked(dir, transform.position, 1, 200, 0);
         }
     }
-
     IEnumerator Dropping()
     {
         float lowerLimit = transform.position.y;

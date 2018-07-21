@@ -93,11 +93,6 @@ namespace Map
             }
         }
 
-        bool CoinFlip(int percent)
-        {
-            return Random.Range(0, 100) < percent;
-        } // 코인 플립 확률에 따른 yes or no 반환
-
         public Vector3 GetStartPosition()
         {
             return startPosition;
@@ -375,7 +370,7 @@ namespace Map
                 flag = false;
             else
             {
-                if (CoinFlip(50))
+                if (UtilityClass.CoinFlip(50))
                     flag = true;
                 else
                     flag = false;
@@ -408,7 +403,7 @@ namespace Map
                 flag = false;
             else
             {
-                if (CoinFlip(50))
+                if (UtilityClass.CoinFlip(50))
                     flag = true;
                 else
                     flag = false;
@@ -520,7 +515,7 @@ namespace Map
             {
                 for (int i = 0; i < halls[indx].edgeRect.Count; i++)
                 {
-                    if (CoinFlip(80) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
+                    if (UtilityClass.CoinFlip(80) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
                     {
                         DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
                     }

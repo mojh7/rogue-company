@@ -3,8 +3,7 @@
 		_Color("Color", Color) = (1,1,1,1)
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_DitherPattern("Dither pattern", 2D) = "gray"{}
-		_NormalMap("NormalMap", 2D) = "white" {}
-		_MainIntensity("Main intensity", Range(0, 2)) = 1
+		[HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
 		[HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
 		_DitherIntensity("Dither intensity", Range(0, 2)) = 1
 		_LightIntensity("Light intensity", Range(0, 1)) = 1
@@ -20,13 +19,12 @@
 		#pragma target 3.0
 		#include "UnityPBSLighting.cginc"
 
+
 		sampler2D _MainTex;
 		sampler2D _DitherPattern;
-		sampler2D _NormalMap;
 
 		struct Input {
 			float2 uv_MainTex;
-			float2 uv_NormalMap;
 			float4 screenPos;
 			float3 worldPos;
 			fixed4 color;
@@ -41,32 +39,10 @@
 		int _UnevenResolution;
 		half4 _Flip;
 
-
-		void vert(inout appdata_full v, out Input o)
-		{
-			v.vertex.xy *= _Flip.xy;
-			UNITY_INITIALIZE_OUTPUT(Input, o);
-			o.color = v.color * _Color;
-		}
-
-		void surf(Input IN, inout SurfaceOutputStandard o) {
-
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
-			o.Albedo = c.rgb;
-			o.Alpha = c.a;
-			//o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
-			if (_UnevenResolution == 1) IN.uv_MainTex.xy += 1.0 / 1024.0;
-			o.Metallic = 0;
-
-			o.Smoothness = _DitherIntensity * tex2D(_DitherPattern, IN.screenPos.xy * _ScreenParams.xy / 8 + _WorldSpaceCameraPos.xy).r;
-
-			o.Albedo = saturate(o.Albedo) * _MainIntensity;
-		}
-
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
 			float ditherPattern = s.Smoothness;
-			int res = 10;
+			int res = 2;
 
 			gi.light.color.rgb *= _LightIntensity;
 			gi.light.color.rgb = clamp(gi.light.color.rgb, 0, 2);
@@ -78,7 +54,6 @@
 			float lerp = frac(vall * res);
 			float stepper = step(ditherPattern, lerp);
 			gi.light.color *= clampedLight * (1 - stepper) + nextLight * stepper;
-			
 			s.Smoothness = 0;
 			s.Metallic = 0;
 			half4 standard = LightingStandard(s, lightDir, gi);
@@ -88,6 +63,27 @@
 		inline void LightingCustom_GI(SurfaceOutputStandard s, UnityGIInput data, inout UnityGI gi)
 		{
 			LightingStandard_GI(s, data, gi);
+		}
+
+		void vert(inout appdata_full v, out Input o)
+		{
+			v.vertex.xy *= _Flip.xy;
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+			o.color = v.color * _Color;
+		}
+
+		void surf(Input IN, inout SurfaceOutputStandard o) 
+		{
+			if (_UnevenResolution == 1) IN.uv_MainTex.xy += 1.0 / 1024.0;
+
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
+			o.Albedo = c.rgb;
+			o.Alpha = c.a;
+			o.Metallic = 0;
+
+			o.Smoothness = _DitherIntensity * tex2D(_DitherPattern, IN.screenPos.xy * _ScreenParams.xy / 8 + _WorldSpaceCameraPos.xy).r;
+
+			o.Albedo = saturate(o.Albedo);
 		}
 
 
