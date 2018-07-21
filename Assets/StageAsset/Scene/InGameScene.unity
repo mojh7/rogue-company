@@ -572,7 +572,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
 --- !u!4 &197731478
 Transform:
   m_ObjectHideFlags: 0
@@ -1224,7 +1224,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
 --- !u!1839735485 &1085572955
 Tilemap:
   m_ObjectHideFlags: 0
@@ -1262,6 +1262,48 @@ Tilemap:
     e32: 0
     e33: 1
   m_TileRefreshArray: []
+--- !u!1001 &1086121721
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584675918074268, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 34c48c39bd23c994baa783508f9e280a, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1086864228
 Prefab:
   m_ObjectHideFlags: 0
@@ -1499,7 +1541,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
 --- !u!1 &1632917436
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,7 +1679,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
 --- !u!19719996 &1632917441
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -1698,8 +1740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60da138dc482b344bd834bd5d78ffc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pixelsPerUnit: 100
-  verticalNum: 7
+  pixelsPerUnit: 32
+  verticalNum: 6
 --- !u!81 &1697834005
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1860,7 +1902,7 @@ MonoBehaviour:
   displayGridGizmos: 1
   unwalkableMask:
     serializedVersion: 2
-    m_Bits: 16386
+    m_Bits: 2
   nodeRadius: 0.25
 --- !u!114 &1789695045
 MonoBehaviour:

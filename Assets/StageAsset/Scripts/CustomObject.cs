@@ -24,7 +24,6 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Init()
     {
-        this.gameObject.hideFlags = HideFlags.HideInHierarchy;
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
@@ -48,7 +47,7 @@ public class CustomObject : MonoBehaviour {
             GetComponent<PolygonCollider2D>().isTrigger = false;
             GetComponent<PolygonCollider2D>().enabled = true;
         }
-        gameObject.layer = 14;
+        gameObject.layer = 1;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 

@@ -240,12 +240,10 @@ public class Player : Character
         float bestDistance = interactiveCollider2D.radius * 10;
         Collider2D bestCollider = null;
 
-        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius);
+        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position,interactiveCollider2D.radius, 1 << 1);
         
         for (int i = 0; i < collider2D.Length; i++)
         {
-            if (!collider2D[i].GetComponent<CustomObject>())
-                continue;
             if (!collider2D[i].GetComponent<CustomObject>().GetAvailable())
                 continue;
             float distance = Vector2.Distance(transform.position, collider2D[i].transform.position);
