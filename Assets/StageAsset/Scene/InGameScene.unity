@@ -1986,7 +1986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4bee09bbb259a246aacdd0d3b0a2205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_cameraDepth: -1
+  m_cameraDepth: -2
 --- !u!108 &1855883524
 Light:
   m_ObjectHideFlags: 0

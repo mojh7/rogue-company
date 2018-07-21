@@ -5,6 +5,7 @@
 		_DitherPattern("Dither pattern", 2D) = "gray"{}
 		[HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
 		[HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
+		_Boundary("Boundary Number", Int) = 1
 		_DitherIntensity("Dither intensity", Range(0, 2)) = 1
 		_LightIntensity("Light intensity", Range(0, 1)) = 1
 	}
@@ -37,12 +38,13 @@
 		half _DitherIntensity;
 		half _LightIntensity;
 		int _UnevenResolution;
+		int _Boundary;
 		half4 _Flip;
 
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
 			float ditherPattern = s.Smoothness;
-			int res = 2;
+			int res = _Boundary;
 
 			gi.light.color.rgb *= _LightIntensity;
 			gi.light.color.rgb = clamp(gi.light.color.rgb, 0, 2);
