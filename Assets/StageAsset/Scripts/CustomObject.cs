@@ -47,7 +47,7 @@ public class CustomObject : MonoBehaviour {
             GetComponent<PolygonCollider2D>().isTrigger = false;
             GetComponent<PolygonCollider2D>().enabled = true;
         }
-        gameObject.layer = 14;
+        gameObject.layer = 1;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 
