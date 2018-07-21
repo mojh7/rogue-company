@@ -1,4 +1,8 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/AIAsset/AI/GameData/RushTest.asset.meta
+guid: dda3da4d62baac444aa815051c9e71e7
+timeCreated: 1532153988
+=======
 <<<<<<< HEAD
 guid: 3b4cf012a105dd24b8d06272972309e4
 timeCreated: 1531809123
@@ -6,9 +10,11 @@ timeCreated: 1531809123
 guid: 3279b7c97060fb64ab2af6c182c91209
 timeCreated: 1532061014
 >>>>>>> e3d6b2518cc16bf84a09e80247cb8f2a14ebafef
+>>>>>>> f9940a9879cebb697799269e4b0360400295f1b7:Assets/save.bin.meta
 licenseType: Free
-DefaultImporter:
+NativeFormatImporter:
   externalObjects: {}
+  mainObjectFileID: 11400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
