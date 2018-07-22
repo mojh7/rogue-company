@@ -11,9 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6995211bec7864abb6fa5586e77b3f, type: 3}
   m_Name: MultiDirPatternInfo
   m_EditorClassIdentifier: 
-  memo: "\uBAA8\uC7A5\uD604\n\uC77C\uC9C1\uC120 \uBC29\uD5A5 \uCD1D\uC54C\n\uAD8C\uCD1D
-    \uBB34\uAE30"
-  bulletInfo: {fileID: 11400000, guid: 32b789b3c16187142bd1bdc20ed5d205, type: 2}
+  memo: 
+  bulletInfo: {fileID: 11400000, guid: bf21e3ede33c31b4d9d254f2f347551a, type: 2}
   bulletCount: 1
   initAngle: 0
   deltaAngle: 0
