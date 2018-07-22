@@ -27,6 +27,7 @@
         AStarTrackAtion,
         RoundingTrackAction,
         RushTrackAtion,
-        AttackAction
+        AttackAction,
+        StopAction
     }
 }

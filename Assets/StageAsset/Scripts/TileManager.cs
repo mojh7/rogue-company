@@ -9,9 +9,11 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     public Tilemap verticalWallTileMap;
     public Tilemap horizonWallTileMap;
     public Tilemap shadowTileMap;
+    public Tilemap fogTileMap;
 
     public RandomTile floorTile;
     public RuleTile shadowTile;
     public RuleTile verticalWallRuleTile;
     public RuleTile horizonWallRuleTile;
+    public RuleTile fogTile;
 }

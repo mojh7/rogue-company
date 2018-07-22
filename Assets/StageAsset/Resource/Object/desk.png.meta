@@ -4,7 +4,7 @@ timeCreated: 1525264628
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_0
+    21300000: desk
     21300002: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_1
     21300004: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_2
     21300006: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_3
@@ -225,7 +225,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_0
+      name: desk
       rect:
         serializedVersion: 2
         x: 16

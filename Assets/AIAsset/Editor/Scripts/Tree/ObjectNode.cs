@@ -194,6 +194,8 @@ namespace BT
                             return ScriptableObject.CreateInstance<RushTrackAtion>();
                         case EActionTask.AttackAction:
                             return ScriptableObject.CreateInstance<AttackAction>();
+                        case EActionTask.StopAction:
+                            return ScriptableObject.CreateInstance<StopTrackAction>();
                     }
                     break;
             }

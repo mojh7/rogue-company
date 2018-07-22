@@ -31,8 +31,9 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         obj.GetComponent<Alert>().Active();
     }
 
-    public Sprite GetBossSprite(int _floor)
+    public Sprite GetBossSprite()
     {
+        sprite = enemyData.Sprite;
         return sprite;
     }
 
@@ -49,7 +50,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
 
     public void SpawnBoss(int _floor,Vector2 position)
     {
-        sprite = enemyData.Sprite;
         BossEnemy enemy;
         GameObject obj = SpawnEnemy(position);
 

@@ -45,14 +45,16 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
         {
             if (_width == roomSetGroup[i].width && _height == roomSetGroup[i].height)
             {
-                if (Random.Range(0, 10) >= 8)
+                if (Random.Range(0, 10) >= 1)
                     roomSet = roomSetGroup[i].GetMonsterRoomSet();
                 else
                     roomSet = roomSetGroup[i].GetOtherRoomSet();
+                if (!roomSet)
+                    continue;
                 return roomSet;
             }
         }
-        return roomSetGroup[0].GetMonsterRoomSet(); ;
+        return roomSetGroup[0].GetMonsterRoomSet(); 
     }
 }
 
@@ -82,10 +84,14 @@ class RoomSetGroup
 
     public RoomSet GetMonsterRoomSet()
     {
+        if (monsterList.Count < 1)
+            return null;
         return monsterList[Random.Range(0, monsterList.Count)];
     }
     public RoomSet GetOtherRoomSet()
     {
+        if (otherList.Count < 1)
+            return null;
         return otherList[Random.Range(0, otherList.Count)];
     }
 }
