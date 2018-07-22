@@ -1,27 +1,24 @@
 fileFormatVersion: 2
-guid: 7f79ddda3d4353742bbcefa013036158
-timeCreated: 1531909422
+guid: 79488e6202b059548acec40a9b446e5e
+timeCreated: 1532248544
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: idle0
-    21300002: KakaoTalk_20180718_185518212_1
-    21300004: KakaoTalk_20180718_185518212_2
-    21300006: KakaoTalk_20180718_185518212_3
-    21300008: KakaoTalk_20180718_185518212_4
-    21300010: KakaoTalk_20180718_185518212_5
-    21300012: attacked0
-    21300014: attacked1
-    21300016: KakaoTalk_20180718_185518212_8
-    21300018: KakaoTalk_20180718_185518212_9
-    21300020: walk0
-    21300022: walk1
-    21300024: walk2
-    21300026: walk3
-    21300028: walk4
-    21300030: walk5
-    21300032: idle1
-    21300034: KakaoTalk_20180718_185518212_17
+    21300002: playerSprite_1
+    21300004: playerSprite_2
+    21300006: playerSprite_3
+    21300008: playerSprite_4
+    21300010: playerSprite_5
+    21300012: walk0
+    21300014: walk1
+    21300016: walk2
+    21300018: walk3
+    21300020: walk4
+    21300022: walk5
+    21300024: idle1
+    21300026: playerSprite_13
+    21300028: idle1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -50,11 +47,11 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: 1
+    aniso: -1
     mipBias: -1
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -111,8 +108,22 @@ TextureImporter:
       name: idle0
       rect:
         serializedVersion: 2
-        x: 68
-        y: 218
+        x: 71
+        y: 122
+        width: 19
+        height: 33
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite_1
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 122
         width: 20
         height: 33
       alignment: 0
@@ -122,81 +133,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_1
+      name: playerSprite_2
       rect:
         serializedVersion: 2
-        x: 99
-        y: 218
-        width: 20
-        height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_2
-      rect:
-        serializedVersion: 2
-        x: 133
-        y: 229
-        width: 19
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_3
-      rect:
-        serializedVersion: 2
-        x: 157
-        y: 229
-        width: 19
-        height: 21
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_4
-      rect:
-        serializedVersion: 2
-        x: 189
-        y: 230
-        width: 11
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_5
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 230
-        width: 15
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: attacked0
-      rect:
-        serializedVersion: 2
-        x: 242
-        y: 218
+        x: 142
+        y: 121
         width: 19
         height: 34
       alignment: 0
@@ -206,11 +147,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: attacked1
+      name: playerSprite_3
       rect:
         serializedVersion: 2
-        x: 273
-        y: 218
+        x: 173
+        y: 121
         width: 20
         height: 34
       alignment: 0
@@ -220,11 +161,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_8
+      name: playerSprite_4
       rect:
         serializedVersion: 2
-        x: 304
-        y: 218
+        x: 204
+        y: 121
         width: 20
         height: 33
       alignment: 0
@@ -234,11 +175,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_9
+      name: playerSprite_5
       rect:
         serializedVersion: 2
-        x: 324
-        y: 237
+        x: 224
+        y: 140
         width: 21
         height: 23
       alignment: 0
@@ -251,12 +192,12 @@ TextureImporter:
       name: walk0
       rect:
         serializedVersion: 2
-        x: 70
-        y: 171
+        x: 72
+        y: 75
         width: 19
         height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -265,12 +206,12 @@ TextureImporter:
       name: walk1
       rect:
         serializedVersion: 2
-        x: 102
-        y: 172
+        x: 104
+        y: 75
         width: 19
         height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -279,12 +220,12 @@ TextureImporter:
       name: walk2
       rect:
         serializedVersion: 2
-        x: 137
-        y: 172
+        x: 139
+        y: 76
         width: 20
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -293,12 +234,12 @@ TextureImporter:
       name: walk3
       rect:
         serializedVersion: 2
-        x: 173
-        y: 171
+        x: 175
+        y: 75
         width: 19
         height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -307,12 +248,12 @@ TextureImporter:
       name: walk4
       rect:
         serializedVersion: 2
-        x: 207
-        y: 171
+        x: 209
+        y: 75
         width: 19
         height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -321,12 +262,12 @@ TextureImporter:
       name: walk5
       rect:
         serializedVersion: 2
-        x: 238
-        y: 173
+        x: 240
+        y: 77
         width: 19
         height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -335,22 +276,22 @@ TextureImporter:
       name: idle1
       rect:
         serializedVersion: 2
-        x: 73
-        y: 129
+        x: 75
+        y: 33
         width: 19
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.7, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180718_185518212_17
+      name: playerSprite_13
       rect:
         serializedVersion: 2
-        x: 102
-        y: 129
+        x: 104
+        y: 33
         width: 20
         height: 32
       alignment: 0
@@ -361,7 +302,7 @@ TextureImporter:
       tessellationDetail: 0
     outline: []
     physicsShape: []
-  spritePackingTag: Character
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

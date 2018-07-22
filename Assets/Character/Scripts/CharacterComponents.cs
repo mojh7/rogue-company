@@ -60,7 +60,6 @@ public class CharacterComponents : MonoBehaviour {
             return interactiveCollider2D;
         }
     }
-
     public BuffManager BuffManager { get; private set; }
     public Rigidbody2D Rigidbody2D { get; private set; }
     public AIController AIController { get; private set; }

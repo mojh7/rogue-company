@@ -50,22 +50,21 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     }
     void FindPlayer()
     {
-        Focus();
-        //if (m_player == null)
-        //{
-        //    m_player = PlayerManager.Instance.GetPlayer();
-        //    cameraTransform.position = new Vector2(m_player.transform.position.x, m_player.transform.position.y);
-        //    return;
-        //}
-        //Vector2 targetPos = new Vector2(m_player.transform.position.x, m_player.transform.position.y) 
-        //    + Vector2.Scale((Vector2)m_player.GetDirVector(), new Vector3(1f, 1f));
+        if (m_player == null)
+        {
+            m_player = PlayerManager.Instance.GetPlayer();
+            cameraTransform.position = new Vector2(m_player.transform.position.x, m_player.transform.position.y);
+            return;
+        }
+        Vector2 targetPos = new Vector2(m_player.transform.position.x, m_player.transform.position.y)
+            + Vector2.Scale((Vector2)m_player.GetDirVector(), new Vector3(1f, 1f));
 
-        ////TODO : Player타겟으로 돌아올 때의 속도? 를 멀 수록 빨리 온다던가 가속, 감속 같은 처리를 해야할 듯 지속적으로 개선
+        //TODO : Player타겟으로 돌아올 때의 속도? 를 멀 수록 빨리 온다던가 가속, 감속 같은 처리를 해야할 듯 지속적으로 개선
 
-        ////Vector2 temp = Vector2.SmoothDamp(transform.position, targetPos, ref m_velocity, Random.Range(1f, 3.5f), 0.5f, Random.Range(.35f, .55f));
-        //Vector2 temp = Vector2.SmoothDamp(cameraTransform.position, targetPos, ref m_velocity, 3, 0.7f, .45f);
-        ////Vector2 temp = Vector2.SmoothDamp(transform.position, targetPos, ref m_velocity, 5, 0.5f, .45f);
-        //cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
+        //Vector2 temp = Vector2.SmoothDamp(transform.position, targetPos, ref m_velocity, Random.Range(1f, 3.5f), 0.5f, Random.Range(.35f, .55f));
+        Vector2 temp = Vector2.SmoothDamp(cameraTransform.position, targetPos, ref m_velocity, 3, 0.7f, .45f);
+        //Vector2 temp = Vector2.SmoothDamp(transform.position, targetPos, ref m_velocity, 5, 0.5f, .45f);
+        cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
     }
     public void Shake(float _amount, float _time, CameraShakeType _cameraShakeType, Vector2 _dir)
     {

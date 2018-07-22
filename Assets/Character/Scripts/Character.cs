@@ -41,6 +41,7 @@ public abstract class Character : MonoBehaviour
     protected BuffManager buffManager;
     protected Rigidbody2D rgbody;
     protected AIController aiController;
+    protected ShadowClass shadowClass;
     #endregion
     #region variables
     // 디버그용 SerializeField

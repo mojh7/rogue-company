@@ -105,10 +105,24 @@ TextureImporter:
         width: 27
         height: 42
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -13.5, y: 21}
+        - {x: -13.5, y: -10}
+        - {x: -10.5, y: -21}
+        - {x: 9.5, y: -21}
+        - {x: 13.5, y: -7}
+        - {x: 13.5, y: 17}
+        - {x: 11.5, y: 21}
+      physicsShape:
+      - - {x: -13.5, y: 21}
+        - {x: -13.5, y: -10}
+        - {x: -10.5, y: -21}
+        - {x: 9.5, y: -21}
+        - {x: 13.5, y: -7}
+        - {x: 13.5, y: 17}
+        - {x: 11.5, y: 21}
       tessellationDetail: 0
     - serializedVersion: 2
       name: mon2_1
@@ -119,10 +133,22 @@ TextureImporter:
         width: 27
         height: 42
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -13.5, y: 21}
+        - {x: -13.5, y: -21}
+        - {x: 11.5, y: -21}
+        - {x: 13.5, y: -4}
+        - {x: 13.5, y: 17}
+        - {x: 9.5, y: 21}
+      physicsShape:
+      - - {x: -13.5, y: 21}
+        - {x: -13.5, y: -21}
+        - {x: 11.5, y: -21}
+        - {x: 13.5, y: -4}
+        - {x: 13.5, y: 17}
+        - {x: 9.5, y: 21}
       tessellationDetail: 0
     - serializedVersion: 2
       name: mon2_2
@@ -133,10 +159,24 @@ TextureImporter:
         width: 27
         height: 42
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -13.5, y: 21}
+        - {x: -13.5, y: -10}
+        - {x: -10.5, y: -21}
+        - {x: 9.5, y: -21}
+        - {x: 13.5, y: -7}
+        - {x: 13.5, y: 17}
+        - {x: 11.5, y: 21}
+      physicsShape:
+      - - {x: -13.5, y: 21}
+        - {x: -13.5, y: -10}
+        - {x: -10.5, y: -21}
+        - {x: 9.5, y: -21}
+        - {x: 13.5, y: -7}
+        - {x: 13.5, y: 17}
+        - {x: 11.5, y: 21}
       tessellationDetail: 0
     - serializedVersion: 2
       name: mon2_3
@@ -147,10 +187,22 @@ TextureImporter:
         width: 27
         height: 42
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -9.5, y: 21}
+        - {x: -13.5, y: 18}
+        - {x: -13.5, y: -3}
+        - {x: -3.5, y: -21}
+        - {x: 13.5, y: -21}
+        - {x: 13.5, y: 21}
+      physicsShape:
+      - - {x: -9.5, y: 21}
+        - {x: -13.5, y: 18}
+        - {x: -13.5, y: -3}
+        - {x: -3.5, y: -21}
+        - {x: 13.5, y: -21}
+        - {x: 13.5, y: 21}
       tessellationDetail: 0
     - serializedVersion: 2
       name: mon2_4
@@ -161,10 +213,22 @@ TextureImporter:
         width: 27
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -9.5, y: 20}
+        - {x: -13.5, y: 13}
+        - {x: -13.5, y: -3}
+        - {x: -9.5, y: -20}
+        - {x: 13.5, y: -20}
+        - {x: 13.5, y: 20}
+      physicsShape:
+      - - {x: -9.5, y: 20}
+        - {x: -13.5, y: 13}
+        - {x: -13.5, y: -3}
+        - {x: -9.5, y: -20}
+        - {x: 13.5, y: -20}
+        - {x: 13.5, y: 20}
       tessellationDetail: 0
     - serializedVersion: 2
       name: mon2_5
@@ -175,10 +239,20 @@ TextureImporter:
         width: 27
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -13.5, y: 20}
+        - {x: -13.5, y: -16}
+        - {x: -12.5, y: -20}
+        - {x: 13.5, y: -20}
+        - {x: 13.5, y: 20}
+      physicsShape:
+      - - {x: -13.5, y: 20}
+        - {x: -13.5, y: -16}
+        - {x: -12.5, y: -20}
+        - {x: 13.5, y: -20}
+        - {x: 13.5, y: 20}
       tessellationDetail: 0
     - serializedVersion: 2
       name: mon2_6
@@ -189,10 +263,24 @@ TextureImporter:
         width: 27
         height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
+      outline:
+      - - {x: -10.5, y: 20.5}
+        - {x: -13.5, y: 14.5}
+        - {x: -13.5, y: 0.5}
+        - {x: -2.5, y: -20.5}
+        - {x: 13.5, y: -20.5}
+        - {x: 13.5, y: 17.5}
+        - {x: 12.5, y: 20.5}
+      physicsShape:
+      - - {x: -10.5, y: 20.5}
+        - {x: -13.5, y: 14.5}
+        - {x: -13.5, y: 0.5}
+        - {x: -2.5, y: -20.5}
+        - {x: 13.5, y: -20.5}
+        - {x: 13.5, y: 17.5}
+        - {x: 12.5, y: 20.5}
       tessellationDetail: 0
     outline: []
     physicsShape: []
