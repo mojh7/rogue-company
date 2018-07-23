@@ -83,17 +83,17 @@ public class BuffManager : MonoBehaviour
     {
         characterTargetEffectTotal = new CharacterTargetEffect
         {
-            armorIncrease = 0,
+            armorIncrement = 0,
 
-            criticalChanceIncrease = 1f,
-            moveSpeedIncrease = 1f,
-            rewardOfEndGameIncrease = 1f,
+            criticalChanceIncrement = 1f,
+            moveSpeedIncrement = 1f,
+            rewardOfEndGameIncrement = 1f,
 
             discountRateOfVendingMachineItems = 1f,
             discountRateOfCafeteriaItems = 1f,
             discountRateAllItems = 1f,
 
-            hungerMaxIncrease = 1f,
+            hungerMaxIncrement = 1f,
             canDrainHp = false
         };
     }
@@ -103,23 +103,26 @@ public class BuffManager : MonoBehaviour
     {
         weaponTargetEffectTotal = new WeaponTargetEffect
         {
-            shotgunBulletCountIncrease = 0,
-            //criticalChanceIncrease = 0,
+            shotgunBulletCountIncrement = 0,
+            //criticalChanceIncrement = 0,
 
-            damageIncrease = 1f,
-            knockBackIncrease = 1f,
-            chargeDamageIncrease = 1f,
-            bulletScaleIncrease = 1f,
-            bulletRangeIncrease = 1f,
-            bulletSpeedIncrease = 1f,
+            damageIncrement = 1f,
+            knockBackIncrement = 1f,
+            chargingAmountIncrement = 1f,
+            gettingSkillGaugeIncrement = 1f,
+            gettingStaminaIncrement = 1f,
+            skillPowerIncrement = 1f, 
+            bulletScaleIncrement = 1f,
+            bulletRangeIncrement = 1f,
+            bulletSpeedIncrement = 1f,
 
             cooldownReduction = 1f,
             chargeTimeReduction = 1f,
-            accuracyIncrease = 1f,
-            shotgunsAccuracyIncrease = 1f,
+            accuracyIncrement = 1f,
+            shotgunsAccuracyIncrement = 1f,
 
-            ammoCapacityIncrease = 0,
-            //getTheHungerIncrease
+            ammoCapacityIncrement = 0,
+            //getTheHungerIncrement
 
             canIncreasePierceCount = false,
             becomesSpiderMine = false,
@@ -220,12 +223,12 @@ public class BuffManager : MonoBehaviour
         // CharacterTargetEffectTotal.recoveryHunger += TargetEffect.recoveryHunger;
 
         // 합 연산
-        CharacterTargetEffectTotal.armorIncrease += targetEffect.armorIncrease * sign;
+        CharacterTargetEffectTotal.armorIncrement += targetEffect.armorIncrement * sign;
 
         // 곱 옵션 - 합 연산
-        CharacterTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
-        CharacterTargetEffectTotal.moveSpeedIncrease += targetEffect.moveSpeedIncrease * sign;
-        CharacterTargetEffectTotal.rewardOfEndGameIncrease += targetEffect.rewardOfEndGameIncrease * sign;
+        CharacterTargetEffectTotal.criticalChanceIncrement += targetEffect.criticalChanceIncrement * sign;
+        CharacterTargetEffectTotal.moveSpeedIncrement += targetEffect.moveSpeedIncrement * sign;
+        CharacterTargetEffectTotal.rewardOfEndGameIncrement += targetEffect.rewardOfEndGameIncrement * sign;
         //CharacterTargetEffectTotal += targetEffect * sign;
 
         // 곱 옵션 - 곱 연산
@@ -245,7 +248,7 @@ public class BuffManager : MonoBehaviour
         }
 
         // 미정
-        CharacterTargetEffectTotal.hungerMaxIncrease += targetEffect.hungerMaxIncrease * sign;
+        CharacterTargetEffectTotal.hungerMaxIncrement += targetEffect.hungerMaxIncrement * sign;
 
         // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함.
         if (targetEffect.canDrainHp)
@@ -271,39 +274,41 @@ public class BuffManager : MonoBehaviour
             boolSign = false;
         }
         // 합 옵션
-        weaponTargetEffectTotal.shotgunBulletCountIncrease += targetEffect.shotgunBulletCountIncrease * sign;
-        //weaponTargetEffectTotal.criticalChanceIncrease += targetEffect.criticalChanceIncrease * sign;
+        weaponTargetEffectTotal.shotgunBulletCountIncrement += targetEffect.shotgunBulletCountIncrement * sign;
+        //weaponTargetEffectTotal.criticalChanceIncrement += targetEffect.criticalChanceIncrement * sign;
         //weaponTargetEffectTotal += targetEffect * sign;        
 
         // 곱 옵션 - 합 연산
-        weaponTargetEffectTotal.damageIncrease += targetEffect.damageIncrease * sign;
-        weaponTargetEffectTotal.knockBackIncrease += targetEffect.knockBackIncrease * sign;
-        weaponTargetEffectTotal.chargeDamageIncrease += targetEffect.chargeDamageIncrease * sign;
-        weaponTargetEffectTotal.bulletScaleIncrease += targetEffect.bulletScaleIncrease * sign;
-        weaponTargetEffectTotal.bulletRangeIncrease += targetEffect.bulletRangeIncrease * sign;
-        weaponTargetEffectTotal.bulletSpeedIncrease += targetEffect.bulletSpeedIncrease * sign;
+        weaponTargetEffectTotal.damageIncrement += targetEffect.damageIncrement * sign;
+        weaponTargetEffectTotal.knockBackIncrement += targetEffect.knockBackIncrement * sign;
+        weaponTargetEffectTotal.chargingAmountIncrement += targetEffect.chargingAmountIncrement * sign;
+        weaponTargetEffectTotal.gettingSkillGaugeIncrement += targetEffect.gettingSkillGaugeIncrement * sign;
+        weaponTargetEffectTotal.gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
+        weaponTargetEffectTotal.skillPowerIncrement += targetEffect.skillPowerIncrement * sign;
+        weaponTargetEffectTotal.bulletScaleIncrement += targetEffect.bulletScaleIncrement * sign;
+        weaponTargetEffectTotal.bulletRangeIncrement += targetEffect.bulletRangeIncrement * sign;
+        weaponTargetEffectTotal.bulletSpeedIncrement += targetEffect.bulletSpeedIncrement * sign;
 
         // 곱 옵션 - 곱 연산
         if (1 == sign)
         {
             weaponTargetEffectTotal.cooldownReduction *= (1.0f - targetEffect.cooldownReduction);
             weaponTargetEffectTotal.chargeTimeReduction *= (1.0f - targetEffect.chargeTimeReduction);
-            weaponTargetEffectTotal.accuracyIncrease *= (1.0f - targetEffect.accuracyIncrease);
-            weaponTargetEffectTotal.shotgunsAccuracyIncrease = (1.0f - targetEffect.shotgunsAccuracyIncrease);
+            weaponTargetEffectTotal.accuracyIncrement *= (1.0f - targetEffect.accuracyIncrement);
+            weaponTargetEffectTotal.shotgunsAccuracyIncrement = (1.0f - targetEffect.shotgunsAccuracyIncrement);
             //weaponTargetEffectTotal *= (1.0f - targetEffect);
         }
         else
         {
             weaponTargetEffectTotal.cooldownReduction /= (1.0f - targetEffect.cooldownReduction);
             weaponTargetEffectTotal.chargeTimeReduction /= (1.0f - targetEffect.chargeTimeReduction);
-            weaponTargetEffectTotal.accuracyIncrease /= (1.0f - targetEffect.accuracyIncrease);
-            weaponTargetEffectTotal.shotgunsAccuracyIncrease /= (1.0f - targetEffect.shotgunsAccuracyIncrease);
+            weaponTargetEffectTotal.accuracyIncrement /= (1.0f - targetEffect.accuracyIncrement);
+            weaponTargetEffectTotal.shotgunsAccuracyIncrement /= (1.0f - targetEffect.shotgunsAccuracyIncrement);
             //weaponTargetEffectTotal /= (1.0f - targetEffect);
         }
 
         // 미정
-        weaponTargetEffectTotal.ammoCapacityIncrease += targetEffect.ammoCapacityIncrease * sign;
-        weaponTargetEffectTotal.getTheHungerIncrease += targetEffect.getTheHungerIncrease * sign;
+        weaponTargetEffectTotal.ammoCapacityIncrement += targetEffect.ammoCapacityIncrement * sign;
 
         // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함. 
         if (targetEffect.canIncreasePierceCount)

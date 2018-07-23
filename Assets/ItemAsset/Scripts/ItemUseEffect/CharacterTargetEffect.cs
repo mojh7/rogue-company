@@ -9,13 +9,13 @@ public class CharacterTargetEffect : ItemUseEffect
     [Header("합 옵션")]
     public float recoveryHp;
     public float recoveryHunger;
-    public int armorIncrease;
+    public int armorIncrement;
     
 
     [Header("곱 옵션 - 합 연산")]
-    public float criticalChanceIncrease; // 2. 치명타 확률 증가율
-    public float moveSpeedIncrease;
-    public float rewardOfEndGameIncrease;           // 게임 끝날 때 보상 증가율
+    public float criticalChanceIncrement; // 2. 치명타 확률 증가율
+    public float moveSpeedIncrement;
+    public float rewardOfEndGameIncrement;           // 게임 끝날 때 보상 증가율
 
     [Header("곱 옵션 - 곱 연산")]
     public float discountRateOfVendingMachineItems; // 자판기 아이템의 할인율
@@ -23,9 +23,9 @@ public class CharacterTargetEffect : ItemUseEffect
     public float discountRateAllItems;              // 모든 아이템의 할인율
 
     // 미정
-    public float hungerMaxIncrease;
-    // public float hpMaxIncrease;
+    public float hungerMaxIncrement;
+    // public float hpMaxIncrement;
 
-    // on / off
-    public bool canDrainHp; // 4. 흡혈 : 적 n명 처치당 체력 +0.5(반 칸) 회복
+    [Header("on/ off 속성")]
+    public bool canDrainHp; // 4. 흡혈 : 적 10명 처치당 체력 +1 회복
 }

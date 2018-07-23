@@ -162,32 +162,38 @@ public class PassiveItemForDebug : MonoBehaviour
     private void UpdateEffectTotalNameText()
     {
         variableNames ="--캐릭터 Effect Total Name value--\n" +
-            "criticalChanceIncrease\n" +
-            "moveSpeedIncrease\n" +
-            "rewardOfEndGameIncrease\n" +
-            "discountRateOfVendingMachineItems\n" +
-            "discountRateOfCafeteriaItems\n" +
-            "discountRateAllItems\n" +
-            "canDrainHp\n" +
+            "1.criticalChanceIncrement\n" +
+            "2.moveSpeedIncrement\n" +
+            "3.rewardOfEndGameIncrement\n" +
+            "4.discountRateOfVendingMachineItems\n" +
+            "5.discountRateOfCafeteriaItems\n" +
+            "6.discountRateAllItems\n" +
+            "7.canDrainHp\n" +
             "-----\n" +
             "Weapon\n" +
-            "shotgunBulletCountIncrease\n" +
-            "damageIncrease\n" +
-            "knockBackIncrease\n" +
-            "chargeDamageIncrease\n" +
-            "bulletScaleIncrease\n" +
-            "bulletRangeIncrease\n" +
-            "bulletSpeedIncrease\n" +
-            "cooldownReduction\n" +
-            "chargeTimeReduction\n" +
-            "accuracyIncrease\n" +
-            "shotgunsAccuracyIncrease\n" +
-            "canIncreasePierceCount\n" +
-            "becomesSpiderMine\n" +
-            "bounceAble\n" +
-            "shotgunBulletCanHoming\n" +
-            "blowWeaponsCanBlockBullet\n" +
-            "swingWeaponsCanReflectBullet\n" +
+            "1.shotgunBulletCountIncrement\n" +
+
+            "2.damageIncrement\n" +
+            "3.knockBackIncrement\n" +
+            "4.chargingAmountIncrement\n" +
+            "5.gettingSkillGaugeIncrement\n" +
+            "6.gettingStaminaIncrement\n" +
+            "7.skillPowerIncrement\n" +
+            "8.bulletScaleIncrement\n" +
+            "9.bulletRangeIncrement\n" +
+            "10.bulletSpeedIncrement\n" +
+
+            "1.cooldownReduction\n" +
+            "2.chargeTimeReduction\n" +
+            "3.accuracyIncrement\n" +
+            "4.shotgunsAccuracyIncrement\n" +
+
+            "1.canIncreasePierceCount\n" +
+            "2.becomesSpiderMine\n" +
+            "3.bounceAble\n" +
+            "4.shotgunBulletCanHoming\n" +
+            "5.blowWeaponsCanBlockBullet\n" +
+            "6.swingWeaponsCanReflectBullet\n" +
             "\n" +
             "\n";
         EffectTotalNameText.text = variableNames;
@@ -198,26 +204,30 @@ public class PassiveItemForDebug : MonoBehaviour
         CharacterTargetEffect characterTotal = PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal;
         WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal;
         string variableValues = "\n" +
-            characterTotal.criticalChanceIncrease + "\n" +
-            characterTotal.moveSpeedIncrease + "\n" +
-            characterTotal.rewardOfEndGameIncrease + "\n" +
+            characterTotal.criticalChanceIncrement + "\n" +
+            characterTotal.moveSpeedIncrement + "\n" +
+            characterTotal.rewardOfEndGameIncrement + "\n" +
             characterTotal.discountRateOfVendingMachineItems + "\n" +
             characterTotal.discountRateOfCafeteriaItems + "\n" +
             characterTotal.discountRateAllItems + "\n" +
             characterTotal.canDrainHp + "\n" +
             "---\n" +
             "Weapon\n" +
-            weaponTotal.shotgunBulletCountIncrease + "\n" +
-            weaponTotal.damageIncrease + "\n" +
-            weaponTotal.knockBackIncrease + "\n" +
-            weaponTotal.chargeDamageIncrease + "\n" +
-            weaponTotal.bulletScaleIncrease + "\n" +
-            weaponTotal.bulletRangeIncrease + "\n" +
-            weaponTotal.bulletSpeedIncrease + "\n" +
+            weaponTotal.shotgunBulletCountIncrement + "\n" +
+            weaponTotal.damageIncrement + "\n" +
+            weaponTotal.knockBackIncrement + "\n" +
+            weaponTotal.chargingAmountIncrement + "\n" +
+            weaponTotal.gettingSkillGaugeIncrement + "\n" +
+            weaponTotal.gettingStaminaIncrement + "\n" +
+            weaponTotal.skillPowerIncrement + "\n" +
+            weaponTotal.bulletScaleIncrement + "\n" +
+            weaponTotal.bulletRangeIncrement + "\n" +
+            weaponTotal.bulletSpeedIncrement + "\n" +
+
             weaponTotal.cooldownReduction + "\n" +
             weaponTotal.chargeTimeReduction + "\n" +
-            weaponTotal.accuracyIncrease + "\n" +
-            weaponTotal.shotgunsAccuracyIncrease + "\n" +
+            weaponTotal.accuracyIncrement + "\n" +
+            weaponTotal.shotgunsAccuracyIncrement + "\n" +
 
             weaponTotal.canIncreasePierceCount + "\n" +
             weaponTotal.becomesSpiderMine + "\n" +

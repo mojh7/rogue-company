@@ -32,7 +32,7 @@ public class SpreadPattern : BulletPattern
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude,
-                ownerDirDegree() - initAngle + deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrease, transferBulletInfo);
+                ownerDirDegree() - initAngle + deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
         }
     }
 
@@ -63,9 +63,9 @@ public class SpreadPattern : BulletPattern
     {
         base.ApplyWeaponBuff();
         // 정확도
-        accuracyIncrease *= ownerBuff.WeaponTargetEffectTotal.shotgunsAccuracyIncrease;
-        sectorAngle = info.sectorAngle * accuracyIncrease;
+        accuracyIncrement *= ownerBuff.WeaponTargetEffectTotal.shotgunsAccuracyIncrement;
+        sectorAngle = info.sectorAngle * accuracyIncrement;
         // 샷건 발사 수 증가
-        bulletCount = info.bulletCount + ownerBuff.WeaponTargetEffectTotal.shotgunBulletCountIncrease;
+        bulletCount = info.bulletCount + ownerBuff.WeaponTargetEffectTotal.shotgunBulletCountIncrement;
     }
 }

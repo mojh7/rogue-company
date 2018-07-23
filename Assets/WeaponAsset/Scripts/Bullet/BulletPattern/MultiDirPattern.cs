@@ -49,7 +49,7 @@ public class MultiDirPattern : BulletPattern
         {
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude,
-                ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrease, transferBulletInfo);
+                ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
         }
     }
 

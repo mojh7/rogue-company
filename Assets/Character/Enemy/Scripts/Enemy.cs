@@ -432,8 +432,8 @@ public class Enemy : Character
         {
             CharacterTargetEffect characterTargetEffect = new CharacterTargetEffect();
             WeaponTargetEffect weaponTargetEffect = new WeaponTargetEffect();
-            characterTargetEffect.moveSpeedIncrease = -StatusConstants.Instance.DelayStateInfo.value;
-            weaponTargetEffect.bulletSpeedIncrease = -StatusConstants.Instance.DelayStateInfo.value;
+            characterTargetEffect.moveSpeedIncrement = -StatusConstants.Instance.DelayStateInfo.value;
+            weaponTargetEffect.bulletSpeedIncrement = -StatusConstants.Instance.DelayStateInfo.value;
             buffManager.RegisterItemEffect(characterTargetEffect, StatusConstants.Instance.DelayStateInfo.effectiveTime);
             buffManager.RegisterItemEffect(weaponTargetEffect, StatusConstants.Instance.DelayStateInfo.effectiveTime);
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.DelayStateInfo.effectiveTime);

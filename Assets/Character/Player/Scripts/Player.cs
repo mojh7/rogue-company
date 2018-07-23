@@ -118,7 +118,7 @@ public class Player : Character
         }
         else
         {
-            directionVector = controller.GetRecenteNormalInputVector();
+            directionVector = controller.GetRecentNormalInputVector();
             directionDegree = directionVector.GetDegFromVector();
         }
 
@@ -265,7 +265,7 @@ public class Player : Character
     private void Move()
     {
         // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
-        objTransform.Translate(controller.GetInputVector() * playerData.MoveSpeed * Time.deltaTime);
+        objTransform.Translate(controller.GetInputVector() * playerData.MoveSpeed * Time.fixedDeltaTime);
         if(controller.GetInputVector().sqrMagnitude > 0.1f)
         {
             animationHandler.Walk();
@@ -276,20 +276,20 @@ public class Player : Character
         }
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(Vector2.up * playerData.MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.up * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector2.down * playerData.MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.down * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector2.right * playerData.MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.right * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector2.left * playerData.MoveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.left * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
     }
     /// <summary> 공격 가능 여부 리턴 </summary>
@@ -329,7 +329,7 @@ public class Player : Character
         
         if (0 == enemyTotal)
         {
-            directionVector = controller.GetRecenteNormalInputVector();
+            directionVector = controller.GetRecentNormalInputVector();
             directionDegree = directionVector.GetDegFromVector();
             //DebugX.Log("enemyTotal = 0, 오토 에임 풀림");
             return;
@@ -361,7 +361,7 @@ public class Player : Character
 
             if (raycasthitEnemyNum == 0)
             {
-                directionVector = controller.GetRecenteNormalInputVector();
+                directionVector = controller.GetRecentNormalInputVector();
                 directionDegree = directionVector.GetDegFromVector();
                 //DebugX.Log("raycasthitEnemyNum = 0, player와 enemy사이에 장애물 존재, 오토 에임 풀림");
                 return;
@@ -404,12 +404,12 @@ public class Player : Character
         }
         /*
         이런건 버프, 패시브 효과 쪽이 어울림
-        moveSpeedIncrease, hungerMaxIncrease, armorIncrease, criticalChanceIncrease
+        moveSpeedIncrement, hungerMaxIncrement, armorIncrement, criticalChanceIncrement
         */
-        playerData.HungerMax = originPlayerData.HungerMax * itemUseEffect.hungerMaxIncrease;
-        playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrease;
-        playerData.Armor = originPlayerData.Armor * itemUseEffect.armorIncrease;
-        playerData.CriticalChance = originPlayerData.CriticalChance * itemUseEffect.criticalChanceIncrease;
+        playerData.HungerMax = originPlayerData.HungerMax * itemUseEffect.hungerMaxIncrement;
+        playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
+        playerData.Armor = originPlayerData.Armor * itemUseEffect.armorIncrement;
+        playerData.CriticalChance = originPlayerData.CriticalChance * itemUseEffect.criticalChanceIncrement;
     }
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
@@ -420,10 +420,10 @@ public class Player : Character
     public void UpdatePlayerData()
     {
         // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.
-        playerData.HungerMax = originPlayerData.HungerMax * buffManager.CharacterTargetEffectTotal.hungerMaxIncrease;
-        playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrease;
-        playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrease;
-        playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.CharacterTargetEffectTotal.criticalChanceIncrease;
+        playerData.HungerMax = originPlayerData.HungerMax * buffManager.CharacterTargetEffectTotal.hungerMaxIncrement;
+        playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrement;
+        playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrement;
+        playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.CharacterTargetEffectTotal.criticalChanceIncrement;
     }
     #endregion
 
@@ -479,10 +479,10 @@ public class PlayerController
     /// <summary>
     /// 입력한 조이스틱의 가장 최근 Input vector의 normal vector 반환 
     /// </summary>
-    public Vector3 GetRecenteNormalInputVector()
+    public Vector3 GetRecentNormalInputVector()
     {
         //DebugX.Log(joystick.GetRecenteNormalInputVector().magnitude);
-        return joystick.GetRecenteNormalInputVector();
+        return joystick.GetRecentNormalInputVector();
     }
     
 }

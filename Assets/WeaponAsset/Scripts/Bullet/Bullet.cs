@@ -583,12 +583,12 @@ public class Bullet : MonoBehaviour
         // bulletInfo 수치들 공식 최종 적용
         
         // 2.모든 무기 공격력 n % 증가, n 미정
-        info.damage = info.damage * (ownerBuff.WeaponTargetEffectTotal.damageIncrease + transferBulletInfo.chargedDamageIncrease);
+        info.damage = info.damage * (ownerBuff.WeaponTargetEffectTotal.damageIncrement + transferBulletInfo.chargedDamageIncrement);
         // 3.모든 무기 치명타 확률 n% 증가, n 미정
-        // float criticalChanceIncrease = ownerBuff.WeaponTargetEffectTotal.criticalChanceIncrease;
-        // if (OwnerType.Player == ownerType) criticalChanceIncrease += PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance;
-        info.criticalChance = info.criticalChance * PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance; //criticalChanceIncrease;
-        info.speed = info.speed * ownerBuff.WeaponTargetEffectTotal.bulletSpeedIncrease;    // 총알 이동속도 변화
+        // float criticalChanceIncrement = ownerBuff.WeaponTargetEffectTotal.criticalChanceIncrement;
+        // if (OwnerType.Player == ownerType) criticalChanceIncrement += PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance;
+        info.criticalChance = info.criticalChance * PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance; //criticalChanceIncrement;
+        info.speed = info.speed * ownerBuff.WeaponTargetEffectTotal.bulletSpeedIncrement;    // 총알 이동속도 변화
     }
 
     /// <summary> bullet Properties 안에 해당 property가 포함 되어 있는지 여부 확인</summary>

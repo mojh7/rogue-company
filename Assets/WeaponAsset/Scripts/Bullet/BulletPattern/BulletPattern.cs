@@ -15,7 +15,7 @@ public class TransferBulletInfo
     public float range;
     public float damage;
     public float criticalChance;
-    public float chargedDamageIncrease;
+    public float chargedDamageIncrement;
 
     public TransferBulletInfo()
     {
@@ -28,7 +28,7 @@ public class TransferBulletInfo
         range = info.range;
         damage = info.damage;
         criticalChance = info.criticalChance;
-        chargedDamageIncrease = info.chargedDamageIncrease;
+        chargedDamageIncrement = info.chargedDamageIncrement;
     }
 }
 
@@ -40,7 +40,7 @@ public abstract class BulletPattern
     protected int executionCount;               // 한 사이클에서의 실행 횟수
     protected float delay;                      // 사이클 내에서의 delay
     protected float addDirVecMagnitude;         // onwer 총구 방향으로 총알 위치 추가 적인 위치 조절 값
-    protected float accuracyIncrease;
+    protected float accuracyIncrement;
 
     protected CharacterInfo.OwnerType ownerType;
     protected DelGetDirDegree ownerDirDegree;
@@ -134,6 +134,6 @@ public abstract class BulletPattern
     }
     public virtual void ApplyWeaponBuff()
     {
-        accuracyIncrease = ownerBuff.WeaponTargetEffectTotal.accuracyIncrease;
+        accuracyIncrement = ownerBuff.WeaponTargetEffectTotal.accuracyIncrement;
     }
 }
