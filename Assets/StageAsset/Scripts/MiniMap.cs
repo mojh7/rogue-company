@@ -522,7 +522,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         {
             transform.localPosition = new Vector2(-maskSize, -maskSize);
             mask.localPosition = new Vector2(maskSize, maskSize);
-            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.4f);
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
         }
         isToggle = !isToggle;
     }
