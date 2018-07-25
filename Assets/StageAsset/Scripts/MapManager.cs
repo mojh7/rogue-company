@@ -578,9 +578,13 @@ namespace Map
                     horizonRuleTile.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
 
                     if (_rectB.isRoom) // 왼쪽 방이  방임
+                    {
                         obj = CreateDoorObject(_rectA.x * size + 0.8125f, y + 0.5f, true);
+                    }
                     else
+                    {
                         obj = CreateDoorObject(_rectA.x * size + 0.8125f, y + 0.5f, true);
+                    }
                 }
                 else // 왼쪽 사각형이 메인
                 {
@@ -590,9 +594,13 @@ namespace Map
                     horizonRuleTile.SetNull(new Vector3Int(_rectB.x * size - 1, y, 0));
 
                     if (_rectA.isRoom) // 오른쪽 방이 방임
+                    {
                         obj = CreateDoorObject(_rectB.x * size + 0.8125f, y + 0.5f, true);
+                    }
                     else
+                    {
                         obj = CreateDoorObject(_rectB.x * size + 0.8125f, y + 0.5f, true);
+                    }
                 }
             } // 가로로 붙음
             else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
