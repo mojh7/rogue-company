@@ -629,7 +629,6 @@ public class SnackBox : CustomObject
     {
         base.Init();
         GetComponent<PolygonCollider2D>().enabled = true;
-        GetComponent<PolygonCollider2D>().isTrigger = true;
         isActive = false;
         isAvailable = true;
         isAnimate = true;
@@ -662,5 +661,11 @@ public class SnackBox : CustomObject
         {
             textMesh.text = "간식함이 비어있습니다.";
         }
+    }
+
+    public override void DeIndicateInfo()
+    {
+        base.DeIndicateInfo();
+        textMesh.text = "";
     }
 }

@@ -36,7 +36,7 @@ namespace Map
         Rect mainRect;
         Queue<Rect> rects, blocks;
         List<Rect> halls, rooms;
-        List<RoomSet> necessaryRoomSet;
+        List<RoomSet> necessaryRoomSet, settedRoomSet;
         Tilemap verticalWallTileMap, horizonWallTileMap, floorTileMap, shadowTileMap, fogTileMap;
         float MaxHallRate = 0.15f;
         int MinumRoomArea = 4;
@@ -129,6 +129,7 @@ namespace Map
             int maxSize = width * height;
             int sum = 0;
             necessaryRoomSet = new List<RoomSet>(_roomSet.Length);
+            settedRoomSet = new List<RoomSet>(_roomSet.Length);
             for (int i = 0; i < _roomSet.Length; i++)
             {
                 sum += _roomSet[i].width * _roomSet[i].height;
@@ -138,7 +139,10 @@ namespace Map
             }
         } // 필수 방 세팅
 
-        void BakeMap() { AStar.TileGrid.Instance.Bake(); }
+        void BakeMap()
+        {
+            AStar.TileGrid.Instance.Bake();
+        }
 
         void RefreshData()
         {
@@ -167,6 +171,7 @@ namespace Map
             int count = 0;
            
             while (true) {
+                SettedRoomset();
                 count++;
                 Random.InitState((int)System.DateTime.Now.Ticks);
                 RefreshData();
@@ -176,13 +181,26 @@ namespace Map
                 AssignAllRoom();
                 if (necessaryRoomSet.Count == 0)
                     break;
-                if (count > 100)
+                if (count > 1000)
+                {
                     break;
+                }
             }
+            Debug.Log(count);
             TileManager.Instance.verticalWallRuleTile.DeleteNull();
             TileManager.Instance.horizonWallRuleTile.DeleteNull();
 
         } // 맵 만들기 
+
+        void SettedRoomset()
+        {
+            for(int i=0;i<settedRoomSet.Count;i++)
+            {
+                Debug.Log("A");
+                necessaryRoomSet.Add(settedRoomSet[i]);
+            }
+            settedRoomSet.Clear();
+        }
 
         void ClearTile()
         {
@@ -665,7 +683,7 @@ namespace Map
         {
             for (int i = 0; i < rooms.Count; i++)
             {
-                RoomSet roomSet = GetRoomSet(rooms[i].width, rooms[i].height, 1);
+                RoomSet roomSet = GetRoomSet(rooms[i].width, rooms[i].height);
                 roomSet.x = rooms[i].x;
                 roomSet.y = rooms[i].y;
                 rooms[i].eRoomType = roomSet.roomType;
@@ -676,22 +694,25 @@ namespace Map
             CreateStartPoint();
         } // 모든 룸 셋 배치
 
-        RoomSet GetRoomSet(int width,int height,int floor)
+        RoomSet GetRoomSet(int width,int height)
         {
             if (necessaryRoomSet.Count == 0)
-                return RoomSetManager.Instance.LoadRoomSet(width, height, floor);
+                return RoomSetManager.Instance.LoadRoomSet(width, height);
             else
             {
-                RoomSet roomSet = RoomSetManager.Instance.LoadRoomSet(width, height, floor); 
-                for(int i = 0; i < necessaryRoomSet.Count; i++)
+                RoomSet roomSet = RoomSetManager.Instance.LoadRoomSet(width, height);
+
+                for (int i = 0; i < necessaryRoomSet.Count; i++)
                 {
                     if (necessaryRoomSet[i].width == width && necessaryRoomSet[i].height == height)
                     {
                         roomSet = necessaryRoomSet[i];
+                        settedRoomSet.Add(roomSet);
                         necessaryRoomSet.RemoveAt(i);
                         break;
                     }
                 }
+
                 return roomSet;
             }
         }

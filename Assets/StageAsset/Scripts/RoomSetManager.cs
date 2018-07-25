@@ -37,7 +37,7 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
         }
     }
 
-    public RoomSet LoadRoomSet(int _width,int _height,int floor)
+    public RoomSet LoadRoomSet(int _width,int _height)
     {
         RoomSet roomSet;
 

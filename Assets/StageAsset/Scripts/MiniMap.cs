@@ -28,9 +28,131 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     Vector2 oldPos;
     bool isToggle = false;
     Color hallColor = new Color((float)160 / 255, (float)174 / 255, (float)186 / 255);
+
+    Direction Check(Map.Rect _rectA, Map.Rect _rectB)
+    {
+        if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
+        {
+            if (_rectA.midX > _rectB.midX)
+            {
+                return Direction.LEFT;
+            }
+            return Direction.RIGHT;
+        }
+        else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
+        {
+            if (_rectA.midY > _rectB.midY)
+            {
+                return Direction.DOWN;
+            }
+            return Direction.TOP;
+        }
+
+        return Direction.RIGHT;
+    }
+
     void EnableMask()
     {
         mask.GetComponent<Mask>().enabled = !mask.GetComponent<Mask>().enabled;
+    }
+
+    public void SetFloorText()
+    {
+        floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
+    }
+
+    public void ClearRoom(Map.Rect _room)
+    {
+        DrawCall(_room, DrawRoom);
+    }
+
+    public void DrawMinimap()
+    {
+        SetFloorText();
+        renderer = GetComponent<RawImage>();
+        roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
+        size = 10; // 미니맵 
+        minmapSizeWidth = Map.MapManager.Instance.width * size; // 미니맵 픽셀 사이즈
+        minmapSizeHeight = Map.MapManager.Instance.height * size;
+
+        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width; // 실제 맵 크기
+        mapSizeHeight = Map.MapManager.Instance.size * Map.MapManager.Instance.height;
+
+        if (Map.MapManager.Instance.width * size > Map.MapManager.Instance.height * size)
+            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
+        else
+            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth, minimapBaseHeight * (float)mapSizeHeight / mapSizeWidth);
+        oldPos = new Vector2(mask.localPosition.x, mask.localPosition.y);
+
+        width = GetComponent<RectTransform>().sizeDelta.x;
+        height = GetComponent<RectTransform>().sizeDelta.y;
+
+        texture = new Texture2D(minmapSizeWidth + 1, minmapSizeHeight + 1);
+        texture.filterMode = FilterMode.Point;
+        renderer.texture = texture;
+
+        for (int i = 0; i <= minmapSizeWidth; i++)
+        {
+            for (int j = 0; j <= minmapSizeHeight; j++)
+            {
+                texture.SetPixel(i, j, Color.white);
+            }
+        }
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (!roomList[i].isRoom)
+                DrawCall(roomList[i], DrawHall);
+        }
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i].isRoom)
+                DrawCall(roomList[i], DrawRoomOutline);
+        }
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (!roomList[i].isRoom)
+                DrawCall(roomList[i], DrawDoor);
+        }
+
+        for (int i = 0; i <= minmapSizeWidth; i++)
+        {
+            for (int j = 0; j <= minmapSizeHeight; j++)
+            {
+                if (i == 0 || i == minmapSizeWidth ||
+                 j == 0 || j == minmapSizeHeight)
+                {
+                    texture.SetPixel(i, j, Color.black);
+                }
+            }
+        }
+
+        texture.Apply();
+    } // 미니맵 그리는 함수
+
+    public void HideMiniMap()
+    {
+        this.gameObject.SetActive(!this.gameObject.activeSelf);
+    }
+
+    public void ToggleMinimap()
+    {
+        EnableMask();
+        if (isToggle)
+        {
+            playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
+            mask.localPosition = oldPos;
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            transform.localPosition = new Vector2(-maskSize, -maskSize);
+            mask.localPosition = new Vector2(maskSize, maskSize);
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
+        }
+        isToggle = !isToggle;
     }
 
     void DrawCall(Map.Rect _room,System.Action<Map.Rect> action)
@@ -42,11 +164,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         threadStart.Invoke();
     }
     
-    public void SetFloorText()
-    {
-        floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
-    }
-
     void DrawIcon(Map.Rect _rect)
     {
         if (!_rect.isRoom)
@@ -94,9 +211,13 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         }
     } // 방 타입에 따른 미니맵 아이콘 표시
 
-    public void ClearRoom(Map.Rect _room)
+    void DrawAllRoom()
     {
-        DrawCall(_room, DrawRoom);
+        for(int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i].isRoom)
+                DrawCall(roomList[i], DrawRoom);
+        }
     }
 
     void DrawRoom(Map.Rect _room)
@@ -402,100 +523,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     }
 
-    public void DrawMinimap()
-    {
-        SetFloorText();
-        renderer = GetComponent<RawImage>();
-        roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
-        size = 10; // 미니맵 
-        minmapSizeWidth = Map.MapManager.Instance.width * size; // 미니맵 픽셀 사이즈
-        minmapSizeHeight = Map.MapManager.Instance.height * size;
-
-        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width; // 실제 맵 크기
-        mapSizeHeight = Map.MapManager.Instance.size * Map.MapManager.Instance.height;
-
-        if (Map.MapManager.Instance.width * size > Map.MapManager.Instance.height * size)
-            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
-        else
-            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth, minimapBaseHeight * (float)mapSizeHeight / mapSizeWidth);
-        oldPos = new Vector2(mask.localPosition.x, mask.localPosition.y);
-
-        width = GetComponent<RectTransform>().sizeDelta.x;
-        height = GetComponent<RectTransform>().sizeDelta.y;
-
-        texture = new Texture2D(minmapSizeWidth + 1, minmapSizeHeight + 1);
-        texture.filterMode = FilterMode.Point;
-        renderer.texture = texture;
-
-        for (int i = 0; i <= minmapSizeWidth; i++)
-        {
-            for (int j = 0; j <= minmapSizeHeight; j++)
-            {
-                texture.SetPixel(i, j, Color.white);
-            }
-        }
-
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (!roomList[i].isRoom)
-                DrawCall(roomList[i], DrawHall);
-        }
-
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (roomList[i].isRoom)
-                DrawCall(roomList[i],DrawRoomOutline);
-        }
-
-        for(int i = 0; i < roomList.Count; i++)
-        {
-            if (!roomList[i].isRoom)
-                DrawCall(roomList[i], DrawDoor);
-        }
-
-        for (int i = 0; i <= minmapSizeWidth; i++)
-        {
-            for (int j = 0; j <= minmapSizeHeight; j++)
-            {
-                if (i == 0 || i == minmapSizeWidth ||
-                 j == 0 || j == minmapSizeHeight)
-                {
-                    texture.SetPixel(i, j, Color.black);
-                }
-            }
-        }
-
-
-        texture.Apply();
-    } // 미니맵 그리는 함수
-
-    Direction Check(Map.Rect _rectA, Map.Rect _rectB)
-    {
-        if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
-        {
-            if(_rectA.midX > _rectB.midX)
-            {
-                return Direction.LEFT;
-            }
-            return Direction.RIGHT;
-        }
-        else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
-        {
-            if (_rectA.midY > _rectB.midY)
-            {
-                return Direction.DOWN;
-            }
-            return Direction.TOP;
-        }
-
-        return Direction.RIGHT;
-    }
-
-    public void HideMiniMap()
-    {
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
-    }
-
     void MovePlayerIcon()
     {
         Vector2 v = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - width / 2,
@@ -508,24 +535,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
             -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
     } // 현재 플레이어 위치 to MiniMap
-
-    public void ToggleMinimap()
-    {
-        EnableMask();
-        if (isToggle)
-        {
-            playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
-            mask.localPosition = oldPos;
-            GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
-        }
-        else
-        {
-            transform.localPosition = new Vector2(-maskSize, -maskSize);
-            mask.localPosition = new Vector2(maskSize, maskSize);
-            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
-        }
-        isToggle = !isToggle;
-    }
     #region UnityFunc
     private void Update()
     {
