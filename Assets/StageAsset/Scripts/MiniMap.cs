@@ -232,6 +232,114 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
+        texture.Apply();
+    }
+
+    void DrawRoomOutline(Map.Rect _room)
+    {
+        if (!_room.isRoom)
+            return;
+
+        for(int i=0;i<_room.edgeRect.Count;i++)
+        {
+            if (_room.edgeRect[i].isRoom)
+                continue;
+            DrawSideLine(_room, _room.edgeRect[i]);
+        }
+        for (int i = 0; i < _room.linkedEdgeRect.Count; i++)
+        {
+            if (_room.linkedEdgeRect[i].isRoom)
+                continue;
+            DrawSideLine(_room, _room.linkedEdgeRect[i]);
+        }
+    }
+
+    void DrawSideLine(Map.Rect _roomA, Map.Rect _roomB)
+    {
+        int start = 0;
+        int end = 0;
+        int x = 0;
+        int y = 0;
+        bool leftOrRight = true;
+        Direction direction = Check(_roomA, _roomB);
+        List<int> yArr = new List<int>(4)
+                {
+                    _roomB.y * size,
+                    (_roomB.y + _roomB.height) * size,
+                    _roomA.y * size,
+                    (_roomA.y + _roomA.height) * size
+                };
+
+        yArr.Sort();
+        List<int> xArr = new List<int>(4)
+                {
+                    _roomB.x * size,
+                    (_roomB.x + _roomB.width) * size,
+                    _roomA.x * size,
+                    (_roomA.x + _roomA.width) * size
+                };
+
+        xArr.Sort();
+        switch (direction)
+        {
+            case Direction.LEFT:
+                start = yArr[1];
+                end = yArr[2];
+
+                x = _roomA.x * size;
+                break;
+            case Direction.RIGHT:
+                start = yArr[1];
+                end = yArr[2];
+
+                x = (_roomA.x + _roomA.width) * size;
+                break;
+            case Direction.TOP:
+                start = xArr[1];
+                end = xArr[2];
+
+                y = (_roomA.y + _roomA.height) * size;
+                leftOrRight = false;
+                break;
+            case Direction.DOWN:
+                start = xArr[1];
+                end = xArr[2];
+
+                y = _roomA.y * size;
+                leftOrRight = false;
+                break;
+            default:
+                break;
+        }
+
+        if (leftOrRight)
+        {
+            for(int i = start; i< end; i++)
+            {
+                texture.SetPixel(x, i, Color.black);
+            }
+        }
+        else
+        {
+            for (int i = start; i < end; i++)
+            {
+                texture.SetPixel(i, y, Color.black);
+
+            }
+        }
+    }
+
+    void DrawDoor(Map.Rect _room)
+    {
+        int minX = _room.x * size;
+        int maxX = (_room.x + _room.width) * size - 1;
+        int minY = _room.y * size;
+        int maxY = (_room.y + _room.height) * size - 1;
+
+        float mapMidX = _room.midX * Map.MapManager.Instance.size;
+        float mapMidY = _room.midY * Map.MapManager.Instance.size;
+
+
         for (int i = 0; i < _room.doorObjects.Count; i++)
         {
             bool horizon = _room.doorObjects[i].GetComponent<Door>().GetHorizon();
@@ -291,78 +399,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         }
 
         texture.Apply();
-    }
 
-    void DrawRoomOutline(Map.Rect _room)
-    {
-        if (!_room.isRoom)
-            return;
-
-        for(int i=0;i<_room.edgeRect.Count;i++)
-        {
-            if (_room.edgeRect[i].isRoom)
-                continue;
-            DrawSideLine(_room, Check(_room, _room.edgeRect[i]));
-        }
-        for (int i = 0; i < _room.linkedEdgeRect.Count; i++)
-        {
-            if (_room.linkedEdgeRect[i].isRoom)
-                continue;
-            DrawSideLine(_room, Check(_room, _room.linkedEdgeRect[i]));
-        }
-    }
-
-    void DrawSideLine(Map.Rect _room, Direction direction/* left, right, top, down*/)
-    {
-        int start = 0;
-        int end = 0;
-        int x = 0;
-        int y = 0;
-        bool leftOrRight = true;
-
-        switch (direction)
-        {
-            case Direction.LEFT:
-                start = _room.y * size;
-                end = (_room.y + _room.height) * size;
-                x = _room.x * size;
-                break;
-            case Direction.RIGHT:
-                start = _room.y * size;
-                end = (_room.y + _room.height) * size;
-                x = (_room.x + _room.width) * size;
-                break;
-            case Direction.TOP:
-                start = _room.x * size;
-                end = (_room.x + _room.width) * size;
-                y = (_room.y + _room.height) * size;
-                leftOrRight = false;
-                break;
-            case Direction.DOWN:
-                start = _room.x * size;
-                end = (_room.x + _room.width) * size;
-                y = _room.y * size;
-                leftOrRight = false;
-                break;
-            default:
-                break;
-        }
-
-        if(leftOrRight)
-        {
-            for(int i = start; i< end; i++)
-            {
-                texture.SetPixel(x, i, Color.black);
-            }
-        }
-        else
-        {
-            for (int i = start; i < end; i++)
-            {
-                texture.SetPixel(i, y, Color.black);
-
-            }
-        }
     }
 
     public void DrawMinimap()
@@ -400,14 +437,20 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (roomList[i].isRoom)
-                DrawRoomOutline(roomList[i]);
+            if (!roomList[i].isRoom)
+                DrawCall(roomList[i], DrawHall);
         }
 
         for (int i = 0; i < roomList.Count; i++)
         {
+            if (roomList[i].isRoom)
+                DrawCall(roomList[i],DrawRoomOutline);
+        }
+
+        for(int i = 0; i < roomList.Count; i++)
+        {
             if (!roomList[i].isRoom)
-                DrawCall(roomList[i], DrawHall);
+                DrawCall(roomList[i], DrawDoor);
         }
 
         for (int i = 0; i <= minmapSizeWidth; i++)
