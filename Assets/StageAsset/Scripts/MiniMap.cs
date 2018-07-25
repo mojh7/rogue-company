@@ -8,6 +8,8 @@ using System.Threading;
 
 public class MiniMap : MonoBehaviourSingleton<MiniMap>
 {
+    enum Direction { LEFT, RIGHT, TOP, DOWN }
+
     [SerializeField] private Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
     [SerializeField] private GameObject playerIcon;
     [SerializeField] private Transform mask;
@@ -229,7 +231,138 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 texture.SetPixel(x, y, hallColor);
             }
         }
+
+        for (int i = 0; i < _room.doorObjects.Count; i++)
+        {
+            bool horizon = _room.doorObjects[i].GetComponent<Door>().GetHorizon();
+
+            float gap;
+
+            if (!horizon) // 세로
+            {
+                gap = mapMidY - _room.doorObjects[i].transform.position.y;
+
+                int pos = (minX + maxX) / 2;
+
+                int doorPos = (int)Mathf.Floor(_room.doorObjects[i].transform.position.x);
+                float x = doorPos / mapSizeWidth;
+                pos = (int)(x * minmapSizeWidth);
+                if (gap < 0)
+                {
+                    //top
+                    texture.SetPixel(pos - 1, maxY + 1, Color.red);
+                    texture.SetPixel(pos, maxY + 1, Color.red);
+                    texture.SetPixel(pos + 1, maxY + 1, Color.red);
+                }
+                else
+                {
+                    //bottom
+                    texture.SetPixel(pos - 1, minY, Color.red);
+                    texture.SetPixel(pos, minY, Color.red);
+                    texture.SetPixel(pos + 1, minY, Color.red);
+                }
+            }
+            else
+            {
+                gap = mapMidX - _room.doorObjects[i].transform.position.x;
+
+                int pos = (minY + maxY) / 2;
+
+                int doorPos = (int)Mathf.Floor(_room.doorObjects[i].transform.position.y);
+                float y = doorPos / mapSizeHeight;
+                pos = (int)(y * minmapSizeHeight);
+
+                if (gap < 0)
+                {
+                    //right
+                    texture.SetPixel(maxX + 1, pos - 1, Color.red);
+                    texture.SetPixel(maxX + 1, pos, Color.red);
+                    texture.SetPixel(maxX + 1, pos + 1, Color.red);
+                }
+                else
+                {
+                    //left
+                    texture.SetPixel(minX, pos - 1, Color.red);
+                    texture.SetPixel(minX, pos, Color.red);
+                    texture.SetPixel(minX, pos + 1, Color.red);
+                }
+            }
+
+        }
+
         texture.Apply();
+    }
+
+    void DrawRoomOutline(Map.Rect _room)
+    {
+        if (!_room.isRoom)
+            return;
+
+        for(int i=0;i<_room.edgeRect.Count;i++)
+        {
+            if (_room.edgeRect[i].isRoom)
+                continue;
+            DrawSideLine(_room, Check(_room, _room.edgeRect[i]));
+        }
+        for (int i = 0; i < _room.linkedEdgeRect.Count; i++)
+        {
+            if (_room.linkedEdgeRect[i].isRoom)
+                continue;
+            DrawSideLine(_room, Check(_room, _room.linkedEdgeRect[i]));
+        }
+    }
+
+    void DrawSideLine(Map.Rect _room, Direction direction/* left, right, top, down*/)
+    {
+        int start = 0;
+        int end = 0;
+        int x = 0;
+        int y = 0;
+        bool leftOrRight = true;
+
+        switch (direction)
+        {
+            case Direction.LEFT:
+                start = _room.y * size;
+                end = (_room.y + _room.height) * size;
+                x = _room.x * size;
+                break;
+            case Direction.RIGHT:
+                start = _room.y * size;
+                end = (_room.y + _room.height) * size;
+                x = (_room.x + _room.width) * size;
+                break;
+            case Direction.TOP:
+                start = _room.x * size;
+                end = (_room.x + _room.width) * size;
+                y = (_room.y + _room.height) * size;
+                leftOrRight = false;
+                break;
+            case Direction.DOWN:
+                start = _room.x * size;
+                end = (_room.x + _room.width) * size;
+                y = _room.y * size;
+                leftOrRight = false;
+                break;
+            default:
+                break;
+        }
+
+        if(leftOrRight)
+        {
+            for(int i = start; i< end; i++)
+            {
+                texture.SetPixel(x, i, Color.black);
+            }
+        }
+        else
+        {
+            for (int i = start; i < end; i++)
+            {
+                texture.SetPixel(i, y, Color.black);
+
+            }
+        }
     }
 
     public void DrawMinimap()
@@ -267,6 +400,12 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
         for (int i = 0; i < roomList.Count; i++)
         {
+            if (roomList[i].isRoom)
+                DrawRoomOutline(roomList[i]);
+        }
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
             if (!roomList[i].isRoom)
                 DrawCall(roomList[i], DrawHall);
         }
@@ -283,8 +422,31 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
+
         texture.Apply();
     } // 미니맵 그리는 함수
+
+    Direction Check(Map.Rect _rectA, Map.Rect _rectB)
+    {
+        if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
+        {
+            if(_rectA.midX > _rectB.midX)
+            {
+                return Direction.LEFT;
+            }
+            return Direction.RIGHT;
+        }
+        else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
+        {
+            if (_rectA.midY > _rectB.midY)
+            {
+                return Direction.DOWN;
+            }
+            return Direction.TOP;
+        }
+
+        return Direction.RIGHT;
+    }
 
     public void HideMiniMap()
     {
@@ -317,7 +479,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         {
             transform.localPosition = new Vector2(-maskSize, -maskSize);
             mask.localPosition = new Vector2(maskSize, maskSize);
-            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.3f);
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.4f);
         }
         isToggle = !isToggle;
     }

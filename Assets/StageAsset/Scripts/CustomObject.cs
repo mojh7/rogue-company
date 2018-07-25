@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL}
+public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX }
 
 public class CustomObject : MonoBehaviour {
 
@@ -24,7 +24,7 @@ public class CustomObject : MonoBehaviour {
 
     public virtual void Init()
     {
-        gameObject.hideFlags = HideFlags.HideInHierarchy;
+        //gameObject.hideFlags = HideFlags.HideInHierarchy;
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
@@ -620,4 +620,47 @@ public class Rock : CustomObject
         isAvailable = false;
     }
 
+}
+
+public class SnackBox : CustomObject
+{
+
+    public override void Init()
+    {
+        base.Init();
+        GetComponent<PolygonCollider2D>().enabled = true;
+        GetComponent<PolygonCollider2D>().isTrigger = true;
+        isActive = false;
+        isAvailable = true;
+        isAnimate = true;
+        objectType = ObjectType.SNACKBOX;
+    }
+
+    public override void SetAvailable()
+    {
+        return;
+    }
+
+    public override bool Active()
+    {
+        if(base.Active())
+        {
+            //Stemina recovery
+            return true;
+        }
+        return false;
+    }
+
+    public override void IndicateInfo()
+    {
+        base.IndicateInfo();
+        if (isAvailable)
+        {
+            textMesh.text = "간식을 드시겠습니까?";
+        }
+        else
+        {
+            textMesh.text = "간식함이 비어있습니다.";
+        }
+    }
 }
