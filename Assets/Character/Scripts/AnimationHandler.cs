@@ -13,7 +13,7 @@ public class AnimationHandler : MonoBehaviour {
         this.animator.runtimeAnimatorController = animatorController;
         animator.SetTrigger("idle");
     }
-
+    
     public void Idle()
     {
         animator.SetTrigger("idle");

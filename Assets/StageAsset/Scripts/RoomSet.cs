@@ -86,6 +86,11 @@ public struct ObjectData
                 _gameObject.GetComponent<Portal>().sprites = sprites;
                 _gameObject.GetComponent<Portal>().Init();
                 break;
+            case ObjectType.SNACKBOX:
+                _gameObject.AddComponent<SnackBox>();
+                _gameObject.GetComponent<SnackBox>().sprites = sprites;
+                _gameObject.GetComponent<SnackBox>().Init();
+                break;
         }
 
         return _gameObject;

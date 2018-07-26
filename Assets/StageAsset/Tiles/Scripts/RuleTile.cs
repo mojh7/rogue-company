@@ -104,27 +104,6 @@ public class RuleTile : TileBase
 		return Mathf.PerlinNoise((position.x + offset) * scale, (position.y + offset) * scale);
 	}
 
-	public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
-	{
-		TileBase[] neighboringTiles = null;
-		var iden = Matrix4x4.identity;
-		foreach (TilingRule rule in m_TilingRules)
-		{
-			if (rule.m_Output == TilingRule.OutputSprite.Animation)
-			{
-				Matrix4x4 transform = iden;
-				GetMatchingNeighboringTiles(tilemap, position, ref neighboringTiles);
-				if (RuleMatches(rule, ref neighboringTiles, ref transform))
-				{
-					tileAnimationData.animatedSprites = rule.m_Sprites;
-					tileAnimationData.animationSpeed = rule.m_AnimationSpeed;
-					return true;
-				}	
-			}
-		}
-		return false;
-	}
-		
 	public override void RefreshTile(Vector3Int location, ITilemap tileMap)
 	{
 		if (m_TilingRules != null && m_TilingRules.Count > 0)
@@ -137,10 +116,10 @@ public class RuleTile : TileBase
 				}
 			}
 		}
-		else
-		{
-			base.RefreshTile(location, tileMap);
-		}
+		//else
+		//{
+		//	base.RefreshTile(location, tileMap);
+		//}
 	}
 
 	public bool RuleMatches(TilingRule rule, ref TileBase[] neighboringTiles, ref Matrix4x4 transform)
