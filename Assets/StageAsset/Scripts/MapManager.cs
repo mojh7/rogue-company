@@ -186,7 +186,7 @@ namespace Map
                     break;
                 }
             }
-            Debug.Log(count);
+
             TileManager.Instance.verticalWallRuleTile.DeleteNull();
             TileManager.Instance.horizonWallRuleTile.DeleteNull();
 
@@ -196,7 +196,6 @@ namespace Map
         {
             for(int i=0;i<settedRoomSet.Count;i++)
             {
-                Debug.Log("A");
                 necessaryRoomSet.Add(settedRoomSet[i]);
             }
             settedRoomSet.Clear();
