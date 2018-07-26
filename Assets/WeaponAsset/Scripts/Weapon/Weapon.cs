@@ -125,6 +125,7 @@ public class Weapon : Item {
         ownerBuff = weaponManager.GetOwnerBuff();
         totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)info.weaponType];
+        
 
         // 공격 패턴(bulletPattern) 초기화
         for (int i = 0; i < info.bulletPatternsLength; i++)

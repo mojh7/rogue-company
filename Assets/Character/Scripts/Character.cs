@@ -12,7 +12,6 @@ namespace CharacterInfo
     {
         NOTSPAWNED, DIE, ALIVE
     }
-
 }
 
 struct RaycasthitEnemy
@@ -122,12 +121,12 @@ public abstract class Character : MonoBehaviour
         // Enemy랑 Player랑 효과 다르게 받아야 될 게 생길 듯
     }
 
-    public virtual void Nag()
+    protected virtual void Nag()
     {
 
     }
 
-    public virtual void DelayState()
+    protected virtual void DelayState()
     {
 
     }

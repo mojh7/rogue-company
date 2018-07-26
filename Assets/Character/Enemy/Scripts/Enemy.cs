@@ -34,6 +34,10 @@ public class Enemy : Character
 
     private Coroutine poisonCoroutine;
     private Coroutine burnCoroutine;
+    private Coroutine stunCoroutine;
+    private Coroutine fetterCoroutine;
+    private Coroutine fearCoroutine;
+    private Coroutine charmCoroutine;
     private Coroutine nagCoroutine;
     private Coroutine delayStateCoroutine;
 
@@ -74,6 +78,8 @@ public class Enemy : Character
         pState = CharacterInfo.State.ALIVE;
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
+        buffManager.Init();
+        buffManager.SetOwner(this);
         weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
         for(int i=0;i<enemyData.WeaponInfo.Count;i++)
         {
@@ -83,10 +89,6 @@ public class Enemy : Character
         aiController.Init(moveSpeed, animationHandler, enemyData.Task);
 
         InitStatusEffects();
-        // 0630 Enemy용 buffManager 초기화
-        buffManager.Init();
-        buffManager.SetOwner(this);
-
         scaleVector = new Vector3(1f, 1f, 1f);
     }
     /// <summary> 상태 이상 효과 관련 초기화 </summary>
@@ -114,6 +116,22 @@ public class Enemy : Character
         if (null != burnCoroutine)
         {
             StopCoroutine(burnCoroutine);
+        }
+        if (null != stunCoroutine)
+        {
+            StopCoroutine(stunCoroutine);
+        }
+        if (null != fetterCoroutine)
+        {
+            StopCoroutine(fetterCoroutine);
+        }
+        if (null != fearCoroutine)
+        {
+            StopCoroutine(fearCoroutine);
+        }
+        if (null != charmCoroutine)
+        {
+            StopCoroutine(charmCoroutine);
         }
         if (null != nagCoroutine)
         {
@@ -206,15 +224,23 @@ public class Enemy : Character
 
         // 독
         if(true == statusEffectInfo.canPoison)
-        {
             Poison();
-        }
-
         // 화상
         if(true == statusEffectInfo.canBurn)
-        {
             Burn();
-        }
+
+        // 스턴
+        if (0 != statusEffectInfo.stun)
+            Stun();
+        // 속박
+        if (0 != statusEffectInfo.fetter)
+            Feteer();
+        // 공포
+        if (0 != statusEffectInfo.fear)
+            Fear();
+        // 매혹
+        if (0 != statusEffectInfo.charm)
+            Charm();
 
         // 넉백 : + 밀기, - 당기기
         if (0 != statusEffectInfo.knockBack)
@@ -222,17 +248,15 @@ public class Enemy : Character
             KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
         }
 
+        // 잔소리
         if (true == statusEffectInfo.canNag)
-        {
             Nag();
-        }
 
+        // 이동 지연
         if (true == statusEffectInfo.canDelayState)
-        {
             DelayState();
-        }
     }
-    public void Poison()
+    private void Poison()
     {
         if (poisonOverlappingCount >= StatusConstants.Instance.PoisonInfo.overlapCountMax)
             return;
@@ -250,7 +274,7 @@ public class Enemy : Character
             poisonCoroutine = StartCoroutine(PoisonCoroutine());
         }
     }
-    public void Burn()
+    private void Burn()
     {
         if (burnOverlappingCount >= StatusConstants.Instance.BurnInfo.overlapCountMax)
             return;
@@ -268,12 +292,27 @@ public class Enemy : Character
             burnCoroutine = StartCoroutine(BurnCoroutine());
         }
     }
+    private void Stun()
+    {
+        // TODO : 공격, 이동 AI OFF 후 스턴 시간만큼 뒤에 정상화
+    }
+    private void Feteer()
+    {
+        // TODO : 이동 AI OFF 후 속박 시간만큼 뒤에 정상화
+    }
+    private void Fear()
+    {
+        // TODO : 공격, 이동 AI OFF 후 시전자에서 멀어지게 움직이게 하고 공포 시간만큼 뒤에 정상화
+    }
+    private void Charm()
+    {
+        // TODO : 공격, 이동 AI OFF 후 시전자에서 가까워지게 움직이게 하고 매혹 시간만큼 뒤에 정상화
+    }
 
     public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
     {
         //isKnockBack = true;
-        Debug.Log("넉백");
-        DebugX.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
+        // Debug.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
         aiController.StopMove();
         isActiveAI = false;
         // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
@@ -295,7 +334,7 @@ public class Enemy : Character
     }
 
     // 이동 translate, velocity, addForce ??
-    public override void Nag()
+    protected override void Nag()
     {
         rgbody.velocity = Vector3.zero;
         DebugX.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
@@ -313,8 +352,8 @@ public class Enemy : Character
         DebugX.Log(gameObject.name + " 잔소리 적용");
     }
 
-    //
-    public override void DelayState()
+    ///<summary>이동 지연</summary>
+    protected override void DelayState()
     {
         if (delayStateCount >= StatusConstants.Instance.DelayStateInfo.overlapCountMax)
             return;
@@ -333,6 +372,9 @@ public class Enemy : Character
         directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
         directionDegree = directionVector.GetDegFromVector();
     }
+
+
+    // TODO : 상태이상 여러가지 혼합될 경우에 대한 처리 고민 및 공격 AI, 이동 AI ON / OFF 이동 애니메이션 ON / OFF, 3가지 기능 종합적으로 처리할 함수 만들기
 
     private void AddCrowdControlCount()
     {
@@ -399,6 +441,23 @@ public class Enemy : Character
             }
         }
         isBurning = false;
+    }
+
+    IEnumerator StunCoroutine(float effectiveTime)
+    {
+        yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
+    }
+    IEnumerator FetterCoroutine(float effectiveTime)
+    {
+        yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
+    }
+    IEnumerator FearCoroutine(float effectiveTime)
+    {
+        yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
+    }
+    IEnumerator CharmCoroutine(float effectiveTime)
+    {
+        yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
     }
 
     // 해야 됨, 이동 방식 뭘로하지 addForce Translate ????

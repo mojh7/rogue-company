@@ -99,8 +99,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         return passiveItemInfos.Length;
     }
 
-    // TODO : Player외의 owner에서 데이터 저장할 때 좀 더 좋은 구조로 개선해야됨.(asset 폴더 내에 저장시 현재 셋팅이 player 위주로 되어있음)
-
     /// <summary>
     /// Owner에 따른 Weapon Data 반환, ownerType 기본 값 Player
     /// </summary>
