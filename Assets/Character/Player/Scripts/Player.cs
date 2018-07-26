@@ -409,7 +409,6 @@ public class Player : Character
         playerData.HungerMax = originPlayerData.HungerMax * itemUseEffect.hungerMaxIncrement;
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
         playerData.Armor = originPlayerData.Armor * itemUseEffect.armorIncrement;
-        playerData.CriticalChance = originPlayerData.CriticalChance * itemUseEffect.criticalChanceIncrement;
     }
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
@@ -423,7 +422,6 @@ public class Player : Character
         playerData.HungerMax = originPlayerData.HungerMax * buffManager.CharacterTargetEffectTotal.hungerMaxIncrement;
         playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrement;
         playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrement;
-        playerData.CriticalChance = originPlayerData.CriticalChance * buffManager.CharacterTargetEffectTotal.criticalChanceIncrement;
     }
     #endregion
 

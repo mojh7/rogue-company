@@ -17,17 +17,19 @@ namespace WeaponAsset
     public delegate Vector3 DelGetPosition();   // owner position이지만 일단 player position 용도로만 사용.
 
     public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
-    /// <summary>원거리 : 권총, 산탄총, 기관총, 저격소총, 레이저, 활<br>123</br>
+    /// <summary>
+    /// 원거리 : 권총, 산탄총, 기관총, 저격소총, 레이저, 활
     /// 근거리 : 창, 몽둥이, 스포츠용품, 검, 청소도구, 주먹장착무기
     /// 함정 : 폭탄, 가스탄, 접근발동무기
     /// 특수 : 지팡이, 쓰레기
     /// </summary>
+    // END 는 WeaponType 총 갯수를 알리기 위해서 enum 맨 끝에 기입 했음.
     public enum WeaponType
     {
-        NULL, PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW,
+        NULL, PISTOL, SHOTGUN, MACHINEGUN, SNIPER_RIFLE, LASER, BOW,
         SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE,
         BOMB, GAS_SHELL, TRAP,
-        WAND, TRASH
+        WAND, TRASH, END
     }
 
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW

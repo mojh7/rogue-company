@@ -13,9 +13,8 @@ public class CharacterTargetEffect : ItemUseEffect
     
 
     [Header("곱 옵션 - 합 연산")]
-    public float criticalChanceIncrement; // 2. 치명타 확률 증가율
     public float moveSpeedIncrement;
-    public float rewardOfEndGameIncrement;           // 게임 끝날 때 보상 증가율
+    public float rewardOfEndGameIncrement;          // 게임 끝날 때 보상 증가율
 
     [Header("곱 옵션 - 곱 연산")]
     public float discountRateOfVendingMachineItems; // 자판기 아이템의 할인율

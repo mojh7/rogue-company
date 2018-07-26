@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using WeaponAsset;
 
 public class PassiveItemForDebug : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class PassiveItemForDebug : MonoBehaviour
     // effect Total text 변수 명, 효과
     private string variableNames;
     private List<string> variableValues;
+
+    private int infoTotalCurrentIndex;
+    private int infoTotalIndexMax;
 
     private int currentIndex;
     private int passiveItemIndexMax;
@@ -54,6 +58,9 @@ public class PassiveItemForDebug : MonoBehaviour
     void Start ()
     {
         currentIndex = 0;
+        infoTotalCurrentIndex = 0;
+        infoTotalIndexMax = (int)WeaponType.END;
+
         passiveItemIndexMax = DataStore.Instance.GetPassiveItemInfosLength();
         slotCountMax = slotRow * slotColumn;
         
@@ -161,19 +168,19 @@ public class PassiveItemForDebug : MonoBehaviour
 
     private void UpdateEffectTotalNameText()
     {
-        variableNames ="--캐릭터 Effect Total Name value--\n" +
-            "1.criticalChanceIncrement\n" +
-            "2.moveSpeedIncrement\n" +
-            "3.rewardOfEndGameIncrement\n" +
-            "4.discountRateOfVendingMachineItems\n" +
-            "5.discountRateOfCafeteriaItems\n" +
-            "6.discountRateAllItems\n" +
-            "7.canDrainHp\n" +
+        variableNames = 
+            "1.moveSpeedIncrement\n" +
+            "2.rewardOfEndGameIncrement\n" +
+            "3.discountRateOfVendingMachineItems\n" +
+            "4.discountRateOfCafeteriaItems\n" +
+            "5.discountRateAllItems\n" +
+            "6.canDrainHp\n" +
             "-----\n" +
             "Weapon\n" +
-            "1.shotgunBulletCountIncrement\n" +
+            "1.bulletCountIncrement\n" +
 
-            "2.damageIncrement\n" +
+            "1.damageIncrement\n" +
+            "2.criticalChanceIncrement\n" +
             "3.knockBackIncrement\n" +
             "4.chargingAmountIncrement\n" +
             "5.gettingSkillGaugeIncrement\n" +
@@ -186,25 +193,28 @@ public class PassiveItemForDebug : MonoBehaviour
             "1.cooldownReduction\n" +
             "2.chargeTimeReduction\n" +
             "3.accuracyIncrement\n" +
-            "4.shotgunsAccuracyIncrement\n" +
 
-            "1.canIncreasePierceCount\n" +
+            "1.increasePierceCount\n" +
             "2.becomesSpiderMine\n" +
             "3.bounceAble\n" +
             "4.shotgunBulletCanHoming\n" +
-            "5.blowWeaponsCanBlockBullet\n" +
-            "6.swingWeaponsCanReflectBullet\n" +
+            "5.meleeWeaponsCanBlockBullet\n" +
+            "6.meleeWeaponsCanReflectBullet\n" +
             "\n" +
             "\n";
         EffectTotalNameText.text = variableNames;
     }
 
+    public void ChangeViewEffectTotal()
+    {
+
+    }
+
     public void UpdateEffectTotalValueText()
     {
         CharacterTargetEffect characterTotal = PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal;
-        WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal;
-        string variableValues = "\n" +
-            characterTotal.criticalChanceIncrement + "\n" +
+        WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal[infoTotalCurrentIndex];
+        string variableValues = 
             characterTotal.moveSpeedIncrement + "\n" +
             characterTotal.rewardOfEndGameIncrement + "\n" +
             characterTotal.discountRateOfVendingMachineItems + "\n" +
@@ -213,8 +223,10 @@ public class PassiveItemForDebug : MonoBehaviour
             characterTotal.canDrainHp + "\n" +
             "---\n" +
             "Weapon\n" +
-            weaponTotal.shotgunBulletCountIncrement + "\n" +
+            weaponTotal.bulletCountIncrement + "\n" +
+
             weaponTotal.damageIncrement + "\n" +
+            weaponTotal.criticalChanceIncrement + "\n" +
             weaponTotal.knockBackIncrement + "\n" +
             weaponTotal.chargingAmountIncrement + "\n" +
             weaponTotal.gettingSkillGaugeIncrement + "\n" +
@@ -227,14 +239,14 @@ public class PassiveItemForDebug : MonoBehaviour
             weaponTotal.cooldownReduction + "\n" +
             weaponTotal.chargeTimeReduction + "\n" +
             weaponTotal.accuracyIncrement + "\n" +
-            weaponTotal.shotgunsAccuracyIncrement + "\n" +
 
-            weaponTotal.canIncreasePierceCount + "\n" +
+            weaponTotal.increasePierceCount + "\n" +
             weaponTotal.becomesSpiderMine + "\n" +
             weaponTotal.bounceAble + "\n" +
             weaponTotal.shotgunBulletCanHoming + "\n" +
-            weaponTotal.blowWeaponsCanBlockBullet + "\n" +
-            weaponTotal.swingWeaponsCanReflectBullet;
+            weaponTotal.meleeWeaponsCanBlockBullet + "\n" +
+            weaponTotal.meleeWeaponsCanReflectBullet;
+
         EffectTotalValueText.text = variableValues;
     }
     #endregion

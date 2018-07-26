@@ -49,6 +49,9 @@ public abstract class BulletPattern
 
     protected BuffManager ownerBuff;
     protected TransferBulletInfo transferBulletInfo;
+
+    protected WeaponTargetEffect totalInfo;
+    protected WeaponTargetEffect effectInfo;
     public float GetDelay()
     {
         return delay;
@@ -72,6 +75,9 @@ public abstract class BulletPattern
 
         transferBulletInfo = new TransferBulletInfo();
         UpdateTransferBulletInfo();
+
+        totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
+        effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)transferBulletInfo.weaponType];
     }
     /// <summary> updateProperty - SummonProperty용 초기화 </summary>
     public virtual void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
@@ -134,6 +140,6 @@ public abstract class BulletPattern
     }
     public virtual void ApplyWeaponBuff()
     {
-        accuracyIncrement = ownerBuff.WeaponTargetEffectTotal.accuracyIncrement;
+        accuracyIncrement = totalInfo.accuracyIncrement * effectInfo.accuracyIncrement;
     }
 }

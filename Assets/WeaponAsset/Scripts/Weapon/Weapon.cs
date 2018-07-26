@@ -3,25 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
 
-/*
- * 
- */
-
-
-// 아직 enum 정의 제대로 안해놓음.
-
-//
-//public enum ShotType { Charged, SemiAutoMatic, Automatic, Burst }
-//public enum TouchType { Normal, Charged }
-
-
-
-/* # 
- *  -
- * # WeaponView
- *  - 무기 외형 관리(scale, sprite, animation) 
- */
-
 public class Weapon : Item {
 
     #region Variables
@@ -42,12 +23,15 @@ public class Weapon : Item {
     private DelGetPosition ownerPos;    // 소유자 초기 위치(vector3)
 
     private float chargedTime;
-    private bool canChargedAttack;  // 차징 공격 가능 여부, 초기에 true 상태
+    private bool canChargedAttack;              // 차징 공격 가능 여부, 초기에 true 상태
     private float ChargedAttackCooldown;        // 차지 공격 쿨타임
     private float chargedDamageIncreaseRate;    // 풀 차징 공격 데미지 상승률
     private Coroutine chargingUpdate;
 
     private BuffManager ownerBuff;
+
+    private WeaponTargetEffect totalInfo;
+    private WeaponTargetEffect effectInfo;
 
     [SerializeField] private int weaponId;
     
@@ -71,7 +55,6 @@ public class Weapon : Item {
     void Awake()
     {
         animator = GetComponent<Animator>();
-        
     }
     private void Update()
     {
@@ -140,6 +123,8 @@ public class Weapon : Item {
         ownerDirVec = weaponManager.GetOwnerDirVec();
         ownerPos = weaponManager.GetOwnerPos();
         ownerBuff = weaponManager.GetOwnerBuff();
+        totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
+        effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)info.weaponType];
 
         // 공격 패턴(bulletPattern) 초기화
         for (int i = 0; i < info.bulletPatternsLength; i++)
@@ -274,8 +259,8 @@ public class Weapon : Item {
     public void UpdateWeaponBuff()
     {
         // 9. 공격속도 증가 +n% (무기 재사용 시간 감소 n% 감소), n 미정 
-        info.cooldown = originInfo.cooldown * ownerBuff.WeaponTargetEffectTotal.cooldownReduction;
-        info.chargeTime = originInfo.chargeTime * ownerBuff.WeaponTargetEffectTotal.chargeTimeReduction;
+        info.cooldown = originInfo.cooldown * totalInfo.cooldownReduction * effectInfo.cooldownReduction;
+        info.chargeTime = originInfo.chargeTime * totalInfo.chargeTimeReduction * effectInfo.chargeTimeReduction; 
     }
 
 
@@ -289,7 +274,7 @@ public class Weapon : Item {
             {
                 // 공격 사운드 실행
                 AudioManager.Instance.PlaySound(info.soundId);
-                CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
+                // CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
                 info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
                 if(info.bulletPatterns[i].GetDelay() > 0)
                 {

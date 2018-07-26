@@ -544,13 +544,19 @@ public class Bullet : MonoBehaviour
 
     public void ApplyWeaponBuff()
     {
-        // 1. c분류 원거리 무기 관통 횟수+1 증가 (혹은 관통 횟수 제한x ??), 일단 Gun종류 pireceCount +1
-        if(CheckEqualWeaponType(WeaponType.PISTOL) && ownerBuff.WeaponTargetEffectTotal.canIncreasePierceCount)
+        int type = (int)transferBulletInfo.weaponType;
+
+        WeaponTargetEffect totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
+        WeaponTargetEffect effectInfo = ownerBuff.WeaponTargetEffectTotal[type];
+
+        // 무기 관통 횟수+1 증가
+        if (effectInfo.increasePierceCount)
         {
             info.pierceCount += 1;
         }
+
         // 5. 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
-        if (CheckEqualWeaponType(WeaponType.SHOTGUN) && ownerBuff.WeaponTargetEffectTotal.shotgunBulletCanHoming)
+        if (CheckEqualWeaponType(WeaponType.SHOTGUN) && effectInfo.shotgunBulletCanHoming)
         {
             info.startDelay = 0.5f;
             info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
@@ -562,33 +568,38 @@ public class Bullet : MonoBehaviour
                 info.updatePropertiesLength += 1;
             }
         }
+
+        /*
         // 6. 때리기형 근접 무기 적 총알 막기
         if (CheckEqualWeaponType(WeaponType.SWORD) && ownerBuff.WeaponTargetEffectTotal.blowWeaponsCanBlockBullet)
-            info.canBlockBullet = true;
-        // 7. 날리기형 근접 무기 적 총알
-        if (CheckEqualWeaponType(WeaponType.CLUB) && ownerBuff.WeaponTargetEffectTotal.swingWeaponsCanReflectBullet)
+            info.canBlockBullet = true;*/
+
+        // 모든 근거리 무기 상대 총알 반사
+        if (effectInfo.meleeWeaponsCanReflectBullet)
             info.canReflectBullet = true;
-        // 8. d분류 원거리 무기 공격 시 총알이 벽에 1회 튕겨집니다. 일단 임시로 Gun종류 bounceCount +1, bounceAble = true; 
-        if (CheckEqualWeaponType(WeaponType.WAND) && ownerBuff.WeaponTargetEffectTotal.bounceAble)
+
+        // 총알이 벽에 1회 튕겨집니다. 
+        if (effectInfo.bounceAble)
         {
             info.bounceAble = true;
             info.bounceCount += 1;
         }
-        // 10. 함정 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
-        if (CheckEqualWeaponType(WeaponType.TRAP) && ownerBuff.WeaponTargetEffectTotal.becomesSpiderMine)
+
+        // 12. 폭탄 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
+        if (effectInfo.becomesSpiderMine)
         {
             info.becomeSpiderMine = true;
         }
 
         // bulletInfo 수치들 공식 최종 적용
         
-        // 2.모든 무기 공격력 n % 증가, n 미정
-        info.damage = info.damage * (ownerBuff.WeaponTargetEffectTotal.damageIncrement + transferBulletInfo.chargedDamageIncrement);
-        // 3.모든 무기 치명타 확률 n% 증가, n 미정
-        // float criticalChanceIncrement = ownerBuff.WeaponTargetEffectTotal.criticalChanceIncrement;
-        // if (OwnerType.Player == ownerType) criticalChanceIncrement += PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance;
-        info.criticalChance = info.criticalChance * PlayerManager.Instance.GetPlayer().PlayerData.CriticalChance; //criticalChanceIncrement;
-        info.speed = info.speed * ownerBuff.WeaponTargetEffectTotal.bulletSpeedIncrement;    // 총알 이동속도 변화
+        // 0.모든 무기 공격력 n % 증가, n 미정
+        info.damage = info.damage * (totalInfo.damageIncrement + effectInfo.damageIncrement + transferBulletInfo.chargedDamageIncrement);
+        
+        // 1.모든 무기 치명타 확률 n% 증가, 합 옵션
+        info.criticalChance = info.criticalChance + totalInfo.criticalChanceIncrement + effectInfo.damageIncrement;
+
+        info.speed = info.speed * (totalInfo.bulletSpeedIncrement + effectInfo.bulletSpeedIncrement);    // 총알 이동속도 변화
     }
 
     /// <summary> bullet Properties 안에 해당 property가 포함 되어 있는지 여부 확인</summary>

@@ -63,9 +63,8 @@ public class SpreadPattern : BulletPattern
     {
         base.ApplyWeaponBuff();
         // 정확도
-        accuracyIncrement *= ownerBuff.WeaponTargetEffectTotal.shotgunsAccuracyIncrement;
         sectorAngle = info.sectorAngle * accuracyIncrement;
         // 샷건 발사 수 증가
-        bulletCount = info.bulletCount + ownerBuff.WeaponTargetEffectTotal.shotgunBulletCountIncrement;
+        bulletCount = info.bulletCount + effectInfo.bulletCountIncrement;
     }
 }
