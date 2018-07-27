@@ -25,12 +25,15 @@ public class PassiveItemForDebug : MonoBehaviour
     [SerializeField]
     private Text SelectPassiveMemoText;
 
+    [SerializeField]
+    private Text viewTypeText;
+
     // effect Total text 변수 명, 효과
     private string variableNames;
     private List<string> variableValues;
 
-    private int infoTotalCurrentIndex;
-    private int infoTotalIndexMax;
+    private int infoCurrentIndex;
+    private int totalInfoIndexMax;
 
     private int currentIndex;
     private int passiveItemIndexMax;
@@ -58,8 +61,8 @@ public class PassiveItemForDebug : MonoBehaviour
     void Start ()
     {
         currentIndex = 0;
-        infoTotalCurrentIndex = 0;
-        infoTotalIndexMax = (int)WeaponType.END;
+        infoCurrentIndex = 0;
+        totalInfoIndexMax = (int)WeaponType.END;
 
         passiveItemIndexMax = DataStore.Instance.GetPassiveItemInfosLength();
         slotCountMax = slotRow * slotColumn;
@@ -89,7 +92,7 @@ public class PassiveItemForDebug : MonoBehaviour
     }
     #endregion
 
-    #region function
+    #region PassiveItemSlot
 
     private void CreatePassiveSlots(Vector3 standardPos)
     {
@@ -166,6 +169,10 @@ public class PassiveItemForDebug : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region viewEffectInfo
+
     private void UpdateEffectTotalNameText()
     {
         variableNames = 
@@ -178,17 +185,17 @@ public class PassiveItemForDebug : MonoBehaviour
             "-----\n" +
             "Weapon\n" +
             "1.bulletCountIncrement\n" +
+            "2.criticalChanceIncrement\n" +
 
             "1.damageIncrement\n" +
-            "2.criticalChanceIncrement\n" +
-            "3.knockBackIncrement\n" +
-            "4.chargingAmountIncrement\n" +
-            "5.gettingSkillGaugeIncrement\n" +
-            "6.gettingStaminaIncrement\n" +
-            "7.skillPowerIncrement\n" +
-            "8.bulletScaleIncrement\n" +
-            "9.bulletRangeIncrement\n" +
-            "10.bulletSpeedIncrement\n" +
+            "2.knockBackIncrement\n" +
+            "3.chargingAmountIncrement\n" +
+            "4.gettingSkillGaugeIncrement\n" +
+            "5.gettingStaminaIncrement\n" +
+            "6.skillPowerIncrement\n" +
+            "7.bulletScaleIncrement\n" +
+            "8.bulletRangeIncrement\n" +
+            "9.bulletSpeedIncrement\n" +
 
             "1.cooldownReduction\n" +
             "2.chargeTimeReduction\n" +
@@ -205,15 +212,20 @@ public class PassiveItemForDebug : MonoBehaviour
         EffectTotalNameText.text = variableNames;
     }
 
-    public void ChangeViewEffectTotal()
+    public void ChangeViewEffectTotal(bool nextType)
     {
-
+        if(nextType)
+            infoCurrentIndex = (infoCurrentIndex + 1) % totalInfoIndexMax;
+        else
+            infoCurrentIndex = (infoCurrentIndex - 1 + totalInfoIndexMax) % totalInfoIndexMax;
+        UpdateEffectTotalValueText();
     }
 
     public void UpdateEffectTotalValueText()
     {
+        viewTypeText.text = ((WeaponType)infoCurrentIndex).ToString();
         CharacterTargetEffect characterTotal = PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal;
-        WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal[infoTotalCurrentIndex];
+        WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal[infoCurrentIndex];
         string variableValues = 
             characterTotal.moveSpeedIncrement + "\n" +
             characterTotal.rewardOfEndGameIncrement + "\n" +
@@ -224,9 +236,9 @@ public class PassiveItemForDebug : MonoBehaviour
             "---\n" +
             "Weapon\n" +
             weaponTotal.bulletCountIncrement + "\n" +
+            weaponTotal.criticalChanceIncrement + "\n" +
 
             weaponTotal.damageIncrement + "\n" +
-            weaponTotal.criticalChanceIncrement + "\n" +
             weaponTotal.knockBackIncrement + "\n" +
             weaponTotal.chargingAmountIncrement + "\n" +
             weaponTotal.gettingSkillGaugeIncrement + "\n" +

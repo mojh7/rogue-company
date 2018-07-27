@@ -2,32 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-/// <summary> 좋은 아이템 S ◁-------- E 덜 좋은 아이템 </summary>
-public enum Rating { NORATING, S, A, B, C, D, E }
-
-// item 상속 받는 중이라, item을 scriptable 할거 아니면 상속 2개 못해서
-// info 클래스 따로 만들어서 scriptable 만들고 정보 관리
-
-// 사용할 수 있는 아이템들
-public class UsableItem : Item
-{
-    private UsableItemInfo info;
-    
-    public void Init(UsableItemInfo info)
-    {
-        this.info = info;
-    }
-    public override void Active()
-    {
-        DebugX.Log("UsableItem use");
-        for(int i = 0; i < info.EffectApplyTypes.Length; i++)
-        {
-            info.EffectApplyTypes[i].UseItem();
-        }
-    }
-}
-
+/*
 // 음식 아이템
 public class FoodItem : UsableItem
 {
@@ -81,4 +56,4 @@ public class PassiveItem : UsableItem
     {
         base.Active();
     }
-}
+}*/

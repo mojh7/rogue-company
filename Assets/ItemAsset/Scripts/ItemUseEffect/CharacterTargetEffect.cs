@@ -11,7 +11,6 @@ public class CharacterTargetEffect : ItemUseEffect
     public float recoveryHunger;
     public int armorIncrement;
     
-
     [Header("곱 옵션 - 합 연산")]
     public float moveSpeedIncrement;
     public float rewardOfEndGameIncrement;          // 게임 끝날 때 보상 증가율
