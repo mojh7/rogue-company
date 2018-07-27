@@ -78,7 +78,7 @@ public struct ObjectData
                 break;
             case ObjectType.SPAWNER:
                 _gameObject.AddComponent<Spawner>();
-                _gameObject.GetComponent<Spawner>().sprite = null;
+                _gameObject.GetComponent<Spawner>().sprites = null;
                 _gameObject.GetComponent<Spawner>().Init();
                 break;
             case ObjectType.PORTAL:

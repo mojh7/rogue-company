@@ -26,7 +26,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     {
         GameObject obj = Instantiate(alertObj,_position,Quaternion.identity,this.transform);
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().sprite = null;
         obj.GetComponent<Alert>().Init(CallBack);
         obj.GetComponent<Alert>().Active();
     }

@@ -40,7 +40,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
 
         objs.Enqueue(obj);
         obj.AddComponent<ItemBox>();
-        obj.GetComponent<ItemBox>().sprite = sprite;
+        obj.GetComponent<ItemBox>().sprites = new Sprite[1] { sprite };
         obj.GetComponent<ItemBox>().Init(_item);
         obj.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y);
     }

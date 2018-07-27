@@ -8,17 +8,20 @@ public abstract class CustomObject : MonoBehaviour {
 
     public Vector3 position;
     public ObjectType objectType;
-    public Sprite sprite;
     public Sprite[] sprites;
+
+    protected Sprite sprite;
     protected bool isActive;
     protected bool isAvailable;
     protected bool isAnimate;
+    #region components
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
     protected new Rigidbody2D rigidbody2D;
     protected TextMesh textMesh;
     protected PolygonCollider2D polygonCollider2D;
+    #endregion
 
     public bool GetAvailable() { return isAvailable; }
     public bool GetActive() { return isActive; }
@@ -103,6 +106,8 @@ public class NoneRandomSpriteObject : CustomObject
         isAnimate = false;
         if (sprites != null)
             sprite = sprites[0];
+        else
+            sprite = null;
         SetSpriteAndCollider();
     }
 
@@ -117,6 +122,8 @@ public class RandomSpriteObject : CustomObject
         isAnimate = false;
         if (sprites != null)
             sprite = sprites[Random.Range(0, sprites.Length)];
+        else
+            sprite = null;
         SetSpriteAndCollider();
     }
 
@@ -572,7 +579,7 @@ public class FallRockTrap : RandomSpriteObject
     public override bool Active()
     {
         this.gameObject.AddComponent<Alert>();
-        this.gameObject.GetComponent<Alert>().sprite = null;
+        this.gameObject.GetComponent<Alert>().sprites = null;
         this.gameObject.GetComponent<Alert>().Init(CallBack);
         this.gameObject.GetComponent<Alert>().Active();
         Destroy(this);
@@ -590,7 +597,7 @@ public class FallRockTrap : RandomSpriteObject
     {
         GameObject obj = Object.Instantiate(ResourceManager.Instance.ObjectPrefabs);
         obj.AddComponent<Rock>();
-        obj.GetComponent<Rock>().sprite = tempSprite;
+        obj.GetComponent<Rock>().sprites = new Sprite[1] { tempSprite };
         obj.GetComponent<Rock>().Init();
         obj.transform.position = _position;
         obj.GetComponent<Rock>().Active();
@@ -670,7 +677,8 @@ public class SnackBox : NoneRandomSpriteObject
         if(base.Active())
         {
             //Stemina recovery
-            spriteRenderer.sprite = sprites[1];
+            isAvailable = false;
+            sprite = sprites[1];
             return true;
         }
         return false;
@@ -716,7 +724,8 @@ public class MedkitBox : NoneRandomSpriteObject
         if (base.Active())
         {
             //Item Drop
-            spriteRenderer.sprite = sprites[1];
+            isAvailable = false;
+            sprite = sprites[1];
             return true;
         }
         return false;
