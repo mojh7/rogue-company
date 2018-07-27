@@ -12,15 +12,33 @@ public class ShadowClass : MonoBehaviour {
     float offset;
     float sin10;
     Vector3 scale;
+    //private void Awake()
+    //{
+    //    Transform = GetComponent<Transform>();
+    //    Transform.eulerAngles = new Vector3(0, 0, 0);
+    //    Transform.localScale = new Vector3(1, 1, 1);
+    //    parentRenderer = Transform.parent.GetComponent<SpriteRenderer>();
+    //    spriteRenderer = GetComponent<SpriteRenderer>();
+    //}
+    //private void Update()
+    //{
+    //    SetPosition();
+    //}
+
+    //void SetPosition()
+    //{
+    //    spriteRenderer.sprite = parentRenderer.sprite;
+    //}
 
     private void Awake()
     {
         Transform = GetComponent<Transform>();
-        Transform.eulerAngles = new Vector3(60, 0, 0);
-        Transform.localScale = new Vector3(3, 3, 1);
-        scale = new Vector3(1, 0.5f, 0);
+        Transform.eulerAngles = new Vector3(0, 0, 0);
+        Transform.localScale = new Vector3(1, 1, 1);
+        scale = new Vector3(1, 1, 0);
         parentRenderer = Transform.parent.GetComponent<SpriteRenderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = new Color(0, 0, 0,0.2f);
     }
 
     private void Update()
@@ -34,7 +52,7 @@ public class ShadowClass : MonoBehaviour {
         offset = sprite.bounds.min.y;
         size = sprite.bounds.size.x;
         Transform.localPosition = new Vector2(0, offset);
-        Transform.localScale = scale * size * 5;
+        Transform.localScale = scale * size * 2.5f;
     }
 
     //private void Awake()

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX }
+public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX }
 
-public class CustomObject : MonoBehaviour {
+public abstract class CustomObject : MonoBehaviour {
 
     public Vector3 position;
     public ObjectType objectType;
@@ -18,53 +18,48 @@ public class CustomObject : MonoBehaviour {
     protected BoxCollider2D boxCollider;
     protected new Rigidbody2D rigidbody2D;
     protected TextMesh textMesh;
+    protected PolygonCollider2D polygonCollider2D;
 
     public bool GetAvailable() { return isAvailable; }
     public bool GetActive() { return isActive; }
 
     public virtual void Init()
     {
-        //gameObject.hideFlags = HideFlags.HideInHierarchy;
-        rigidbody2D = GetComponent<Rigidbody2D>();
-        rigidbody2D.bodyType = RigidbodyType2D.Static;
-        textMesh = GetComponentInChildren<TextMesh>();
-#if UNITY_EDITOR
-        spriteRenderer = GetComponent<SpriteRenderer>();
-#endif
-        isAnimate = false;
-        if (sprites != null)
-            sprite = sprites[Random.Range(0, sprites.Length)];
-        if (sprite)
-        {
-            GetComponent<SpriteRenderer>().sprite = sprite;
-            List<Vector2> list = new List<Vector2>();
-            int num = sprite.GetPhysicsShapeCount();
-            GetComponent<PolygonCollider2D>().pathCount = num;
-            for (int i = 0; i < num; i++)
-            {
-                sprite.GetPhysicsShape(i, list);
-                GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
-            }
-            GetComponent<PolygonCollider2D>().isTrigger = false;
-            GetComponent<PolygonCollider2D>().enabled = true;
-        }
         gameObject.layer = 1;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
-
+#if UNITY_EDITOR
     public void SetPosition()
     {
         position = new Vector3(transform.position.x, transform.position.y, 0);
     }
-
-    public virtual void SetAvailable()
+#endif
+    protected void SetSpriteAndCollider()
     {
-        isAvailable = !isAvailable;
+        if (sprite)
+        {
+            spriteRenderer.sprite = sprite;
+            List<Vector2> list = new List<Vector2>();
+            int num = sprite.GetPhysicsShapeCount();
+            polygonCollider2D.pathCount = num;
+            for (int i = 0; i < num; i++)
+            {
+                sprite.GetPhysicsShape(i, list);
+                polygonCollider2D.SetPath(i, list.ToArray());
+            }
+            polygonCollider2D.isTrigger = false;
+            polygonCollider2D.enabled = true;
+        }
     }
 
     public void SetAnimate()
     {
         isAnimate = false;
+    }
+
+    public virtual void SetAvailable()
+    {
+        isAvailable = !isAvailable;
     }
 
     public virtual bool Active()
@@ -84,6 +79,10 @@ public class CustomObject : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2D.bodyType = RigidbodyType2D.Static;
+        textMesh = GetComponentInChildren<TextMesh>();
+        polygonCollider2D = GetComponent<PolygonCollider2D>();
     }
 
     private void LateUpdate()
@@ -92,10 +91,38 @@ public class CustomObject : MonoBehaviour {
         if (!isAnimate)
             spriteRenderer.sprite = sprite;
     }
-#endregion
+    #endregion
 }
 
-public class UnbreakableBox : CustomObject
+public class NoneRandomSpriteObject : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        //gameObject.hideFlags = HideFlags.HideInHierarchy;
+        isAnimate = false;
+        if (sprites != null)
+            sprite = sprites[0];
+        SetSpriteAndCollider();
+    }
+
+}
+
+public class RandomSpriteObject : CustomObject
+{
+    public override void Init()
+    {
+        base.Init();
+        //gameObject.hideFlags = HideFlags.HideInHierarchy;
+        isAnimate = false;
+        if (sprites != null)
+            sprite = sprites[Random.Range(0, sprites.Length)];
+        SetSpriteAndCollider();
+    }
+
+}
+
+public class UnbreakableBox : RandomSpriteObject
 {
     public override void Init()
     {
@@ -109,7 +136,7 @@ public class UnbreakableBox : CustomObject
     }
 }
 
-public class BreakalbeBox : CustomObject
+public class BreakalbeBox : RandomSpriteObject
 {
     public override void Init()
     {
@@ -120,7 +147,7 @@ public class BreakalbeBox : CustomObject
     }
 }
 
-public class VendingMachine : CustomObject
+public class VendingMachine : RandomSpriteObject
 {
     public override void Init()
     {
@@ -147,7 +174,7 @@ public class VendingMachine : CustomObject
     }
 }
 
-public class PushBox : CustomObject
+public class PushBox : RandomSpriteObject
 {
     Vector2 dir;
     public override void Init()
@@ -206,7 +233,7 @@ public class PushBox : CustomObject
     }
 }
 
-public class Spawner : CustomObject
+public class Spawner : RandomSpriteObject
 {
     int spawnCount = 2;
     int gage;
@@ -259,7 +286,7 @@ public class Spawner : CustomObject
     }
 }
 
-public class Door : CustomObject
+public class Door : RandomSpriteObject
 {
     bool isHorizon;
     Sprite openSprite;
@@ -325,7 +352,7 @@ public class Door : CustomObject
     public bool GetHorizon() { return isHorizon; }
 }
 
-public class Alert : CustomObject
+public class Alert : RandomSpriteObject
 {
     public delegate void Del(Vector3 _position);
     Del callback;
@@ -364,7 +391,7 @@ public class Alert : CustomObject
     }
 }
 
-public class Portal : CustomObject
+public class Portal : RandomSpriteObject
 {
     public override void Init()
     {
@@ -388,7 +415,7 @@ public class Portal : CustomObject
     }
 }
 
-public class ItemBox : CustomObject
+public class ItemBox : RandomSpriteObject
 {
     Item item;
 
@@ -426,7 +453,7 @@ public class ItemBox : CustomObject
     }
 }
 
-public class ItemContainer : CustomObject
+public class ItemContainer : RandomSpriteObject
 {
     Item innerObject;
 
@@ -491,13 +518,11 @@ public class ItemContainer : CustomObject
 
     public override void IndicateInfo()
     {
-        base.IndicateInfo();
         textMesh.text = innerObject.GetName();
     }
 
     public override void DeIndicateInfo()
     {
-        base.DeIndicateInfo();
         textMesh.text = "";
     }
 
@@ -521,7 +546,7 @@ public class ItemContainer : CustomObject
     }
 }
 
-public class FallRockTrap : CustomObject
+public class FallRockTrap : RandomSpriteObject
 {
     Sprite tempSprite;
     public override void Init()
@@ -572,7 +597,7 @@ public class FallRockTrap : CustomObject
     }
 }
 
-public class Rock : CustomObject
+public class Rock : RandomSpriteObject
 {
     public override void Init()
     {
@@ -622,7 +647,7 @@ public class Rock : CustomObject
 
 }
 
-public class SnackBox : CustomObject
+public class SnackBox : NoneRandomSpriteObject
 {
 
     public override void Init()
@@ -645,6 +670,7 @@ public class SnackBox : CustomObject
         if(base.Active())
         {
             //Stemina recovery
+            spriteRenderer.sprite = sprites[1];
             return true;
         }
         return false;
@@ -652,7 +678,6 @@ public class SnackBox : CustomObject
 
     public override void IndicateInfo()
     {
-        base.IndicateInfo();
         if (isAvailable)
         {
             textMesh.text = "간식을 드시겠습니까?";
@@ -665,7 +690,48 @@ public class SnackBox : CustomObject
 
     public override void DeIndicateInfo()
     {
-        base.DeIndicateInfo();
+        textMesh.text = "";
+    }
+}
+
+public class MedkitBox : NoneRandomSpriteObject
+{
+    public override void Init()
+    {
+        base.Init();
+        GetComponent<PolygonCollider2D>().enabled = true;
+        isActive = false;
+        isAvailable = true;
+        isAnimate = true;
+        objectType = ObjectType.MEDKITBOX;
+    }
+
+    public override void SetAvailable()
+    {
+        return;
+    }
+
+    public override bool Active()
+    {
+        if (base.Active())
+        {
+            //Item Drop
+            spriteRenderer.sprite = sprites[1];
+            return true;
+        }
+        return false;
+    }
+
+    public override void IndicateInfo()
+    {
+        if (!isAvailable)
+        {
+            textMesh.text = "비어있습니다.";
+        }
+    }
+
+    public override void DeIndicateInfo()
+    {
         textMesh.text = "";
     }
 }
