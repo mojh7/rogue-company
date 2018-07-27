@@ -746,13 +746,13 @@ namespace Map
         {
             int width = _rect.width * _rect.size;
             int height = _rect.height * _rect.size;
-            Vector2 vector2 = _rect.areaLeftDown;
-            LayerMask layerMask = (1 << LayerMask.NameToLayer("TransparentFX")) | (1 << LayerMask.NameToLayer("Wall"));
+            Vector2 leftDown = _rect.areaLeftDown;
+            Vector2 rightTop = _rect.areaRightTop;
+            LayerMask layerMask = (1 << LayerMask.NameToLayer("TransparentFX"));
+            float xGap = 0.25f;
             float yGap = 0.5f;
-            if (_rect.y == 0)
-                yGap = 1.5f;
-            for (float i = vector2.x + 1; i < vector2.x + width - 0.5f; i += 0.5f)
-                for (float j = vector2.y + yGap; j < vector2.y + height - 1; j += 0.5f)
+            for (float i = leftDown.x + xGap; i < rightTop.x - xGap; i += _radius)
+                for (float j = leftDown.y + yGap; j < rightTop.y -yGap; j += _radius)
                     if (!Physics2D.OverlapCircle(new Vector2(i, j), _radius, layerMask))
                         _rect.availableAreas.Add(new Vector2(i, j));
         }

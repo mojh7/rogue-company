@@ -21,6 +21,7 @@ public abstract class CustomObject : MonoBehaviour {
     protected new Rigidbody2D rigidbody2D;
     protected TextMesh textMesh;
     protected PolygonCollider2D polygonCollider2D;
+    protected ObjectParticle objectParticle;
     #endregion
 
     public bool GetAvailable() { return isAvailable; }
@@ -29,6 +30,9 @@ public abstract class CustomObject : MonoBehaviour {
     public virtual void Init()
     {
         gameObject.layer = 1;
+#if UNITY_EDITOR
+        spriteRenderer = GetComponent<SpriteRenderer>();
+#endif
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 #if UNITY_EDITOR
@@ -67,7 +71,7 @@ public abstract class CustomObject : MonoBehaviour {
 
     public virtual bool Active()
     {
-        if (!isAvailable || !isAnimate)
+        if (!isAvailable)
             return false;
         isActive = true;
         return true;
@@ -86,6 +90,7 @@ public abstract class CustomObject : MonoBehaviour {
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
+        objectParticle = GetComponent<ObjectParticle>();
     }
 
     private void LateUpdate()
@@ -145,12 +150,41 @@ public class UnbreakableBox : RandomSpriteObject
 
 public class BreakalbeBox : RandomSpriteObject
 {
+    int duration;
+
     public override void Init()
     {
         base.Init();
         isActive = false;
         isAvailable = false;
         objectType = ObjectType.BREAKABLE;
+        duration = 10;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (UtilityClass.CheckLayer(collision.gameObject.layer, 15, 17) && duration > 0)
+        {
+            duration--;
+            if (duration == 0)
+            {
+                Destruct();
+            }
+        }
+    }
+
+    void Destruct()
+    {
+        objectParticle.Active();
+        polygonCollider2D.enabled = false;
+        sprite = null;
+        Invoke("SetActiveFalse", 2);
+    }
+
+    void SetActiveFalse()
+    {
+        Destroy(this, 1);
+        gameObject.SetActive(false);
     }
 }
 
@@ -173,7 +207,7 @@ public class VendingMachine : RandomSpriteObject
             GameObject coin = new GameObject();
             coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
             coin.AddComponent<Coin>();
-            Vector2 pos = new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y - .8f);
+            Vector2 pos = new Vector2(transform.position.x, transform.position.y - .8f);
             ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), pos);
             return true;
         }
@@ -249,7 +283,7 @@ public class Spawner : RandomSpriteObject
         base.Init();
         isActive = false;
         isAvailable = false;
-        GetComponent<PolygonCollider2D>().enabled = false;
+        polygonCollider2D.enabled = false;
         objectType = ObjectType.SPAWNER;
 
         gameObject.layer = 0;
@@ -314,16 +348,16 @@ public class Door : RandomSpriteObject
     }
     void SetCollision()
     {
-        GetComponent<SpriteRenderer>().sprite = sprite;
+        spriteRenderer.sprite = sprite;
         List<Vector2> list = new List<Vector2>();
         int num = sprite.GetPhysicsShapeCount();
-        GetComponent<PolygonCollider2D>().pathCount = num;
+        polygonCollider2D.pathCount = num;
         for (int i = 0; i < num; i++)
         {
             sprite.GetPhysicsShape(i, list);
-            GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
+            polygonCollider2D.SetPath(i, list.ToArray());
         }
-        GetComponent<PolygonCollider2D>().isTrigger = false;
+        polygonCollider2D.isTrigger = false;
     }
     public override bool Active()
     {
@@ -367,7 +401,7 @@ public class Alert : RandomSpriteObject
     {
         base.Init();
         isAvailable = false;
-        GetComponent<PolygonCollider2D>().SetPath(0, null);
+        polygonCollider2D.SetPath(0, null);
         objectType = ObjectType.NONE;
     }
     public void Init(Del _call)
@@ -467,8 +501,8 @@ public class ItemContainer : RandomSpriteObject
     public override void Init()
     {
         base.Init();
-        GetComponent<PolygonCollider2D>().enabled = false;
-        GetComponent<PolygonCollider2D>().isTrigger = true;
+        polygonCollider2D.enabled = false;
+        polygonCollider2D.isTrigger = true;
         isActive = false;
         isAvailable = true;
         isAnimate = true;
@@ -568,13 +602,13 @@ public class FallRockTrap : RandomSpriteObject
         List<Vector2> list = new List<Vector2>();
         int num = tempSprite.GetPhysicsShapeCount();
         gameObject.layer = 0;
-        GetComponent<PolygonCollider2D>().pathCount = num;
+        polygonCollider2D.pathCount = num;
         for (int i = 0; i < num; i++)
         {
             tempSprite.GetPhysicsShape(i, list);
             GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
         }
-        GetComponent<PolygonCollider2D>().isTrigger = false;
+        polygonCollider2D.isTrigger = false;
     }
     public override bool Active()
     {
@@ -610,7 +644,7 @@ public class Rock : RandomSpriteObject
     {
         base.Init();
         isAvailable = true;
-        GetComponent<PolygonCollider2D>().enabled = false;
+        polygonCollider2D.enabled = true;
     }
     public override bool Active()
     {
@@ -660,10 +694,10 @@ public class SnackBox : NoneRandomSpriteObject
     public override void Init()
     {
         base.Init();
-        GetComponent<PolygonCollider2D>().enabled = true;
+        polygonCollider2D.enabled = true;
         isActive = false;
         isAvailable = true;
-        isAnimate = true;
+        isAnimate = false;
         objectType = ObjectType.SNACKBOX;
     }
 
@@ -686,14 +720,7 @@ public class SnackBox : NoneRandomSpriteObject
 
     public override void IndicateInfo()
     {
-        if (isAvailable)
-        {
-            textMesh.text = "간식을 드시겠습니까?";
-        }
-        else
-        {
-            textMesh.text = "간식함이 비어있습니다.";
-        }
+        textMesh.text = "간식을 드시겠습니까?";
     }
 
     public override void DeIndicateInfo()
@@ -707,10 +734,10 @@ public class MedkitBox : NoneRandomSpriteObject
     public override void Init()
     {
         base.Init();
-        GetComponent<PolygonCollider2D>().enabled = true;
+        polygonCollider2D.enabled = true;
         isActive = false;
         isAvailable = true;
-        isAnimate = true;
+        isAnimate = false;
         objectType = ObjectType.MEDKITBOX;
     }
 
@@ -733,10 +760,7 @@ public class MedkitBox : NoneRandomSpriteObject
 
     public override void IndicateInfo()
     {
-        if (!isAvailable)
-        {
-            textMesh.text = "비어있습니다.";
-        }
+        textMesh.text = "비어있습니다.";
     }
 
     public override void DeIndicateInfo()

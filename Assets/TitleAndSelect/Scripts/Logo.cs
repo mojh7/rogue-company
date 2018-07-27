@@ -15,7 +15,6 @@ public class Logo : MonoBehaviourSingleton<Logo> {
             LoadTitle();
     }
 
-
     void LoadTitle()
     {
         GameStateManager.Instance.LoadTitle();

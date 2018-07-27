@@ -28,7 +28,7 @@ public abstract class Character : MonoBehaviour
     #region Status
     public float moveSpeed;     // Character move Speed
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
-
+    public int stemina;
     #endregion
     #region Componets
     protected CharacterComponents Components;

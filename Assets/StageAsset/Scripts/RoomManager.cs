@@ -73,7 +73,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         ObjectSetAvailable();
         FindCurrentRoom();
-        DebugX.Log("무기를 만들어보자");
+        UnityContext.GetClock().RemoveAllTimer();
+        //TODO : 무기만듬
         Item item = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 10));
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
         ItemManager.Instance.CollectItem();
@@ -87,7 +88,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 }
             }
         }
-        MiniMap.Instance.ClearRoom(currentRoom);
     }
 
     void SpawnMonster()
@@ -185,6 +185,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         if (!room.isRoom)
             return;
+        MiniMap.Instance.ClearRoom(room);
+
         for (int i = 0; i < room.linkedEdgeRect.Count; i++)
         {
             if(room.linkedEdgeRect[i].isRoom)
