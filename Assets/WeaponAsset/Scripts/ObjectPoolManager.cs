@@ -29,10 +29,18 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     [SerializeField]
     private MemoryPool effectPool;
 
+    // effect 아직 안 옮김
+    public GameObject itemPrefab;
+    [SerializeField]
+    private int initItemNumMax;
+    [SerializeField]
+    private MemoryPool itemPool;
+
 
     [SerializeField] private Transform weaponsTrasnform;
     [SerializeField] private Transform bulletsTrasnform;
     [SerializeField] private Transform effectsTrasnform;
+    [SerializeField] private Transform itemsTrasnform;
     #endregion
 
     #region getter
@@ -54,6 +62,8 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax, bulletsTrasnform, "Bullet_");
         // effect 오브젝트풀 초기화
         //effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
+        // item 오브젝트풀 초기화
+        itemPool = new MemoryPool(itemPrefab, initItemNumMax, itemsTrasnform, "item_");
     }
 
     #region function
@@ -106,6 +116,16 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     //    GameObject createdObj = effectPool.NewItem();
     //    createdObj.GetComponent<Effect>().Init(id, pos);
     //}
+
+    
+    public UsableItem CreateUsableItem(int usableItemId)
+    {
+        GameObject createdObj = itemPool.NewItem();
+        UsableItem usableItem = createdObj.GetComponent<UsableItem>();
+        usableItem.Init(DataStore.Instance.GetPassiveItemInfo(usableItemId));
+        return usableItem;
+    }
+    
     #endregion
 
 
