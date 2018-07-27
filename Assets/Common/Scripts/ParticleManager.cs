@@ -15,6 +15,8 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
     public void PlayParticle(string str, Vector2 pos, Sprite sprite)
     {
         ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        if (particle == null)
+            return;
         particle.gameObject.transform.position = pos;
         SpriteToMesh(sprite, particle);
         particle.Play();

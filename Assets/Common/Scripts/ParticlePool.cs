@@ -37,6 +37,8 @@ public class ParticlePool : MonoBehaviourSingleton<ParticlePool>
 
     public ParticleSystem getAvailabeParticle(string str)
     {
+        if (!poolsDictionary.ContainsKey(str))
+            return null;
         List<ParticleSystem> particles = poolsDictionary[str];
         if (particles == null)
             return null;
