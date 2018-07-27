@@ -8,7 +8,6 @@ namespace Map
     public class MapManager : MonoBehaviourSingleton<MapManager>
     {
         public ObjectPool objectPool;
-        public GameObject maskPrefab;
         [Space(10)]
         [Header("variable")]
         public int width = 1;

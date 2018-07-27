@@ -78,6 +78,7 @@ public class Enemy : Character
         pState = CharacterInfo.State.ALIVE;
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
+        sprite = enemyData.Sprite;
         buffManager.Init();
         buffManager.SetOwner(this);
         weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
@@ -87,7 +88,6 @@ public class Enemy : Character
         }
         animationHandler.Init(enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, enemyData.Task);
-
         InitStatusEffects();
         scaleVector = new Vector3(1f, 1f, 1f);
     }
@@ -105,6 +105,7 @@ public class Enemy : Character
         isDelayingState = false;
         delayStateCount = 0;
     }
+
     protected override void Die()
     {
         pState = CharacterInfo.State.DIE;
@@ -145,9 +146,11 @@ public class Enemy : Character
         DropItem();
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
+        ParticleManager.Instance.PlayParticle("BrokenParticle", spriteTransform.position, sprite);
         gameObject.SetActive(false);
         Destroy(this);
     }
+
     protected void DropItem()
     {
         GameObject coin = new GameObject();

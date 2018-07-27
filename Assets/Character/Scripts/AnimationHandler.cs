@@ -11,6 +11,7 @@ public class AnimationHandler : MonoBehaviour {
     {
         this.animator = GetComponent<Animator>();
         this.animator.runtimeAnimatorController = animatorController;
+        Play();
         animator.SetTrigger("idle");
     }
     
@@ -39,4 +40,13 @@ public class AnimationHandler : MonoBehaviour {
         animator.SetTrigger("run");
     }
 
+    public void Play()
+    {
+        animator.enabled = true;
+    }
+
+    public void Stop()
+    {
+        animator.enabled = false;
+    }
 }

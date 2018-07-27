@@ -21,7 +21,6 @@ public abstract class CustomObject : MonoBehaviour {
     protected new Rigidbody2D rigidbody2D;
     protected TextMesh textMesh;
     protected PolygonCollider2D polygonCollider2D;
-    protected ObjectParticle objectParticle;
     #endregion
 
     public bool GetAvailable() { return isAvailable; }
@@ -90,7 +89,6 @@ public abstract class CustomObject : MonoBehaviour {
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
-        objectParticle = GetComponent<ObjectParticle>();
     }
 
     private void LateUpdate()
@@ -175,17 +173,9 @@ public class BreakalbeBox : RandomSpriteObject
 
     void Destruct()
     {
-        objectParticle.Active();
-        polygonCollider2D.enabled = false;
-        sprite = null;
-        Invoke("SetActiveFalse", 2);
+
     }
 
-    void SetActiveFalse()
-    {
-        Destroy(this, 1);
-        gameObject.SetActive(false);
-    }
 }
 
 public class VendingMachine : RandomSpriteObject

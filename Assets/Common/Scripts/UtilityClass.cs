@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public static class UtilityClass
 {
@@ -36,7 +37,17 @@ public static class UtilityClass
     /// <returns>참과 거짓</returns>
     public static bool CoinFlip(int percent)
     {
-        return Random.Range(0, 100) < percent;
-    } 
+        return UnityEngine.Random.Range(0, 100) < percent;
+    }
 
+    public static void Invoke(this MonoBehaviour me, Action theDelegate, float time)
+    {
+        me.StartCoroutine(ExecuteAfterTime(theDelegate, time));
+    }
+
+    private static IEnumerator ExecuteAfterTime(Action theDelegate, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        theDelegate();
+    }
 }
