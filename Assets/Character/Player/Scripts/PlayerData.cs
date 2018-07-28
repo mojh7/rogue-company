@@ -33,9 +33,9 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
-    private float hunger;
+    private float stamina;
     [SerializeField]
-    private float hungerMax;
+    private float staminaMax;
     [SerializeField]
     private float armor;
     [SerializeField]
@@ -76,15 +76,15 @@ public float Hp
         get { return moveSpeed; }
         set { moveSpeed = value; }
     }
-    public float Hunger
+    public float Stamina
     {
-        get { return hunger; }
-        set { hunger = value; }
+        get { return stamina; }
+        set { stamina = value; }
     }
-    public float HungerMax
+    public float StaminaMax
     {
-        get { return hungerMax; }
-        set { hungerMax = value; }
+        get { return staminaMax; }
+        set { staminaMax = value; }
     }
 
     public float Armor
@@ -117,8 +117,8 @@ public float Hp
         clonedInfo.playerSprite = playerSprite;
         clonedInfo.hp = hp;
         clonedInfo.moveSpeed = moveSpeed;
-        clonedInfo.hunger = hunger;
-        clonedInfo.hungerMax = hungerMax;
+        clonedInfo.stamina = stamina;
+        clonedInfo.staminaMax = staminaMax;
         clonedInfo.armor = armor;
         clonedInfo.criticalChance = criticalChance;
         clonedInfo.startingWeaponInfos = startingWeaponInfos;

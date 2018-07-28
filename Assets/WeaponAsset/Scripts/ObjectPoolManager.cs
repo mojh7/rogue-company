@@ -4,6 +4,8 @@ using UnityEngine;
 
 // 일단 가지고 있던 메모리풀 쓰고 있는 중... - 장현
 
+public enum UsableItemType { CLOTHING, ETC, FOOD, MEDICAL, MISC, PET }
+
 public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
     // 무기 오브젝트풀은 일단 보류
@@ -108,7 +110,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return bulletPool.NewItem();
     }
 
-    /// <summary> effect 생성 </summary>
+    // <summary> effect 생성 </summary>
     //public void CreateEffect(int id, Vector3 pos)
     //{
     //    if (id < 0) return;
@@ -117,12 +119,37 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     //    createdObj.GetComponent<Effect>().Init(id, pos);
     //}
 
-    
-    public UsableItem CreateUsableItem(int usableItemId)
+    /// <summary>
+    /// UsableItem 생성
+    /// </summary>
+    /// <param name="type">생성할 아이템 타입</param>
+    /// <param name="usableItemId">아이템 id, 미 기입시 랜덤 생성</param>
+    /// <returns>생성된 오브젝트의 UsableItem Class 반환</returns>
+    public UsableItem CreateUsableItem(UsableItemType type, int usableItemId = -1)
     {
         GameObject createdObj = itemPool.NewItem();
         UsableItem usableItem = createdObj.GetComponent<UsableItem>();
-        usableItem.Init(DataStore.Instance.GetPassiveItemInfo(usableItemId));
+        switch (type)
+        {
+            case UsableItemType.CLOTHING:
+                usableItem.Init(DataStore.Instance.GetPassiveItemInfo(usableItemId));
+                break;
+            case UsableItemType.ETC:
+                break;
+            case UsableItemType.FOOD:
+                break;
+            case UsableItemType.MEDICAL:
+                break;
+            case UsableItemType.MISC:
+                break;
+            case UsableItemType.PET:
+                break;
+            default:
+                break;
+        }
+        
+        
+
         return usableItem;
     }
     
@@ -143,11 +170,17 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         bulletPool.RemoveItem(obj);
     }
 
-    /// <summary> effect object 삭제(회수) </summary>
+    // <summary> effect object 삭제(회수) </summary>
     //public void DeleteEffect(GameObject obj)
     //{
     //    effectPool.RemoveItem(obj);
     //}
+
+    /// <summary> UsableItem object 삭제(회수) </summary>
+    public void DeleteUsableItem(GameObject obj)
+    {
+        weaponPool.RemoveItem(obj);
+    }
 
 
 
