@@ -289,9 +289,8 @@ class RushTracker : Tracker
 
 class RunawayTracker : Tracker
 {
-    Vector2 reverseDirection;
-    Vector2 oldPos;
-
+    Vector3 leftDown, rightTop, leftTop, rightDown, targetPos, newTarget;
+    float cornerDistance;
     public RunawayTracker(Transform transform, ref Transform target, Action<Vector2[]> callback)
     {
         this.transform = transform;
@@ -302,7 +301,38 @@ class RunawayTracker : Tracker
     {
         if (transform == null || target == null)
             return false;
-        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, 2* transform.position - target.position, OnPathFound));
+        if ((transform.position - target.position).sqrMagnitude <= 5)
+        {
+            RoomManager.Instance.GetCurrentRoomBound(out leftDown, out rightTop);
+            leftTop = new Vector3(leftDown.x, rightTop.y);
+            rightDown = new Vector3(rightTop.x, leftDown.y);
+            targetPos = target.position;
+
+            this.cornerDistance = (leftTop - targetPos).sqrMagnitude;
+            newTarget = leftTop;
+            if ((leftDown - targetPos).sqrMagnitude > this.cornerDistance)
+            {
+                newTarget = leftDown;
+                this.cornerDistance = (leftDown - targetPos).sqrMagnitude;
+            }
+            if ((rightDown - targetPos).sqrMagnitude > this.cornerDistance)
+            {
+                newTarget = rightDown;
+                this.cornerDistance = (rightDown - targetPos).sqrMagnitude;
+            }
+            if ((rightTop - targetPos).sqrMagnitude > this.cornerDistance)
+            {
+                newTarget = rightTop;
+                this.cornerDistance = (rightTop - targetPos).sqrMagnitude;
+            }
+
+
+            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, newTarget, OnPathFound));
+        }
+        else
+        {
+            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, 2 * transform.position - target.position, OnPathFound));
+        }
         return true;
     }
 }

@@ -24,6 +24,12 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         return currentRoom.gage;
     }
 
+    public void GetCurrentRoomBound(out Vector3 leftDown,out Vector3 rightTop)
+    {
+        leftDown = currentRoom.areaLeftDown;
+        rightTop = currentRoom.areaRightTop;
+    }
+
     void DoorActive() 
     {
         if (currentRoom.doorObjects != null)
