@@ -26,6 +26,7 @@ public class AIController : MonoBehaviour {
         privateBlackBoard = new BT.BlackBoard();
         MovingPattern = GetComponent<MovingPattern>();
     }
+
     #region Func
     public void Init(float speed, AnimationHandler animationHandler, BT.Task task)
     {

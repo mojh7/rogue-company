@@ -28,6 +28,7 @@
         RoundingTrackAction,
         RushTrackAtion,
         AttackAction,
-        StopAction
+        StopAction,
+        RunawayAction
     }
 }

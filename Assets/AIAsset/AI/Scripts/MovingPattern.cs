@@ -10,6 +10,7 @@ public class MovingPattern : MonoBehaviour
     AStarTracker aStarTracker;
     RoundingTracker roundingTracker;
     RushTracker rushTracker;
+    RunawayTracker runawayTracker;
     #endregion
     #region components
     Rigidbody2D rb2d;
@@ -19,6 +20,7 @@ public class MovingPattern : MonoBehaviour
     float speed = 1;
     float baseSpeed;
     Vector2[] path;
+    Vector2 oldDir;
     Vector2 zero = Vector2.zero;
     #endregion
     private void Awake()
@@ -75,6 +77,14 @@ public class MovingPattern : MonoBehaviour
     {
         rushTracker = new RushTracker(transform, ref target, Follwing);
     }
+    /// <summary>
+    /// 역추적 클래스 생성.
+    /// </summary>
+    /// <param name="target">목표.</param>
+    public void RunawayTracker(Transform target)
+    {
+        runawayTracker = new RunawayTracker(transform, ref target, Follwing);
+    }
     #endregion
 
     #region MovingFunc
@@ -109,6 +119,17 @@ public class MovingPattern : MonoBehaviour
         speed = baseSpeed * 5;
 
         return rushTracker.Update();
+    }
+    /// <summary>
+    /// 역추적 행동.
+    /// </summary>
+    public bool RunawayTracking()
+    {
+        if (runawayTracker == null)
+            return false;
+        speed = baseSpeed;
+
+        return runawayTracker.Update();
     }
     #endregion
 
@@ -145,7 +166,6 @@ public class MovingPattern : MonoBehaviour
                 currentWaypoint = path[targetIndex];
             }
             Vector2 dir = currentWaypoint - position;
-            
             rb2d.velocity = dir.normalized * speed;
             yield return null;
 
@@ -263,6 +283,26 @@ class RushTracker : Tracker
         if (transform == null || target == null)
             return false;
         AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound));
+        return true;
+    }
+}
+
+class RunawayTracker : Tracker
+{
+    Vector2 reverseDirection;
+    Vector2 oldPos;
+
+    public RunawayTracker(Transform transform, ref Transform target, Action<Vector2[]> callback)
+    {
+        this.transform = transform;
+        this.target = target;
+        this.callback = callback;
+    }
+    public override bool Update()
+    {
+        if (transform == null || target == null)
+            return false;
+        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, 2* transform.position - target.position, OnPathFound));
         return true;
     }
 }
