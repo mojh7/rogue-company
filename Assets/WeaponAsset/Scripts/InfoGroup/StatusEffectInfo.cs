@@ -26,7 +26,7 @@ public class StatusEffectInfo
     [Header("스턴 시간")]
     public float stun;
     [Header("속박 시간")]
-    public float fetter;
+    public float root;
     [Header("공포 시간")]
     public float fear;
     [Header("매혹 시간")]
@@ -49,7 +49,7 @@ public class StatusEffectInfo
         slow = info.slow;
         slowEffectiveTime = info.slowEffectiveTime;
         stun = info.stun;
-        fetter = info.fetter;
+        root = info.root;
         fear = info.fear;
         charm = info.charm;
     }

@@ -75,12 +75,17 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private WeaponInfo[] weaponInfos;
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
-
+    [SerializeField]
     private UsableItemInfo[] clothingItemInfos;
+    [SerializeField]
     private UsableItemInfo[] etcItemInfos;
+    [SerializeField]
     private UsableItemInfo[] foodItemInfos;
+    [SerializeField]
     private UsableItemInfo[] medicalItemInfos;
+    [SerializeField]
     private UsableItemInfo[] miscItemInfos;
+    [SerializeField]
     private UsableItemInfo[] petItemInfos;
 
     [SerializeField]

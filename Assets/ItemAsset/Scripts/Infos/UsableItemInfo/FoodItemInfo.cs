@@ -7,5 +7,3 @@ using UnityEngine;
 public class FoodItemInfo : UsableItemInfo
 {
 }
-
-
