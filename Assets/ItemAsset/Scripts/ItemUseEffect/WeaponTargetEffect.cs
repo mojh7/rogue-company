@@ -20,7 +20,7 @@ public class WeaponTargetEffect : ItemUseEffect
     [Header("곱 옵션 - 합 연산")]
     public float damageIncrement;           // 공격력 증가율
     public float knockBackIncrement;        // 넉백 증가율
-    public float chargingAmountIncrement;   // 차징량 증가율
+    public float chargingDamageIncrement;   // 차징 데미지 증가율
     public float gettingSkillGaugeIncrement;// 스킬 게이지 획득량 증가
     public float gettingStaminaIncrement;   // 스테미너 획득량 상승
     public float skillPowerIncrement;       // 스킬 파워(시간, 세기 등등) 증가율

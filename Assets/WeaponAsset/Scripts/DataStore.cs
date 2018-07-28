@@ -29,11 +29,12 @@ namespace WeaponAsset
         NULL, PISTOL, SHOTGUN, MACHINEGUN, SNIPER_RIFLE, LASER, BOW,
         SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE,
         BOMB, GAS_SHELL, TRAP,
-        WAND, TRASH, END
+        WAND, TRASH, OTHER, END
     }
 
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW
     public enum AttackAniType { NULL, BLOW, STRIKE, SWING, PUNCH, SHOT }
+    public enum AttackType { MELEE, RANGED }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { projectile, Laser, Melee}
     /*---*/

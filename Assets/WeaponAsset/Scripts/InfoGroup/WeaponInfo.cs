@@ -43,12 +43,13 @@ public class WeaponInfo : ScriptableObject
     [Header("일단 임시로 ammoCapacity 값 -1 => 탄창 무한대")]
     public int ammoCapacity;            // 탄약 량
     public int ammo;                    // 현재 탄약
+    public int chargeCountMax;             // 차징 최대 횟수, 0 = 차징 X
     public float bulletMoveSpeed;       // 총알 이동속도
     public float range;                 // 사정 거리
     public float damage;                // 공격력
     public float criticalChance;        // 크리티컬 확률 : 치명타가 뜰 확률
     public float cooldown;              // 쿨타임
-    public float chargeTime;            // 차징 시간, 0 = 차징 X, 0 초과 = 1회 차징당 시간
+    public float staminaConsumption;    // 근접 무기 1회 공격시 스테미너 소모량
 
     public int soundId;                 // 공격시 효과음 id
     public float cameraShakeAmount;     // 카메라 흔들림 양
@@ -91,17 +92,19 @@ public class WeaponInfo : ScriptableObject
 
         clonedInfo.ammoCapacity = ammoCapacity;
         clonedInfo.ammo = ammo;
+        clonedInfo.chargeCountMax = chargeCountMax;
         clonedInfo.bulletMoveSpeed = bulletMoveSpeed;
         clonedInfo.range = range;
         clonedInfo.damage = damage;
         clonedInfo.criticalChance = criticalChance;
         clonedInfo.cooldown = cooldown;
-        clonedInfo.chargeTime = chargeTime;
-        clonedInfo.addDirVecMagnitude = addDirVecMagnitude;
+        clonedInfo.staminaConsumption = staminaConsumption;
+
         clonedInfo.soundId = soundId;
         clonedInfo.cameraShakeAmount = cameraShakeAmount;
         clonedInfo.cameraShakeTime = cameraShakeTime;
         clonedInfo.cameraShakeType = cameraShakeType;
+        clonedInfo.addDirVecMagnitude = addDirVecMagnitude;
 
         clonedInfo.bulletPatterns = new List<BulletPattern>();
         clonedInfo.bulletPatternsLength = bulletPatternsLength;

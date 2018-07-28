@@ -41,6 +41,7 @@ public class Enemy : Character
     private float[] abnormalStatusTime;
     private float[] abnormalStatusDurationTime;
 
+    private Coroutine knockBackCheck;
     private Coroutine poisonCoroutine;
     private Coroutine burnCoroutine;
     private Coroutine stunCoroutine;
@@ -134,6 +135,10 @@ public class Enemy : Character
     {
         pState = CharacterInfo.State.DIE;
         // 실행 중인 코루틴이 있으면 코루틴 멈춤
+        if(null != knockBackCheck)
+        {
+            StopCoroutine(KnockBackCheck());
+        }
         if (null != poisonCoroutine)
         {
             StopCoroutine(poisonCoroutine);
@@ -214,24 +219,7 @@ public class Enemy : Character
         hp -= damage;
 
         if (knockBack > 0)
-            isKnockBack = true;
-
-        // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
-        rgbody.velocity = Vector3.zero;
-
-        // bullet과 충돌 Object 위치 차이 기반의 넉백  
-        if (positionBasedKnockBack)
-        {
-            rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
-        }
-        // bullet 방향 기반의 넉백
-        else
-        {
-            rgbody.AddForce(knockBack * _dir);
-        }
-
-        StopCoroutine(KnockBackCheck());
-        StartCoroutine(KnockBackCheck());
+            KnockBack(knockBack, _dir, bulletPos, positionBasedKnockBack);
 
         if (hp <= 0)
             Die();
@@ -380,11 +368,14 @@ public class Enemy : Character
 
     public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
     {
-        //isKnockBack = true;
-        // Debug.Log("넉백 : " + knockBack + ", dir : " + bulletDir + ", bulletPos : " + bulletPos);
-        aiController.StopMove();
-        isActiveAI = false;
-        // 넉백 총알 방향 : 총알 이동 방향 or 몬스터-총알 방향 벡터
+        //Debug.Log(name + ", " + knockBackCheck);
+        // 기본 상태에서 넉백
+        if (null == knockBackCheck)
+        {
+            AddRetrictsMovingCount();
+            knockBackCheck = StartCoroutine(KnockBackCheck());
+        }
+        
         rgbody.velocity = Vector3.zero;
 
         // bullet과 충돌 Object 위치 차이 기반의 넉백  
@@ -397,9 +388,6 @@ public class Enemy : Character
         {
             rgbody.AddForce(knockBack * bulletDir);
         }
-        
-        StopCoroutine(KnockBackCheck());
-        StartCoroutine(KnockBackCheck());
     }
 
     // 이동 translate, velocity, addForce ??
@@ -452,9 +440,9 @@ public class Enemy : Character
         restrictMovingCount += 1;
         if (restrictMovingCount > 0)
         {
-            isActiveAI = false;
+            //isActiveAI = false;
             aiController.StopMove();
-            Debug.Log(name + " Move AI Off");
+            // Debug.Log(name + " Move AI Off");
         }
     }
     /// <summary>
@@ -465,9 +453,9 @@ public class Enemy : Character
         restrictMovingCount -= 1;
         if (0 == restrictMovingCount)
         {
-            isActiveAI = true;
+            //isActiveAI = true;
             aiController.PlayMove();
-            Debug.Log(name + " Move AI ON");
+            // Debug.Log(name + " Move AI ON");
         }
     }
 
@@ -666,14 +654,13 @@ public class Enemy : Character
         while (true)
         {
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
+            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 0.3f)
             {
-                isActiveAI = true;
-                aiController.PlayMove();
+                SubRetrictsMovingCount();
+                knockBackCheck = null;
             }
         }
     }
-
     #endregion
 }
 

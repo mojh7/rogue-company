@@ -132,23 +132,26 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         switch (type)
         {
             case UsableItemType.CLOTHING:
-                usableItem.Init(DataStore.Instance.GetPassiveItemInfo(usableItemId));
+                usableItem.Init(DataStore.Instance.GetClothingItemInfo(usableItemId));
                 break;
             case UsableItemType.ETC:
+                usableItem.Init(DataStore.Instance.GetEtcItemInfo(usableItemId));
                 break;
             case UsableItemType.FOOD:
+                usableItem.Init(DataStore.Instance.GetFoodItemInfo(usableItemId));
                 break;
             case UsableItemType.MEDICAL:
+                usableItem.Init(DataStore.Instance.GetMedicalItemInfo(usableItemId));
                 break;
             case UsableItemType.MISC:
+                usableItem.Init(DataStore.Instance.GetMiscItemInfo(usableItemId));
                 break;
             case UsableItemType.PET:
+                usableItem.Init(DataStore.Instance.GetPetItemInfo(usableItemId));
                 break;
             default:
                 break;
         }
-        
-        
 
         return usableItem;
     }
@@ -196,6 +199,10 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     //{
     //    effectPool.ClearItem();
     //}
+    public void ClearUsableItem()
+    {
+        itemPool.ClearItem();
+    }
 
     #endregion
 

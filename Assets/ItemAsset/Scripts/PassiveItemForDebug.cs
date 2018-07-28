@@ -189,7 +189,7 @@ public class PassiveItemForDebug : MonoBehaviour
 
             "1.damageIncrement\n" +
             "2.knockBackIncrement\n" +
-            "3.chargingAmountIncrement\n" +
+            "3.chargingDamageIncrement\n" +
             "4.gettingSkillGaugeIncrement\n" +
             "5.gettingStaminaIncrement\n" +
             "6.skillPowerIncrement\n" +
@@ -240,7 +240,7 @@ public class PassiveItemForDebug : MonoBehaviour
 
             weaponTotal.damageIncrement + "\n" +
             weaponTotal.knockBackIncrement + "\n" +
-            weaponTotal.chargingAmountIncrement + "\n" +
+            weaponTotal.chargingDamageIncrement + "\n" +
             weaponTotal.gettingSkillGaugeIncrement + "\n" +
             weaponTotal.gettingStaminaIncrement + "\n" +
             weaponTotal.skillPowerIncrement + "\n" +

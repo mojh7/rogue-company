@@ -110,7 +110,7 @@ public class BuffManager : MonoBehaviour
 
             damageIncrement = 1f,
             knockBackIncrement = 1f,
-            chargingAmountIncrement = 1f,
+            chargingDamageIncrement = 1f,
             gettingSkillGaugeIncrement = 1f,
             gettingStaminaIncrement = 1f,
             skillPowerIncrement = 1f,
@@ -291,7 +291,7 @@ public class BuffManager : MonoBehaviour
         // 곱 옵션 - 합 연산
         WeaponTargetEffectTotal[index].damageIncrement += targetEffect.damageIncrement * sign;
         WeaponTargetEffectTotal[index].knockBackIncrement += targetEffect.knockBackIncrement * sign;
-        WeaponTargetEffectTotal[index].chargingAmountIncrement += targetEffect.chargingAmountIncrement * sign;
+        WeaponTargetEffectTotal[index].chargingDamageIncrement += targetEffect.chargingDamageIncrement * sign;
         WeaponTargetEffectTotal[index].gettingSkillGaugeIncrement += targetEffect.gettingSkillGaugeIncrement * sign;
         WeaponTargetEffectTotal[index].gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
         WeaponTargetEffectTotal[index].skillPowerIncrement += targetEffect.skillPowerIncrement * sign;

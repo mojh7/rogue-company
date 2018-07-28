@@ -8,7 +8,7 @@ public class CharacterTargetEffect : ItemUseEffect
 {
     [Header("합 옵션")]
     public float recoveryHp;
-    public float recoveryStamina;
+    public int recoveryStamina;
     public int armorIncrement;
     
     [Header("곱 옵션 - 합 연산")]

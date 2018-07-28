@@ -92,6 +92,9 @@ public abstract class BulletPattern
         {
             weaponType = transferBulletInfo.weaponType
         };
+
+        totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
+        effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)transferBulletInfo.weaponType];
     }
     public abstract BulletPattern Clone();
     public abstract void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType); // 공격 시도 시작

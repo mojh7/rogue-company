@@ -44,7 +44,6 @@ public class Player : Character
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
     // 0717 임시 스킬 게이지
-    private int skillGauge;
     private ActiveSkill activeSkill;
     #endregion
 
@@ -74,6 +73,9 @@ public class Player : Character
     public Vector3 GetInputVector () { return controller.GetInputVector(); }
 
     public WeaponSwitchButton GetWeaponSwitchButton() { return weaponSwitchButton; }
+
+    public int GetStamina() { return playerData.Stamina; }
+    public int GetSkillGauage() { return playerData.SkillGauge; }
     #endregion
 
 
@@ -150,7 +152,6 @@ public class Player : Character
         base.Init();
         pState = CharacterInfo.State.ALIVE;
 
-        skillGauge = 100;
         animationHandler.Init(PlayerManager.Instance.runtimeAnimator);
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
@@ -228,7 +229,7 @@ public class Player : Character
 
     public void ActiveSkill()
     {
-        if(100 == skillGauge)
+        if(100 == playerData.SkillGauge)
         {
             DebugX.Log("Player 스킬 활성화");
             //skillGauge = 0;
@@ -304,11 +305,22 @@ public class Player : Character
     {
         if (false == buffManager.CharacterTargetEffectTotal.canDrainHp) return;
         killedEnemyCount += 1;
-        if(killedEnemyCount == 5)
+        if(killedEnemyCount == 7)
         {
-            RecoverHp(0.5f);
+            RecoverHp(1f);
             killedEnemyCount = 0;
         }
+    }
+
+    public bool ConsumeStamina(int staminaConsumption)
+    {
+        if (0 <= playerData.Stamina)
+            return false;
+        playerData.Stamina -= staminaConsumption;
+        if (0 <= playerData.Stamina)
+            playerData.Stamina = 0;
+
+        return true;
     }
 
     public bool RecoverHp(float recoveryHp)
@@ -322,8 +334,10 @@ public class Player : Character
             return false;
     }
 
-    // player 에임 조정, 몬스터 자동 조준 or 조이스틱 방향 
-    public void SetAim()
+    /// <summary>
+    /// player 에임 조정, 몬스터 자동 조준 or 조이스틱 방향 
+    /// </summary>
+    private void SetAim()
     {       
         int enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
         
@@ -337,20 +351,16 @@ public class Player : Character
         else
         {
             List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
-            
             raycastHitEnemies.Clear();
             int raycasthitEnemyNum = 0;
             float minDistance = 10000f;
             int proximateEnemyIndex = -1;
-
-            // DebugX.Log("Total : " + enemyTotal);
 
             // raycast로 player와 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
             for (int i = 0; i < enemyTotal; i++)
             {
                 raycasthitEnemyInfo.index = i;
                 raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, objTransform.position);
-                // DebugX.Log(raycasthitEnemyInfo.distance);
                 hit = Physics2D.Raycast(objTransform.position, enemyList[i].transform.position - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
                 if(hit.collider == null)
                 {
@@ -367,8 +377,6 @@ public class Player : Character
                 return;
             }
 
-
-           // DebugX.Log("raycasthitEnemyNum : " + raycasthitEnemyNum + " 조준 가능한 enemy 존재");
             // 위에서 찾은 enmey들 중 distance가 가장 작은 값인 enemy쪽 방향으로 조준한다.
             for (int j = 0; j < raycasthitEnemyNum; j++)
             {
@@ -382,7 +390,6 @@ public class Player : Character
             directionVector = (enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform.position - objTransform.position);
             directionVector.z = 0;
             directionVector.Normalize();
-            //DebugX.Log(directionVector.magnitude);
             directionDegree = directionVector.GetDegFromVector();
         }
     }
@@ -406,7 +413,7 @@ public class Player : Character
         이런건 버프, 패시브 효과 쪽이 어울림
         moveSpeedIncrement, staminaMaxIncrement, armorIncrement, criticalChanceIncrement
         */
-        playerData.StaminaMax = originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement;
+        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement);
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
         playerData.Armor = originPlayerData.Armor + itemUseEffect.armorIncrement;
     }
@@ -419,7 +426,7 @@ public class Player : Character
     public void UpdatePlayerData()
     {
         // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.
-        playerData.StaminaMax = originPlayerData.StaminaMax * buffManager.CharacterTargetEffectTotal.staminaMaxIncrement;
+        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * buffManager.CharacterTargetEffectTotal.staminaMaxIncrement);
         playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrement;
         playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrement;
     }

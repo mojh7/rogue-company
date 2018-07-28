@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using CharacterInfo;
 
-public class Weapon : Item {
+public class Weapon : Item
+{
 
     #region Variables
     public WeaponInfo originInfo;
@@ -13,18 +15,21 @@ public class Weapon : Item {
     // enum State
     public WeaponState weaponState; // 무기 상태
 
+    private AttackType attackType;
     private WeaponManager weaponManager;
     private Transform objTransform;
     private SpriteRenderer spriteRenderer;
 
     private CharacterInfo.OwnerType ownerType;
-    private DelGetDirDegree ownerDirDegree;   // 소유자 각도
-    private DelGetPosition ownerDirVec; // 소유자 각도 벡터(vector3)
-    private DelGetPosition ownerPos;    // 소유자 초기 위치(vector3)
+    private DelGetDirDegree ownerDirDegree;     // 소유자 각도
+    private DelGetPosition ownerDirVec;         // 소유자 각도 벡터(vector3)
+    private DelGetPosition ownerPos;            // 소유자 초기 위치(vector3)
+    private Player player;
 
-    private float chargedTime;
+    private int chargedCount;
+    private float timePerCharging;
+    private float damageIncrementPerCharging;
     private bool canChargedAttack;              // 차징 공격 가능 여부, 초기에 true 상태
-    private float ChargedAttackCooldown;        // 차지 공격 쿨타임
     private float chargedDamageIncreaseRate;    // 풀 차징 공격 데미지 상승률
     private Coroutine chargingUpdate;
 
@@ -61,12 +66,8 @@ public class Weapon : Item {
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
     #endregion
-    #region Function
 
-    public override void Active()
-    {
-        //무기 습득에 쓸거같음
-    }
+    #region initialization
     //6.02 이유성
     public void Init(WeaponInfo weaponInfo, CharacterInfo.OwnerType ownerType = CharacterInfo.OwnerType.Player)
     {
@@ -99,18 +100,29 @@ public class Weapon : Item {
         name = info.weaponName;
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
-        ChargedAttackCooldown = 20f;
-        chargedTime = 0f;
-        // 풀 차징 공격 (근거리, 원거리 별) 데미지 증가율
-        if (info.weaponType == WeaponType.PISTOL || info.weaponType == WeaponType.SHOTGUN || info.weaponType == WeaponType.LASER)
+        chargedCount = 0;
+        timePerCharging = 0.1f;
+        if (WeaponType.SPEAR == info.weaponType || WeaponType.CLUB == info.weaponType || WeaponType.SPORTING_GOODS == info.weaponType ||
+            WeaponType.SWORD == info.weaponType || WeaponType.CLEANING_TOOL == info.weaponType || WeaponType.KNUCKLE == info.weaponType)
         {
-            chargedDamageIncreaseRate = 0.6f;
+            attackType = AttackType.MELEE;
         }
-        else if (info.weaponType == WeaponType.SWORD || info.weaponType == WeaponType.KNUCKLE || info.weaponType == WeaponType.CLUB)
+        else if (WeaponType.PISTOL == info.weaponType || WeaponType.SHOTGUN == info.weaponType || WeaponType.MACHINEGUN == info.weaponType ||
+            WeaponType.SNIPER_RIFLE == info.weaponType || WeaponType.LASER == info.weaponType || WeaponType.BOW == info.weaponType ||
+            WeaponType.TRASH == info.weaponType || WeaponType.WAND == info.weaponType || WeaponType.OTHER == info.weaponType)
         {
-            chargedDamageIncreaseRate = 0.4f;
+            attackType = AttackType.RANGED;
         }
     }
+    #endregion
+
+    #region Function
+
+    public override void Active()
+    {
+        //무기 습득에 쓸거같음
+    }
+    
 
     /// <summary> weaponManager에 처음 등록될 때 onwer 정보 얻어오고 bulletPattern 정보 초기화 </summary>
     public void RegisterWeapon(WeaponManager weaponManager)
@@ -118,7 +130,10 @@ public class Weapon : Item {
         this.weaponManager = weaponManager;
 
         ownerType = weaponManager.GetOwnerType();
-
+        if(OwnerType.Player == ownerType)
+        {
+            player = PlayerManager.Instance.GetPlayer();
+        }
         ownerDirDegree = weaponManager.GetOwnerDirDegree();
         ownerDirVec = weaponManager.GetOwnerDirVec();
         ownerPos = weaponManager.GetOwnerPos();
@@ -134,27 +149,37 @@ public class Weapon : Item {
         }
     }
 
-    // StartAttack -> Attack -> PatternCycle -> Reload
-    // 공격 시도, onwer 따라 다름
 
-    // Player : 공격 버튼 터치 했을 때, 함수명 바뀔 예정
-    // Enemy  :
+    private bool HasCostForAttack()
+    {
+        if (AttackType.MELEE == attackType)
+        {
+            if (OwnerType.Player == ownerType && 0 == player.GetStamina() && 0 < info.staminaConsumption)
+                return false;
+        }
+        else if (AttackType.RANGED == attackType)
+        {
+            if (info.ammo <= 0 && info.ammoCapacity >= 0)
+                return false;
+        }
+        return true;
+    }
+
+    // startAttack -> attack
+
     public void StartAttack()
     {
-        // 공격 가능 여부 판단 후 공격(탄 부족, 무기 스왑 도중, 공격 딜레이, 기타 공격 불가능 상태)
         if (weaponState == WeaponState.Idle)
         {
-            // TouchMode에 따른 다른 행동 Normal : 일반 공격 실행, Charge : 차징
             if (info.touchMode == TouchMode.Normal)
             {
-                // 공격 함수 실행
                 Attack(0f);
             }
             else if(info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
             {
-                if(info.ammo <= 0 && info.ammoCapacity >= 0)
+                if(false == HasCostForAttack())
                 {
-                    DebugX.Log("총알 부족으로 인한 차징 공격 실패");
+                    DebugX.Log("총알 혹은 스테미너 부족으로 인한 차징 공격 실패");
                     return;
                 }
                 UpdateWeaponBuff();
@@ -162,7 +187,7 @@ public class Weapon : Item {
                 // 차징 코루틴 실행
                 if (chargingUpdate == null)
                 {
-                    chargingUpdate = StartCoroutine("ChargingUpdate");
+                    chargingUpdate = StartCoroutine(ChargingUpdate());
                 }
             }
         }
@@ -171,23 +196,17 @@ public class Weapon : Item {
     // 실제 공격 함수, 무기 상태를 Attack으로 바꾸고 공격 패턴 한 사이클 실행.
     public void Attack(float damageIncreaseRate)
     {
-        // 사용 할 수 있는 탄약이 존재 하거나, 탄약 최대치가 무한대 인 경우 (일단 info.ammoCapacity = -1 일 때 무한대로 놓고 있음)
-        // 일단 1회 공격 사이클 돌릴 때 무조건 info.ammo -1 처리
-        if(info.ammo > 0 || info.ammoCapacity < 0)
+        if(HasCostForAttack())
         {
             UpdateWeaponBuff();
             weaponState = WeaponState.Attack;
-            info.ammo -= 1;
-            // weaponManager 에서 onwerType = player 인 것만 실행 되게 체크함
             weaponManager.UpdateAmmoView(info);
-            // 공격 애니메이션 실행
-            // 공격 타입에 따른 공격 실행 (원거리 : 탄 뿌리기 후 cost(탄) 소모)
             PlayAttackAnimation();
             StartCoroutine(PatternCycle(damageIncreaseRate));
         }
         else
         {
-            DebugX.Log("총알 부족으로 인한 공격 실패");
+            DebugX.Log("총알 혹은 스테미너 부족으로 인한 공격 실패");
         }
     }
 
@@ -206,18 +225,10 @@ public class Weapon : Item {
         }
         else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Charge)
         {
-            // 차징 중지 후 공격 실행, 풀 차징 시에만 추가 효과 얻음
-            if (chargedTime + 0.01f >= info.chargeTime)
-            {
-                // 풀 차징
-                Attack(chargedDamageIncreaseRate);
-            }
-            else
-            {
-                // 풀 차징하지 않음
-                Attack(0f);
-            }
-            chargedTime = 0f;
+            chargedDamageIncreaseRate = damageIncrementPerCharging * chargedCount;
+            Debug.Log("차징 데미지 뻥튀기율 : " + chargedDamageIncreaseRate);
+            Attack(chargedDamageIncreaseRate);
+            chargedCount = 0;
             // 차징 update coroutine 종료
             if(chargingUpdate != null)
             {
@@ -259,9 +270,12 @@ public class Weapon : Item {
 
     public void UpdateWeaponBuff()
     {
-        // 9. 공격속도 증가 +n% (무기 재사용 시간 감소 n% 감소), n 미정 
+        // 공격 속도 증가 
         info.cooldown = originInfo.cooldown * totalInfo.cooldownReduction * effectInfo.cooldownReduction;
-        info.chargeTime = originInfo.chargeTime * totalInfo.chargeTimeReduction * effectInfo.chargeTimeReduction; 
+        // 차징 속도 증가
+        timePerCharging = 0.1f * totalInfo.chargeTimeReduction * effectInfo.chargeTimeReduction;
+        // 차징 데미지 증가
+        damageIncrementPerCharging = 0.1f * (totalInfo.chargingDamageIncrement + effectInfo.chargingDamageIncrement); 
     }
 
 
@@ -275,7 +289,7 @@ public class Weapon : Item {
             {
                 // 공격 사운드 실행
                 AudioManager.Instance.PlaySound(info.soundId);
-                // CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
+                //CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
                 info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
                 if(info.bulletPatterns[i].GetDelay() > 0)
                 {
@@ -299,24 +313,12 @@ public class Weapon : Item {
     /// </summary>
     private IEnumerator ChargingUpdate()
     {
-        // 무기별로 chargeTime 다름 0517 기준으로 근거리 2.5~3.5초, 원거리 3~4.5초
-
-        // 2.019999, 2와 같은 부동 소수점 계산 문제 생겨서 info.chargeTime에다가 WaitForseconds / 2 값 만큼 빼줬음 
-        while (chargedTime < info.chargeTime - 0.01f)
+        while (chargedCount < info.chargeCountMax)
         {
-            // 0.02f => 차징 ui 갱신 시간, 숫자가 작을 수록 빠른 주기로 갱신됨.
-            chargedTime += 0.02f;
-            weaponManager.UpdateChargingUI(chargedTime / info.chargeTime);
-            yield return YieldInstructionCache.WaitForSeconds(0.02f);
+            yield return YieldInstructionCache.WaitForSeconds(timePerCharging);
+            chargedCount += 1;
+            weaponManager.UpdateChargingUI((float)chargedCount / info.chargeCountMax);
         }
-    }
-
-    // 차징 공격 쿨타임 코루틴, 20초
-    private IEnumerator EnterChargingAttackCooldown()
-    {
-        canChargedAttack = false;
-        yield return YieldInstructionCache.WaitForSeconds(ChargedAttackCooldown);
-        canChargedAttack = true;
     }
     #endregion
 
