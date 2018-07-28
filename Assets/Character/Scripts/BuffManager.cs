@@ -92,7 +92,7 @@ public class BuffManager : MonoBehaviour
             discountRateOfCafeteriaItems = 1f,
             discountRateAllItems = 1f,
 
-            hungerMaxIncrement = 1f,
+            staminaMaxIncrement = 1f,
             canDrainHp = false
         };
     }
@@ -230,7 +230,7 @@ public class BuffManager : MonoBehaviour
         }
 
         // CharacterTargetEffectTotal.recoveryHp += TargetEffect.recoveryHp;
-        // CharacterTargetEffectTotal.recoveryHunger += TargetEffect.recoveryHunger;
+        // CharacterTargetEffectTotal.recoveryStamina += TargetEffect.recoveryStamina;
 
         // 합 연산
         CharacterTargetEffectTotal.armorIncrement += targetEffect.armorIncrement * sign;
@@ -257,7 +257,7 @@ public class BuffManager : MonoBehaviour
         }
 
         // 미정
-        CharacterTargetEffectTotal.hungerMaxIncrement += targetEffect.hungerMaxIncrement * sign;
+        CharacterTargetEffectTotal.staminaMaxIncrement += targetEffect.staminaMaxIncrement * sign;
 
         // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함.
         if (targetEffect.canDrainHp)

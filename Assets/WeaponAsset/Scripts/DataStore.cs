@@ -76,6 +76,19 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
     [SerializeField]
+    private UsableItemInfo[] clothingItemInfos;
+    [SerializeField]
+    private UsableItemInfo[] etcItemInfos;
+    [SerializeField]
+    private UsableItemInfo[] foodItemInfos;
+    [SerializeField]
+    private UsableItemInfo[] medicalItemInfos;
+    [SerializeField]
+    private UsableItemInfo[] miscItemInfos;
+    [SerializeField]
+    private UsableItemInfo[] petItemInfos;
+
+    [SerializeField]
     private UsableItemInfo[] passiveItemInfos;
 
     [SerializeField]
@@ -94,6 +107,36 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     {
         return weaponInfos.Length;
     }
+    public int GetClothingItemInfosLength()
+    {
+        return clothingItemInfos.Length;
+    }
+
+    public int GetEtcItemInfosLength()
+    {
+        return etcItemInfos.Length;
+    }
+
+    public int GetFoodItemInfosLength()
+    {
+        return foodItemInfos.Length;
+    }
+
+    public int GetMedicalItemInfosLength()
+    {
+        return medicalItemInfos.Length;
+    }
+
+    public int GetMiscItemInfosLength()
+    {
+        return miscItemInfos.Length;
+    }
+
+    public int GetPetItemInfosLength()
+    {
+        return petItemInfos.Length;
+    }
+
     public int GetPassiveItemInfosLength()
     {
         return passiveItemInfos.Length;
@@ -122,6 +165,32 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     }
 
     public EffectInfo GetEffectInfo(int id) { return effectInfos[id]; }
+
+    public UsableItemInfo GetClothingItemInfo(int id)
+    {
+        return clothingItemInfos[id];
+    }
+    public UsableItemInfo GetEtcItemInfo(int id)
+    {
+        return etcItemInfos[id];
+    }
+    public UsableItemInfo GetFoodItemInfo(int id)
+    {
+        return foodItemInfos[id];
+    }
+    public UsableItemInfo GetMedicalItemInfo(int id)
+    {
+        return medicalItemInfos[id];
+    }
+    public UsableItemInfo GetMiscItemInfo(int id)
+    {
+        return miscItemInfos[id];
+    }
+
+    public UsableItemInfo GetPetItemInfo(int id)
+    {
+        return petItemInfos[id];
+    }
 
     public UsableItemInfo GetPassiveItemInfo(int id)
     {

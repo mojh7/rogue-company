@@ -148,9 +148,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
             {
                 item.gameObject.transform.position = Vector3.zero;
                 item.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                // DebugX.Log("회수 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
                 item.gameObject.transform.SetParent(parent);
-                // DebugX.Log("회수2 : " + item.gameObject.name + " : " + item.gameObject.transform.parent.name);
                 item.active = false;
                 item.gameObject.SetActive(false);
             }

@@ -8,7 +8,7 @@ public class CharacterTargetEffect : ItemUseEffect
 {
     [Header("합 옵션")]
     public float recoveryHp;
-    public float recoveryHunger;
+    public float recoveryStamina;
     public int armorIncrement;
     
     [Header("곱 옵션 - 합 연산")]
@@ -21,7 +21,7 @@ public class CharacterTargetEffect : ItemUseEffect
     public float discountRateAllItems;              // 모든 아이템의 할인율
 
     // 미정
-    public float hungerMaxIncrement;
+    public float staminaMaxIncrement;
     // public float hpMaxIncrement;
 
     [Header("on/ off 속성")]

@@ -12,12 +12,21 @@ public enum Rating { NORATING, S, A, B, C, D, E }
 // 사용할 수 있는 아이템들
 public class UsableItem : Item
 {
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
     private UsableItemInfo info;
-    
+
+    /// <summary>
+    /// info 및 sprite 초기화
+    /// </summary>
+    /// <param name="info"></param>
     public void Init(UsableItemInfo info)
     {
         this.info = info;
+        spriteRenderer.sprite = info.Sprite;
     }
+
     public override void Active()
     {
         DebugX.Log("UsableItem use");
@@ -25,9 +34,11 @@ public class UsableItem : Item
         {
             info.EffectApplyTypes[i].UseItem();
         }
+        ObjectPoolManager.Instance.DeleteUsableItem(gameObject);
     }
 }
 
+/*
 // 음식 아이템
 public class FoodItem : UsableItem
 {
@@ -36,6 +47,7 @@ public class FoodItem : UsableItem
         base.Active();
     }
 }
+
 
 // 의류 아이템
 public class ClothingItem : UsableItem
@@ -81,4 +93,4 @@ public class PassiveItem : UsableItem
     {
         base.Active();
     }
-}
+}*/

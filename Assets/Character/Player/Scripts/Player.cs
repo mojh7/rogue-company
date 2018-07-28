@@ -398,17 +398,17 @@ public class Player : Character
         {
             playerData.Hp += itemUseEffect.recoveryHp;
         }
-        if (itemUseEffect.recoveryHunger != 0)
+        if (itemUseEffect.recoveryStamina != 0)
         {
-            playerData.Hunger += itemUseEffect.recoveryHunger;
+            playerData.Stamina += itemUseEffect.recoveryStamina;
         }
         /*
         이런건 버프, 패시브 효과 쪽이 어울림
-        moveSpeedIncrement, hungerMaxIncrement, armorIncrement, criticalChanceIncrement
+        moveSpeedIncrement, staminaMaxIncrement, armorIncrement, criticalChanceIncrement
         */
-        playerData.HungerMax = originPlayerData.HungerMax * itemUseEffect.hungerMaxIncrement;
+        playerData.StaminaMax = originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement;
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
-        playerData.Armor = originPlayerData.Armor * itemUseEffect.armorIncrement;
+        playerData.Armor = originPlayerData.Armor + itemUseEffect.armorIncrement;
     }
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
@@ -419,7 +419,7 @@ public class Player : Character
     public void UpdatePlayerData()
     {
         // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.
-        playerData.HungerMax = originPlayerData.HungerMax * buffManager.CharacterTargetEffectTotal.hungerMaxIncrement;
+        playerData.StaminaMax = originPlayerData.StaminaMax * buffManager.CharacterTargetEffectTotal.staminaMaxIncrement;
         playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrement;
         playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrement;
     }
