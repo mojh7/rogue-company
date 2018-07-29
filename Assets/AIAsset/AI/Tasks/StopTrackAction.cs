@@ -11,22 +11,29 @@ using BT;
 /// </summary>
 public class StopTrackAction : ActionTask
 {
-    Character target;
-    AIController controller;
+    MovingPattern movingPattern;
 
     public override void Init(Task task)
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
-        controller = character.GetCharacterComponents().AIController;
+        movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
+        movingPattern.StopTracker(character.transform);
     }
 
     public override bool Run()  
-    { 
-        // 애니메이션 핸들러에서 애니메이션 멈추겠다는거 추가하기
-        animationHandler.Idle();
-        controller.StopMove();
-        return base.Run();
+    {
+        success = movingPattern.StopTracking();
+
+        if (success)
+        {
+            animationHandler.Idle();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public override Task Clone()

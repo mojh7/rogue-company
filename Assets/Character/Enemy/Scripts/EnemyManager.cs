@@ -9,7 +9,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     private EnemyData enemyData;
     public ObjectPool objectPool;
     private List<Enemy> enemyList;
-    GameObject alertObj;
 
     // 0516 모장현
     private int aliveEnemyTotal;
@@ -18,13 +17,13 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     {
         enemyList = new List<Enemy>();
         aliveEnemyTotal = 0;
-        alertObj = ResourceManager.Instance.ObjectPrefabs;
     }
 
     #region 바꿔야되는것들
     public void Generate(Vector3 _position)
     {
-        GameObject obj = Instantiate(alertObj,_position,Quaternion.identity,this.transform);
+        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
+        obj.transform.position = _position;
         obj.AddComponent<Alert>();
         obj.GetComponent<Alert>().Init(CallBack);
         obj.GetComponent<Alert>().Active();

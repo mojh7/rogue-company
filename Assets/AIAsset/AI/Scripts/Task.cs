@@ -38,6 +38,10 @@ namespace BT
         /// </summary>
         /// <returns></returns>
         public abstract bool Run();
+        public virtual bool SubRun()
+        {
+            return true;
+        }
         /// <summary>
         /// 자식 추가 함수
         /// </summary>

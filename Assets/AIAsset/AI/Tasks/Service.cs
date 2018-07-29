@@ -6,7 +6,7 @@ using BT;
 /// <summary>
 /// 일정 주파수마다 실행되는 노드 한번 실행할 때마다 Clock에 저장,업데이트가 됩니다.
 /// </summary>
-public class Service : CompositeTask
+public class Service  : CompositeTask
 {
     [SerializeField]
     float frequency;

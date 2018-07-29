@@ -11,6 +11,7 @@ public class MovingPattern : MonoBehaviour
     RoundingTracker roundingTracker;
     RushTracker rushTracker;
     RunawayTracker runawayTracker;
+    StopTracker stopTracker;
     #endregion
     #region components
     Rigidbody2D rb2d;
@@ -85,6 +86,10 @@ public class MovingPattern : MonoBehaviour
     {
         runawayTracker = new RunawayTracker(transform, ref target, Follwing);
     }
+    public void StopTracker(Transform target)
+    {
+        stopTracker = new StopTracker(transform, ref target, Follwing);
+    }
     #endregion
 
     #region MovingFunc
@@ -130,6 +135,17 @@ public class MovingPattern : MonoBehaviour
         speed = baseSpeed;
 
         return runawayTracker.Update();
+    }
+    /// <summary>
+    /// 정지 행동
+    /// </summary>
+    /// <returns></returns>
+    public bool StopTracking()
+    {
+        if (stopTracker == null)
+            return false;
+        speed = baseSpeed;
+        return stopTracker.Update();
     }
     #endregion
 
@@ -333,6 +349,23 @@ class RunawayTracker : Tracker
         {
             AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, 2 * transform.position - target.position, OnPathFound));
         }
+        return true;
+    }
+}
+
+class StopTracker : Tracker
+{
+    public StopTracker(Transform transform, ref Transform target,Action<Vector2[]> callback)
+    {
+        this.transform = transform;
+        this.target = target;
+        this.callback = callback;
+    }
+    public override bool Update()
+    {
+        if (transform == null || target == null)
+            return false;
+        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, transform.position, OnPathFound));
         return true;
     }
 }

@@ -24,7 +24,7 @@ namespace Map
             map = new Map(width, height, size, area, maxHallRate, _floor, objectPool);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
-            map.AddFallRock();
+            //map.AddFallRock();
             RoomManager.Instance.InitRoomList();
         }
         public Map GetMap() { return map; }
@@ -85,7 +85,7 @@ namespace Map
             {
                 if(!rooms[i].isRoom)
                 {
-                    GameObject obj = Object.Instantiate(ResourceManager.Instance.ObjectPrefabs);
+                    GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
                     obj.transform.position = rooms[i].GetAvailableArea(); 
                     obj.AddComponent<FallRockTrap>();
                     obj.GetComponent<FallRockTrap>().Init(ResourceManager.Instance.Rock);

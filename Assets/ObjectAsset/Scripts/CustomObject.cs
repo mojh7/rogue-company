@@ -23,16 +23,36 @@ public abstract class CustomObject : MonoBehaviour {
     protected PolygonCollider2D polygonCollider2D;
     #endregion
 
-    public bool GetAvailable() { return isAvailable; }
-    public bool GetActive() { return isActive; }
+    public bool GetAvailable()
+    {
+        return isAvailable;
+    }
+
+    public bool GetActive()
+    {
+        return isActive;
+    }
+    
+    protected void DestroyAndDeactive()
+    {
+        Destroy(this);
+        this.gameObject.SetActive(false);
+    }
 
     public virtual void Init()
     {
         gameObject.layer = 1;
+        SetNullPolygon();
 #if UNITY_EDITOR
         spriteRenderer = GetComponent<SpriteRenderer>();
 #endif
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+    }
+
+    private void SetNullPolygon()
+    {
+        polygonCollider2D.pathCount = 1;
+        polygonCollider2D.SetPath(0, new Vector2[4] { new Vector2(-.1f, -.1f), new Vector2(.1f, -.1f), new Vector2(.1f, .1f), new Vector2(-.1f, .1f) });
     }
 #if UNITY_EDITOR
     public void SetPosition()
@@ -418,7 +438,7 @@ public class Alert : RandomSpriteObject
         }
 
         callback(transform.position);
-        Destroy(this.gameObject);
+        DestroyAndDeactive();
     }
 }
 
@@ -469,8 +489,7 @@ public class ItemBox : RandomSpriteObject
         isAvailable = false;
         item.gameObject.SetActive(true);
         ItemManager.Instance.CreateItem(item, this.transform.position);
-        Destroy(this.gameObject, 3);
-
+        UtilityClass.Invoke(this, DestroyAndDeactive, 3);
         return true;
     }
 
@@ -480,7 +499,7 @@ public class ItemBox : RandomSpriteObject
         {
             Destroy(item.gameObject);
         }
-        Destroy(gameObject);
+        DestroyAndDeactive();
     }
 }
 
@@ -531,7 +550,7 @@ public class ItemContainer : RandomSpriteObject
             bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
             if (check)
             {
-                Destroy(gameObject);
+                DestroyAndDeactive();
                 return true;
             }
         }
@@ -561,7 +580,7 @@ public class ItemContainer : RandomSpriteObject
     {
         if(innerObject != null)
             innerObject.transform.parent = null;
-        Destroy(gameObject);
+        DestroyAndDeactive();
     }
 
     public void DestroySelf()
@@ -619,7 +638,7 @@ public class FallRockTrap : RandomSpriteObject
     }
     void CallBack(Vector3 _position)
     {
-        GameObject obj = Object.Instantiate(ResourceManager.Instance.ObjectPrefabs);
+        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.AddComponent<Rock>();
         obj.GetComponent<Rock>().sprites = new Sprite[1] { tempSprite };
         obj.GetComponent<Rock>().Init();

@@ -5,6 +5,6 @@ using UnityEngine;
 public class ResourceManager : MonoBehaviourSingleton<ResourceManager> {
 
     public Sprite Rock;
-    public GameObject ObjectPrefabs;
+    public ObjectPool objectPool;
 
 }

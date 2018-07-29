@@ -103,7 +103,7 @@ namespace BT
                     windowTitle = actionTask.ToString();
                     break;
             }
-            if (decorateTask == EDecorateTask.DistanceDecorate)
+            if (decorateTask == EDecorateTask.DistanceDecorate || decorateTask == EDecorateTask.TimeDecorate)
             {
                 behaviorCondition = (BehaviorCondition)EditorGUILayout.EnumPopup("BehaviorCondition", behaviorCondition);
             }
@@ -168,6 +168,8 @@ namespace BT
                             return ScriptableObject.CreateInstance<Selector>();
                         case ECompositeTask.Sequence:
                             return ScriptableObject.CreateInstance<Sequence>();
+                        case ECompositeTask.SubSelector:
+                            return ScriptableObject.CreateInstance<SubSelector>();
                     }
                     break;
                 case TaskType.DecorateTask:
@@ -179,6 +181,8 @@ namespace BT
                             return ScriptableObject.CreateInstance<BoolDecorate>();
                         case EDecorateTask.DistanceDecorate:
                             return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition,value);
+                        case EDecorateTask.TimeDecorate:
+                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value);
                     }
                     break;
                 case TaskType.ActionTask:

@@ -20,6 +20,7 @@ public class RunawayTrackAction : ActionTask
     public override bool Run()
     {
         success = movingPattern.RunawayTracking();
+        Debug.Log("Runaway");
         if (success)
         {
             animationHandler.Walk();

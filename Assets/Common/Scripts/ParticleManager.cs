@@ -20,7 +20,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         particle.gameObject.transform.position = pos;
         SpriteToMesh(sprite, particle);
         particle.Play();
-        UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration);
+        UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
     }
 
     void SpriteToMesh(Sprite sprite, ParticleSystem particleSystem)

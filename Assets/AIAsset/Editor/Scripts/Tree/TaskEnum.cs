@@ -11,14 +11,16 @@
     {
         Service,
         Selector,
-        Sequence
+        Sequence,
+        SubSelector
     }
 
     public enum EDecorateTask
     {
         Root,
         Bool,
-        DistanceDecorate
+        DistanceDecorate,
+        TimeDecorate
     }
 
     public enum EActionTask

@@ -5,7 +5,6 @@ using UnityEngine;
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public Sprite coinSprite;
     public Sprite sprite;
-    GameObject customObject;
     Queue<GameObject> objs;
     Queue<ItemContainer> withdraws;
     #region UnityFunc
@@ -13,7 +12,6 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     {
         objs = new Queue<GameObject>();
         withdraws = new Queue<ItemContainer>();
-        customObject = ResourceManager.Instance.ObjectPrefabs;
     }
     #endregion
     #region Func
@@ -36,9 +34,10 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
 
     public void CallItemBox(Vector2 _position,Item _item)
     {
-        GameObject obj = Instantiate(customObject, _position, Quaternion.identity);
+        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
 
         objs.Enqueue(obj);
+        obj.transform.position = _position;
         obj.AddComponent<ItemBox>();
         obj.GetComponent<ItemBox>().sprites = new Sprite[1] { sprite };
         obj.GetComponent<ItemBox>().Init(_item);
@@ -47,7 +46,8 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
 
     public GameObject CreateItem(Item _item,Vector3 _position)
     {
-        GameObject obj = Instantiate(customObject, _position, Quaternion.identity,transform);
+        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
+        obj.transform.position = _position;
         obj.AddComponent<ItemContainer>().Init(_item);
         objs.Enqueue(obj);
         if (_item.GetType() == typeof(Coin))
