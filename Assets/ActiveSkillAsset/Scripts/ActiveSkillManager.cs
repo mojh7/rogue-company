@@ -71,19 +71,17 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     {
         float radius = Vector2.Distance(attacker.transform.position, victim.transform.position);
         Vector2 randPos = UnityEngine.Random.insideUnitCircle * radius;
-        GameObject gameObject = new GameObject();
+        GameObject gameObject = ResourceManager.Instance.objectPool.GetPooledObject();
         gameObject.transform.position = new Vector2(attacker.transform.position.x + randPos.x, attacker.transform.position.y + randPos.y);
         gameObject.AddComponent<Alert>();
-        gameObject.GetComponent<Alert>().Init(HandTrap);
+        gameObject.GetComponent<Alert>().Init(HandTrap, 0);
         gameObject.GetComponent<Alert>().Active();
     }
 
     private void HandTrap(Vector3 pos)
     {
-        GameObject gameObject = new GameObject();
+        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.AddComponent<HandTrap>();
-        gameObject.AddComponent<SpriteRenderer>();
-        gameObject.AddComponent<Animator>();
         gameObject.transform.position = pos;
     }
 

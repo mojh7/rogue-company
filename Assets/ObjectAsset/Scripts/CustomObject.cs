@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX }
 
-public abstract class CustomObject : MonoBehaviour {
+public class CustomObject : MonoBehaviour {
 
     public Vector3 position;
     public ObjectType objectType;
@@ -407,6 +407,7 @@ public class Alert : RandomSpriteObject
 {
     public delegate void Del(Vector3 _position);
     Del callback;
+    int type = 0;
     public override void Init()
     {
         base.Init();
@@ -414,16 +415,29 @@ public class Alert : RandomSpriteObject
         polygonCollider2D.SetPath(0, null);
         objectType = ObjectType.NONE;
     }
-    public void Init(Del _call)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_call">Vector3 가 매개변수인 함수</param>
+    /// <param name="type"> 0 = 해골 1 = 원</param>
+    public void Init(Del _call,int type)
     {
         Init();
+        this.type = type;
         callback += _call;
     }
     public override bool Active()
     {
         base.Active();
         isAnimate = true;
-        animator.SetTrigger("alert_indicator");
+        if(type == 0)
+        {
+            animator.SetTrigger("skull_alert");
+        }
+        else
+        {
+            animator.SetTrigger("circle_alert");
+        }
         StartCoroutine(CheckAnimate());
 
         return true;
@@ -623,7 +637,7 @@ public class FallRockTrap : RandomSpriteObject
     {
         this.gameObject.AddComponent<Alert>();
         this.gameObject.GetComponent<Alert>().sprites = null;
-        this.gameObject.GetComponent<Alert>().Init(CallBack);
+        this.gameObject.GetComponent<Alert>().Init(CallBack, 0);
         this.gameObject.GetComponent<Alert>().Active();
         Destroy(this);
         return true;

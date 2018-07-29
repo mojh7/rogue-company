@@ -6,5 +6,5 @@ public class ResourceManager : MonoBehaviourSingleton<ResourceManager> {
 
     public Sprite Rock;
     public ObjectPool objectPool;
-
+    public ObjectPool skillPool;
 }

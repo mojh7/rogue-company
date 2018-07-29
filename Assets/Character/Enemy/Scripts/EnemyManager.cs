@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().Init(CallBack);
+        obj.GetComponent<Alert>().Init(CallBack, 0);
         obj.GetComponent<Alert>().Active();
     }
 
