@@ -56,10 +56,10 @@ public class Effect : MonoBehaviour {
         objTransform.localScale = scaleVector;
         transform.position = pos;
 
-        if(info.particleActive == false)
-        {
-            particleSystemObject.SetActive(false);
-        }
+        //if(info.particleActive == false)
+        //{
+        //    particleSystemObject.SetActive(false);
+        //}
         animator.SetTrigger(info.animationName);
 
         deleteOnLifeTime = StartCoroutine("DeleteOnLifeTime");

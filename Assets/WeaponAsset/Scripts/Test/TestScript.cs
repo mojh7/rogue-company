@@ -60,6 +60,12 @@ public class TestScript : MonoBehaviour {
 
     public GameObject effectObj;
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+            ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.MISC);
+    }
+
     public void TestPointerfunc(a b)
     {
         c = b;

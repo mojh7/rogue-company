@@ -90,9 +90,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private UsableItemInfo[] petItemInfos;
 
     [SerializeField]
-    private UsableItemInfo[] passiveItemInfos;
-
-    [SerializeField]
     private EffectInfo[] effectInfos;
 
     
@@ -138,11 +135,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         return petItemInfos.Length;
     }
 
-    public int GetPassiveItemInfosLength()
-    {
-        return passiveItemInfos.Length;
-    }
-
     /// <summary>
     /// Owner에 따른 Weapon Data 반환, ownerType 기본 값 Player
     /// </summary>
@@ -169,33 +161,40 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
     public UsableItemInfo GetClothingItemInfo(int id)
     {
+        if (-1 == id)
+            id = Random.Range(0, clothingItemInfos.Length);
         return clothingItemInfos[id];
     }
     public UsableItemInfo GetEtcItemInfo(int id)
     {
+        if (-1 == id)
+            id = Random.Range(0, etcItemInfos.Length);
         return etcItemInfos[id];
     }
     public UsableItemInfo GetFoodItemInfo(int id)
     {
+        if (-1 == id)
+            id = Random.Range(0, foodItemInfos.Length);
         return foodItemInfos[id];
     }
     public UsableItemInfo GetMedicalItemInfo(int id)
     {
+        if (-1 == id)
+            id = Random.Range(0, medicalItemInfos.Length);
         return medicalItemInfos[id];
     }
     public UsableItemInfo GetMiscItemInfo(int id)
     {
+        if (-1 == id)
+            id = Random.Range(0, miscItemInfos.Length);
         return miscItemInfos[id];
     }
 
     public UsableItemInfo GetPetItemInfo(int id)
     {
+        if (-1 == id)
+            id = Random.Range(0, petItemInfos.Length);
         return petItemInfos[id];
-    }
-
-    public UsableItemInfo GetPassiveItemInfo(int id)
-    {
-        return passiveItemInfos[id];
     }
     #endregion
 

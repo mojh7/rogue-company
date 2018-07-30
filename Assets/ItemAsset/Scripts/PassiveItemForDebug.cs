@@ -64,7 +64,7 @@ public class PassiveItemForDebug : MonoBehaviour
         infoCurrentIndex = 0;
         totalInfoIndexMax = (int)WeaponType.END;
 
-        passiveItemIndexMax = DataStore.Instance.GetPassiveItemInfosLength();
+        passiveItemIndexMax = DataStore.Instance.GetMiscItemInfosLength();
         slotCountMax = slotRow * slotColumn;
         
         CreatePassiveSlots(standardPos.position);
@@ -126,7 +126,7 @@ public class PassiveItemForDebug : MonoBehaviour
         DebugX.Log(currentIndex + "번 패시브 아이템 사용 for debug");
         passiveSlotIds.Add(currentIndex);
         passiveSlotIdsLength += 1;
-        UsableItemInfo passive = DataStore.Instance.GetPassiveItemInfo(currentIndex);
+        UsableItemInfo passive = DataStore.Instance.GetMiscItemInfo(currentIndex);
         for (int i = 0; i < passive.EffectApplyTypes.Length; i++)
         {
             passive.EffectApplyTypes[i].UseItem();
@@ -138,8 +138,8 @@ public class PassiveItemForDebug : MonoBehaviour
     public void UpdatePassiveSelectImage()
     {
         SelectPassiveIdText.text = "Id : " + currentIndex;
-        SelectPassiveMemoText.text = DataStore.Instance.GetPassiveItemInfo(currentIndex).Notes;
-        passiveSelectImage.sprite = DataStore.Instance.GetPassiveItemInfo(currentIndex).Sprite;
+        SelectPassiveMemoText.text = DataStore.Instance.GetMiscItemInfo(currentIndex).Notes;
+        passiveSelectImage.sprite = DataStore.Instance.GetMiscItemInfo(currentIndex).Sprite;
     }
 
     public void SelectPassiveUp()
@@ -160,7 +160,7 @@ public class PassiveItemForDebug : MonoBehaviour
         for(int i = 0; i < passiveSlotIdsLength; i++)
         {
             //DebugX.Log("a : " + i + ", " + passiveSlotIds[i]);
-            passiveSlots[i].UpdatePassiveSlot(DataStore.Instance.GetPassiveItemInfo(passiveSlotIds[i]).Sprite);
+            passiveSlots[i].UpdatePassiveSlot(DataStore.Instance.GetMiscItemInfo(passiveSlotIds[i]).Sprite);
         }
         for (int i = passiveSlotIdsLength; i < slotCountMax; i++)
         {
