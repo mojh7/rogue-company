@@ -268,69 +268,72 @@ public class BuffManager : MonoBehaviour
 
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
     {
-        int index = (int)targetEffect.weaponType;
-        int sign;
-        bool boolSign;
-        // 등록
-        if (TargetEffectTotalUpdateType.REGISTER == updateType)
+        for(int i = 0; i < targetEffect.weaponType.Length; i++)
         {
-            sign = 1;
-            boolSign = true;
-        }
-        // 제거
-        else
-        {
-            sign = -1;
-            boolSign = false;
-        }
-        // 합 옵션
-        WeaponTargetEffectTotal[index].bulletCountIncrement += targetEffect.bulletCountIncrement * sign;
-        WeaponTargetEffectTotal[index].criticalChanceIncrement += targetEffect.criticalChanceIncrement * sign;
-        // WeaponTargetEffectTotal[index] += targetEffect * sign;        
+            int index = (int)targetEffect.weaponType[i];
+            int sign;
+            bool boolSign;
+            // 등록
+            if (TargetEffectTotalUpdateType.REGISTER == updateType)
+            {
+                sign = 1;
+                boolSign = true;
+            }
+            // 제거
+            else
+            {
+                sign = -1;
+                boolSign = false;
+            }
+            // 합 옵션
+            WeaponTargetEffectTotal[index].bulletCountIncrement += targetEffect.bulletCountIncrement * sign;
+            WeaponTargetEffectTotal[index].criticalChanceIncrement += targetEffect.criticalChanceIncrement * sign;
+            // WeaponTargetEffectTotal[index] += targetEffect * sign;        
 
-        // 곱 옵션 - 합 연산
-        WeaponTargetEffectTotal[index].damageIncrement += targetEffect.damageIncrement * sign;
-        WeaponTargetEffectTotal[index].knockBackIncrement += targetEffect.knockBackIncrement * sign;
-        WeaponTargetEffectTotal[index].chargingDamageIncrement += targetEffect.chargingDamageIncrement * sign;
-        WeaponTargetEffectTotal[index].gettingSkillGaugeIncrement += targetEffect.gettingSkillGaugeIncrement * sign;
-        WeaponTargetEffectTotal[index].gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
-        WeaponTargetEffectTotal[index].skillPowerIncrement += targetEffect.skillPowerIncrement * sign;
-        WeaponTargetEffectTotal[index].bulletScaleIncrement += targetEffect.bulletScaleIncrement * sign;
-        WeaponTargetEffectTotal[index].bulletRangeIncrement += targetEffect.bulletRangeIncrement * sign;
-        WeaponTargetEffectTotal[index].bulletSpeedIncrement += targetEffect.bulletSpeedIncrement * sign;
+            // 곱 옵션 - 합 연산
+            WeaponTargetEffectTotal[index].damageIncrement += targetEffect.damageIncrement * sign;
+            WeaponTargetEffectTotal[index].knockBackIncrement += targetEffect.knockBackIncrement * sign;
+            WeaponTargetEffectTotal[index].chargingDamageIncrement += targetEffect.chargingDamageIncrement * sign;
+            WeaponTargetEffectTotal[index].gettingSkillGaugeIncrement += targetEffect.gettingSkillGaugeIncrement * sign;
+            WeaponTargetEffectTotal[index].gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
+            WeaponTargetEffectTotal[index].skillPowerIncrement += targetEffect.skillPowerIncrement * sign;
+            WeaponTargetEffectTotal[index].bulletScaleIncrement += targetEffect.bulletScaleIncrement * sign;
+            WeaponTargetEffectTotal[index].bulletRangeIncrement += targetEffect.bulletRangeIncrement * sign;
+            WeaponTargetEffectTotal[index].bulletSpeedIncrement += targetEffect.bulletSpeedIncrement * sign;
 
-        // 곱 옵션 - 곱 연산
-        if (1 == sign)
-        {
-             WeaponTargetEffectTotal[index].cooldownReduction *= (1.0f - targetEffect.cooldownReduction);
-             WeaponTargetEffectTotal[index].chargeTimeReduction *= (1.0f - targetEffect.chargeTimeReduction);
-             WeaponTargetEffectTotal[index].accuracyIncrement *= (1.0f - targetEffect.accuracyIncrement);
-            // WeaponTargetEffectTotal[index] *= (1.0f - targetEffect);
+            // 곱 옵션 - 곱 연산
+            if (1 == sign)
+            {
+                WeaponTargetEffectTotal[index].cooldownReduction *= (1.0f - targetEffect.cooldownReduction);
+                WeaponTargetEffectTotal[index].chargeTimeReduction *= (1.0f - targetEffect.chargeTimeReduction);
+                WeaponTargetEffectTotal[index].accuracyIncrement *= (1.0f - targetEffect.accuracyIncrement);
+                // WeaponTargetEffectTotal[index] *= (1.0f - targetEffect);
+            }
+            else
+            {
+                WeaponTargetEffectTotal[index].cooldownReduction /= (1.0f - targetEffect.cooldownReduction);
+                WeaponTargetEffectTotal[index].chargeTimeReduction /= (1.0f - targetEffect.chargeTimeReduction);
+                WeaponTargetEffectTotal[index].accuracyIncrement /= (1.0f - targetEffect.accuracyIncrement);
+                // WeaponTargetEffectTotal[index] /= (1.0f - targetEffect);
+            }
+
+            // 미정
+            WeaponTargetEffectTotal[index].ammoCapacityIncrement += targetEffect.ammoCapacityIncrement * sign;
+
+            // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함. 
+            if (targetEffect.increasePierceCount)
+                WeaponTargetEffectTotal[index].increasePierceCount = boolSign;
+            if (targetEffect.becomesSpiderMine)
+                WeaponTargetEffectTotal[index].becomesSpiderMine = boolSign;
+            if (targetEffect.bounceAble)
+                WeaponTargetEffectTotal[index].bounceAble = boolSign;
+            if (targetEffect.shotgunBulletCanHoming)
+                WeaponTargetEffectTotal[index].shotgunBulletCanHoming = boolSign;
+            if (targetEffect.meleeWeaponsCanBlockBullet)
+                WeaponTargetEffectTotal[index].meleeWeaponsCanBlockBullet = boolSign;
+            if (targetEffect.meleeWeaponsCanReflectBullet)
+                WeaponTargetEffectTotal[index].meleeWeaponsCanReflectBullet = boolSign;
         }
-        else
-        {
-             WeaponTargetEffectTotal[index].cooldownReduction /= (1.0f - targetEffect.cooldownReduction);
-             WeaponTargetEffectTotal[index].chargeTimeReduction /= (1.0f - targetEffect.chargeTimeReduction);
-             WeaponTargetEffectTotal[index].accuracyIncrement /= (1.0f - targetEffect.accuracyIncrement);
-            // WeaponTargetEffectTotal[index] /= (1.0f - targetEffect);
-        }
-
-        // 미정
-         WeaponTargetEffectTotal[index].ammoCapacityIncrement += targetEffect.ammoCapacityIncrement * sign;
-
-        // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함. 
-        if (targetEffect.increasePierceCount)
-             WeaponTargetEffectTotal[index].increasePierceCount = boolSign;
-        if (targetEffect.becomesSpiderMine)
-             WeaponTargetEffectTotal[index].becomesSpiderMine = boolSign;
-        if (targetEffect.bounceAble)
-             WeaponTargetEffectTotal[index].bounceAble = boolSign;
-        if (targetEffect.shotgunBulletCanHoming)
-             WeaponTargetEffectTotal[index].shotgunBulletCanHoming = boolSign;
-        if (targetEffect.meleeWeaponsCanBlockBullet)
-             WeaponTargetEffectTotal[index].meleeWeaponsCanBlockBullet = boolSign;
-        if (targetEffect.meleeWeaponsCanReflectBullet)
-             WeaponTargetEffectTotal[index].meleeWeaponsCanReflectBullet = boolSign;
     }
 
 

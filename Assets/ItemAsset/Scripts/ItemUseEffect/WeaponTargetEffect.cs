@@ -8,8 +8,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponTargetEffect", menuName = "ItemAsset/ItemUseEffect/WeaponTargetEffect", order = 1)]
 public class WeaponTargetEffect : ItemUseEffect
 {
-    [Header("적용할 무기 범위, Default가 NULL이고 NULL로 설정시 => 모든 무기 적용")]
-    public WeaponAsset.WeaponType weaponType;
+    [Header("적용할 무기 범위들, NULL => 모든 무기 적용")]
+    public WeaponAsset.WeaponType[] weaponType;
 
     // 단순히 능력치 증가 감소
     #region ability
