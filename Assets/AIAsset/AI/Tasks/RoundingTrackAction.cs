@@ -10,7 +10,6 @@ using BT;
 public class RoundingTrackAction : ActionTask
 {
     MovingPattern movingPattern;
-    Character target;
 
     [SerializeField]
     float radius;

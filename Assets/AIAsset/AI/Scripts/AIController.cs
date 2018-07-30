@@ -14,6 +14,11 @@ public class AIController : MonoBehaviour {
         get;
         private set;
     }
+    public AttackPattern AttackPattern
+    {
+        get;
+        private set;
+    }
     public AnimationHandler AnimationHandler
     {
         get;
@@ -25,6 +30,7 @@ public class AIController : MonoBehaviour {
     {
         privateBlackBoard = new BT.BlackBoard();
         MovingPattern = GetComponent<MovingPattern>();
+        AttackPattern = GetComponent<AttackPattern>();
     }
 
     #region Func

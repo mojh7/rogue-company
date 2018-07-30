@@ -9,9 +9,19 @@ using BT;
 /// </summary>
 public class AttackAction : ActionTask
 {
+    AttackPattern attackPattern;
+
+    public override void Init(Task task)
+    {
+        base.Init(task);
+        this.character = RootTask.BlackBoard["Character"] as Character;
+        this.target = RootTask.BlackBoard["Target"] as Character;
+        attackPattern = character.GetCharacterComponents().AIController.AttackPattern;
+    }
     public override bool Run()
     {
-        return false;
+        attackPattern.Skill(character, target, 3, 10);
+        return true;
     }
     public override Task Clone()
     {

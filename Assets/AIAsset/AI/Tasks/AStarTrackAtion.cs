@@ -10,7 +10,6 @@ using BT;
 public class AStarTrackAtion : ActionTask
 {
     MovingPattern movingPattern;
-    Character target;
 
     public override void Init(Task task)
     {
