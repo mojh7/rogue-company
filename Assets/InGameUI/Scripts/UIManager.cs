@@ -23,9 +23,18 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     [SerializeField] private Text coinText;
     public BossHPUI bossHPUI;
     bool actived = false;
+
+    // 0730 Test
+    private AspectRatioFitter arf;
     #endregion
 
     #region function
+    // 0730 추가 : 종횡비 맞추는 함수 (윤아)
+    public void SetAspectRatio(float width, float height)
+    {
+        arf.aspectRatio = width / height;
+    }
+
     public void GameOverUI()
     {
         gameOverObj.SetActive(true);
@@ -113,6 +122,8 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     private void Start()
     {
         SetCoinText(GameDataManager.Instance.GetCoin());
+        arf = this.GetComponent<AspectRatioFitter>();
+        SetAspectRatio((float)Screen.width, (float)Screen.height);
     }
     #endregion
 }

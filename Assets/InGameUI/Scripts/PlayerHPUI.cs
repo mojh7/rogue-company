@@ -40,7 +40,7 @@ public class PlayerHPUI : MonoBehaviour
     {
         objTransform = GetComponent<Transform>();
         column = 10;
-        deltaPosX = 60f;
+        deltaPosX = 25f;
         Init();
         //hpForDebug = 7.5f;
         //UpdateHPUI(hpForDebug);
@@ -66,7 +66,7 @@ public class PlayerHPUI : MonoBehaviour
             hpPos.x += deltaPosX;
         }
 
-        hpPos.x += 1.3f * deltaPosX;
+        hpPos.x += 1.5f * deltaPosX;
         // hp 최대 표시 갯수를 넘은 추가 hp 표시 object 생성
         overHpTextObj = Instantiate(overHpTextPrefab);
         overHpTextObj.GetComponent<Transform>().SetParent(objTransform);
