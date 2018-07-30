@@ -7,7 +7,6 @@ public class RunawayTrackAction : ActionTask
 {
 
     MovingPattern movingPattern;
-    Character target;
 
     public override void Init(Task task)
     {

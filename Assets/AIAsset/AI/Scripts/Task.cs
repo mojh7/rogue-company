@@ -123,6 +123,7 @@ namespace BT
     public abstract class ActionTask : Task
     {
         protected bool success;
+        protected Character target;
         protected AnimationHandler animationHandler;
         public override void Init(Task task)
         {

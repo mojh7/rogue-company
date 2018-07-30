@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackPattern : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class AttackPattern : MonoBehaviour
+{ 
+    public void Skill(Character character, Character target,float time,float num)
+    {
+        ActiveSkillManager.Instance.HandTrap(character, target, time, num);
+    }
 }

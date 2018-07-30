@@ -38,7 +38,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
     public bool HandTrap(Character attacker, Character victim, float time, float num)
     {
-        if (attacker || victim || time < 0)
+        if (!attacker || !victim || time < 0)
         {
             return false;
         }
@@ -81,8 +81,8 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     private void HandTrap(Vector3 pos)
     {
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.AddComponent<HandTrap>();
         gameObject.transform.position = pos;
+        gameObject.AddComponent<HandTrap>().Init();
     }
 
     #endregion
