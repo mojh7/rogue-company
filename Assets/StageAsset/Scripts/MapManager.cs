@@ -231,6 +231,10 @@ namespace Map
                 {
                     if (x == 0 || y == -1 || x == width * size || y == height * size - 1)
                     {
+                        if(y == height * size -1)
+                        {
+                            shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
+                        }
                         verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), verticalRuleTile);
                         horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), horizonRuleTile);
                     }
@@ -595,11 +599,11 @@ namespace Map
 
                     if (_rectB.isRoom) // 왼쪽 방이  방임
                     {
-                        obj = CreateDoorObject(_rectA.x * size + 0.8125f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectA.x * size + 0.84375f, y + 0.5f, true);
                     }
                     else
                     {
-                        obj = CreateDoorObject(_rectA.x * size + 0.8125f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectA.x * size + 0.84375f, y + 0.5f, true);
                     }
                 }
                 else // 왼쪽 사각형이 메인
@@ -611,11 +615,11 @@ namespace Map
 
                     if (_rectA.isRoom) // 오른쪽 방이 방임
                     {
-                        obj = CreateDoorObject(_rectB.x * size + 0.8125f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectB.x * size + 0.84375f, y + 0.5f, true);
                     }
                     else
                     {
-                        obj = CreateDoorObject(_rectB.x * size + 0.8125f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectB.x * size + 0.84375f, y + 0.5f, true);
                     }
                 }
             } // 가로로 붙음

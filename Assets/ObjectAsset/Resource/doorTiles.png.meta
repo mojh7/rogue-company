@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: f6475cec08cf5c74d9df8a3fddb2c198
-timeCreated: 1533038869
+guid: 4e920c34082b0574d9526311492fbbe4
+timeCreated: 1533048551
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -101,17 +101,13 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 88
+        y: 96
         width: 32
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -16, y: 16}
-        - {x: -16, y: -16}
-        - {x: 16, y: -16}
-        - {x: 16, y: 16}
+      outline: []
       physicsShape:
       - - {x: -16, y: 16}
         - {x: -16, y: -16}
@@ -123,175 +119,124 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 88
+        y: 96
         width: 32
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -16, y: 16}
-        - {x: -16, y: -16}
-        - {x: 16, y: -16}
-        - {x: 16, y: 16}
+      outline: []
       physicsShape:
-      - - {x: -8, y: -16}
-        - {x: -8, y: 16}
+      - - {x: 16, y: -16}
+        - {x: 16, y: 16}
         - {x: -16, y: 16}
         - {x: -16, y: -16}
-      - - {x: 8, y: -16}
-        - {x: 8, y: 16}
-        - {x: 16, y: 16}
-        - {x: 16, y: -16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: doorTiles_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 47
+        x: 64
+        y: 80
         width: 32
-        height: 41
+        height: 42
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 16, y: 18.5}
-        - {x: -16, y: 18.5}
-        - {x: -16, y: -17.5}
-        - {x: -8, y: -20.5}
-        - {x: -1, y: -20.5}
-        - {x: 1, y: -14.5}
-        - {x: 7, y: -17.5}
-        - {x: 16, y: -17.5}
+      outline: []
       physicsShape:
-      - - {x: -9, y: 16.5}
-        - {x: -16, y: 16.5}
-        - {x: -16, y: -15.5}
-        - {x: -9, y: -15.5}
-      - - {x: 7, y: -15.5}
-        - {x: 8, y: 16.5}
-        - {x: 16, y: 16.5}
-        - {x: 16, y: -15.5}
+      - - {x: -8, y: 16}
+        - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: -8, y: -16}
+      - - {x: 8, y: -17}
+        - {x: 8, y: 16}
+        - {x: 16, y: 16}
+        - {x: 16, y: -16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: doorTiles_3
       rect:
         serializedVersion: 2
-        x: 44
-        y: 52
-        width: 38
+        x: 0
+        y: 64
+        width: 46
         height: 32
-      alignment: 9
-      pivot: {x: 0.59, y: 0.5}
-      border: {x: 6, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -15, y: 16}
-        - {x: -19, y: 6}
-        - {x: -19, y: -16}
-        - {x: 19, y: -16}
-        - {x: 19, y: 16}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
       physicsShape:
-      - - {x: -13, y: 16}
-        - {x: -13, y: -16}
-        - {x: -4, y: -16}
-        - {x: -4, y: 16}
-      - - {x: 12, y: -16}
-        - {x: 12, y: 16}
-        - {x: 19, y: 16}
-        - {x: 19, y: -16}
+      - - {x: 8, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+        - {x: 8, y: 16}
+      - - {x: -16, y: -16}
+        - {x: -16, y: 16}
+        - {x: -7, y: 16}
+        - {x: -8, y: -16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: doorTiles_4
       rect:
         serializedVersion: 2
-        x: 2
-        y: 8
-        width: 13
+        x: 6
+        y: 32
+        width: 34
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -6.5, y: 16}
-        - {x: -6.5, y: -16}
-        - {x: 6.5, y: -16}
-        - {x: 6.5, y: 16}
+      outline: []
       physicsShape:
-      - - {x: -6.5, y: 16}
-        - {x: -6.5, y: -16}
-        - {x: 6.5, y: -16}
-        - {x: 6.5, y: 16}
+      - - {x: -6, y: 16}
+        - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: -6, y: -16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: doorTiles_5
       rect:
         serializedVersion: 2
-        x: 20
-        y: 9
-        width: 40
+        x: 4
+        y: 0
+        width: 60
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -8, y: -10}
-        - {x: -8, y: -16}
-        - {x: 7, y: -16}
-        - {x: 7, y: -10}
-        - {x: 5, y: -8}
-        - {x: -6, y: -8}
-      - - {x: -18, y: 16}
-        - {x: -20, y: 12}
-        - {x: -20, y: 2}
-        - {x: 2, y: 2}
-        - {x: 7, y: 9}
-        - {x: 7, y: 16}
+      outline: []
       physicsShape:
-      - - {x: -6, y: 16}
-        - {x: -6, y: 10}
-        - {x: 5, y: 10}
-        - {x: 5, y: 16}
-      - - {x: -6, y: -16}
+      - - {x: -16, y: -16}
+        - {x: -6, y: -16}
         - {x: -6, y: -10}
-        - {x: 5, y: -10}
-        - {x: 5, y: -16}
+        - {x: -16, y: -10}
+      - - {x: -16, y: 16}
+        - {x: -16, y: 10}
+        - {x: -6, y: 10}
+        - {x: -5, y: 16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: doorTiles_6
       rect:
         serializedVersion: 2
-        x: 64
-        y: 2
-        width: 19
-        height: 41
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 73
+        y: 9
+        width: 40
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -7.5, y: -14.5}
-        - {x: -7.5, y: -20.5}
-        - {x: 7.5, y: -20.5}
-        - {x: 7.5, y: -14.5}
-        - {x: 5.5, y: -12.5}
-        - {x: -5.5, y: -12.5}
-      - - {x: -1.5, y: 20.5}
-        - {x: -9.5, y: 20.5}
-        - {x: -9.5, y: 1.5}
-        - {x: -8.5, y: 0.5}
-        - {x: 6.5, y: 1.5}
-        - {x: 7.5, y: 4.5}
-        - {x: 7.5, y: 16.5}
-        - {x: 6.5, y: 17.5}
+      outline: []
       physicsShape:
-      - - {x: -5.5, y: -14.5}
-        - {x: -5.5, y: -20.5}
-        - {x: 5.5, y: -20.5}
-        - {x: 5.5, y: -14.5}
-      - - {x: -5.5, y: 11.5}
-        - {x: -5.5, y: 5.5}
-        - {x: 5.5, y: 5.5}
-        - {x: 5.5, y: 11.5}
+      - - {x: -16, y: -16}
+        - {x: -6, y: -16}
+        - {x: -6, y: -10}
+        - {x: -16, y: -10}
+      - - {x: -16, y: 16}
+        - {x: -16, y: 10}
+        - {x: -6, y: 10}
+        - {x: -6, y: 16}
       tessellationDetail: 0
     outline: []
     physicsShape: []
