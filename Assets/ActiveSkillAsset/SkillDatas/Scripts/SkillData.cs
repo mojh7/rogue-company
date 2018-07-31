@@ -9,5 +9,5 @@ public abstract class SkillData : ScriptableObject
     [SerializeField]
     protected float delay;
 
-    public abstract bool Run(Character character, params float[] param);
+    public abstract bool Run(Character character, object temporary, params float[] param);
 }

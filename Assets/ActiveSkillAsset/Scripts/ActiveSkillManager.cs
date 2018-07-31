@@ -6,9 +6,9 @@ using UnityEngine;
 public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 {
     #region public
-    public bool Charm(Character attacker, Character victim, float time, float amount)
+    public bool Charm(Character attacker, object victim, float time, float amount)
     {
-        if (attacker || victim || time < 0 || amount < 0)
+        if (!attacker || time < 0 || amount < 0)
         {
             return false;
         }
@@ -16,9 +16,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return true;
     }
 
-    public bool IncreaseStatus(Character attacker, Character victim, float time, float amount)
+    public bool IncreaseStatus(Character attacker, object victim, float time, float amount)
     {
-        if (attacker || victim || time < 0 || amount < 0)
+        if (!attacker || time < 0 || amount < 0)
         {
             return false;
         }
@@ -26,9 +26,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return true;
     }
 
-    public bool Confuse(Character attacker, Character victim, float time, float amount)
+    public bool Confuse(Character attacker, object victim, float time, float amount)
     {
-        if (attacker || victim || time < 0 || amount < 0)
+        if (!attacker || time < 0 || amount < 0)
         {
             return false;
         }
@@ -36,9 +36,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return true;
     }
 
-    public bool HandUp(Character attacker, float time, float amount, float radius, float num)
+    public bool HandUp(Character attacker, object radius, float time, float amount, float num)
     {
-        if (!attacker || radius < 0 || time < 0 || amount < 0 || num < 1)
+        if (!attacker || time < 0 || amount < 0 || num < 1)
         {
             return false;
         }
@@ -50,23 +50,25 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return true;
     }
 
-    public bool HandClap(Character attacker, Character victim, float time, float amount)
+    public bool HandClap(Character attacker, object unneeded, float time, float amount)
     {
-        if (attacker || victim || time < 0 || amount < 0)
+        if (!attacker|| time < 0 || amount < 0)
         {
             return false;
         }
-        StartCoroutine(CoroutineSkill(HandClap, attacker, victim, time, amount));
+
+        StartCoroutine(CoroutineSkill(HandClap, attacker, attacker.transform.position + Vector3.left, 0, amount));
+        StartCoroutine(CoroutineSkill(HandClap, attacker, attacker.transform.position + Vector3.right, time, amount));
         return true;
     }
 
-    public bool SpawnServant(Character attacker, Character victim, float time, float amount, EnemyData servantData)
+    public bool SpawnServant(Character attacker, object servantData, float time, float amount)
     {
-        if (attacker || victim || time < 0 || amount < 0)
+        if (!attacker || time < 0 || amount < 0)
         {
             return false;
         }
-        StartCoroutine(CoroutineSkill(HandClap, attacker, victim, time, amount));
+        StartCoroutine(CoroutineSkill(HandClap, attacker, servantData, time, amount));
         return true;
     }
     #endregion
@@ -104,15 +106,14 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         gameObject.AddComponent<CollisionSkill>().Init(character as Character, amount, "handUp");
     }
 
-    private void HandClap(Character attacker, object obj, float amount)
+    private void HandClap(Character attacker, object unneeded, float amount)
     {
-        Vector2 pos = attacker.transform.position;
+        Vector3 pos = (Vector3)unneeded;
 
-        HandClapPart(pos - Vector2.left, attacker, amount);
-        HandClapPart(pos - Vector2.right, attacker, amount);
+        HandClapPart(pos, attacker, amount);
     }
 
-    private void HandClapPart(Vector2 pos, Character character, float amount)
+    private void HandClapPart(Vector3 pos, Character character, float amount)
     {
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
@@ -122,11 +123,11 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     #region coroutine
     IEnumerator CoroutineSkill(Action<Character, object, float> action, Character attacker, object parameter, float time, float amount)
     {
-        float startTime = Time.deltaTime;
+        float startTime = Time.time;
         float elapsedTime = 0;
-        while (time < elapsedTime)
+        while (time >= elapsedTime)
         {
-            elapsedTime = Time.deltaTime - startTime;
+            elapsedTime = Time.time - startTime;
             yield return YieldInstructionCache.WaitForSeconds(0.1f);
         }
         action(attacker, parameter, amount);

@@ -34,12 +34,12 @@ public class AIController : MonoBehaviour {
     }
 
     #region Func
-    public void Init(float speed, AnimationHandler animationHandler, BT.Task task)
+    public void Init(float speed, AnimationHandler animationHandler, BT.Task task, SkillData[] skillDatas)
     {
         //Components
         MovingPattern.Init(speed);
         this.AnimationHandler = animationHandler;
-
+        this.AttackPattern.Init(skillDatas);
         //BehaviorTree
         if (privateBlackBoard == null)
             privateBlackBoard = new BT.BlackBoard();
@@ -57,6 +57,14 @@ public class AIController : MonoBehaviour {
     public void StopMove()
     {
         MovingPattern.Stop();
+    }
+    public void PlayAttack()
+    {
+        AttackPattern.Play();
+    }
+    public void StopAttack()
+    {
+        AttackPattern.Stop();
     }
     #endregion
 }

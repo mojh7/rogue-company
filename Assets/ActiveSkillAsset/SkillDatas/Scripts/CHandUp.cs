@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HandUp", menuName = "SkillData/CHandUp", order = 0)]
 public class CHandUp : SkillData
 {
-    public override bool Run(Character character,params float[] param)
+    public override bool Run(Character character,object temporary,params float[] param)
     {
-        return ActiveSkillManager.Instance.HandUp(character, param[0], param[1], param[2], param[3]);
+        return ActiveSkillManager.Instance.HandUp(character, temporary, param[0], param[1], param[2]);
     }
 }
