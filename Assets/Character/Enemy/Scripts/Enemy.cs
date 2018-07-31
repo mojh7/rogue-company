@@ -93,6 +93,8 @@ public class Enemy : Character
     {
         base.Init();
         pState = CharacterInfo.State.ALIVE;
+        ownerType = CharacterInfo.OwnerType.Enemy;
+
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
         sprite = enemyData.Sprite;
