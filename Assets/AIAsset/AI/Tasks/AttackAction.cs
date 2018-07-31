@@ -19,8 +19,8 @@ public class AttackAction : ActionTask
     }
     public override bool Run()
     {
-        //attackPattern.Temp(character, 0.5f, 1, 3, 10);
-        attackPattern.CastingSpell(character, 0, 0.5f, 1, 3, 10, 10, 10);
+        success = attackPattern.CastingSpell(character, 1, 0);
+
         return true;
     }
     public override Task Clone()

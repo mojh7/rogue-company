@@ -5,9 +5,9 @@ using UnityEngine;
 public abstract class SkillData : ScriptableObject
 {
     [SerializeField]
-    protected int damage;
-    [SerializeField]
     protected float delay;
+    [SerializeField]
+    protected float amount;
 
-    public abstract bool Run(Character character, object temporary, params float[] param);
+    public abstract bool Run(Character character, object temporary);
 }

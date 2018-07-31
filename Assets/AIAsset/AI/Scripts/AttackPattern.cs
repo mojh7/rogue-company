@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AttackPattern : MonoBehaviour
 {
+    #region components
+    WeaponManager weaponManager;
+    #endregion
     #region variables
     bool isActive;
     #endregion
@@ -28,15 +31,17 @@ public class AttackPattern : MonoBehaviour
         isActive = false;
     }
     #endregion
-    public void Temp(Character character, float time, float amount, float radiuse, float num)
+  
+    public bool Shot(Character character, int i)
     {
-        ActiveSkillManager.Instance.HandClap(character, radiuse, time, amount);
+        return false;  
     }
 
-    public void CastingSpell(Character character, int i, object temporary, params float[] param)
+    public bool CastingSpell(Character character, int i, object temporary)
     {
         if (i >= skillDatas.Length || !isActive)
-            return;
-        skillDatas[i].Run(character, temporary, param);    
+            return false;
+        skillDatas[i].Run(character, temporary);
+        return true;
     }
 }

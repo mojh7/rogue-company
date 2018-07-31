@@ -25,14 +25,12 @@ public class AIController : MonoBehaviour {
         private set;
     }
     #endregion
-
     private void Awake()
     {
         privateBlackBoard = new BT.BlackBoard();
         MovingPattern = GetComponent<MovingPattern>();
         AttackPattern = GetComponent<AttackPattern>();
     }
-
     #region Func
     public void Init(float speed, AnimationHandler animationHandler, BT.Task task, SkillData[] skillDatas)
     {

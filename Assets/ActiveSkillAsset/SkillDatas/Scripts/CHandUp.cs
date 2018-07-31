@@ -4,8 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HandUp", menuName = "SkillData/CHandUp", order = 0)]
 public class CHandUp : SkillData
 {
-    public override bool Run(Character character,object temporary,params float[] param)
+    [SerializeField]
+    float radius;
+    [SerializeField]
+    float num;
+
+    public override bool Run(Character character,object temporary)
     {
-        return ActiveSkillManager.Instance.HandUp(character, temporary, param[0], param[1], param[2]);
+        return ActiveSkillManager.Instance.HandUp(character, radius, delay, amount, num);
     }
 }
