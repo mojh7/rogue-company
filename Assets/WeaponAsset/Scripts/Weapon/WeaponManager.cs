@@ -278,6 +278,13 @@ public class WeaponManager : MonoBehaviour {
         chargeGauge.UpdateChargeGauge(chargedVaule);
     }
 
+    public void AttackWeapon(int index)
+    {
+        currentWeaponIndex = index;
+        UpdateCurrentWeapon();
+        equipWeaponSlot[index].StartAttack();
+    }
+
     /// <summary> 공격 버튼 누를 때, 누르는 중일 때 </summary>
     public void AttackButtonDown()
     {
@@ -337,12 +344,10 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
-
     /// <summary> 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용 / 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기 </summary>
     /// <param name="pickedWeapon">얻어서 장착할 무기</param>
     public bool PickAndDropWeapon(Item pickedWeapon)
     {
-
         Weapon weapon = pickedWeapon as Weapon;
         // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 1초간 무기 줍고 버리기 delay줌
         if (weapon == null || WeaponState.Idle != equipWeaponSlot[currentWeaponIndex].GetWeaponState() || !canPickAndDropWeapon)
@@ -372,7 +377,6 @@ public class WeaponManager : MonoBehaviour {
         return true;
     }
 
-
     //0603 유성
     public void EquipWeapon(WeaponInfo weaponInfo)
     {
@@ -383,6 +387,8 @@ public class WeaponManager : MonoBehaviour {
         weapon.ObjTransform.SetParent(registerPoint, false);
         weapon.RegisterWeapon(this);
     }
+
+
 
     #endregion
 
