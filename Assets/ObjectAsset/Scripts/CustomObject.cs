@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX }
 
-public class CustomObject : MonoBehaviour {
+public class CustomObject : MonoBehaviour
+{
 
     public Vector3 position;
     public ObjectType objectType;
@@ -32,7 +33,7 @@ public class CustomObject : MonoBehaviour {
     {
         return isActive;
     }
-    
+
     protected void DestroyAndDeactive()
     {
         Destroy(this);
@@ -193,7 +194,8 @@ public class BreakalbeBox : RandomSpriteObject
 
     void Destruct()
     {
-
+        ParticleManager.Instance.PlayParticle("BrokenParticle", this.transform.position, sprite);
+        gameObject.SetActive(false);
     }
 
 }
@@ -211,7 +213,7 @@ public class VendingMachine : RandomSpriteObject
 
     public override bool Active()
     {
-        if(base.Active())
+        if (base.Active())
         {
             //TODO : 지금은 코인인데 음료수가 들어가야함.
             GameObject coin = new GameObject();
@@ -348,7 +350,7 @@ public class Door : RandomSpriteObject
         base.Init();
         objectType = ObjectType.NONE;
     }
-    public void Init(Sprite _openSprite,Sprite _closeSprite)
+    public void Init(Sprite _openSprite, Sprite _closeSprite)
     {
         Init();
         openSprite = _openSprite;
@@ -391,7 +393,7 @@ public class Door : RandomSpriteObject
             }
             sprite = closeSprite;
         }
-       
+
         SetCollision();
 
         return true;
@@ -405,8 +407,10 @@ public class Door : RandomSpriteObject
 
 public class Alert : RandomSpriteObject
 {
-    public delegate void Del(Vector3 _position);
+    public delegate void Del(Vector3 _position, object obj, float amount);
     Del callback;
+    object temporary;
+    float amount;
     int type = 0;
     public override void Init()
     {
@@ -415,22 +419,19 @@ public class Alert : RandomSpriteObject
         polygonCollider2D.SetPath(0, null);
         objectType = ObjectType.NONE;
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="_call">Vector3 가 매개변수인 함수</param>
-    /// <param name="type"> 0 = 해골 1 = 원</param>
-    public void Init(Del _call,int type)
+    public void Init(Del _call, object temporary, float amount, int type)
     {
         Init();
-        this.type = type;
         callback += _call;
+        this.temporary = temporary;
+        this.amount = amount;
+        this.type = type;
     }
     public override bool Active()
     {
         base.Active();
         isAnimate = true;
-        if(type == 0)
+        if (type == 0)
         {
             animator.SetTrigger("skull_alert");
         }
@@ -451,7 +452,7 @@ public class Alert : RandomSpriteObject
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
-        callback(transform.position);
+        callback(transform.position, temporary, amount);
         DestroyAndDeactive();
     }
 }
@@ -574,7 +575,7 @@ public class ItemContainer : RandomSpriteObject
 
     public void SubAcitve()
     {
-        if(innerObject != null)
+        if (innerObject != null)
         {
             innerObject.SubActive();
         }
@@ -592,7 +593,7 @@ public class ItemContainer : RandomSpriteObject
 
     public void DettachDestroy()
     {
-        if(innerObject != null)
+        if (innerObject != null)
             innerObject.transform.parent = null;
         DestroyAndDeactive();
     }
@@ -637,7 +638,7 @@ public class FallRockTrap : RandomSpriteObject
     {
         this.gameObject.AddComponent<Alert>();
         this.gameObject.GetComponent<Alert>().sprites = null;
-        this.gameObject.GetComponent<Alert>().Init(CallBack, 0);
+        this.gameObject.GetComponent<Alert>().Init(CallBack, null, 0, 0);
         this.gameObject.GetComponent<Alert>().Active();
         Destroy(this);
         return true;
@@ -650,7 +651,7 @@ public class FallRockTrap : RandomSpriteObject
             Active();
         }
     }
-    void CallBack(Vector3 _position)
+    void CallBack(Vector3 _position, object temporary, float amount)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.AddComponent<Rock>();
@@ -678,7 +679,7 @@ public class Rock : RandomSpriteObject
     {
         GameObject obj = collision.gameObject;
 
-        if (UtilityClass.CheckLayer(obj.gameObject.layer, 16,13) && isAvailable)
+        if (UtilityClass.CheckLayer(obj.gameObject.layer, 16, 13) && isAvailable)
         {
             isAvailable = false;
             Vector2 dir = obj.transform.position - transform.position;
@@ -731,7 +732,7 @@ public class SnackBox : NoneRandomSpriteObject
 
     public override bool Active()
     {
-        if(base.Active())
+        if (base.Active())
         {
             //Stemina recovery
             isAvailable = false;

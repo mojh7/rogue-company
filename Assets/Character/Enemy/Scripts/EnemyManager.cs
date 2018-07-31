@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
+public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
+{
 
     private Sprite sprite;
     [SerializeField]
@@ -20,12 +21,21 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
     }
 
     #region 바꿔야되는것들
+    public void Generate(Vector2 position, EnemyData enemyData)
+    {
+        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
+        obj.transform.position = position;
+        obj.AddComponent<Alert>();
+        obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0);
+        obj.GetComponent<Alert>().Active();
+    }
+
     public void Generate(Vector3 _position)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().Init(CallBack, 0);
+        obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0);
         obj.GetComponent<Alert>().Active();
     }
 
@@ -46,7 +56,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         return obj;
     }
 
-    public void SpawnBoss(int _floor,Vector2 position)
+    public void SpawnBoss(int _floor, Vector2 position)
     {
         BossEnemy enemy;
         GameObject obj = SpawnEnemy(position);
@@ -59,17 +69,17 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager> {
         UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
     }
 
-    void CallBack(Vector3 position)
+    void CallBack(Vector3 position, object temporary, float amount)
     {
         Enemy enemy;
         GameObject obj = SpawnEnemy(position);
 
         enemy = obj.AddComponent<Enemy>();
-        enemy.Init(enemyData);
+        enemy.Init(temporary as EnemyData);
         enemyList.Add(enemy);
     }
     #endregion
-   
+
     public List<Enemy> GetEnemyList
     {
         get

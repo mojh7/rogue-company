@@ -18,6 +18,8 @@ public class EnemyData : ScriptableObject
     private List<WeaponInfo> weaponInfo;
     [SerializeField]
     private BT.Task task;
+    [SerializeField]
+    private SkillData[] skillDatas;
     #endregion
   
     #region property
@@ -61,6 +63,13 @@ public class EnemyData : ScriptableObject
         get
         {
             return task;
+        }
+    }
+    public SkillData[] SkillDatas
+    {
+        get
+        {
+            return skillDatas;
         }
     }
     #endregion

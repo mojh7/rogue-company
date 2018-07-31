@@ -43,8 +43,6 @@ public class Player : Character
     private PlayerData playerData;
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
-    // 0717 임시 스킬 게이지
-    private ActiveSkill activeSkill;
     #endregion
 
     #region property
@@ -151,6 +149,7 @@ public class Player : Character
     {
         base.Init();
         pState = CharacterInfo.State.ALIVE;
+        ownerType = CharacterInfo.OwnerType.Player;
 
         animationHandler.Init(PlayerManager.Instance.runtimeAnimator);
 
@@ -163,8 +162,6 @@ public class Player : Character
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
         buffManager = PlayerBuffManager.Instance.BuffManager;
         buffManager.SetOwner(this);
-        activeSkill = GetComponentInChildren<ActiveSkill>();
-        activeSkill.Init(this);
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);

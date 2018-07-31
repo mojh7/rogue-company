@@ -49,6 +49,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField]
     protected Sprite sprite;
     protected CharacterInfo.State pState;
+    protected CharacterInfo.OwnerType ownerType;
 
     protected bool isAutoAiming;    // 오토에임 적용 유무
     protected Vector3 directionVector;
@@ -80,6 +81,10 @@ public abstract class Character : MonoBehaviour
     public virtual Vector3 GetPosition() { return transform.position; }
     public virtual WeaponManager GetWeaponManager() { return weaponManager; }
     public BuffManager GetBuffManager() { return buffManager; }
+    public CharacterInfo.OwnerType GetOwnerType()
+    {
+        return ownerType;
+    }
     #endregion
     #region Func
     public bool IsDie()

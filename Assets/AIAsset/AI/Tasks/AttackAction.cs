@@ -15,12 +15,12 @@ public class AttackAction : ActionTask
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
-        this.target = RootTask.BlackBoard["Target"] as Character;
         attackPattern = character.GetCharacterComponents().AIController.AttackPattern;
     }
     public override bool Run()
     {
-        attackPattern.Skill(character, target, 3, 10);
+        success = attackPattern.CastingSpell(character, 1, 0);
+
         return true;
     }
     public override Task Clone()

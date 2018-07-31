@@ -29,22 +29,24 @@ public class TimeDecorate : ConditionDecorate
         {
             isRun = true;
             startTime = Time.time;
-        }
-        elapsedTime = Time.time - startTime;
-
-        if (Check(elapsedTime, time))
-        {
             return GetChildren().Run();
         }
         else
         {
-            return false;
+            elapsedTime = Time.time - startTime;
+
+            if (Check(elapsedTime, time))
+            {
+                return GetChildren().Run();
+            }
+            else
+            {
+                return false;
+            }
         }
     }
     public override bool SubRun()
     {
-        startTime = Time.deltaTime;
-        elapsedTime = 0;
         isRun = false;
         return true;
     }

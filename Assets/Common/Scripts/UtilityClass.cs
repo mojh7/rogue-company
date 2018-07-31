@@ -30,6 +30,19 @@ public static class UtilityClass
             return false;
         }
     }
+    public static bool CheckLayer(int layer, LayerMask comparedLayer)
+    {
+        LayerMask mainLayer = 1 << layer;
+
+        if ((mainLayer & comparedLayer) == mainLayer)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     /// <summary>
     /// 확률 반환
     /// </summary>
@@ -38,6 +51,32 @@ public static class UtilityClass
     public static bool CoinFlip(int percent)
     {
         return UnityEngine.Random.Range(0, 100) < percent;
+    }
+    /// <summary>
+    /// 매개변수의 적 레이어 반환
+    /// </summary>
+    public static LayerMask GetEnemyLayer(Character me)
+    {
+        LayerMask enemyayer = 1;
+
+        switch (me.GetOwnerType())
+        {
+            case CharacterInfo.OwnerType.Player:
+                enemyayer = enemyayer << 13;
+                break;
+            case CharacterInfo.OwnerType.Enemy:
+                enemyayer = enemyayer << 16;
+                break;
+            case CharacterInfo.OwnerType.Pet:
+                enemyayer = enemyayer << 13;
+                break;
+            case CharacterInfo.OwnerType.Object:
+                enemyayer = enemyayer << 13;
+                break;
+            default:
+                break;
+        }
+        return enemyayer;
     }
 
     public static void Invoke(this MonoBehaviour me, Action theDelegate, float time)

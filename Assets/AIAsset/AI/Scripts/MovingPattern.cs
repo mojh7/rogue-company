@@ -21,7 +21,6 @@ public class MovingPattern : MonoBehaviour
     float speed = 1;
     float baseSpeed;
     Vector2[] path;
-    Vector2 oldDir;
     Vector2 zero = Vector2.zero;
     #endregion
     private void Awake()

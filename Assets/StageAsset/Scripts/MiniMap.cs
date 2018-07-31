@@ -535,6 +535,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
             -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
     } // 현재 플레이어 위치 to MiniMap
+
     #region UnityFunc
     private void Update()
     {
