@@ -173,6 +173,15 @@ public class Weapon : Item
             if (info.touchMode == TouchMode.Normal)
             {
                 Attack(0f);
+                if (ShortWeapon())
+                {
+                    // (1/총스테미너 크기) 스태미너 줄어들게 함
+                    Stamina.Instance.StaminaMinus();
+                }
+                else
+                {
+                    Debug.Log("스태미너 안 쭐어든닷");
+                }
             }
             else if(info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
             {
@@ -317,6 +326,27 @@ public class Weapon : Item
             yield return YieldInstructionCache.WaitForSeconds(timePerCharging);
             chargedCount += 1;
             weaponManager.UpdateChargingUI((float)chargedCount / info.chargeCountMax);
+        }
+    }
+
+    /// <summary>
+    /// 근거리 무기인지 아닌지 확인하기 -> 근거리면 true 반환 : 스태미너 달게 만들기
+    /// </summary>
+    /// <returns></returns>
+    private bool ShortWeapon()
+    {
+        // SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE,
+        switch (info.weaponType)
+        {
+            case WeaponType.SPEAR:
+            case WeaponType.CLUB:
+            case WeaponType.SPORTING_GOODS:
+            case WeaponType.SWORD:
+            case WeaponType.CLEANING_TOOL:
+            case WeaponType.KNUCKLE:
+                return true;
+            default:
+                return false;
         }
     }
     #endregion

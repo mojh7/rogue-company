@@ -17,6 +17,7 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     private CustomObject interactiveObject;
     private CustomObject olderInteractiveObject;
     private bool isAttackTouchDown; // true or false
+    private float currentTime;
     //public bool IsAttackTouchDown { get { return isAttackTouchDown; } }
 
     public void SetPlayer(Player player)
@@ -26,6 +27,7 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     void Awake()
     {
         isAttackTouchDown = false;
+        currentTime = 0;
     }
     void Update()
     {
