@@ -29,8 +29,9 @@
         AStarTrackAtion,
         RoundingTrackAction,
         RushTrackAtion,
-        AttackAction,
+        SkillAction,
         StopAction,
-        RunawayAction
+        RunawayAction,
+        ShotAction
     }
 }

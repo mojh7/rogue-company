@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BT;
 
-/// <summary>
-/// 기본 공격 행동을 담은 노드입니다.
-/// </summary>
-public class AttackAction : ActionTask
-{
-    AttackPattern attackPattern;
+public class ShotAction : ActionTask {
 
+    int Idx;
+  AttackPattern attackPattern;
+
+
+    public Task Set(int Idx)
+    {
+        this.Idx = Idx;
+        return this;
+    }
     public override void Init(Task task)
     {
         base.Init(task);
@@ -19,13 +22,13 @@ public class AttackAction : ActionTask
     }
     public override bool Run()
     {
-        success = attackPattern.CastingSpell(character, 1, 0);
+        success = attackPattern.Shot(character, 0);
 
         return true;
     }
     public override Task Clone()
     {
-        AttackAction parent = new AttackAction();
+        ShotAction parent = new ShotAction();
 
         return parent;
     }
