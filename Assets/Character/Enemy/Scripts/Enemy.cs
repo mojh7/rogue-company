@@ -19,13 +19,14 @@ public struct StatusConstant
 
 public enum AbnormalStatusType { STUN, ROOT, FEAR, CHARM, END }
 
-public enum EnemyAutoAimType { AUTO, HALFAUTO, RANDOM }
+public enum EnemyAutoAimType { AUTO, SEMIAUTO, RANDOM }
 
 public class Enemy : Character
 {
     #region variables
     private int restrictMovingCount;
     private int restrictAttackingCount;
+    private EnemyAutoAimType enemyAutoAimType;
 
     private bool isPoisoning;
     private int poisonOverlappingCount;
@@ -89,7 +90,8 @@ public class Enemy : Character
         }
     }
     #endregion
-    #region Func
+
+    #region initalization
     //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
     public void Init(EnemyData enemyData)
     {
@@ -97,14 +99,18 @@ public class Enemy : Character
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
 
+        isActiveAttackAI = true;
+        isActiveMoveAI = true;
+
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
         sprite = enemyData.Sprite;
         buffManager.Init();
         buffManager.SetOwner(this);
         weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
-        for(int i=0;i<enemyData.WeaponInfo.Count;i++)
+        for (int i = 0; i < enemyData.WeaponInfo.Count; i++)
         {
+            Debug.Log(enemyData.WeaponInfo[i].name + ", " + name);
             weaponManager.EquipWeapon(enemyData.WeaponInfo[i]);
         }
         animationHandler.Init(enemyData.AnimatorController);
@@ -134,6 +140,10 @@ public class Enemy : Character
             abnormalStatusDurationTime[i] = 0;
         }
     }
+    #endregion
+
+    #region Func
+
 
     protected override void Die()
     {
@@ -210,6 +220,7 @@ public class Enemy : Character
         return damage;
     }
 
+    /// <summary> 각종 오브젝트들에 의한 공격 및 넉백 </summary>
     public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
     {
         if (CharacterInfo.State.ALIVE != pState)
@@ -235,6 +246,87 @@ public class Enemy : Character
         // 개발 중
     }
 
+    
+
+    // TODO : 0802 모장현, enemy aim 조절 타입에 따라서 알고리즘 변경
+
+    // 0526 땜빵
+    public void AutoAim()
+    {
+        switch(enemyAutoAimType)
+        {
+            case EnemyAutoAimType.AUTO:
+                break;
+            case EnemyAutoAimType.SEMIAUTO:
+                break;
+            case EnemyAutoAimType.RANDOM:
+                break;
+            default:
+                break;
+        }
+        directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
+        directionDegree = directionVector.GetDegFromVector();
+    }
+
+
+
+    /// <summary>
+    /// 이동 방해 상태 이상 갯수 증가
+    /// </summary>
+    private void AddRetrictsMovingCount()
+    {
+        restrictMovingCount += 1;
+        if (restrictMovingCount > 0)
+        {
+            isActiveMoveAI = false;
+            aiController.StopMove();
+            // Debug.Log(name + " Move AI Off");
+        }
+    }
+    /// <summary>
+    /// 이동 방해 상태 이상 갯수 감소
+    /// </summary>
+    private void SubRetrictsMovingCount()
+    {
+        restrictMovingCount -= 1;
+        if (0 == restrictMovingCount)
+        {
+            isActiveMoveAI = true;
+            aiController.PlayMove();
+            // Debug.Log(name + " Move AI ON");
+        }
+    }
+
+    /// <summary>
+    /// 공격 방해 상태 이상 갯수 증가
+    /// </summary>
+    private void AddRetrictsAttackingCount()
+    {
+        restrictAttackingCount += 1;
+        if (restrictAttackingCount > 0)
+        {
+            // 공격 AI Off
+            isActiveMoveAI = false;
+            Debug.Log(name + " Attack AI Off");
+        }
+    }
+    /// <summary>
+    /// 공격 방해 상태 이상 갯수 감소
+    /// </summary>
+    private void SubRetrictsAttackingCount()
+    {
+        restrictMovingCount -= 1;
+        if (0 == restrictMovingCount)
+        {
+            // 공격 AI ON
+            isActiveMoveAI = true;
+            Debug.Log(name + " Attack AI ON");
+        }
+    }
+
+    #endregion
+
+    #region abnormalState
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
         if (CharacterInfo.State.ALIVE != pState)
@@ -242,10 +334,10 @@ public class Enemy : Character
         if (null == statusEffectInfo) return;
 
         // 독
-        if(true == statusEffectInfo.canPoison)
+        if (true == statusEffectInfo.canPoison)
             Poison();
         // 화상
-        if(true == statusEffectInfo.canBurn)
+        if (true == statusEffectInfo.canBurn)
             Burn();
 
         // 스턴
@@ -317,7 +409,7 @@ public class Enemy : Character
     {
         // TODO : 공격, 이동 AI OFF 후 스턴 시간만큼 뒤에 정상화
         // 기존에 걸려있는 스턴이 없을 때
-        if(null == stunCoroutine)
+        if (null == stunCoroutine)
         {
             stunCoroutine = StartCoroutine(StunCoroutine(effectiveTime));
         }
@@ -379,7 +471,7 @@ public class Enemy : Character
             AddRetrictsMovingCount();
             knockBackCheck = StartCoroutine(KnockBackCheck());
         }
-        
+
         rgbody.velocity = Vector3.zero;
 
         // bullet과 충돌 Object 위치 차이 기반의 넉백  
@@ -426,71 +518,8 @@ public class Enemy : Character
             delayStateCoroutine = StartCoroutine(DelayStateCoroutine());
         }
     }
-
-    // 0526 땜빵
-    public void AutoAim()
-    {
-        directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
-        directionDegree = directionVector.GetDegFromVector();
-    }
-
-
-
-    /// <summary>
-    /// 이동 방해 상태 이상 갯수 증가
-    /// </summary>
-    private void AddRetrictsMovingCount()
-    {
-        restrictMovingCount += 1;
-        if (restrictMovingCount > 0)
-        {
-            isActiveMoveAI = false;
-            aiController.StopMove();
-            // Debug.Log(name + " Move AI Off");
-        }
-    }
-    /// <summary>
-    /// 이동 방해 상태 이상 갯수 감소
-    /// </summary>
-    private void SubRetrictsMovingCount()
-    {
-        restrictMovingCount -= 1;
-        if (0 == restrictMovingCount)
-        {
-            isActiveMoveAI = true;
-            aiController.PlayMove();
-            // Debug.Log(name + " Move AI ON");
-        }
-    }
-
-    /// <summary>
-    /// 공격 방해 상태 이상 갯수 증가
-    /// </summary>
-    private void AddRetrictsAttackingCount()
-    {
-        restrictAttackingCount += 1;
-        if (restrictAttackingCount > 0)
-        {
-            // 공격 AI Off
-            isActiveMoveAI = false;
-            Debug.Log(name + " Attack AI Off");
-        }
-    }
-    /// <summary>
-    /// 공격 방해 상태 이상 갯수 감소
-    /// </summary>
-    private void SubRetrictsAttackingCount()
-    {
-        restrictMovingCount -= 1;
-        if (0 == restrictMovingCount)
-        {
-            // 공격 AI ON
-            isActiveMoveAI = true;
-            Debug.Log(name + " Attack AI ON");
-        }
-    }
-
     #endregion
+
     #region coroutine
     IEnumerator PoisonCoroutine()
     {

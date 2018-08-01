@@ -188,15 +188,19 @@ public class WeaponManager : MonoBehaviour {
         // 0526 몬스터 무기 땜빵
         if(CharacterInfo.OwnerType.Enemy == ownerType)
         {
+            // TODO : 테스트용 삭제 예정?, 0802 모
+            
             weaponCountMax = 1;
             weaponCount = weaponCountMax;
             currentWeaponIndex = 0;
-            equipWeaponSlot[0].Init(Random.Range(0, 1), ownerType);
+            equipWeaponSlot[0].Init(Random.Range(0, 4), ownerType);
+            //equipWeaponSlot[0].Init(4, ownerType);
 
             for (int i = 0; i < weaponCountMax; i++)
             {
                 equipWeaponSlot[i].RegisterWeapon(this);
             }
+            
         }
 
         // 0529 Player 무기 디버그용 

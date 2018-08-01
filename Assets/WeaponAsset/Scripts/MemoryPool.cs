@@ -126,6 +126,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
             Item item = table[i];
             if (item.gameObject == gameObject)
             {
+                SetOriginalParent(item.gameObject);
                 item.active = false;
                 item.gameObject.SetActive(false);
                 //DebugX.Log(item.gameObject + ", " + item.gameObject.activeSelf +", RemoveItem");
@@ -146,13 +147,20 @@ public class MemoryPool : IEnumerable, System.IDisposable
             Item item = table[i];
             if (item != null && item.active)
             {
-                item.gameObject.transform.position = Vector3.zero;
-                item.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                item.gameObject.transform.SetParent(parent);
+                SetOriginalParent(item.gameObject);
                 item.active = false;
                 item.gameObject.SetActive(false);
             }
         }
+    }
+    //--------------------------------------------------------------------------------------
+    // 
+    //--------------------------------------------------------------------------------------
+    private void SetOriginalParent(GameObject obj)
+    {
+        obj.transform.position = Vector3.zero;
+        obj.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        obj.transform.SetParent(parent);
     }
     //--------------------------------------------------------------------------------------
     // 메모리 풀 삭제
