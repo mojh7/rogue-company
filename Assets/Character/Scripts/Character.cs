@@ -45,6 +45,10 @@ public abstract class Character : MonoBehaviour
     #region variables
     // 디버그용 SerializeField
     public bool isActiveAI;
+
+    protected bool isActiveMoveAI;
+    protected bool isActiveAttackAI;
+
     protected bool isKnockBack = false;
     [SerializeField]
     protected Sprite sprite;
@@ -85,6 +89,10 @@ public abstract class Character : MonoBehaviour
     {
         return ownerType;
     }
+
+
+    public bool GetIsAcitveAttackAI() { return isActiveAttackAI; }
+    public bool GetIsAcitveMoveAI() { return isActiveMoveAI; }
     #endregion
     #region Func
     public bool IsDie()

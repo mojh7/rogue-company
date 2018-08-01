@@ -24,6 +24,7 @@ public class Weapon : Item
     private DelGetPosition ownerDirVec;         // 소유자 각도 벡터(vector3)
     private DelGetPosition ownerPos;            // 소유자 초기 위치(vector3)
     private Player player;
+    private Enemy enemy;
 
     private int chargedCount;
     private float timePerCharging;
@@ -38,7 +39,7 @@ public class Weapon : Item
     private WeaponTargetEffect effectInfo;
 
     [SerializeField] private int weaponId;
-    
+
 
     // coroutine
 
@@ -53,6 +54,7 @@ public class Weapon : Item
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     public WeaponState GetWeaponState() { return weaponState; }
     public int GetWeaponId() { return weaponId; }
+    public AttackType GetAttackType() { return attackType; }
     #endregion
 
     #region UnityFunction
@@ -97,6 +99,11 @@ public class Weapon : Item
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
         weaponState = WeaponState.Idle;
         name = info.weaponName;
+        if (OwnerType.Enemy == ownerType)
+        {
+            //enemy
+        }
+
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
         chargedCount = 0;
@@ -121,7 +128,7 @@ public class Weapon : Item
     {
         //무기 습득에 쓸거같음
     }
-    
+
 
     /// <summary> weaponManager에 처음 등록될 때 onwer 정보 얻어오고 bulletPattern 정보 초기화 </summary>
     public void RegisterWeapon(WeaponManager weaponManager)
@@ -129,17 +136,25 @@ public class Weapon : Item
         this.weaponManager = weaponManager;
 
         ownerType = weaponManager.GetOwnerType();
-        if(OwnerType.Player == ownerType)
+        switch (ownerType)
         {
-            player = PlayerManager.Instance.GetPlayer();
+            case CharacterInfo.OwnerType.Player:
+                player = PlayerManager.Instance.GetPlayer();
+                break;
+            case CharacterInfo.OwnerType.Enemy:
+                enemy = weaponManager.GetEnemy();
+                break;
+            default:
+                break;
         }
+
         ownerDirDegree = weaponManager.GetOwnerDirDegree();
         ownerDirVec = weaponManager.GetOwnerDirVec();
         ownerPos = weaponManager.GetOwnerPos();
         ownerBuff = weaponManager.GetOwnerBuff();
         totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)info.weaponType];
-        
+
 
         // 공격 패턴(bulletPattern) 초기화
         for (int i = 0; i < info.bulletPatternsLength; i++)
@@ -149,7 +164,7 @@ public class Weapon : Item
     }
 
 
-    private bool HasCostForAttack()
+    public bool HasCostForAttack()
     {
         if (AttackType.MELEE == attackType)
         {
@@ -183,9 +198,9 @@ public class Weapon : Item
                     Debug.Log("스태미너 안 쭐어든닷");
                 }
             }
-            else if(info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
+            else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
             {
-                if(false == HasCostForAttack())
+                if (false == HasCostForAttack())
                 {
                     DebugX.Log("총알 혹은 스테미너 부족으로 인한 차징 공격 실패");
                     return;
@@ -208,7 +223,6 @@ public class Weapon : Item
         {
             UpdateWeaponBuff();
             weaponState = WeaponState.Attack;
-            weaponManager.UpdateAmmoView(info);
             PlayAttackAnimation();
             StartCoroutine(PatternCycle(damageIncreaseRate));
         }
@@ -286,47 +300,10 @@ public class Weapon : Item
         damageIncrementPerCharging = 0.1f * (totalInfo.chargingDamageIncrement + effectInfo.chargingDamageIncrement); 
     }
 
-
-    // 공격 패턴 한 사이클.
-    private IEnumerator PatternCycle(float damageIncreaseRate)
+    public void UseAmmo()
     {
-        // 공격 한 사이클 실행
-        for (int i = 0; i < info.bulletPatternsLength; i++)
-        { 
-            for(int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
-            {
-                // 공격 사운드 실행
-                AudioManager.Instance.PlaySound(info.soundId);
-                //CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
-                info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
-                if(info.bulletPatterns[i].GetDelay() > 0)
-                {
-                    yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[i].GetDelay());
-                }
-            }
-        }
-        Reload(); 
-    } 
-
-    // 재장전 코루틴, cooldown 시간 이후의 WeaponState가 Idle로 됨.
-    private IEnumerator ReloadTime()
-    {
-        weaponState = WeaponState.Reload;
-        yield return YieldInstructionCache.WaitForSeconds(info.cooldown);
-        weaponState = WeaponState.Idle;
-    }
-
-    /// <summary>
-    /// 차징 시작 코루틴
-    /// </summary>
-    private IEnumerator ChargingUpdate()
-    {
-        while (chargedCount < info.chargeCountMax)
-        {
-            yield return YieldInstructionCache.WaitForSeconds(timePerCharging);
-            chargedCount += 1;
-            weaponManager.UpdateChargingUI((float)chargedCount / info.chargeCountMax);
-        }
+        info.ammo -= 1;
+        weaponManager.UpdateAmmoView(info);
     }
 
     /// <summary>
@@ -352,5 +329,64 @@ public class Weapon : Item
     #endregion
 
     #region coroutine
+
+    // 공격 패턴 한 사이클.
+    private IEnumerator PatternCycle(float damageIncreaseRate)
+    {
+        // 공격 한 사이클 실행
+        for (int i = 0; i < info.bulletPatternsLength; i++)
+        {
+            for (int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
+            {
+                if(OwnerType.Enemy == ownerType)
+                {
+                    if(false == enemy.GetIsAcitveAttackAI())
+                    {
+                        Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
+                        Reload();
+                        yield break;
+                    }
+                }
+                if (false == HasCostForAttack())
+                {
+                    Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
+                    Reload();
+                    yield break;
+                }
+                    
+                // 공격 사운드 실행
+                AudioManager.Instance.PlaySound(info.soundId);
+                //CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
+                info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
+                if (info.bulletPatterns[i].GetDelay() > 0)
+                {
+                    yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[i].GetDelay());
+                }
+            }
+        }
+        Reload();
+    }
+
+    // 재장전 코루틴, cooldown 시간 이후의 WeaponState가 Idle로 됨.
+    private IEnumerator ReloadTime()
+    {
+        weaponState = WeaponState.Reload;
+        yield return YieldInstructionCache.WaitForSeconds(info.cooldown);
+        weaponState = WeaponState.Idle;
+    }
+
+    /// <summary>
+    /// 차징 시작 코루틴
+    /// </summary>
+    private IEnumerator ChargingUpdate()
+    {
+        while (chargedCount < info.chargeCountMax)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(timePerCharging);
+            chargedCount += 1;
+            weaponManager.UpdateChargingUI((float)chargedCount / info.chargeCountMax);
+        }
+    }
+
     #endregion
 }

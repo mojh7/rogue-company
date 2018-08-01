@@ -184,6 +184,15 @@ public class Player : Character
 
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
+
+        //if (0 < PlayerData.Shield)
+        //{
+        //    PlayerData.Shield;
+        //    쉴드 버프 제거 ???
+        //    시간 초 짧은 거 부터 없애야 할 듯
+        //    return;
+        //}
+
         playerData.Hp -= transferredBulletInfo.damage;
         playerHpUi.UpdateHPUI(playerData.Hp);
         if (playerData.Hp <= 0) Die();
@@ -412,7 +421,6 @@ public class Player : Character
         */
         playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement);
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
-        playerData.Armor = originPlayerData.Armor + itemUseEffect.armorIncrement;
     }
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
@@ -425,7 +433,6 @@ public class Player : Character
         // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.
         playerData.StaminaMax = (int)(originPlayerData.StaminaMax * buffManager.CharacterTargetEffectTotal.staminaMaxIncrement);
         playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrement;
-        playerData.Armor = originPlayerData.Armor * buffManager.CharacterTargetEffectTotal.armorIncrement;
     }
     #endregion
 

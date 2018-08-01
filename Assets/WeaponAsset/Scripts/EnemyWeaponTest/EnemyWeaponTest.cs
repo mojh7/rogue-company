@@ -8,7 +8,6 @@ public class EnemyWeaponTest : MonoBehaviour
     private EnemyData enemyData;
     [SerializeField]
     private GameObject enemyObj;
-    [SerializeField]
     private Enemy enemy;
     [SerializeField]
     private WeaponManager weaponManager;
@@ -18,11 +17,12 @@ public class EnemyWeaponTest : MonoBehaviour
     {
         enemy = enemyObj.AddComponent<Enemy>();
         enemy.Init(enemyData);
-        //enemyList.Add(enemy);
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        weaponManager.AttackWeapon(0);
 		
 	}
 }

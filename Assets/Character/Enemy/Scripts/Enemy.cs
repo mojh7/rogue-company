@@ -19,6 +19,8 @@ public struct StatusConstant
 
 public enum AbnormalStatusType { STUN, ROOT, FEAR, CHARM, END }
 
+public enum EnemyAutoAimType { AUTO, HALFAUTO, RANDOM }
+
 public class Enemy : Character
 {
     #region variables
@@ -442,7 +444,7 @@ public class Enemy : Character
         restrictMovingCount += 1;
         if (restrictMovingCount > 0)
         {
-            //isActiveAI = false;
+            isActiveMoveAI = false;
             aiController.StopMove();
             // Debug.Log(name + " Move AI Off");
         }
@@ -455,7 +457,7 @@ public class Enemy : Character
         restrictMovingCount -= 1;
         if (0 == restrictMovingCount)
         {
-            //isActiveAI = true;
+            isActiveMoveAI = true;
             aiController.PlayMove();
             // Debug.Log(name + " Move AI ON");
         }
@@ -470,6 +472,7 @@ public class Enemy : Character
         if (restrictAttackingCount > 0)
         {
             // 공격 AI Off
+            isActiveMoveAI = false;
             Debug.Log(name + " Attack AI Off");
         }
     }
@@ -482,6 +485,7 @@ public class Enemy : Character
         if (0 == restrictMovingCount)
         {
             // 공격 AI ON
+            isActiveMoveAI = true;
             Debug.Log(name + " Attack AI ON");
         }
     }

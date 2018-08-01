@@ -32,6 +32,7 @@ public class WeaponManager : MonoBehaviour {
     // 아직 owner중 object 고려 안 했음
     private Character owner;
     private Player player;
+    private Enemy enemy;
     private CharacterInfo.OwnerType ownerType;
     // owner의 공격 방향 각도, 방향 벡터 와 현재 위치 함수이며 weapon->bulletPattern->bullet 방향으로 전달 함.
     private DelGetDirDegree ownerDirDegree;
@@ -68,25 +69,13 @@ public class WeaponManager : MonoBehaviour {
     private bool stopsUpdate;
     #endregion
     #region getter
-    /// <summary> weapon State 참조하여 Idle인지 확인 후 공격 가능 여부 리턴 </summary>
-    public bool GetAttackAble()
-    {
-        if(equipWeaponSlot[currentWeaponIndex].GetWeaponState() == WeaponState.Idle)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
     public Vector3 GetPosition() { return objTransform.position; }
     public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
-
+    public Enemy GetEnemy() { return enemy; }
     public int[] GetWeaponIds()
     {
         int[] weaponIds = new int[saveDataLength];
@@ -122,9 +111,17 @@ public class WeaponManager : MonoBehaviour {
         ownerDirVec = owner.GetDirVector;
         ownerPos = GetPosition;
         ownerBuff = owner.GetBuffManager();
-        if (CharacterInfo.OwnerType.Player == ownerType)
+
+        switch(ownerType)
         {
-            player = owner as Player;
+            case CharacterInfo.OwnerType.Player:
+                player = owner as Player;
+                break;
+            case CharacterInfo.OwnerType.Enemy:
+                enemy = owner as Enemy;
+                break;
+            default:
+                break;
         }
     }
     #endregion
@@ -194,7 +191,7 @@ public class WeaponManager : MonoBehaviour {
             weaponCountMax = 1;
             weaponCount = weaponCountMax;
             currentWeaponIndex = 0;
-            equipWeaponSlot[0].Init(Random.Range(0, 4), ownerType);
+            equipWeaponSlot[0].Init(Random.Range(0, 1), ownerType);
 
             for (int i = 0; i < weaponCountMax; i++)
             {
@@ -288,10 +285,7 @@ public class WeaponManager : MonoBehaviour {
     /// <summary> 공격 버튼 누를 때, 누르는 중일 때 </summary>
     public void AttackButtonDown()
     {
-        if (GetAttackAble())
-        {
-            equipWeaponSlot[currentWeaponIndex].StartAttack();
-        }
+        equipWeaponSlot[currentWeaponIndex].StartAttack();
     }
 
     /// <summary> 공격 버튼 뗐을 때 </summary>

@@ -30,6 +30,16 @@ public class SpreadPattern : BulletPattern
         //DebugX.Log(bulletCount);
         for (int i = 0; i < bulletCount; i++)
         {
+            if (PatternCallType.WEAPON == patternCallType)
+            {
+                if (AttackType.RANGED == weapon.GetAttackType())
+                {
+                    if (weapon.HasCostForAttack())
+                        weapon.UseAmmo();
+                    else break;
+                }
+            }
+
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude,
                 ownerDirDegree() - initAngle + deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);

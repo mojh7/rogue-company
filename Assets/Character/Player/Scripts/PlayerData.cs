@@ -41,11 +41,11 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private int skillGaugeMax;
     [SerializeField]
-    private float armor;
-    [SerializeField]
     private float criticalChance;
     [SerializeField]
     private WeaponInfo[] startingWeaponInfos;
+
+    private int shield;
 
     // on / off bool;
     private bool canDrainHp;
@@ -66,7 +66,7 @@ public class PlayerData : ScriptableObject
 
 #region get/set Property
 
-public float Hp
+    public float Hp
     {
         get { return hp; }
         set { hp = value; }
@@ -102,10 +102,10 @@ public float Hp
         set { skillGaugeMax = value; }
     }
 
-    public float Armor
+    public int Shield
     {
-        get { return armor; }
-        set { armor = value; }
+        get { return shield; }
+        set { shield = value; }
     }
     public float CriticalChance
     {
@@ -131,14 +131,18 @@ public float Hp
         clonedInfo.playerType = playerType;
         clonedInfo.playerSprite = playerSprite;
         clonedInfo.hp = hp;
+        clonedInfo.hpMax = hpMax;
         clonedInfo.moveSpeed = moveSpeed;
         clonedInfo.stamina = stamina;
         clonedInfo.staminaMax = staminaMax;
         clonedInfo.skillGauge = skillGauge;
         clonedInfo.skillGaugeMax = skillGaugeMax;
-        clonedInfo.armor = armor;
+        clonedInfo.shield = shield;
         clonedInfo.criticalChance = criticalChance;
         clonedInfo.startingWeaponInfos = startingWeaponInfos;
+
+        clonedInfo.canDrainHp = canDrainHp;
+        clonedInfo.cannotDamagedWhenFalling = cannotDamagedWhenFalling;
 
         return clonedInfo;
     }

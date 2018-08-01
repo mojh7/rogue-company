@@ -6,6 +6,8 @@ using WeaponAsset;
 // 패턴 추가시 InfoGroup 에서 해당 pattern info도 만들고
 // BulletPatternInfo 클래스에서 CreatePatternInfo함수에 내용 추가 해야됨.
 
+    public enum PatternCallType { WEAPON, BULLET }
+
 // bullet 정보중에서 weapon->pattern->bullet 순으로 전달 되야할 정보들
 [System.Serializable]
 public class TransferBulletInfo
@@ -52,6 +54,8 @@ public abstract class BulletPattern
 
     protected WeaponTargetEffect totalInfo;
     protected WeaponTargetEffect effectInfo;
+
+    protected PatternCallType patternCallType;
     public float GetDelay()
     {
         return delay;
@@ -63,6 +67,7 @@ public abstract class BulletPattern
 
     public virtual void Init(Weapon weapon)
     {
+        patternCallType = PatternCallType.WEAPON;
         this.weapon = weapon;
         // Owner 정보 등록
         ownerType = weapon.GetOwnerType();
@@ -83,6 +88,7 @@ public abstract class BulletPattern
     public virtual void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
         DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
     {
+        patternCallType = PatternCallType.BULLET;
         ownerDirDegree = dirDegree;
         ownerDirVec = dirVec;
         ownerPos = pos;
