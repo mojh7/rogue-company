@@ -274,7 +274,7 @@ class LaserCollisionProperty : CollisionProperty
     {
         if (CharacterInfo.OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
         {
-            // 공격 처리
+            AffectStatusEffect(ref coll);
             Attack(ref coll);
         }
     }

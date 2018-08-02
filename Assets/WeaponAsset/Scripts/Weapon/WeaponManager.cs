@@ -180,31 +180,31 @@ public class WeaponManager : MonoBehaviour {
     }
     #endregion
 
-    #region Function
+    #region Initialization
     public void Init(Character owner, CharacterInfo.OwnerType ownerType)
     {
         SetOwnerInfo(owner, ownerType);
-        
+
         // 0526 몬스터 무기 땜빵
-        if(CharacterInfo.OwnerType.Enemy == ownerType)
+        if (CharacterInfo.OwnerType.Enemy == ownerType)
         {
             // TODO : 테스트용 삭제 예정?, 0802 모
-            
+
             weaponCountMax = 1;
             weaponCount = weaponCountMax;
             currentWeaponIndex = 0;
-            equipWeaponSlot[0].Init(Random.Range(0, 4), ownerType);
+            equipWeaponSlot[0].Init(Random.Range(5, 6), ownerType);
             //equipWeaponSlot[0].Init(4, ownerType);
 
             for (int i = 0; i < weaponCountMax; i++)
             {
                 equipWeaponSlot[i].RegisterWeapon(this);
             }
-            
+
         }
 
         // 0529 Player 무기 디버그용 
-        else if(CharacterInfo.OwnerType.Player == ownerType)
+        else if (CharacterInfo.OwnerType.Player == ownerType)
         {
             Weapon weapon;
             equipWeaponSlot = new List<Weapon>();
@@ -219,7 +219,7 @@ public class WeaponManager : MonoBehaviour {
                     // DebugX.Log("a");
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
-                    
+
                     for (int i = 0; i < weaponCountMax; i++)
                     {
                         weapon = ObjectPoolManager.Instance.CreateWeapon(i) as Weapon;
@@ -241,18 +241,18 @@ public class WeaponManager : MonoBehaviour {
             // 저장된 데이터를 로드한 게임 일 때
             else
             {
-                
+
                 int[] weaponIds = GameDataManager.Instance.GetWeaponIds();
                 int[] weaponAmmos = GameDataManager.Instance.GetWeaponAmmos();
 
-                
+
                 weaponCountMax = weaponIds.Length;
                 DebugX.Log("무기 로드 weaponCountMax : " + weaponCountMax);
                 weaponCount = 0;
 
                 for (int i = 0; i < weaponCountMax; i++)
                 {
-                    if(weaponIds[i] >= 0)
+                    if (weaponIds[i] >= 0)
                     {
                         // DebugX.Log("i : " + i + ", id : " + weaponIds[i] + ", ammo : " + weaponAmmos[i]);
                         weapon = ObjectPoolManager.Instance.CreateWeapon(weaponIds[i]) as Weapon;
@@ -272,6 +272,11 @@ public class WeaponManager : MonoBehaviour {
         }
         UpdateCurrentWeapon();
     }
+    #endregion
+
+
+    #region Function
+
 
     /// <summary> 차징 공격에 사용되는 차징 게이지 UI Update </summary>
     public void UpdateChargingUI(float chargedVaule)

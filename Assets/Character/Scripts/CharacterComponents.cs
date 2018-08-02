@@ -16,6 +16,8 @@ public class CharacterComponents : MonoBehaviour {
     private AnimationHandler animationHandler;
     [SerializeField]
     private CircleCollider2D interactiveCollider2D;
+    [SerializeField]
+    private CircleCollider2D circleCollider2D;
     #endregion
     #region parameter
     public WeaponManager WeaponManager
@@ -58,6 +60,13 @@ public class CharacterComponents : MonoBehaviour {
         get
         {
             return interactiveCollider2D;
+        }
+    }
+    public CircleCollider2D CircleCollider2D
+    {
+        get
+        {
+            return circleCollider2D;
         }
     }
     public BuffManager BuffManager { get; private set; }

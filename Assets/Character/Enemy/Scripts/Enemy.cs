@@ -62,6 +62,11 @@ public class Enemy : Character
 
     #region getter
     public float GetHP() { return hp; }
+
+    public CircleCollider2D GetCircleCollider2D()
+    {
+        return Components.CircleCollider2D;
+    }
     #endregion
 
     #region UnityFunc

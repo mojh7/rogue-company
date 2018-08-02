@@ -10,6 +10,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     private EnemyData[] enemyDatas;
     public ObjectPool objectPool;
     private List<Enemy> enemyList;
+    private List<CircleCollider2D> enemyColliderList;
 
     // 0516 모장현
     private int aliveEnemyTotal;
@@ -17,6 +18,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     private void Start()
     {
         enemyList = new List<Enemy>();
+        enemyColliderList = new List<CircleCollider2D>();
         aliveEnemyTotal = 0;
     }
 
@@ -64,6 +66,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         enemy = obj.AddComponent<BossEnemy>();
         enemy.Init(enemyDatas[0]);
         enemyList.Add(enemy);
+        enemyColliderList.Add(enemy.GetCircleCollider2D());
 
         UIManager.Instance.bossHPUI.Toggle();
         UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
@@ -77,6 +80,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         enemy = obj.AddComponent<Enemy>();
         enemy.Init(temporary as EnemyData);
         enemyList.Add(enemy);
+        enemyColliderList.Add(enemy.GetCircleCollider2D());
     }
     #endregion
 
@@ -90,11 +94,22 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         }
     }
 
+    public List<CircleCollider2D> GetEnemyColliderList
+    {
+        get
+        {
+            if (enemyColliderList == null)
+                return null;
+            return enemyColliderList;
+        }
+    }
+
     public void DeleteEnemy(Enemy _enemy)
     {
         if (enemyList == null)
             return;
         aliveEnemyTotal -= 1;
+        enemyColliderList.Remove(_enemy.GetCircleCollider2D());
         enemyList.Remove(_enemy);
     }
 

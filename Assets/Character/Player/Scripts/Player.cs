@@ -368,18 +368,21 @@ public class Player : Character
         else
         {
             List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
+            List<CircleCollider2D> enemyColliderList = EnemyManager.Instance.GetEnemyColliderList;
             raycastHitEnemies.Clear();
             int raycasthitEnemyNum = 0;
             float minDistance = 10000f;
             int proximateEnemyIndex = -1;
 
+            Vector3 enemyPos = new Vector3(0 , 0, 0);
             // raycast로 player와 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
             for (int i = 0; i < enemyTotal; i++)
             {
                 raycasthitEnemyInfo.index = i;
-                raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, objTransform.position);
-                hit = Physics2D.Raycast(objTransform.position, enemyList[i].transform.position - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
-                if(hit.collider == null)
+                enemyPos = enemyColliderList[i].transform.position + (Vector3)enemyColliderList[i].offset;
+                raycasthitEnemyInfo.distance = Vector2.Distance(enemyPos, objTransform.position);
+                hit = Physics2D.Raycast(objTransform.position, enemyPos - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
+                if (hit.collider == null)
                 {
                     raycastHitEnemies.Add(raycasthitEnemyInfo);
                     raycasthitEnemyNum += 1;
@@ -402,9 +405,10 @@ public class Player : Character
                     minDistance = raycastHitEnemies[j].distance;
                     proximateEnemyIndex = j;
                 }
-            } 
+            }
 
-            directionVector = (enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform.position - objTransform.position);
+            enemyPos = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index].transform.position + (Vector3)enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index].offset;
+            directionVector = (enemyPos - objTransform.position);
             directionVector.z = 0;
             directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
