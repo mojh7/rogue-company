@@ -162,7 +162,7 @@ public class Weapon : Item
             info.bulletPatterns[i].Init(this);
         }
     }
-
+    
 
     public bool HasCostForAttack()
     {
@@ -187,16 +187,24 @@ public class Weapon : Item
         {
             if (info.touchMode == TouchMode.Normal)
             {
-                Attack(0f);
                 if (ShortWeapon())
                 {
-                    // (1/총스테미너 크기) 스태미너 줄어들게 함
-                    Stamina.Instance.StaminaMinus();
+                    if (player.GetStamina() >= 5)
+                    {
+                        // (1/총스테미너 크기) 스태미너 줄어들게 함
+                        Stamina.Instance.StaminaMinus();
+                    }
+                    else
+                    {
+                        Debug.Log("스태미너0");
+                        return;
+                    }
                 }
                 else
                 {
                     Debug.Log("스태미너 안 쭐어든닷");
                 }
+                Attack(0f);
             }
             else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
             {

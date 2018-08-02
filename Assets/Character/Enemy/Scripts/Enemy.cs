@@ -187,6 +187,7 @@ public class Enemy : Character
         }
 
         DropItem();
+        Stamina.Instance.StaminaPlus();
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         ParticleManager.Instance.PlayParticle("Death", spriteTransform.position, sprite);
