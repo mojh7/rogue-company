@@ -12,6 +12,10 @@ namespace CharacterInfo
     {
         NOTSPAWNED, DIE, ALIVE
     }
+    public enum Immune
+    {
+        NONE, DAMAGE
+    }
 }
 
 struct RaycasthitEnemy
@@ -29,6 +33,7 @@ public abstract class Character : MonoBehaviour
     public float moveSpeed;     // Character move Speed
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     public int stemina;
+    protected CharacterInfo.Immune immune;
     #endregion
     #region componets
     protected CharacterComponents Components;

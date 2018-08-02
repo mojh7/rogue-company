@@ -129,6 +129,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
+        DrawAllRoom();
         texture.Apply();
     } // 미니맵 그리는 함수
 

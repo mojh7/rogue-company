@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HandClap", menuName = "SkillData/CHandClap", order = 1)]
+[CreateAssetMenu(fileName = "HandClap", menuName = "SkillData/CHandClap")]
 public class CHandClap : SkillData
 {
     public override bool Run(Character character, object temporary)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RuleTile", menuName = "RuleTile", order = 1)]
 public class RuleTile : TileBase
 {
     HashSet<Vector3Int> nullPosition = new HashSet<Vector3Int>();
