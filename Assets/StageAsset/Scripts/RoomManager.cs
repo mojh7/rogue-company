@@ -183,7 +183,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             else
                 currentRoom = GetCurrentRect(PlayerManager.Instance.GetPlayerPosition());
 
-            yield return YieldInstructionCache.WaitForSeconds(0.01f);
+            yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
     }
 

@@ -141,6 +141,7 @@ namespace Map
         void BakeMap()
         {
             AStar.TileGrid.Instance.Bake();
+            AStar.Pathfinder.Instance.Bake();
         }
 
         void RefreshData()

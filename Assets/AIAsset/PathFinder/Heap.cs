@@ -115,6 +115,10 @@ public class Heap<T> where T : IHeapItem<T>
         itemB.HeapIndex = itemAIndex;
     }
 
+    public void RemoveAll()
+    {
+        currentItemCount = 0;
+    }
 }
 
 public interface IHeapItem<T> : IComparable<T>

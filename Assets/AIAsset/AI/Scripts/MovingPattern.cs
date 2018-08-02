@@ -364,7 +364,7 @@ class StopTracker : Tracker
     {
         if (transform == null || target == null)
             return false;
-        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, transform.position, OnPathFound));
+        callback(new Vector2[1] { transform.position });
         return true;
     }
 }

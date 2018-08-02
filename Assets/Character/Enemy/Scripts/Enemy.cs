@@ -115,7 +115,7 @@ public class Enemy : Character
         weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
         for (int i = 0; i < enemyData.WeaponInfo.Count; i++)
         {
-            Debug.Log(enemyData.WeaponInfo[i].name + ", " + name);
+            //Debug.Log(enemyData.WeaponInfo[i].name + ", " + name);
             weaponManager.EquipWeapon(enemyData.WeaponInfo[i]);
         }
         animationHandler.Init(enemyData.AnimatorController);

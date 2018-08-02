@@ -8,6 +8,7 @@
 		[MaterialToggle] PixelSnap("Pixel snap", Float) = 0
 		_LightIntensity("Light intensity", Range(0, 1)) = 1
 		_EffectAmount("Effect Amount", Range(0, 1)) = 0
+		_TintMapIntensity("Tint map intensity", Range(0, 2)) = 1
 		_Contrast("Contrast Amount", Range(0, 3)) = 1.0 // 희지 권장 1.4
 	}
 	SubShader {
@@ -31,6 +32,8 @@
 		sampler2D _Layer;
 
 		struct Input {
+			float3 worldPos;
+			float4 screenPos;
 			float2 uv_MainTex;
 			fixed4 color;
 		};
@@ -44,6 +47,9 @@
 		int _Boundary;
 		uniform float _EffectAmount;
 		uniform float _Contrast;
+
+		half _TintMapIntensity;
+	
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
 			int bound = _Boundary;
@@ -78,13 +84,25 @@
 
 		void surf(Input IN, inout SurfaceOutputStandard o) 
 		{
-			fixed4 layer = tex2D(_Layer, IN.uv_MainTex);
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
+
 			c.rgb = ((c.rgb - 0.5f) * _Contrast) + 0.5f;
 			c.rgb = lerp(c.rgb, dot(c.rgb, float3(0.3, 0.59, 0.11)), _EffectAmount);
+
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
-			o.Albedo = saturate(o.Albedo * layer.rgb);
+
+			fixed4 tintmap = tex2D(_Layer, (IN.worldPos.xy / 256) + .5);
+			float albedoValue = (c.r + c.g + c.b) / 3;
+
+			float3 tinted;
+
+			if (albedoValue < .5) tinted = 2 * o.Albedo * tintmap.rgb;
+			else tinted = 1 - 2 * (1 - o.Albedo) * (1 - tintmap.rgb);
+			o.Albedo = saturate(tinted) * _TintMapIntensity + o.Albedo * (1 - _TintMapIntensity);
+
+
+			//o.Albedo = saturate(o.Albedo);
 		}
 
 

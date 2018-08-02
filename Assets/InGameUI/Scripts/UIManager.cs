@@ -89,7 +89,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
         for (int i = _interval; i >= 0; i--)
         {
             _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, (float)i / _interval);
-            yield return YieldInstructionCache.WaitForSeconds(time);
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
     }
 
@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
         for (int i = 0; i <= _interval; i++)
         {
             _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, (float)i / _interval);
-            yield return YieldInstructionCache.WaitForSeconds(time);
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
     }
     #endregion

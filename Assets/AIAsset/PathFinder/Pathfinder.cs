@@ -5,13 +5,29 @@ using UnityEngine;
 
 namespace AStar
 {
-    public class Pathfinder : MonoBehaviour
+    public class Pathfinder : MonoBehaviourSingleton<Pathfinder>
     {
         TileGrid grid;
+        Vector2[] waypoints;
+        Heap<Node> openSet;
+        HashSet<Node> closedSet;
+        Vector2 directionOld;
+        Vector2 zero;
+        List<Vector2> waypointList;
+        List<Node> pathList;
 
         private void Awake()
         {
             grid = GetComponent<TileGrid>();
+        }
+
+        public void Bake()
+        {
+            openSet = new Heap<Node>(grid.MaxSize);
+            closedSet = new HashSet<Node>();
+            zero = Vector2.zero;
+            waypointList = new List<Vector2>();
+            pathList = new List<Node>();
         }
         /// <summary>
         /// 기본 추적 알고리즘에 의해 path를 찾는 함수.
@@ -19,7 +35,6 @@ namespace AStar
         public void FindPath(PathRequest request, Action<PathResult> callback)
         {
 
-            Vector2[] waypoints = new Vector2[0];
             bool pathSuccess = false;
 
             Node startNode = grid.NodeFromWorldPoint(request.pathStart);
@@ -33,8 +48,8 @@ namespace AStar
             }
             if (startNode.walkable && targetNode.walkable)
             {
-                Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
-                HashSet<Node> closedSet = new HashSet<Node>();
+                openSet.RemoveAll();
+                closedSet.Clear();
                 openSet.Add(startNode);
 
                 while (openSet.Count > 0)
@@ -76,7 +91,6 @@ namespace AStar
                 pathSuccess = waypoints.Length > 0;
             }
             callback(new PathResult(waypoints, pathSuccess, request.callback));
-
         }
         /// <summary>
         /// 회전 추적 알고리즘에 의해 path를 찾는 함수.
@@ -141,15 +155,15 @@ namespace AStar
 
         Vector2[] RetracePath(Node startNode, Node endNode)
         {
-            List<Node> path = new List<Node>();
             Node currentNode = endNode;
+            pathList.Clear();
 
             while (currentNode != startNode)
             {
-                path.Add(currentNode);
+                pathList.Add(currentNode);
                 currentNode = currentNode.parent;
             }
-            Vector2[] waypoints = SimplifyPath(path);
+            Vector2[] waypoints = SimplifyPath(pathList);
             Array.Reverse(waypoints);
             return waypoints;
 
@@ -157,8 +171,8 @@ namespace AStar
  
         Vector2[] SimplifyPath(List<Node> path)
         {
-            List<Vector2> waypoints = new List<Vector2>();
-            Vector2 directionOld = Vector2.zero;
+            waypointList.Clear();
+            directionOld = zero;
 
             int gap = 1;
             for (int i = gap; i < path.Count; i++)
@@ -166,11 +180,11 @@ namespace AStar
                 Vector2 directionNew = new Vector2(path[i - gap].gridX - path[i].gridX, path[i - gap].gridY - path[i].gridY);
                 if (directionNew != directionOld)
                 {
-                    waypoints.Add(path[i].worldPos);
+                    waypointList.Add(path[i].worldPos);
                 }
                 directionOld = directionNew;
             }
-            return waypoints.ToArray();
+            return waypointList.ToArray();
         }
 
         int GetDistance(Node nodeA, Node nodeB)

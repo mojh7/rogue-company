@@ -202,7 +202,7 @@ public class Weapon : Item
                 }
                 else
                 {
-                    Debug.Log("스태미너 안 쭐어든닷");
+                    //Debug.Log("스태미너 안 쭐어든닷");
                 }
                 Attack(0f);
             }

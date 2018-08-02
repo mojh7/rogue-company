@@ -35,7 +35,7 @@ public class AStarTrackAtion : ActionTask
     }
     public override Task Clone()
     {
-        AStarTrackAtion parent = new AStarTrackAtion();
+        AStarTrackAtion parent = ScriptableObject.CreateInstance<AStarTrackAtion>();
 
         return parent;
     }

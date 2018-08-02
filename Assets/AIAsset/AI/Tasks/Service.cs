@@ -10,6 +10,7 @@ public class Service  : CompositeTask
 {
     [SerializeField]
     float frequency;
+    bool isRun;
 
     public Task Set(float frequency)
     {
@@ -20,6 +21,7 @@ public class Service  : CompositeTask
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
+        isRun = false;
     }
     /// <summary>
     /// Clcok 스케줄러에 Run함수를 저장하여 주파수마다 실행되도록 합니다.
@@ -29,8 +31,10 @@ public class Service  : CompositeTask
     {
         if (character == null)
             return false;
-        Clock.AddTimer(frequency, -1, Run);
-
+        if (!isRun)
+        {
+            Clock.AddTimer(frequency, -1, Run);
+        }
         foreach (var task in GetChildren())
         {
             task.Run();
