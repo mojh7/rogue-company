@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.IO;
+using System.Collections.Generic;
 
 public class MapEditor : EditorWindow
 {
@@ -12,6 +13,7 @@ public class MapEditor : EditorWindow
     ObjectType objectType;
     RoomType roomType;
     int spriteNum;
+    Sprite multipleSprite;
     Sprite objectSprite;
     Sprite[] objectSprites;
     RoomSet worldRoomSet;
@@ -22,7 +24,6 @@ public class MapEditor : EditorWindow
         // 윈도우 생성
         MapEditor window = (MapEditor)EditorWindow.GetWindow(typeof(MapEditor));
     }
- 
 
     void OnGUI()
     {
@@ -34,7 +35,6 @@ public class MapEditor : EditorWindow
         height = EditorGUILayout.IntField("height", height);
         gage = EditorGUILayout.IntField("gage", gage);
         roomType = (RoomType)EditorGUILayout.EnumPopup("RoomType", roomType);
-       // size = EditorGUILayout.IntField("size", size);
         if (GUILayout.Button("Create Room"))
         {
             CreateTilemap();
@@ -45,6 +45,7 @@ public class MapEditor : EditorWindow
         }
         objectType = (ObjectType)EditorGUILayout.EnumPopup("ObjectType", objectType);
         EditorGUI.BeginChangeCheck();
+        multipleSprite = (Sprite)EditorGUILayout.ObjectField("multipleSprite", multipleSprite, typeof(Sprite), allowSceneObjects: true);
         spriteNum = EditorGUILayout.IntField("spriteNum", spriteNum);
         if (EditorGUI.EndChangeCheck())
         {
@@ -89,9 +90,20 @@ public class MapEditor : EditorWindow
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
         gameObject.AddComponent<Rigidbody2D>();
-        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
-        objectData.LoadObject(gameObject);
-        gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
+        ObjectData objectData;
+        if (multipleSprite != null && spriteNum == 0)
+        {
+            Sprite[] objectSprites = GetSprites(multipleSprite);
+            objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
+            objectData.LoadObject(gameObject);
+            gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
+        }
+        else
+        {
+            objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
+            objectData.LoadObject(gameObject);
+            gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
+        }
     }
 
     CustomObject CreateObject(ObjectType objectType)
@@ -108,6 +120,19 @@ public class MapEditor : EditorWindow
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
         return gameObject.GetComponent<CustomObject>();
+    }
+
+    Sprite[] GetSprites(Sprite sprite)
+    {
+        string path = AssetDatabase.GetAssetPath(sprite);
+        Object[] objects = AssetDatabase.LoadAllAssetRepresentationsAtPath(path);
+        List<Sprite> l = new List<Sprite>(objects.Length);
+        foreach (var i in objects)
+        {
+            var s = i as Sprite;
+            l.Add(s);
+        }
+        return l.ToArray();
     }
 
     void SaveRoomset()
@@ -250,7 +275,8 @@ public class MapEditor : EditorWindow
         gameObject.name = "Object";
         gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);
         gameObject.transform.parent = roomObj.transform;
-        if(_objectData.sprites.Length > 0)
-            gameObject.GetComponent<SpriteRenderer>().sprite = _objectData.sprites[0];
+        if(_objectData.sprites != null)
+            if (_objectData.sprites.Length > 0)
+                gameObject.GetComponent<SpriteRenderer>().sprite = _objectData.sprites[0];
     }
 }

@@ -34,6 +34,7 @@ public class AttackPattern : MonoBehaviour
   
     public bool Shot(Character character, int i)
     {
+        weaponManager.AttackWeapon(i);
         return false;  
     }
 

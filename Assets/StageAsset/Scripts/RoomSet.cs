@@ -96,6 +96,11 @@ public struct ObjectData
                 _gameObject.GetComponent<MedkitBox>().sprites = sprites;
                 _gameObject.GetComponent<MedkitBox>().Init();
                 break;
+            case ObjectType.SUBSTATION:
+                _gameObject.AddComponent<SubStation>();
+                _gameObject.GetComponent<SubStation>().sprites = sprites;
+                _gameObject.GetComponent<SubStation>().Init();
+                break;
         }
 
         return _gameObject;

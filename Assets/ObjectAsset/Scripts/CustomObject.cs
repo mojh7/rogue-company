@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX }
+public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX, SUBSTATION }
 
 public class CustomObject : MonoBehaviour
 {
@@ -23,11 +23,6 @@ public class CustomObject : MonoBehaviour
     protected TextMesh textMesh;
     protected PolygonCollider2D polygonCollider2D;
     #endregion
-
-    public bool GetAvailable()
-    {
-        return isAvailable;
-    }
 
     public bool GetActive()
     {
@@ -52,6 +47,9 @@ public class CustomObject : MonoBehaviour
 
     private void SetNullPolygon()
     {
+#if UNITY_EDITOR
+        polygonCollider2D = GetComponent<PolygonCollider2D>();
+#endif
         polygonCollider2D.pathCount = 1;
         polygonCollider2D.SetPath(0, new Vector2[4] { new Vector2(-.1f, -.1f), new Vector2(.1f, -.1f), new Vector2(.1f, .1f), new Vector2(-.1f, .1f) });
     }
@@ -82,6 +80,11 @@ public class CustomObject : MonoBehaviour
     public void SetAnimate()
     {
         isAnimate = false;
+    }
+
+    public virtual bool GetAvailable()
+    {
+        return isAvailable;
     }
 
     public virtual void SetAvailable()
@@ -170,6 +173,10 @@ public class UnbreakableBox : RandomSpriteObject
 public class BreakalbeBox : RandomSpriteObject
 {
     int duration;
+
+    public override void SetAvailable()
+    {
+    }
 
     public override void Init()
     {
@@ -790,5 +797,13 @@ public class MedkitBox : NoneRandomSpriteObject
     public override void DeIndicateInfo()
     {
         textMesh.text = "";
+    }
+}
+
+public class SubStation : NoneRandomSpriteObject
+{
+    public override bool Active()
+    {
+        return base.Active();
     }
 }
