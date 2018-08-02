@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
     private Sprite sprite;
     [SerializeField]
-    private EnemyData enemyData;
+    private EnemyData[] enemyDatas;
     public ObjectPool objectPool;
     private List<Enemy> enemyList;
 
@@ -35,13 +35,13 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0);
+        obj.GetComponent<Alert>().Init(CallBack, enemyDatas[0], 0, 0);
         obj.GetComponent<Alert>().Active();
     }
 
     public Sprite GetBossSprite()
     {
-        sprite = enemyData.Sprite;
+        sprite = enemyDatas[0].Sprite;
         return sprite;
     }
 
@@ -62,7 +62,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         GameObject obj = SpawnEnemy(position);
 
         enemy = obj.AddComponent<BossEnemy>();
-        enemy.Init(enemyData);
+        enemy.Init(enemyDatas[0]);
         enemyList.Add(enemy);
 
         UIManager.Instance.bossHPUI.Toggle();

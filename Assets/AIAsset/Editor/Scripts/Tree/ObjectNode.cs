@@ -196,12 +196,15 @@ namespace BT
                             return ScriptableObject.CreateInstance<RoundingTrackAction>().Set(value);
                         case EActionTask.RushTrackAtion:
                             return ScriptableObject.CreateInstance<RushTrackAtion>();
-                        case EActionTask.AttackAction:
-                            return ScriptableObject.CreateInstance<AttackAction>();
+                        case EActionTask.SkillAction:
+                            return ScriptableObject.CreateInstance<SkillAction>().Set((int)value);
                         case EActionTask.StopAction:
                             return ScriptableObject.CreateInstance<StopTrackAction>();
                         case EActionTask.RunawayAction:
                             return ScriptableObject.CreateInstance<RunawayTrackAction>();
+                        case EActionTask.ShotAction:
+                            return ScriptableObject.CreateInstance<ShotAction>().Set((int)value);
+
                     }
                     break;
             }

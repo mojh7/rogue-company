@@ -4,15 +4,24 @@
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
 		[HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
 		_Boundary("Boundary Number", Int) = 1
+		[MaterialToggle] PixelSnap("Pixel snap", Float) = 0
 		_LightIntensity("Light intensity", Range(0, 1)) = 1
+		_EffectAmount("Effect Amount", Range(0, 1)) = 0
+		_Contrast("Contrast Amount", Range(0, 3)) = 1.0 // 희지 권장 1.4
 	}
 	SubShader {
-		Tags{ "RenderType" = "Transparent" "Queue" = "Transparent" }
+		Tags{ 
+			"RenderType" = "Transparent" 
+			"Queue" = "Transparent"
+			"CanUseSpriteAtlas" = "True"
+		}
 		LOD 200
 		Cull Off
+		ZWrite Off
+		Fog{ Mode Off }
 
 		CGPROGRAM
-		#pragma multi_compile _ ETC1_EXTERNAL_ALPHA
+		#pragma multi_compile _ ETC1_EXTERNAL_ALPHA PIXELSNAP_ON
 		#pragma surface surf Custom alpha:fade vertex:vert nofog noinstancing nodynlightmap
 		#pragma target 3.0
 		#include "UnityPBSLighting.cginc"
@@ -31,7 +40,8 @@
 		half _LightIntensity;
 		int _UnevenResolution;
 		int _Boundary;
-
+		uniform float _EffectAmount;
+		uniform float _Contrast;
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
 			int bound = _Boundary;
@@ -59,11 +69,16 @@
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			o.color = v.color * _Color;
+#ifdef PIXELSNAP_ON
+		OUT.vertex = UnityPixelSnap(OUT.vertex);
+#endif
 		}
 
 		void surf(Input IN, inout SurfaceOutputStandard o) 
 		{
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
+			c.rgb = ((c.rgb - 0.5f) * _Contrast) + 0.5f;
+			c.rgb = lerp(c.rgb, dot(c.rgb, float3(0.3, 0.59, 0.11)), _EffectAmount);
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
 			o.Albedo = saturate(o.Albedo);

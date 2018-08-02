@@ -14,6 +14,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     [SerializeField] private GameObject playerIcon;
     [SerializeField] private Transform mask;
     [SerializeField] private Text floorT;
+    [SerializeField] private GameObject[] title;
 
     const int minimapBaseWidth = 400, minimapBaseHeight = 400;
     int minmapSizeWidth, minmapSizeHeight;
@@ -49,6 +50,12 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         }
 
         return Direction.RIGHT;
+    }
+
+    void titleMap(int activeTitle, int unActiveTitle)
+    {
+        title[activeTitle].SetActive(true);
+        title[unActiveTitle].SetActive(false);
     }
 
     void EnableMask()
@@ -129,6 +136,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
+        DrawAllRoom();
         texture.Apply();
     } // 미니맵 그리는 함수
 
@@ -145,12 +153,14 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
             mask.localPosition = oldPos;
             GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
+            titleMap(0, 1);
         }
         else
         {
             transform.localPosition = new Vector2(-maskSize, -maskSize);
             mask.localPosition = new Vector2(maskSize, maskSize);
             GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
+            titleMap(1, 0);
         }
         isToggle = !isToggle;
     }

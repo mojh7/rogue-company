@@ -37,7 +37,7 @@ public class AttackPattern : MonoBehaviour
         return false;  
     }
 
-    public bool CastingSpell(Character character, int i, object temporary)
+    public bool CastingSKill(Character character, int i, object temporary)
     {
         if (i >= skillDatas.Length || !isActive)
             return false;
