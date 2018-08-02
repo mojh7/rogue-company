@@ -20,7 +20,6 @@ public class GameSceneUI : MonoBehaviour {
             if (currentTime > 3)
             {
                 Stamina.Instance.StaminaPlus();
-                Debug.Log("스태미너 채워진닷!");
                 currentTime = 0;
             }
         }

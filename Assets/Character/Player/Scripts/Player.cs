@@ -43,6 +43,9 @@ public class Player : Character
     private PlayerData playerData;
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
+    //0802 윤아
+    [SerializeField] private Stamina stamina;
+
     #endregion
 
     #region property
@@ -74,6 +77,8 @@ public class Player : Character
 
     public int GetStamina() { return playerData.Stamina; }
     public int GetSkillGauage() { return playerData.SkillGauge; }
+
+    public void SetStamina(int stamina) { playerData.Stamina = stamina; Debug.Log(playerData.Stamina); }
     #endregion
 
 
@@ -162,6 +167,10 @@ public class Player : Character
         playerHpUi = GameObject.Find("HPGroup").GetComponent<PlayerHPUI>();
         buffManager = PlayerBuffManager.Instance.BuffManager;
         buffManager.SetOwner(this);
+        stamina = GameObject.Find("Image_stamina").GetComponent<Stamina>();
+        stamina.SetPlayer(this);
+        //Stamina.Instance.setTotalStamina(100);
+        
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);
@@ -174,6 +183,8 @@ public class Player : Character
         originPlayerData = playerData;
         UpdatePlayerData();
         playerHpUi.UpdateHPUI(playerData.Hp);
+        stamina.setTotalStamina(playerData.StaminaMax);
+        
     }
 
     protected override void Die()

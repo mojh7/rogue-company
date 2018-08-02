@@ -3,35 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 스테미나가 줄여들고 불어나는 걸 보여주는 UI
+/// </summary>
 public class Stamina : MonoBehaviourSingleton<Stamina>
 {
-
+    private PlayerData playerData;
+    private Player player;
     private Image stamina;
-    [HideInInspector]   
-    public float totalStamina = 200;        // 아이템 먹으면 기본 스테미나 크기 증가
-    [HideInInspector]
-    public Stamina instance = null;
+    [SerializeField]
+    private int totalStamina;        // 스태미너의 Max치
+    private int playerStamina;               // player 의 스태미너
 
-	void Awake () {
+    #region getter setter
+    public int getPlayerStamina() { return playerStamina; }
+    public int getTotalStamina() { return totalStamina; }
+    public void setPlayerStamina(int playerStamina) { this.playerStamina = playerStamina; }
+    public void setTotalStamina(int totalStamina) { this.totalStamina = totalStamina; }
+    #endregion
+
+    void Awake() {
         stamina = GetComponent<Image>();
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            return;
-        }
-        Debug.Log(instance.name);
-	}
+        StaminaAmout(stamina.fillAmount, totalStamina);
+    }
+
+
+    #region function
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
+    }
 
     public void StaminaPlus()
     {
-        if (stamina.fillAmount != 1.0f)
+        if (StaminaState())
         {
             // 3초마다 한번씩 1씩 추가
             // 몬스터 죽을때마다 1씩 추가
-            stamina.fillAmount += 1 / totalStamina;
+            stamina.fillAmount += 3 / (float)totalStamina;
+            StaminaAmout(stamina.fillAmount, totalStamina);
         }
         else
         {
@@ -41,12 +51,14 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
 
     public void StaminaMinus()
     {
-        if (stamina.fillAmount >= 0 && stamina.fillAmount <= 1)
+        if (stamina.fillAmount > 0 && stamina.fillAmount <= 1)
         {
-            stamina.fillAmount -= 1 / totalStamina;
+            stamina.fillAmount -= 5 / (float)totalStamina;
+            StaminaAmout(stamina.fillAmount, totalStamina);
         }
-        else if (stamina.fillAmount == 0)
+        else if (stamina.fillAmount <= 0)
         {
+            //playerData.Stamina = 0;
             Debug.Log("스태미너 0이에요 공격 ㄴㄴ");
         }
     }
@@ -62,4 +74,27 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             return false;
         }
     }
+
+    public bool isAttack()
+    {
+        if (stamina.fillAmount >= 5 && stamina.fillAmount <= 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // 리턴 시키는 함수
+    public int StaminaAmout(float amount, int totalStamina)
+    {
+        float temp = amount * totalStamina;
+        playerStamina = (int)temp;
+        if(player != null)
+            player.SetStamina(playerStamina);
+        return playerStamina;
+    }
+    #endregion
 }
