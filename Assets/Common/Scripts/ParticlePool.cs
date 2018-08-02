@@ -26,7 +26,7 @@ public class ParticlePool : MonoBehaviourSingleton<ParticlePool>
                 for(int j=0;j< objectNum;j++)
                 {
                     ParticleSystem particle = GameObject.Instantiate(particles[i], new Vector3(0, 0, 0), new Quaternion()) as ParticleSystem;
-                    particle.hideFlags = HideFlags.HideInHierarchy;
+                    particle.transform.parent = this.transform;
                     particle.gameObject.SetActive(false);
                     poolsDictionary[particles[i].name].Add(particle);
 

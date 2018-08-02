@@ -1,6 +1,7 @@
 ﻿Shader "Custom/DefaultShader" {
 	Properties {
 		_Color("Color", Color) = (1,1,1,1)
+		_Layer("Layer", 2D) = "white" {}
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
 		[HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
 		_Boundary("Boundary Number", Int) = 1
@@ -27,6 +28,7 @@
 		#include "UnityPBSLighting.cginc"
 
 		sampler2D _MainTex;
+		sampler2D _Layer;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -76,12 +78,13 @@
 
 		void surf(Input IN, inout SurfaceOutputStandard o) 
 		{
+			fixed4 layer = tex2D(_Layer, IN.uv_MainTex);
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
 			c.rgb = ((c.rgb - 0.5f) * _Contrast) + 0.5f;
 			c.rgb = lerp(c.rgb, dot(c.rgb, float3(0.3, 0.59, 0.11)), _EffectAmount);
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
-			o.Albedo = saturate(o.Albedo);
+			o.Albedo = saturate(o.Albedo * layer.rgb);
 		}
 
 
