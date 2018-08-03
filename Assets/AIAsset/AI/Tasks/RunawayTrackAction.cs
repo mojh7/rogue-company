@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BT;
-
+[CreateAssetMenu(menuName = "Task/RunawayTrackAction")]
 public class RunawayTrackAction : ActionTask
 {
 

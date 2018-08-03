@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BT;
-
+[CreateAssetMenu(menuName = "Task/TimeDecorate")]
 public class TimeDecorate : ConditionDecorate
 {
 
@@ -54,7 +54,8 @@ public class TimeDecorate : ConditionDecorate
     {
         TimeDecorate parent = new TimeDecorate();
         parent.Set(condition, time);
-        parent.AddChild(GetChildren().Clone());
+        if(GetChildren() != null)
+            parent.AddChild(GetChildren().Clone());
 
         return parent;
     }

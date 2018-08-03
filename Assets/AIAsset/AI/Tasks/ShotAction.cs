@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BT;
-
+[CreateAssetMenu(menuName = "Task/ShotAction")]
 public class ShotAction : ActionTask {
 
     int Idx;

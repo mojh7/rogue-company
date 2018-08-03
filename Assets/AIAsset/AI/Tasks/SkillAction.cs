@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BT;
-
+[CreateAssetMenu(menuName = "Task/SkillAction")]
 public class SkillAction : ActionTask
 {
     int Idx;

@@ -6,6 +6,7 @@ using BT;
 /// <summary>
 /// 거리 조건에 따라 자식의 수행 여부를 정하는 조건 노드입니다.
 /// </summary>
+[CreateAssetMenu(menuName = "Task/DistanceDecorate")]
 public class DistanceDecorate : ConditionDecorate
 {
     Character target;
@@ -38,7 +39,8 @@ public class DistanceDecorate : ConditionDecorate
     {
         DistanceDecorate parent = new DistanceDecorate();
         parent.Set(condition, distance);
-        parent.AddChild(GetChildren().Clone());
+        if (GetChildren() != null)
+            parent.AddChild(GetChildren().Clone());
 
         return parent;
     }

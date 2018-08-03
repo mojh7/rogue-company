@@ -9,6 +9,7 @@ using BT;
 /// <summary>
 ///  몬스터의 정지상태를 나타내는 노드.
 /// </summary>
+[CreateAssetMenu(menuName = "Task/SubSelector")]
 public class StopTrackAction : ActionTask
 {
     MovingPattern movingPattern;

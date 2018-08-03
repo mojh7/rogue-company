@@ -7,6 +7,7 @@ using BT;
 /// <summary>
 /// 기본 회전 추적 행동을 담은 노드입니다. 
 /// </summary>
+[CreateAssetMenu(menuName = "Task/RoundingTrackAction")]
 public class RoundingTrackAction : ActionTask
 {
     MovingPattern movingPattern;

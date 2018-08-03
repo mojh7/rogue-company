@@ -6,6 +6,7 @@ using BT;
 /// <summary>
 /// 일정 주파수마다 실행되는 노드 한번 실행할 때마다 Clock에 저장,업데이트가 됩니다.
 /// </summary>
+[CreateAssetMenu(menuName = "Task/Service")]
 public class Service  : CompositeTask
 {
     [SerializeField]
@@ -49,10 +50,11 @@ public class Service  : CompositeTask
     {
         Service parent = new Service();
         parent.Set(frequency);
-        for (int i = 0; i < GetChildren().Count; i++)
-        {
-            parent.AddChild(GetChildren()[i].Clone());
-        }
+        if (GetChildren() != null)
+            for (int i = 0; i < GetChildren().Count; i++)
+            {
+                parent.AddChild(GetChildren()[i].Clone());
+            }
         return parent;
     }
 }

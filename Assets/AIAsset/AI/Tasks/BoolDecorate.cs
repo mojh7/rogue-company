@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BT;
-
+[CreateAssetMenu(menuName = "Task/BoolDecorate")]
 public class BoolDecorate : DecorateTask
 {
     System.Func<bool> func;
@@ -29,7 +29,8 @@ public class BoolDecorate : DecorateTask
     public override Task Clone()
     {
         BoolDecorate parent = ScriptableObject.CreateInstance<BoolDecorate>();
-        parent.AddChild(GetChildren().Clone());
+        if (GetChildren() != null)
+            parent.AddChild(GetChildren().Clone());
 
         return parent;
     }

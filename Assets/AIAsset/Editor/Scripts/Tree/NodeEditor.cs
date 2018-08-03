@@ -169,7 +169,7 @@ namespace BT
             AssetDatabase.Refresh();
             Selection.activeObject = parent;
         }
-    void RecursionNode(TaskNode taskNode, Task parent)
+        void RecursionNode(TaskNode taskNode, Task parent)
         {
             for (int i = 0; i < taskNode.childrens.Count; i++)
             {
@@ -179,10 +179,6 @@ namespace BT
                 parent.AddChild(child);
                 RecursionNode(taskNode.childrens[i], child);
             }
-        }
-        Task CreateNode(TaskNode taskNode)
-        {
-            return taskNode.CreateBehaviorNode();
         }
         TaskNode CreateRoot()
         {

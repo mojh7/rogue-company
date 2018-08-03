@@ -6,6 +6,7 @@ using BT;
 /// <summary>
 /// 무조건 루트에 있어야함. 데이터 저장을 위한 Blackboard와 스케쥴링을 위한 Clock 변수가 담겨있습니다.
 /// </summary>
+[CreateAssetMenu(menuName = "Task/Root")]
 public class Root : DecorateTask
 {
     /// <summary>
@@ -46,7 +47,8 @@ public class Root : DecorateTask
     public override Task Clone()
     {
         Root parent = ScriptableObject.CreateInstance<Root>();
-        parent.AddChild(GetChildren().Clone());
+        if (GetChildren() != null)
+            parent.AddChild(GetChildren().Clone());
 
         return parent;
     }
