@@ -1,14 +1,12 @@
 ﻿Shader "Custom/DefaultShader" {
 	Properties {
 		_Color("Color", Color) = (1,1,1,1)
-		_Layer("Layer", 2D) = "white" {}
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
 		[HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
 		_Boundary("Boundary Number", Int) = 1
 		[MaterialToggle] PixelSnap("Pixel snap", Float) = 0
 		_LightIntensity("Light intensity", Range(0, 1)) = 1
 		_EffectAmount("Effect Amount", Range(0, 1)) = 0
-		_TintMapIntensity("Tint map intensity", Range(0, 2)) = 1
 		_Contrast("Contrast Amount", Range(0, 3)) = 1.0 // 희지 권장 1.4
 	}
 	SubShader {
@@ -29,7 +27,6 @@
 		#include "UnityPBSLighting.cginc"
 
 		sampler2D _MainTex;
-		sampler2D _Layer;
 
 		struct Input {
 			float3 worldPos;
@@ -47,8 +44,6 @@
 		int _Boundary;
 		uniform float _EffectAmount;
 		uniform float _Contrast;
-
-		half _TintMapIntensity;
 	
 		inline half4 LightingCustom(SurfaceOutputStandard s, half3 lightDir, UnityGI gi)
 		{
@@ -77,8 +72,9 @@
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			o.color = v.color * _Color;
+			o.worldPos = v.vertex;
 #ifdef PIXELSNAP_ON
-		OUT.vertex = UnityPixelSnap(OUT.vertex);
+			o.worldPos = UnityPixelSnap(o.worldPos);
 #endif
 		}
 
@@ -91,18 +87,6 @@
 
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
-
-			fixed4 tintmap = tex2D(_Layer, (IN.worldPos.xy / 256) + .5);
-			float albedoValue = (c.r + c.g + c.b) / 3;
-
-			float3 tinted;
-
-			if (albedoValue < .5) tinted = 2 * o.Albedo * tintmap.rgb;
-			else tinted = 1 - 2 * (1 - o.Albedo) * (1 - tintmap.rgb);
-			o.Albedo = saturate(tinted) * _TintMapIntensity + o.Albedo * (1 - _TintMapIntensity);
-
-
-			//o.Albedo = saturate(o.Albedo);
 		}
 
 
