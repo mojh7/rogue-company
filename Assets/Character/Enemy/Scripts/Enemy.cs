@@ -317,7 +317,7 @@ public class Enemy : Character
         restrictAttackingCount += 1;
         if (restrictAttackingCount > 0)
         {
-            isActiveMoveAI = false;
+            isActiveAttackAI = false;
             aiController.StopAttack();
             //Debug.Log(name + " Attack AI Off");
         }
@@ -328,7 +328,7 @@ public class Enemy : Character
         restrictMovingCount -= 1;
         if (0 == restrictMovingCount)
         {
-            isActiveMoveAI = true;
+            isActiveAttackAI = true;
             aiController.PlayAttack();
             //Debug.Log(name + " Attack AI ON");
         }
@@ -655,6 +655,7 @@ public class Enemy : Character
     IEnumerator FearCoroutine(float effectiveTime)
     {
         Components.FearEffect.SetActive(true);
+        Components.FearEffect.GetComponent<ParticleSystem>().Play();
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         // 이동 애니메이션 on
