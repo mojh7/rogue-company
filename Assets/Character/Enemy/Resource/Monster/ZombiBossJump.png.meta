@@ -111,10 +111,10 @@ TextureImporter:
       name: ZombiBossJump_0
       rect:
         serializedVersion: 2
-        x: 42
-        y: 26
-        width: 26
-        height: 54
+        x: 0
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,10 +125,24 @@ TextureImporter:
       name: ZombiBossJump_1
       rect:
         serializedVersion: 2
-        x: 163
-        y: 26
-        width: 26
-        height: 51
+        x: 121
+        y: 0
+        width: 121
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ZombiBossJump_2
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,10 +153,10 @@ TextureImporter:
       name: ZombiBossJump_3
       rect:
         serializedVersion: 2
-        x: 645
-        y: 44
-        width: 24
-        height: 59
+        x: 363
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +167,10 @@ TextureImporter:
       name: ZombiBossJump_4
       rect:
         serializedVersion: 2
-        x: 770
-        y: 60
-        width: 20
-        height: 21
+        x: 484
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,10 +181,24 @@ TextureImporter:
       name: ZombiBossJump_5
       rect:
         serializedVersion: 2
-        x: 891
-        y: 26
-        width: 25
-        height: 70
+        x: 605
+        y: 0
+        width: 121
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ZombiBossJump_6
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,10 +209,10 @@ TextureImporter:
       name: ZombiBossJump_7
       rect:
         serializedVersion: 2
-        x: 284
-        y: 26
-        width: 27
-        height: 50
+        x: 847
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,10 +223,10 @@ TextureImporter:
       name: ZombiBossJump_8
       rect:
         serializedVersion: 2
-        x: 405
-        y: 26
-        width: 27
-        height: 47
+        x: 968
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,10 +237,10 @@ TextureImporter:
       name: ZombiBossJump_9
       rect:
         serializedVersion: 2
-        x: 523
-        y: 26
-        width: 30
-        height: 73
+        x: 1089
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,108 +251,10 @@ TextureImporter:
       name: ZombiBossJump_10
       rect:
         serializedVersion: 2
-        x: 862
-        y: 24
-        width: 25
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ZombiBossJump_11
-      rect:
-        serializedVersion: 2
-        x: 919
-        y: 25
-        width: 24
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ZombiBossJump_12
-      rect:
-        serializedVersion: 2
-        x: 984
-        y: 25
-        width: 20
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ZombiBossJump_13
-      rect:
-        serializedVersion: 2
-        x: 1008
-        y: 26
-        width: 29
-        height: 74
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ZombiBossJump_14
-      rect:
-        serializedVersion: 2
-        x: 1045
-        y: 27
-        width: 23
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ZombiBossJump_15
-      rect:
-        serializedVersion: 2
-        x: 1113
-        y: 27
-        width: 14
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ZombiBossJump_16
-      rect:
-        serializedVersion: 2
-        x: 1131
-        y: 26
-        width: 28
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ZombiBossJump_17
-      rect:
-        serializedVersion: 2
-        x: 1252
-        y: 26
-        width: 27
-        height: 47
+        x: 1210
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

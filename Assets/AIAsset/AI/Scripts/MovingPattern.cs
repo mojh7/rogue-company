@@ -143,7 +143,7 @@ public class MovingPattern : MonoBehaviour
     {
         if (stopTracker == null)
             return false;
-        speed = baseSpeed;
+        speed = 0;
         return stopTracker.Update();
     }
     #endregion

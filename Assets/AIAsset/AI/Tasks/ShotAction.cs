@@ -4,9 +4,9 @@ using UnityEngine;
 using BT;
 [CreateAssetMenu(menuName = "Task/ShotAction")]
 public class ShotAction : ActionTask {
-
+    [SerializeField]
     int Idx;
-  AttackPattern attackPattern;
+    AttackPattern attackPattern;
 
 
     public Task Set(int Idx)
