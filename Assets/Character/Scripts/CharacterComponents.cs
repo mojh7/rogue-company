@@ -18,6 +18,18 @@ public class CharacterComponents : MonoBehaviour {
     private CircleCollider2D interactiveCollider2D;
     [SerializeField]
     private CircleCollider2D circleCollider2D;
+
+
+    [SerializeField]
+    private GameObject poisonEffect;
+    [SerializeField]
+    private GameObject burnEffect;
+    [SerializeField]
+    private GameObject stunEffect;
+    [SerializeField]
+    private GameObject freezeEffect;
+    [SerializeField]
+    private GameObject charmEffect;
     #endregion
     #region parameter
     public WeaponManager WeaponManager

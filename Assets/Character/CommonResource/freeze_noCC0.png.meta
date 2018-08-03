@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e16b4b5443340d64aa1650e4d7f277eb
-timeCreated: 1521624951
+guid: 7e0332e017398f04ba9d86570d50f485
+timeCreated: 1533289882
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: wall2
+    21300000: freeze_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -91,13 +91,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wall2
+      name: freeze_0
       rect:
         serializedVersion: 2
-        x: 1261
-        y: 316
-        width: 64
-        height: 64
+        x: 202
+        y: 202
+        width: 40
+        height: 43
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
