@@ -18,7 +18,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
     // 터치 했을 때
     public void OnPointerDown(PointerEventData ped)
     {
-        player.GetWeaponManager().ChangeWeapon(true); // 임시
+        //player.GetWeaponManager().ChangeWeapon(true); // 임시
         pos.x = ped.position.x;
         //DebugX.Log("WeaponSwapBtn touch down x : " + ped.position.x);
     }
@@ -27,15 +27,15 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
     public void OnPointerUp(PointerEventData ped)
     {
         // 다음 무기로 교체 방향 ->
-        //if (ped.position.x > pos.x)
-        //{
-        //    player.GetWeaponManager().ChangeWeapon(true);
-        //}
-        //// 이전 무기로 교체 방향 <-
-        //else if (ped.position.x < pos.x)
-        //{
-        //    player.GetWeaponManager().ChangeWeapon(false);
-        //}
+        if (ped.position.x > pos.x)
+        {
+            player.GetWeaponManager().ChangeWeapon(true);
+        }
+        // 이전 무기로 교체 방향 <-
+        else if (ped.position.x < pos.x)
+        {
+            player.GetWeaponManager().ChangeWeapon(false);
+        }
         // DebugX.Log("WeaponSwapBtn touch up x : " + ped.position.x);
     }
 
