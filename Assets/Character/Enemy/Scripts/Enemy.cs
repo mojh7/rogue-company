@@ -17,16 +17,25 @@ public struct StatusConstant
 }
 #endregion
 
-public enum AbnormalStatusType { STUN, ROOT, FEAR, CHARM, END }
+public enum AbnormalStatusType { STUN, FREEZE, ROOT, FEAR, CHARM, END }
 
 public enum EnemyAutoAimType { AUTO, SEMIAUTO, RANDOM }
 
 public class Enemy : Character
 {
     #region variables
+    
+    private EnemyAutoAimType enemyAutoAimType;
+
+    
+
+    // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
+    private float hpMax;
+    #endregion
+
+    #region abnormalStatusVariables
     private int restrictMovingCount;
     private int restrictAttackingCount;
-    private EnemyAutoAimType enemyAutoAimType;
 
     private bool isPoisoning;
     private int poisonOverlappingCount;
@@ -48,14 +57,12 @@ public class Enemy : Character
     private Coroutine poisonCoroutine;
     private Coroutine burnCoroutine;
     private Coroutine stunCoroutine;
+    private Coroutine freezeCoroutine;
     private Coroutine rootCoroutine;
     private Coroutine fearCoroutine;
     private Coroutine charmCoroutine;
     private Coroutine nagCoroutine;
     private Coroutine delayStateCoroutine;
-
-    // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
-    private float hpMax;
     #endregion
     #region setter
     #endregion
@@ -170,6 +177,10 @@ public class Enemy : Character
         {
             StopCoroutine(stunCoroutine);
         }
+        if (null != freezeCoroutine)
+        {
+            StopCoroutine(freezeCoroutine);
+        }
         if (null != rootCoroutine)
         {
             StopCoroutine(rootCoroutine);
@@ -274,11 +285,10 @@ public class Enemy : Character
         directionDegree = directionVector.GetDegFromVector();
     }
 
+    #endregion
 
-
-    /// <summary>
-    /// 이동 방해 상태 이상 갯수 증가
-    /// </summary>
+    #region abnormalState
+    /// <summary> 이동 방해 상태 이상 갯수 증가 및 이동 AI OFF Check </summary>
     private void AddRetrictsMovingCount()
     {
         restrictMovingCount += 1;
@@ -289,9 +299,7 @@ public class Enemy : Character
             // Debug.Log(name + " Move AI Off");
         }
     }
-    /// <summary>
-    /// 이동 방해 상태 이상 갯수 감소
-    /// </summary>
+    /// <summary> 이동 방해 상태 이상 갯수 감소 및 이동 AI ON Check </summary>
     private void SubRetrictsMovingCount()
     {
         restrictMovingCount -= 1;
@@ -303,36 +311,30 @@ public class Enemy : Character
         }
     }
 
-    /// <summary>
-    /// 공격 방해 상태 이상 갯수 증가
-    /// </summary>
+    /// <summary> 공격 방해 상태 이상 갯수 증가 및 공격 AI OFF Check </summary>
     private void AddRetrictsAttackingCount()
     {
         restrictAttackingCount += 1;
         if (restrictAttackingCount > 0)
         {
-            // 공격 AI Off
             isActiveMoveAI = false;
-            Debug.Log(name + " Attack AI Off");
+            aiController.StopAttack();
+            //Debug.Log(name + " Attack AI Off");
         }
     }
-    /// <summary>
-    /// 공격 방해 상태 이상 갯수 감소
-    /// </summary>
+    /// <summary> 공격 방해 상태 이상 갯수 감소 및 공격 AI ON Check </summary>
     private void SubRetrictsAttackingCount()
     {
         restrictMovingCount -= 1;
         if (0 == restrictMovingCount)
         {
-            // 공격 AI ON
             isActiveMoveAI = true;
-            Debug.Log(name + " Attack AI ON");
+            aiController.PlayAttack();
+            //Debug.Log(name + " Attack AI ON");
         }
     }
 
-    #endregion
 
-    #region abnormalState
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
         if (CharacterInfo.State.ALIVE != pState)
@@ -349,6 +351,11 @@ public class Enemy : Character
         // 스턴
         if (0 != statusEffectInfo.stun)
             Stun(statusEffectInfo.stun);
+
+        // 빙결
+        if (0 != statusEffectInfo.freeze)
+            Freeze(statusEffectInfo.freeze);
+
         // 속박
         if (0 != statusEffectInfo.root)
             Root(statusEffectInfo.root);
@@ -368,7 +375,6 @@ public class Enemy : Character
         // 잔소리
         if (true == statusEffectInfo.canNag)
             Nag();
-
         // 이동 지연
         if (true == statusEffectInfo.canDelayState)
             DelayState();
@@ -413,7 +419,6 @@ public class Enemy : Character
 
     private void Stun(float effectiveTime)
     {
-        // TODO : 공격, 이동 AI OFF 후 스턴 시간만큼 뒤에 정상화
         // 기존에 걸려있는 스턴이 없을 때
         if (null == stunCoroutine)
         {
@@ -423,6 +428,19 @@ public class Enemy : Character
         else
         {
             abnormalStatusDurationTime[(int)AbnormalStatusType.STUN] = abnormalStatusTime[(int)AbnormalStatusType.STUN] + effectiveTime;
+        }
+    }
+    private void Freeze(float effectiveTime)
+    {
+        // 기존에 걸려있는 빙결이 없을 때
+        if (null == freezeCoroutine)
+        {
+            freezeCoroutine = StartCoroutine(FreezeCoroutine(effectiveTime));
+        }
+        // 걸려있는 스턴이 빙결이 있을 때
+        else
+        {
+            abnormalStatusDurationTime[(int)AbnormalStatusType.FREEZE] = abnormalStatusTime[(int)AbnormalStatusType.FREEZE] + effectiveTime;
         }
     }
     private void Root(float effectiveTime)
@@ -456,12 +474,12 @@ public class Enemy : Character
     private void Charm(float effectiveTime)
     {
         // TODO : 공격, 이동 AI OFF 후 시전자에서 가까워지게 움직이게 하고 매혹 시간만큼 뒤에 정상화
-        // 기존에 걸려있는 스턴이 없을 때
-        if (null == stunCoroutine)
+        // 기존에 걸려있는 매혹이 없을 때
+        if (null == charmCoroutine)
         {
             charmCoroutine = StartCoroutine(CharmCoroutine(effectiveTime));
         }
-        // 걸려있는 스턴이 있을 때
+        // 걸려있는 매혹이 있을 때
         else
         {
             abnormalStatusDurationTime[(int)AbnormalStatusType.CHARM] = abnormalStatusTime[(int)AbnormalStatusType.CHARM] + effectiveTime;
@@ -580,12 +598,11 @@ public class Enemy : Character
         Components.StunEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
-        // 이동 애니메이션 off
-        // 스턴 이펙트
+        animationHandler.Idle();
         int type = (int)AbnormalStatusType.STUN;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
-
+        Debug.Log("스턴 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
@@ -596,6 +613,28 @@ public class Enemy : Character
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
     }
+
+    IEnumerator FreezeCoroutine(float effectiveTime)
+    {
+        Components.FreezeEffect.SetActive(true);
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
+        animationHandler.Idle();
+        int type = (int)AbnormalStatusType.FREEZE;
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = effectiveTime;
+        Debug.Log("빙결 시작");
+        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        {
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        Components.FreezeEffect.SetActive(false);
+        SubRetrictsMovingCount();
+        SubRetrictsAttackingCount();
+    }
+
     IEnumerator RootCoroutine(float effectiveTime)
     {
         AddRetrictsMovingCount();
@@ -615,6 +654,7 @@ public class Enemy : Character
     }
     IEnumerator FearCoroutine(float effectiveTime)
     {
+        Components.FearEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         // 이동 애니메이션 on
@@ -623,13 +663,20 @@ public class Enemy : Character
         int type = (int)AbnormalStatusType.FEAR;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
-
+        Vector3 dirVec;
+        Debug.Log("공포 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
+            dirVec = PlayerManager.Instance.GetPlayerPosition() - transform.position;
+            if(dirVec.magnitude < 5f)
+            {
+                transform.Translate(moveSpeed * 0.5f * (-dirVec).normalized * Time.fixedDeltaTime);
+            }
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
+        Components.FearEffect.SetActive(false);
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
     }
@@ -644,10 +691,12 @@ public class Enemy : Character
         int type = (int)AbnormalStatusType.CHARM;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
-
+        Debug.Log(name + "매혹 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
+            // Debug.Log("매혹 : " + abnormalStatusTime[type]);
             abnormalStatusTime[type] += Time.fixedDeltaTime;
+            transform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - transform.position).normalized * Time.fixedDeltaTime);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
@@ -702,12 +751,12 @@ public class Enemy : Character
     {
         while (true)
         {
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
             if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 0.3f)
             {
                 SubRetrictsMovingCount();
                 knockBackCheck = null;
             }
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
     }
     #endregion

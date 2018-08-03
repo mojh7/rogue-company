@@ -25,6 +25,8 @@ public class StatusEffectInfo
 
     [Header("스턴 시간")]
     public float stun;
+    [Header("빙결 (= 아재 개그) 시간")]
+    public float freeze;
     [Header("속박 시간")]
     public float root;
     [Header("공포 시간")]
@@ -49,6 +51,7 @@ public class StatusEffectInfo
         slow = info.slow;
         slowEffectiveTime = info.slowEffectiveTime;
         stun = info.stun;
+        freeze = info.freeze;
         root = info.root;
         fear = info.fear;
         charm = info.charm;

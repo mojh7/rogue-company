@@ -30,6 +30,8 @@ public class CharacterComponents : MonoBehaviour {
     private GameObject freezeEffect;
     [SerializeField]
     private GameObject charmEffect;
+    [SerializeField]
+    private GameObject fearEffect;
     #endregion
     #region parameter
     public WeaponManager WeaponManager
@@ -115,6 +117,13 @@ public class CharacterComponents : MonoBehaviour {
         get
         {
             return charmEffect;
+        }
+    }
+    public GameObject FearEffect
+    {
+        get
+        {
+            return fearEffect;
         }
     }
     public BuffManager BuffManager { get; private set; }
