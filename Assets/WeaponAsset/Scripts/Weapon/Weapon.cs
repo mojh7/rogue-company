@@ -10,14 +10,19 @@ public class Weapon : Item
     public WeaponInfo originInfo;
     public WeaponInfo info;
     public WeaponView weaponView;
-    public Animator animator;
+    [SerializeField]
+    private Animator animator;
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private GameObject muzzleFlashObj;
     // enum State
     public WeaponState weaponState; // 무기 상태
 
     private AttackType attackType;
     private WeaponManager weaponManager;
     private Transform objTransform;
-    private SpriteRenderer spriteRenderer;
+    
 
     private CharacterInfo.OwnerType ownerType;
     private DelGetDirDegree ownerDirDegree;     // 소유자 각도
@@ -58,10 +63,6 @@ public class Weapon : Item
     #endregion
 
     #region UnityFunction
-    void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
     private void Update()
     {
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
@@ -94,7 +95,6 @@ public class Weapon : Item
     public void BaseInit()
     {
         objTransform = GetComponent<Transform>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         weaponView = new WeaponView(objTransform, spriteRenderer);
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
         weaponState = WeaponState.Idle;
@@ -163,6 +163,16 @@ public class Weapon : Item
         }
     }
     
+    public void showMuzzleFlash()
+    {
+        if(info.showsMuzzleFlash)
+        {
+            muzzleFlashObj.SetActive(false);
+            StopCoroutine(MuzzleFlash());
+            StartCoroutine(MuzzleFlash());
+        }
+    }
+
 
     public bool HasCostForAttack()
     {
@@ -338,6 +348,13 @@ public class Weapon : Item
 
     #region coroutine
 
+    private IEnumerator MuzzleFlash()
+    {
+        muzzleFlashObj.SetActive(true);
+        yield return YieldInstructionCache.WaitForSeconds(0.07f);
+        muzzleFlashObj.SetActive(false);
+    }
+
     // 공격 패턴 한 사이클.
     private IEnumerator PatternCycle(float damageIncreaseRate)
     {
@@ -361,7 +378,8 @@ public class Weapon : Item
                     Reload();
                     yield break;
                 }
-                    
+
+                showMuzzleFlash();
                 // 공격 사운드 실행
                 AudioManager.Instance.PlaySound(info.soundId);
                 //CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());

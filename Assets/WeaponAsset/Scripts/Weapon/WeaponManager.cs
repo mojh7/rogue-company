@@ -193,7 +193,7 @@ public class WeaponManager : MonoBehaviour {
             weaponCountMax = 1;
             weaponCount = weaponCountMax;
             currentWeaponIndex = 0;
-            equipWeaponSlot[0].Init(Random.Range(5, 6), ownerType);
+            equipWeaponSlot[0].Init(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), ownerType);
             //equipWeaponSlot[0].Init(4, ownerType);
 
             for (int i = 0; i < weaponCountMax; i++)

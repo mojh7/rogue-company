@@ -135,6 +135,11 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         return petItemInfos.Length;
     }
 
+    public int GetEnemyWeaponInfosLength()
+    {
+        return enemyWeaponInfos.Length;
+    }
+
     /// <summary>
     /// Owner에 따른 Weapon Data 반환, ownerType 기본 값 Player
     /// </summary>

@@ -51,6 +51,7 @@ public class WeaponInfo : ScriptableObject
     public float cooldown;              // 쿨타임
     public float staminaConsumption;    // 근접 무기 1회 공격시 스테미너 소모량
 
+    public bool showsMuzzleFlash;       // 총구 화염 show on / off
     public int soundId;                 // 공격시 효과음 id
     public float cameraShakeAmount;     // 카메라 흔들림 양
     public float cameraShakeTime;       // 카메라 흔들림 시간
@@ -100,6 +101,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.cooldown = cooldown;
         clonedInfo.staminaConsumption = staminaConsumption;
 
+        clonedInfo.showsMuzzleFlash = showsMuzzleFlash;
         clonedInfo.soundId = soundId;
         clonedInfo.cameraShakeAmount = cameraShakeAmount;
         clonedInfo.cameraShakeTime = cameraShakeTime;
