@@ -49,6 +49,8 @@ public class ShadowClass : MonoBehaviour {
     void SetPosition()
     {
         sprite = parentRenderer.sprite;
+        if (sprite == null)
+            return;
         offset = sprite.bounds.min.y;
         size = sprite.bounds.size.x;
         Transform.localPosition = new Vector2(0, offset);

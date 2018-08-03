@@ -6,7 +6,9 @@ using BT;
 [CreateAssetMenu(menuName = "Task/SkillAction")]
 public class SkillAction : ActionTask
 {
+    [SerializeField]
     int Idx;
+    object temporary;
     AttackPattern attackPattern;
 
     public Task Set(int Idx)
@@ -23,7 +25,7 @@ public class SkillAction : ActionTask
     }
     public override bool Run()
     {
-        success = attackPattern.CastingSKill(character, 1, 0);
+        success = attackPattern.CastingSKill(character, Idx, temporary);
 
         return true;
     }

@@ -84,7 +84,6 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
     public bool Flash(Character user, object position, float delay, float amount)
     {
-
         if (!user || delay < 0 || amount < 0)
         {
             return false;
@@ -143,6 +142,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
     private void Jump(Character user, object unneeded, float amount)
     {
+        user.GetCharacterComponents().AnimationHandler.Skill(0);
     }
 
     private void Flash(Character user, object unneeded, float amount)

@@ -7,17 +7,10 @@ public class SubSelector : CompositeTask {
 
     public override bool Run()
     {
-        int i = 0;
         foreach (var task in GetChildren())
         {
-            i++;
-            if(i == 7)
-            {
-                Debug.Log("A");
-            }
             if (task.Run())
             {
-                Debug.Log(i);
                 return true;
             }
         }

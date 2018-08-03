@@ -12,12 +12,13 @@ public class AnimationHandler : MonoBehaviour {
         this.animator = GetComponent<Animator>();
         this.animator.runtimeAnimatorController = animatorController;
         Play();
-        animator.SetTrigger("idle");
+        Idle();
     }
-    
+
     public void Idle()
     {
         animator.SetTrigger("idle");
+        animator.SetInteger("skill", -1);
     }
 
     public void Attack()
