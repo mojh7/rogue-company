@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c2ce2577ef053c246b0f85b934b07b15
-timeCreated: 1533195509
+guid: ccc65316329e81744a7a6d41d835190d
+timeCreated: 1533275330
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -99,15 +99,11 @@ TextureImporter:
         y: 10
         width: 15
         height: 40
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape:
-      - - {x: -7.5, y: 11.69281}
-        - {x: -7.5, y: -20}
-        - {x: 7.5, y: -20}
-        - {x: 7.5, y: 11.490196}
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: restChair_1
@@ -117,15 +113,11 @@ TextureImporter:
         y: 37
         width: 41
         height: 23
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape:
-      - - {x: -20.5, y: 6.333332}
-        - {x: -20.5, y: -11.5}
-        - {x: 20.5, y: -11.5}
-        - {x: 20.5, y: 6.333332}
+      physicsShape: []
       tessellationDetail: 0
     outline: []
     physicsShape: []

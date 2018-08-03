@@ -792,6 +792,7 @@ namespace Map
         public bool isRoom;
         public bool downExist;
         public bool isClear;
+        public bool isDrawed;
         public RoomType eRoomType;
 
         public Rect(int _x,int _y,int _width,int _height,int _size)
@@ -813,6 +814,7 @@ namespace Map
             linkedEdgeRect = new List<Rect>();
             doorObjects = new List<GameObject>();
             availableAreas = new List<Vector2>();
+            isDrawed = false;
         }
 
         public void IsRoom()

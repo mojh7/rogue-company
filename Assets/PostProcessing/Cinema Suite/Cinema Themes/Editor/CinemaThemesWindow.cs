@@ -86,7 +86,7 @@ public class CinemaThemesWindow : EditorWindow
         }       
 #endif
 
-        picker = EditorGUIUtility.Load("Cinema Suite/Cinema Themes/Director_PickerIcon.png") as Texture2D;
+        picker = EditorGUIUtility.Load("PostProcessing/Cinema Suite/Cinema Themes/Director_PickerIcon.png") as Texture2D;
     }
 
 

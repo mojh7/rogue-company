@@ -29,8 +29,6 @@
 		sampler2D _MainTex;
 
 		struct Input {
-			float3 worldPos;
-			float4 screenPos;
 			float2 uv_MainTex;
 			fixed4 color;
 		};
@@ -72,9 +70,8 @@
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			o.color = v.color * _Color;
-			o.worldPos = v.vertex;
 #ifdef PIXELSNAP_ON
-			o.worldPos = UnityPixelSnap(o.worldPos);
+			v.vertex = UnityPixelSnap(v.vertex);
 #endif
 		}
 
