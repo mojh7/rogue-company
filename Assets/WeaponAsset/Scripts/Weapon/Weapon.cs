@@ -367,14 +367,14 @@ public class Weapon : Item
                 {
                     if(false == enemy.GetIsAcitveAttackAI())
                     {
-                        Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
+                        //Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
                         Reload();
                         yield break;
                     }
                 }
                 if (false == HasCostForAttack())
                 {
-                    Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
+                    //Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
                     Reload();
                     yield break;
                 }

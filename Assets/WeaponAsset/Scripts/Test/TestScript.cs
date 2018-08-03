@@ -161,13 +161,19 @@ public class TestScript : MonoBehaviour {
         createdObj.GetComponent<Transform>().position = pos;
     }
 
+    // TODO : Effect 생성 여기서 말고 나중에 다른 곳으로 옮길 거
     public void CreateEffect(int id, Vector3 pos)
     {
-        if (id < 0) return;
+        if (id == 0)
+        {
+            ParticleManager.Instance.PlayParticle("BulletEffect", new Vector2(pos.x, pos.y));
+        }
+        /*if (id < 0) return;
+        
         GameObject createdObj;
         createdObj = Instantiate(effectObj);
         createdObj.SetActive(true);
-        createdObj.GetComponent<Effect>().Init(id, pos);
+        createdObj.GetComponent<Effect>().Init(id, pos);*/
     }
 
 
