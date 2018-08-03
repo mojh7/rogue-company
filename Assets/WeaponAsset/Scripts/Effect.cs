@@ -27,9 +27,14 @@ public class Effect : MonoBehaviour {
     private Vector3 scaleVector;
 
     private Coroutine deleteOnLifeTime;
-
+    public SpriteRenderer sr;
     private bool active;
 
+
+    public Sprite GetSprite()
+    {
+        return sr.sprite;
+    }
     void Awake()
     {
         objTransform = GetComponent<Transform>();

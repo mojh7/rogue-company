@@ -92,6 +92,14 @@ public class PassiveItemForDebug : MonoBehaviour
     }
     #endregion
 
+    // 임시로 만든 함수
+    public void OnOffPassiveItems()
+    {
+        passiveDebugObj.SetActive(!passiveDebugObj.activeSelf);
+        effectTotalViewObj.SetActive(passiveDebugObj.activeSelf);
+    }
+
+
     #region PassiveItemSlot
 
     private void CreatePassiveSlots(Vector3 standardPos)

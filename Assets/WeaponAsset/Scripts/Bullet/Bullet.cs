@@ -80,6 +80,11 @@ public class Bullet : MonoBehaviour
     public float GetDirDegree() { return dirDegree; }
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
+
+    public void SetOwnerType(CharacterInfo.OwnerType ownerType)
+    {
+        this.ownerType = ownerType;
+    }
     #endregion
 
     #region unityFunction
@@ -319,12 +324,12 @@ public class Bullet : MonoBehaviour
             if (CharacterInfo.OwnerType.Player == ownerType)
                 objTransform.tag = "PlayerCanBlockBullet";
             if (CharacterInfo.OwnerType.Enemy == ownerType)
-                objTransform.tag = "EnemyCanReflectBullet";
+                objTransform.tag = "EnemyCanBlockBullet";
         }
         else if(true == info.canReflectBullet)
         {
             if (CharacterInfo.OwnerType.Player == ownerType)
-                objTransform.tag = "PlayerCanBlockBullet";
+                objTransform.tag = "PlayerCanReflectBullet";
             if (CharacterInfo.OwnerType.Enemy == ownerType)
                 objTransform.tag = "EnmeyCanReflectBullet";
         }
@@ -427,7 +432,7 @@ public class Bullet : MonoBehaviour
         if (CharacterInfo.OwnerType.Player == ownerType)
         {
             if(coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall") ||
-                coll.transform.CompareTag("PlayerCanBlockBullet") || coll.transform.CompareTag("PlayerCanReflectBullet"))
+                coll.transform.CompareTag("EnemyCanBlockBullet") || coll.transform.CompareTag("EnemyCanReflectBullet"))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -438,7 +443,7 @@ public class Bullet : MonoBehaviour
         else if(CharacterInfo.OwnerType.Enemy == ownerType)
         {
             if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Wall") ||
-                coll.transform.CompareTag("EnemyCanBlockBullet") || coll.transform.CompareTag("EnemyCanReflectBullet"))
+                coll.transform.CompareTag("PlayerCanBlockBullet") || coll.transform.CompareTag("PlayerCanReflectBullet"))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -455,7 +460,7 @@ public class Bullet : MonoBehaviour
         if (CharacterInfo.OwnerType.Player == ownerType)
         {
             if (coll.CompareTag("Enemy") || coll.CompareTag("Wall") ||
-                coll.CompareTag("PlayerCanBlockBullet") || coll.CompareTag("PlayerCanReflectBullet"))
+                coll.CompareTag("EnemyCanBlockBullet") || coll.CompareTag("EnemyCanReflectBullet"))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -466,7 +471,7 @@ public class Bullet : MonoBehaviour
         else if (CharacterInfo.OwnerType.Enemy == ownerType)
         {
             if (coll.CompareTag("Player") || coll.CompareTag("Wall") ||
-                coll.CompareTag("EnemyCanBlockBullet") || coll.CompareTag("EnemyCanReflectBullet"))
+                coll.CompareTag("PlayerCanBlockBullet") || coll.CompareTag("PlayerCanReflectBullet"))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -558,7 +563,7 @@ public class Bullet : MonoBehaviour
         // 5. 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
         if (CheckEqualWeaponType(WeaponType.SHOTGUN) && effectInfo.shotgunBulletCanHoming)
         {
-            info.startDelay = 0.5f;
+            info.startDelay = 0.05f;
             info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
 
             //HomingProperty 중복 생성 방지
@@ -572,11 +577,23 @@ public class Bullet : MonoBehaviour
         
         // 모든 근거리 무기 상대 총알 막기
         if (effectInfo.meleeWeaponsCanBlockBullet)
+        {
             info.canBlockBullet = true;
+            if (CharacterInfo.OwnerType.Player == ownerType)
+                objTransform.tag = "PlayerCanBlockBullet";
+            if (CharacterInfo.OwnerType.Enemy == ownerType)
+                objTransform.tag = "EnemyCanBlockBullet";
+        }
 
         // 모든 근거리 무기 상대 총알 반사
         if (effectInfo.meleeWeaponsCanReflectBullet)
+        {
             info.canReflectBullet = true;
+            if (CharacterInfo.OwnerType.Player == ownerType)
+                objTransform.tag = "PlayerCanReflectBullet";
+            if (CharacterInfo.OwnerType.Enemy == ownerType)
+                objTransform.tag = "EnmeyCanReflectBullet";
+        }
 
         // 총알이 벽에 1회 튕겨집니다. 
         if (effectInfo.bounceAble)

@@ -83,10 +83,16 @@ public class Enemy : Character
         abnormalStatusDurationTime = new float[(int)AbnormalStatusType.END];
     }
 
+    int tempTime = 40;
+
     private void Update()
     {
         AutoAim();
-        weaponManager.AttackButtonDown();
+        if(tempTime++ > 70)
+        {
+            weaponManager.AttackButtonDown();
+            tempTime = 0;
+        }
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
         {
@@ -113,6 +119,14 @@ public class Enemy : Character
 
         isActiveAttackAI = true;
         isActiveMoveAI = true;
+
+        Components.BurnEffect.SetActive(false);
+        Components.PoisonEffect.SetActive(false);
+        Components.StunEffect.SetActive(false);
+        Components.FreezeEffect.SetActive(false);
+        Components.FearEffect.SetActive(false);
+        Components.CharmEffect.SetActive(false);
+
 
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
@@ -292,11 +306,11 @@ public class Enemy : Character
     private void AddRetrictsMovingCount()
     {
         restrictMovingCount += 1;
-        if (restrictMovingCount > 0)
+        if (1 == restrictMovingCount)
         {
             isActiveMoveAI = false;
             aiController.StopMove();
-            // Debug.Log(name + " Move AI Off");
+            //Debug.Log(name + "이동 off");
         }
     }
     /// <summary> 이동 방해 상태 이상 갯수 감소 및 이동 AI ON Check </summary>
@@ -307,7 +321,7 @@ public class Enemy : Character
         {
             isActiveMoveAI = true;
             aiController.PlayMove();
-            // Debug.Log(name + " Move AI ON");
+            //Debug.Log(name + "이동 on");
         }
     }
 
@@ -315,22 +329,20 @@ public class Enemy : Character
     private void AddRetrictsAttackingCount()
     {
         restrictAttackingCount += 1;
-        if (restrictAttackingCount > 0)
+        if (1 == restrictAttackingCount)
         {
             isActiveAttackAI = false;
             aiController.StopAttack();
-            //Debug.Log(name + " Attack AI Off");
         }
     }
     /// <summary> 공격 방해 상태 이상 갯수 감소 및 공격 AI ON Check </summary>
     private void SubRetrictsAttackingCount()
     {
-        restrictMovingCount -= 1;
-        if (0 == restrictMovingCount)
+        restrictAttackingCount -= 1;
+        if (0 == restrictAttackingCount)
         {
             isActiveAttackAI = true;
             aiController.PlayAttack();
-            //Debug.Log(name + " Attack AI ON");
         }
     }
 
@@ -602,7 +614,7 @@ public class Enemy : Character
         int type = (int)AbnormalStatusType.STUN;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
-        Debug.Log("스턴 시작");
+        //Debug.Log("스턴 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
@@ -612,6 +624,7 @@ public class Enemy : Character
         Components.StunEffect.SetActive(false);
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
+        stunCoroutine = null;
     }
 
     IEnumerator FreezeCoroutine(float effectiveTime)
@@ -623,16 +636,17 @@ public class Enemy : Character
         int type = (int)AbnormalStatusType.FREEZE;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
-        Debug.Log("빙결 시작");
+        //Debug.Log("빙결 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
-
+        //Debug.Log("빙결 끝");
         Components.FreezeEffect.SetActive(false);
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
+        freezeCoroutine = null;
     }
 
     IEnumerator RootCoroutine(float effectiveTime)
@@ -651,6 +665,7 @@ public class Enemy : Character
         }
 
         SubRetrictsMovingCount();
+        rootCoroutine = null;
     }
     IEnumerator FearCoroutine(float effectiveTime)
     {
@@ -658,14 +673,12 @@ public class Enemy : Character
         Components.FearEffect.GetComponent<ParticleSystem>().Play();
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
-        // 이동 애니메이션 on
-        // 공포 이펙트
         // 공포 처리 : 시전자와 멀어지는 방향으로 걸어서 이동하기
         int type = (int)AbnormalStatusType.FEAR;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
         Vector3 dirVec;
-        Debug.Log("공포 시작");
+        //Debug.Log("공포 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
@@ -680,6 +693,7 @@ public class Enemy : Character
         Components.FearEffect.SetActive(false);
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
+        fearCoroutine = null;
     }
     IEnumerator CharmCoroutine(float effectiveTime)
     {
@@ -692,7 +706,7 @@ public class Enemy : Character
         int type = (int)AbnormalStatusType.CHARM;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
-        Debug.Log(name + "매혹 시작");
+        //Debug.Log(name + "매혹 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             // Debug.Log("매혹 : " + abnormalStatusTime[type]);
@@ -704,6 +718,7 @@ public class Enemy : Character
         Components.CharmEffect.SetActive(false);
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
+        charmCoroutine = null;
     }
 
     // 해야 됨, 이동 방식 뭘로하지 addForce Translate ????
@@ -713,7 +728,7 @@ public class Enemy : Character
         isNagging = true;
         rgbody.velocity = Vector2.zero;
         AddRetrictsMovingCount();
-        Debug.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
+        //Debug.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
         while (nagOverlappingCount > 0)
         {
             for(int i = 0; i < 8; i++)
@@ -724,7 +739,7 @@ public class Enemy : Character
             }
             nagOverlappingCount -= 1;
         }
-        DebugX.Log("상태이상 잔소리 끝");
+        //DebugX.Log("상태이상 잔소리 끝");
         SubRetrictsMovingCount();
         nagCount = 0;
         isNagging = false;
@@ -756,6 +771,7 @@ public class Enemy : Character
             {
                 SubRetrictsMovingCount();
                 knockBackCheck = null;
+                break;
             }
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }

@@ -78,7 +78,8 @@ public class Player : Character
     public int GetStamina() { return playerData.Stamina; }
     public int GetSkillGauage() { return playerData.SkillGauge; }
 
-    public void SetStamina(int stamina) { playerData.Stamina = stamina; Debug.Log(playerData.Stamina); }
+    public void SetStamina(int stamina) { playerData.Stamina = stamina; }
+        //Debug.Log(playerData.Stamina); 
     #endregion
 
 

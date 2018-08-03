@@ -181,6 +181,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         }*/
         else if (CharacterInfo.OwnerType.Enemy == bullet.GetOwnerType())
         {
+            
             if (coll.CompareTag("PlayerCanBlockBullet"))
             {
                 delDestroyBullet();
@@ -189,6 +190,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             else if (coll.CompareTag("PlayerCanReflectBullet"))
             {
                 bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
+                bullet.SetOwnerType(CharacterInfo.OwnerType.Player);
                 bullet.RotateDirection(180);
             }
             // Enemy가 Player공격 : 관통 처리 o, 공격 o
