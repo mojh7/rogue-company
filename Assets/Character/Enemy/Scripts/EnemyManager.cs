@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 {
+    [System.Serializable]
+    struct FloorData
+    {
+        public EnemyData[] enemyDatas;
+        public EnemyData[] bossEnemyDatas;
+    }
 
     private Sprite sprite;
     [SerializeField]
-    private EnemyData[] enemyDatas;
+    private FloorData[] floorDatas;
     public ObjectPool objectPool;
     private List<Enemy> enemyList;
     private List<CircleCollider2D> enemyColliderList;
@@ -37,13 +43,13 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().Init(CallBack, enemyDatas[0], 0, 0);
+        obj.GetComponent<Alert>().Init(CallBack, GetEnemy(false), 0, 0);
         obj.GetComponent<Alert>().Active();
     }
 
     public Sprite GetBossSprite()
     {
-        sprite = enemyDatas[0].Sprite;
+        sprite = GetEnemy(true).Sprite;
         return sprite;
     }
 
@@ -64,7 +70,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         GameObject obj = SpawnEnemy(position);
 
         enemy = obj.AddComponent<BossEnemy>();
-        enemy.Init(enemyDatas[0]);
+        enemy.Init(GetEnemy(true));
         enemyList.Add(enemy);
         enemyColliderList.Add(enemy.GetCircleCollider2D());
 
@@ -83,6 +89,23 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         enemyColliderList.Add(enemy.GetCircleCollider2D());
     }
     #endregion
+
+    EnemyData GetEnemy(bool isBoss)
+    {
+        int floor = InGameManager.Instance.GetFloor();
+        if (floor >= floorDatas.Length)
+        {
+            floor = floorDatas.Length - 1;
+        }
+        if (isBoss)
+        {
+            return floorDatas[floor].bossEnemyDatas[Random.Range(0, floorDatas[floor].bossEnemyDatas.Length)];
+        }
+        else
+        {
+            return floorDatas[floor].enemyDatas[Random.Range(0, floorDatas[floor].enemyDatas.Length)];
+        }
+    }
 
     public List<Enemy> GetEnemyList
     {

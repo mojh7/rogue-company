@@ -12,6 +12,8 @@ namespace AStar
         public float nodeRadius = 0.5f;
         float nodeDiameter;
         Vector2 gridWorldSize;
+        List<Node> neighbours;
+
         int width, height;
         
         public int Width { get { return width; } }
@@ -29,6 +31,7 @@ namespace AStar
         /// </summary>
         public void Bake()
         {
+            neighbours = new List<Node>(9);
             gridWorldSize = new Vector2(Map.MapManager.Instance.width * Map.MapManager.Instance.size + 1, Map.MapManager.Instance.height * Map.MapManager.Instance.size + 1);
             nodeDiameter = nodeRadius * 2;
             width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
@@ -49,7 +52,7 @@ namespace AStar
 
         public List<Node> GetNeighbours(Node node)
         {
-            List<Node> neighbours = new List<Node>();
+            neighbours.Clear();
 
             for (int x = -1; x <= 1; x++)
             {

@@ -81,6 +81,42 @@ public class CharacterComponents : MonoBehaviour {
             return circleCollider2D;
         }
     }
+
+    public GameObject PoisonEffect
+    {
+        get
+        {
+            return poisonEffect;
+        }
+    }
+    public GameObject BurnEffect
+    {
+        get
+        {
+            return burnEffect;
+        }
+    }
+    public GameObject StunEffect
+    {
+        get
+        {
+            return stunEffect;
+        }
+    }
+    public GameObject FreezeEffect
+    {
+        get
+        {
+            return freezeEffect;
+        }
+    }
+    public GameObject CharmEffect
+    {
+        get
+        {
+            return charmEffect;
+        }
+    }
     public BuffManager BuffManager { get; private set; }
     public Rigidbody2D Rigidbody2D { get; private set; }
     public AIController AIController { get; private set; }

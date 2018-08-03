@@ -32,12 +32,12 @@ public class AIController : MonoBehaviour {
         AttackPattern = GetComponent<AttackPattern>();
     }
     #region Func
-    public void Init(float speed, AnimationHandler animationHandler, BT.Task task, SkillData[] skillDatas)
+    public void Init(float speed, AnimationHandler animationHandler,WeaponManager weaponManager, BT.Task task, SkillData[] skillDatas)
     {
         //Components
         MovingPattern.Init(speed);
         this.AnimationHandler = animationHandler;
-        this.AttackPattern.Init(skillDatas);
+        this.AttackPattern.Init(skillDatas, weaponManager);
         //BehaviorTree
         if (privateBlackBoard == null)
             privateBlackBoard = new BT.BlackBoard();

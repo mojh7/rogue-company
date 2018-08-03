@@ -117,6 +117,12 @@ public class Heap<T> where T : IHeapItem<T>
 
     public void RemoveAll()
     {
+        for(int i=0;i<currentItemCount;i++)
+        {
+            if (items[i] == null)
+                continue;
+            items[i] = default(T);
+        }
         currentItemCount = 0;
     }
 }

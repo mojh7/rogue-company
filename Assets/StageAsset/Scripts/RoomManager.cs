@@ -13,10 +13,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     public void InitRoomList()
     {
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
-        for(int i = 0;i<roomList.Count;i++)
-        {
-            DisalbeObject(roomList[i]);
-        }
+        //for(int i = 0;i<roomList.Count;i++)
+        //{
+        //    DisalbeObject(roomList[i]);
+        //}
     } // 룸리스트 받아오기
 
     public int GetGage()
@@ -56,7 +56,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         if (!currentRoom.isRoom)
             return;
-        for (int i = 0; i < currentRoom.customObjects.Length; i ++)
+        for (int i = 0; i < currentRoom.customObjects.Length; i++)
         {
             if (currentRoom.customObjects[i].GetComponent<Portal>() == null)
             {
@@ -94,6 +94,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 }
             }
         }
+        NeignborDraw(currentRoom);
     }
 
     void SpawnMonster()
@@ -156,11 +157,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
 
                 currentRoom.isClear = true;
-                NeignborDraw(currentRoom);
                 if (currentRoom.eRoomType == RoomType.BOSS)
                 {
                     InitRoom();
-                    EnableObjects();
+                    //EnableObjects();
                     InitBossRoom();
                     break;
                 }
@@ -169,7 +169,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                     if (currentRoom.gage > 0)
                     {
                         InitRoom();
-                        EnableObjects();
+                        //EnableObjects();
                         SpawnMonster();
                         break;
                     }
@@ -177,7 +177,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 if (currentRoom.isRoom)
                 {
                     MiniMap.Instance.ClearRoom(currentRoom);
-                    EnableObjects();
+                    //EnableObjects();
                 }
             }
             else
@@ -195,7 +195,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
         for (int i = 0; i < room.linkedEdgeRect.Count; i++)
         {
-            if(room.linkedEdgeRect[i].isRoom)
+            if(room.linkedEdgeRect[i].isRoom && !room.linkedEdgeRect[i].isDrawed)
             {
                 MiniMap.Instance.ClearRoom(room.linkedEdgeRect[i]);
             }

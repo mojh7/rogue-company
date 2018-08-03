@@ -119,7 +119,7 @@ public class Enemy : Character
             weaponManager.EquipWeapon(enemyData.WeaponInfo[i]);
         }
         animationHandler.Init(enemyData.AnimatorController);
-        aiController.Init(moveSpeed, animationHandler, enemyData.Task, enemyData.SkillDatas);
+        aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
         scaleVector = new Vector3(1f, 1f, 1f);
     }
@@ -530,6 +530,7 @@ public class Enemy : Character
     IEnumerator PoisonCoroutine()
     {
         isPoisoning = true;
+        Components.PoisonEffect.SetActive(true);
         while (poisonOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
@@ -546,12 +547,14 @@ public class Enemy : Character
                 }
             }
         }
+        Components.PoisonEffect.SetActive(false);
         isPoisoning = false;
     }
 
     IEnumerator BurnCoroutine()
     {
         isBurning = true;
+        Components.BurnEffect.SetActive(true);
         while (burnOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
@@ -568,11 +571,13 @@ public class Enemy : Character
                 }
             }
         }
+        Components.BurnEffect.SetActive(false);
         isBurning = false;
     }
 
     IEnumerator StunCoroutine(float effectiveTime)
     {
+        Components.StunEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         // 이동 애니메이션 off
@@ -587,6 +592,7 @@ public class Enemy : Character
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
+        Components.StunEffect.SetActive(false);
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
     }
@@ -629,6 +635,7 @@ public class Enemy : Character
     }
     IEnumerator CharmCoroutine(float effectiveTime)
     {
+        Components.CharmEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         // 이동 애니메이션 on
@@ -644,6 +651,7 @@ public class Enemy : Character
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
+        Components.CharmEffect.SetActive(false);
         SubRetrictsMovingCount();
         SubRetrictsAttackingCount();
     }

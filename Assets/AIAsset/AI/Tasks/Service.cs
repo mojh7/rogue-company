@@ -30,10 +30,14 @@ public class Service  : CompositeTask
     public override bool Run()
     {
         if (character == null)
+        {
+            Clock.RemoveTimer(Run);
             return false;
+        }
         if (!isRun)
         {
             Clock.AddTimer(frequency, -1, Run);
+            isRun = true;
         }
         foreach (var task in GetChildren())
         {

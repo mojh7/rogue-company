@@ -13,9 +13,10 @@ public class AttackPattern : MonoBehaviour
     SkillData[] skillDatas;
 
     #region Func
-    public void Init(SkillData[] skillDatas)
+    public void Init(SkillData[] skillDatas,WeaponManager weaponManager)
     {
         this.skillDatas = skillDatas;
+        this.weaponManager = weaponManager;
         this.isActive = true;
     }
     public void Play()

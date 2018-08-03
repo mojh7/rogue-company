@@ -35,6 +35,17 @@ public class CustomObject : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    protected void StartAni()
+    {
+        animator.enabled = true;
+    }
+
+    protected void StopAni()
+    {
+        animator.enabled = false;
+        spriteRenderer.sprite = sprite;
+    }
+
     public virtual void Init()
     {
         gameObject.layer = 1;
@@ -43,6 +54,7 @@ public class CustomObject : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 #endif
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        StopAni();
     }
 
     private void SetNullPolygon()
@@ -80,6 +92,7 @@ public class CustomObject : MonoBehaviour
     public void SetAnimate()
     {
         isAnimate = false;
+        StopAni();
     }
 
     public virtual bool GetAvailable()
@@ -113,13 +126,6 @@ public class CustomObject : MonoBehaviour
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
-    }
-
-    private void LateUpdate()
-    {
-        //TODO : 최적화가 필요함 obj마다 너무 콜을 많이함
-        if (!isAnimate)
-            spriteRenderer.sprite = sprite;
     }
     #endregion
 }
@@ -390,6 +396,7 @@ public class Door : RandomSpriteObject
         {
             isActive = true;
             isAnimate = true;
+            StartAni();
             if (!isHorizon)
             {
                 animator.SetTrigger("door_horizon");
@@ -437,6 +444,7 @@ public class Alert : RandomSpriteObject
     public override bool Active()
     {
         base.Active();
+        StartAni();
         isAnimate = true;
         if (type == 0)
         {

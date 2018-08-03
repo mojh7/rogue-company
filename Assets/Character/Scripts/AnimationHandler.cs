@@ -25,6 +25,11 @@ public class AnimationHandler : MonoBehaviour {
         animator.SetTrigger("attack");
     }
 
+    public void Skill(int i)
+    {
+        animator.SetInteger("skill", i);
+    }
+
     public void Attacked()
     {
         animator.SetTrigger("attaked");

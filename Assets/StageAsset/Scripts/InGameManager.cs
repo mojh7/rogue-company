@@ -22,6 +22,10 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     }
     #endregion
     #region Func
+    public int GetFloor()
+    {
+        return GameDataManager.Instance.GetFloor();
+    }
     public void GoUpFloor()
     {
         GameDataManager.Instance.SetFloor();
