@@ -71,6 +71,27 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         StartCoroutine(CoroutineSkill(HandClap, user, servantData, delay, amount));
         return true;
     }
+
+    public bool Jump(Character user, object unneeded, float delay, float amount)
+    {
+        if (!user || delay < 0 || amount < 0)
+        {
+            return false;
+        }
+        StartCoroutine(CoroutineSkill(Jump, user, unneeded, delay, amount));
+        return true;
+    }
+
+    public bool Flash(Character user, object position, float delay, float amount)
+    {
+
+        if (!user || delay < 0 || amount < 0)
+        {
+            return false;
+        }
+        StartCoroutine(CoroutineSkill(Flash, user, position, delay, amount));
+        return true;
+    }
     #endregion
     #region private
     private void Charm(Character user, object victim, float amount)
@@ -118,6 +139,14 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
         gameObject.AddComponent<CollisionSkill>().Init(character, amount, "handClap");
+    }
+
+    private void Jump(Character user, object unneeded, float amount)
+    {
+    }
+
+    private void Flash(Character user, object unneeded, float amount)
+    {
     }
     #endregion
     #region coroutine

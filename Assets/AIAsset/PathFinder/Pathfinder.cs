@@ -115,8 +115,8 @@ namespace AStar
 
             float term = 0;
 
-            Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
-            HashSet<Node> closedSet = new HashSet<Node>();
+            openSet.RemoveAll();
+            closedSet.Clear();
 
             openSet.Add(startNode);
 

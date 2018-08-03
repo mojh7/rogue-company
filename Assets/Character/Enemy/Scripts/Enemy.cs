@@ -119,7 +119,7 @@ public class Enemy : Character
             weaponManager.EquipWeapon(enemyData.WeaponInfo[i]);
         }
         animationHandler.Init(enemyData.AnimatorController);
-        aiController.Init(moveSpeed, animationHandler, enemyData.Task, enemyData.SkillDatas);
+        aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
         scaleVector = new Vector3(1f, 1f, 1f);
     }

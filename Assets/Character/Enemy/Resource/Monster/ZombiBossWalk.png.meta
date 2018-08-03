@@ -1,16 +1,12 @@
 fileFormatVersion: 2
-guid: 6a5c007ec9742da468b724d885f9268b
-timeCreated: 1526826966
+guid: 4f79e074b860aa34580d29815aedff2a
+timeCreated: 1533286189
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: mon5 (3)_0
-    21300002: mon5 (3)_1
-    21300004: mon5 (3)_2
-    21300006: mon5 (3)_3
-    21300008: mon5 (3)_4
-    21300010: mon5 (3)_5
-    21300012: mon5 (3)_6
+    21300000: ZombiBossWalk_0
+    21300002: ZombiBossWalk_1
+    21300004: ZombiBossWalk_2
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -39,7 +35,7 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: 1
+    aniso: -1
     mipBias: -1
     wrapU: 1
     wrapV: 1
@@ -97,26 +93,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mon5 (3)_0
+      name: ZombiBossWalk_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 129
-        width: 45
-        height: 51
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: mon5 (3)_1
-      rect:
-        serializedVersion: 2
-        x: 75
-        y: 130
-        width: 45
+        x: 42
+        y: 26
+        width: 26
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -125,13 +107,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: mon5 (3)_2
+      name: ZombiBossWalk_1
       rect:
         serializedVersion: 2
-        x: 138
-        y: 130
-        width: 45
-        height: 50
+        x: 163
+        y: 26
+        width: 27
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,54 +121,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: mon5 (3)_3
+      name: ZombiBossWalk_2
       rect:
         serializedVersion: 2
-        x: 9
-        y: 65
-        width: 45
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: mon5 (3)_4
-      rect:
-        serializedVersion: 2
-        x: 74
-        y: 65
-        width: 45
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: mon5 (3)_5
-      rect:
-        serializedVersion: 2
-        x: 138
-        y: 65
-        width: 45
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: mon5 (3)_6
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 1
-        width: 45
+        x: 284
+        y: 26
+        width: 26
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
