@@ -55,4 +55,9 @@ public class AnimationHandler : MonoBehaviour {
     {
         animator.enabled = false;
     }
+
+    private void EndAnimation()
+    {
+
+    }
 }

@@ -18,6 +18,8 @@ public class CharacterComponents : MonoBehaviour {
     private CircleCollider2D interactiveCollider2D;
     [SerializeField]
     private CircleCollider2D circleCollider2D;
+    [SerializeField]
+    private ShadowClass shadowClass;
 
 
     [SerializeField]
@@ -81,6 +83,13 @@ public class CharacterComponents : MonoBehaviour {
         get
         {
             return circleCollider2D;
+        }
+    }
+    public ShadowClass ShadowClass
+    {
+        get
+        {
+            return shadowClass;
         }
     }
 

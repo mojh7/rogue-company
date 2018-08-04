@@ -121,6 +121,7 @@ public abstract class Character : MonoBehaviour
         buffManager = Components.BuffManager;
         rgbody = Components.Rigidbody2D;
         aiController = Components.AIController;
+        shadowClass = Components.ShadowClass;
 
         isActiveAI = true;
     }

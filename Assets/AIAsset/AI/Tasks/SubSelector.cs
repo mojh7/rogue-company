@@ -5,20 +5,20 @@ using BT;
 [CreateAssetMenu(menuName = "Task/SubSelector")]
 public class SubSelector : CompositeTask {
 
-    public override bool Run()
+    public override State Run()
     {
         foreach (var task in GetChildren())
         {
-            if (task.Run())
+            if (task.Run() == State.SUCCESS)
             {
-                return true;
+                return State.SUCCESS;
             }
         }
         foreach (var task in GetChildren())
         {
             task.SubRun();
         }
-        return false;
+        return State.FAILURE;
     }
     public override Task Clone()
     {

@@ -18,9 +18,9 @@ public class Clock
     private bool isInUpdate = false;
     private List<Timer> timerPool = new List<Timer>();
 
-    private Dictionary<System.Func<bool>, Timer> timers = new Dictionary<System.Func<bool>, Timer>();
-    private HashSet<System.Func<bool>> removeTimers = new HashSet<System.Func<bool>>();
-    private Dictionary<System.Func<bool>, Timer> addTimers = new Dictionary<System.Func<bool>, Timer>();
+    private Dictionary<System.Func<BT.State>, Timer> timers = new Dictionary<System.Func<BT.State>, Timer>();
+    private HashSet<System.Func<BT.State>> removeTimers = new HashSet<System.Func<BT.State>>();
+    private Dictionary<System.Func<BT.State>, Timer> addTimers = new Dictionary<System.Func<BT.State>, Timer>();
 
     private Timer getTimerFromPool(double absoluteTime, int repeat)
     {
@@ -62,9 +62,9 @@ public class Clock
 
         this.isInUpdate = true;
 
-        Dictionary<System.Func<bool>, Timer>.KeyCollection keys = timers.Keys;
+        Dictionary<System.Func<BT.State>, Timer>.KeyCollection keys = timers.Keys;
 
-        foreach (System.Func<bool> timer in keys)
+        foreach (System.Func<BT.State> timer in keys)
         {
             if (this.removeTimers.Contains(timer))
             {
@@ -86,7 +86,7 @@ public class Clock
             }
         }
 
-        foreach (System.Func<bool> action in this.addTimers.Keys)
+        foreach (System.Func<BT.State> action in this.addTimers.Keys)
         {
             if (this.timers.ContainsKey(action))
             {
@@ -94,7 +94,7 @@ public class Clock
             }
             this.timers[action] = this.addTimers[action];
         }
-        foreach (System.Func<bool> action in this.removeTimers)
+        foreach (System.Func<BT.State> action in this.removeTimers)
         {
             timers[action].used = false;
             this.timers.Remove(action);
@@ -111,7 +111,7 @@ public class Clock
     /// <param name="time">반복 간격</param>
     /// <param name="repeat">반복 횟수, -1일 경우 무한</param>
     /// <param name="action">행동 대리자</param>
-    public void AddTimer(float time, int repeat, System.Func<bool> action)
+    public void AddTimer(float time, int repeat, System.Func<BT.State> action)
     {        
         if (!isInUpdate)
         {
@@ -147,7 +147,7 @@ public class Clock
     /// 스케줄링 리스트에 행동을 삭제합니다.
     /// </summary>
     /// <param name="action"></param>
-    public void RemoveTimer(System.Func<bool> action)
+    public void RemoveTimer(System.Func<BT.State> action)
     {
         if (!isInUpdate)
         {

@@ -15,7 +15,7 @@ public class BoolDecorate : DecorateTask
         aIController = this.character.GetCharacterComponents().AIController;
         func = delegate () { return character.GetAIAct(); };
     }
-    public override bool Run()
+    public override State Run()
     {
         if (func())
         {
@@ -23,7 +23,7 @@ public class BoolDecorate : DecorateTask
         }
         else
         {
-            return false;
+            return State.FAILURE;
         }
     }
     public override Task Clone()

@@ -16,17 +16,17 @@ public class RunawayTrackAction : ActionTask
         movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
         movingPattern.RunawayTracker(target.transform);
     }
-    public override bool Run()
+    public override State Run()
     {
-        success = movingPattern.RunawayTracking();
+        bool success = movingPattern.RunawayTracking();
         if (success)
         {
             animationHandler.Walk();
-            return true;
+            return State.SUCCESS;
         }
         else
         {
-            return false;
+            return State.FAILURE;
         }
     }
     public override Task Clone()

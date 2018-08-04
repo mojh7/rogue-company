@@ -143,6 +143,7 @@ public class Enemy : Character
         aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
         scaleVector = new Vector3(1f, 1f, 1f);
+        shadowClass.Init(sprite);
     }
     /// <summary> 상태 이상 효과 관련 초기화 </summary>
     private void InitStatusEffects()

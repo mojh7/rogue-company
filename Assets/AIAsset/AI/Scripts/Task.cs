@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BT
 {
+    public enum State { FAILURE, SUCCESS, Continue }
     #region baseNode
     /// <summary>
     /// 행동 트리 기본 추상 노드
@@ -37,7 +38,7 @@ namespace BT
         /// 노드 실행 함수
         /// </summary>
         /// <returns></returns>
-        public abstract bool Run();
+        public abstract State Run();
         public virtual bool SubRun()
         {
             return true;
@@ -122,7 +123,7 @@ namespace BT
     /// </summary>
     public abstract class ActionTask : Task
     {
-        protected bool success;
+        protected State state;
         protected Character target;
         protected AnimationHandler animationHandler;
         public override void Init(Task task)
@@ -130,9 +131,9 @@ namespace BT
             base.Init(task);
             animationHandler = RootTask.BlackBoard["Animation"] as AnimationHandler;
         }
-        public override bool Run()
+        public override State Run()
         {
-            return success;
+            return state;
         }
     }
 

@@ -171,7 +171,7 @@ public class Player : Character
         stamina = GameObject.Find("Image_stamina").GetComponent<Stamina>();
         stamina.SetPlayer(this);
         //Stamina.Instance.setTotalStamina(100);
-        
+        shadowClass.Init();
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);

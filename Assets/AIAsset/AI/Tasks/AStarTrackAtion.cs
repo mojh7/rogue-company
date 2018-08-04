@@ -20,18 +20,18 @@ public class AStarTrackAtion : ActionTask
         movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
         movingPattern.AStarTracker(target.transform);
     }
-    public override bool Run()
+    public override State Run()
     {
-        success = movingPattern.AStarTracking();
+        bool success = movingPattern.AStarTracking();
 
         if (success)
         {
             animationHandler.Walk();
-            return true;
+            return State.SUCCESS;
         }
         else
         {
-            return false;
+            return State.FAILURE;
         }
     }
     public override Task Clone()

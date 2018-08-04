@@ -20,18 +20,18 @@ public class RushTrackAtion : ActionTask
         movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
         movingPattern.RushTracker(target.transform);
     }
-    public override bool Run()
+    public override State Run()
     {
-        success = movingPattern.RushTracking();
+        bool success = movingPattern.RushTracking();
 
         if (success)
         {
             animationHandler.Walk();
-            return true;
+            return State.SUCCESS;
         }
         else
         {
-            return false;
+            return State.FAILURE;
         }
     }
     public override Task Clone()

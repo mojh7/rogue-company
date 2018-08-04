@@ -24,7 +24,7 @@ public class DistanceDecorate : ConditionDecorate
         this.character = RootTask.BlackBoard["Character"] as Character;
         this.target = RootTask.BlackBoard["Target"] as Character;
     }
-    public override bool Run()
+    public override State Run()
     {
         if (Check(Vector2.Distance(character.transform.position, target.transform.position), distance))
         {
@@ -32,7 +32,7 @@ public class DistanceDecorate : ConditionDecorate
         }
         else
         {
-            return false;
+            return State.FAILURE;
         }
     }
     public override Task Clone()

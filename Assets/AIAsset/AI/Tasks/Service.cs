@@ -28,12 +28,12 @@ public class Service  : CompositeTask
     /// Clcok 스케줄러에 Run함수를 저장하여 주파수마다 실행되도록 합니다.
     /// </summary>
     /// <returns></returns>
-    public override bool Run()
+    public override State Run()
     {
         if (character == null)
         {
             Clock.RemoveTimer(Run);
-            return false;
+            return State.FAILURE;
         }
         if (!isRun)
         {
@@ -44,7 +44,7 @@ public class Service  : CompositeTask
         {
             task.Run();
         }
-        return true;
+        return State.SUCCESS;
     }
     public override Task Clone()
     {

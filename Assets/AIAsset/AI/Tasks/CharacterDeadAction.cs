@@ -14,17 +14,16 @@ public class CharacterDeadAction : ActionTask
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
     }
-    public override bool Run()
+    public override State Run()
     {
         if (character.IsDie())
         {
-            success = true;
+            return State.SUCCESS;
         }
         else
         {
-            success = false;
+            return State.FAILURE;
         }
-        return base.Run();
     }
     public override Task Clone()
     {

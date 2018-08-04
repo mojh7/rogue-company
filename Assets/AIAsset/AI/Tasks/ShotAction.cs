@@ -20,11 +20,11 @@ public class ShotAction : ActionTask {
         this.character = RootTask.BlackBoard["Character"] as Character;
         attackPattern = character.GetCharacterComponents().AIController.AttackPattern;
     }
-    public override bool Run()
+    public override State Run()
     {
-        success = attackPattern.Shot(character, 0);
+        bool success = attackPattern.Shot(character, 0);
 
-        return true;
+        return State.SUCCESS;
     }
     public override Task Clone()
     {

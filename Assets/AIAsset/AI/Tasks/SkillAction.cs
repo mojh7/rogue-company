@@ -23,11 +23,11 @@ public class SkillAction : ActionTask
         this.character = RootTask.BlackBoard["Character"] as Character;
         attackPattern = character.GetCharacterComponents().AIController.AttackPattern;
     }
-    public override bool Run()
+    public override State Run()
     {
-        success = attackPattern.CastingSKill(character, Idx, temporary);
+        bool success = attackPattern.CastingSKill(character, Idx, temporary);
 
-        return true;
+        return State.SUCCESS;
     }
     public override Task Clone()
     {

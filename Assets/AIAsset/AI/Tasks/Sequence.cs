@@ -10,14 +10,14 @@ using BT;
 [CreateAssetMenu(menuName = "Task/Sequence")]
 public class Sequence : CompositeTask
 {
-    public override bool Run()
+    public override State Run()
     {
         foreach (var task in GetChildren())
         {
-            if (!task.Run())
-                return false;
+            if (task.Run() == State.FAILURE)
+                return State.FAILURE;
         }
-        return true;
+        return State.SUCCESS;
     }
     public override Task Clone()
     {

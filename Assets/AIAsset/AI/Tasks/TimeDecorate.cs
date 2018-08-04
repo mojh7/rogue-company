@@ -23,7 +23,7 @@ public class TimeDecorate : ConditionDecorate
     {
         base.Init(task);
     }
-    public override bool Run()
+    public override State Run()
     {
         if (!isRun)
         {
@@ -41,7 +41,7 @@ public class TimeDecorate : ConditionDecorate
             }
             else
             {
-                return false;
+                return State.FAILURE;
             }
         }
     }

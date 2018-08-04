@@ -10,14 +10,14 @@ using BT;
 [CreateAssetMenu(menuName = "Task/Selector")]
 public class Selector : CompositeTask
 {
-    public override bool Run()
+    public override State Run()
     {
         foreach (var task in GetChildren())
         {
-            if (task.Run())
-                return true;
+            if (task.Run() == State.SUCCESS)
+                return State.SUCCESS;
         }
-        return false;
+        return State.FAILURE;
     }
     public override Task Clone()
     {

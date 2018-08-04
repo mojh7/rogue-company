@@ -28,17 +28,17 @@ public class RoundingTrackAction : ActionTask
         movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
         movingPattern.RoundingTracker(target.transform, radius);
     }
-    public override bool Run()
+    public override State Run()
     {
-        success = movingPattern.RoundingTracking();
+        bool success = movingPattern.RoundingTracking();
         if (success)
         {
             animationHandler.Walk();
-            return true;
+            return State.SUCCESS;
         }
         else
         {
-            return false;
+            return State.FAILURE;
         }
     }
     public override Task Clone()

@@ -22,18 +22,18 @@ public class StopTrackAction : ActionTask
         movingPattern.StopTracker(character.transform);
     }
 
-    public override bool Run()  
+    public override State Run()  
     {
-        success = movingPattern.StopTracking();
+        bool success = movingPattern.StopTracking();
 
         if (success)
         {
             animationHandler.Idle();
-            return true;
+            return State.SUCCESS;
         }
         else
         {
-            return false;
+            return State.FAILURE;
         }
     }
 

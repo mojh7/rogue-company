@@ -39,10 +39,10 @@ public class Root : DecorateTask
         RootTask = this;
         GetChildren().Init(this);
     }
-    public override bool Run()
+    public override State Run()
     {
         GetChildren().Run();
-        return true;
+        return State.SUCCESS;
     }
     public override Task Clone()
     {
