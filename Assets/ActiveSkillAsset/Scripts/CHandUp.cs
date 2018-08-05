@@ -9,7 +9,7 @@ public class CHandUp : SkillData
     [SerializeField]
     float num;
 
-    public override bool Run(Character character,object temporary)
+    public override BT.State Run(Character character,object temporary)
     {
         return ActiveSkillManager.Instance.HandUp(character, radius, delay, amount, num);
     }

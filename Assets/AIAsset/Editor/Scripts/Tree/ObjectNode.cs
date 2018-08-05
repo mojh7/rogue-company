@@ -160,14 +160,14 @@ namespace BT
                 case TaskType.DecorateTask:
                     switch (decorateTask)
                     {
-                        case EDecorateTask.TimeDecorate:
-                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value);
-                        case EDecorateTask.DistanceDecorate:
-                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition, value);
                         case EDecorateTask.Root:
                             return ScriptableObject.CreateInstance<Root>();
                         case EDecorateTask.Bool:
                             return ScriptableObject.CreateInstance<BoolDecorate>();
+                        case EDecorateTask.DistanceDecorate:
+                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition, value);
+                        case EDecorateTask.TimeDecorate:
+                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value);
                     }
                     break;
                 case TaskType.ActionTask:

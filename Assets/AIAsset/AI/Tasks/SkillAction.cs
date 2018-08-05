@@ -25,9 +25,7 @@ public class SkillAction : ActionTask
     }
     public override State Run()
     {
-        bool success = attackPattern.CastingSKill(character, Idx, temporary);
-
-        return State.SUCCESS;
+        return attackPattern.CastingSKill(character, Idx, temporary); 
     }
     public override Task Clone()
     {

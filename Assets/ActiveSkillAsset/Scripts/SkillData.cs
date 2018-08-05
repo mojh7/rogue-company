@@ -9,5 +9,5 @@ public abstract class SkillData : ScriptableObject
     [SerializeField]
     protected float amount;
 
-    public abstract bool Run(Character character, object temporary);
+    public abstract BT.State Run(Character character, object temporary);
 }

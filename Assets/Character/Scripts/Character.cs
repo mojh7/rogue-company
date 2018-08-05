@@ -49,8 +49,8 @@ public abstract class Character : MonoBehaviour
     #endregion
     #region variables
     // 디버그용 SerializeField
-    public bool isActiveAI;
-
+    protected bool isActiveAI;
+    protected bool isCasting;
     protected bool isActiveMoveAI;
     protected bool isActiveAttackAI;
 
@@ -74,11 +74,18 @@ public abstract class Character : MonoBehaviour
     {
         return Components;
     }
+    public bool GetCasting()
+    {
+        return isCasting;
+    }
     public bool GetAIAct()
     {
         return isActiveAI;
     }
-    public virtual bool GetRightDirection() { return isRightDirection; }
+    public virtual bool GetRightDirection()
+    {
+        return isRightDirection;
+    }
     public virtual Vector3 GetDirVector()
     {
         return directionVector;
@@ -87,17 +94,31 @@ public abstract class Character : MonoBehaviour
     {
         return directionDegree;
     }
-    public virtual Vector3 GetPosition() { return transform.position; }
-    public virtual WeaponManager GetWeaponManager() { return weaponManager; }
-    public BuffManager GetBuffManager() { return buffManager; }
+    public virtual Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+    public virtual WeaponManager GetWeaponManager()
+    {
+        return weaponManager;
+    }
+    public BuffManager GetBuffManager()
+    {
+        return buffManager;
+    }
     public CharacterInfo.OwnerType GetOwnerType()
     {
         return ownerType;
     }
 
-
-    public bool GetIsAcitveAttackAI() { return isActiveAttackAI; }
-    public bool GetIsAcitveMoveAI() { return isActiveMoveAI; }
+    public bool GetIsAcitveAttackAI()
+    {
+        return isActiveAttackAI;
+    }
+    public bool GetIsAcitveMoveAI()
+    {
+        return isActiveMoveAI;
+    }
     #endregion
     #region Func
     public bool IsDie()
@@ -124,6 +145,7 @@ public abstract class Character : MonoBehaviour
         shadowClass = Components.ShadowClass;
 
         isActiveAI = true;
+        isCasting = false;
     }
     /*--abstract--*/
     protected abstract void Die();

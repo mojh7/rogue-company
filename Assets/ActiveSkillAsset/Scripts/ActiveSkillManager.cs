@@ -6,90 +6,90 @@ using UnityEngine;
 public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 {
     #region public
-    public bool Charm(Character user, object victim, float delay, float amount)
+    public BT.State Charm(Character user, object victim, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
-            return false;
+            return BT.State.FAILURE;
         }
         StartCoroutine(CoroutineSkill(Charm, user, victim, delay, amount));
-        return true;
+        return BT.State.SUCCESS;
     }
 
-    public bool IncreaseStatus(Character user, object victim, float delay, float amount)
+    public BT.State IncreaseStatus(Character user, object victim, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
-            return false;
+            return BT.State.FAILURE;
         }
         StartCoroutine(CoroutineSkill(IncreaseStatus, user, victim, delay, amount));
-        return true;
+        return BT.State.SUCCESS;
     }
 
-    public bool Confuse(Character user, object victim, float delay, float amount)
+    public BT.State Confuse(Character user, object victim, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
-            return false;
+            return BT.State.FAILURE;
         }
         StartCoroutine(CoroutineSkill(Confuse, user, victim, delay, amount));
-        return true;
+        return BT.State.SUCCESS;
     }
 
-    public bool HandUp(Character user, object radius, float delay, float amount, float num)
+    public BT.State HandUp(Character user, object radius, float delay, float amount, float num)
     {
         if (!user || delay < 0 || amount < 0 || num < 1)
         {
-            return false;
+            return BT.State.FAILURE;
         }
         for (int i = 0; i < num; i++)
         {
             float randDelay = UnityEngine.Random.Range(0, delay + 1);
             StartCoroutine(CoroutineSkill(HandUp, user, radius, randDelay, amount));
         }
-        return true;
+        return BT.State.SUCCESS;
     }
 
-    public bool HandClap(Character user, object unneeded, float delay, float amount)
+    public BT.State HandClap(Character user, object unneeded, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
-            return false;
+            return BT.State.FAILURE;
         }
 
         StartCoroutine(CoroutineSkill(HandClap, user, user.transform.position + Vector3.left, 0, amount));
         StartCoroutine(CoroutineSkill(HandClap, user, user.transform.position + Vector3.right, delay, amount));
-        return true;
+        return BT.State.SUCCESS;
     }
 
-    public bool SpawnServant(Character user, object servantData, float delay, float amount)
+    public BT.State SpawnServant(Character user, object servantData, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
-            return false;
+            return BT.State.FAILURE;
         }
         StartCoroutine(CoroutineSkill(HandClap, user, servantData, delay, amount));
-        return true;
+        return BT.State.SUCCESS;
     }
 
-    public bool Jump(Character user, object unneeded, float delay, float amount)
+    public BT.State Jump(Character user, object unneeded, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
-            return false;
+            return BT.State.FAILURE;
         }
         StartCoroutine(CoroutineSkill(Jump, user, unneeded, delay, amount));
-        return true;
+        return BT.State.SUCCESS;
     }
 
-    public bool Flash(Character user, object position, float delay, float amount)
+    public BT.State Flash(Character user, object position, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
-            return false;
+            return BT.State.FAILURE;
         }
         StartCoroutine(CoroutineSkill(Flash, user, position, delay, amount));
-        return true;
+        return BT.State.SUCCESS;
     }
     #endregion
     #region private
@@ -110,6 +110,8 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
     private void HandUp(Character user, object radius, float amount)
     {
+        if (!user)
+            return;
         float rad = (float)radius;
         Vector2 randPos = UnityEngine.Random.insideUnitCircle * rad;
         GameObject gameObject = ResourceManager.Instance.objectPool.GetPooledObject();

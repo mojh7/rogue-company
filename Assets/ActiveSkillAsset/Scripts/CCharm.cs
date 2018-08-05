@@ -7,7 +7,7 @@ using UnityEngine;
 public class CCharm : SkillData
 {
 
-    public override bool Run(Character character, object temporary)
+    public override BT.State Run(Character character, object temporary)
     {
         return ActiveSkillManager.Instance.Charm(character, temporary, delay, amount);
     }
