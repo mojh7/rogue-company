@@ -29,6 +29,7 @@ public class WeaponTargetEffect : ItemUseEffect
     public float bulletSpeedIncrement;      // 총알 속력 증가율
 
     [Header("곱 옵션 - 곱 연산")]
+    public float decreaseDamageAfterPierceReduction;    // 관통 시 데미지 감소율 감소
     public float cooldownReduction;         // 무기 재사용 시간 감소율
     public float chargeTimeReduction;       // 차징 시간 감소율
     public float accuracyIncrement;         // 집탄률, 탄 정확도 상승

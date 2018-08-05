@@ -93,7 +93,8 @@ public class BuffManager : MonoBehaviour
             discountRateAllItems = 1f,
 
             staminaMaxIncrement = 1f,
-            canDrainHp = false
+            canDrainHp = false,
+            increaseStaminaWhenkillingEnemies = false
         };
     }
 
@@ -118,6 +119,7 @@ public class BuffManager : MonoBehaviour
             bulletRangeIncrement = 1f,
             bulletSpeedIncrement = 1f,
 
+            decreaseDamageAfterPierceReduction = 1f,
             cooldownReduction = 1f,
             chargeTimeReduction = 1f,
             accuracyIncrement = 1f,
@@ -262,6 +264,8 @@ public class BuffManager : MonoBehaviour
         // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함.
         if (targetEffect.canDrainHp)
             CharacterTargetEffectTotal.canDrainHp = boolSign;
+        if (targetEffect.increaseStaminaWhenkillingEnemies)
+            CharacterTargetEffectTotal.increaseStaminaWhenkillingEnemies = boolSign;
 
         owner.ApplyItemEffect(characterTargetEffectTotal);
     }
@@ -300,10 +304,12 @@ public class BuffManager : MonoBehaviour
             WeaponTargetEffectTotal[index].bulletScaleIncrement += targetEffect.bulletScaleIncrement * sign;
             WeaponTargetEffectTotal[index].bulletRangeIncrement += targetEffect.bulletRangeIncrement * sign;
             WeaponTargetEffectTotal[index].bulletSpeedIncrement += targetEffect.bulletSpeedIncrement * sign;
+           
 
             // 곱 옵션 - 곱 연산
             if (1 == sign)
             {
+                WeaponTargetEffectTotal[index].decreaseDamageAfterPierceReduction *= (1.0f - targetEffect.decreaseDamageAfterPierceReduction);
                 WeaponTargetEffectTotal[index].cooldownReduction *= (1.0f - targetEffect.cooldownReduction);
                 WeaponTargetEffectTotal[index].chargeTimeReduction *= (1.0f - targetEffect.chargeTimeReduction);
                 WeaponTargetEffectTotal[index].accuracyIncrement *= (1.0f - targetEffect.accuracyIncrement);
@@ -311,6 +317,7 @@ public class BuffManager : MonoBehaviour
             }
             else
             {
+                WeaponTargetEffectTotal[index].decreaseDamageAfterPierceReduction /= (1.0f - targetEffect.decreaseDamageAfterPierceReduction);
                 WeaponTargetEffectTotal[index].cooldownReduction /= (1.0f - targetEffect.cooldownReduction);
                 WeaponTargetEffectTotal[index].chargeTimeReduction /= (1.0f - targetEffect.chargeTimeReduction);
                 WeaponTargetEffectTotal[index].accuracyIncrement /= (1.0f - targetEffect.accuracyIncrement);

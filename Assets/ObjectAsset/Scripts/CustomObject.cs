@@ -749,7 +749,7 @@ public class SnackBox : NoneRandomSpriteObject
     {
         if (base.Active())
         {
-            //Stemina recovery
+            //stamina recovery
             isAvailable = false;
             sprite = sprites[1];
             return true;

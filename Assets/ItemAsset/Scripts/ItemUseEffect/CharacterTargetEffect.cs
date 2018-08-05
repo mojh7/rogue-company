@@ -25,5 +25,7 @@ public class CharacterTargetEffect : ItemUseEffect
     // public float hpMaxIncrement;
 
     [Header("on/ off 속성")]
-    public bool canDrainHp; // 4. 흡혈 : 적 10명 처치당 체력 +1 회복
+    public bool canDrainHp; // 4. 흡혈 : 적 7명 처치당 체력 +1 회복
+    public bool increaseStaminaWhenkillingEnemies;    // 15. 적 죽일 때 얻는 스테미너량 증가
+
 }

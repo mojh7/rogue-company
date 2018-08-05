@@ -190,6 +190,7 @@ public class PassiveItemForDebug : MonoBehaviour
             "4.discountRateOfCafeteriaItems\n" +
             "5.discountRateAllItems\n" +
             "6.canDrainHp\n" +
+            "7.increaseStaminaWhenkillingEnemies\n" +
             "-----\n" +
             "Weapon\n" +
             "1.bulletCountIncrement\n" +
@@ -204,10 +205,11 @@ public class PassiveItemForDebug : MonoBehaviour
             "7.bulletScaleIncrement\n" +
             "8.bulletRangeIncrement\n" +
             "9.bulletSpeedIncrement\n" +
-
-            "1.cooldownReduction\n" +
-            "2.chargeTimeReduction\n" +
-            "3.accuracyIncrement\n" +
+            
+            "1.decreaseDamageAfterPierceReduction\n" +
+            "2.cooldownReduction\n" +
+            "3.chargeTimeReduction\n" +
+            "4.accuracyIncrement\n" +
 
             "1.increasePierceCount\n" +
             "2.becomesSpiderMine\n" +
@@ -241,6 +243,7 @@ public class PassiveItemForDebug : MonoBehaviour
             characterTotal.discountRateOfCafeteriaItems + "\n" +
             characterTotal.discountRateAllItems + "\n" +
             characterTotal.canDrainHp + "\n" +
+            characterTotal.increaseStaminaWhenkillingEnemies + "\n" +
             "---\n" +
             "Weapon\n" +
             weaponTotal.bulletCountIncrement + "\n" +
@@ -256,6 +259,7 @@ public class PassiveItemForDebug : MonoBehaviour
             weaponTotal.bulletRangeIncrement + "\n" +
             weaponTotal.bulletSpeedIncrement + "\n" +
 
+            weaponTotal.decreaseDamageAfterPierceReduction + "\n" +
             weaponTotal.cooldownReduction + "\n" +
             weaponTotal.chargeTimeReduction + "\n" +
             weaponTotal.accuracyIncrement + "\n" +

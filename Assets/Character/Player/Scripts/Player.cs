@@ -319,12 +319,13 @@ public class Player : Character
         else return false;
     }
 
-    public void CountKilledEnemy()
+    public void AddKilledEnemyCount()
     {
         if (false == buffManager.CharacterTargetEffectTotal.canDrainHp) return;
         killedEnemyCount += 1;
         if(killedEnemyCount == 7)
         {
+            Debug.Log("몬스터 7마리 처치 후 피 회복");
             RecoverHp(1f);
             killedEnemyCount = 0;
         }

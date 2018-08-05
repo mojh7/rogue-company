@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using WeaponAsset;
-
-
-
+using CharacterInfo;
 
 /// <summary>
 /// Bullet Class
@@ -85,6 +83,8 @@ public class Bullet : MonoBehaviour
     {
         this.ownerType = ownerType;
     }
+
+    public float DecreaseDamageAfterPierce { get; private set; }
     #endregion
 
     #region unityFunction
@@ -326,7 +326,7 @@ public class Bullet : MonoBehaviour
             if (CharacterInfo.OwnerType.Enemy == ownerType)
                 objTransform.tag = "EnemyCanBlockBullet";
         }
-        else if(true == info.canReflectBullet)
+        if(true == info.canReflectBullet)
         {
             if (CharacterInfo.OwnerType.Player == ownerType)
                 objTransform.tag = "PlayerCanReflectBullet";
@@ -554,7 +554,7 @@ public class Bullet : MonoBehaviour
         WeaponTargetEffect totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         WeaponTargetEffect effectInfo = ownerBuff.WeaponTargetEffectTotal[type];
 
-        // 무기 관통 횟수 +2 증가
+        // 1. 원거리 무기 관통 횟수 +2 증가
         if (effectInfo.increasePierceCount)
         {
             info.pierceCount += 2;
@@ -563,11 +563,11 @@ public class Bullet : MonoBehaviour
         // 5. 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
         if (CheckEqualWeaponType(WeaponType.SHOTGUN) && effectInfo.shotgunBulletCanHoming)
         {
-            info.startDelay = 0.05f;
+            info.startDelay = 0.1f;
             info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
 
             //HomingProperty 중복 생성 방지
-            if (HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(HomingProperty)))
+            if (false == HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(HomingProperty)))
             {
                 info.updateProperties.Add(new HomingProperty());
                 info.updatePropertiesLength += 1;
@@ -575,7 +575,7 @@ public class Bullet : MonoBehaviour
         }
 
         
-        // 모든 근거리 무기 상대 총알 막기
+        // 6. 모든 근거리 무기 상대 총알 막기
         if (effectInfo.meleeWeaponsCanBlockBullet)
         {
             info.canBlockBullet = true;
@@ -585,7 +585,7 @@ public class Bullet : MonoBehaviour
                 objTransform.tag = "EnemyCanBlockBullet";
         }
 
-        // 모든 근거리 무기 상대 총알 반사
+        // 7. 모든 근거리 무기 상대 총알 반사
         if (effectInfo.meleeWeaponsCanReflectBullet)
         {
             info.canReflectBullet = true;
@@ -595,11 +595,11 @@ public class Bullet : MonoBehaviour
                 objTransform.tag = "EnmeyCanReflectBullet";
         }
 
-        // 총알이 벽에 1회 튕겨집니다. 
+        // 8. 총알이 벽에 1회 튕겨집니다. 
         if (effectInfo.bounceAble)
         {
             info.bounceAble = true;
-            info.bounceCount += 1;
+            info.bounceCount = 1;
         }
 
         // 12. 폭탄 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
@@ -617,6 +617,12 @@ public class Bullet : MonoBehaviour
         info.criticalChance = info.criticalChance + totalInfo.criticalChanceIncrement + effectInfo.damageIncrement;
 
         info.speed = info.speed * (totalInfo.bulletSpeedIncrement + effectInfo.bulletSpeedIncrement);    // 총알 이동속도 변화
+
+        if (OwnerType.Player == ownerType)
+        {
+            DecreaseDamageAfterPierce = 0.3f * (totalInfo.decreaseDamageAfterPierceReduction + effectInfo.decreaseDamageAfterPierceReduction);
+            Debug.Log(ownerType + ", " + name + ", " + DecreaseDamageAfterPierce);
+        }
     }
 
     /// <summary> bullet Properties 안에 해당 property가 포함 되어 있는지 여부 확인</summary>
