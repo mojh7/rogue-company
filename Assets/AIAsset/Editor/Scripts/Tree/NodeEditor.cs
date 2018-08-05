@@ -259,8 +259,10 @@ namespace BT
                 if (clickedOnWindow)
                 {
                     TaskNode selNode = windows[selectedWindow];
-                    if (selNode.parent != null)
-                        selNode.parent.childrens.Remove(selNode);
+                    for(int i=0;i<selNode.parents.Count;i++)
+                    {
+                        selNode.parents[i].childrens.Remove(selNode);
+                    }
                     windows.RemoveAt(selectedWindow);
                     foreach (TaskNode n in windows)
                     {

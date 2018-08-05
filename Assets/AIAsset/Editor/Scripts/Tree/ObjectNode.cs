@@ -10,13 +10,11 @@ namespace BT
         public Rect windowRect;
         public string windowTitle = "";
 
-        private TaskNode input1;
-        private Rect input1Rect;
-
-        private TaskNode input2;
-        private Rect input2Rect;
         public List<TaskNode> childrens;
-        public TaskNode parent;
+
+        private Rect inputRect;
+        private TaskNode input;
+        public List<TaskNode> parents;
 
         BehaviorCondition behaviorCondition;
         float value;
@@ -29,6 +27,7 @@ namespace BT
         public TaskNode()
         {
             childrens = new List<TaskNode>();
+            parents = new List<TaskNode>();
         }
 
         public TaskNode(bool isRoot)
@@ -45,15 +44,14 @@ namespace BT
             pos.x -= windowRect.x;
             pos.y -= windowRect.y;
 
-            if (input1Rect.Contains(pos))
+            if (inputRect.Contains(pos))
             {
-                retVal = input1;
-                input1 = null;
-            }
-            else if (input2Rect.Contains(pos))
-            {
-                retVal = input2;
-                input2 = null;
+                retVal = input;
+                input = null;
+                if(parents.Contains(retVal))
+                {
+                    parents.Remove(retVal);
+                }
             }
 
             return retVal;
@@ -61,27 +59,29 @@ namespace BT
 
         public void DrawCurves()
         {
-            if (input1)
+            //if (input)
+            //{
+            //    Rect rect = windowRect;
+            //    rect.x += inputRect.x;
+            //    rect.y += inputRect.y + inputRect.height / 2;
+            //    rect.width = 1;
+            //    rect.height = 1;
+
+            //    NodeEditor.DrawNodeCurve(input.windowRect, rect);
+            //}
+            if (parents == null)
+                return;
+            for(int i=0;i<parents.Count;i++)
             {
                 Rect rect = windowRect;
-                rect.x += input1Rect.x;
-                rect.y += input1Rect.y + input1Rect.height / 2;
+                rect.x += inputRect.x;
+                rect.y += inputRect.y + inputRect.height / 2;
                 rect.width = 1;
                 rect.height = 1;
 
-                NodeEditor.DrawNodeCurve(input1.windowRect, rect);
+                NodeEditor.DrawNodeCurve(parents[i].windowRect, rect);
             }
 
-            if (input2)
-            {
-                Rect rect = windowRect;
-                rect.x += input2Rect.x;
-                rect.y += input2Rect.y + input2Rect.height / 2;
-                rect.width = 1;
-                rect.height = 1;
-
-                NodeEditor.DrawNodeCurve(input2.windowRect, rect);
-            }
         }
 
         public void DrawWindow()
@@ -111,47 +111,32 @@ namespace BT
 
             if (e.type == EventType.Repaint)
             {
-                input1Rect = GUILayoutUtility.GetLastRect();
-
-            }
-
-            if (e.type == EventType.Repaint)
-            {
-                input2Rect = GUILayoutUtility.GetLastRect();
+                inputRect = GUILayoutUtility.GetLastRect();
 
             }
         }
 
         public void NodeDeleted(TaskNode node)
         {
-            if (node.Equals(input1))
+            if (node.Equals(input))
             {
-                input1 = null;
+                input = null;
             }
 
-            if (node.Equals(input2))
-            {
-                input2 = null;
-            }
         }
 
         public void SetInput(TaskNode input, Vector2 clickPos)
         {
             clickPos.x -= windowRect.x;
             clickPos.y -= windowRect.y;
-
-            if (input1Rect.Contains(clickPos))
+            if (inputRect.Contains(clickPos))
             {
-                input1 = input;
-                input.childrens.Add(this);
-                parent = input;
+                this.input = input;
+                if (!input.childrens.Contains(this))
+                    input.childrens.Add(this);
+                parents.Add(input);
             }
-            else if (input2Rect.Contains(clickPos))
-            {
-                input2 = input;
-                input.childrens.Add(this);
-                parent = input;
-            }
+            return;
         }
 
         public Task CreateBehaviorNode()
@@ -175,14 +160,14 @@ namespace BT
                 case TaskType.DecorateTask:
                     switch (decorateTask)
                     {
+                        case EDecorateTask.TimeDecorate:
+                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value);
+                        case EDecorateTask.DistanceDecorate:
+                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition, value);
                         case EDecorateTask.Root:
                             return ScriptableObject.CreateInstance<Root>();
                         case EDecorateTask.Bool:
                             return ScriptableObject.CreateInstance<BoolDecorate>();
-                        case EDecorateTask.DistanceDecorate:
-                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition,value);
-                        case EDecorateTask.TimeDecorate:
-                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value);
                     }
                     break;
                 case TaskType.ActionTask:
