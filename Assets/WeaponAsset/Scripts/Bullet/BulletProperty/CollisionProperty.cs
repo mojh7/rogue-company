@@ -92,10 +92,19 @@ public abstract class CollisionProperty : BulletProperty
 class BaseNormalCollisionProperty : CollisionProperty
 {
     private Vector3 reflectVector;
+    private float decreaseDamageAfterPierce;
+    private bool canDecreaseDamageAfterPierce;
 
     public override CollisionProperty Clone()
     {
         return new BaseNormalCollisionProperty();
+    }
+
+    private void DecreaseDamageAfterPierce()
+    {
+        if (false == canDecreaseDamageAfterPierce || CharacterInfo.OwnerType.Player != bullet.GetOwnerType()) return;
+        transferBulletInfo.damage = transferBulletInfo.damage * (1.0f - decreaseDamageAfterPierce);
+        canDecreaseDamageAfterPierce = false;
     }
 
     // collision
@@ -135,6 +144,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 pierceCount -= 1;
                 if (pierceCount == 0)
                     delDestroyBullet();
+                DecreaseDamageAfterPierce();
                 return;
             }
         }
@@ -159,6 +169,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 pierceCount -= 1;
                 if (pierceCount == 0)
                     delDestroyBullet();
+                DecreaseDamageAfterPierce();
                 return;
             }
         }
@@ -202,6 +213,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 pierceCount -= 1;
                 if (pierceCount == 0)
                     delDestroyBullet();
+                DecreaseDamageAfterPierce();
                 return;
             }
         }
@@ -226,6 +238,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 pierceCount -= 1;
                 if (pierceCount == 0)
                     delDestroyBullet();
+                DecreaseDamageAfterPierce();
                 return;
             }
         }
@@ -236,6 +249,8 @@ class BaseNormalCollisionProperty : CollisionProperty
         base.Init(bullet);
         reflectVector = new Vector3();
 
+        canDecreaseDamageAfterPierce = true;
+        decreaseDamageAfterPierce = bullet.DecreaseDamageAfterPierce;
         pierceCount = bullet.info.pierceCount;
         bounceCount = bullet.info.bounceCount;
         //count = 1;

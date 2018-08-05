@@ -127,7 +127,6 @@ public class Enemy : Character
         Components.FearEffect.SetActive(false);
         Components.CharmEffect.SetActive(false);
 
-
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
         sprite = enemyData.Sprite;
@@ -216,6 +215,7 @@ public class Enemy : Character
             StopCoroutine(delayStateCoroutine);
         }
 
+        PlayerManager.Instance.GetPlayer().AddKilledEnemyCount();
         DropItem();
         Stamina.Instance.StaminaPlus();
         EnemyManager.Instance.DeleteEnemy(this);
