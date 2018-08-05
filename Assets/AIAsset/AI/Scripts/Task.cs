@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BT
 {
-    public enum State { FAILURE, SUCCESS, Continue }
+    public enum State { FAILURE, SUCCESS, CONTINUE }
     #region baseNode
     /// <summary>
     /// 행동 트리 기본 추상 노드

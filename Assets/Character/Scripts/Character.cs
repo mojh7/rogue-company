@@ -45,12 +45,11 @@ public abstract class Character : MonoBehaviour
     protected BuffManager buffManager;
     protected Rigidbody2D rgbody;
     protected AIController aiController;
-    protected ShadowClass shadowClass;
     #endregion
     #region variables
     // 디버그용 SerializeField
+    public bool isCasting;
     protected bool isActiveAI;
-    protected bool isCasting;
     protected bool isActiveMoveAI;
     protected bool isActiveAttackAI;
 
@@ -73,10 +72,6 @@ public abstract class Character : MonoBehaviour
     public CharacterComponents GetCharacterComponents()
     {
         return Components;
-    }
-    public bool GetCasting()
-    {
-        return isCasting;
     }
     public bool GetAIAct()
     {
@@ -142,7 +137,6 @@ public abstract class Character : MonoBehaviour
         buffManager = Components.BuffManager;
         rgbody = Components.Rigidbody2D;
         aiController = Components.AIController;
-        shadowClass = Components.ShadowClass;
 
         isActiveAI = true;
         isCasting = false;

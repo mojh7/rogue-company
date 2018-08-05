@@ -13,6 +13,7 @@ namespace AStar
         float nodeDiameter;
         Vector2 gridWorldSize;
         List<Node> neighbours;
+        Vector2 box;
 
         int width, height;
         
@@ -37,7 +38,7 @@ namespace AStar
             width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
             grid = new Node[width, height];
-            Vector2 box = new Vector2(nodeDiameter, nodeDiameter);
+            box = new Vector2(nodeDiameter, nodeDiameter);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -46,6 +47,38 @@ namespace AStar
                       + Vector3.up * (y * nodeDiameter + nodeRadius);
                     bool walkable = !(Physics2D.OverlapBox(worldPoint, box, 0, unwalkableMask));
                     grid[x, y] = new Node(walkable, worldPoint, x, y);
+                }
+            }
+        }
+
+        public void Bake(PolygonCollider2D polygon)
+        {
+            float minX = 0;
+            float maxX = 0;
+            float minY = 0;
+            float maxY = 0;
+
+            for (int i=0;i<polygon.points.Length;i++)
+            {
+                minX = Mathf.Min(minX, polygon.points[i].x);
+                maxX = Mathf.Max(maxX, polygon.points[i].x);
+                minY = Mathf.Min(minY, polygon.points[i].y);
+                maxY = Mathf.Max(maxY, polygon.points[i].y);
+            }
+
+            minX = Mathf.Round(minX);
+            maxX = Mathf.Round(maxX);
+            minY = Mathf.Round(minY);
+            maxY = Mathf.Round(maxY);
+
+            int x = (int)polygon.transform.position.x;
+            int y = (int)polygon.transform.position.y;
+
+            for (int i = x + (int)minX; i < x + maxX; i++)
+            {
+                for (int j = y + (int)minY; j < y + maxY; j++)
+                {
+                    grid[x, y].walkable = !grid[x, y].walkable;
                 }
             }
         }

@@ -96,10 +96,10 @@ TextureImporter:
       name: ZombiBossWalk_0
       rect:
         serializedVersion: 2
-        x: 42
-        y: 26
-        width: 26
-        height: 50
+        x: 0
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -110,10 +110,10 @@ TextureImporter:
       name: ZombiBossWalk_1
       rect:
         serializedVersion: 2
-        x: 163
-        y: 26
-        width: 27
-        height: 49
+        x: 121
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,10 +124,10 @@ TextureImporter:
       name: ZombiBossWalk_2
       rect:
         serializedVersion: 2
-        x: 284
-        y: 26
-        width: 26
-        height: 50
+        x: 242
+        y: 0
+        width: 121
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

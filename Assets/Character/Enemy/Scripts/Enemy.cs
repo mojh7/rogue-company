@@ -139,11 +139,10 @@ public class Enemy : Character
             //Debug.Log(enemyData.WeaponInfo[i].name + ", " + name);
             weaponManager.EquipWeapon(enemyData.WeaponInfo[i]);
         }
-        animationHandler.Init(enemyData.AnimatorController);
+        animationHandler.Init(this, enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
         scaleVector = new Vector3(1f, 1f, 1f);
-        shadowClass.Init(sprite);
     }
     /// <summary> 상태 이상 효과 관련 초기화 </summary>
     private void InitStatusEffects()

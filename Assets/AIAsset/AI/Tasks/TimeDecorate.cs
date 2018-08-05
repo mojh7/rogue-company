@@ -16,12 +16,12 @@ public class TimeDecorate : ConditionDecorate
     {
         this.condition = condition;
         this.time = time;
-        this.isRun = false;
         return this;
     }
     public override void Init(Task task)
     {
         base.Init(task);
+        this.isRun = false;
     }
     public override State Run()
     {

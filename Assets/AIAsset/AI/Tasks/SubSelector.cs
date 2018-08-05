@@ -9,9 +9,10 @@ public class SubSelector : CompositeTask {
     {
         foreach (var task in GetChildren())
         {
-            if (task.Run() == State.SUCCESS)
+            State state = task.Run();
+            if (state == State.SUCCESS || state == State.CONTINUE)
             {
-                return State.SUCCESS;
+                return state;
             }
         }
         foreach (var task in GetChildren())

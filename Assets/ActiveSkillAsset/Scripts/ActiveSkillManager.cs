@@ -12,7 +12,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        user.isCasting = true;
         StartCoroutine(CoroutineSkill(Charm, user, victim, delay, amount));
+        user.isCasting = false;
         return BT.State.SUCCESS;
     }
 
@@ -22,7 +24,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        user.isCasting = true;
         StartCoroutine(CoroutineSkill(IncreaseStatus, user, victim, delay, amount));
+        user.isCasting = false;
         return BT.State.SUCCESS;
     }
 
@@ -32,7 +36,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        user.isCasting = true;
         StartCoroutine(CoroutineSkill(Confuse, user, victim, delay, amount));
+        user.isCasting = false;
         return BT.State.SUCCESS;
     }
 
@@ -42,11 +48,13 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        user.isCasting = true;
         for (int i = 0; i < num; i++)
         {
             float randDelay = UnityEngine.Random.Range(0, delay + 1);
             StartCoroutine(CoroutineSkill(HandUp, user, radius, randDelay, amount));
         }
+        user.isCasting = false;
         return BT.State.SUCCESS;
     }
 
@@ -56,9 +64,10 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
-
+        user.isCasting = true;
         StartCoroutine(CoroutineSkill(HandClap, user, user.transform.position + Vector3.left, 0, amount));
         StartCoroutine(CoroutineSkill(HandClap, user, user.transform.position + Vector3.right, delay, amount));
+        user.isCasting = false;
         return BT.State.SUCCESS;
     }
 
@@ -68,7 +77,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        user.isCasting = true;
         StartCoroutine(CoroutineSkill(HandClap, user, servantData, delay, amount));
+        user.isCasting = false;
         return BT.State.SUCCESS;
     }
 
@@ -78,6 +89,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        user.isCasting = true;
         StartCoroutine(CoroutineSkill(Jump, user, unneeded, delay, amount));
         return BT.State.SUCCESS;
     }
@@ -88,6 +100,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        user.isCasting = true;
         StartCoroutine(CoroutineSkill(Flash, user, position, delay, amount));
         return BT.State.SUCCESS;
     }

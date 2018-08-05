@@ -157,7 +157,7 @@ public class Player : Character
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Player;
 
-        animationHandler.Init(PlayerManager.Instance.runtimeAnimator);
+        animationHandler.Init(this, PlayerManager.Instance.runtimeAnimator);
 
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
@@ -171,7 +171,6 @@ public class Player : Character
         stamina = GameObject.Find("Image_stamina").GetComponent<Stamina>();
         stamina.SetPlayer(this);
         //Stamina.Instance.setTotalStamina(100);
-        shadowClass.Init();
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);

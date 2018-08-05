@@ -8,6 +8,7 @@ public class SkillAction : ActionTask
 {
     [SerializeField]
     int Idx;
+    bool isRun;
     object temporary;
     AttackPattern attackPattern;
 
@@ -21,11 +22,32 @@ public class SkillAction : ActionTask
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
+        this.isRun = false;
         attackPattern = character.GetCharacterComponents().AIController.AttackPattern;
     }
     public override State Run()
     {
-        return attackPattern.CastingSKill(character, Idx, temporary); 
+        if (!isRun)
+        {
+            isRun = true;
+            return attackPattern.CastingSKill(character, Idx, temporary);
+        }
+        else
+        {
+            if(this.character.isCasting)
+            {
+                return State.CONTINUE;
+            }
+            else
+            {
+                return State.FAILURE;
+            }
+        }
+    }
+    public override bool SubRun()
+    {
+        isRun = false;
+        return true;
     }
     public override Task Clone()
     {

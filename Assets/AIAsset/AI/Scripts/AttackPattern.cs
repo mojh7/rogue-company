@@ -43,7 +43,7 @@ public class AttackPattern : MonoBehaviour
     {
         if (i >= skillDatas.Length || !isActive)
             return BT.State.FAILURE;
-        skillDatas[i].Run(character, temporary);
-        return BT.State.SUCCESS;
+
+        return skillDatas[i].Run(character, temporary);
     }
 }
