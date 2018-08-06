@@ -83,14 +83,15 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State Jump(Character user, object unneeded, float delay, float amount)
+    public BT.State RangeAttack(Character user, object unneeded, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
         user.isCasting = true;
-        StartCoroutine(CoroutineSkill(Jump, user, unneeded, delay, amount));
+        user.GetCharacterComponents().AnimationHandler.Skill(0);
+        StartCoroutine(CoroutineSkill(RangeAttack, user, unneeded, delay, amount));
         return BT.State.SUCCESS;
     }
 
@@ -134,11 +135,11 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         gameObject.GetComponent<Alert>().Active();
     }
 
-    private void HandUpPart(Vector3 pos, object character, float amount)
+    private void HandUpPart(Vector3 pos, object user, float amount)
     {
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
-        gameObject.AddComponent<CollisionSkill>().Init(character as Character, amount, "handUp");
+        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, "handUp");
     }
 
     private void HandClap(Character user, object unneeded, float amount)
@@ -148,16 +149,18 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         HandClapPart(pos, user, amount);
     }
 
-    private void HandClapPart(Vector3 pos, Character character, float amount)
+    private void HandClapPart(Vector3 pos, Character user, float amount)
     {
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
-        gameObject.AddComponent<CollisionSkill>().Init(character, amount, "handClap");
+        gameObject.AddComponent<CollisionSkill>().Init(user, amount, "handClap");
     }
 
-    private void Jump(Character user, object unneeded, float amount)
+    private void RangeAttack(Character user, object unneeded, float amount)
     {
-        user.GetCharacterComponents().AnimationHandler.Skill(0);
+        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
+        gameObject.transform.position = user.transform.position;
+        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount);
     }
 
     private void Flash(Character user, object unneeded, float amount)
