@@ -24,7 +24,7 @@ namespace Map
             map = new Map(width, height, size, area, maxHallRate, _floor, objectPool);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
-            map.AddFallRock();
+            //map.AddFallRock();
             RoomManager.Instance.InitRoomList();
         }
         public Map GetMap() { return map; }

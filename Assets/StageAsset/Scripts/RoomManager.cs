@@ -81,6 +81,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
         //TODO : 무기만듬
+
         Item item = ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.CLOTHING);
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
         ItemManager.Instance.CollectItem();

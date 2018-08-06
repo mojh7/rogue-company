@@ -40,7 +40,7 @@ namespace AStar
             width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
             grid = new Node[width, height];
-            box = new Vector2(nodeDiameter, nodeDiameter);
+            box = new Vector2(nodeDiameter - 0.1f, nodeDiameter - 0.1f);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)

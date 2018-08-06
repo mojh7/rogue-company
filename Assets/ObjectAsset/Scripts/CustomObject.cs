@@ -568,7 +568,7 @@ public class ItemContainer : RandomSpriteObject
     {
         if (collision.CompareTag("Interactor"))
         {
-            if (innerObject.GetType() == typeof(Weapon) || !isAvailable)
+            if (innerObject.GetType() != typeof(Coin) || !isAvailable)
                 return;
             DettachDestroy();
             innerObject.GetComponent<Item>().Active();
