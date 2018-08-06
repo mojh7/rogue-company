@@ -109,8 +109,10 @@ public class BuffManager : MonoBehaviour
             bulletCountIncrement = 0,
             criticalChanceIncrement = 0,
 
+            // 곱 옵션 - 합 연산
             damageIncrement = 1f,
             knockBackIncrement = 1f,
+            chargingSpeedIncrement = 1f,
             chargingDamageIncrement = 1f,
             gettingSkillGaugeIncrement = 1f,
             gettingStaminaIncrement = 1f,
@@ -119,9 +121,9 @@ public class BuffManager : MonoBehaviour
             bulletRangeIncrement = 1f,
             bulletSpeedIncrement = 1f,
 
+            // 곱 옵션 - 곱 연산
             decreaseDamageAfterPierceReduction = 1f,
             cooldownReduction = 1f,
-            chargeTimeReduction = 1f,
             accuracyIncrement = 1f,
 
             ammoCapacityIncrement = 0,
@@ -134,12 +136,13 @@ public class BuffManager : MonoBehaviour
             meleeWeaponsCanReflectBullet = false
         };
 
+        // 곱 옵션 - 곱 연산
         for(int i = 1; i < length; i++)
         {
             WeaponTargetEffectTotal[i] = new WeaponTargetEffect()
             {
+                decreaseDamageAfterPierceReduction = 1f,
                 cooldownReduction = 1f,
-                chargeTimeReduction = 1f,
                 accuracyIncrement = 1f
             };
         }
@@ -297,6 +300,7 @@ public class BuffManager : MonoBehaviour
             // 곱 옵션 - 합 연산
             WeaponTargetEffectTotal[index].damageIncrement += targetEffect.damageIncrement * sign;
             WeaponTargetEffectTotal[index].knockBackIncrement += targetEffect.knockBackIncrement * sign;
+            WeaponTargetEffectTotal[index].chargingSpeedIncrement += targetEffect.chargingSpeedIncrement * sign;
             WeaponTargetEffectTotal[index].chargingDamageIncrement += targetEffect.chargingDamageIncrement * sign;
             WeaponTargetEffectTotal[index].gettingSkillGaugeIncrement += targetEffect.gettingSkillGaugeIncrement * sign;
             WeaponTargetEffectTotal[index].gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
@@ -311,7 +315,6 @@ public class BuffManager : MonoBehaviour
             {
                 WeaponTargetEffectTotal[index].decreaseDamageAfterPierceReduction *= (1.0f - targetEffect.decreaseDamageAfterPierceReduction);
                 WeaponTargetEffectTotal[index].cooldownReduction *= (1.0f - targetEffect.cooldownReduction);
-                WeaponTargetEffectTotal[index].chargeTimeReduction *= (1.0f - targetEffect.chargeTimeReduction);
                 WeaponTargetEffectTotal[index].accuracyIncrement *= (1.0f - targetEffect.accuracyIncrement);
                 // WeaponTargetEffectTotal[index] *= (1.0f - targetEffect);
             }
@@ -319,7 +322,6 @@ public class BuffManager : MonoBehaviour
             {
                 WeaponTargetEffectTotal[index].decreaseDamageAfterPierceReduction /= (1.0f - targetEffect.decreaseDamageAfterPierceReduction);
                 WeaponTargetEffectTotal[index].cooldownReduction /= (1.0f - targetEffect.cooldownReduction);
-                WeaponTargetEffectTotal[index].chargeTimeReduction /= (1.0f - targetEffect.chargeTimeReduction);
                 WeaponTargetEffectTotal[index].accuracyIncrement /= (1.0f - targetEffect.accuracyIncrement);
                 // WeaponTargetEffectTotal[index] /= (1.0f - targetEffect);
             }

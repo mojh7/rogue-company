@@ -43,7 +43,7 @@ public class WeaponInfo : ScriptableObject
     [Header("일단 임시로 ammoCapacity 값 -1 => 탄창 무한대")]
     public int ammoCapacity;            // 탄약 량
     public int ammo;                    // 현재 탄약
-    public int chargeCountMax;             // 차징 최대 횟수, 0 = 차징 X
+    public float chargeTimeMax;         // 차징 최대 시간, 0 = 차징 X
     public float bulletMoveSpeed;       // 총알 이동속도
     public float range;                 // 사정 거리
     public float damage;                // 공격력
@@ -93,7 +93,7 @@ public class WeaponInfo : ScriptableObject
 
         clonedInfo.ammoCapacity = ammoCapacity;
         clonedInfo.ammo = ammo;
-        clonedInfo.chargeCountMax = chargeCountMax;
+        clonedInfo.chargeTimeMax = chargeTimeMax;
         clonedInfo.bulletMoveSpeed = bulletMoveSpeed;
         clonedInfo.range = range;
         clonedInfo.damage = damage;

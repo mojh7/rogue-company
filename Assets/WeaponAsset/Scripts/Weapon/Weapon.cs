@@ -31,9 +31,9 @@ public class Weapon : Item
     private Player player;
     private Enemy enemy;
 
-    private int chargedCount;
-    private float timePerCharging;
-    private float damageIncrementPerCharging;
+    private float chargedTime;
+    private float chargingSpeed;
+    private float chargingDamageIncrement;
     private bool canChargedAttack;              // 차징 공격 가능 여부, 초기에 true 상태
     private float chargedDamageIncreaseRate;    // 풀 차징 공격 데미지 상승률
     private Coroutine chargingUpdate;
@@ -106,8 +106,7 @@ public class Weapon : Item
 
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
-        chargedCount = 0;
-        timePerCharging = 0.1f;
+        chargedTime = 0;
         if (WeaponType.SPEAR == info.weaponType || WeaponType.CLUB == info.weaponType || WeaponType.SPORTING_GOODS == info.weaponType ||
             WeaponType.SWORD == info.weaponType || WeaponType.CLEANING_TOOL == info.weaponType || WeaponType.KNUCKLE == info.weaponType)
         {
@@ -163,7 +162,7 @@ public class Weapon : Item
         }
     }
     
-    public void showMuzzleFlash()
+    public void ShowMuzzleFlash()
     {
         if(info.showsMuzzleFlash)
         {
@@ -226,7 +225,7 @@ public class Weapon : Item
                 UpdateWeaponBuff();
                 weaponState = WeaponState.Charge;
                 // 차징 코루틴 실행
-                if (chargingUpdate == null)
+                if (null == chargingUpdate)
                 {
                     chargingUpdate = StartCoroutine(ChargingUpdate());
                 }
@@ -265,10 +264,10 @@ public class Weapon : Item
         }
         else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Charge)
         {
-            chargedDamageIncreaseRate = damageIncrementPerCharging * chargedCount;
-            Debug.Log("차징 데미지 뻥튀기율 : " + chargedDamageIncreaseRate);
+            chargedDamageIncreaseRate = chargingDamageIncrement * chargedTime;
+            // Debug.Log("차징 데미지 뻥튀기율 : " + chargedDamageIncreaseRate);
             Attack(chargedDamageIncreaseRate);
-            chargedCount = 0;
+            chargedTime = 0;
             // 차징 update coroutine 종료
             if(chargingUpdate != null)
             {
@@ -313,9 +312,10 @@ public class Weapon : Item
         // 공격 속도 증가 
         info.cooldown = originInfo.cooldown * totalInfo.cooldownReduction * effectInfo.cooldownReduction;
         // 차징 속도 증가
-        timePerCharging = 0.1f * totalInfo.chargeTimeReduction * effectInfo.chargeTimeReduction;
+        chargingSpeed = 1f * (totalInfo.chargingSpeedIncrement + effectInfo.chargingSpeedIncrement);
         // 차징 데미지 증가
-        damageIncrementPerCharging = 0.1f * (totalInfo.chargingDamageIncrement + effectInfo.chargingDamageIncrement); 
+        chargingDamageIncrement = 1f * (totalInfo.chargingDamageIncrement + effectInfo.chargingDamageIncrement);
+        // Debug.Log("무기 효과 업데이트 후 : " + totalInfo.chargingSpeedIncrement  + ", " + effectInfo.chargingSpeedIncrement + ", " + chargingSpeed + ", " + chargingDamageIncrement);
     }
 
     public void UseAmmo()
@@ -379,7 +379,7 @@ public class Weapon : Item
                     yield break;
                 }
 
-                showMuzzleFlash();
+                ShowMuzzleFlash();
                 // 공격 사운드 실행
                 AudioManager.Instance.PlaySound(info.soundId);
                 //CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
@@ -406,12 +406,15 @@ public class Weapon : Item
     /// </summary>
     private IEnumerator ChargingUpdate()
     {
-        while (chargedCount < info.chargeCountMax)
+        while (chargedTime < info.chargeTimeMax)
         {
-            yield return YieldInstructionCache.WaitForSeconds(timePerCharging);
-            chargedCount += 1;
-            weaponManager.UpdateChargingUI((float)chargedCount / info.chargeCountMax);
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            chargedTime += Time.fixedDeltaTime * chargingSpeed;
+            weaponManager.UpdateChargingUI(chargedTime / info.chargeTimeMax);
+            //Debug.Log(chargedTime + ", " + (chargedTime / info.chargeTimeMax));
         }
+        chargedTime = info.chargeTimeMax;
+        weaponManager.UpdateChargingUI(chargedTime / info.chargeTimeMax);
     }
 
     #endregion

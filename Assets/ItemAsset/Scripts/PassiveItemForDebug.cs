@@ -198,18 +198,18 @@ public class PassiveItemForDebug : MonoBehaviour
 
             "1.damageIncrement\n" +
             "2.knockBackIncrement\n" +
-            "3.chargingDamageIncrement\n" +
-            "4.gettingSkillGaugeIncrement\n" +
-            "5.gettingStaminaIncrement\n" +
-            "6.skillPowerIncrement\n" +
-            "7.bulletScaleIncrement\n" +
-            "8.bulletRangeIncrement\n" +
-            "9.bulletSpeedIncrement\n" +
+            "3.chargingSpeedIncrement\n" +
+            "4.chargingDamageIncrement\n" +
+            "5.gettingSkillGaugeIncrement\n" +
+            "6.gettingStaminaIncrement\n" +
+            "7.skillPowerIncrement\n" +
+            "8.bulletScaleIncrement\n" +
+            "9.bulletRangeIncrement\n" +
+            "10.bulletSpeedIncrement\n" +
             
             "1.decreaseDamageAfterPierceReduction\n" +
             "2.cooldownReduction\n" +
-            "3.chargeTimeReduction\n" +
-            "4.accuracyIncrement\n" +
+            "3.accuracyIncrement\n" +
 
             "1.increasePierceCount\n" +
             "2.becomesSpiderMine\n" +
@@ -251,6 +251,7 @@ public class PassiveItemForDebug : MonoBehaviour
 
             weaponTotal.damageIncrement + "\n" +
             weaponTotal.knockBackIncrement + "\n" +
+            weaponTotal.chargingSpeedIncrement + "\n" +
             weaponTotal.chargingDamageIncrement + "\n" +
             weaponTotal.gettingSkillGaugeIncrement + "\n" +
             weaponTotal.gettingStaminaIncrement + "\n" +
@@ -261,7 +262,6 @@ public class PassiveItemForDebug : MonoBehaviour
 
             weaponTotal.decreaseDamageAfterPierceReduction + "\n" +
             weaponTotal.cooldownReduction + "\n" +
-            weaponTotal.chargeTimeReduction + "\n" +
             weaponTotal.accuracyIncrement + "\n" +
 
             weaponTotal.increasePierceCount + "\n" +

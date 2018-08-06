@@ -20,6 +20,7 @@ public class WeaponTargetEffect : ItemUseEffect
     [Header("곱 옵션 - 합 연산")]
     public float damageIncrement;           // 공격력 증가율
     public float knockBackIncrement;        // 넉백 증가율
+    public float chargingSpeedIncrement;    // 차징 속도 증가율
     public float chargingDamageIncrement;   // 차징 데미지 증가율
     public float gettingSkillGaugeIncrement;// 스킬 게이지 획득량 증가
     public float gettingStaminaIncrement;   // 스테미너 획득량 상승
@@ -31,7 +32,6 @@ public class WeaponTargetEffect : ItemUseEffect
     [Header("곱 옵션 - 곱 연산")]
     public float decreaseDamageAfterPierceReduction;    // 관통 시 데미지 감소율 감소
     public float cooldownReduction;         // 무기 재사용 시간 감소율
-    public float chargeTimeReduction;       // 차징 시간 감소율
     public float accuracyIncrement;         // 집탄률, 탄 정확도 상승
     
     // 미정

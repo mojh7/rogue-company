@@ -20,7 +20,7 @@ public class ChargeGauge : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        scaleVec = new Vector3(0f, 0.2f, 1f);
+        scaleVec = new Vector3(0.0f, 0.2f, 1f);
         gaugeSpriteTrasnform = gaugeSpriteObj.GetComponent<Transform>();
         fullChargedScaleX = 1.8f;
         frame.SetActive(false);
@@ -35,7 +35,7 @@ public class ChargeGauge : MonoBehaviour {
     public void UpdateChargeGauge(float chargedVaule)
     {
         // 연속으로 터치시 바로 차징 게이지 안뜨게 하기 위함
-        if (chargedVaule <= 0.05f)
+        if (chargedVaule <= 0.03f)
         {
             frame.SetActive(false);
             backGround.SetActive(false);
