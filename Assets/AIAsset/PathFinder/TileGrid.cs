@@ -14,7 +14,6 @@ namespace AStar
         Vector2 gridWorldSize;
         List<Node> neighbours;
         Vector2 box;
-        int reverseNodeRadius;
 
         int width, height;
         
@@ -36,11 +35,10 @@ namespace AStar
             neighbours = new List<Node>(9);
             gridWorldSize = new Vector2(Map.MapManager.Instance.width * Map.MapManager.Instance.size + 1, Map.MapManager.Instance.height * Map.MapManager.Instance.size + 1);
             nodeDiameter = nodeRadius * 2;
-            reverseNodeRadius = (int)(1 / nodeRadius);
             width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
             grid = new Node[width, height];
-            box = new Vector2(nodeDiameter - 0.1f, nodeDiameter - 0.1f);
+            box = new Vector2(nodeDiameter, nodeDiameter);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -60,15 +58,15 @@ namespace AStar
             float x = node.worldPos.x;
             float y = node.worldPos.y;
 
-            float minX = sprite.bounds.min.x - 0.5f;
-            float maxX = sprite.bounds.max.x + 0.5f;
-            float minY = sprite.bounds.min.y - 0.5f;
-            float maxY = sprite.bounds.max.y + 0.5f ;
+            float minX = sprite.bounds.min.x - nodeRadius;
+            float maxX = sprite.bounds.max.x + nodeRadius;
+            float minY = sprite.bounds.min.y - nodeRadius;
+            float maxY = sprite.bounds.max.y + nodeRadius;
             Vector3 posNode;
 
-            for (float i = x + minX; i <= x + maxX; i += 0.5f)
+            for (float i = x + minX; i <= x + maxX; i += nodeRadius)
             {
-                for (float j = y + minY; j <= y + maxY; j += 0.5f)
+                for (float j = y + minY; j <= y + maxY; j += nodeRadius)
                 {
                     posNode = new Vector3(i, j, 0);
                     bool walkable = !(Physics2D.OverlapBox(posNode, box, 0, unwalkableMask));
