@@ -29,6 +29,10 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     Vector2 oldPos;
     bool isToggle = false;
     Color hallColor = new Color((float)160 / 255, (float)174 / 255, (float)186 / 255);
+    // 0806 Test
+    bool tanslateMapX = false;
+    Vector2 mapV = Vector2.zero;
+    Vector2 iconV = Vector2.zero;
 
     Direction Check(Map.Rect _rectA, Map.Rect _rectB)
     {
@@ -534,6 +538,77 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     }
 
+    // 0806 윤아 추가
+    bool FixedPlayer()
+    {
+        // 수정해야 하는 부분 : 
+        // 두 가지 경우가 모두 들어갈 경우
+        bool isX = playerPositon.x >= 34 || playerPositon.x <= 11.1f;
+        bool isY = playerPositon.y >= 34 || playerPositon.y <= 11.1f;
+        if (isX)
+        {
+            tanslateMapX = false;
+            return true;
+        }
+        else if (isY)
+        {
+            tanslateMapX = true;
+            return true;
+        }
+        else if (isX && isY)
+        {
+            // 수정할 예정
+            return true;
+        }
+        else
+        {
+            tanslateMapX = false;
+            return false;
+        }
+    }
+
+    void MovePlayerIconMinimap()
+    {
+        float _width = width / 2f;
+        float _height = height / 2f;
+        if (tanslateMapX)
+        {
+            // 맵의 x축은 이동하고 플레이어 아이콘의 y축이 이동
+            transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
+                mapV.y);
+            iconV = new Vector2(-maskSize,
+            playerPositon.y / mapSizeHeight * _height - maskSize - _height / 2f);
+            playerIcon.transform.localPosition = iconV;
+        }
+        else
+        {
+            // 맵의 y축은 이동하고 플레이어 아이콘의 x축이 이동
+            transform.localPosition = new Vector2(mapV.x,
+            -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
+            iconV = new Vector2(playerPositon.x / mapSizeWidth * _width - maskSize - _width / 2f,
+            -maskSize);
+            playerIcon.transform.localPosition = iconV;
+        }
+    }
+
+    void MovePlayerIcon()
+    {
+        iconV = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - width / 2,
+            playerPositon.y / mapSizeHeight * height - maskSize - height / 2);
+        playerIcon.transform.localPosition = iconV;
+    } // 현재 플레이어 위치 to MiniMap
+
+    void MoveMinimapIcon()
+    {
+        mapV = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
+            -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
+        transform.localPosition = mapV;
+
+        // Icon의 위치를 중앙으로 변경해야함. 한번만 호출해야햐는데 얘를 어디에 둬야 할까?
+        playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
+    } // 현재 플레이어 위치 to MiniMap
+
+    /** 수정전
     void MovePlayerIcon()
     {
         Vector2 v = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - width / 2,
@@ -546,6 +621,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
             -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
     } // 현재 플레이어 위치 to MiniMap
+    **/
 
     #region UnityFunc
     private void Update()
@@ -555,7 +631,12 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         if (isToggle)
             MovePlayerIcon();
         else
-            MoveMinimapIcon();
+        {
+            if (FixedPlayer())
+                MovePlayerIconMinimap();
+            else
+                MoveMinimapIcon();
+        }
     }
     #endregion
 }
