@@ -88,11 +88,11 @@ public class Enemy : Character
     private void Update()
     {
         AutoAim();
-        if(tempTime++ > 70)
-        {
-            weaponManager.AttackButtonDown();
-            tempTime = 0;
-        }
+        //if(tempTime++ > 70)
+        //{
+        //    weaponManager.AttackButtonDown();
+        //    tempTime = 0;
+        //}
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
         {

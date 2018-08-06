@@ -63,7 +63,7 @@ namespace AStar
             float minX = sprite.bounds.min.x - 0.5f;
             float maxX = sprite.bounds.max.x + 0.5f;
             float minY = sprite.bounds.min.y - 0.5f;
-            float maxY = sprite.bounds.max.y + 0.5f;
+            float maxY = sprite.bounds.max.y + 0.5f ;
             Vector3 posNode;
 
             for (float i = x + minX; i <= x + maxX; i += 0.5f)

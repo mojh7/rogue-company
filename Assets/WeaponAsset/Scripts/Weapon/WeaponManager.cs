@@ -289,6 +289,7 @@ public class WeaponManager : MonoBehaviour {
         currentWeaponIndex = index;
         UpdateCurrentWeapon();
         equipWeaponSlot[index].StartAttack();
+        Debug.Log("Attack");
     }
 
     /// <summary> 공격 버튼 누를 때, 누르는 중일 때 </summary>
