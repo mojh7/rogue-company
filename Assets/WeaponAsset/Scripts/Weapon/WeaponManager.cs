@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using CharacterInfo;
 /* 
  * Ctrl K,F - 자동 들여 쓰기
  * Ctrl K,C - 주석 처리
@@ -144,19 +145,20 @@ public class WeaponManager : MonoBehaviour {
     {
         if (stopsUpdate) return;
 
-        //-------------------- 공격 테스트 용
-        if(Input.GetKey(KeyCode.Space))
+        //-------------------- Player 공격 테스트 용
+        if(OwnerType.Player == ownerType)
         {
-            AttackButtonDown();
-            isReleaseSpaceBar = true;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                AttackButtonDown();
+                isReleaseSpaceBar = true;
+            }
+            else if (isReleaseSpaceBar == true)
+            {
+                isReleaseSpaceBar = false;
+                AttackButtonUP();
+            }
         }
-        else if(isReleaseSpaceBar == true)
-        {
-            isReleaseSpaceBar = false;
-            AttackButtonUP();
-        }
-
-        //---------------------------------
 
         // 바라보는 방향으로 무기 회전 및 position, scale 조정
         if (owner.GetRightDirection())
@@ -286,10 +288,15 @@ public class WeaponManager : MonoBehaviour {
 
     public void AttackWeapon(int index)
     {
-        currentWeaponIndex = index;
-        UpdateCurrentWeapon();
-        equipWeaponSlot[index].StartAttack();
-        Debug.Log("Attack");
+        if (WeaponState.Idle == equipWeaponSlot[currentWeaponIndex].GetWeaponState())
+        {
+            if (index != currentWeaponIndex)
+            {
+                currentWeaponIndex = index;
+                UpdateCurrentWeapon();
+            }
+            equipWeaponSlot[currentWeaponIndex].StartAttack();
+        }
     }
 
     /// <summary> 공격 버튼 누를 때, 누르는 중일 때 </summary>

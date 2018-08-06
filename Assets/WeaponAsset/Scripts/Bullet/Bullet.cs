@@ -621,7 +621,7 @@ public class Bullet : MonoBehaviour
         if (OwnerType.Player == ownerType)
         {
             DecreaseDamageAfterPierce = 0.3f * (totalInfo.decreaseDamageAfterPierceReduction + effectInfo.decreaseDamageAfterPierceReduction);
-            Debug.Log(ownerType + ", " + name + ", " + DecreaseDamageAfterPierce);
+            //Debug.Log(ownerType + ", " + name + ", " + DecreaseDamageAfterPierce);
         }
     }
 
