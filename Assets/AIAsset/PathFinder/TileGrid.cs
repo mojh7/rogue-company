@@ -14,6 +14,7 @@ namespace AStar
         Vector2 gridWorldSize;
         List<Node> neighbours;
         Vector2 box;
+        int reverseNodeRadius;
 
         int width, height;
         
@@ -35,6 +36,7 @@ namespace AStar
             neighbours = new List<Node>(9);
             gridWorldSize = new Vector2(Map.MapManager.Instance.width * Map.MapManager.Instance.size + 1, Map.MapManager.Instance.height * Map.MapManager.Instance.size + 1);
             nodeDiameter = nodeRadius * 2;
+            reverseNodeRadius = (int)(1 / nodeRadius);
             width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
             grid = new Node[width, height];
@@ -51,34 +53,26 @@ namespace AStar
             }
         }
 
-        public void Bake(PolygonCollider2D polygon)
+        public void Bake(SpriteRenderer spriteRenderer)
         {
-            float minX = 0;
-            float maxX = 0;
-            float minY = 0;
-            float maxY = 0;
+            Node node = NodeFromWorldPoint(spriteRenderer.transform.position);
+            Sprite sprite = spriteRenderer.sprite;
+            float x = node.worldPos.x;
+            float y = node.worldPos.y;
 
-            for (int i=0;i<polygon.points.Length;i++)
+            float minX = sprite.bounds.min.x - 0.5f;
+            float maxX = sprite.bounds.max.x + 0.5f;
+            float minY = sprite.bounds.min.y - 0.5f;
+            float maxY = sprite.bounds.max.y + 0.5f;
+            Vector3 posNode;
+
+            for (float i = x + minX; i <= x + maxX; i += 0.5f)
             {
-                minX = Mathf.Min(minX, polygon.points[i].x);
-                maxX = Mathf.Max(maxX, polygon.points[i].x);
-                minY = Mathf.Min(minY, polygon.points[i].y);
-                maxY = Mathf.Max(maxY, polygon.points[i].y);
-            }
-
-            minX = Mathf.Round(minX);
-            maxX = Mathf.Round(maxX);
-            minY = Mathf.Round(minY);
-            maxY = Mathf.Round(maxY);
-
-            int x = (int)polygon.transform.position.x;
-            int y = (int)polygon.transform.position.y;
-
-            for (int i = x + (int)minX; i < x + maxX; i++)
-            {
-                for (int j = y + (int)minY; j < y + maxY; j++)
+                for (float j = y + minY; j <= y + maxY; j += 0.5f)
                 {
-                    grid[x, y].walkable = !grid[x, y].walkable;
+                    posNode = new Vector3(i, j, 0);
+                    bool walkable = !(Physics2D.OverlapBox(posNode, box, 0, unwalkableMask));
+                    NodeFromWorldPoint(posNode).walkable = walkable;
                 }
             }
         }
