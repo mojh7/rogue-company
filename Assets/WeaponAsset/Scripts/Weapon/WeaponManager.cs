@@ -134,6 +134,7 @@ public class WeaponManager : MonoBehaviour {
         // DebugX.Log("local pos : " + objTransform.localPosition); 디버그는 반올림으로 소숫점 1자리까지만 나오는 듯 x값 0.15 => 디버그 0.2, x값 0.25 => 디버그 0.3로 나옴
         posVector = objTransform.localPosition;   // weaponManager 초기 local Position 값, 좌 우 바뀔 때 x값만 -, + 부호로 바꿔줘서 사용
         rightDirectionPosX = posVector.x;
+        equipWeaponSlot = new List<Weapon>();
         // DebugX.Log(gameObject);
     }
 
@@ -183,30 +184,10 @@ public class WeaponManager : MonoBehaviour {
     #endregion
 
     #region Initialization
-    public void Init(Character owner, CharacterInfo.OwnerType ownerType)
+    public void Init(Character owner, OwnerType ownerType)
     {
         SetOwnerInfo(owner, ownerType);
-
-        // 0526 몬스터 무기 땜빵
-        if (CharacterInfo.OwnerType.Enemy == ownerType)
-        {
-            // TODO : 테스트용 삭제 예정?, 0802 모
-
-            weaponCountMax = 1;
-            weaponCount = weaponCountMax;
-            currentWeaponIndex = 0;
-            equipWeaponSlot[0].Init(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), ownerType);
-            //equipWeaponSlot[0].Init(4, ownerType);
-
-            for (int i = 0; i < weaponCountMax; i++)
-            {
-                equipWeaponSlot[i].RegisterWeapon(this);
-            }
-
-        }
-
-        // 0529 Player 무기 디버그용 
-        else if (CharacterInfo.OwnerType.Player == ownerType)
+        if (CharacterInfo.OwnerType.Player == ownerType)
         {
             Weapon weapon;
             equipWeaponSlot = new List<Weapon>();
@@ -271,6 +252,23 @@ public class WeaponManager : MonoBehaviour {
             }
 
             saveDataLength = weaponCountMax;
+        }
+        UpdateCurrentWeapon();
+    }
+
+    public void Init(Character owner, EnemyData enemyData)
+    {
+        SetOwnerInfo(owner, OwnerType.Enemy);
+
+        if (DebugSetting.Instance.equipsEnemyDataWeapon)
+        {
+            for (int i = 0; i < enemyData.WeaponInfo.Count; i++)
+                EquipWeapon(enemyData.WeaponInfo[i]);
+        }
+        else
+        {
+            currentWeaponIndex = 0;
+            EquipWeapon(DataStore.Instance.GetWeaponInfo(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), OwnerType.Enemy));
         }
         UpdateCurrentWeapon();
     }
@@ -388,10 +386,11 @@ public class WeaponManager : MonoBehaviour {
         return true;
     }
 
-    //0603 유성
+    //0603 유성, 0807 모 수정
     public void EquipWeapon(WeaponInfo weaponInfo)
     {
-        DebugX.Log(weaponInfo.name);
+        weaponCountMax += 1;
+        weaponCount += 1;
         Weapon weapon = ObjectPoolManager.Instance.CreateWeapon();
         weapon.Init(weaponInfo, ownerType);
         equipWeaponSlot.Add(weapon);
@@ -399,6 +398,15 @@ public class WeaponManager : MonoBehaviour {
         weapon.RegisterWeapon(this);
     }
 
+    // Enemy용, 장착 된 무기 회수하여 오브젝트 풀로 되돌림
+    public void RemoveAllWeapons()
+    {
+        weaponCountMax = 0;
+        weaponCount = 0;
+        for(int i = 0; i < equipWeaponSlot.Count; i++)
+            ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
+        equipWeaponSlot = new List<Weapon>();
+    }
 
 
     #endregion
@@ -406,7 +414,7 @@ public class WeaponManager : MonoBehaviour {
     IEnumerable PickAndDropWeaponDelay()
     {
         canPickAndDropWeapon = false;
-        yield return YieldInstructionCache.WaitForSeconds(1.0f);
+        yield return YieldInstructionCache.WaitForSeconds(2.0f);
         canPickAndDropWeapon = true;
     }
 }
