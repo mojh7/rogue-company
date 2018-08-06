@@ -64,6 +64,7 @@ public class Enemy : Character
     private Coroutine nagCoroutine;
     private Coroutine delayStateCoroutine;
     #endregion
+    
     #region setter
     #endregion
 
@@ -132,12 +133,9 @@ public class Enemy : Character
         sprite = enemyData.Sprite;
         buffManager.Init();
         buffManager.SetOwner(this);
-        weaponManager.Init(this, CharacterInfo.OwnerType.Enemy);
-        for (int i = 0; i < enemyData.WeaponInfo.Count; i++)
-        {
-            //Debug.Log(enemyData.WeaponInfo[i].name + ", " + name);
-            weaponManager.EquipWeapon(enemyData.WeaponInfo[i]);
-        }
+        
+        // weaponManager.init이 뒤에 와야됨.
+        weaponManager.Init(this, enemyData);
         animationHandler.Init(this, enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
@@ -215,6 +213,7 @@ public class Enemy : Character
             StopCoroutine(delayStateCoroutine);
         }
 
+        weaponManager.RemoveAllWeapons();
         PlayerManager.Instance.GetPlayer().AddKilledEnemyCount();
         DropItem();
         Stamina.Instance.StaminaPlus();

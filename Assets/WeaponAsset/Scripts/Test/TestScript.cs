@@ -164,22 +164,13 @@ public class TestScript : MonoBehaviour {
     // TODO : Effect 생성 여기서 말고 나중에 다른 곳으로 옮길 거
     public void CreateEffect(int id, Vector3 pos)
     {
-        
         if (id < 0) return;
-        
-        GameObject createdObj;
-        createdObj = Instantiate(effectObj);
-        createdObj.SetActive(true);
-        createdObj.GetComponent<Effect>().Init(id, pos);
         if (id == 0)
         {
-            ParticleManager.Instance.PlayParticle("BulletEffect1", new Vector2(pos.x, pos.y), createdObj.GetComponent<Effect>().GetSprite());
+            ParticleManager.Instance.PlayParticle("BulletEffect1", new Vector2(pos.x, pos.y));
         }
     }
 
-
-
- 
         // 내부적으로 compare로 비교해서 값 비교 되는 걸로 넣어야 될듯 클래스 안됨
         //DebugX.Log(t = wList.BinarySearch(c));
         //DebugX.Log(t2 = wList.BinarySearch(e));
