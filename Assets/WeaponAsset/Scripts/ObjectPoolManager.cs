@@ -182,7 +182,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     /// <summary> UsableItem object 삭제(회수) </summary>
     public void DeleteUsableItem(GameObject obj)
     {
-        weaponPool.RemoveItem(obj);
+        itemPool.RemoveItem(obj);
     }
 
 

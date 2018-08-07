@@ -55,6 +55,7 @@ public class CustomObject : MonoBehaviour
 #endif
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         StopAni();
+        tag = "Wall";
     }
 
     private void SetNullPolygon()
@@ -548,6 +549,7 @@ public class ItemContainer : RandomSpriteObject
         isAvailable = true;
         isAnimate = true;
         objectType = ObjectType.NONE;
+        tag = "Untagged";
     }
 
     public void Init(Item _item)
