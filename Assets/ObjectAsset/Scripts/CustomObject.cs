@@ -586,6 +586,12 @@ public class ItemContainer : RandomSpriteObject
                 return true;
             }
         }
+        else if(innerObject.GetType() == typeof(UsableItem))
+        {
+            innerObject.Active();
+            DestroyAndDeactive();
+            return true;
+        }
 
         return false;
     }
