@@ -120,7 +120,7 @@ public class MovingPattern : MonoBehaviour
     {
         if (rushTracker == null)
             return false;
-        speed = baseSpeed * 5;
+        speed = baseSpeed * 2;
 
         return rushTracker.Update();
     }

@@ -99,11 +99,15 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         }
         if (isBoss)
         {
-            return floorDatas[floor].bossEnemyDatas[Random.Range(0, floorDatas[floor].bossEnemyDatas.Length)];
+            int rand = Random.Range(0, floorDatas[floor].bossEnemyDatas.Length);
+            rand = 1;
+            return floorDatas[floor].bossEnemyDatas[rand];
         }
         else
         {
-            return floorDatas[floor].enemyDatas[Random.Range(0, floorDatas[floor].enemyDatas.Length)];
+            int rand = Random.Range(0, floorDatas[floor].enemyDatas.Length);
+
+            return floorDatas[floor].enemyDatas[rand];
         }
     }
 

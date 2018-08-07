@@ -13,6 +13,7 @@ public class ActiveSkil : MonoBehaviour {
     protected void DestroyAndDeactive()
     {
         isActvie = false;
+        StopCoroutine(ColliderUpdate());
         Destroy(this);
         this.gameObject.SetActive(false);
     }
@@ -27,11 +28,21 @@ public class ActiveSkil : MonoBehaviour {
         circleCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+    protected IEnumerator ColliderUpdate()
+    {
+        while (isActvie)
+        {
+            if(spriteRenderer.sprite)
+                circleCollider.radius = spriteRenderer.sprite.bounds.size.x * 0.5f;
+            yield return YieldInstructionCache.WaitForSeconds(0.1f);
+        }
+    }
 }
 
 public class CollisionSkill : ActiveSkil
 {
-    public void Init(Character character, float damage)
+    public void Init(Character character, float damage, float radius)
     {
         Init();
         isAvailable = true;
@@ -39,7 +50,7 @@ public class CollisionSkill : ActiveSkil
         this.damage = damage;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
-        StartCoroutine(CoroutineUpdate());
+        circleCollider.radius = radius;
     }
 
     public void Init(Character character, float damage, string skillName)
@@ -51,7 +62,7 @@ public class CollisionSkill : ActiveSkil
         this.damage = damage;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
-        StartCoroutine(CoroutineUpdate());
+        StartCoroutine(ColliderUpdate());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -65,13 +76,4 @@ public class CollisionSkill : ActiveSkil
             character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
         }
     }   
-
-    IEnumerator CoroutineUpdate()
-    {
-        while(isActvie)
-        {
-            circleCollider.radius = spriteRenderer.sprite.bounds.size.x * 0.5f;
-            yield return YieldInstructionCache.WaitForSeconds(0.1f);
-        }
-    }
 }

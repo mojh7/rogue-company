@@ -25,7 +25,6 @@ public class StopTrackAction : ActionTask
     public override State Run()  
     {
         bool success = movingPattern.StopTracking();
-
         if (success)
         {
             animationHandler.Idle();

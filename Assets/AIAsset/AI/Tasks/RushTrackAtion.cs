@@ -23,7 +23,6 @@ public class RushTrackAtion : ActionTask
     public override State Run()
     {
         bool success = movingPattern.RushTracking();
-
         if (success)
         {
             animationHandler.Walk();

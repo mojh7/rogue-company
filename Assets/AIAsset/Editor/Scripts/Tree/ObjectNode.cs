@@ -11,7 +11,7 @@ namespace BT
         public string windowTitle = "";
 
         public List<TaskNode> childrens;
-
+        private string inputTitle = "";
         private Rect inputRect;
         private TaskNode input;
         public List<TaskNode> parents;
@@ -19,10 +19,10 @@ namespace BT
         BehaviorCondition behaviorCondition;
         float value;
 
-        private TaskType taskType;
-        private ECompositeTask compositeTask;
-        private EDecorateTask decorateTask;
-        private EActionTask actionTask;
+        public TaskType taskType;
+        public ECompositeTask compositeTask;
+        public EDecorateTask decorateTask;
+        public EActionTask actionTask;
 
         public TaskNode()
         {
@@ -87,6 +87,7 @@ namespace BT
         public void DrawWindow()
         {
             Event e = Event.current;
+            inputTitle = (string)EditorGUILayout.TextField("Title", inputTitle);
             taskType = (TaskType)EditorGUILayout.EnumPopup("Task Type", taskType);
             switch (taskType)
             {
@@ -103,6 +104,8 @@ namespace BT
                     windowTitle = actionTask.ToString();
                     break;
             }
+            if (inputTitle != "")
+                windowTitle = inputTitle;
             if (decorateTask == EDecorateTask.DistanceDecorate || decorateTask == EDecorateTask.TimeDecorate)
             {
                 behaviorCondition = (BehaviorCondition)EditorGUILayout.EnumPopup("BehaviorCondition", behaviorCondition);

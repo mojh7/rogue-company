@@ -130,6 +130,7 @@ public class Enemy : Character
 
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
+        scaleVector = Vector3.one * enemyData.Size;
         sprite = enemyData.Sprite;
         buffManager.Init();
         buffManager.SetOwner(this);
@@ -139,7 +140,6 @@ public class Enemy : Character
         animationHandler.Init(this, enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
-        scaleVector = new Vector3(1f, 1f, 1f);
     }
     /// <summary> 상태 이상 효과 관련 초기화 </summary>
     private void InitStatusEffects()

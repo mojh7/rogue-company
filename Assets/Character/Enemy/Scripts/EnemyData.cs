@@ -13,6 +13,8 @@ public class EnemyData : ScriptableObject
     [SerializeField]
     private float speed;
     [SerializeField]
+    private float size;
+    [SerializeField]
     private RuntimeAnimatorController animatorController;
     [SerializeField]
     private List<WeaponInfo> weaponInfo;
@@ -42,6 +44,13 @@ public class EnemyData : ScriptableObject
         get
         {
             return speed;
+        }
+    }
+    public float Size
+    {
+        get
+        {
+            return size;
         }
     }
     public RuntimeAnimatorController AnimatorController

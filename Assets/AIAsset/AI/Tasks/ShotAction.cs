@@ -22,14 +22,14 @@ public class ShotAction : ActionTask {
     }
     public override State Run()
     {
-        bool success = attackPattern.Shot(character, 0);
+        bool success = attackPattern.Shot(character, Idx);
 
         return State.SUCCESS;
     }
     public override Task Clone()
     {
         ShotAction parent = new ShotAction();
-
+        parent.Set(Idx);
         return parent;
     }
 }

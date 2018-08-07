@@ -48,6 +48,7 @@ public class TimeDecorate : ConditionDecorate
     public override bool SubRun()
     {
         isRun = false;
+        GetChildren().SubRun();
         return true;
     }
     public override Task Clone()

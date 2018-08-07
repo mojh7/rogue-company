@@ -174,7 +174,7 @@ namespace BT
             for (int i = 0; i < taskNode.childrens.Count; i++)
             {
                 Task child = taskNode.childrens[i].CreateBehaviorNode();
-                child.name = child.GetType().ToString();
+                child.name = taskNode.childrens[i].windowTitle;
                 AssetDatabase.AddObjectToAsset(child, assetPathAndName);
                 parent.AddChild(child);
                 RecursionNode(taskNode.childrens[i], child);
@@ -191,7 +191,8 @@ namespace BT
             GenericMenu menu = new GenericMenu();
 
             menu.AddItem(new GUIContent("Add Object Node"), false, ContextCallBack, "objectNode");
-
+            menu.AddItem(new GUIContent("Add Time Object Node"), false, ContextCallBack, "timeObjectNode");
+            menu.AddItem(new GUIContent("Add Action Object Node"), false, ContextCallBack, "actionObjectNode");
             menu.ShowAsContext();
             e.Use();
         }
@@ -213,10 +214,25 @@ namespace BT
         void ContextCallBack(object obj)
         {
             string clb = obj.ToString();
-            if (clb.Equals("objectNode"))
+            if(clb.Equals("timeObjectNode"))
             {
                 TaskNode taskNode = new TaskNode();
-                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, 200, 100);
+                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, 200, 120);
+                taskNode.taskType = TaskType.DecorateTask;
+                taskNode.decorateTask = EDecorateTask.TimeDecorate;
+                windows.Add(taskNode);
+            }
+            else if(clb.Equals("actionObjectNode"))
+            {
+                TaskNode taskNode = new TaskNode();
+                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, 200, 120);
+                taskNode.taskType = TaskType.ActionTask;
+                windows.Add(taskNode);
+            }
+            else if (clb.Equals("objectNode"))
+            {
+                TaskNode taskNode = new TaskNode();
+                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, 200, 120);
 
                 windows.Add(taskNode);
             }

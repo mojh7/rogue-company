@@ -30,6 +30,7 @@ public class RoundingTrackAction : ActionTask
     }
     public override State Run()
     {
+        Debug.Log("Rounding");
         bool success = movingPattern.RoundingTracking();
         if (success)
         {
