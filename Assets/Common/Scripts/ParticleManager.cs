@@ -10,6 +10,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
         particle.gameObject.transform.position = pos;
         particle.Play();
+        UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
     }
 
     public void PlayParticle(string str, Vector2 pos, Sprite sprite)
