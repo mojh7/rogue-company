@@ -259,7 +259,7 @@ public class WeaponManager : MonoBehaviour {
     public void Init(Character owner, EnemyData enemyData)
     {
         SetOwnerInfo(owner, OwnerType.Enemy);
-
+        currentWeaponIndex = 0;
         if (DebugSetting.Instance.equipsEnemyDataWeapon)
         {
             for (int i = 0; i < enemyData.WeaponInfo.Count; i++)
@@ -267,7 +267,6 @@ public class WeaponManager : MonoBehaviour {
         }
         else
         {
-            currentWeaponIndex = 0;
             EquipWeapon(DataStore.Instance.GetWeaponInfo(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), OwnerType.Enemy));
         }
         UpdateCurrentWeapon();

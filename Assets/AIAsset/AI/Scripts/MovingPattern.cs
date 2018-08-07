@@ -99,6 +99,10 @@ public class MovingPattern : MonoBehaviour
     {
         if (aStarTracker == null)
             return false;
+        if (rushTracker != null)
+        {
+            rushTracker.isRun = false;
+        }
         speed = baseSpeed;
 
         return aStarTracker.Update();
@@ -110,6 +114,10 @@ public class MovingPattern : MonoBehaviour
     {
         if (roundingTracker == null)
             return false;
+        if (rushTracker != null)
+        {
+            rushTracker.isRun = false;
+        }
         speed = baseSpeed;
         return roundingTracker.Update();
     }
@@ -120,7 +128,7 @@ public class MovingPattern : MonoBehaviour
     {
         if (rushTracker == null)
             return false;
-        speed = baseSpeed * 2;
+        speed = baseSpeed * 5;
 
         return rushTracker.Update();
     }
@@ -131,6 +139,10 @@ public class MovingPattern : MonoBehaviour
     {
         if (runawayTracker == null)
             return false;
+        if (rushTracker != null)
+        {
+            rushTracker.isRun = false;
+        }
         speed = baseSpeed;
 
         return runawayTracker.Update();
@@ -143,6 +155,10 @@ public class MovingPattern : MonoBehaviour
     {
         if (stopTracker == null)
             return false;
+        if(rushTracker != null)
+        {
+            rushTracker.isRun = false;
+        }
         speed = 0;
         return stopTracker.Update();
     }
@@ -287,17 +303,24 @@ class RoundingTracker : Tracker
 
 class RushTracker : Tracker
 {
+    public bool isRun;
     public RushTracker(Transform transform, ref Transform target, Action<Vector2[]> callback)
     {
         this.transform = transform;
         this.target = target;
         this.callback = callback;
+        isRun = false;
     }
     public override bool Update()
     {
         if (transform == null || target == null)
             return false;
-        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound));
+        if (!isRun)
+        {
+            isRun = true;
+            callback(new Vector2[1] { transform.position + 10 * (target.position - transform.position) });
+        }
+
         return true;
     }
 }

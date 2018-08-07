@@ -103,6 +103,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         }
         user.isCasting = true;
         StartCoroutine(CoroutineSkill(Flash, user, position, delay, amount));
+        user.isCasting = false;
         return BT.State.SUCCESS;
     }
     #endregion

@@ -13,7 +13,6 @@ public class ActiveSkil : MonoBehaviour {
     protected void DestroyAndDeactive()
     {
         isActvie = false;
-        StopCoroutine(ColliderUpdate());
         Destroy(this);
         this.gameObject.SetActive(false);
     }
