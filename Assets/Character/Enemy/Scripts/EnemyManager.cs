@@ -18,6 +18,8 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     private List<Enemy> enemyList;
     private List<CircleCollider2D> enemyColliderList;
 
+    private int bossIdx;
+    private int floor;
     // 0516 모장현
     private int aliveEnemyTotal;
 
@@ -49,7 +51,14 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
     public Sprite GetBossSprite()
     {
-        sprite = GetEnemy(true).Sprite;
+        floor = InGameManager.Instance.GetFloor();
+        if (floor >= floorDatas.Length)
+        {
+            floor = floorDatas.Length - 1;
+        }
+        bossIdx = Random.Range(0, floorDatas[floor].bossEnemyDatas.Length);
+
+        sprite = floorDatas[floor].bossEnemyDatas[bossIdx].Sprite;
         return sprite;
     }
 
@@ -92,16 +101,14 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
     EnemyData GetEnemy(bool isBoss)
     {
-        int floor = InGameManager.Instance.GetFloor();
+        floor = InGameManager.Instance.GetFloor();
         if (floor >= floorDatas.Length)
         {
             floor = floorDatas.Length - 1;
         }
         if (isBoss)
         {
-            int rand = Random.Range(0, floorDatas[floor].bossEnemyDatas.Length);
-            rand = 1;
-            return floorDatas[floor].bossEnemyDatas[rand];
+            return floorDatas[floor].bossEnemyDatas[bossIdx];
         }
         else
         {
