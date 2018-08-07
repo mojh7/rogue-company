@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CharacterInfo;
+
 
 /* CollisionProperty class
  * 총알 충돌에 관련된 클래스
@@ -123,7 +125,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             Attack(ref coll);
         }*/
 
-        else if (CharacterInfo.OwnerType.Enemy == bullet.GetOwnerType())
+        else if (OwnerType.Enemy == bullet.GetOwnerType())
         {
             if (coll.transform.CompareTag("PlayerCanBlockBullet"))
             {
@@ -133,18 +135,22 @@ class BaseNormalCollisionProperty : CollisionProperty
             else if (coll.transform.CompareTag("PlayerCanReflectBullet"))
             {
                 bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
+                bullet.SetOwnerType(OwnerType.Player);
                 bullet.RotateDirection(180);
             }
             // Enemy가 Player 공격 : 관통 처리 o, 공격 o
             else if (coll.transform.CompareTag("Player"))
             {
-                AffectStatusEffect(ref coll);
-                Attack(ref coll);
-                Ignore(ref coll);
-                pierceCount -= 1;
-                if (pierceCount == 0)
-                    delDestroyBullet();
-                DecreaseDamageAfterPierce();
+                if (pierceCount > 0)
+                {
+                    AffectStatusEffect(ref coll);
+                    Attack(ref coll);
+                    Ignore(ref coll);
+                    pierceCount -= 1;
+                    if (pierceCount == 0)
+                        delDestroyBullet();
+                    DecreaseDamageAfterPierce();
+                }
                 return;
             }
         }
@@ -158,18 +164,22 @@ class BaseNormalCollisionProperty : CollisionProperty
             else if (coll.transform.CompareTag("EnemyCanReflectBullet"))
             {
                 bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+                bullet.SetOwnerType(OwnerType.Enemy);
                 bullet.RotateDirection(180);
             }
             // Player가 Enemy 공격 : 관통 처리 o, 공격 o
             else if (coll.transform.CompareTag("Enemy"))
             {
-                AffectStatusEffect(ref coll);
-                Attack(ref coll);
-                Ignore(ref coll);
-                pierceCount -= 1;
-                if (pierceCount == 0)
-                    delDestroyBullet();
-                DecreaseDamageAfterPierce();
+                if (pierceCount > 0)
+                {
+                    AffectStatusEffect(ref coll);
+                    Attack(ref coll);
+                    Ignore(ref coll);
+                    pierceCount -= 1;
+                    if (pierceCount == 0)
+                        delDestroyBullet();
+                    DecreaseDamageAfterPierce();
+                }
                 return;
             }
         }
@@ -207,17 +217,20 @@ class BaseNormalCollisionProperty : CollisionProperty
             // Enemy가 Player공격 : 관통 처리 o, 공격 o
             else if (coll.CompareTag("Player"))
             {
-                AffectStatusEffect(ref coll);
-                Attack(ref coll);
-                Ignore(ref coll);
-                pierceCount -= 1;
-                if (pierceCount == 0)
-                    delDestroyBullet();
-                DecreaseDamageAfterPierce();
+                if (pierceCount > 0)
+                {
+                    AffectStatusEffect(ref coll);
+                    Attack(ref coll);
+                    Ignore(ref coll);
+                    pierceCount -= 1;
+                    if (pierceCount == 0)
+                        delDestroyBullet();
+                    DecreaseDamageAfterPierce();
+                }
                 return;
             }
         }
-        else if (CharacterInfo.OwnerType.Player == bullet.GetOwnerType())
+        else if (OwnerType.Player == bullet.GetOwnerType())
         {
             if (coll.CompareTag("EnemyCanBlockBullet"))
             {
@@ -227,18 +240,22 @@ class BaseNormalCollisionProperty : CollisionProperty
             else if (coll.CompareTag("EnemyCanReflectBullet"))
             {
                 bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+                bullet.SetOwnerType(CharacterInfo.OwnerType.Enemy);
                 bullet.RotateDirection(180);
             }
             // Player가 Enemy 공격 : 관통 처리 o, 공격 o
             else if (coll.CompareTag("Enemy"))
             {
-                AffectStatusEffect(ref coll);
-                Attack(ref coll);
-                Ignore(ref coll);
-                pierceCount -= 1;
-                if (pierceCount == 0)
-                    delDestroyBullet();
-                DecreaseDamageAfterPierce();
+                if(pierceCount > 0)
+                {
+                    AffectStatusEffect(ref coll);
+                    Attack(ref coll);
+                    Ignore(ref coll);
+                    pierceCount -= 1;
+                    if (pierceCount == 0)
+                        delDestroyBullet();
+                    DecreaseDamageAfterPierce();
+                }
                 return;
             }
         }

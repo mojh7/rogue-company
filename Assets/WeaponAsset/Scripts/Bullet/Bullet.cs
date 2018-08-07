@@ -429,7 +429,7 @@ public class Bullet : MonoBehaviour
     public void CollisionBullet(Collision2D coll)
     {
         int length = info.collisionPropertiesLength;
-        if (CharacterInfo.OwnerType.Player == ownerType)
+        if (OwnerType.Player == ownerType)
         {
             if(coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall") ||
                 coll.transform.CompareTag("EnemyCanBlockBullet") || coll.transform.CompareTag("EnemyCanReflectBullet"))
@@ -440,7 +440,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        else if(CharacterInfo.OwnerType.Enemy == ownerType)
+        else if(OwnerType.Enemy == ownerType)
         {
             if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Wall") ||
                 coll.transform.CompareTag("PlayerCanBlockBullet") || coll.transform.CompareTag("PlayerCanReflectBullet"))
@@ -457,7 +457,7 @@ public class Bullet : MonoBehaviour
     public void CollisionBullet(Collider2D coll)
     {
         int length = info.collisionPropertiesLength;
-        if (CharacterInfo.OwnerType.Player == ownerType)
+        if (OwnerType.Player == ownerType)
         {
             if (coll.CompareTag("Enemy") || coll.CompareTag("Wall") ||
                 coll.CompareTag("EnemyCanBlockBullet") || coll.CompareTag("EnemyCanReflectBullet"))
@@ -468,7 +468,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        else if (CharacterInfo.OwnerType.Enemy == ownerType)
+        else if (OwnerType.Enemy == ownerType)
         {
             if (coll.CompareTag("Player") || coll.CompareTag("Wall") ||
                 coll.CompareTag("PlayerCanBlockBullet") || coll.CompareTag("PlayerCanReflectBullet"))
