@@ -513,13 +513,24 @@ namespace Map
 
         void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
         {
-            if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width)/2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
+            if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width)/2) && 
+                (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2)) // 가로로 연결된 방
             {
                 _rectA.EdgeRect(_rectB);
             }
-            else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) &&(Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2))
+            else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) &&
+                (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2)) // 세로로 연결된 방
             {
-                _rectA.EdgeRect(_rectB);
+                if(_rectA.midY > _rectB.midY)
+                {
+                    if(_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
+                        _rectA.EdgeRect(_rectB);
+                }
+                else
+                {
+                    if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE)
+                        _rectA.EdgeRect(_rectB);
+                }
             }
         }
 
