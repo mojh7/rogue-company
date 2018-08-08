@@ -1,11 +1,12 @@
 fileFormatVersion: 2
-guid: e46859ed9a458bb4e9e524e370200620
-timeCreated: 1533736481
+guid: f38b07b39a9cafa4eb2fad491dd2c2cf
+timeCreated: 1533732325
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: trolley_0
-    21300002: trolley_1
+    21300000: cafeRoomFloor_0
+    21300002: cafeRoomFloor_1
+    21300004: cafeRoomFloor_2
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -48,7 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -92,29 +93,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: trolley_0
+      name: cafeRoomFloor_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 27
-        width: 20
-        height: 37
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: trolley_1
+      name: cafeRoomFloor_1
       rect:
         serializedVersion: 2
-        x: 22
-        y: 27
-        width: 20
-        height: 37
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cafeRoomFloor_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

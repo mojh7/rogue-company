@@ -6,6 +6,6 @@ public class CFlash : SkillData
 {
     public override BT.State Run(Character character, object temporary)
     {
-        return ActiveSkillManager.Instance.Flash(character, temporary, delay, amount);
+        return ActiveSkillManager.Instance.Flash(character, RoomManager.Instance.GetCurrentRoomAvailableArea(), delay, amount);
     }
 }

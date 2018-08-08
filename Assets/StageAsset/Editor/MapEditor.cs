@@ -90,6 +90,7 @@ public class MapEditor : EditorWindow
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
         gameObject.AddComponent<Rigidbody2D>();
+        gameObject.AddComponent<Animator>();
         ObjectData objectData;
         if (multipleSprite != null && spriteNum == 0)
         {
@@ -271,6 +272,8 @@ public class MapEditor : EditorWindow
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
         gameObject.AddComponent<Rigidbody2D>();
+        gameObject.AddComponent<Animator>();
+
         _objectData.LoadObject(gameObject);
         gameObject.name = "Object";
         gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);

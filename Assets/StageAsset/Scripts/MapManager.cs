@@ -138,6 +138,18 @@ namespace Map
             }
         } // 필수 방 세팅
 
+        void DrawEventTile(Rect rect, RandomTile tile)
+        {
+            Tilemap tilemap = TileManager.Instance.EventFloorTileMap;
+            for (int x = rect.x * size * 2; x < ((rect.x + rect.width) * size) * 2; x++)
+            {
+                for (int y = rect.y * size * 2; y < ((rect.y + rect.height) * size) * 2; y++)
+                {
+                    tilemap.SetTile(new Vector3Int(x, y, 0), tile);
+                }
+            }
+        }
+
         void BakeMap()
         {
             AStar.TileGrid.Instance.Bake();
@@ -246,6 +258,14 @@ namespace Map
                 rect = rooms[index];
                 if (!rect.isRoom)
                     continue;
+                if(rect.eRoomType == RoomType.STORE)
+                {
+                    DrawEventTile(rect,TileManager.Instance.cafeTile);
+                }
+                else if(rect.eRoomType == RoomType.REST)
+                {
+                    DrawEventTile(rect, TileManager.Instance.restTile);
+                }
                 int minX = rect.x * size;
                 int maxX = (rect.x + rect.width) * size - 1;
                 int minY = rect.y * size;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RoomType { NONE, MONSTER, EVENT, BOSS, STORE }
+public enum RoomType { NONE, MONSTER, EVENT, BOSS, STORE, REST }
 
 public class RoomSet : ScriptableObject
 {

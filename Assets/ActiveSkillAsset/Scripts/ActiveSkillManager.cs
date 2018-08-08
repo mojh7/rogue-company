@@ -102,8 +102,11 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             return BT.State.FAILURE;
         }
         user.isCasting = true;
+        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
+        gameObject.transform.position = user.transform.position;
+        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, (float)0);
+        user.GetCharacterComponents().AnimationHandler.Skill(1);
         StartCoroutine(CoroutineSkill(Flash, user, position, delay, amount));
-        user.isCasting = false;
         return BT.State.SUCCESS;
     }
     #endregion
@@ -164,8 +167,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, (float)radius);
     }
 
-    private void Flash(Character user, object unneeded, float amount)
+    private void Flash(Character user, object position, float amount)
     {
+        user.transform.position = (Vector2)position;
     }
     #endregion
     #region coroutine

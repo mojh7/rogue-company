@@ -42,6 +42,9 @@ public class CustomObject : MonoBehaviour
 
     protected void StopAni()
     {
+#if UNITY_EDITOR
+        animator = GetComponent<Animator>();
+#endif
         animator.enabled = false;
         spriteRenderer.sprite = sprite;
     }
@@ -762,6 +765,7 @@ public class SnackBox : NoneRandomSpriteObject
             //stamina recovery
             isAvailable = false;
             sprite = sprites[1];
+            spriteRenderer.sprite = sprite;
             return true;
         }
         return false;
@@ -802,6 +806,7 @@ public class MedkitBox : NoneRandomSpriteObject
             //Item Drop
             isAvailable = false;
             sprite = sprites[1];
+            spriteRenderer.sprite = sprite;
             return true;
         }
         return false;
@@ -809,7 +814,7 @@ public class MedkitBox : NoneRandomSpriteObject
 
     public override void IndicateInfo()
     {
-        textMesh.text = "비어있습니다.";
+        textMesh.text = "약이 들어있습니다.";
     }
 
     public override void DeIndicateInfo()

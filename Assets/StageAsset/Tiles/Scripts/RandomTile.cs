@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
-
+[CreateAssetMenu(menuName = "Tile/RandomTile")]
 public class RandomTile : TileBase {
     public SpriteArray[] mSprites;
     public Tile.ColliderType colliderType;

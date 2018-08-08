@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: ccc65316329e81744a7a6d41d835190d
-timeCreated: 1533275330
+guid: 7f81bc880dae03a4195c24e92a15dd1f
+timeCreated: 1533732281
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: restChair_0
-    21300002: restChair_1
+    21300000: restRoomFloor_0
+    21300002: restRoomFloor_1
+    21300004: restRoomFloor_2
+    21300006: restRoomFloor_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -33,7 +35,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -48,7 +50,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -92,13 +94,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: restChair_0
+      name: restRoomFloor_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 10
-        width: 15
-        height: 40
+        x: 0
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -106,13 +108,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: restChair_1
+      name: restRoomFloor_1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 37
-        width: 41
-        height: 23
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomFloor_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomFloor_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
