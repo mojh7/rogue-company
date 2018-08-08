@@ -36,12 +36,12 @@ namespace WeaponAsset
     public enum AttackAniType { NULL, BLOW, STRIKE, SWING, PUNCH, SHOT }
     public enum AttackType { MELEE, RANGED }
     public enum TouchMode { Normal, Charge }
-    public enum BulletType { projectile, Laser, Melee}
+    public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION}
     /*---*/
 
     public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
-    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing }
+    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing, MineBomb }
     public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
 
     /*---*/

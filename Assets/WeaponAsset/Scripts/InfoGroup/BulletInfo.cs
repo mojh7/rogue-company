@@ -13,11 +13,11 @@ public class BulletInfo : ScriptableObject
 {
     [Tooltip("적용하는 곳이나, 사용하는 사람이나, 개발시 필요한 정보 등, 기타 등등 메모할 공간")]
     [SerializeField]
-    [TextArea(3, 100)] private string memo;
+    [TextArea(3, 100)] public string memo;
 
     protected CharacterInfo.OwnerType ownerType;
     [SerializeField]
-    protected BulletType bulletType;
+    public BulletType bulletType;
 
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
@@ -157,7 +157,9 @@ public class BulletInfo : ScriptableObject
     {
         BulletInfo clonedInfo = CreateInstance<BulletInfo>();
 
+        clonedInfo.memo = memo;
         clonedInfo.ownerType = ownerType;
+        clonedInfo.bulletType = bulletType;
 
         clonedInfo.bulletName = bulletName;
         clonedInfo.statusEffectInfo = new StatusEffectInfo(statusEffectInfo);
@@ -292,6 +294,9 @@ public class BulletInfo : ScriptableObject
                     break;
                 case UpdatePropertyType.Homing:
                     updateProperties.Add(new HomingProperty());
+                    break;
+                case UpdatePropertyType.MineBomb:
+                    updateProperties.Add(new MineBombProperty());
                     break;
                 default:
                     break;

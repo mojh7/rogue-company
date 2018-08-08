@@ -130,11 +130,10 @@ public class Bullet : MonoBehaviour
         }
     }
     #endregion
-    #region function
-    // 총알 class 초기화
 
+    #region initialization
     /// <summary>일반(투사체) 총알 초기화 - position이랑 direction만 받음, DeleteAfterSummonBulletProperty 전용 초기화</summary>
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo,  CharacterInfo.OwnerType ownerType, Vector3 pos, float direction = 0)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, CharacterInfo.OwnerType ownerType, Vector3 pos, float direction = 0)
     {
         active = true;
         info = bulletInfo;
@@ -192,7 +191,7 @@ public class Bullet : MonoBehaviour
     }
 
     // 레이저 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, CharacterInfo.OwnerType ownerType , float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, CharacterInfo.OwnerType ownerType, float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
@@ -326,7 +325,7 @@ public class Bullet : MonoBehaviour
             if (CharacterInfo.OwnerType.Enemy == ownerType)
                 objTransform.tag = "EnemyCanBlockBullet";
         }
-        if(true == info.canReflectBullet)
+        if (true == info.canReflectBullet)
         {
             if (CharacterInfo.OwnerType.Player == ownerType)
                 objTransform.tag = "PlayerCanReflectBullet";
@@ -358,7 +357,9 @@ public class Bullet : MonoBehaviour
             info.deleteProperties[i].Init(this);
         }
     }
+    #endregion
 
+    #region function
     /// <summary> 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다. </summary>
     public void SetDirection(Vector3 dirVector)
     {
@@ -547,10 +548,15 @@ public class Bullet : MonoBehaviour
             return false;
     }
 
+    /// <summary>bullet waeponEffect 적용</summary>
     public void ApplyWeaponBuff()
     {
         int type = (int)transferBulletInfo.weaponType;
+        //Debug.Log(info.memo + ", " + (WeaponType)type + ", " + info.bulletType);
+        //Debug.Log(name + " zzz : " + ownerBuff);
 
+        if (BulletType.EXPLOSION == info.bulletType) return;
+        
         WeaponTargetEffect totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         WeaponTargetEffect effectInfo = ownerBuff.WeaponTargetEffectTotal[type];
 
@@ -602,10 +608,17 @@ public class Bullet : MonoBehaviour
             info.bounceCount = 1;
         }
 
-        // 12. 폭탄 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
-        if (effectInfo.becomesSpiderMine)
+        // 10. 폭탄 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
+        if (effectInfo.becomesSpiderMine && BulletType.MINE == info.bulletType)
         {
             info.becomeSpiderMine = true;
+            info.lifeTime += 3f;
+            //MineBombProperty 중복 생성 방지
+            if (false == HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(MineBombProperty)))
+            {
+                info.updateProperties.Add(new MineBombProperty());
+                info.updatePropertiesLength += 1;
+            }
         }
 
         // bulletInfo 수치들 공식 최종 적용
@@ -620,8 +633,7 @@ public class Bullet : MonoBehaviour
 
         if (OwnerType.Player == ownerType)
         {
-            DecreaseDamageAfterPierce = 0.3f * (totalInfo.decreaseDamageAfterPierceReduction + effectInfo.decreaseDamageAfterPierceReduction);
-            //Debug.Log(ownerType + ", " + name + ", " + DecreaseDamageAfterPierce);
+            DecreaseDamageAfterPierce = 0.3f * (totalInfo.decreaseDamageAfterPierceReduction * effectInfo.decreaseDamageAfterPierceReduction);
         }
     }
 
@@ -696,10 +708,7 @@ public class Bullet : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// rotation Z 360도 회전하는 코루틴
-    /// </summary>
-    /// <returns></returns>
+    /// <summary>rotation Z 360도 회전하는 코루틴</summary>
     private IEnumerator RotationAnimation()
     {
         float eulerAngleZ = 0f;

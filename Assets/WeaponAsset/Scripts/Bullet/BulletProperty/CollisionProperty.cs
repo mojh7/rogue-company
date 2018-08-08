@@ -342,14 +342,14 @@ class UndeletedCollisionProperty : CollisionProperty
             Attack(ref coll);
             Ignore(ref coll);
         }*/
-        if (CharacterInfo.OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
         {
             // Enemy가 Player 공격 : 관통 처리 o, 공격 o
             AffectStatusEffect(ref coll);
             Attack(ref coll);
             Ignore(ref coll);
         }
-        else if (CharacterInfo.OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        else if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
         {
             AffectStatusEffect(ref coll);
             Attack(ref coll);
@@ -366,14 +366,14 @@ class UndeletedCollisionProperty : CollisionProperty
             Attack(ref coll);
             Ignore(ref coll);
         }*/
-        if (CharacterInfo.OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("Player"))
+        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("Player"))
         {
             // Enemy가 Player 공격 : 관통 처리 o, 공격 o
             AffectStatusEffect(ref coll);
             Attack(ref coll);
             Ignore(ref coll);
         }
-        else if (CharacterInfo.OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
+        else if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
         {
             AffectStatusEffect(ref coll);
             Attack(ref coll);

@@ -119,7 +119,7 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        // 일단 임시로 1.0f 추 후 buff에서 받아온 데미지 뻥튀기 만큼 값 조절
+        summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetTransferBulletInfo(), () => 0f, () => Vector3.zero, ()=>bulletTransform.transform.position);
         summonBulletPattern.StartAttack(1.0f, bullet.GetOwnerType());
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }

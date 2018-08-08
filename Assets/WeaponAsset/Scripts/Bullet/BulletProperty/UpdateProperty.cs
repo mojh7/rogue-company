@@ -19,6 +19,8 @@ using WeaponAsset;
  * 3. SummonProperty
  *  - 일정 주기로(현재는 시간 단위이고 거리 단위는 고려) 총알을 따로 더 생성함
  *  - bulletPattern 포함
+ *  
+ * 4. 
  * -------------------
  * [예정]
  * 1. LaserUpdateProperty 에서 레이저 sprite, material, color 이런 외형적인거나 레이저 폭 등등 추가 할게 많이 남아있음.
@@ -385,5 +387,87 @@ public class HomingProperty : UpdateProperty
                 bullet.RotateDirection(-deltaAngle);
             }
         }
+    }
+}
+
+public class MineBombProperty : UpdateProperty
+{
+    private enum MineState { DETECTION, TRAKING }
+    private MineState state;
+    private float speed;
+    private CircleCollider2D detectedEnemy;
+    private List<CircleCollider2D> enemies;
+    public override UpdateProperty Clone()
+    {
+        return new MineBombProperty();
+    }
+
+    public override void Update()
+    {
+        // 주변 감지
+        if(MineState.DETECTION == state)
+        {
+            enemies = EnemyManager.Instance.GetEnemyColliderList;
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                Vector2 distance = enemies[i].transform.position - bulletTransform.position;
+                if ((distance.x * distance.x + distance.y * distance.y) < 9)
+                {
+                    detectedEnemy = enemies[i];
+                    Debug.Log("추적 시작");
+                    state = MineState.TRAKING;
+                }
+            }
+        }
+        // 추적
+        else if(MineState.TRAKING == state)
+        {
+
+            // if(detectedEnemy)
+
+            // 각도 맞춰서 추적
+
+            /*
+            Vector2 dir = (detectedEnemy.transform.position - bulletTransform.position).normalized;
+            bullet.info.speed = 3f;
+            bullet.SetDirection(new Vector3(dir.x, dir.y, 0));
+            */
+
+
+            // x, y 따로 이동
+            if (bulletTransform.position.x - detectedEnemy.transform.position.x > 0.1f
+                || bulletTransform.position.x - detectedEnemy.transform.position.x < -0.1f)
+            {
+                if (bulletTransform.position.x < detectedEnemy.transform.position.x)
+                {
+                    bulletTransform.Translate(Vector2.right * speed * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    bulletTransform.Translate(Vector2.left * speed * Time.fixedDeltaTime);
+                }
+            }
+
+            if(bulletTransform.position.y - detectedEnemy.transform.position.y > 0.1f
+                || bulletTransform.position.y - detectedEnemy.transform.position.y < -0.1f)
+            {
+                if (bulletTransform.position.y < detectedEnemy.transform.position.y)
+                {
+                    bulletTransform.Translate(Vector2.up * speed * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    bulletTransform.Translate(Vector2.down * speed * Time.fixedDeltaTime);
+                }
+            }
+        }
+    }
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+        state = MineState.DETECTION;
+        speed = 2f;
     }
 }

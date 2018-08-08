@@ -380,7 +380,7 @@ public class Player : Character
             for (int i = 0; i < enemyTotal; i++)
             {
                 raycasthitEnemyInfo.index = i;
-                enemyPos = enemyColliderList[i].transform.position + (Vector3)enemyColliderList[i].offset;
+                enemyPos = enemyColliderList[i].transform.position;
                 raycasthitEnemyInfo.distance = Vector2.Distance(enemyPos, objTransform.position);
                 hit = Physics2D.Raycast(objTransform.position, enemyPos - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
                 if (hit.collider == null)
@@ -408,7 +408,7 @@ public class Player : Character
                 }
             }
 
-            enemyPos = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index].transform.position + (Vector3)enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index].offset;
+            enemyPos = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index].transform.position;
             directionVector = (enemyPos - objTransform.position);
             directionVector.z = 0;
             directionVector.Normalize();
