@@ -10,6 +10,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 {
     enum Direction { LEFT, RIGHT, TOP, DOWN }
 
+    #region variables
     [SerializeField] private Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
     [SerializeField] private GameObject playerIcon;
     [SerializeField] private Transform mask;
@@ -33,6 +34,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     int isTranslate = 0;
     Vector2 iconV = Vector2.zero;
     float mapMoveX, mapMoveY;
+    bool inDungeon= false; // 던전안에 들어갔는지 아닌지 확인
+    #endregion
 
     Direction Check(Map.Rect _rectA, Map.Rect _rectB)
     {
@@ -74,6 +77,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     public void ClearRoom(Map.Rect _room)
     {
+        inDungeon = false;
         _room.isDrawed = true;
         DrawCall(_room, DrawRoom);
     }
@@ -147,27 +151,34 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     public void HideMiniMap()
     {
+        inDungeon = true;
+        playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
         this.gameObject.SetActive(!this.gameObject.activeSelf);
     }
 
     public void ToggleMinimap()
     {
         EnableMask();
-        if (isToggle)
+        if (!inDungeon)
         {
-            playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
-            mask.localPosition = oldPos;
-            GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
-            titleMap(0, 1);
+            if (isToggle)
+            {
+                // 미니맵으로
+                playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
+                mask.localPosition = oldPos;
+                GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
+                titleMap(0, 1);
+            }
+            else
+            {
+                // 크게 키운 맵
+                transform.localPosition = new Vector2(-maskSize, -maskSize);
+                mask.localPosition = new Vector2(maskSize, maskSize);
+                GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
+                titleMap(1, 0);
+            }
+            isToggle = !isToggle;
         }
-        else
-        {
-            transform.localPosition = new Vector2(-maskSize, -maskSize);
-            mask.localPosition = new Vector2(maskSize, maskSize);
-            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
-            titleMap(1, 0);
-        }
-        isToggle = !isToggle;
     }
 
     void DrawCall(Map.Rect _room,System.Action<Map.Rect> action)
@@ -657,21 +668,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
             -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
     } // 현재 플레이어 위치 to MiniMap
-
-    /** 수정전
-    void MovePlayerIcon()
-    {
-        Vector2 v = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - width / 2,
-            playerPositon.y / mapSizeHeight * height - maskSize - height / 2);
-        playerIcon.transform.localPosition = v;
-    } // 현재 플레이어 위치 to MiniMap
-
-    void MoveMinimapIcon()
-    {
-        transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
-            -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
-    } // 현재 플레이어 위치 to MiniMap
-    **/
 
     #region UnityFunc
     private void Update()
