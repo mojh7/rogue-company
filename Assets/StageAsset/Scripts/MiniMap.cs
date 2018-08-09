@@ -187,14 +187,14 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         switch (_rect.eRoomType)
         {
             default:
+            case RoomType.EVENT:
+                sprite = eventIcon;
+                break;
             case RoomType.MONSTER:
                 sprite = monsterIcon;
                 break;
             case RoomType.BOSS:
                 sprite = bossIcon;
-                break;
-            case RoomType.EVENT:
-                sprite = eventIcon;
                 break;
             case RoomType.STORE:
                 sprite = storeIcon;
