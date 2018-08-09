@@ -156,6 +156,7 @@ public class Player : Character
         base.Init();
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Player;
+        immune = CharacterInfo.Immune.NONE;
 
         animationHandler.Init(this, PlayerManager.Instance.runtimeAnimator);
 

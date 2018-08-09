@@ -117,6 +117,7 @@ public class Enemy : Character
         base.Init();
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
+        immune = CharacterInfo.Immune.NONE;
 
         isActiveAttackAI = true;
         isActiveMoveAI = true;
