@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CFlash", menuName = "SkillData/CFlash")]
 public class CFlash : SkillData
 {
-    public override BT.State Run(Character character, object temporary)
+    public override BT.State Run(Character character, object temporary, int idx)
     {
-        return ActiveSkillManager.Instance.Flash(character, RoomManager.Instance.GetCurrentRoomAvailableArea(), delay, amount);
+        return ActiveSkillManager.Instance.Flash(character, RoomManager.Instance.GetCurrentRoomAvailableArea(), idx, delay, amount);
     }
 }

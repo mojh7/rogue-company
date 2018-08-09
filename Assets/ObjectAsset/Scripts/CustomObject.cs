@@ -56,6 +56,7 @@ public class CustomObject : MonoBehaviour
 #if UNITY_EDITOR
         spriteRenderer = GetComponent<SpriteRenderer>();
 #endif
+        spriteRenderer.color = Color.white;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         StopAni();
         tag = "Wall";
@@ -120,6 +121,7 @@ public class CustomObject : MonoBehaviour
     public virtual void IndicateInfo() { }
 
     public virtual void DeIndicateInfo() { }
+
     #region UnityFunc
     private void Awake()
     {

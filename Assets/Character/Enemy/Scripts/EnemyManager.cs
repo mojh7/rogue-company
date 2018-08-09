@@ -20,6 +20,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
     private int bossIdx;
     private int floor;
+    private EnemyData bossData;
     // 0516 모장현
     private int aliveEnemyTotal;
 
@@ -49,7 +50,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         obj.GetComponent<Alert>().Active();
     }
 
-    public Sprite GetBossSprite()
+    public void CreateBossData()
     {
         floor = InGameManager.Instance.GetFloor();
         if (floor >= floorDatas.Length)
@@ -57,9 +58,17 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
             floor = floorDatas.Length - 1;
         }
         bossIdx = Random.Range(0, floorDatas[floor].bossEnemyDatas.Length);
+    }
 
+    public Sprite GetBossSprite()
+    {
         sprite = floorDatas[floor].bossEnemyDatas[bossIdx].Sprite;
         return sprite;
+    }
+
+    public string GetBossName()
+    {
+        return floorDatas[floor].bossEnemyDatas[bossIdx].Name;
     }
 
     GameObject SpawnEnemy(Vector3 position)

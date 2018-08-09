@@ -7,6 +7,8 @@ public class EnemyData : ScriptableObject
 {
     #region serializeFiled
     [SerializeField]
+    private string name;
+    [SerializeField]
     private Sprite sprite;
     [SerializeField]
     private float hp;
@@ -23,8 +25,15 @@ public class EnemyData : ScriptableObject
     [SerializeField]
     private SkillData[] skillDatas;
     #endregion
-  
+
     #region property
+    public string Name
+    {
+        get
+        {
+            return name;
+        }
+    }
     public Sprite Sprite
     {
         get

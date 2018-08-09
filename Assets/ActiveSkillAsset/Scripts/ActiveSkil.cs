@@ -8,15 +8,27 @@ public class ActiveSkil : MonoBehaviour {
     protected Animator animator;
     protected CircleCollider2D circleCollider;
     protected SpriteRenderer spriteRenderer;
+    protected Character character;
+    protected object temporary;
+    protected float amount;
+
     protected bool isActvie;
     protected bool isAvailable;
+    protected System.Action<Character, object, float> action;
+
     protected void DestroyAndDeactive()
     {
         isActvie = false;
         Destroy(this);
         this.gameObject.SetActive(false);
     }
-    private void EndAnimation()
+
+    public void LapseAnimation()
+    {
+        action.Invoke(character, temporary, amount);
+    }
+
+    public void EndAnimation()
     {
         DestroyAndDeactive();
     }
@@ -26,6 +38,8 @@ public class ActiveSkil : MonoBehaviour {
         animator = GetComponent<Animator>();
         circleCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        DestroySelf();
     }
 
     protected IEnumerator ColliderUpdate()
@@ -37,10 +51,28 @@ public class ActiveSkil : MonoBehaviour {
             yield return YieldInstructionCache.WaitForSeconds(0.1f);
         }
     }
+
+    void DestroySelf()
+    {
+        UtilityClass.Invoke(this, DestroyAndDeactive, 100);
+    }
 }
 
 public class CollisionSkill : ActiveSkil
 {
+    public void Init(Character character, object temporary, float amount, System.Action<Character, object, float> action)
+    {
+        Init();
+
+        this.character = character;
+        this.temporary = temporary;
+        this.amount = amount;
+        this.action = action;
+        isAvailable = true;
+        isActvie = true;
+        circleCollider.radius = 0;
+    }
+
     public void Init(Character character, float damage, float radius)
     {
         Init();

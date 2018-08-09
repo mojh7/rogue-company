@@ -7,8 +7,8 @@ public class CRangeAttack : SkillData
     [SerializeField]
     float radius;
 
-    public override BT.State Run(Character character, object temporary)
+    public override BT.State Run(Character character, object temporary, int idx)
     {
-        return ActiveSkillManager.Instance.RangeAttack(character, radius, delay, amount);
+        return ActiveSkillManager.Instance.RangeAttack(character, radius, idx, delay, amount);
     }
 }

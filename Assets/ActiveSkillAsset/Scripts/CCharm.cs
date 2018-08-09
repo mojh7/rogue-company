@@ -7,9 +7,9 @@ using UnityEngine;
 public class CCharm : SkillData
 {
 
-    public override BT.State Run(Character character, object temporary)
+    public override BT.State Run(Character character, object temporary, int idx)
     {
-        return ActiveSkillManager.Instance.Charm(character, temporary, delay, amount);
+        return ActiveSkillManager.Instance.Charm(character, temporary, idx, delay, amount);
     }
 }
 

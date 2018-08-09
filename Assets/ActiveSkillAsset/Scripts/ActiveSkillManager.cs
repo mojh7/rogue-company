@@ -6,7 +6,7 @@ using UnityEngine;
 public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 {
     #region public
-    public BT.State Charm(Character user, object victim, float delay, float amount)
+    public BT.State Charm(Character user, object victim, int idx, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
@@ -18,7 +18,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State IncreaseStatus(Character user, object victim, float delay, float amount)
+    public BT.State IncreaseStatus(Character user, object victim, int idx, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
@@ -30,7 +30,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State Confuse(Character user, object victim, float delay, float amount)
+    public BT.State Confuse(Character user, object victim, int idx, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
@@ -42,7 +42,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State HandUp(Character user, object radius, float delay, float amount, float num)
+    public BT.State HandUp(Character user, object radius, int idx, float delay, float amount, float num)
     {
         if (!user || delay < 0 || amount < 0 || num < 1)
         {
@@ -58,7 +58,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State HandClap(Character user, object unneeded, float delay, float amount)
+    public BT.State HandClap(Character user, object unneeded, int idx, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
@@ -71,7 +71,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State SpawnServant(Character user, object servantData, float delay, float amount)
+    public BT.State SpawnServant(Character user, object servantData, int idx, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
@@ -83,19 +83,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State RangeAttack(Character user, object radius, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        user.GetCharacterComponents().AnimationHandler.Skill(0);
-        StartCoroutine(CoroutineSkill(RangeAttack, user, radius, delay, amount));
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State Flash(Character user, object position, float delay, float amount)
+    public BT.State RangeAttack(Character user, object radius, int idx, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
         {
@@ -104,9 +92,27 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         user.isCasting = true;
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = user.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, (float)0);
-        user.GetCharacterComponents().AnimationHandler.Skill(1);
-        StartCoroutine(CoroutineSkill(Flash, user, position, delay, amount));
+        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, (float)radius);
+
+        user.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
+        user.GetCharacterComponents().AnimationHandler.Skill(idx);
+        return BT.State.SUCCESS;
+    }
+
+    public BT.State Flash(Character user, object position, int idx, float delay, float amount)
+    {
+        if (!user || delay < 0 || amount < 0)
+        {
+            return BT.State.FAILURE;
+        }
+        user.isCasting = true;
+        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
+        gameObject.transform.position = user.transform.position;
+        gameObject.AddComponent<CollisionSkill>().Init(user as Character, position, amount, Flash);
+
+        user.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().LapseAnimation);
+        user.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
+        user.GetCharacterComponents().AnimationHandler.Skill(idx);
         return BT.State.SUCCESS;
     }
     #endregion
@@ -158,13 +164,6 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
         gameObject.AddComponent<CollisionSkill>().Init(user, amount, "handClap");
-    }
-
-    private void RangeAttack(Character user, object radius, float amount)
-    {
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = user.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, (float)radius);
     }
 
     private void Flash(Character user, object position, float amount)

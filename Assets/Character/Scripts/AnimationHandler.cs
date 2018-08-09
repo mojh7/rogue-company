@@ -7,6 +7,7 @@ public class AnimationHandler : MonoBehaviour {
 
     Character character;
     Animator animator;
+    System.Action lapsedAction, endAction;
 
     public void Init(Character character, RuntimeAnimatorController animatorController)
     {
@@ -64,6 +65,16 @@ public class AnimationHandler : MonoBehaviour {
         animator.enabled = false;
     }
 
+    public void SetLapsedAction(System.Action action)
+    {
+        this.lapsedAction = action;
+    }
+
+    public void SetEndAction(System.Action action)
+    {
+        this.endAction = action;
+    }
+
     private void ResetAllParameter()
     {
         animator.ResetTrigger("idle");
@@ -73,9 +84,17 @@ public class AnimationHandler : MonoBehaviour {
         animator.ResetTrigger("run");
         animator.SetInteger("skill", -1);
     }
-    
+
+    private void LapseAnimation()
+    {
+        if (lapsedAction != null)
+            lapsedAction.Invoke();
+    }
+
     private void EndAnimation()
     {
+        if(endAction != null)
+            endAction.Invoke();
         character.isCasting = false;
     }
 }

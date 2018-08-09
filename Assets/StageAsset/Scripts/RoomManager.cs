@@ -13,10 +13,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     public void InitRoomList()
     {
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
-        //for(int i = 0;i<roomList.Count;i++)
-        //{
-        //    DisalbeObject(roomList[i]);
-        //}
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if(roomList[i].eRoomType != RoomType.BOSS && roomList[i].eRoomType != RoomType.MONSTER)
+            {
+                DisalbeObject(roomList[i]);
+            }
+        }
     } // 룸리스트 받아오기
 
     public int GetGage()
@@ -183,7 +186,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 if (currentRoom.isRoom)
                 {
                     MiniMap.Instance.ClearRoom(currentRoom);
-                    //EnableObjects();
+                    if(currentRoom.eRoomType != RoomType.BOSS && currentRoom.eRoomType != RoomType.MONSTER)
+                        EnableObjects();
                 }
             }
             else
@@ -230,6 +234,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     void BossInitScene()
     {
         UIManager.Instance.TogglePreventObj();
+        EnemyManager.Instance.CreateBossData();
+        CutSceneUI.Instance.SetText(EnemyManager.Instance.GetBossName());
         CutSceneUI.Instance.SetCharacter(EnemyManager.Instance.GetBossSprite());
         CutSceneUI.Instance.ShowCutScene(Vector2.right, Vector2.down, Vector2.up);
     }
