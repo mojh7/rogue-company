@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class MapEditor : EditorWindow
 {
+    Vector2 scrollPos;
     int width, height, size = 3, gage;
     string roomName;
     GameObject obj;
@@ -29,7 +30,8 @@ public class MapEditor : EditorWindow
     {
         BeginWindows();
         obj = Object.FindObjectOfType<Map.MapManager>().gameObject;
-        EndWindows();
+        scrollPos =
+        EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(500 ), GUILayout.Height(1000));
         roomName = EditorGUILayout.TextField("roomName", roomName);
         width = EditorGUILayout.IntField("width", width);
         height = EditorGUILayout.IntField("height", height);
@@ -62,6 +64,9 @@ public class MapEditor : EditorWindow
         worldRoomSet = (RoomSet)EditorGUILayout.ObjectField("RoomSet", worldRoomSet, typeof(RoomSet), allowSceneObjects: true);
         if (GUILayout.Button("Load Roomset"))
             LoadRoomset();
+        EditorGUILayout.EndScrollView();
+        EndWindows();
+
     }
 
     void CreateObject()
@@ -105,6 +110,7 @@ public class MapEditor : EditorWindow
             objectData.LoadObject(gameObject);
             gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
         }
+        objectSprites = new Sprite[spriteNum];
     }
 
     CustomObject CreateObject(ObjectType objectType)
