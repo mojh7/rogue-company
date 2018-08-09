@@ -31,8 +31,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     Color hallColor = new Color((float)160 / 255, (float)174 / 255, (float)186 / 255);
     // 0806 Test
     int isTranslate = 0;
-    Vector2 mapV = Vector2.zero;
     Vector2 iconV = Vector2.zero;
+    float mapMoveX, mapMoveY;
 
     Direction Check(Map.Rect _rectA, Map.Rect _rectB)
     {
@@ -536,41 +536,42 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         texture.Apply();
 
     }
-
-    // 0806 윤아 추가
-    float testx, testy;
+    
     bool FixedPlayer()
     {
-        bool isX = playerPositon.x >= 34 || playerPositon.x <= 11.1f;
-        bool isY = playerPositon.y >= 34 || playerPositon.y <= 11.1f;
+        float maxValue = 34;
+        float minValue = 11.1f;
+
+        bool isX = playerPositon.x >= maxValue || playerPositon.x <= minValue;
+        bool isY = playerPositon.y >= maxValue || playerPositon.y <= minValue;
         if (isX && isY)
         {
-            if (playerPositon.x >= 34)
-                testx = 34;
+            if (playerPositon.x >= maxValue)
+                mapMoveX = maxValue;
             else
-                testx = 11.1f;
-            if (playerPositon.y >= 34)
-                testy = 34;
+                mapMoveX = minValue;
+            if (playerPositon.y >= maxValue)
+                mapMoveY = maxValue;
             else
-                testy = 11.1f;
+                mapMoveY = minValue;
             isTranslate = 3;
             return true;
         }
         else if (isX)
         {
-            if (playerPositon.x >= 34)
-                testx = 34;
+            if (playerPositon.x >= maxValue)
+                mapMoveX = maxValue;
             else
-                testx = 11.1f;
+                mapMoveX = minValue;
             isTranslate = 1;
             return true;
         }
         else if (isY)
         {
             if (playerPositon.y >= 34)
-                testy = 34;
+                mapMoveY = 34;
             else
-                testy = 11.1f;
+                mapMoveY = 11.1f;
             isTranslate = 2;
             return true;
         }
@@ -584,18 +585,16 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     void MovePlayerIconMinimap()
     {
-        float _width = 400 / 2f;
-        float _height = 400 / 2f;
-
-        Debug.Log(iconV);
+        float _width = width / 2f;
+        float _height = height / 2f;
 
         switch (isTranslate)
         {
             default:
                 break;
             case 1:
-                Debug.Log("맵의 y축은 이동하고 플레이어 아이콘의 x축이 이동");
-                transform.localPosition = new Vector2(-(testx / mapSizeWidth) * width + width / 2 - maskSize,
+                //Debug.Log("맵의 y축은 이동하고 플레이어 아이콘의 x축이 이동");
+                transform.localPosition = new Vector2(-(mapMoveX / mapSizeWidth) * width + width / 2 - maskSize,
                     -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
                 iconV = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - _width / 2f, -maskSize);
                 if (iconV.x > 0)
@@ -603,18 +602,18 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 playerIcon.transform.localPosition = iconV;
                 break;
             case 2:
-                Debug.Log("맵의 x축은 이동하고 플레이어 아이콘의 y축이 이동");
+                //Debug.Log("맵의 x축은 이동하고 플레이어 아이콘의 y축이 이동");
                 transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
-                    -(testy / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
+                    -(mapMoveY / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
                 iconV = new Vector2(-maskSize, playerPositon.y / mapSizeHeight * height - maskSize - _height / 2f);
                 if (iconV.y > 0)
                     iconV.y -= maskSize * 2;
                 playerIcon.transform.localPosition = iconV;
                 break;
             case 3:
-                Debug.Log("맵은 고정해두고 플레이어 아이콘만 x축 y축 둘 다 이동");
-                transform.localPosition = new Vector2(-(testx / mapSizeWidth) * width + width / 2 - maskSize,
-                    -(testy / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
+                //Debug.Log("맵은 고정해두고 플레이어 아이콘만 x축 y축 둘 다 이동");
+                transform.localPosition = new Vector2(-(mapMoveX / mapSizeWidth) * width + width / 2 - maskSize,
+                    -(mapMoveY / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
                 iconV = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - _width / 2f,
                     playerPositon.y / mapSizeHeight * height - maskSize - _height / 2f);
                 if (iconV.x > 0)
@@ -648,10 +647,9 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     void MovePlayerIcon()
     {
-        Vector2 v = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - width / 2,
+        iconV = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - width / 2,
             playerPositon.y / mapSizeHeight * height - maskSize - height / 2);
-        Debug.Log(v);
-        playerIcon.transform.localPosition = v;
+        playerIcon.transform.localPosition = iconV;
     } // 현재 플레이어 위치 to MiniMap
 
     void MoveMinimapIcon()
