@@ -147,7 +147,5 @@ public class PlayerHPUI : MonoBehaviour
                 hpImageList[remainder].sprite = hpHalfSprite;
             }
         }
-        
-        
     }
 }

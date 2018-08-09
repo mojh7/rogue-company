@@ -9,7 +9,7 @@ public class BossHPUI : MonoBehaviour {
     [SerializeField] private Image hpImage;
     [SerializeField] private Image delayHPImage;
 
-    float hp;
+    [SerializeField] private float hp;
     float oldHp;
     float remainHp;
 
@@ -56,4 +56,5 @@ public class BossHPUI : MonoBehaviour {
                 break;
         }
     }
+    
 }
