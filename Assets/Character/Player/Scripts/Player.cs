@@ -38,7 +38,7 @@ public class Player : Character
     private int layerMask;  // autoAim을 위한 layerMask
     private int killedEnemyCount;
     
-    [SerializeField] private TestPlayerHPUi testPlayerHPUi;
+    [SerializeField] private PlayerHpbarUI PlayerHPUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
     private PlayerData playerData;
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
@@ -166,7 +166,7 @@ public class Player : Character
         weaponSwitchButton = GameObject.Find("WeaponSwitchButton").GetComponent<WeaponSwitchButton>();
         weaponSwitchButton.SetPlayer(this);
         controller = new PlayerController(GameObject.Find("VirtualJoystick").GetComponent<Joystick>());
-        testPlayerHPUi = GameObject.Find("HPbar").GetComponent<TestPlayerHPUi>();
+        PlayerHPUi = GameObject.Find("HPbar").GetComponent<PlayerHpbarUI>();
         buffManager = PlayerBuffManager.Instance.BuffManager;
         buffManager.SetOwner(this);
         stamina = GameObject.Find("Image_stamina").GetComponent<Stamina>();
@@ -183,7 +183,7 @@ public class Player : Character
         this.playerData = playerData;
         originPlayerData = playerData;
         UpdatePlayerData();
-        testPlayerHPUi.SetHpBar(playerData.Hp);
+        PlayerHPUi.SetHpBar(playerData.Hp);
         // ui test용(10으로 할당)
         // testPlayerHPUi.SetHpBar(hp);
         stamina.setTotalStamina(playerData.StaminaMax);
@@ -208,7 +208,7 @@ public class Player : Character
         //}
 
         playerData.Hp -= transferredBulletInfo.damage;
-        testPlayerHPUi.DecreaseHp(playerData.Hp);
+        PlayerHPUi.DecreaseHp(playerData.Hp);
         if (playerData.Hp <= 0) Die();
         return transferredBulletInfo.damage;
     }
@@ -237,7 +237,7 @@ public class Player : Character
         {
             rgbody.AddForce(knockBack * _dir);
         }
-        testPlayerHPUi.DecreaseHp(playerData.Hp);
+        PlayerHPUi.DecreaseHp(playerData.Hp);
 
         StopCoroutine(KnockBackCheck());
         StartCoroutine(KnockBackCheck());
