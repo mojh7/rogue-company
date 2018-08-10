@@ -46,4 +46,14 @@ public class UsableItemInfo : ScriptableObject
     {
         get { return notes; }
     }
+
+    public int Price
+    {
+        get { return price; }
+    }
+
+    public string Name
+    {
+        get { return name; }
+    }
 }

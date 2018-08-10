@@ -101,6 +101,11 @@ public struct ObjectData
                 _gameObject.GetComponent<SubStation>().sprites = sprites;
                 _gameObject.GetComponent<SubStation>().Init();
                 break;
+            case ObjectType.STOREITEM:
+                _gameObject.AddComponent<StoreItem>();
+                _gameObject.GetComponent<StoreItem>().sprites = null;
+                _gameObject.GetComponent<StoreItem>().Init();
+                break;
         }
 
         return _gameObject;

@@ -90,7 +90,7 @@ public class MapEditor : EditorWindow
         }
    
         GameObject gameObject = new GameObject();
-        gameObject.name = "Object";
+        gameObject.name = objectType.ToString();
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
@@ -108,7 +108,9 @@ public class MapEditor : EditorWindow
         {
             objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
             objectData.LoadObject(gameObject);
-            gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
+            if(objectSprites != null)
+                if (objectSprites.Length > 0)
+                    gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
         }
         objectSprites = new Sprite[spriteNum];
     }
@@ -118,7 +120,7 @@ public class MapEditor : EditorWindow
         if (roomObj == null)
             return null;
         GameObject gameObject = new GameObject();
-        gameObject.name = "Object";
+        gameObject.name = objectType.GetType().ToString();
         gameObject.transform.parent = roomObj.transform;
         gameObject.AddComponent<SpriteRenderer>();
         gameObject.AddComponent<PolygonCollider2D>();
@@ -126,6 +128,7 @@ public class MapEditor : EditorWindow
 
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
+        Selection.activeObject = gameObject;
         return gameObject.GetComponent<CustomObject>();
     }
 
@@ -267,6 +270,7 @@ public class MapEditor : EditorWindow
         width = worldRoomSet.width;
         height = worldRoomSet.height;
         size = worldRoomSet.size;
+        roomType = worldRoomSet.roomType;
         CreateTilemap();
         for (int i = 0; i < worldRoomSet.objectDatas.Count; i++)
             DataToObject(worldRoomSet.objectDatas[i]);

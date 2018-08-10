@@ -24,6 +24,8 @@ public class UsableItem : Item
     public void Init(UsableItemInfo info)
     {
         this.info = info;
+        this.value = info.Price;
+        this.name = info.Name;
         spriteRenderer.sprite = info.Sprite;
     }
 

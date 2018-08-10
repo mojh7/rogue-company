@@ -867,7 +867,6 @@ public class StoreItem : CustomObject
     public override void Init()
     {
         base.Init();
-        polygonCollider2D.enabled = false;
         polygonCollider2D.isTrigger = true;
         isActive = false;
         isAvailable = true;
@@ -899,7 +898,7 @@ public class StoreItem : CustomObject
             {
                 isAvailable = false;
                 GameDataManager.Instance.ReduceCoin(innerObject.GetValue());
-                ItemManager.Instance.CreateItem(innerObject, transform.position, Vector2.zero);
+                ItemManager.Instance.CreateItem(innerObject, transform.position, new Vector2(Random.Range(-1, 2), 3));
             }
             return true;
         }
