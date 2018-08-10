@@ -9,4 +9,9 @@ public class ColliderController : MonoBehaviour {
     {
         circleCollider = GetComponent<CircleCollider2D>();
     }
+
+    public void Init(Sprite sprite)
+    {
+        circleCollider.offset = new Vector2(0, sprite.bounds.min.y + circleCollider.radius * .5f);
+    }
 }

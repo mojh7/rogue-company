@@ -717,7 +717,7 @@ namespace Map
             else
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
             obj.transform.localPosition = new Vector2(x, y);
-            obj.GetComponent<SpriteRenderer>().sortingOrder = -Mathf.RoundToInt(y * 100);
+            obj.GetComponent<SpriteRenderer>().sortingOrder = -Mathf.RoundToInt((y + 1) * 100);
             return obj;
         } // Door Object 생성
 
