@@ -7,8 +7,25 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     List<Map.Rect> roomList;
     Map.Rect currentRoom;
+    [SerializeField]
+    Transform mask;
 
     private int monsterNum = 0;
+    Vector2 maskSize;
+    Vector2 zeroVector;
+    int mapSize;
+    
+    private void IniMask()
+    {
+        mask.transform.localPosition = zeroVector;
+        mask.transform.localScale = maskSize;
+    }
+
+    private void SetMask()
+    {
+        mask.transform.localPosition = new Vector2(currentRoom.x * mapSize + 0.5f, currentRoom.y * mapSize - 1);
+        mask.transform.localScale = new Vector2(currentRoom.width * mapSize, currentRoom.height * mapSize + 1);
+    }
 
     public void InitRoomList()
     {
@@ -20,6 +37,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 DisalbeObject(roomList[i]);
             }
         }
+        mapSize = MapManager.Instance.size;
+        maskSize = new Vector2(MapManager.Instance.width * mapSize, MapManager.Instance.height * mapSize + 1);
+        zeroVector = new Vector2(0.5f, -1);
+        IniMask();
     } // 룸리스트 받아오기
 
     public int GetGage()
@@ -83,6 +104,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void ClearRoom()
     {
+        IniMask();
         MiniMap.Instance.HideMiniMap();
         DoorActive();
         ObjectSetAvailable();
@@ -164,7 +186,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             if (!currentRoom.isClear)
             {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
-
+                SetMask();
                 currentRoom.isClear = true;
                 if (currentRoom.eRoomType == RoomType.BOSS) //보스 방
                 {
@@ -273,6 +295,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 return currentRoom.edgeRect[i];
             }
         }
+        if (currentRoom.isRoom)
+            SetMask();
+        else
+            IniMask();
         return currentRoom;
     }
 
