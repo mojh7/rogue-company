@@ -94,7 +94,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             // this.playerData = gameData.GetPlayerData();
             playerData = playerDatas[(int)m_playerType].Clone();
             playerData.Hp = gameData.GetHp();
-            DebugX.Log("load hp : " + gameData.GetHp());
 
             return true;
         }

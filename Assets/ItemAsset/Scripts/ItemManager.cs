@@ -5,6 +5,9 @@ using UnityEngine;
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public Sprite coinSprite;
     public Sprite sprite;
+    [SerializeField]
+    private Sprite[] boxSprites;
+
     Queue<GameObject> objs;
     Queue<ItemContainer> withdraws;
     #region UnityFunc
