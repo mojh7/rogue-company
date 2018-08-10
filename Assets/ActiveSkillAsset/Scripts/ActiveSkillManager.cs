@@ -93,7 +93,8 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = user.transform.position;
         gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, (float)radius);
-
+        gameObject.GetComponent<CollisionSkill>().SetAvailableFalse();
+        user.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().SetAvailableTrue);
         user.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
         user.GetCharacterComponents().AnimationHandler.Skill(idx);
         return BT.State.SUCCESS;

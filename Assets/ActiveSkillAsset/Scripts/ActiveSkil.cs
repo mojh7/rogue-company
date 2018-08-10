@@ -11,11 +11,20 @@ public class ActiveSkil : MonoBehaviour {
     protected Character character;
     protected object temporary;
     protected float amount;
+    protected float radius;
 
     protected bool isActvie;
     protected bool isAvailable;
     protected System.Action<Character, object, float> action;
 
+    public virtual void SetAvailableTrue()
+    {
+        isAvailable = true;
+    }
+    public virtual void SetAvailableFalse()
+    {
+        isAvailable = false;
+    }
     protected void DestroyAndDeactive()
     {
         isActvie = false;
@@ -94,6 +103,20 @@ public class CollisionSkill : ActiveSkil
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
         StartCoroutine(ColliderUpdate());
+    }
+
+    public override void SetAvailableFalse()
+    {
+        base.SetAvailableFalse();
+        radius = circleCollider.radius;
+        circleCollider.radius = 0;
+    }
+
+    public override void SetAvailableTrue()
+    {
+        base.SetAvailableTrue();
+        circleCollider.radius = radius;
+        radius = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
