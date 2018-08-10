@@ -171,6 +171,8 @@ namespace BT
                             return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition, value);
                         case EDecorateTask.TimeDecorate:
                             return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value);
+                        case EDecorateTask.HealthDecorate:
+                            return ScriptableObject.CreateInstance<HealthDecorate>().Set(behaviorCondition, value);
                     }
                     break;
                 case TaskType.ActionTask:

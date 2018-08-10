@@ -532,7 +532,12 @@ TextureImporter:
         - {x: -24, y: 26}
       tessellationDetail: 0
     outline: []
-    physicsShape: []
+    physicsShape:
+    - - {x: -4, y: 2}
+      - {x: -3, y: -5}
+      - {x: 4, y: -5}
+      - {x: 5, y: 3}
+      - {x: -2, y: 4}
   spritePackingTag: 
   userData: 
   assetBundleName: 

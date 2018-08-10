@@ -44,7 +44,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         obj.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y);
     }
 
-    public GameObject CreateItem(Item _item,Vector3 _position)
+    public GameObject CreateItem(Item _item, Vector3 _position,params Vector2[] dest)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
@@ -54,7 +54,10 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         {
             withdraws.Enqueue(obj.GetComponent<ItemContainer>());
         }
-        StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1, 2), 5)));
+        if (dest.Length == 0)
+            StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1, 2), 5)));
+        else
+            StartCoroutine(CoroutineDropping(obj, dest[0]));
 
         return obj;
     }

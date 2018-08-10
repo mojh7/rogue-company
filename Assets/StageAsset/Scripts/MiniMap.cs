@@ -145,7 +145,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
-        DrawAllRoom();
+        //DrawAllRoom();
         texture.Apply();
     } // 미니맵 그리는 함수
 
@@ -385,7 +385,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         if (!_room.isRoom)
             return;
-
         for(int i=0;i<_room.edgeRect.Count;i++)
         {
             if (_room.edgeRect[i].isRoom)

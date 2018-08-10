@@ -32,6 +32,7 @@ public abstract class Character : MonoBehaviour
     #region Status
     public float moveSpeed;     // Character move Speed
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
+    protected float maxHP;
     protected CharacterInfo.Immune immune;
     #endregion
     #region componets
@@ -68,6 +69,18 @@ public abstract class Character : MonoBehaviour
     protected Vector3 scaleVector;
     #endregion
     #region getter
+    public float GetHP()
+    {
+        return hp;
+    }
+    public float GetMaxHP()
+    {
+        return maxHP;
+    }
+    public float GetPercentHP()
+    {
+        return (hp / maxHP) * 100;
+    }
     public CharacterComponents GetCharacterComponents()
     {
         return Components;

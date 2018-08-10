@@ -20,7 +20,8 @@
         Root,
         Bool,
         DistanceDecorate,
-        TimeDecorate
+        TimeDecorate,
+        HealthDecorate
     }
 
     public enum EActionTask

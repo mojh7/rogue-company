@@ -523,13 +523,17 @@ namespace Map
             {
                 if(_rectA.midY > _rectB.midY)
                 {
-                    if(_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
+                    if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
                         _rectA.EdgeRect(_rectB);
+                    else
+                        _rectA.LinkedEdgeRect(_rectB);
                 }
                 else
                 {
                     if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE)
                         _rectA.EdgeRect(_rectB);
+                    else
+                        _rectA.LinkedEdgeRect(_rectB);
                 }
             }
         }

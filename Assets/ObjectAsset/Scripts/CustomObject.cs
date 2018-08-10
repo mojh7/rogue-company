@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType { NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX, VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX, SUBSTATION }
+public enum ObjectType
+{
+    NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX,
+    VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX,
+    SUBSTATION, STOREITEM
+}
 
 public class CustomObject : MonoBehaviour
 {
@@ -694,11 +699,14 @@ public class FallRockTrap : RandomSpriteObject
 
 public class Rock : RandomSpriteObject
 {
+    int duration;
+
     public override void Init()
     {
         base.Init();
         isAvailable = true;
         polygonCollider2D.enabled = true;
+        duration = 10;
     }
     public override bool Active()
     {
@@ -716,6 +724,25 @@ public class Rock : RandomSpriteObject
             obj.GetComponent<Character>().Attacked(dir, transform.position, 1, 200, 0);
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (UtilityClass.CheckLayer(collision.gameObject.layer, 15, 17) && duration > 0)
+        {
+            duration--;
+            if (duration == 0)
+            {
+                Destruct();
+            }
+        }
+    }
+    void Destruct()
+    {
+        ParticleManager.Instance.PlayParticle("BrokenParticle", this.transform.position, sprite);
+        polygonCollider2D.enabled = false;
+        gameObject.SetActive(false);
+        AStar.TileGrid.Instance.Bake(spriteRenderer);
+    }
+
     IEnumerator Dropping()
     {
         float lowerLimit = transform.position.y;
@@ -830,5 +857,69 @@ public class SubStation : NoneRandomSpriteObject
     public override bool Active()
     {
         return base.Active();
+    }
+}
+
+public class StoreItem : CustomObject
+{
+    Item innerObject;
+
+    public override void Init()
+    {
+        base.Init();
+        polygonCollider2D.enabled = false;
+        polygonCollider2D.isTrigger = true;
+        isActive = false;
+        isAvailable = true;
+        isAnimate = true;
+        objectType = ObjectType.STOREITEM;
+    }
+
+    public override void SetAvailable()
+    {
+        if(isAvailable)
+        {
+            innerObject = ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.CLOTHING); 
+            sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
+            ReAlign();
+        }
+    }
+
+    void ReAlign()
+    {
+        innerObject.transform.parent = transform;
+        innerObject.transform.localPosition = Vector3.zero;
+    }
+
+    public override bool Active()
+    {
+        if(base.Active())
+        {
+            if(GameDataManager.Instance.GetCoin() >= innerObject.GetValue())
+            {
+                isAvailable = false;
+                GameDataManager.Instance.ReduceCoin(innerObject.GetValue());
+                ItemManager.Instance.CreateItem(innerObject, transform.position, Vector2.zero);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public override void IndicateInfo()
+    {
+        if(GameDataManager.Instance.GetCoin() >= innerObject.GetValue())
+        {
+            textMesh.text = innerObject.GetName();
+        }
+        else
+        {
+            textMesh.text = "돈이 부족합니다.";
+        }
+    }
+
+    public override void DeIndicateInfo()
+    {
+        textMesh.text = "";
     }
 }

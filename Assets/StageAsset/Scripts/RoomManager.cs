@@ -166,28 +166,23 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
 
                 currentRoom.isClear = true;
-                if (currentRoom.eRoomType == RoomType.BOSS)
+                if (currentRoom.eRoomType == RoomType.BOSS) //보스 방
                 {
                     InitRoom();
-                    //EnableObjects();
                     InitBossRoom();
+                    break;
+                }
+                else if(currentRoom.eRoomType == RoomType.MONSTER)
+                {
+                    InitRoom();
+                    SpawnMonster();
                     break;
                 }
                 else
                 {
-                    if (currentRoom.gage > 0)
-                    {
-                        InitRoom();
-                        //EnableObjects();
-                        SpawnMonster();
-                        break;
-                    }
-                }
-                if (currentRoom.isRoom)
-                {
-                    MiniMap.Instance.ClearRoom(currentRoom);
-                    if(currentRoom.eRoomType != RoomType.BOSS && currentRoom.eRoomType != RoomType.MONSTER)
-                        EnableObjects();
+                    NeignborDraw(currentRoom);
+                    EnableObjects();
+                    ObjectSetAvailable();
                 }
             }
             else
@@ -205,13 +200,32 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
         for (int i = 0; i < room.linkedEdgeRect.Count; i++)
         {
-            if(room.linkedEdgeRect[i].isRoom && !room.linkedEdgeRect[i].isDrawed)
+            if(room.linkedEdgeRect[i].isRoom && !room.linkedEdgeRect[i].isDrawed &&
+                !IsLinkedVerticalEvent(room,room.linkedEdgeRect[i]))
             {
                 MiniMap.Instance.ClearRoom(room.linkedEdgeRect[i]);
             }
         }
     }
 
+    bool IsLinkedVerticalEvent(Map.Rect _rectA, Map.Rect _rectB) // 두개의 방을 직접 연결
+    {
+        if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) &&
+            (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2)) // 세로로 연결된 방
+        {
+            if (_rectA.midY > _rectB.midY)
+            {
+                if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
+                    return true;
+            }
+            else
+            {
+                if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE)
+                    return true;
+            }
+        }
+        return false;
+    }
     void InitRoom()
     {
         MiniMap.Instance.HideMiniMap();

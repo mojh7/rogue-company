@@ -49,6 +49,13 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region Func
+    public void ReduceCoin(int value)
+    {
+        if (value <= 0)
+            return;
+        m_coin -= value;
+        ShowUI();
+    }
     void ShowUI()
     {
         UIManager.Instance.SetCoinText(m_coin);

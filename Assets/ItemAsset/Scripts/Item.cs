@@ -4,8 +4,13 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour {
     protected new string name;
+    protected int value;
     public System.Action action;
 
+    public int GetValue()
+    {
+        return value;
+    }
     public virtual void Active() { }
     public virtual void SubActive() { }
     public virtual string GetName() { return name; }
