@@ -38,7 +38,7 @@ public class StopTrackAction : ActionTask
 
     public override Task Clone()
     {
-        StopTrackAction parent = new StopTrackAction();
+        StopTrackAction parent = ScriptableObject.CreateInstance<StopTrackAction>();
 
         return parent;
     }

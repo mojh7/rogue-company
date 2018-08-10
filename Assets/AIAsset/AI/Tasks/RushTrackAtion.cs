@@ -35,7 +35,7 @@ public class RushTrackAtion : ActionTask
     }
     public override Task Clone()
     {
-        RushTrackAtion parent = new RushTrackAtion();
+        RushTrackAtion parent = ScriptableObject.CreateInstance<RushTrackAtion>();
 
         return parent;
     }

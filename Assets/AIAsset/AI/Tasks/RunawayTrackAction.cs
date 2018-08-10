@@ -31,7 +31,7 @@ public class RunawayTrackAction : ActionTask
     }
     public override Task Clone()
     {
-        RunawayTrackAction parent = new RunawayTrackAction();
+        RunawayTrackAction parent = ScriptableObject.CreateInstance<RunawayTrackAction>();
 
         return parent;
     }

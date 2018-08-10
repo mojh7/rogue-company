@@ -22,19 +22,30 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     float m_cameraDepth = -1;
     bool m_findPlayer = true;
     Vector2 shakePos;
+    Vector3 zeroPos;
     private void Start()
     {
         cameraTransform = this.transform;
+        zeroPos = new Vector3(0, 0, m_cameraDepth);
     }
-    private void FixedUpdate()
+    private void Update()
     {
-        if (m_findPlayer)
-            FindPlayer();
-        else
-            FindOther(targetPos);
         if (m_shakeTime > 0)
             ShakeCamera(m_shakeAmount);
+        else
+        {
+            cameraTransform.localPosition = zeroPos;
+        }
     }
+    //private void FixedUpdate()
+    //{
+    //    if (m_findPlayer)
+    //        FindPlayer();
+    //    else
+    //        FindOther(targetPos);
+    //    if (m_shakeTime > 0)
+    //        ShakeCamera(m_shakeAmount);
+    //}
     #region func
     void Focus()
     {
@@ -76,7 +87,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     void ShakeCamera(float _amount)
     {
         //TODO : sin, cos sin^2, cos^2 등을 이용해서 가속, 감속? 속도 커브를 좀 다양하게 해야 할듯, 지속적으로 개선
-        Focus();
+        //Focus();
         switch (m_cameraShakeType)
         {
             case CameraShakeType.RANDOM:

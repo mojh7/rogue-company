@@ -7,13 +7,10 @@ namespace BT
 {
     public class BehaviorTree 
     {
-        readonly BlackBoard blackBoard;
         Root root;
 
         public BehaviorTree(BlackBoard blackBoard, Task root)
         {
-            this.blackBoard = blackBoard;
-
             this.root = root as Root;
             this.root.Init(blackBoard);
         }

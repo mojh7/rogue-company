@@ -38,7 +38,6 @@ namespace BT
                 if (e.type == EventType.MouseDown)
                 {
                     bool clickedOnWindow = false;
-                    int selectedWindow = -1;
 
                     for (int i = 0; i < windows.Count; i++)
                     {
@@ -46,7 +45,6 @@ namespace BT
                             continue;
                         if (windows[i].windowRect.Contains(mousePos))
                         {
-                            selectedWindow = i;
                             clickedOnWindow = true;
                             break;
                         }

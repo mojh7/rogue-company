@@ -21,7 +21,6 @@ public class MovingPattern : MonoBehaviour
     float speed = 1;
     float baseSpeed;
     Vector2[] path;
-    Vector2 zero = Vector2.zero;
     #endregion
     private void Awake()
     {
@@ -46,7 +45,6 @@ public class MovingPattern : MonoBehaviour
         }
         StopCoroutine("FollowPath");
         //TODO : zero하는 거 없애는 것 얘기 더 해보기. 넉백이 적용이 안되서 임시로 주석
-        //rb2d.velocity = zero;
         isActive = false;
     }
     #endregion

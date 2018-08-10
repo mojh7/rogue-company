@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ParticleController : MonoBehaviour {
 
-    ParticleSystem particleSystem;
+    new ParticleSystem particleSystem;
 
     public void SpriteToMesh(Sprite sprite)
     {

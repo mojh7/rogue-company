@@ -48,7 +48,6 @@ public class NodeMergeEditor : EditorWindow
         AssetDatabase.CopyAsset(parentPath, assetPathAndName);
         for (int i = 0; i < childNum; i++)
         {
-            string childPath = AssetDatabase.GetAssetPath(childTask[i]);
             Task c = childTask[i].Clone();
             c.name = c.GetType().ToString() + "Added";
             AssetDatabase.AddObjectToAsset(c, assetPathAndName);

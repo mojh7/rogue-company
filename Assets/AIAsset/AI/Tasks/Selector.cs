@@ -21,7 +21,7 @@ public class Selector : CompositeTask
     }
     public override Task Clone()
     {
-        Selector parent = new Selector();
+        Selector parent = ScriptableObject.CreateInstance<Selector>();
         if (GetChildren() != null)
             for (int i = 0; i < GetChildren().Count; i++)
             {

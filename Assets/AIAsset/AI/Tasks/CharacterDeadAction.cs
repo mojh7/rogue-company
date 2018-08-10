@@ -27,7 +27,7 @@ public class CharacterDeadAction : ActionTask
     }
     public override Task Clone()
     {
-        CharacterDeadAction parent = new CharacterDeadAction();
+        CharacterDeadAction parent = ScriptableObject.CreateInstance<CharacterDeadAction>();
 
         return parent;
     }

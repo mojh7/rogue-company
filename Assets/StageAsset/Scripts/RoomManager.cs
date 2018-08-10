@@ -104,7 +104,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void ClearRoom()
     {
-        IniMask();
         MiniMap.Instance.HideMiniMap();
         DoorActive();
         ObjectSetAvailable();
@@ -183,7 +182,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         while (true)
         {
-            if (!currentRoom.isClear)
+            yield return YieldInstructionCache.WaitForSeconds(0.05f);
+
+            if (!currentRoom.isRoom || currentRoom.isClear)
+            {
+                currentRoom = GetCurrentRect(PlayerManager.Instance.GetPlayerPosition());
+            }
+            else
             {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
                 SetMask();
@@ -194,7 +199,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                     InitBossRoom();
                     break;
                 }
-                else if(currentRoom.eRoomType == RoomType.MONSTER)
+                else if (currentRoom.eRoomType == RoomType.MONSTER)
                 {
                     InitRoom();
                     SpawnMonster();
@@ -207,10 +212,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                     ObjectSetAvailable();
                 }
             }
-            else
-                currentRoom = GetCurrentRect(PlayerManager.Instance.GetPlayerPosition());
-
-            yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
     }
 

@@ -78,7 +78,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     public void ClearRoom(Map.Rect _room)
     {
         inDungeon = false;
-        _room.isDrawed = true;
         DrawCall(_room, DrawRoom);
     }
 
@@ -248,6 +247,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     void DrawRoom(Map.Rect _room)
     {
+        _room.isDrawed = true;
+
         int minX = _room.x * size;
         int maxX = (_room.x + _room.width) * size - 1;
         int minY = _room.y * size;

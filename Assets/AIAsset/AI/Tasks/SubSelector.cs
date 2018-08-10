@@ -23,7 +23,7 @@ public class SubSelector : CompositeTask {
     }
     public override Task Clone()
     {
-        SubSelector parent = new SubSelector();
+        SubSelector parent = ScriptableObject.CreateInstance<SubSelector>();
         if (GetChildren() != null)
             for (int i = 0; i < GetChildren().Count; i++)
             {

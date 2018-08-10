@@ -7,7 +7,7 @@ public class EnemyData : ScriptableObject
 {
     #region serializeFiled
     [SerializeField]
-    private string name;
+    private new string name;
     [SerializeField]
     private Sprite sprite;
     [SerializeField]

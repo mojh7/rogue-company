@@ -84,8 +84,6 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
 
     IEnumerator CoroutineFadeIn(Image _img,int _interval)
     {
-        float time = (float)0.5f / _interval;
-
         for (int i = _interval; i >= 0; i--)
         {
             _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, (float)i / _interval);
@@ -100,8 +98,6 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
 
     IEnumerator CoroutineFadeOut(Image _img, int _interval)
     {
-        float time = (float)0.5f / _interval;
-
         for (int i = 0; i <= _interval; i++)
         {
             _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, (float)i / _interval);

@@ -44,7 +44,7 @@ public class RoundingTrackAction : ActionTask
     }
     public override Task Clone()
     {
-        RoundingTrackAction parent = new RoundingTrackAction();
+        RoundingTrackAction parent = ScriptableObject.CreateInstance<RoundingTrackAction>();
         parent.Set(radius);
         return parent;
     }

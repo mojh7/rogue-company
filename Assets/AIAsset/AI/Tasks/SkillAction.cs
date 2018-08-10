@@ -51,7 +51,7 @@ public class SkillAction : ActionTask
     }
     public override Task Clone()
     {
-        SkillAction parent = new SkillAction();
+        SkillAction parent = ScriptableObject.CreateInstance<SkillAction>();
         parent.Set(Idx);
         return parent;
     }
