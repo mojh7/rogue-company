@@ -218,6 +218,7 @@ public class Enemy : Character
         PlayerManager.Instance.GetPlayer().AddKilledEnemyCount();
         DropItem();
         Stamina.Instance.StaminaPlus();
+        GameDataManager.Instance.SetKill();
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position, sprite);
@@ -792,6 +793,7 @@ public class BossEnemy : Enemy
     protected override void Die()
     {
         pState = CharacterInfo.State.DIE;
+        GameDataManager.Instance.SetKill();
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);

@@ -14,6 +14,10 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     string dataPath;
     PlayerData playerData;
 
+    // 0810 주윤아 플레이 타임
+    int m_kill;
+    float m_time;
+
     // 0531 모장현
     private int[] m_weaponIds;
     private int[] m_weaponAmmos;
@@ -25,12 +29,16 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #region setter
     public void SetCoin() { m_coin++; ShowUI(); }
     public void SetFloor() { m_floor++; }
+    public void SetKill() { m_kill++; }
+    public void SetTime(float _time) { m_time = _time; }
     public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
     #endregion
 
     #region getter
     public int GetCoin() { return m_coin; }
     public int GetFloor() { return m_floor; }
+    public int GetKill() { return m_kill; }
+    public float GetTime() { return m_time; }
     public Player.PlayerType GetPlayerType() { return m_playerType; }
     public PlayerData GetPlayerData() { return playerData; }
     public PlayerData GetPlayerData(Player.PlayerType playerType)
@@ -67,6 +75,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             gameData = new GameData();
         gameData.SetFloor();
         gameData.SetCoin(m_coin);
+        gameData.SetKill(m_kill);
+        gameData.SetTime(m_time);
 
         // 0531 모장현
         gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());
@@ -86,6 +96,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             m_floor = gameData.GetFloor();
             m_coin = gameData.GetCoin();
             m_playerType = gameData.GetPlayerType();
+            m_kill = gameData.GetKill();
+            m_time = gameData.GetTime();
             // 0531 모장현
             m_weaponIds = gameData.GetWeaponIds();
             m_weaponAmmos = gameData.GetWeaponAmmos();
@@ -110,6 +122,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             gameData = null;
             m_floor = 1;
             m_coin = 0;
+            m_kill = 0;
+            m_time = 0;
             m_playerType = Player.PlayerType.SOCCER;
             playerData.Hp = playerDatas[0].Hp;
             playerData = null;

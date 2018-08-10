@@ -12,19 +12,19 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     private Player player;
     private Image stamina;
     [SerializeField]
-    private int totalStamina;        // 스태미너의 Max치
-    private int playerStamina;               // player 의 스태미너
+    private int maxStamina;        // 스태미너의 Max치 
+    private int playerStamina;       // player 의 스태미너
 
     #region getter setter
     public int getPlayerStamina() { return playerStamina; }
-    public int getTotalStamina() { return totalStamina; }
+    public int getTotalStamina() { return maxStamina; }
     public void setPlayerStamina(int playerStamina) { this.playerStamina = playerStamina; }
-    public void setTotalStamina(int totalStamina) { this.totalStamina = totalStamina; }
+    public void setTotalStamina(int totalStamina) { this.maxStamina = totalStamina; }
     #endregion
 
     void Awake() {
         stamina = GetComponent<Image>();
-        StaminaAmout(stamina.fillAmount, totalStamina);
+        StaminaAmout(stamina.fillAmount, maxStamina);
     }
 
 
@@ -40,8 +40,8 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         {
             // 3초마다 한번씩 1씩 추가
             // 몬스터 죽을때마다 1씩 추가
-            stamina.fillAmount += 3 / (float)totalStamina;
-            StaminaAmout(stamina.fillAmount, totalStamina);
+            stamina.fillAmount += 3 / (float)maxStamina;
+            StaminaAmout(stamina.fillAmount, maxStamina);
         }
         else
         {
@@ -53,8 +53,8 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     {
         if (stamina.fillAmount > 0 && stamina.fillAmount <= 1)
         {
-            stamina.fillAmount -= 5 / (float)totalStamina;
-            StaminaAmout(stamina.fillAmount, totalStamina);
+            stamina.fillAmount -= 5 / (float)maxStamina;
+            StaminaAmout(stamina.fillAmount, maxStamina);
         }
         else if (stamina.fillAmount <= 0)
         {

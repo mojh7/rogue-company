@@ -24,4 +24,13 @@ public class GameSceneUI : MonoBehaviour {
             }
         }
     }
+    
+    // 디버그용
+    private void UpdateTimeData(float time)
+    {
+        string minutes = Mathf.FloorToInt(time / 60).ToString("00");
+        string seconds = Mathf.FloorToInt(time % 60).ToString("00");
+        string timeStr = minutes + " : " + seconds;
+        //textT.text = "Time : " + timeStr;
+    }
 }

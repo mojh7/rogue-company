@@ -43,8 +43,10 @@ public class Player : Character
     private PlayerData playerData;
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
-    //0802 윤아
+    // 윤아 0802
     [SerializeField] private Stamina stamina;
+    // 윤아 0802
+    [SerializeField] private float playTime;
 
     #endregion
 
@@ -88,6 +90,7 @@ public class Player : Character
     {
         objTransform = GetComponent<Transform>();
         playerScale = 1f;
+        playTime = 0;
         scaleVector = new Vector3(1f, 1f, 1f);
         isRightDirection = true;
         raycastHitEnemies = new List<RaycasthitEnemy>();
@@ -112,7 +115,7 @@ public class Player : Character
             weaponManager.Init(this, OwnerType.Player);
         }
         */
-
+        playTime += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.B))
         {
             updateAutoAim = !updateAutoAim;
@@ -184,14 +187,13 @@ public class Player : Character
         originPlayerData = playerData;
         UpdatePlayerData();
         PlayerHPUi.SetHpBar(playerData.Hp);
-        // ui test용(10으로 할당)
-        // testPlayerHPUi.SetHpBar(hp);
         stamina.setTotalStamina(playerData.StaminaMax);
         
     }
 
     protected override void Die()
     {
+        GameDataManager.Instance.SetTime(playTime);
         GameStateManager.Instance.GameOver();
         UIManager.Instance.GameOverUI();
     }
