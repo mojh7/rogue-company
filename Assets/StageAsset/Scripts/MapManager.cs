@@ -11,8 +11,9 @@ namespace Map
         [Space(10)]
         [Header("variable")]
         public int width = 1;
-        public int height = 1, size = 3, area = 3;
+        public int height = 1, max = 17, mini = 6;
         public float maxHallRate = 0.15f;
+        public readonly int size = 3;
         Map map;
         public void GenerateMap(int _floor)
         {
@@ -21,7 +22,7 @@ namespace Map
                 map.Destruct();
                 map = null;
             }
-            map = new Map(width, height, size, area, maxHallRate, _floor, objectPool);
+            map = new Map(width, height, max, mini, maxHallRate, _floor, objectPool);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
             map.AddFallRock();
@@ -38,22 +39,23 @@ namespace Map
         List<RoomSet> necessaryRoomSet, settedRoomSet;
         Tilemap verticalWallTileMap, horizonWallTileMap, floorTileMap, shadowTileMap, fogTileMap;
         float MaxHallRate = 0.15f;
-        int MinumRoomArea = 4;
+        int MaximumRoomArea = 4;
+        int MinimumRoomArea = 6;
         int TotalHallArea = 0;
         int width;
         int height;
-        int size;
+        const int size = 3;
         int floor;
         ObjectPool objectPool;
         Vector3 startPosition;
 
-        public Map(int _width,int _height,int _size, int _minumRoomArea, float _maxHallRate,int _floor, ObjectPool _objectPool)
+        public Map(int _width, int _height, int _max, int _mini, float _maxHallRate, int _floor, ObjectPool _objectPool)
         {
-            mainRect = new Rect(0, 0, _width, _height, _size);
+            mainRect = new Rect(0, 0, _width, _height, 3);
             width = _width;
             height = _height;
-            size = _size;
-            MinumRoomArea = _minumRoomArea;
+            MaximumRoomArea = _max;
+            MinimumRoomArea = _mini;
             MaxHallRate = _maxHallRate;
             floor = _floor;
             objectPool = _objectPool;
@@ -134,6 +136,8 @@ namespace Map
                 sum += _roomSet[i].width * _roomSet[i].height;
                 if (sum > maxSize)
                     break;
+                if (_roomSet[i].width * _roomSet[i].height > MaximumRoomArea || _roomSet[i].width * _roomSet[i].height < MinimumRoomArea)
+                    continue;
                 necessaryRoomSet.Add(_roomSet[i]);
             }
         } // 필수 방 세팅
@@ -357,7 +361,7 @@ namespace Map
             while (rects.Count > 0 && ((float)TotalHallArea / mainRect.area < MaxHallRate))
             {
                 rect = rects.Dequeue();
-                if (rect.area > MinumRoomArea)
+                if (rect.area > MaximumRoomArea)
                     SplitHall(rect);
                 else blocks.Enqueue(rect);  
             }
@@ -379,11 +383,11 @@ namespace Map
                 block = blocks.Dequeue();
                 if (block.width == 0 || block.height == 0)
                     continue;
-                if ((block.area > MinumRoomArea || (block.area > 2 && (float)block.width / block.height >= 2 || (float)block.height / block.width >= 2)))
+                if ((block.area > MaximumRoomArea || (block.area > 2 && (float)block.width / block.height >= 2 || (float)block.height / block.width >= 2)))
                     SplitBlock(block);
                 else
                 {
-                    if (block.area < 6)
+                    if (block.area < MinimumRoomArea)
                     {
                         block.isRoom = false;
                         halls.Add(block);

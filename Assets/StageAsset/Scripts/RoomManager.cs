@@ -215,17 +215,18 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         {
             if (_rectA.midY > _rectB.midY)
             {
-                if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
+                if (_rectB.eRoomType == RoomType.REST || _rectB.eRoomType == RoomType.STORE)
                     return true;
             }
             else
             {
-                if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE)
+                if (_rectA.eRoomType == RoomType.REST || _rectA.eRoomType == RoomType.STORE)
                     return true;
             }
         }
         return false;
     }
+
     void InitRoom()
     {
         MiniMap.Instance.HideMiniMap();

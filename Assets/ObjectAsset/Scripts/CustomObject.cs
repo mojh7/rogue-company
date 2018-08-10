@@ -878,7 +878,7 @@ public class StoreItem : CustomObject
     {
         if(isAvailable)
         {
-            innerObject = ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.CLOTHING); 
+            innerObject = ObjectPoolManager.Instance.CreateUsableItem(); 
             sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
             ReAlign();
         }
