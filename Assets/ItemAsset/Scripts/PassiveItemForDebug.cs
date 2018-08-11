@@ -80,11 +80,11 @@ public class PassiveItemForDebug : MonoBehaviour
         {
             if(passiveDebugObj.activeSelf)
             {
-                DebugX.Log("패시브 아이템 테스트창 off");
+                Debug.Log("패시브 아이템 테스트창 off");
             }
             else
             {
-                DebugX.Log("패시브 아이템 테스트창 on");
+                Debug.Log("패시브 아이템 테스트창 on");
             }
             passiveDebugObj.SetActive(!passiveDebugObj.activeSelf);
             effectTotalViewObj.SetActive(passiveDebugObj.activeSelf);
@@ -128,10 +128,10 @@ public class PassiveItemForDebug : MonoBehaviour
     {
         if (passiveSlotIdsLength >= slotCountMax)
         {
-            DebugX.Log("패시브 슬룻 꽉참. 아이템 적용 안됨.");
+            Debug.Log("패시브 슬룻 꽉참. 아이템 적용 안됨.");
             return;
         }
-        DebugX.Log(currentIndex + "번 패시브 아이템 사용 for debug");
+        Debug.Log(currentIndex + "번 패시브 아이템 사용 for debug");
         passiveSlotIds.Add(currentIndex);
         passiveSlotIdsLength += 1;
         UsableItemInfo passive = DataStore.Instance.GetMiscItemInfo(currentIndex);
@@ -164,15 +164,15 @@ public class PassiveItemForDebug : MonoBehaviour
 
     public void UpdatePassiveSlots()
     {
-        DebugX.Log("UpdatePassiveSlots : " + currentIndex + ", " + passiveSlotIdsLength);
+        Debug.Log("UpdatePassiveSlots : " + currentIndex + ", " + passiveSlotIdsLength);
         for(int i = 0; i < passiveSlotIdsLength; i++)
         {
-            //DebugX.Log("a : " + i + ", " + passiveSlotIds[i]);
+            //Debug.Log("a : " + i + ", " + passiveSlotIds[i]);
             passiveSlots[i].UpdatePassiveSlot(DataStore.Instance.GetMiscItemInfo(passiveSlotIds[i]).Sprite);
         }
         for (int i = passiveSlotIdsLength; i < slotCountMax; i++)
         {
-            //DebugX.Log("b : " + i);
+            //Debug.Log("b : " + i);
             //passiveSlots[i].UpdatePassiveSlot(null);
         }
     }

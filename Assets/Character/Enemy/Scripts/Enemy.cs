@@ -527,10 +527,10 @@ public class Enemy : Character
     protected override void Nag()
     {
         rgbody.velocity = Vector3.zero;
-        DebugX.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
+        Debug.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
         if (nagCount >= StatusConstants.Instance.NagInfo.overlapCountMax)
         {
-            DebugX.Log("중첩 횟수 제한으로 인한 return");
+            Debug.Log("중첩 횟수 제한으로 인한 return");
             return;
         }
         nagCount += 1;
@@ -539,7 +539,7 @@ public class Enemy : Character
         {
             nagCoroutine = StartCoroutine(NagCoroutine());
         }
-        DebugX.Log(gameObject.name + " 잔소리 적용");
+        Debug.Log(gameObject.name + " 잔소리 적용");
     }
 
     ///<summary>이동 지연</summary>
@@ -547,7 +547,7 @@ public class Enemy : Character
     {
         if (delayStateCount >= StatusConstants.Instance.DelayStateInfo.overlapCountMax)
             return;
-        DebugX.Log(gameObject.name + " 이동지연 적용");
+        Debug.Log(gameObject.name + " 이동지연 적용");
         delayStateCount += 1;
         delayStateOverlappingCount += 1;
         if (false == isDelayingState)
@@ -740,7 +740,7 @@ public class Enemy : Character
             }
             nagOverlappingCount -= 1;
         }
-        //DebugX.Log("상태이상 잔소리 끝");
+        //Debug.Log("상태이상 잔소리 끝");
         SubRetrictsMovingCount();
         nagCount = 0;
         isNagging = false;

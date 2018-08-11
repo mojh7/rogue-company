@@ -31,7 +31,7 @@ public class UsableItem : Item
 
     public override void Active()
     {
-        DebugX.Log("UsableItem use");
+        Debug.Log("UsableItem use");
         for(int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
             info.EffectApplyTypes[i].UseItem();

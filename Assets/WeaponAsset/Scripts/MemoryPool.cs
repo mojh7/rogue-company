@@ -129,7 +129,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
                 SetOriginalParent(item.gameObject);
                 item.active = false;
                 item.gameObject.SetActive(false);
-                //DebugX.Log(item.gameObject + ", " + item.gameObject.activeSelf +", RemoveItem");
+                //Debug.Log(item.gameObject + ", " + item.gameObject.activeSelf +", RemoveItem");
                 break;
             }
         }
@@ -139,7 +139,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
     //--------------------------------------------------------------------------------------
     public void ClearItem()
     {
-        DebugX.Log("Memory pool Clear item");
+        Debug.Log("Memory pool Clear item");
         if (table == null)
             return;
         for (int i = 0; i < totalCount; i++)
@@ -167,10 +167,10 @@ public class MemoryPool : IEnumerable, System.IDisposable
     //--------------------------------------------------------------------------------------
     public void Dispose()
     {
-        // DebugX.Log("Memory pool Dispose");
+        // Debug.Log("Memory pool Dispose");
         if (table == null)
         {
-            //DebugX.Log("Memory pool Dispose table null");
+            //Debug.Log("Memory pool Dispose table null");
             return;
         }
 

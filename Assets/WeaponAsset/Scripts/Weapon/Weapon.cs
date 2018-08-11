@@ -219,7 +219,7 @@ public class Weapon : Item
             {
                 if (false == HasCostForAttack())
                 {
-                    DebugX.Log("총알 혹은 스테미너 부족으로 인한 차징 공격 실패");
+                    Debug.Log("총알 혹은 스테미너 부족으로 인한 차징 공격 실패");
                     return;
                 }
                 UpdateWeaponBuff();
@@ -245,7 +245,7 @@ public class Weapon : Item
         }
         else
         {
-            DebugX.Log("총알 혹은 스테미너 부족으로 인한 공격 실패");
+            Debug.Log("총알 혹은 스테미너 부족으로 인한 공격 실패");
         }
     }
 

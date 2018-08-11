@@ -20,7 +20,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
     {
         //player.GetWeaponManager().ChangeWeapon(true); // 임시
         pos.x = ped.position.x;
-        //DebugX.Log("WeaponSwapBtn touch down x : " + ped.position.x);
+        //Debug.Log("WeaponSwapBtn touch down x : " + ped.position.x);
     }
 
     // 터치 후 땠을 때
@@ -36,7 +36,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
         {
             player.GetWeaponManager().ChangeWeapon(false);
         }
-        // DebugX.Log("WeaponSwapBtn touch up x : " + ped.position.x);
+        // Debug.Log("WeaponSwapBtn touch up x : " + ped.position.x);
     }
 
 

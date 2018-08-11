@@ -124,9 +124,9 @@ public class WeaponInfo : ScriptableObject
         /*
         if(name == "WeaponInfo11")
         {
-            DebugX.Log(name);
+            Debug.Log(name);
             name = "zzz123123";
-            DebugX.Log(name);
+            Debug.Log(name);
         }
         */
         // bulletPatternEditInfo를 토대로 실제 원래의 bulletPatterns 만들기, 각각 info마다 다운캐스팅으로 매개변수 넣어줌

@@ -61,11 +61,11 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     // 터치 했을 때
     public void OnPointerDown(PointerEventData ped)
     {
-        //DebugX.Log("Attack Touch Down");
+        //Debug.Log("Attack Touch Down");
         // 일반 공격 : 계속 공격
         // 차징 공격 : 차징 중
         //isAttackTouchDown = true;
-        //DebugX.Log("공격 버튼 다운");
+        //Debug.Log("공격 버튼 다운");
         if (interactiveObject != null)
         {
             interactiveObject.Active();
@@ -79,7 +79,7 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     // 땠을 때
     public void OnPointerUp(PointerEventData ped)
     {
-        //DebugX.Log("Attack Touch Up");
+        //Debug.Log("Attack Touch Up");
         // 일반 공격 : 공격 중지
         // 차징 공격 : 차징된 공격
         if (isAttackTouchDown)
@@ -87,6 +87,6 @@ public class AttackButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
             player.GetWeaponManager().AttackButtonUP();
             isAttackTouchDown = false;
         }
-        //DebugX.Log("공격 버튼 업");
+        //Debug.Log("공격 버튼 업");
     }
 }

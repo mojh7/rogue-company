@@ -37,13 +37,13 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
         // (int)(poisonInfo.effectiveTime / graduallyDamageCycle); 왜 29 나오지??
         GraduallyDamageCountMax = 30;
         /*
-        DebugX.Log("poison : " + PoisonInfo.value + ", " + PoisonInfo.effectiveTime + ", " + PoisonInfo.overlapCountMax);
-        DebugX.Log("burn : " + BurnInfo.value + ", " + BurnInfo.effectiveTime + ", " + BurnInfo.overlapCountMax);
-        DebugX.Log("nag : " + NagInfo.value + ", " + NagInfo.effectiveTime + ", " + NagInfo.overlapCountMax);
-        DebugX.Log("delayState : " + PoisonInfo.value + ", " + PoisonInfo.effectiveTime + ", " + PoisonInfo.overlapCountMax);
-        DebugX.Log("nagDirVector[0] : " + NagDirVector[0] + ", [3] : " + NagDirVector[3]);
-        DebugX.Log("지속 데미지 주기 : " + GraduallyDamageCycle);
-        DebugX.Log("지속 데미지 횟수 : " + GraduallyDamageCountMax);
+        Debug.Log("poison : " + PoisonInfo.value + ", " + PoisonInfo.effectiveTime + ", " + PoisonInfo.overlapCountMax);
+        Debug.Log("burn : " + BurnInfo.value + ", " + BurnInfo.effectiveTime + ", " + BurnInfo.overlapCountMax);
+        Debug.Log("nag : " + NagInfo.value + ", " + NagInfo.effectiveTime + ", " + NagInfo.overlapCountMax);
+        Debug.Log("delayState : " + PoisonInfo.value + ", " + PoisonInfo.effectiveTime + ", " + PoisonInfo.overlapCountMax);
+        Debug.Log("nagDirVector[0] : " + NagDirVector[0] + ", [3] : " + NagDirVector[3]);
+        Debug.Log("지속 데미지 주기 : " + GraduallyDamageCycle);
+        Debug.Log("지속 데미지 횟수 : " + GraduallyDamageCountMax);
         */
     }
 }
