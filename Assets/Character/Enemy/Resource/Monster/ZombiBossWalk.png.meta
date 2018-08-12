@@ -7,6 +7,7 @@ TextureImporter:
     21300000: ZombiBossWalk_0
     21300002: ZombiBossWalk_1
     21300004: ZombiBossWalk_2
+    21300006: ZombiBossWalk_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -100,8 +101,8 @@ TextureImporter:
         y: 0
         width: 121
         height: 118
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -114,8 +115,8 @@ TextureImporter:
         y: 0
         width: 121
         height: 118
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -128,8 +129,22 @@ TextureImporter:
         y: 0
         width: 121
         height: 118
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ZombiBossWalk_3
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 26
+        width: 26
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
