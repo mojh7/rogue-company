@@ -14,6 +14,7 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     public RandomTile floorTile;
     public RandomTile cafeTile;
     public RandomTile restTile;
+    public RandomTile hallTile;
 
     public RuleTile shadowTile;
     public RuleTile verticalWallRuleTile;

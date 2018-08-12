@@ -154,6 +154,17 @@ namespace Map
             }
         }
 
+        void DrawHallTile(Rect rect, RandomTile tile)
+        {
+            for (int x = rect.x * size * 2; x < ((rect.x + rect.width) * size) * 2; x++)
+            {
+                for (int y = rect.y * size * 2; y < ((rect.y + rect.height) * size) * 2; y++)
+                {
+                    floorTileMap.SetTile(new Vector3Int(x, y, 0), tile);
+                }
+            }
+        }
+
         void BakeMap()
         {
             AStar.TileGrid.Instance.Bake();
@@ -261,7 +272,10 @@ namespace Map
             {
                 rect = rooms[index];
                 if (!rect.isRoom)
+                {
+                    DrawHallTile(rect, TileManager.Instance.hallTile);
                     continue;
+                }
                 if(rect.eRoomType == RoomType.STORE)
                 {
                     DrawEventTile(rect,TileManager.Instance.cafeTile);
@@ -352,6 +366,7 @@ namespace Map
                     }
                 }
             } // 방그리기
+
         } // 맵 그리기
 
         void RectToBlock()
