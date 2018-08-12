@@ -1,6 +1,5 @@
 ﻿Shader "Custom/DefaultShader" {
 	Properties {
-		_Color("Color", Color) = (1,1,1,1)
 		[PerRendererData]_MainTex("Albedo (RGB)", 2D) = "white" {}
 		[HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
 		_Boundary("Boundary Number", Int) = 1
@@ -35,7 +34,6 @@
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _Color;
 		half _MainIntensity;
 		half _LightIntensity;
 		int _UnevenResolution;
@@ -48,7 +46,6 @@
 			int bound = _Boundary;
 
 			gi.light.color.rgb *= _LightIntensity;
-			gi.light.color.rgb = clamp(gi.light.color.rgb, 0, 1);
 			float vall = gi.light.color.r + gi.light.color.g + gi.light.color.b;
 			vall /= 3;
 			float clampedLight = floor(vall * bound) / bound;
@@ -69,7 +66,8 @@
 		void vert(inout appdata_full v, out Input o)
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
-			o.color = v.color * _Color;
+			o.color = v.color;
+
 #ifdef PIXELSNAP_ON
 			v.vertex = UnityPixelSnap(v.vertex);
 #endif
