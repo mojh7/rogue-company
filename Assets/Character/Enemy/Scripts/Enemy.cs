@@ -2,35 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#region sturct
-public struct StatusConstant
-{
-    public float value;         // 각 상태이상 별로 세기, 값
-    public float effectiveTime; // 효과 유지 시간
-    public int overlapCountMax; // 중첩 횟수 최대치
-    public StatusConstant(float value, float effectiveTime, int overlapCountMax)
-    {
-        this.value = value;
-        this.effectiveTime = effectiveTime;
-        this.overlapCountMax = overlapCountMax;
-    }
-}
-#endregion
+/// <summary> 
+/// 기존의 상태이상이 적용되고 있을 때 추가 상태이상 적용시
+/// 기존 것이 없어지는 종류의 상태 이상들
+/// </summary>
+public enum AbnormalStatusType { NAG, CLIMBING, GRAVEYARDSHIFT, FREEZE, REACTANCE, STUN, CHARM, END }
 
-public enum AbnormalStatusType { STUN, FREEZE, ROOT, FEAR, CHARM, END }
-
-public enum EnemyAutoAimType { AUTO, SEMIAUTO, RANDOM }
+public enum EnemyAutoAimType { AUTO, SEMIAUTO, RANDOM, REACTANCE }
 
 public class Enemy : Character
 {
     #region variables
-    
-    private EnemyAutoAimType enemyAutoAimType;
 
-    
+    private EnemyAutoAimType autoAimType;
+    private EnemyAutoAimType originalautoAimType;
 
     // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
     private float hpMax;
+    protected bool isBossEnemy;  // 0810 모, 보스 몬스터, 일반 몬스터 구분을 위해 사용
     #endregion
 
     #region abnormalStatusVariables
@@ -43,28 +32,25 @@ public class Enemy : Character
     private bool isBurning;
     private int burnOverlappingCount;
     private int[] burnCount;
-    private bool isNagging;
-    private int nagOverlappingCount;
-    private int nagCount;
     private bool isDelayingState;
     private int delayStateOverlappingCount;
     private int delayStateCount;
 
+    private float[] climbingTime;
+    private bool[] isAbnormalStatuses;
+    private int[] abnormalStatusCounts;
+    private int[] overlappingCounts;
     private float[] abnormalStatusTime;
     private float[] abnormalStatusDurationTime;
+    private Coroutine[] abnormalStatusCoroutines;
 
     private Coroutine knockBackCheck;
     private Coroutine poisonCoroutine;
     private Coroutine burnCoroutine;
-    private Coroutine stunCoroutine;
-    private Coroutine freezeCoroutine;
-    private Coroutine rootCoroutine;
-    private Coroutine fearCoroutine;
-    private Coroutine charmCoroutine;
-    private Coroutine nagCoroutine;
     private Coroutine delayStateCoroutine;
+
     #endregion
-    
+
     #region setter
     #endregion
 
@@ -80,6 +66,10 @@ public class Enemy : Character
     #region UnityFunc
     private void Awake()
     {
+        isAbnormalStatuses = new bool[(int)AbnormalStatusType.END];
+        abnormalStatusCounts = new int[(int)AbnormalStatusType.END];
+        overlappingCounts = new int[(int)AbnormalStatusType.END];
+        abnormalStatusCoroutines = new Coroutine[(int)AbnormalStatusType.END];
         abnormalStatusTime = new float[(int)AbnormalStatusType.END];
         abnormalStatusDurationTime = new float[(int)AbnormalStatusType.END];
     }
@@ -112,31 +102,41 @@ public class Enemy : Character
 
     #region initalization
     //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
-    public void Init(EnemyData enemyData)
+    // 독, 화상 데미지 표시를 위해 보스 몬스터와 일반 몬스터 구분위해 init virtual 함. 0810 모
+    public virtual void Init(EnemyData enemyData)
     {
         base.Init();
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
         immune = CharacterInfo.Immune.NONE;
 
+        originalautoAimType = EnemyAutoAimType.AUTO;
+        autoAimType = originalautoAimType;
+
         isActiveAttackAI = true;
         isActiveMoveAI = true;
 
         Components.BurnEffect.SetActive(false);
         Components.PoisonEffect.SetActive(false);
-        Components.StunEffect.SetActive(false);
+
+        Components.NagEffect.SetActive(false);
+        Components.ClibmingEffect.SetActive(false);
+        Components.GraveyardShiftEffect.SetActive(false);
         Components.FreezeEffect.SetActive(false);
-        Components.FearEffect.SetActive(false);
+        Components.ReactanceEffect.SetActive(false);
+
+        Components.StunEffect.SetActive(false);
         Components.CharmEffect.SetActive(false);
 
+        isBossEnemy = false;
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
         scaleVector = Vector3.one * enemyData.Size;
         sprite = enemyData.Sprite;
         buffManager.Init();
         buffManager.SetOwner(this);
-        
-        // weaponManager.init이 뒤에 와야됨.
+
+        // weaponManager.init이 buff init 보다 뒤에 와야됨.
         weaponManager.Init(this, enemyData);
         animationHandler.Init(this, enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
@@ -147,19 +147,23 @@ public class Enemy : Character
     {
         isPoisoning = false;
         poisonOverlappingCount = 0;
-        poisonCount = new int[3];
+        poisonCount = new int[StatusConstants.Instance.PoisonInfo.overlapCountMax];
         isBurning = false;
         burnOverlappingCount = 0;
-        burnCount = new int[3];
-        isNagging = false;
-        nagCount = 0;
+        burnCount = new int[StatusConstants.Instance.BurnInfo.overlapCountMax];
         isDelayingState = false;
         delayStateCount = 0;
+
+        climbingTime = new float[StatusConstants.Instance.ClimbingInfo.overlapCountMax];
 
         restrictMovingCount = 0;
         restrictAttackingCount = 0;
         for (int i = 0; i < (int)AbnormalStatusType.END; i++)
         {
+            isAbnormalStatuses[i] = false;
+            abnormalStatusCounts[i] = 0;
+            overlappingCounts[i] = 0;
+            abnormalStatusCoroutines[i] = null;
             abnormalStatusTime[i] = 0;
             abnormalStatusDurationTime[i] = 0;
         }
@@ -173,45 +177,19 @@ public class Enemy : Character
     {
         pState = CharacterInfo.State.DIE;
         // 실행 중인 코루틴이 있으면 코루틴 멈춤
-        if(null != knockBackCheck)
-        {
+        if (null != knockBackCheck)
             StopCoroutine(KnockBackCheck());
-        }
         if (null != poisonCoroutine)
-        {
             StopCoroutine(poisonCoroutine);
-        }
         if (null != burnCoroutine)
-        {
             StopCoroutine(burnCoroutine);
-        }
-        if (null != stunCoroutine)
-        {
-            StopCoroutine(stunCoroutine);
-        }
-        if (null != freezeCoroutine)
-        {
-            StopCoroutine(freezeCoroutine);
-        }
-        if (null != rootCoroutine)
-        {
-            StopCoroutine(rootCoroutine);
-        }
-        if (null != fearCoroutine)
-        {
-            StopCoroutine(fearCoroutine);
-        }
-        if (null != charmCoroutine)
-        {
-            StopCoroutine(charmCoroutine);
-        }
-        if (null != nagCoroutine)
-        {
-            StopCoroutine(nagCoroutine);
-        }
         if (null != delayStateCoroutine)
-        {
             StopCoroutine(delayStateCoroutine);
+
+        for (int i = 0; i < (int)AbnormalStatusType.END; i++)
+        {
+            if (null != abnormalStatusCoroutines[i])
+                StopCoroutine(abnormalStatusCoroutines[i]);
         }
 
         weaponManager.RemoveAllWeapons();
@@ -241,11 +219,13 @@ public class Enemy : Character
         float criticalCheck = Random.Range(0f, 1f);
         float damage = transferredInfo.damage;
         // 크리티컬 공격
-        if(criticalCheck < transferredInfo.criticalChance)
+        if (criticalCheck < transferredInfo.criticalChance)
         {
             damage *= 2f;
         }
         hp -= damage;
+
+        ReactanceAim();
 
         if (hp <= 0)
             Die();
@@ -278,16 +258,18 @@ public class Enemy : Character
         // 개발 중
     }
 
-    
+
 
     // TODO : 0802 모장현, enemy aim 조절 타입에 따라서 알고리즘 변경
 
     // 0526 땜빵
     public void AutoAim()
     {
-        switch(enemyAutoAimType)
+        switch (autoAimType)
         {
             case EnemyAutoAimType.AUTO:
+                directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
+                directionDegree = directionVector.GetDegFromVector();
                 break;
             case EnemyAutoAimType.SEMIAUTO:
                 break;
@@ -296,13 +278,22 @@ public class Enemy : Character
             default:
                 break;
         }
-        directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
-        directionDegree = directionVector.GetDegFromVector();
+    }
+
+    private void ReactanceAim()
+    {
+        if(EnemyAutoAimType.REACTANCE == autoAimType)
+        {
+            directionVector = PlayerManager.Instance.GetPlayer().GetDirVector();
+            directionDegree = directionVector.GetDegFromVector();
+        }
     }
 
     #endregion
 
     #region abnormalState
+
+    // 여러 상태이상, 단일 상태이상 중첩 시 공격, 이동 제한을 한 곳에서 관리하기 위해서
     /// <summary> 이동 방해 상태 이상 갯수 증가 및 이동 AI OFF Check </summary>
     private void AddRetrictsMovingCount()
     {
@@ -325,7 +316,6 @@ public class Enemy : Character
             //Debug.Log(name + "이동 on");
         }
     }
-
     /// <summary> 공격 방해 상태 이상 갯수 증가 및 공격 AI OFF Check </summary>
     private void AddRetrictsAttackingCount()
     {
@@ -348,49 +338,38 @@ public class Enemy : Character
     }
 
 
+
+
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
         if (CharacterInfo.State.ALIVE != pState)
             return;
         if (null == statusEffectInfo) return;
 
-        // 독
         if (true == statusEffectInfo.canPoison)
             Poison();
-        // 화상
         if (true == statusEffectInfo.canBurn)
             Burn();
-
-        // 스턴
-        if (0 != statusEffectInfo.stun)
-            Stun(statusEffectInfo.stun);
-
-        // 빙결
-        if (0 != statusEffectInfo.freeze)
-            Freeze(statusEffectInfo.freeze);
-
-        // 속박
-        if (0 != statusEffectInfo.root)
-            Root(statusEffectInfo.root);
-        // 공포
-        if (0 != statusEffectInfo.fear)
-            Fear(statusEffectInfo.fear);
-        // 매혹
-        if (0 != statusEffectInfo.charm)
-            Charm(statusEffectInfo.charm);
-
-        // 넉백 : + 밀기, - 당기기
         if (0 != statusEffectInfo.knockBack)
-        {
             KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
-        }
-
-        // 잔소리
-        if (true == statusEffectInfo.canNag)
-            Nag();
-        // 이동 지연
         if (true == statusEffectInfo.canDelayState)
             DelayState();
+
+        if (true == statusEffectInfo.canNag)
+            Nag();
+        if (true == statusEffectInfo.canClimb)
+            Climbing();
+        if (true == statusEffectInfo.graveyardShift)
+            GraveyardShift();
+        if (true == statusEffectInfo.canFreeze)
+            Freeze();
+        if (true == statusEffectInfo.reactance)
+            Reactance();
+
+        if (0 != statusEffectInfo.stun)
+            Stun(statusEffectInfo.stun);
+        if (0 != statusEffectInfo.charm)
+            Charm(statusEffectInfo.charm);
     }
     private void Poison()
     {
@@ -410,6 +389,7 @@ public class Enemy : Character
             poisonCoroutine = StartCoroutine(PoisonCoroutine());
         }
     }
+
     private void Burn()
     {
         if (burnOverlappingCount >= StatusConstants.Instance.BurnInfo.overlapCountMax)
@@ -430,74 +410,160 @@ public class Enemy : Character
     }
     // TODO : 다른 상태이상이 걸려있는 상태에서 상태이상이 걸릴 때 우선 순위 처리 고민 및 해야됨.
 
-    private void Stun(float effectiveTime)
+    private void DelayState()
     {
-        // 기존에 걸려있는 스턴이 없을 때
-        if (null == stunCoroutine)
+        if (delayStateCount >= StatusConstants.Instance.DelayStateInfo.overlapCountMax)
+            return;
+        Debug.Log(gameObject.name + " 이동지연 적용");
+        delayStateCount += 1;
+        delayStateOverlappingCount += 1;
+        if (false == isDelayingState)
         {
-            stunCoroutine = StartCoroutine(StunCoroutine(effectiveTime));
-        }
-        // 걸려있는 스턴이 있을 때
-        else
-        {
-            abnormalStatusDurationTime[(int)AbnormalStatusType.STUN] = abnormalStatusTime[(int)AbnormalStatusType.STUN] + effectiveTime;
+            delayStateCoroutine = StartCoroutine(DelayStateCoroutine());
         }
     }
-    private void Freeze(float effectiveTime)
+
+    private void Nag()
     {
-        // 기존에 걸려있는 빙결이 없을 때
-        if (null == freezeCoroutine)
+        int type = (int)AbnormalStatusType.NAG;
+
+        if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] ||
+             isAbnormalStatuses[(int)AbnormalStatusType.CHARM] || isAbnormalStatuses[(int)AbnormalStatusType.CLIMBING])
+            return;
+        StopAbnormalStatus(AbnormalStatusType.REACTANCE);
+
+        if (abnormalStatusCounts[type] >= StatusConstants.Instance.NagInfo.overlapCountMax)
         {
-            freezeCoroutine = StartCoroutine(FreezeCoroutine(effectiveTime));
+            Debug.Log("nag 중첩 횟수 제한으로 인한 return");
+            return;
+        }
+        abnormalStatusCounts[type] += 1;
+        overlappingCounts[type] += 1;
+        if (false == isAbnormalStatuses[type])
+            abnormalStatusCoroutines[type] = StartCoroutine(NagCoroutine());
+        else
+            abnormalStatusDurationTime[type] += StatusConstants.Instance.NagInfo.effectiveTime;
+    }
+
+    private void Climbing()
+    {
+        int type = (int)AbnormalStatusType.CLIMBING;
+        if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] ||
+             isAbnormalStatuses[(int)AbnormalStatusType.CHARM])
+            return;
+        StopAbnormalStatus(AbnormalStatusType.NAG);
+        StopAbnormalStatus(AbnormalStatusType.REACTANCE);
+
+        if (overlappingCounts[type] >= StatusConstants.Instance.ClimbingInfo.overlapCountMax)
+            return;
+        overlappingCounts[type] += 1;
+        for (int i = 0; i < StatusConstants.Instance.ClimbingInfo.overlapCountMax; i++)
+        {
+            if (0 <= climbingTime[i])
+            {
+                climbingTime[i] = StatusConstants.Instance.ClimbingInfo.effectiveTime;
+                break;
+            }
+        }
+        if (false == isAbnormalStatuses[type])
+        {
+            abnormalStatusCoroutines[type] = StartCoroutine(ClimbingCoroutine());
+        }
+    }
+
+    private void GraveyardShift()
+    {
+        int type = (int)AbnormalStatusType.GRAVEYARDSHIFT;
+        if (abnormalStatusCounts[type] >= StatusConstants.Instance.GraveyardShiftInfo.overlapCountMax)
+        {
+            Debug.Log("철야근무 중첩 횟수 제한으로 인한 return");
+            return;
+        }
+        abnormalStatusCounts[type] += 1;
+        if (false == isAbnormalStatuses[type])
+            abnormalStatusCoroutines[type] = StartCoroutine(GraveyardShiftCoroutine());
+        else
+            abnormalStatusDurationTime[type] += StatusConstants.Instance.GraveyardShiftInfo.effectiveTime;
+        Debug.Log(gameObject.name + " 철야근무 적용");
+    }
+    private void Freeze()
+    {
+        int type = (int)AbnormalStatusType.FREEZE;
+        StopAbnormalStatus(AbnormalStatusType.CHARM);
+        StopAbnormalStatus(AbnormalStatusType.NAG);
+        StopAbnormalStatus(AbnormalStatusType.REACTANCE);
+        StopAbnormalStatus(AbnormalStatusType.CLIMBING);
+        // 기존에 걸려있는 빙결이 없을 때
+        if (null == abnormalStatusCoroutines[type])
+        {
+            abnormalStatusCoroutines[type] = StartCoroutine(FreezeCoroutine());
         }
         // 걸려있는 스턴이 빙결이 있을 때
         else
         {
-            abnormalStatusDurationTime[(int)AbnormalStatusType.FREEZE] = abnormalStatusTime[(int)AbnormalStatusType.FREEZE] + effectiveTime;
+            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + StatusConstants.Instance.FreezeInfo.effectiveTime;
         }
     }
-    private void Root(float effectiveTime)
+
+    private void Reactance()
     {
-        // TODO : 이동 AI OFF 후 속박 시간만큼 뒤에 정상화
-        // 기존에 걸려있는 속박이 없을 때
-        if (null == rootCoroutine)
+        int type = (int)AbnormalStatusType.REACTANCE;
+        if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] || isAbnormalStatuses[(int)AbnormalStatusType.CHARM] ||
+            isAbnormalStatuses[(int)AbnormalStatusType.NAG] || isAbnormalStatuses[(int)AbnormalStatusType.CLIMBING])
+            return;
+
+        // 기존에 적용 되어있는 청개구리가 없을 때
+        if (null == abnormalStatusCoroutines[type])
         {
-            rootCoroutine = StartCoroutine(RootCoroutine(effectiveTime));
+            abnormalStatusCoroutines[type] = StartCoroutine(ReactanceCoroutine());
+        }
+        // 적용 되어있는 청개구리가 있을 때
+        else
+        {
+            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + StatusConstants.Instance.ReactanceInfo.effectiveTime;
+        }
+    }
+
+
+    private void Stun(float effectiveTime)
+    {
+        int type = (int)AbnormalStatusType.STUN;
+        StopAbnormalStatus(AbnormalStatusType.CHARM);
+        StopAbnormalStatus(AbnormalStatusType.NAG);
+        StopAbnormalStatus(AbnormalStatusType.REACTANCE);
+        StopAbnormalStatus(AbnormalStatusType.CLIMBING);
+        // 기존에 걸려있는 스턴이 없을 때
+        if (null == abnormalStatusCoroutines[type])
+        {
+            abnormalStatusCoroutines[type] = StartCoroutine(StunCoroutine(effectiveTime));
         }
         // 걸려있는 스턴이 있을 때
         else
         {
-            abnormalStatusDurationTime[(int)AbnormalStatusType.ROOT] = abnormalStatusTime[(int)AbnormalStatusType.ROOT] + effectiveTime;
-        }
-    }
-    private void Fear(float effectiveTime)
-    {
-        // TODO : 공격, 이동 AI OFF 후 시전자에서 멀어지게 움직이게 하고 공포 시간만큼 뒤에 정상화
-        // 기존에 걸려있는 공포가 없을 때
-        if (null == fearCoroutine)
-        {
-            fearCoroutine = StartCoroutine(FearCoroutine(effectiveTime));
-        }
-        // 걸려있는 스턴이 있을 때
-        else
-        {
-            abnormalStatusDurationTime[(int)AbnormalStatusType.FEAR] = abnormalStatusTime[(int)AbnormalStatusType.FEAR] + effectiveTime;
+            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + effectiveTime;
         }
     }
     private void Charm(float effectiveTime)
     {
-        // TODO : 공격, 이동 AI OFF 후 시전자에서 가까워지게 움직이게 하고 매혹 시간만큼 뒤에 정상화
+        int type = (int)AbnormalStatusType.CHARM;
+        if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE])
+            return;
+        StopAbnormalStatus(AbnormalStatusType.NAG);
+        StopAbnormalStatus(AbnormalStatusType.REACTANCE);
+        StopAbnormalStatus(AbnormalStatusType.CLIMBING);
         // 기존에 걸려있는 매혹이 없을 때
-        if (null == charmCoroutine)
+        if (null == abnormalStatusCoroutines[type])
         {
-            charmCoroutine = StartCoroutine(CharmCoroutine(effectiveTime));
+            abnormalStatusCoroutines[type] = StartCoroutine(CharmCoroutine(effectiveTime));
         }
         // 걸려있는 매혹이 있을 때
         else
         {
-            abnormalStatusDurationTime[(int)AbnormalStatusType.CHARM] = abnormalStatusTime[(int)AbnormalStatusType.CHARM] + effectiveTime;
+            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + effectiveTime;
         }
     }
+
+
 
     public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
     {
@@ -523,49 +589,79 @@ public class Enemy : Character
         }
     }
 
-    // 이동 translate, velocity, addForce ??
-    protected override void Nag()
+
+    private void StopAbnormalStatus(AbnormalStatusType abnormalStatusType)
     {
-        rgbody.velocity = Vector3.zero;
-        Debug.Log(name + " Nag 시도, count = " + nagCount + ", " + StatusConstants.Instance.NagInfo.overlapCountMax);
-        if (nagCount >= StatusConstants.Instance.NagInfo.overlapCountMax)
-        {
-            Debug.Log("중첩 횟수 제한으로 인한 return");
+        int type = (int)abnormalStatusType;
+        if (false == isAbnormalStatuses[type])
             return;
-        }
-        nagCount += 1;
-        nagOverlappingCount += 1;
-        if (false == isNagging)
+        isAbnormalStatuses[type] = false;
+        if (null != abnormalStatusCoroutines[type])
+            StopCoroutine(abnormalStatusCoroutines[type]);
+        abnormalStatusCoroutines[type] = null;
+        switch (abnormalStatusType)
         {
-            nagCoroutine = StartCoroutine(NagCoroutine());
+            case AbnormalStatusType.NAG:
+                Components.NagEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            case AbnormalStatusType.CLIMBING:
+                for (int i = 0; i < StatusConstants.Instance.ClimbingInfo.overlapCountMax; i++)
+                    climbingTime[i] = 0;
+                overlappingCounts[type] = 0;
+                Components.ClibmingEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            case AbnormalStatusType.GRAVEYARDSHIFT:
+                abnormalStatusCounts[type] = 0;
+                Components.GraveyardShiftEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                break;
+            case AbnormalStatusType.FREEZE:
+                Components.FreezeEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            case AbnormalStatusType.REACTANCE:
+                Components.ReactanceEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                autoAimType = originalautoAimType;
+                break;
+            case AbnormalStatusType.STUN:
+                Components.StunEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            case AbnormalStatusType.CHARM:
+                Components.CharmEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            default:
+                break;
         }
-        Debug.Log(gameObject.name + " 잔소리 적용");
     }
 
-    ///<summary>이동 지연</summary>
-    protected override void DelayState()
-    {
-        if (delayStateCount >= StatusConstants.Instance.DelayStateInfo.overlapCountMax)
-            return;
-        Debug.Log(gameObject.name + " 이동지연 적용");
-        delayStateCount += 1;
-        delayStateOverlappingCount += 1;
-        if (false == isDelayingState)
-        {
-            delayStateCoroutine = StartCoroutine(DelayStateCoroutine());
-        }
-    }
     #endregion
 
     #region coroutine
     IEnumerator PoisonCoroutine()
     {
         isPoisoning = true;
-        Components.PoisonEffect.SetActive(true);
+        float damage = 0;
         while (poisonOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
-            hp = hpMax * (StatusConstants.Instance.PoisonInfo.value * 0.5f) * (poisonOverlappingCount + 1);
+
+            if (1 == poisonOverlappingCount)
+                damage = hpMax * StatusConstants.Instance.PoisonInfo.value;
+            else
+                damage = hpMax * StatusConstants.Instance.PoisonInfo.value * 1.5f;
+            damage += 0.1f * (poisonOverlappingCount - 1);
+            hp -= damage;
+            UIManager.Instance.bossHPUI.DecreaseHp(damage);
             for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
             {
                 if (poisonCount[i] > 0)
@@ -586,10 +682,18 @@ public class Enemy : Character
     {
         isBurning = true;
         Components.BurnEffect.SetActive(true);
+        float damage = 0;
         while (burnOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
-            hp = hpMax * (StatusConstants.Instance.BurnInfo.value * 0.5f) * (burnOverlappingCount + 1);
+
+            if (1 == burnOverlappingCount)
+                damage = hpMax * StatusConstants.Instance.BurnInfo.value;
+            else
+                damage = hpMax * StatusConstants.Instance.BurnInfo.value * 1.5f;
+            damage += 0.1f * (burnOverlappingCount - 1);
+            hp -= damage;
+            UIManager.Instance.bossHPUI.DecreaseHp(damage);
             for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
             {
                 if (burnCount[i] > 0)
@@ -604,146 +708,6 @@ public class Enemy : Character
         }
         Components.BurnEffect.SetActive(false);
         isBurning = false;
-    }
-
-    IEnumerator StunCoroutine(float effectiveTime)
-    {
-        Components.StunEffect.SetActive(true);
-        AddRetrictsMovingCount();
-        AddRetrictsAttackingCount();
-        animationHandler.Idle();
-        int type = (int)AbnormalStatusType.STUN;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = effectiveTime;
-        //Debug.Log("스턴 시작");
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
-        {
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-
-        Components.StunEffect.SetActive(false);
-        SubRetrictsMovingCount();
-        SubRetrictsAttackingCount();
-        stunCoroutine = null;
-    }
-
-    IEnumerator FreezeCoroutine(float effectiveTime)
-    {
-        Components.FreezeEffect.SetActive(true);
-        AddRetrictsMovingCount();
-        AddRetrictsAttackingCount();
-        animationHandler.Idle();
-        int type = (int)AbnormalStatusType.FREEZE;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = effectiveTime;
-        //Debug.Log("빙결 시작");
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
-        {
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-        //Debug.Log("빙결 끝");
-        Components.FreezeEffect.SetActive(false);
-        SubRetrictsMovingCount();
-        SubRetrictsAttackingCount();
-        freezeCoroutine = null;
-    }
-
-    IEnumerator RootCoroutine(float effectiveTime)
-    {
-        AddRetrictsMovingCount();
-        // 이동 애니메이션 off
-        // 속박 이펙트
-        int type = (int)AbnormalStatusType.ROOT;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = effectiveTime;
-
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
-        {
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-
-        SubRetrictsMovingCount();
-        rootCoroutine = null;
-    }
-    IEnumerator FearCoroutine(float effectiveTime)
-    {
-        Components.FearEffect.SetActive(true);
-        Components.FearEffect.GetComponent<ParticleSystem>().Play();
-        AddRetrictsMovingCount();
-        AddRetrictsAttackingCount();
-        // 공포 처리 : 시전자와 멀어지는 방향으로 걸어서 이동하기
-        int type = (int)AbnormalStatusType.FEAR;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = effectiveTime;
-        Vector3 dirVec;
-        //Debug.Log("공포 시작");
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
-        {
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
-            dirVec = PlayerManager.Instance.GetPlayerPosition() - transform.position;
-            if(dirVec.magnitude < 5f)
-            {
-                transform.Translate(moveSpeed * 0.5f * (-dirVec).normalized * Time.fixedDeltaTime);
-            }
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-
-        Components.FearEffect.SetActive(false);
-        SubRetrictsMovingCount();
-        SubRetrictsAttackingCount();
-        fearCoroutine = null;
-    }
-    IEnumerator CharmCoroutine(float effectiveTime)
-    {
-        Components.CharmEffect.SetActive(true);
-        AddRetrictsMovingCount();
-        AddRetrictsAttackingCount();
-        // 이동 애니메이션 on
-        // 매혹 이펙트
-        // 매혹 처리 : 시전자에게 다가가는 방향으로 걸어서 이동하기
-        int type = (int)AbnormalStatusType.CHARM;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = effectiveTime;
-        //Debug.Log(name + "매혹 시작");
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
-        {
-            // Debug.Log("매혹 : " + abnormalStatusTime[type]);
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
-            transform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - transform.position).normalized * Time.fixedDeltaTime);
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-
-        Components.CharmEffect.SetActive(false);
-        SubRetrictsMovingCount();
-        SubRetrictsAttackingCount();
-        charmCoroutine = null;
-    }
-
-    // 해야 됨, 이동 방식 뭘로하지 addForce Translate ????
-    // 이런거 할 때 ai 잠시 멈춰야 될 것 같은데
-    IEnumerator NagCoroutine()
-    {
-        isNagging = true;
-        rgbody.velocity = Vector2.zero;
-        AddRetrictsMovingCount();
-        //Debug.Log("상태이상 잔소리 시작, " + StatusConstants.Instance);
-        while (nagOverlappingCount > 0)
-        {
-            for(int i = 0; i < 8; i++)
-            {
-                rgbody.velocity = 3f * StatusConstants.Instance.NagDirVector[i];
-                yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.NagInfo.value);
-                isActiveAI = false;
-            }
-            nagOverlappingCount -= 1;
-        }
-        //Debug.Log("상태이상 잔소리 끝");
-        SubRetrictsMovingCount();
-        nagCount = 0;
-        isNagging = false;
     }
 
     IEnumerator DelayStateCoroutine()
@@ -764,11 +728,179 @@ public class Enemy : Character
         isDelayingState = false;
     }
 
+
+    IEnumerator NagCoroutine()
+    {
+        int type = (int)AbnormalStatusType.NAG;
+        isAbnormalStatuses[type] = true;
+        Components.NagEffect.SetActive(true);
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = StatusConstants.Instance.NagInfo.effectiveTime;
+        Vector3 dirVec;
+        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        {
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            dirVec = PlayerManager.Instance.GetPlayerPosition() - transform.position;
+            if (dirVec.magnitude < StatusConstants.Instance.NagInfo.range)
+            {
+                transform.Translate(moveSpeed * 0.5f * (-dirVec).normalized * Time.fixedDeltaTime);
+            }
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        StopAbnormalStatus(AbnormalStatusType.NAG);
+    }
+
+    IEnumerator ClimbingCoroutine()
+    {
+        int type = (int)AbnormalStatusType.CLIMBING;
+        isAbnormalStatuses[type] = true;
+        Components.ClibmingEffect.SetActive(true);
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = StatusConstants.Instance.ClimbingInfo.effectiveTime;
+
+        float speedRate;
+        Vector3 dirVec;
+        while (overlappingCounts[type] > 0)
+        {
+            if (1 == overlappingCounts[type])
+                speedRate = 0.45f;
+            else
+                speedRate = 0.3f;
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            dirVec = PlayerManager.Instance.GetPlayerPosition() - transform.position;
+            if (dirVec.magnitude < StatusConstants.Instance.ClimbingInfo.range)
+            {
+                transform.Translate(moveSpeed * speedRate * dirVec.normalized * Time.fixedDeltaTime);
+            }
+            else
+                break;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            for (int i = 0; i < StatusConstants.Instance.ClimbingInfo.overlapCountMax; i++)
+            {
+                if (climbingTime[i] > 0)
+                {
+                    climbingTime[i] -= Time.fixedDeltaTime;
+                    if (0 <= climbingTime[i])
+                    {
+                        climbingTime[i] = 0;
+                        overlappingCounts[type] -= 1;
+                    }
+                }
+            }
+        }
+
+        StopAbnormalStatus(AbnormalStatusType.CLIMBING);
+    }
+
+    IEnumerator GraveyardShiftCoroutine()
+    {
+        int type = (int)AbnormalStatusType.GRAVEYARDSHIFT;
+        isAbnormalStatuses[type] = true;
+        AddRetrictsMovingCount();
+        animationHandler.Idle();
+        Components.GraveyardShiftEffect.SetActive(true);
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = StatusConstants.Instance.GraveyardShiftInfo.effectiveTime;
+
+        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        {
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        StopAbnormalStatus(AbnormalStatusType.GRAVEYARDSHIFT);
+    }
+
+    IEnumerator FreezeCoroutine()
+    {
+        int type = (int)AbnormalStatusType.FREEZE;
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
+        animationHandler.Idle();
+        Components.FreezeEffect.SetActive(true);
+        isAbnormalStatuses[type] = true;
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = StatusConstants.Instance.FreezeInfo.effectiveTime;
+
+        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        {
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        StopAbnormalStatus(AbnormalStatusType.FREEZE);
+    }
+
+    IEnumerator ReactanceCoroutine()
+    {
+        int type = (int)AbnormalStatusType.REACTANCE;
+        AddRetrictsMovingCount();
+        animationHandler.Idle();
+        Components.ReactanceEffect.SetActive(true);
+        isAbnormalStatuses[type] = true;
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = StatusConstants.Instance.ReactanceInfo.effectiveTime;
+        autoAimType = EnemyAutoAimType.REACTANCE;
+
+        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        {
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        StopAbnormalStatus(AbnormalStatusType.REACTANCE);
+    }
+
+    IEnumerator StunCoroutine(float effectiveTime)
+    {
+        int type = (int)AbnormalStatusType.STUN;
+        Components.StunEffect.SetActive(true);
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
+        animationHandler.Idle();
+        isAbnormalStatuses[type] = true;
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = effectiveTime;
+        //Debug.Log("스턴 시작");
+        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        {
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        StopAbnormalStatus(AbnormalStatusType.STUN);
+    }
+
+    IEnumerator CharmCoroutine(float effectiveTime)
+    {
+        int type = (int)AbnormalStatusType.CHARM;
+        Components.CharmEffect.SetActive(true);
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
+        isAbnormalStatuses[type] = true;
+        abnormalStatusTime[type] = 0;
+        abnormalStatusDurationTime[type] = effectiveTime;
+
+        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        {
+            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            transform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - transform.position).normalized * Time.fixedDeltaTime);
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+
+        StopAbnormalStatus(AbnormalStatusType.CHARM);
+    }
+
     private IEnumerator KnockBackCheck()
     {
         while (true)
         {
-            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 0.3f)
+            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
             {
                 SubRetrictsMovingCount();
                 knockBackCheck = null;
@@ -782,7 +914,10 @@ public class Enemy : Character
 
 public class BossEnemy : Enemy
 {
-
+    public override void Init(EnemyData enemyData)
+    {
+        isBossEnemy = true;
+    }
     public override float Attacked(TransferBulletInfo transferBulletInfo)
     {
         float damage = base.Attacked(transferBulletInfo);

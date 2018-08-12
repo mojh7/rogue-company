@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterComponents : MonoBehaviour {
+public class CharacterComponents : MonoBehaviour
+{
     #region components
     [SerializeField]
     private WeaponManager weaponManager;
@@ -23,14 +24,22 @@ public class CharacterComponents : MonoBehaviour {
     private GameObject poisonEffect;
     [SerializeField]
     private GameObject burnEffect;
+
     [SerializeField]
-    private GameObject stunEffect;
+    private GameObject nagEffect;
+    [SerializeField]
+    private GameObject climbingEffect;
+    [SerializeField]
+    private GameObject graveyardShiftEffect;
     [SerializeField]
     private GameObject freezeEffect;
     [SerializeField]
-    private GameObject charmEffect;
+    private GameObject reactanceEffect;
+
     [SerializeField]
-    private GameObject fearEffect;
+    private GameObject stunEffect;
+    [SerializeField]
+    private GameObject charmEffect;
     #endregion
     #region parameter
     public WeaponManager WeaponManager
@@ -97,11 +106,27 @@ public class CharacterComponents : MonoBehaviour {
             return burnEffect;
         }
     }
-    public GameObject StunEffect
+
+    public GameObject NagEffect
     {
         get
         {
-            return stunEffect;
+            return nagEffect;
+        }
+    }
+
+    public GameObject ClibmingEffect
+    {
+        get
+        {
+            return climbingEffect;
+        }
+    }
+    public GameObject GraveyardShiftEffect
+    {
+        get
+        {
+            return graveyardShiftEffect;
         }
     }
     public GameObject FreezeEffect
@@ -111,6 +136,21 @@ public class CharacterComponents : MonoBehaviour {
             return freezeEffect;
         }
     }
+    public GameObject ReactanceEffect
+    {
+        get
+        {
+            return reactanceEffect;
+        }
+    }
+
+    public GameObject StunEffect
+    {
+        get
+        {
+            return stunEffect;
+        }
+    }
     public GameObject CharmEffect
     {
         get
@@ -118,13 +158,7 @@ public class CharacterComponents : MonoBehaviour {
             return charmEffect;
         }
     }
-    public GameObject FearEffect
-    {
-        get
-        {
-            return fearEffect;
-        }
-    }
+
     public BuffManager BuffManager { get; private set; }
     public Rigidbody2D Rigidbody2D { get; private set; }
     public AIController AIController { get; private set; }
@@ -137,5 +171,5 @@ public class CharacterComponents : MonoBehaviour {
         AIController = GetComponent<AIController>();
     }
     #endregion
-   
+
 }

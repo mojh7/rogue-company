@@ -13,29 +13,24 @@ public class StatusEffectInfo
     public float knockBack;
     public bool positionBasedKnockBack;
 
-    [Header("잔소리")]
-    public bool canNag;
-
     [Header("이동 지연")]
     public bool canDelayState;
 
-    [Header("슬로우 강도, 시간")]
-    public float slow;
-    public float slowEffectiveTime;
+    [Header("잔소리")]
+    public bool canNag;
+    [Header("등산")]
+    public bool canClimb;
+    [Header("철야 근무")]
+    public bool graveyardShift;
+    [Header("빙결 (= 아재 개그)")]
+    public bool canFreeze;
+    [Header("청개구리")]
+    public bool reactance;
 
     [Header("스턴 시간")]
     public float stun;
-    [Header("빙결 (= 아재 개그) 시간")]
-    public float freeze;
-    [Header("속박 시간")]
-    public float root;
-    [Header("공포 시간")]
-    public float fear;
     [Header("매혹 시간")]
     public float charm;
-    //[Header("")]
-    // 공포, 매혹
-    // 넉백도 여기로?
 
     public Vector2 BulletPos { get; set; }
     public Vector2 BulletDir { get; set; }
@@ -46,14 +41,15 @@ public class StatusEffectInfo
         canBurn = info.canBurn;
         knockBack = info.knockBack;
         positionBasedKnockBack = info.positionBasedKnockBack;
-        canNag = info.canNag;
         canDelayState = info.canDelayState;
-        slow = info.slow;
-        slowEffectiveTime = info.slowEffectiveTime;
+
+        canNag = info.canNag;
+        canClimb = info.canClimb;
+        graveyardShift = info.graveyardShift;
+        canFreeze = info.canFreeze;
+        reactance = info.reactance;
+
         stun = info.stun;
-        freeze = info.freeze;
-        root = info.root;
-        fear = info.fear;
         charm = info.charm;
     }
 }

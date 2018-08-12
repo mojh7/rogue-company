@@ -166,16 +166,6 @@ public abstract class Character : MonoBehaviour
         // Enemy랑 Player랑 효과 다르게 받아야 될 게 생길 듯
     }
 
-    protected virtual void Nag()
-    {
-
-    }
-
-    protected virtual void DelayState()
-    {
-
-    }
-    /**/
 
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
