@@ -6,7 +6,6 @@ using BT;
 [CreateAssetMenu(menuName = "Task/HealthDecorate")]
 public class HealthDecorate : ConditionDecorate
 {
-    Character target;
     [SerializeField]
     float healthPer;
     public Task Set(BehaviorCondition condition, float healthPer)
@@ -19,7 +18,7 @@ public class HealthDecorate : ConditionDecorate
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
-        this.target = RootTask.BlackBoard["Target"] as Character;
+
     }
     public override State Run()
     {

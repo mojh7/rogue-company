@@ -22,7 +22,7 @@ namespace Map
                 map.Destruct();
                 map = null;
             }
-            map = new Map(width, height, max, mini, maxHallRate, _floor, objectPool);
+            map = new Map(width, height, max, mini, maxHallRate, objectPool);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
             map.Generate();
             map.AddFallRock();
@@ -45,11 +45,10 @@ namespace Map
         int width;
         int height;
         const int size = 3;
-        int floor;
         ObjectPool objectPool;
         Vector3 startPosition;
 
-        public Map(int _width, int _height, int _max, int _mini, float _maxHallRate, int _floor, ObjectPool _objectPool)
+        public Map(int _width, int _height, int _max, int _mini, float _maxHallRate, ObjectPool _objectPool)
         {
             mainRect = new Rect(0, 0, _width, _height, 3);
             width = _width;
@@ -57,7 +56,6 @@ namespace Map
             MaximumRoomArea = _max;
             MinimumRoomArea = _mini;
             MaxHallRate = _maxHallRate;
-            floor = _floor;
             objectPool = _objectPool;
             rects = new Queue<Rect>();
             blocks = new Queue<Rect>();
@@ -802,8 +800,6 @@ namespace Map
 
         void AvailableAreas(Rect _rect, float _radius)
         {
-            int width = _rect.width * _rect.size;
-            int height = _rect.height * _rect.size;
             Vector2 leftDown = _rect.areaLeftDown;
             Vector2 rightTop = _rect.areaRightTop;
             LayerMask layerMask = (1 << LayerMask.NameToLayer("TransparentFX"));

@@ -153,8 +153,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         float mapMidX = _room.midX * Map.MapManager.Instance.size;
         float mapMidY = _room.midY * Map.MapManager.Instance.size;
 
-        float width = _room.width * _room.size;
-        float height = _room.height * _room.size;
         for (int x = minX; x <= maxX; x++)
         {
             for (int y = minY; y <= maxY; y++)
@@ -264,11 +262,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         int minY = _room.y * pixelNum;
         int maxY = (_room.y + _room.height) * pixelNum - 1;
 
-        float mapMidX = _room.midX * Map.MapManager.Instance.size;
-        float mapMidY = _room.midY * Map.MapManager.Instance.size;
-
-        float width = _room.width * _room.size;
-        float height = _room.height * _room.size;
         for (int x = minX; x <= maxX; x++)
         {
             for (int y = minY; y <= maxY; y++)

@@ -13,14 +13,14 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     public enum CameraShakeType { NOTSHAKE, RANDOM, WEAPON_REVERSE_DIRECTION, UP, DOWN, UP_DOWN, RIGHT_LEFT}
     Player m_player;
     Transform cameraTransform;
-    Vector2 targetPos = Vector2.zero;
-    Vector2 m_velocity = Vector2.zero;
+    //Vector2 targetPos = Vector2.zero;
+    //Vector2 m_velocity = Vector2.zero;
     Vector2 weaponReverseDirection;
     float m_shakeTime, m_shakeAmount;
     CameraShakeType m_cameraShakeType;
     [SerializeField]
     float m_cameraDepth = -1;
-    bool m_findPlayer = true;
+    //bool m_findPlayer = true;
     Vector2 shakePos;
     Vector3 zeroPos;
     private void Start()

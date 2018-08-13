@@ -55,8 +55,6 @@ public class Enemy : Character
     #endregion
 
     #region getter
-    public float GetHP() { return hp; }
-
     public CircleCollider2D GetCircleCollider2D()
     {
         return Components.CircleCollider2D;
@@ -74,16 +72,9 @@ public class Enemy : Character
         abnormalStatusDurationTime = new float[(int)AbnormalStatusType.END];
     }
 
-    int tempTime = 40;
-
     private void Update()
     {
         AutoAim();
-        //if(tempTime++ > 70)
-        //{
-        //    weaponManager.AttackButtonDown();
-        //    tempTime = 0;
-        //}
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
         {

@@ -29,8 +29,6 @@ public class Player : Character
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
     
     private Transform objTransform;
-    /// <summary> player 크기 </summary>
-    private float playerScale;
 
     private RaycastHit2D hit;
     private List<RaycasthitEnemy> raycastHitEnemies;
@@ -89,7 +87,6 @@ public class Player : Character
     void Awake()
     {
         objTransform = GetComponent<Transform>();
-        playerScale = 1f;
         playTime = 0;
         scaleVector = new Vector3(1f, 1f, 1f);
         isRightDirection = true;
