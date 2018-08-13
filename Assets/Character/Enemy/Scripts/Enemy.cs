@@ -129,6 +129,7 @@ public class Enemy : Character
         Components.CharmEffect.SetActive(false);
 
         isBossEnemy = false;
+        hpMax = enemyData.HP;
         hp = enemyData.HP;
         moveSpeed = enemyData.Speed;
         scaleVector = Vector3.one * enemyData.Size;
@@ -211,6 +212,15 @@ public class Enemy : Character
         coin.AddComponent<Coin>();
         ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position);
     }
+
+    // 0813 모, 체력이 깎이는 다양한 경우에서 hp감소를 공통된 방식으로 처리하기 위해 함수화하여 처리
+    private void ReduceHp(float damage)
+    {
+        hp -= damage;
+        if (hp <= 0)
+            Die();
+    }
+
     /// <summary>총알에서 전달된 정보로 공격 처리</summary>
     public override float Attacked(TransferBulletInfo transferredInfo)
     {
@@ -223,12 +233,8 @@ public class Enemy : Character
         {
             damage *= 2f;
         }
-        hp -= damage;
-
         ReactanceAim();
-
-        if (hp <= 0)
-            Die();
+        ReduceHp(damage);
         return damage;
     }
 
@@ -243,13 +249,11 @@ public class Enemy : Character
         {
             damage *= 2f;
         }
-        hp -= damage;
 
         if (knockBack > 0)
             KnockBack(knockBack, _dir, bulletPos, positionBasedKnockBack);
 
-        if (hp <= 0)
-            Die();
+        ReduceHp(damage);
         return damage;
     }
 
@@ -279,7 +283,7 @@ public class Enemy : Character
                 break;
         }
     }
-
+    
     private void ReactanceAim()
     {
         if(EnemyAutoAimType.REACTANCE == autoAimType)
@@ -650,6 +654,7 @@ public class Enemy : Character
     IEnumerator PoisonCoroutine()
     {
         isPoisoning = true;
+        Components.PoisonEffect.SetActive(true);
         float damage = 0;
         while (poisonOverlappingCount > 0)
         {
@@ -660,8 +665,12 @@ public class Enemy : Character
             else
                 damage = hpMax * StatusConstants.Instance.PoisonInfo.value * 1.5f;
             damage += 0.1f * (poisonOverlappingCount - 1);
+            damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
             hp -= damage;
-            UIManager.Instance.bossHPUI.DecreaseHp(damage);
+            if(isBossEnemy)
+            {
+                UIManager.Instance.bossHPUI.DecreaseHp(damage);
+            }
             for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
             {
                 if (poisonCount[i] > 0)
@@ -692,8 +701,12 @@ public class Enemy : Character
             else
                 damage = hpMax * StatusConstants.Instance.BurnInfo.value * 1.5f;
             damage += 0.1f * (burnOverlappingCount - 1);
+            damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
             hp -= damage;
-            UIManager.Instance.bossHPUI.DecreaseHp(damage);
+            if (isBossEnemy)
+            {
+                UIManager.Instance.bossHPUI.DecreaseHp(damage);
+            }
             for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
             {
                 if (burnCount[i] > 0)
@@ -785,7 +798,7 @@ public class Enemy : Character
                 if (climbingTime[i] > 0)
                 {
                     climbingTime[i] -= Time.fixedDeltaTime;
-                    if (0 <= climbingTime[i])
+                    if (climbingTime[i] <= 0)
                     {
                         climbingTime[i] = 0;
                         overlappingCounts[type] -= 1;

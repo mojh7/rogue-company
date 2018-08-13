@@ -40,6 +40,7 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
 
     public float GraduallyDamageCycle { get; private set; }
     public int GraduallyDamageCountMax { get; private set; }
+    public float GraduallyDamagePerUnit { get; private set; }
     #endregion
 
     //public static int damageCount = graduallyDamageCycle;
@@ -59,6 +60,8 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
         GraduallyDamageCycle = 0.1f;
         // (int)(poisonInfo.effectiveTime / graduallyDamageCycle); 왜 30안나오고 29 나오지?
         GraduallyDamageCountMax = 20;
+        // 1 / 1초당 처리 회수 => 지속 데미지 1회 적용 당 데미지 비율
+        GraduallyDamagePerUnit = GraduallyDamageCycle / 1f;
         /*
         Debug.Log("poison : " + PoisonInfo.value + ", " + PoisonInfo.effectiveTime + ", " + PoisonInfo.overlapCountMax);
         Debug.Log("burn : " + BurnInfo.value + ", " + BurnInfo.effectiveTime + ", " + BurnInfo.overlapCountMax);
