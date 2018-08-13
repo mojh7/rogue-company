@@ -175,15 +175,17 @@ public class AccelerationMotionProperty : UpdateProperty
 /// <summary> laser bullet Update </summary>
 public class LaserUpdateProperty : UpdateProperty
 {
-    private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
+    private DelGetPosition ownerDirVec;
+    private DelGetDirDegree ownerDirDegree;
+    private float angle;
     private float addDirVecMagnitude;
 
     private LineRenderer lineRenderer;
     private RaycastHit2D hit;
     private int layerMask;
     private Vector3 pos;
-
+    private Vector2 laserSize;
     private bool AttackAble;
 
     public override void Init(Bullet bullet)
@@ -192,11 +194,14 @@ public class LaserUpdateProperty : UpdateProperty
 
         delCollisionBullet = bullet.CollisionBullet;
 
-        ownerDirVec = bullet.GetOwnerDirVec();
         ownerPos = bullet.GetOwnerPos();
+        ownerDirVec = bullet.GetOwnerDirVec();
+        ownerDirDegree = bullet.GetOwnerDirDegree();
+        
         addDirVecMagnitude = bullet.GetAddDirVecMagnitude();
         lineRenderer = bullet.GetLineRenderer();
         pos = new Vector3();
+        laserSize = new Vector2(0.2f, 0.2f);
         // 일단 Player 레이저가 Enemy에게 적용 하는 것만
         layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy"));
     }
@@ -208,14 +213,16 @@ public class LaserUpdateProperty : UpdateProperty
 
     public override void Update()
     {
+        //Debug.Log(ownerDirDegree());
         bulletTransform.position = ownerPos();
         pos = ownerPos() + (ownerDirVec() * addDirVecMagnitude);
         pos.z = 0;
         bullet.LaserStartPoint.position = pos;
         // 100f => 레이저에도 사정거리 개념을 넣게 된다면 이 부분 값을 변수로 처리할 예정이고 현재는 일단 raycast 체크 범위를 100f까지 함
-        hit = Physics2D.Raycast(pos, ownerDirVec(), 100f, layerMask);
+        hit = Physics2D.BoxCast(pos, laserSize, ownerDirDegree(), ownerDirVec(), 100f, layerMask);
+        //hit = Physics2D.Raycast(pos, ownerDirVec(), 100f, layerMask);
         // && (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Enemy")
-        if (hit.collider != null)
+        if (null != hit.collider)
         {
             lineRenderer.SetPosition(0, pos);
             lineRenderer.SetPosition(1, hit.point);

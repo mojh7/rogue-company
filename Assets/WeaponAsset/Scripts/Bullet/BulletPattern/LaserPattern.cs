@@ -15,6 +15,7 @@ public class LaserPattern : BulletPattern
     private DelDestroyBullet destroyBullet;
     private bool canCreateLaser;
 
+    private Bullet createdBullet;
 
     // 기존에 저장된 정보 이외의 내용으로 변수 초기화
     public LaserPattern(LaserPatternInfo patternInfo, CharacterInfo.OwnerType ownerType)
@@ -72,8 +73,9 @@ public class LaserPattern : BulletPattern
     public override void CreateBullet(float damageIncreaseRate)
     {
         createdObj = ObjectPoolManager.Instance.CreateBullet();
-        createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, addDirVecMagnitude,
-            ownerPos, ownerDirVec, transferBulletInfo);
+        createdBullet = createdObj.GetComponent<Bullet>();
+        createdBullet.Init(info.bulletInfo.Clone(), ownerBuff, ownerType, addDirVecMagnitude,
+            ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo);
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }
 

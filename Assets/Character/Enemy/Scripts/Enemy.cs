@@ -438,7 +438,6 @@ public class Enemy : Character
 
         if (abnormalStatusCounts[type] >= StatusConstants.Instance.NagInfo.overlapCountMax)
         {
-            Debug.Log("nag 중첩 횟수 제한으로 인한 return");
             return;
         }
         abnormalStatusCounts[type] += 1;
@@ -879,7 +878,6 @@ public class Enemy : Character
         isAbnormalStatuses[type] = true;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
-        //Debug.Log("스턴 시작");
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
