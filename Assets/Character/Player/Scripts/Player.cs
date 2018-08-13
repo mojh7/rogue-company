@@ -380,12 +380,12 @@ public class Player : Character
             float minDistance = 10000f;
             int proximateEnemyIndex = -1;
 
-            Vector3 enemyPos = new Vector3(0 , 0, 0);
+            Vector3 enemyPos = new Vector3(0, 0, 0);
             // raycast로 player와 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
             for (int i = 0; i < enemyTotal; i++)
             {
                 raycasthitEnemyInfo.index = i;
-                enemyPos = enemyColliderList[i].transform.position;
+                enemyPos = enemyColliderList[i].transform.position + new Vector3(enemyColliderList[i].offset.x + enemyColliderList[i].offset.y, 0);
                 raycasthitEnemyInfo.distance = Vector2.Distance(enemyPos, objTransform.position);
                 hit = Physics2D.Raycast(objTransform.position, enemyPos - objTransform.position, raycasthitEnemyInfo.distance, layerMask);
                 if (hit.collider == null)
@@ -413,7 +413,8 @@ public class Player : Character
                 }
             }
 
-            enemyPos = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index].transform.position;
+            CircleCollider2D enemyColider = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index];
+            enemyPos = enemyColider.transform.position + new Vector3(enemyColider.offset.x + enemyColider.offset.y, 0);
             directionVector = (enemyPos - objTransform.position);
             directionVector.z = 0;
             directionVector.Normalize();

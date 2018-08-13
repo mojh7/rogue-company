@@ -522,6 +522,12 @@ public class Bullet : MonoBehaviour
 
         viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
         viewTransform.localScale = new Vector3(1f, 1f, 1f);
+
+        // 0813 모, ㄷ애니메이터로 인해서 sprite가 null이 아니게 되어서 초기화 하기 위해서 넣음
+        if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
+        {
+            animator.Rebind();
+        }
     }
 
     /// <summary> weapon -> bulletPattern으로 넘어온 정보 최신화, 이후 enemy에 정보 넘김. </summary>
@@ -701,8 +707,14 @@ public class Bullet : MonoBehaviour
     // 땜빵용 코드
     private IEnumerator SetColliderSize()
     {
-        //Debug.Log("t : " + Time.time);
-        yield return YieldInstructionCache.WaitForSeconds(0.01f);
+        while(true)
+        {
+            if (null != spriteAniRenderer.sprite)
+                break;
+            //Debug.Log(spriteAniRenderer.sprite);
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+        //Debug.Log("size : " + spriteAniRenderer.sprite.bounds.size);
         boxCollider.size = spriteAniRenderer.sprite.bounds.size;
         //Debug.Log("t : " + Time.time + ", " + spriteAniRenderer.sprite.bounds.size +", colider Size : " + boxCollider.size);
     }
