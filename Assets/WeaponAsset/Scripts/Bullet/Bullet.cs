@@ -47,8 +47,9 @@ public class Bullet : MonoBehaviour
     private float dirDegree;   // 총알 방향 각도.
 
     private CharacterInfo.OwnerType ownerType;
-    private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
+    private DelGetPosition ownerDirVec;
+    private DelGetDirDegree ownerDirDegree;
     private BuffManager ownerBuff;
     private TransferBulletInfo transferBulletInfo;
     private float addDirVecMagnitude;
@@ -65,8 +66,9 @@ public class Bullet : MonoBehaviour
 
     public LineRenderer GetLineRenderer() { return lineRenderer; }
     public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
-    public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
+    public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
+    public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     public TransferBulletInfo GetTransferBulletInfo() { return transferBulletInfo; }
     public StatusEffectInfo GetStatusEffectInfo() { return info.statusEffectInfo; }
@@ -191,7 +193,7 @@ public class Bullet : MonoBehaviour
     }
 
     // 레이저 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, CharacterInfo.OwnerType ownerType, float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, DelGetDirDegree ownerDirDegree,TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
@@ -228,6 +230,7 @@ public class Bullet : MonoBehaviour
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;
+        this.ownerDirDegree = ownerDirDegree;
         this.addDirVecMagnitude = addDirVecMagnitude;
         objTransform.position = ownerPos();
 
@@ -523,7 +526,7 @@ public class Bullet : MonoBehaviour
         viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
         viewTransform.localScale = new Vector3(1f, 1f, 1f);
 
-        // 0813 모, ㄷ애니메이터로 인해서 sprite가 null이 아니게 되어서 초기화 하기 위해서 넣음
+        // 0813 모, 애니메이터로 인해서 sprite가 null이 아니게 되어서 초기화 하기 위해서 넣음
         if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
         {
             animator.Rebind();
