@@ -89,7 +89,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         EnemyData bossData = GetEnemy(true);
         enemy = obj.AddComponent<BossEnemy>();
         enemy.Init(bossData);
-        enemy.GetComponent<ColliderController>().Init(bossData.Sprite);
+        //enemy.GetComponent<ColliderController>().Init(bossData.Sprite);
         enemyList.Add(enemy);
         enemyColliderList.Add(enemy.GetCircleCollider2D());
 
@@ -104,7 +104,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
         enemy = obj.AddComponent<Enemy>();
         enemy.Init(temporary as EnemyData);
-        enemy.GetComponent<ColliderController>().Init((temporary as EnemyData).Sprite);
+        //enemy.GetComponent<ColliderController>().Init((temporary as EnemyData).Sprite);
         enemyList.Add(enemy);
         enemyColliderList.Add(enemy.GetCircleCollider2D());
     }

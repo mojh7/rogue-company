@@ -105,7 +105,7 @@ namespace AStar
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    if (x == 0 && y == 0 || (x * y != 0))
+                    if (x == 0 && y == 0 || (x * y != 0) || x * y == 1 || x * y == -1)
                         continue;
 
                     int checkX = node.gridX + x;

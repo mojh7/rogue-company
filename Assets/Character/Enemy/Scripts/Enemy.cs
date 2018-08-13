@@ -916,6 +916,7 @@ public class BossEnemy : Enemy
 {
     public override void Init(EnemyData enemyData)
     {
+        base.Init(enemyData);
         isBossEnemy = true;
     }
     public override float Attacked(TransferBulletInfo transferBulletInfo)
