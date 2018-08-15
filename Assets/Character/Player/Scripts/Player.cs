@@ -36,6 +36,8 @@ public class Player : Character
     private int layerMask;  // autoAim을 위한 layerMask
     private int killedEnemyCount;
     
+
+
     [SerializeField] private PlayerHpbarUI PlayerHPUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
     private PlayerData playerData;
@@ -46,6 +48,8 @@ public class Player : Character
     // 윤아 0802
     [SerializeField] private float playTime;
 
+
+    private int shieldCount;
     #endregion
 
     #region property
@@ -66,6 +70,11 @@ public class Player : Character
         {
             return killedEnemyCount;
         }
+    }
+    public int ShieldCount
+    {
+        private set { shieldCount = value; }
+        get { return shieldCount; }
     }
     #endregion
 
@@ -150,7 +159,8 @@ public class Player : Character
     }
     #endregion
 
-    #region function
+    #region initialzation
+
     public override void Init()
     {
         base.Init();
@@ -160,6 +170,7 @@ public class Player : Character
 
         animationHandler.Init(this, PlayerManager.Instance.runtimeAnimator);
 
+        shieldCount = 0;
         // Player class 정보가 필요한 UI class에게 Player class 넘기거나, Player에게 필요한 UI 찾기
         GameObject.Find("AttackButton").GetComponent<AttackButton>().SetPlayer(this);
         GameObject.Find("ActiveSkillButton").GetComponent<ActiveSkillButton>().SetPlayer(this);
@@ -185,9 +196,12 @@ public class Player : Character
         UpdatePlayerData();
         PlayerHPUi.SetHpBar(playerData.Hp);
         stamina.setTotalStamina(playerData.StaminaMax);
-        
-    }
 
+    }
+    #endregion
+
+    #region function
+    
     protected override void Die()
     {
         GameDataManager.Instance.SetTime(playTime);
@@ -195,16 +209,22 @@ public class Player : Character
         UIManager.Instance.GameOverUI();
     }
 
+    /// <summary>
+    /// 쉴드가 있을시 데미지 상관 없이 공격(공격 타입 상관 X) 방어
+    /// </summary>
+    public bool DefendAttack()
+    {
+        if (0 >= shieldCount)
+            return false;
+
+        shieldCount -= 1;
+        // 버프매니저 쪽으로 쉴드 버프 없애는 명령 보내기
+        return true;
+    }
+
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
-
-        //if (0 < PlayerData.Shield)
-        //{
-        //    PlayerData.Shield;
-        //    쉴드 버프 제거 ???
-        //    시간 초 짧은 거 부터 없애야 할 듯
-        //    return;
-        //}
+        // if (DefendAttack()) return 0;
 
         playerData.Hp -= transferredBulletInfo.damage;
         PlayerHPUi.DecreaseHp(playerData.Hp);

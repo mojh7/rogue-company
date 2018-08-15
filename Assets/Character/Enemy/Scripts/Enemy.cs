@@ -722,8 +722,8 @@ public class Enemy : Character
             WeaponTargetEffect weaponTargetEffect = new WeaponTargetEffect();
             characterTargetEffect.moveSpeedIncrement = -StatusConstants.Instance.DelayStateInfo.value;
             weaponTargetEffect.bulletSpeedIncrement = -StatusConstants.Instance.DelayStateInfo.value;
-            buffManager.RegisterItemEffect(characterTargetEffect, StatusConstants.Instance.DelayStateInfo.effectiveTime);
-            buffManager.RegisterItemEffect(weaponTargetEffect, StatusConstants.Instance.DelayStateInfo.effectiveTime);
+            buffManager.RegisterItemEffect(characterTargetEffect, BuffManager.EffectApplyType.BUFF, StatusConstants.Instance.DelayStateInfo.effectiveTime);
+            buffManager.RegisterItemEffect(weaponTargetEffect, BuffManager.EffectApplyType.BUFF, StatusConstants.Instance.DelayStateInfo.effectiveTime);
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.DelayStateInfo.effectiveTime);
             delayStateOverlappingCount -= 1;
         }

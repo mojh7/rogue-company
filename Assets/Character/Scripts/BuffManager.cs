@@ -13,13 +13,18 @@ using UnityEngine;
 public class BuffManager : MonoBehaviour
 {
     public enum TargetEffectTotalUpdateType { REGISTER, REMOVE }
-    public enum EffectApplyType { BUFF, PASSIVE }
+    public enum EffectApplyType { BUFF, PASSIVE, CONSUMABLEBUFF }
 
+    // 소모형 버프 종류 늘어날 때 마다 따로 처리해야 되서, 0816 모
+    public enum ConsumableBuffType { SHIELD }
     #region variables
     private List<ItemUseEffect> passiveEffects;
     private int passiveEffectsLength;
     private List<ItemUseEffect> buffEffects;
     private int buffEffectsLength;
+
+    // 소모형 버프 종류 늘어남에 따라 힙 따로 써야 됨. 현재는 캐릭터 쉴드 한 개만 있음 0816 모
+    private Heap<ConsumableCharacterBuff> consumableBuffs;
 
     //private List<CharacterTargetEffect> characterTargetEffects;
     //private int characterTargetEffectsLength;
@@ -58,11 +63,12 @@ public class BuffManager : MonoBehaviour
     }
     #endregion
 
-    #region function
+    #region initialization
     public void Init()
     {
         passiveEffects = new List<ItemUseEffect>();
         buffEffects = new List<ItemUseEffect>();
+        consumableBuffs = new Heap<ConsumableCharacterBuff>(100);
         //characterTargetEffects = new List<CharacterTargetEffect>();
         //weaponTargetEffects = new List<WeaponTargetEffect>();
         passiveEffectsLength = 0;
@@ -73,6 +79,7 @@ public class BuffManager : MonoBehaviour
         InitWeaponTargetEffectTotal();
     }
 
+    // 누구 껀지 구분 필요합니다. Init 이후의 함수 실행해주심 됨.
     public void SetOwner(Character owner)
     {
         this.owner = owner;
@@ -137,7 +144,7 @@ public class BuffManager : MonoBehaviour
         };
 
         // 곱 옵션 - 곱 연산
-        for(int i = 1; i < length; i++)
+        for (int i = 1; i < length; i++)
         {
             WeaponTargetEffectTotal[i] = new WeaponTargetEffect()
             {
@@ -147,23 +154,18 @@ public class BuffManager : MonoBehaviour
             };
         }
     }
+    #endregion
+
+    #region function
+
 
 
     /// <summary> 효과 등록 </summary>
     /// <param name="itemUseEffect">효과 내용</param>
     /// <param name="effectiveTime">효과 적용 시간, default = -1, 0초과된 값 => 일정 시간 동안 효과 적용되는 버프 아이템</param>
-    public void RegisterItemEffect(ItemUseEffect itemUseEffect, float effectiveTime = -1f)
+    public void RegisterItemEffect(ItemUseEffect itemUseEffect, EffectApplyType effectApplyType, float effectiveTime = -1f)
     {
-        if (-1 == effectiveTime)
-        {
-            passiveEffects.Add(itemUseEffect);
-            passiveEffectsLength += 1;
-        }
-        else
-        {
-            buffEffects.Add(itemUseEffect);
-            buffEffectsLength += 1;
-        }
+        Coroutine removeCoroutine = null;
 
         if (typeof(CharacterTargetEffect) == itemUseEffect.GetType())
         {
@@ -172,7 +174,14 @@ public class BuffManager : MonoBehaviour
             //characterTargetEffectsLength += 1;
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
             if (effectiveTime > 0)
-                StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
+            {
+                if(EffectApplyType.CONSUMABLEBUFF == effectApplyType)
+                {
+                    removeCoroutine = StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
+                }
+                else if(EffectApplyType.BUFF == effectApplyType)
+                    StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
+            }
         }
         else
         {
@@ -181,30 +190,54 @@ public class BuffManager : MonoBehaviour
             //weaponTargetEffectsLength += 1;
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
             if (effectiveTime > 0)
-                StartCoroutine(RemoveTargetEffectOnEffectiveTime(targetEffect, effectiveTime));
+                StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
         }
-        
+
+        switch (effectApplyType)
+        {
+            case EffectApplyType.BUFF:
+                buffEffects.Add(itemUseEffect);
+                buffEffectsLength += 1;
+                break;
+            case EffectApplyType.PASSIVE:
+                passiveEffects.Add(itemUseEffect);
+                passiveEffectsLength += 1;
+                break;
+            case EffectApplyType.CONSUMABLEBUFF:
+                ConsumableCharacterBuff consumableCharacterBuff
+                    = new ConsumableCharacterBuff(itemUseEffect as CharacterTargetEffect, effectiveTime, removeCoroutine);
+                consumableBuffs.Add(consumableCharacterBuff);
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary> 캐릭터 대상 버프 제거 </summary> 
     public void RemoveTargetEffect(CharacterTargetEffect targetEffect, EffectApplyType effectApplyType)
     {
-        if (EffectApplyType.BUFF == effectApplyType)
+        switch (effectApplyType)
         {
-            passiveEffects.Remove(targetEffect);
-            passiveEffectsLength -= 1;
-        }
-        else
-        {
-            buffEffects.Remove(targetEffect);
-            buffEffectsLength -= 1;
+            case EffectApplyType.BUFF:
+                buffEffects.Remove(targetEffect);
+                buffEffectsLength -= 1;
+                break;
+            case EffectApplyType.PASSIVE:
+                passiveEffects.Remove(targetEffect);
+                passiveEffectsLength -= 1;
+                break;
+            case EffectApplyType.CONSUMABLEBUFF:
+                
+                break;
+            default:
+                break;
         }
         UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REMOVE);
     }
     /// <summary> 무기 대상 버프 제거 </summary> 
     public void RemoveTargetEffect(WeaponTargetEffect targetEffect, EffectApplyType effectApplyType)
     {
-        if (EffectApplyType.BUFF == effectApplyType)
+        if (EffectApplyType.PASSIVE  == effectApplyType)
         {
             passiveEffects.Remove(targetEffect);
             passiveEffectsLength -= 1;
@@ -215,6 +248,18 @@ public class BuffManager : MonoBehaviour
             buffEffectsLength -= 1;
         }
         UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REMOVE);
+    }
+
+
+    // 만드는 중
+    public void RemoveConsumableBuff(ConsumableBuffType type)
+    {
+        switch(type)
+        {
+            case ConsumableBuffType.SHIELD:
+                consumableBuffs.RemoveFirst();
+                break;
+        }
     }
 
     public void UpdateTargetEffectTotal(CharacterTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
@@ -348,31 +393,17 @@ public class BuffManager : MonoBehaviour
 
     #endregion
 
-    private IEnumerator RemoveTargetEffectOnEffectiveTime(CharacterTargetEffect targetEffect, float effectiveTime)
+    private IEnumerator RemoveBuffEffect(CharacterTargetEffect targetEffect, float effectiveTime)
     {
         float time = 0;
-        while (true)
-        {
-            if (time >= effectiveTime)
-            {
-                RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
-            }
-            time += Time.fixedTime;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedTime);
-        }
+        yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
+        RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
     }
 
-    private IEnumerator RemoveTargetEffectOnEffectiveTime(WeaponTargetEffect targetEffect, float effectiveTime)
+    private IEnumerator RemoveBuffEffect(WeaponTargetEffect targetEffect, float effectiveTime)
     {
         float time = 0;
-        while (true)
-        {
-            if (time >= effectiveTime)
-            {
-                RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
-            }
-            time += Time.fixedTime;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedTime);
-        }
+        yield return YieldInstructionCache.WaitForSeconds(Time.fixedTime);
+        RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
     }
 }
