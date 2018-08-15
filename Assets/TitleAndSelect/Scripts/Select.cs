@@ -16,16 +16,16 @@ public class Select : MonoBehaviour {
         switch (m_playerType)
         {
             case Player.PlayerType.MUSIC:
-                text.text = "대학교 시절 밴드 활동";
+                text.text = "대학교 시절 \n밴드 활동";
                 break;
             case Player.PlayerType.SOCCER:
-                text.text = "고등학교 친구들과 축구";
+                text.text = "고등학교 친구들과\n축구";
                 break;
             case Player.PlayerType.FISH:
                 text.text = "아버지와의 낚시";
                 break;
             case Player.PlayerType.ARMY:
-                text.text = "동기들과 행복하게 웃고있는 군생활";
+                text.text = "동기들과 행복하게\n웃고있는 군생활";
                 break;
             default:
                 break;

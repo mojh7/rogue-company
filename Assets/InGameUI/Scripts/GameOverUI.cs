@@ -19,8 +19,6 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     int reward;
     int currentFloor;
     int preFloor;
-
-    // 다들 값을 받아와서 UI에 text형태로 보여줄 값들(형변환 필요)
     #endregion
 
     #region function
@@ -69,47 +67,11 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
 
     private void BuildingFloor(int floor, bool isPre)
     {
-        switch (floor)
-        {
-            case 6:
-                floorI[0].gameObject.SetActive(true);
-                if (isPre)
-                    floorI[0].sprite = arrow[1];
-                else
-                    floorI[0].sprite = arrow[0];
-                break;
-            case 7:
-                floorI[1].gameObject.SetActive(true);
-                if (isPre)
-                    floorI[1].sprite = arrow[1];
-                else
-                    floorI[1].sprite = arrow[0];
-                break;
-            case 8:
-                floorI[2].gameObject.SetActive(true);
-                if (isPre)
-                    floorI[2].sprite = arrow[1];
-                else
-                    floorI[2].sprite = arrow[0];
-                break;
-            case 9:
-                floorI[3].gameObject.SetActive(true);
-                if (isPre)
-                    floorI[3].sprite = arrow[1];
-                else
-                    floorI[3].sprite = arrow[0];
-                break;
-            case 10:
-                floorI[4].gameObject.SetActive(true);
-                if (isPre)
-                    floorI[4].sprite = arrow[1];
-                else
-                    floorI[4].sprite = arrow[0];
-                break;
-            default:
-                Debug.Log("오류");
-                break;
-        }
+        floorI[floor - 6].gameObject.SetActive(true);
+        if (isPre)
+            floorI[floor - 6].sprite = arrow[1];
+        else
+            floorI[floor - 6].sprite = arrow[0];
     }
 
     #endregion
