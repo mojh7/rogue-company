@@ -6,7 +6,8 @@ using System.Collections.Generic;
 
 public class MapEditor : EditorWindow
 {
-    Vector2 scrollPos;
+    public Vector2 scrollPosition = Vector2.zero;
+
     int width, height, size = 3, gage;
     string roomName;
     GameObject obj;
@@ -18,20 +19,22 @@ public class MapEditor : EditorWindow
     Sprite objectSprite;
     Sprite[] objectSprites;
     RoomSet worldRoomSet;
+    static MapEditor window;
     [MenuItem("Custom/RoomEditor")]
 
     static public void ShowWindow()
     {
         // 윈도우 생성
-        MapEditor window = (MapEditor)EditorWindow.GetWindow(typeof(MapEditor));
+        window = (MapEditor)EditorWindow.GetWindow(typeof(MapEditor));
     }
 
     void OnGUI()
     {
         BeginWindows();
+
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true, GUILayout.Width(window.position.width), GUILayout.Height(window.position.height));
+
         obj = Object.FindObjectOfType<Map.MapManager>().gameObject;
-        scrollPos =
-        EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(500 ), GUILayout.Height(1000));
         roomName = EditorGUILayout.TextField("roomName", roomName);
         width = EditorGUILayout.IntField("width", width);
         height = EditorGUILayout.IntField("height", height);

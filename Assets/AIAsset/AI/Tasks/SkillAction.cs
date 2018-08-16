@@ -11,6 +11,13 @@ public class SkillAction : ActionTask
     bool isRun;
     object temporary;
     AttackPattern attackPattern;
+    public float Value
+    {
+        get
+        {
+            return Idx;
+        }
+    }
 
     public Task Set(int Idx)
     {

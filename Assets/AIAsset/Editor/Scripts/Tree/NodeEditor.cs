@@ -7,6 +7,8 @@ namespace BT
 {
     public class NodeEditor : EditorWindow
     {
+        public Vector2 scrollPos = Vector2.zero;
+
         private List<TaskNode> windows = new List<TaskNode>();
 
         private Vector2 mousePos;
@@ -15,16 +17,18 @@ namespace BT
 
         private TaskNode rootNode;
 
-        private new string title;
-
         private string path = "Assets/";
         private string assetPathAndName;
 
         private bool makeTransitionMode = false;
+        static NodeEditor editor;
+        static NodeDataEditor dataEditor;
         [MenuItem("Custom/Node Eidtor")]
         static void ShowEditor()
         {
-            NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
+            editor = EditorWindow.GetWindow<NodeEditor>();
+            dataEditor = EditorWindow.GetWindow<NodeDataEditor>();
+            dataEditor.Init(editor);
         }
 
         private void OnGUI()
@@ -121,6 +125,13 @@ namespace BT
                     }
                 }
             }
+            if (rootNode == null)
+            {
+                rootNode = CreateRoot();
+                windows.Add(rootNode);
+            }
+            scrollPos = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), scrollPos, new Rect(0, 0, 10000, 10000));
+            BeginWindows();
             if (makeTransitionMode && selectedNode != null)
             {
                 Rect mouseRect = new Rect(e.mousePosition.x, e.mousePosition.y, 10, 10);
@@ -131,41 +142,77 @@ namespace BT
             }
             foreach (TaskNode n in windows)
             {
-                if(n!= null)
+                if (n != null)
                     n.DrawCurves();
             }
-            if (rootNode == null)
-            {
-                rootNode = CreateRoot();
-                windows.Add(rootNode);
-            }
-            BeginWindows();
             for (int i = 0; i < windows.Count; i++)
             {
                 if (windows[i] == null)
                     continue;
                 windows[i].windowRect = GUI.Window(i, windows[i].windowRect, DrawNodeWindow, windows[i].windowTitle);
             }
-            title = EditorGUILayout.TextField("Title", title);
-            if (GUILayout.Button("Save Tree"))
-            {
-                SaveTree();
-            }
             EndWindows();
+            GUI.EndScrollView();
         }
 
-        void SaveTree()
+        public void LoadTree(Task task)
+        {
+            if (task == null)
+                return;
+            windows.Clear();
+            rootNode = TaskToObjectNode(task, 0, 120);
+        }
+        TaskNode TaskToObjectNode(Task task, float x, float y)
+        {
+            TaskNode taskNode = new TaskNode(task);
+            taskNode.windowRect = new Rect(x, y, 200, 120);
+
+            System.Type type = task.GetType();
+            switch (type.ToString())
+            {
+                case "Service":
+                case "Selector":
+                case "Sequence":
+                case "SubSelector":
+                    {
+                        CompositeTask compositeTask = task as CompositeTask;
+                        int childNum = compositeTask.GetChildren().Count;
+                        for(int i=0;i< childNum; i++)
+                        {
+                            taskNode.AddChild(TaskToObjectNode(compositeTask.GetChildren()[i], x + 100, y + 120 * i));
+                        }
+                    }
+                    break;
+                case "Root":
+                case "Bool":
+                case "DistanceDecorate":
+                case "TimeDecorate":
+                case "HealthDecorate":
+                    {
+                        DecorateTask decorateTask = task as DecorateTask;
+                        taskNode.AddChild(TaskToObjectNode(decorateTask.GetChildren(), x + 100, y));
+                    }
+                    break;
+            }
+            windows.Add(taskNode);
+            return taskNode;
+        }
+        public void SaveTree(string nodeTitle)
         {
             Task parent = rootNode.CreateBehaviorNode();
-            if (title == "" || title == null)
-                title = "Task";
-            assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + title + ".asset");
+            if (nodeTitle == "" || nodeTitle == null)
+                nodeTitle = "Task";
+            assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + nodeTitle + ".asset");
 
             RecursionNode(rootNode, parent);
             AssetDatabase.CreateAsset(parent, assetPathAndName);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Selection.activeObject = parent;
+        }
+        public void RemoveTree()
+        {
+            windows.Clear();
         }
         void RecursionNode(TaskNode taskNode, Task parent)
         {
@@ -262,7 +309,7 @@ namespace BT
 
                 for (int i = 0; i < windows.Count; i++)
                 {
-                    if (windows[i].windowRect.Contains(mousePos) && windows[i] != rootNode)
+                    if (windows[i].windowRect.Contains(mousePos))
                     {
                         selectedWindow = i;
                         clickedOnWindow = true;
@@ -300,6 +347,73 @@ namespace BT
             }
 
             Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
+        }
+
+        void OnDestroy()
+        {
+            if(dataEditor)
+                dataEditor.Close();
+        }
+    }
+    
+    public class NodeDataEditor :EditorWindow
+    {
+        private TaskNode rootNode;
+
+        private Task rootTask;
+
+        private new string title;
+
+        private string path = "Assets/";
+        private string assetPathAndName;
+
+        private bool makeTransitionMode = false;
+        static NodeEditor editor;
+
+        private void OnGUI()
+        {
+
+            title = EditorGUILayout.TextField("Title", title);
+            rootTask = (Task)EditorGUILayout.ObjectField("rootTask", rootTask, typeof(Task), allowSceneObjects: true);
+            if (GUILayout.Button("Load Tree"))
+            {
+                LoadTree();
+            }
+            if (GUILayout.Button("Save Tree"))
+            {
+                SaveTree();
+            }
+            if (GUILayout.Button("Remove Tree"))
+            {
+                RemoveTree();
+            }
+        }
+
+        public void Init(NodeEditor nodeEditor)
+        {
+            editor = nodeEditor;
+        }
+        void LoadTree()
+        {
+            editor.LoadTree(rootTask);
+            editor.Focus();
+        }
+        void SaveTree()
+        {
+            editor.SaveTree(title);
+            editor.Focus();
+        }
+
+        void RemoveTree()
+        {
+            editor.RemoveTree();
+            editor.Focus();
+        }
+
+        void OnDestroy()
+        {
+            if(editor)
+                editor.Close();
         }
     }
 }

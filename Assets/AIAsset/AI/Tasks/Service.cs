@@ -12,6 +12,13 @@ public class Service  : CompositeTask
     [SerializeField]
     float frequency;
     bool isRun;
+    public float Value
+    {
+        get
+        {
+            return frequency;
+        }
+    }
 
     public Task Set(float frequency)
     {

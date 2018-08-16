@@ -8,6 +8,13 @@ public class HealthDecorate : ConditionDecorate
 {
     [SerializeField]
     float healthPer;
+    public float Value
+    {
+        get
+        {
+            return healthPer;
+        }
+    }
     public Task Set(BehaviorCondition condition, float healthPer)
     {
         this.condition = condition;

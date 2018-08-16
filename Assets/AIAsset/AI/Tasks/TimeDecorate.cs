@@ -12,6 +12,15 @@ public class TimeDecorate : ConditionDecorate
     float startTime;
     float elapsedTime;
     bool isRun;
+
+    public float Value
+    {
+        get
+        {
+            return time;
+        }
+    }
+
     public Task Set(BehaviorCondition condition, float time)
     {
         this.condition = condition;

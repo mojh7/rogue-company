@@ -12,6 +12,13 @@ public class DistanceDecorate : ConditionDecorate
     Character target;
     [SerializeField]
     float distance;
+    public float Value
+    {
+        get
+        {
+            return distance;
+        }
+    }
     public Task Set(BehaviorCondition condition, float distance)
     {
         this.condition = condition;

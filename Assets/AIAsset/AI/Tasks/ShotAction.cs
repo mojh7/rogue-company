@@ -7,7 +7,13 @@ public class ShotAction : ActionTask {
     [SerializeField]
     int Idx;
     AttackPattern attackPattern;
-
+    public float Value
+    {
+        get
+        {
+            return Idx;
+        }
+    }
 
     public Task Set(int Idx)
     {

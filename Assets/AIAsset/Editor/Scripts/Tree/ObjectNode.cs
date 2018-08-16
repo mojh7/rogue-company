@@ -30,6 +30,94 @@ namespace BT
             parents = new List<TaskNode>();
         }
 
+        public TaskNode(Task task)
+        {
+            childrens = new List<TaskNode>();
+            parents = new List<TaskNode>();
+            System.Type type = task.GetType();
+            inputTitle = task.name;
+            switch (type.ToString())
+            {
+                case "Service":
+                    taskType = TaskType.CompositeTask;
+                    compositeTask = ECompositeTask.Service;
+                    value = (task as Service).Value;
+                    break;
+                case "Selector":
+                    taskType = TaskType.CompositeTask;
+                    compositeTask = ECompositeTask.Selector;
+                    break;
+                case "Sequence":
+                    taskType = TaskType.CompositeTask;
+                    compositeTask = ECompositeTask.Sequence;
+                    break;
+                case "SubSelector":
+                    taskType = TaskType.CompositeTask;
+                    compositeTask = ECompositeTask.SubSelector;
+                    break;
+                case "Root":
+                    taskType = TaskType.DecorateTask;
+                    decorateTask = EDecorateTask.Root;
+                    break;
+                case "Bool":
+                    taskType = TaskType.DecorateTask;
+                    decorateTask = EDecorateTask.Bool;
+                    break;
+                case "DistanceDecorate":
+                    taskType = TaskType.DecorateTask;
+                    decorateTask = EDecorateTask.DistanceDecorate;
+                    value = (task as DistanceDecorate).Value;
+                    behaviorCondition = (task as DistanceDecorate).Condition;
+                    break;
+                case "TimeDecorate":
+                    taskType = TaskType.DecorateTask;
+                    decorateTask = EDecorateTask.TimeDecorate;
+                    value = (task as TimeDecorate).Value;
+                    behaviorCondition = (task as TimeDecorate).Condition;
+                    break;
+                case "HealthDecorate":
+                    taskType = TaskType.DecorateTask;
+                    decorateTask = EDecorateTask.HealthDecorate;
+                    value = (task as HealthDecorate).Value;
+                    behaviorCondition = (task as HealthDecorate).Condition;
+                    break;
+                case "CharacterDeadAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.CharacterDeadAction;
+                    break;
+                case "AStarTrackAtion":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.AStarTrackAtion;
+                    break;
+                case "RoundingTrackAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.RoundingTrackAction;
+                    break;
+                case "RushTrackAtion":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.RushTrackAtion;
+                    break;
+                case "SkillAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.SkillAction;
+                    value = (task as SkillAction).Value;
+                    break;
+                case "StopAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.StopAction;
+                    break;
+                case "RunawayAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.RunawayAction;
+                    break;
+                case "ShotAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.ShotAction;
+                    value = (task as ShotAction).Value;
+                    break;
+            }
+        }
+
         public TaskNode(bool isRoot)
         {
             childrens = new List<TaskNode>();
@@ -201,5 +289,10 @@ namespace BT
             return null;
         }
 
+        public void AddChild(TaskNode taskNode)
+        {
+            childrens.Add(taskNode);
+            taskNode.parents.Add(this);
+        }
     }
 }

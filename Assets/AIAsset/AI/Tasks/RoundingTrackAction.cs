@@ -14,7 +14,13 @@ public class RoundingTrackAction : ActionTask
 
     [SerializeField]
     float radius;
-
+    public float Value
+    {
+        get
+        {
+            return radius;
+        }
+    }
     public Task Set(float radius)
     {
         this.radius = radius;

@@ -86,7 +86,7 @@ namespace BT
         /// 자식 리스트 반환 함수
         /// </summary>
         /// <returns>자식 노드 리스트 반환</returns>
-        protected List<Task> GetChildren()
+        public List<Task> GetChildren()
         {
             return mChildren;
         }
@@ -113,7 +113,7 @@ namespace BT
         /// 자식 반환 함수
         /// </summary>
         /// <returns>자식 노드 반환</returns>
-        protected Task GetChildren()
+        public Task GetChildren()
         {
             return mChildren;
         }
@@ -144,6 +144,13 @@ namespace BT
     {
         [SerializeField]
         protected BehaviorCondition condition;
+        public BehaviorCondition Condition
+        {
+            get
+            {
+                return condition;
+            }
+        }
 
         /// <summary>
         /// 조건 체크
