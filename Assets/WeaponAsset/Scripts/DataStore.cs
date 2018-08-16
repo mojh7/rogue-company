@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using UnityEngine.Serialization;
 /*
  * Weapon, Bullet, Effect 고유 정보 저장소
  * 
@@ -75,6 +76,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private WeaponInfo[] weaponInfos;
     [SerializeField]
+    //[FormerlySerializedAs("tests")] 이거 선언, 이전 이름, 새로운 변수 명 한 번에 해야됨.
+    private WeaponInfo[] tempWeaponInfos;
+    [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
     [SerializeField]
     private UsableItemInfo[] clothingItemInfos;
@@ -105,6 +109,11 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     {
         return weaponInfos.Length;
     }
+    public int GetTempWeaponInfosLength()
+    {
+        return tempWeaponInfos.Length;
+    }
+
     public int GetClothingItemInfosLength()
     {
         return clothingItemInfos.Length;
@@ -160,6 +169,12 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 break;
         }
         return null;
+    }
+
+    public WeaponInfo GetTempWeaponInfo(int id)
+    {
+        return tempWeaponInfos[id];
+
     }
 
     public EffectInfo GetEffectInfo(int id) { return effectInfos[id]; }
