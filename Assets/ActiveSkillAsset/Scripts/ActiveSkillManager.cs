@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 {
+    Vector3 upVector = Vector3.up;
     #region public
     public BT.State Charm(Character user, object victim, int idx, float delay, float amount)
     {
@@ -124,9 +125,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             return BT.State.FAILURE;
         }
         user.isCasting = true;
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = user.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(user as Character, victim, amount, Jump);
+        StartCoroutine(CoroutineSkill(Jump, user, victim, delay, amount));
         return BT.State.SUCCESS;
     }
     #endregion
@@ -187,8 +186,15 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
     private void Jump(Character user, object victim, float amount)
     {
-        
+        Vector2 targetPos = ((victim as Character).transform).position + upVector;
+        if (user)
+        {
+            user.GetCharacterComponents().AIController.StopMove();
+            user.GetCharacterComponents().CircleCollider2D.enabled = false;
+            StartCoroutine(CoroutineJump(user, user.transform.position, targetPos));
+        }
     }
+
     #endregion
     #region coroutine
     IEnumerator CoroutineSkill(Action<Character, object, float> action, Character user, object parameter, float delay, float amount)
@@ -201,6 +207,38 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             yield return YieldInstructionCache.WaitForSeconds(0.1f);
         }
         action(user, parameter, amount);
+    }
+    IEnumerator CoroutineJump(Character user, Vector3 src, Vector3 dest)
+    {
+        Transform userTransform = user.transform;
+        float startTime = Time.time;
+        float elapsedTime = 0;
+        float durationOfFlight = 0.5f;
+        while (elapsedTime < durationOfFlight)
+        {
+            elapsedTime = Time.time - startTime;
+
+            userTransform.position = Vector2.Lerp(src, dest, elapsedTime / durationOfFlight);
+            yield return YieldInstructionCache.WaitForSeconds(0.05f);
+        }
+        yield return YieldInstructionCache.WaitForSeconds(0.1f); // delay Flight state;
+        startTime = Time.time;
+        elapsedTime = 0;
+        durationOfFlight = 0.1f;
+        Vector2 newDest = dest - upVector;
+        while (elapsedTime < durationOfFlight)
+        {
+            elapsedTime = Time.time - startTime;
+
+            userTransform.position = Vector2.Lerp(dest, newDest, elapsedTime / durationOfFlight);
+            yield return YieldInstructionCache.WaitForSeconds(0.05f);
+        }
+        if(user)
+        {
+            user.GetCharacterComponents().CircleCollider2D.enabled = true;
+            user.GetCharacterComponents().AIController.PlayMove();
+            user.GetComponent<Character>().isCasting = false;
+        }
     }
     #endregion
 }

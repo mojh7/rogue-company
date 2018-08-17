@@ -30,6 +30,8 @@ public class RushTrackAtion : ActionTask
     }
     public override State Run()
     {
+        if (character.isCasting)
+            return State.FAILURE;
         bool success = movingPattern.RushTracking();
         if (success)
         {

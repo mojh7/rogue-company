@@ -22,8 +22,10 @@ public class StopTrackAction : ActionTask
         movingPattern.StopTracker(character.transform);
     }
 
-    public override State Run()  
+    public override State Run()
     {
+        if (character.isCasting)
+            return State.FAILURE;
         bool success = movingPattern.StopTracking();
         if (success)
         {

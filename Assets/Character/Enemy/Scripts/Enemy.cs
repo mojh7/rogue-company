@@ -127,6 +127,7 @@ public class Enemy : Character
         sprite = enemyData.Sprite;
         buffManager.Init();
         buffManager.SetOwner(this);
+        Components.CircleCollider2D.enabled = true;
 
         // weaponManager.init이 buff init 보다 뒤에 와야됨.
         weaponManager.Init(this, enemyData);

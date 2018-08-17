@@ -41,7 +41,9 @@ public class RoundingTrackAction : ActionTask
     }
     public override State Run()
     {
-        Debug.Log("Rounding");
+        if (character.isCasting)
+            return State.FAILURE;
+
         bool success = movingPattern.RoundingTracking();
         if (success)
         {

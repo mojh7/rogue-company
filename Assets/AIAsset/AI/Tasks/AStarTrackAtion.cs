@@ -31,6 +31,8 @@ public class AStarTrackAtion : ActionTask
     }
     public override State Run()
     {
+        if (character.isCasting)
+            return State.FAILURE;
         bool success = movingPattern.AStarTracking();
 
         if (success)

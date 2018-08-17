@@ -333,46 +333,54 @@ class RushTracker : Tracker
 
 class RunawayTracker : Tracker
 {
-    Vector3 leftDown, rightTop, leftTop, rightDown, targetPos, newTarget;
-    float cornerDistance;
+    Vector3 leftDown, rightTop, leftTop, rightDown;
+    float minX, maxX;
+    float minY, maxY;
+
     public RunawayTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback, float doublingValue)
     {
         this.transform = transform;
         this.target = target;
         this.callback = callback;
         this.doublingValue = doublingValue;
+        RoomManager.Instance.GetCurrentRoomBound(out leftDown, out rightTop);
+        minX = leftDown.x + 0.5f;
+        maxX = rightTop.x - 0.5f;
+        minY = leftDown.y + 0.5f;
+        maxY = rightTop.y - 0.5f;
+        leftDown = new Vector3(minX, minY);
+        leftTop = new Vector3(minX, maxY);
+        rightDown = new Vector3(maxX, minY);
+        rightTop = new Vector3(maxX, maxY);
     }
     public override bool Update()
     {
         if (transform == null || target == null)
             return false;
-        if ((transform.position - target.position).sqrMagnitude <= 2)
+        if (transform.position.x < minX || transform.position.x > maxX ||
+            transform.position.y < minY || transform.position.y > maxY)
         {
-            RoomManager.Instance.GetCurrentRoomBound(out leftDown, out rightTop);
-            leftTop = new Vector3(leftDown.x, rightTop.y);
-            rightDown = new Vector3(rightTop.x, leftDown.y);
-            targetPos = target.position;
-
-            this.cornerDistance = (leftTop - targetPos).sqrMagnitude;
-            newTarget = leftTop;
-            if ((leftDown - targetPos).sqrMagnitude > this.cornerDistance)
+            //TODO : 방법이 조금 바껴야함.
+            if (transform.position.x < minX)
             {
-                newTarget = leftDown;
-                this.cornerDistance = (leftDown - targetPos).sqrMagnitude;
-            }
-            if ((rightDown - targetPos).sqrMagnitude > this.cornerDistance)
-            {
-                newTarget = rightDown;
-                this.cornerDistance = (rightDown - targetPos).sqrMagnitude;
-            }
-            if ((rightTop - targetPos).sqrMagnitude > this.cornerDistance)
-            {
-                newTarget = rightTop;
-                this.cornerDistance = (rightTop - targetPos).sqrMagnitude;
-            }
+                AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, leftDown, OnPathFound), doublingValue);
 
+            }
+            else if (transform.position.x > maxX)
+            {
+                AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, rightTop, OnPathFound), doublingValue);
 
-            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, newTarget, OnPathFound), doublingValue * 2);
+            }
+            else if (transform.position.y < minY)
+            {
+                AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, rightDown, OnPathFound), doublingValue);
+
+            }
+            else if (transform.position.y > maxY)
+            {
+                AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, leftTop, OnPathFound), doublingValue);
+
+            }
         }
         else
         {

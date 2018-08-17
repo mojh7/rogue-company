@@ -25,6 +25,8 @@ public class RunawayTrackAction : ActionTask
     }
     public override State Run()
     {
+        if (character.isCasting)
+            return State.FAILURE;
         bool success = movingPattern.RunawayTracking();
         if (success)
         {

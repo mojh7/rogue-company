@@ -29,8 +29,8 @@ public class SkillAction : ActionTask
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
+        this.temporary = RootTask.BlackBoard["Target"] as Character;
         this.isRun = false;
-        this.temporary = null;
         attackPattern = character.GetCharacterComponents().AIController.AttackPattern;
     }
     public override State Run()

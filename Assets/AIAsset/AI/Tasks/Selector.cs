@@ -14,8 +14,12 @@ public class Selector : CompositeTask
     {
         foreach (var task in GetChildren())
         {
-            if (task.Run() == State.SUCCESS)
-                return State.SUCCESS;
+            State state = task.Run();
+
+            if (state == State.SUCCESS || state == State.CONTINUE)
+            {
+                return state;
+            }
         }
         return State.FAILURE;
     }
