@@ -32,7 +32,7 @@ namespace AStar
         /// <summary>
         /// 기본 추적 알고리즘에 의해 path를 찾는 함수.
         /// </summary>
-        public void FindPath(PathRequest request, Action<PathResult> callback)
+        public void FindPath(PathRequest request, Action<PathResult> callback, float doublingValue)
         {
 
             bool pathSuccess = false;
@@ -90,14 +90,14 @@ namespace AStar
                 waypoints = RetracePath(startNode, targetNode);
                 pathSuccess = waypoints.Length > 0;
             }
-            callback(new PathResult(waypoints, pathSuccess, request.callback));
+            callback(new PathResult(waypoints, pathSuccess, request.callback, doublingValue));
         }
         /// <summary>
         /// 회전 추적 알고리즘에 의해 path를 찾는 함수.
         /// distance * Vector2(Cos(Θ) , Sin(Θ))
         /// 를 통해 계산된 Vector2와 가까운 Node를 List에 담아 path로 반환.
         /// </summary>
-        public void FindPath(PathRequest request, Action<PathResult> callback, float raduis)
+        public void FindPath(PathRequest request, Action<PathResult> callback, float doublingValue, float raduis)
         {
 
             Vector2[] waypoints = new Vector2[0];
@@ -149,7 +149,7 @@ namespace AStar
                 pathSuccess = waypoints.Length > 0;
             }
 
-            callback(new PathResult(waypoints, pathSuccess, request.callback));
+            callback(new PathResult(waypoints, pathSuccess, request.callback, doublingValue));
 
         }
 

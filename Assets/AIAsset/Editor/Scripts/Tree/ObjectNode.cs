@@ -17,7 +17,8 @@ namespace BT
         public List<TaskNode> parents;
 
         BehaviorCondition behaviorCondition;
-        float value;
+        float value1;
+        float value2;
 
         public TaskType taskType;
         public ECompositeTask compositeTask;
@@ -41,7 +42,7 @@ namespace BT
                 case "Service":
                     taskType = TaskType.CompositeTask;
                     compositeTask = ECompositeTask.Service;
-                    value = (task as Service).Value;
+                    value1 = (task as Service).Value;
                     break;
                 case "Selector":
                     taskType = TaskType.CompositeTask;
@@ -66,19 +67,19 @@ namespace BT
                 case "DistanceDecorate":
                     taskType = TaskType.DecorateTask;
                     decorateTask = EDecorateTask.DistanceDecorate;
-                    value = (task as DistanceDecorate).Value;
+                    value1 = (task as DistanceDecorate).Value;
                     behaviorCondition = (task as DistanceDecorate).Condition;
                     break;
                 case "TimeDecorate":
                     taskType = TaskType.DecorateTask;
                     decorateTask = EDecorateTask.TimeDecorate;
-                    value = (task as TimeDecorate).Value;
+                    value1 = (task as TimeDecorate).Value;
                     behaviorCondition = (task as TimeDecorate).Condition;
                     break;
                 case "HealthDecorate":
                     taskType = TaskType.DecorateTask;
                     decorateTask = EDecorateTask.HealthDecorate;
-                    value = (task as HealthDecorate).Value;
+                    value1 = (task as HealthDecorate).Value;
                     behaviorCondition = (task as HealthDecorate).Condition;
                     break;
                 case "CharacterDeadAction":
@@ -100,7 +101,7 @@ namespace BT
                 case "SkillAction":
                     taskType = TaskType.ActionTask;
                     actionTask = EActionTask.SkillAction;
-                    value = (task as SkillAction).Value;
+                    value1 = (task as SkillAction).Value;
                     break;
                 case "StopAction":
                     taskType = TaskType.ActionTask;
@@ -113,7 +114,7 @@ namespace BT
                 case "ShotAction":
                     taskType = TaskType.ActionTask;
                     actionTask = EActionTask.ShotAction;
-                    value = (task as ShotAction).Value;
+                    value1 = (task as ShotAction).Value;
                     break;
             }
         }
@@ -198,7 +199,8 @@ namespace BT
             {
                 behaviorCondition = (BehaviorCondition)EditorGUILayout.EnumPopup("BehaviorCondition", behaviorCondition);
             }
-            value = EditorGUILayout.FloatField("Value", value);
+            value1 = EditorGUILayout.FloatField("Value1", value1);
+            value2 = EditorGUILayout.FloatField("Value2", value2);
 
             if (e.type == EventType.Repaint)
             {
@@ -239,7 +241,7 @@ namespace BT
                     switch (compositeTask)
                     {
                         case ECompositeTask.Service:
-                            return ScriptableObject.CreateInstance<Service>().Set(value);
+                            return ScriptableObject.CreateInstance<Service>().Set(value1);
                         case ECompositeTask.Selector:
                             return ScriptableObject.CreateInstance<Selector>();
                         case ECompositeTask.Sequence:
@@ -256,11 +258,11 @@ namespace BT
                         case EDecorateTask.Bool:
                             return ScriptableObject.CreateInstance<BoolDecorate>();
                         case EDecorateTask.DistanceDecorate:
-                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition, value);
+                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition, value1);
                         case EDecorateTask.TimeDecorate:
-                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value);
+                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value1);
                         case EDecorateTask.HealthDecorate:
-                            return ScriptableObject.CreateInstance<HealthDecorate>().Set(behaviorCondition, value);
+                            return ScriptableObject.CreateInstance<HealthDecorate>().Set(behaviorCondition, value1);
                     }
                     break;
                 case TaskType.ActionTask:
@@ -269,19 +271,19 @@ namespace BT
                         case EActionTask.CharacterDeadAction:
                             return ScriptableObject.CreateInstance<CharacterDeadAction>();
                         case EActionTask.AStarTrackAtion:
-                            return ScriptableObject.CreateInstance<AStarTrackAtion>();
+                            return ScriptableObject.CreateInstance<AStarTrackAtion>().Set(value1);
                         case EActionTask.RoundingTrackAction:
-                            return ScriptableObject.CreateInstance<RoundingTrackAction>().Set(value);
+                            return ScriptableObject.CreateInstance<RoundingTrackAction>().Set(value1,value2);
                         case EActionTask.RushTrackAtion:
-                            return ScriptableObject.CreateInstance<RushTrackAtion>();
+                            return ScriptableObject.CreateInstance<RushTrackAtion>().Set(value1);
                         case EActionTask.SkillAction:
-                            return ScriptableObject.CreateInstance<SkillAction>().Set((int)value);
+                            return ScriptableObject.CreateInstance<SkillAction>().Set((int)value1);
                         case EActionTask.StopAction:
                             return ScriptableObject.CreateInstance<StopTrackAction>();
                         case EActionTask.RunawayAction:
-                            return ScriptableObject.CreateInstance<RunawayTrackAction>();
+                            return ScriptableObject.CreateInstance<RunawayTrackAction>().Set(value1);
                         case EActionTask.ShotAction:
-                            return ScriptableObject.CreateInstance<ShotAction>().Set((int)value);
+                            return ScriptableObject.CreateInstance<ShotAction>().Set((int)value1);
 
                     }
                     break;

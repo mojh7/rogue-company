@@ -10,15 +10,22 @@ using BT;
 [CreateAssetMenu(menuName = "Task/AStarTrackAtion")]
 public class AStarTrackAtion : ActionTask
 {
-    MovingPattern movingPattern;
+    [SerializeField]
+    float doublingValue;
 
+    MovingPattern movingPattern;
+    public Task Set(float doublingValue)
+    {
+        this.doublingValue = doublingValue;
+        return this;
+    }
     public override void Init(Task task)
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
         this.target = RootTask.BlackBoard["Target"] as Character;
         movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
-        movingPattern.AStarTracker(target.transform);
+        movingPattern.AStarTracker(target.transform, doublingValue);
     }
     public override State Run()
     {
@@ -37,7 +44,7 @@ public class AStarTrackAtion : ActionTask
     public override Task Clone()
     {
         AStarTrackAtion parent = ScriptableObject.CreateInstance<AStarTrackAtion>();
-
+        parent.Set(doublingValue);
         return parent;
     }
 }

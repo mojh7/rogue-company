@@ -10,6 +10,8 @@ using BT;
 [CreateAssetMenu(menuName = "Task/RoundingTrackAction")]
 public class RoundingTrackAction : ActionTask
 {
+    [SerializeField]
+    float doublingValue;
     MovingPattern movingPattern;
 
     [SerializeField]
@@ -21,8 +23,9 @@ public class RoundingTrackAction : ActionTask
             return radius;
         }
     }
-    public Task Set(float radius)
+    public Task Set(float doublingValue, float radius)
     {
+        this.doublingValue = doublingValue;
         this.radius = radius;
         return this;
     }
@@ -32,7 +35,7 @@ public class RoundingTrackAction : ActionTask
         this.character = RootTask.BlackBoard["Character"] as Character;
         this.target = RootTask.BlackBoard["Target"] as Character;
         movingPattern = character.GetCharacterComponents().AIController.MovingPattern;
-        movingPattern.RoundingTracker(target.transform, radius);
+        movingPattern.RoundingTracker(target.transform, doublingValue, radius);
     }
     public override State Run()
     {
@@ -51,7 +54,7 @@ public class RoundingTrackAction : ActionTask
     public override Task Clone()
     {
         RoundingTrackAction parent = ScriptableObject.CreateInstance<RoundingTrackAction>();
-        parent.Set(radius);
+        parent.Set(radius,doublingValue);
         return parent;
     }
 }

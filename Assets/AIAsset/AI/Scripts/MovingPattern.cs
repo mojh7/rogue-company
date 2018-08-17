@@ -19,7 +19,8 @@ public class MovingPattern : MonoBehaviour
     #region variables
     bool isActive;
     float speed = 1;
-    float baseSpeed;
+    float baseSpeed = 1;
+    float doublingValue = 1;
     Vector2[] path;
     #endregion
     private void Awake()
@@ -54,34 +55,34 @@ public class MovingPattern : MonoBehaviour
     /// 추적 클래스 생성.
     /// </summary>
     /// <param name="target">목표.</param>
-    public void AStarTracker(Transform target)
+    public void AStarTracker(Transform target,float doublingValue)
     {
-        aStarTracker = new AStarTracker(transform, ref target, Follwing);
+        aStarTracker = new AStarTracker(transform, ref target, Follwing, doublingValue);
     }
     /// <summary>
     /// 회전 추적 클래스 생성.
     /// </summary>
     /// <param name="target">목표.</param>
     /// <param name="radius">반지름 거리.</param>
-    public void RoundingTracker(Transform target, float radius)
+    public void RoundingTracker(Transform target, float doublingValue, float radius)
     {
-        roundingTracker = new RoundingTracker(transform, ref target, Follwing, radius);
+        roundingTracker = new RoundingTracker(transform, ref target, Follwing, doublingValue, radius);
     }
     /// <summary>
     /// 돌진 추적 클래스 생성.
     /// </summary>
     /// <param name="target">목표.</param>
-    public void RushTracker(Transform target)
+    public void RushTracker(Transform target, float doublingValue)
     {
-        rushTracker = new RushTracker(transform, ref target, Follwing);
+        rushTracker = new RushTracker(transform, ref target, Follwing, doublingValue);
     }
     /// <summary>
     /// 역추적 클래스 생성.
     /// </summary>
     /// <param name="target">목표.</param>
-    public void RunawayTracker(Transform target)
+    public void RunawayTracker(Transform target, float doublingValue)
     {
-        runawayTracker = new RunawayTracker(transform, ref target, Follwing);
+        runawayTracker = new RunawayTracker(transform, ref target, Follwing, doublingValue);
     }
     public void StopTracker(Transform target)
     {
@@ -117,6 +118,7 @@ public class MovingPattern : MonoBehaviour
             rushTracker.isRun = false;
         }
         speed = baseSpeed;
+
         return roundingTracker.Update();
     }
     /// <summary>
@@ -158,6 +160,7 @@ public class MovingPattern : MonoBehaviour
             rushTracker.isRun = false;
         }
         speed = 0;
+
         return stopTracker.Update();
     }
     #endregion
@@ -167,9 +170,10 @@ public class MovingPattern : MonoBehaviour
     /// path를 추적하는 코루틴 함수 실행.
     /// </summary>
     /// <param name="path">추적 알고리즘에 의해 제공 된 매개변수.</param>
-    void Follwing(Vector2[] path)
+    void Follwing(Vector2[] path, float doublingValue)
     {
         this.path = path;
+        this.doublingValue = doublingValue;
         StopCoroutine("FollowPath");
         if (this.gameObject.activeSelf && isActive)
             StartCoroutine("FollowPath");
@@ -195,7 +199,7 @@ public class MovingPattern : MonoBehaviour
                 currentWaypoint = path[targetIndex];
             }
             Vector2 dir = currentWaypoint - position;
-            rb2d.velocity = dir.normalized * speed;
+            rb2d.velocity = dir.normalized * speed * doublingValue;
             yield return null;
 
         }
@@ -231,7 +235,8 @@ abstract class Tracker
 {
     protected Transform target;
     protected Transform transform;
-    protected Action<Vector2[]> callback;
+    protected Action<Vector2[], float> callback;
+    protected float doublingValue = 1;
     /// <summary>
     /// 타겟 설정.
     /// </summary>
@@ -249,11 +254,11 @@ abstract class Tracker
     /// </summary>
     /// <param name="newPath">알고리즘에 의해 반환 된 path.</param>
     /// <param name="pathSuccessful">알고리즘 성공 여부.</param>
-    protected void OnPathFound(Vector2[] newPath, bool pathSuccessful)
+    protected void OnPathFound(Vector2[] newPath, bool pathSuccessful, float doublingValue)
     {
         if (pathSuccessful)
         {
-            callback(newPath);
+            callback(newPath, doublingValue);
         }
     }
 }
@@ -261,18 +266,21 @@ abstract class Tracker
 class AStarTracker : Tracker
 {
 
-    public AStarTracker(Transform transform, ref Transform target, Action<Vector2[]> callback)
+    public AStarTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback, float doublingValue)
     {
         this.transform = transform;
         this.target = target;
         this.callback = callback;
+        this.doublingValue = doublingValue;
+        if (doublingValue <= 1)
+            doublingValue = 1;
     }
 
     public override bool Update()
     {
         if (transform == null || target == null)
             return false;
-        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound));
+        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound), doublingValue);
         return true;
     }
 }
@@ -281,19 +289,22 @@ class RoundingTracker : Tracker
 {
     float radius;
 
-    public RoundingTracker(Transform transform, ref Transform target, Action<Vector2[]> callback, float radius)
+    public RoundingTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback, float doublingValue, float radius)
     {
         this.transform = transform;
         this.target = target;
         this.callback = callback;
         this.radius = radius;
+        this.doublingValue = doublingValue;
+        if (doublingValue <= 1)
+            doublingValue = 1;
     }
 
     public override bool Update()
     {
         if (transform == null || target == null)
             return false;
-        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound), radius);
+        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, target.position, OnPathFound), doublingValue, radius);
         return true;
     }
 
@@ -302,11 +313,14 @@ class RoundingTracker : Tracker
 class RushTracker : Tracker
 {
     public bool isRun;
-    public RushTracker(Transform transform, ref Transform target, Action<Vector2[]> callback)
+    public RushTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback,float doublingValue)
     {
         this.transform = transform;
         this.target = target;
         this.callback = callback;
+        this.doublingValue = doublingValue;
+        if (doublingValue <= 1)
+            doublingValue = 1;
         isRun = false;
     }
     public override bool Update()
@@ -316,7 +330,7 @@ class RushTracker : Tracker
         if (!isRun)
         {
             isRun = true;
-            callback(new Vector2[1] { transform.position + 10 * (target.position - transform.position) });
+            callback(new Vector2[1] { transform.position + 10 * (target.position - transform.position) }, doublingValue);
         }
 
         return true;
@@ -327,11 +341,14 @@ class RunawayTracker : Tracker
 {
     Vector3 leftDown, rightTop, leftTop, rightDown, targetPos, newTarget;
     float cornerDistance;
-    public RunawayTracker(Transform transform, ref Transform target, Action<Vector2[]> callback)
+    public RunawayTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback, float doublingValue)
     {
         this.transform = transform;
         this.target = target;
         this.callback = callback;
+        this.doublingValue = doublingValue;
+        if (doublingValue <= 1)
+            doublingValue = 1;
     }
     public override bool Update()
     {
@@ -363,11 +380,11 @@ class RunawayTracker : Tracker
             }
 
 
-            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, newTarget, OnPathFound));
+            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, newTarget, OnPathFound), doublingValue);
         }
         else
         {
-            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, 2 * transform.position - target.position, OnPathFound));
+            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, 2 * transform.position - target.position, OnPathFound), doublingValue);
         }
         return true;
     }
@@ -375,7 +392,7 @@ class RunawayTracker : Tracker
 
 class StopTracker : Tracker
 {
-    public StopTracker(Transform transform, ref Transform target,Action<Vector2[]> callback)
+    public StopTracker(Transform transform, ref Transform target,Action<Vector2[], float> callback)
     {
         this.transform = transform;
         this.target = target;
@@ -385,7 +402,7 @@ class StopTracker : Tracker
     {
         if (transform == null || target == null)
             return false;
-        callback(new Vector2[1] { transform.position });
+        callback(new Vector2[1] { transform.position }, 0);
         return true;
     }
 }

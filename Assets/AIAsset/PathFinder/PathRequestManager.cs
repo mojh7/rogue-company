@@ -30,7 +30,7 @@ namespace AStar
                     for (int i = 0; i < itemsInQueue; i++)
                     {
                         PathResult result = results.Dequeue();
-                        result.callback(result.path, result.success);
+                        result.callback(result.path, result.success, result.doublingValue);
                     }
                 }
             }
@@ -38,18 +38,18 @@ namespace AStar
         /// <summary>
         /// 추적 요청
         /// </summary>
-        public static void RequestPath(PathRequest request)
+        public static void RequestPath(PathRequest request,float doublingValue)
         {
             ThreadStart threadStart = delegate
             {
-                instance.pathfinder.FindPath(request, instance.FinishedProcessingPath);
+                instance.pathfinder.FindPath(request, instance.FinishedProcessingPath, doublingValue);
             };
             threadStart.Invoke();
         }
         /// <summary>
         /// 회전 추적 요청
         /// </summary>
-        public static void RequestPath(PathRequest request, float radius)
+        public static void RequestPath(PathRequest request, float doublingValue, float radius)
         {
             ThreadStart threadStart = delegate
             {
@@ -73,13 +73,15 @@ namespace AStar
     {
         public Vector2[] path;
         public bool success;
-        public Action<Vector2[], bool> callback;
+        public float doublingValue;
+        public Action<Vector2[], bool, float> callback;
 
-        public PathResult(Vector2[] path, bool success, Action<Vector2[], bool> callback)
+        public PathResult(Vector2[] path, bool success, Action<Vector2[], bool, float> callback, float doublingValue)
         {
             this.path = path;
             this.success = success;
             this.callback = callback;
+            this.doublingValue = doublingValue;
         }
 
     }
@@ -88,9 +90,9 @@ namespace AStar
     {
         public Vector2 pathStart;
         public Vector2 pathEnd;
-        public Action<Vector2[], bool> callback;
+        public Action<Vector2[], bool, float> callback;
 
-        public PathRequest(Vector2 _start, Vector2 _end, Action<Vector2[], bool> _callback)
+        public PathRequest(Vector2 _start, Vector2 _end, Action<Vector2[], bool, float> _callback)
         {
             pathStart = _start;
             pathEnd = _end;
