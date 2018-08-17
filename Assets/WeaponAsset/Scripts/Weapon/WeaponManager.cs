@@ -267,7 +267,8 @@ public class WeaponManager : MonoBehaviour {
         }
         else
         {
-            EquipWeapon(DataStore.Instance.GetWeaponInfo(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), OwnerType.Enemy));
+            EquipWeapon(DataStore.Instance.GetWeaponInfo(DebugSetting.Instance.enemyEquipWeaponId, OwnerType.Enemy));
+            // EquipWeapon(DataStore.Instance.GetWeaponInfo(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), OwnerType.Enemy));
         }
         UpdateCurrentWeapon();
     }

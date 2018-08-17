@@ -12,6 +12,7 @@ public class DebugSetting : MonoBehaviourSingleton<DebugSetting>
 {
     [Header("Enemy Data로 무기 설정")]
     public bool equipsEnemyDataWeapon = true;
-
+    [Header("몬스터 테스트용으로 장착할 무기 id")]
+    public int enemyEquipWeaponId;
 
 }
