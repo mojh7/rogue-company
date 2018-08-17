@@ -8,6 +8,9 @@ public class RowPattern : BulletPattern
 {
     private RowPatternInfo info;
     private Vector3 perpendicularVector;
+    private Vector3 angleVector;
+    private float randomAngle;
+    private float currentAngle;
 
     // 기존 정보를 참조하는 방식으로 변수 초기화
     public RowPattern(RowPatternInfo patternInfo, int executionCount, float delay, CharacterInfo.OwnerType ownerType)
@@ -45,23 +48,31 @@ public class RowPattern : BulletPattern
     /// <summary> 패턴대로 총알 생성 </summary>
     public override void CreateBullet(float damageIncreaseRate)
     {
-        // 수직 벡터
-        perpendicularVector = MathCalculator.VectorRotate(ownerDirVec(), -90);
-        for (int i = 0; i < info.bulletCount; i++)
-        {
-            if (PatternCallType.WEAPON == patternCallType)
-            {
-                if (AttackType.RANGED == weapon.GetAttackType())
-                {
-                    if (weapon.HasCostForAttack())
-                        weapon.UseAmmo();
-                    else break;
-                }
-            }
+        ApplyWeaponBuff();
 
-            createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * i),
-                ownerDirDegree() + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
+        for (int i = 0; i < info.rotatingCount; i++)
+        {
+            randomAngle = Random.Range(-info.randomAngle, info.randomAngle);
+            currentAngle = -info.initAngle + info.deltaAngle * i + randomAngle * accuracyIncrement;
+            angleVector = MathCalculator.VectorRotate(ownerDirVec(), currentAngle);
+            // 해당 angled에서 반시계방향 수직 벡터
+            perpendicularVector = MathCalculator.VectorRotate(angleVector, -90);
+            for (int j = 0; j < info.bulletCount; j++)
+            {
+                if (PatternCallType.WEAPON == patternCallType)
+                {
+                    if (AttackType.RANGED == weapon.GetAttackType())
+                    {
+                        if (weapon.HasCostForAttack())
+                            weapon.UseAmmo();
+                        else break;
+                    }
+                }
+
+                createdObj = ObjectPoolManager.Instance.CreateBullet();
+                createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + angleVector * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * j),
+                    ownerDirDegree() + currentAngle, transferBulletInfo);
+            }
         }
     }
 

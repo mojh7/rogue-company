@@ -192,7 +192,7 @@ public class Player : Character
     {
         Debug.Log("InitPlayerData hp : " + playerData.Hp);
         this.playerData = playerData;
-        originPlayerData = playerData;
+        originPlayerData = playerData.Clone();
         UpdatePlayerData();
         PlayerHPUi.SetHpBar(playerData.Hp);
         stamina.setTotalStamina(playerData.StaminaMax);
@@ -439,25 +439,24 @@ public class Player : Character
         }
     }
 
-
-    // item Player 대상 효과 적용
-    public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
+    
+    // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
+    public void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
     {
-        // 주로 즉시 효과 볼 내용들이 적용되서 체력, 허기 회복 두개만 쓸 것 같음.
-
         Debug.Log("소모품 아이템 플레이어 대상 효과 적용");
-        if (itemUseEffect.recoveryHp != 0)
+        if (0 != itemUseEffect.recoveryHp)
         {
             playerData.Hp += itemUseEffect.recoveryHp;
         }
-        if (itemUseEffect.recoveryStamina != 0)
+        if (0 != itemUseEffect.recoveryStamina)
         {
             playerData.Stamina += itemUseEffect.recoveryStamina;
         }
-        /*
-        이런건 버프, 패시브 효과 쪽이 어울림
-        moveSpeedIncrement, staminaMaxIncrement, armorIncrement, criticalChanceIncrement
-        */
+    }
+
+    // item Player 대상 효과 중 버프, 패시브 적용
+    public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
+    {
         playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement);
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
     }
