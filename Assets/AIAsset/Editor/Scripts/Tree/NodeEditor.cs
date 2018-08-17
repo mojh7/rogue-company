@@ -35,7 +35,7 @@ namespace BT
         {
             Event e = Event.current;
 
-            mousePos = e.mousePosition;
+            mousePos = e.mousePosition + scrollPos;
 
             if (e.button == 1 && !makeTransitionMode)
             {
@@ -179,7 +179,7 @@ namespace BT
                         int childNum = compositeTask.GetChildren().Count;
                         for(int i=0;i< childNum; i++)
                         {
-                            taskNode.AddChild(TaskToObjectNode(compositeTask.GetChildren()[i], x + 100, y + 120 * i));
+                            taskNode.AddChild(TaskToObjectNode(compositeTask.GetChildren()[i], x + 300, y + 150 * i));
                         }
                     }
                     break;
@@ -190,7 +190,7 @@ namespace BT
                 case "HealthDecorate":
                     {
                         DecorateTask decorateTask = task as DecorateTask;
-                        taskNode.AddChild(TaskToObjectNode(decorateTask.GetChildren(), x + 100, y));
+                        taskNode.AddChild(TaskToObjectNode(decorateTask.GetChildren(), x + 300, y));
                     }
                     break;
             }
