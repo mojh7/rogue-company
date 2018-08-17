@@ -25,6 +25,8 @@ public class RoundingTrackAction : ActionTask
     }
     public Task Set(float doublingValue, float radius)
     {
+        if (doublingValue <= 1)
+            doublingValue = 1;
         this.doublingValue = doublingValue;
         this.radius = radius;
         return this;

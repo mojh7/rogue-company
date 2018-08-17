@@ -116,6 +116,19 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         user.GetCharacterComponents().AnimationHandler.Skill(idx);
         return BT.State.SUCCESS;
     }
+
+    public BT.State Jump(Character user, object victim, int idx,float delay, float amount)
+    {
+        if (!user || delay < 0 || amount < 0)
+        {
+            return BT.State.FAILURE;
+        }
+        user.isCasting = true;
+        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
+        gameObject.transform.position = user.transform.position;
+        gameObject.AddComponent<CollisionSkill>().Init(user as Character, victim, amount, Jump);
+        return BT.State.SUCCESS;
+    }
     #endregion
     #region private
     private void Charm(Character user, object victim, float amount)
@@ -170,6 +183,11 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     private void Flash(Character user, object position, float amount)
     {
         user.transform.position = (Vector2)position;
+    }
+
+    private void Jump(Character user, object victim, float amount)
+    {
+        
     }
     #endregion
     #region coroutine

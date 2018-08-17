@@ -15,6 +15,8 @@ public class RushTrackAtion : ActionTask
     MovingPattern movingPattern;
     public Task Set(float doublingValue)
     {
+        if (doublingValue <= 1)
+            doublingValue = 1;
         this.doublingValue = doublingValue;
         return this;
     }

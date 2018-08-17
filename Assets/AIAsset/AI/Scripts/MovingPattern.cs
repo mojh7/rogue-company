@@ -272,8 +272,6 @@ class AStarTracker : Tracker
         this.target = target;
         this.callback = callback;
         this.doublingValue = doublingValue;
-        if (doublingValue <= 1)
-            doublingValue = 1;
     }
 
     public override bool Update()
@@ -296,8 +294,6 @@ class RoundingTracker : Tracker
         this.callback = callback;
         this.radius = radius;
         this.doublingValue = doublingValue;
-        if (doublingValue <= 1)
-            doublingValue = 1;
     }
 
     public override bool Update()
@@ -319,8 +315,6 @@ class RushTracker : Tracker
         this.target = target;
         this.callback = callback;
         this.doublingValue = doublingValue;
-        if (doublingValue <= 1)
-            doublingValue = 1;
         isRun = false;
     }
     public override bool Update()
@@ -347,14 +341,12 @@ class RunawayTracker : Tracker
         this.target = target;
         this.callback = callback;
         this.doublingValue = doublingValue;
-        if (doublingValue <= 1)
-            doublingValue = 1;
     }
     public override bool Update()
     {
         if (transform == null || target == null)
             return false;
-        if ((transform.position - target.position).sqrMagnitude <= 5)
+        if ((transform.position - target.position).sqrMagnitude <= 2)
         {
             RoomManager.Instance.GetCurrentRoomBound(out leftDown, out rightTop);
             leftTop = new Vector3(leftDown.x, rightTop.y);
@@ -380,7 +372,7 @@ class RunawayTracker : Tracker
             }
 
 
-            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, newTarget, OnPathFound), doublingValue);
+            AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, newTarget, OnPathFound), doublingValue * 2);
         }
         else
         {

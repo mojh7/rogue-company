@@ -256,12 +256,14 @@ public class VendingMachine : RandomSpriteObject
 public class PushBox : RandomSpriteObject
 {
     Vector2 dir;
+    Vector3 offset;
     public override void Init()
     {
         base.Init();
         isActive = false;
         isAvailable = true;
         objectType = ObjectType.PUSHBOX;
+        offset = new Vector3(0, sprites[0].bounds.size.y * 0.5f, 0);
     }
     public override void SetAvailable()
     {
@@ -270,7 +272,7 @@ public class PushBox : RandomSpriteObject
     public override bool Active()
     {
         isActive = true;
-        dir = transform.position - PlayerManager.Instance.GetPlayerPosition();
+        dir = offset + transform.position - PlayerManager.Instance.GetPlayerPosition();
         dir.Normalize();
         rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         StartCoroutine(CoroutinePushed(dir));
@@ -280,7 +282,7 @@ public class PushBox : RandomSpriteObject
     //TODO : 캐릭터가 밀리는 문제가 발생
     IEnumerator CoroutinePushed(Vector2 direction)
     {
-        float speed = 10;
+        float speed = 20;
         rigidbody2D.velocity = speed * direction;
         float time = 0.1f;
         Vector2 start = rigidbody2D.velocity;
@@ -396,6 +398,7 @@ public class Door : RandomSpriteObject
             polygonCollider2D.SetPath(i, list.ToArray());
         }
         polygonCollider2D.isTrigger = false;
+        polygonCollider2D.enabled = true;
     }
     public override bool Active()
     {

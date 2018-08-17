@@ -17,6 +17,9 @@ namespace BT
 
         private TaskNode rootNode;
 
+        const float windowWidth = 200;
+        const float windowHeight = 150;
+
         private string path = "Assets/";
         private string assetPathAndName;
 
@@ -160,12 +163,12 @@ namespace BT
             if (task == null)
                 return;
             windows.Clear();
-            rootNode = TaskToObjectNode(task, 0, 120);
+            rootNode = TaskToObjectNode(task, 0, windowHeight);
         }
         TaskNode TaskToObjectNode(Task task, float x, float y)
         {
             TaskNode taskNode = new TaskNode(task);
-            taskNode.windowRect = new Rect(x, y, 200, 120);
+            taskNode.windowRect = new Rect(x, y, windowWidth, windowHeight);
 
             System.Type type = task.GetType();
             switch (type.ToString())
@@ -179,7 +182,7 @@ namespace BT
                         int childNum = compositeTask.GetChildren().Count;
                         for(int i=0;i< childNum; i++)
                         {
-                            taskNode.AddChild(TaskToObjectNode(compositeTask.GetChildren()[i], x + 300, y + 150 * i));
+                            taskNode.AddChild(TaskToObjectNode(compositeTask.GetChildren()[i], x + windowWidth + 100, y + (windowHeight + 30) * i));
                         }
                     }
                     break;
@@ -190,7 +193,7 @@ namespace BT
                 case "HealthDecorate":
                     {
                         DecorateTask decorateTask = task as DecorateTask;
-                        taskNode.AddChild(TaskToObjectNode(decorateTask.GetChildren(), x + 300, y));
+                        taskNode.AddChild(TaskToObjectNode(decorateTask.GetChildren(), x + windowWidth + 100, y));
                     }
                     break;
             }
@@ -228,7 +231,7 @@ namespace BT
         TaskNode CreateRoot()
         {
             TaskNode taskNode = new TaskNode(true);
-            taskNode.windowRect = new Rect(100, 100, 200, 100);
+            taskNode.windowRect = new Rect(100, 100, windowWidth, windowHeight);
             return taskNode;
         }
         void ShowMenu(Event e)
@@ -262,7 +265,7 @@ namespace BT
             if(clb.Equals("timeObjectNode"))
             {
                 TaskNode taskNode = new TaskNode();
-                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, 200, 120);
+                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, windowWidth, windowHeight);
                 taskNode.taskType = TaskType.DecorateTask;
                 taskNode.decorateTask = EDecorateTask.TimeDecorate;
                 windows.Add(taskNode);
@@ -270,14 +273,14 @@ namespace BT
             else if(clb.Equals("actionObjectNode"))
             {
                 TaskNode taskNode = new TaskNode();
-                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, 200, 120);
+                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, windowWidth, windowHeight);
                 taskNode.taskType = TaskType.ActionTask;
                 windows.Add(taskNode);
             }
             else if (clb.Equals("objectNode"))
             {
                 TaskNode taskNode = new TaskNode();
-                taskNode.windowRect = new Rect(mousePos.x, mousePos.y, 200, 120);
+                taskNode.windowRect = new Rect(mousePos.x, mousePos.y,windowWidth, windowHeight);
 
                 windows.Add(taskNode);
             }

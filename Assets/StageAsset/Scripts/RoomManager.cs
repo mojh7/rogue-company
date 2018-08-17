@@ -23,8 +23,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     private void SetMask()
     {
-        mask.transform.localPosition = new Vector2(currentRoom.x * mapSize + 0.5f, currentRoom.y * mapSize - 1);
-        mask.transform.localScale = new Vector2(currentRoom.width * mapSize, currentRoom.height * mapSize + 1);
+        mask.transform.localPosition = new Vector2(currentRoom.x * mapSize + currentRoom.width * mapSize * 0.5f + 0.5f, currentRoom.y * mapSize + currentRoom.height * mapSize * 0.5f - 0.5f);
+        mask.transform.localScale = new Vector2(currentRoom.width * mapSize * 1.1f, currentRoom.height * mapSize * 1.1f + 1);
     }
 
     public void InitRoomList()
@@ -38,8 +38,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
         }
         mapSize = MapManager.Instance.size;
-        maskSize = new Vector2(MapManager.Instance.width * mapSize, MapManager.Instance.height * mapSize + 1);
-        zeroVector = new Vector2(0.5f, -1);
+        maskSize = new Vector2(MapManager.Instance.width * mapSize + 0.5f, MapManager.Instance.height * mapSize + 1.5f);
+        zeroVector = new Vector2(MapManager.Instance.width * mapSize * 0.5f + 0.5f, MapManager.Instance.height * mapSize * 0.5f - 0.5f);
         IniMask();
     } // 룸리스트 받아오기
 
