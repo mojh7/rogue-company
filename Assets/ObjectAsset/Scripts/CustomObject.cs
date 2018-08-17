@@ -560,6 +560,7 @@ public class ItemContainer : RandomSpriteObject
         isAnimate = true;
         objectType = ObjectType.NONE;
         tag = "Untagged";
+        textMesh.text = "";
     }
 
     public void Init(Item _item)
