@@ -228,6 +228,7 @@ public class Player : Character
 
         playerData.Hp -= transferredBulletInfo.damage;
         PlayerHPUi.DecreaseHp(playerData.Hp);
+        AttackedEffect();
         if (playerData.Hp <= 0) Die();
         return transferredBulletInfo.damage;
     }
@@ -257,7 +258,7 @@ public class Player : Character
             rgbody.AddForce(knockBack * _dir);
         }
         PlayerHPUi.DecreaseHp(playerData.Hp);
-
+        AttackedEffect();
         StopCoroutine(KnockBackCheck());
         StartCoroutine(KnockBackCheck());
 

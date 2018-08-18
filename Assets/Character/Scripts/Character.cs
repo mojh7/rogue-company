@@ -136,6 +136,19 @@ public abstract class Character : MonoBehaviour
         }
         return false;
     }
+
+    protected void AttackedEffect()
+    {
+        if(gameObject.activeSelf)
+            StartCoroutine(ColorChange(Color.red));
+    }
+
+    IEnumerator ColorChange(Color color)
+    {
+        spriteRenderer.color = Color.red;
+        yield return YieldInstructionCache.WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
+    }
     #endregion
     public virtual void Init()
     {

@@ -227,6 +227,7 @@ public class Enemy : Character
         }
         ReactanceAim();
         ReduceHp(damage);
+        AttackedEffect();
         return damage;
     }
 
@@ -926,6 +927,7 @@ public class BossEnemy : Enemy
     {
         float damage = base.Attacked(transferBulletInfo);
         UIManager.Instance.bossHPUI.DecreaseHp(damage);
+        AttackedEffect();
         return damage;
     }
 
