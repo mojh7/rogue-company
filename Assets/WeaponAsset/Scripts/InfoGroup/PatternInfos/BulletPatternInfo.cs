@@ -44,6 +44,10 @@ public class BulletPatternInfo : ScriptableObject
         {
             return new SpreadPattern(patternEditInfo.patternInfo as SpreadPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, ownerType);
         }
+        else if (typeof(FixedOwnerPatternInfo) == bulletPatternType)
+        {
+            return new FixedOwnerPattern(patternEditInfo.patternInfo as FixedOwnerPatternInfo, ownerType);
+        }
         else
         {
             return null;

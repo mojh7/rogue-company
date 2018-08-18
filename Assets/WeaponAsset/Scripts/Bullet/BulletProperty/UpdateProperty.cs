@@ -397,6 +397,7 @@ public class HomingProperty : UpdateProperty
     }
 }
 
+/// <summary> 설치 무기 마인화 용 속성 </summary>
 public class MineBombProperty : UpdateProperty
 {
     private enum MineState { DETECTION, TRAKING }
@@ -476,5 +477,41 @@ public class MineBombProperty : UpdateProperty
         base.Init(bullet);
         state = MineState.DETECTION;
         speed = 2f;
+    }
+}
+
+public class FixedOwnerProperty : UpdateProperty
+{
+    private DelGetPosition ownerPos;
+    private DelGetPosition ownerDirVec;
+    private DelGetDirDegree ownerDirDegree;
+    private float angle;
+    private float addDirVecMagnitude; 
+
+    private Vector3 pos;
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+
+        delCollisionBullet = bullet.CollisionBullet;
+
+        ownerPos = bullet.GetOwnerPos();
+        ownerDirVec = bullet.GetOwnerDirVec();
+        ownerDirDegree = bullet.GetOwnerDirDegree();
+
+        addDirVecMagnitude = bullet.GetAddDirVecMagnitude();
+        pos = new Vector3();
+    }
+
+    public override UpdateProperty Clone()
+    {
+        return new FixedOwnerProperty();
+    }
+
+    public override void Update()
+    {
+        bulletTransform.position = ownerPos() + (ownerDirVec() * addDirVecMagnitude);
+        bulletTransform.rotation = Quaternion.Euler(0, 0, ownerDirDegree());
     }
 }

@@ -40,6 +40,7 @@ TextureImporter:
     21300066: NoCCO_effect_0_0
     21300068: NoCCO_effect_0_1
     21300070: NoCCO_effect_0_2
+    21300072: NoCCO_effect_atlas_1024x1024_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -625,6 +626,20 @@ TextureImporter:
         height: 59
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NoCCO_effect_atlas_1024x1024_0
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 859
+        width: 60
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

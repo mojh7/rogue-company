@@ -135,7 +135,7 @@ public class Bullet : MonoBehaviour
 
     #region initialization
     /// <summary>일반(투사체) 총알 초기화 - position이랑 direction만 받음, DeleteAfterSummonBulletProperty 전용 초기화</summary>
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, CharacterInfo.OwnerType ownerType, Vector3 pos, float direction = 0)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, OwnerType ownerType, Vector3 pos, float direction = 0)
     {
         active = true;
         info = bulletInfo;
@@ -162,7 +162,7 @@ public class Bullet : MonoBehaviour
     }
 
     // 일반(투사체) 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, CharacterInfo.OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
@@ -236,6 +236,43 @@ public class Bullet : MonoBehaviour
 
         InitPropertyClass();
         //bulletUpdate = StartCoroutine("BulletUpdate");
+    }
+
+    /// <summary>FixedOwenrPattern 전용 초기화</summary> 
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, float addDirVecMagnitude, Vector3 pos, DelGetPosition ownerPos, DelGetPosition ownerDirVec, DelGetDirDegree ownerDirDegree, TransferBulletInfo transferBulletInfo)
+    {
+        active = true;
+        info = bulletInfo;
+        this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
+        this.ownerBuff = ownerBuff;
+
+        UpdateTransferBulletInfo();
+
+        // Owner 정보 초기화
+        InitOwnerInfo(ownerType);
+
+        // Owner buff 적용
+        ApplyWeaponBuff();
+
+        // 투사체 총알 속성 초기화
+        InitProjectileProperty();
+
+        // InitPropertyClass() 할 때 정보 넘겨야 되서 미리 선언
+        this.ownerPos = ownerPos;
+        this.ownerDirVec = ownerDirVec;
+        this.ownerDirDegree = ownerDirDegree;
+        this.addDirVecMagnitude = addDirVecMagnitude;
+
+        // 총알 속성들 초기화
+        InitPropertyClass();
+
+        // 처음 위치 설정
+        objTransform.position = pos;
+        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+        dirDegree = 0f;
+        dirVector = Vector3.right;        
+        SetDirection(ownerDirDegree());
     }
 
     private void InitOwnerInfo(CharacterInfo.OwnerType ownerType)

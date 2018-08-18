@@ -298,6 +298,9 @@ public class BulletInfo : ScriptableObject
                 case UpdatePropertyType.MineBomb:
                     updateProperties.Add(new MineBombProperty());
                     break;
+                case UpdatePropertyType.FixedOwner:
+                    updateProperties.Add(new FixedOwnerProperty());
+                    break;
                 default:
                     break;
             }
