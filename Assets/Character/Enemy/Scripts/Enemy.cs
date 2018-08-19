@@ -20,6 +20,7 @@ public class Enemy : Character
     // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
     private float hpMax;
     protected bool isBossEnemy;  // 0810 모, 보스 몬스터, 일반 몬스터 구분을 위해 사용
+    
     #endregion
 
     #region abnormalStatusVariables

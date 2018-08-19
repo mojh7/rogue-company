@@ -5,7 +5,7 @@ using UnityEngine;
 /// MainScene 총 관리 하는 UI
 /// </summary>
 public class GameSceneUI : MonoBehaviour {
-
+    
     private float currentTime;
 
     private void Awake()

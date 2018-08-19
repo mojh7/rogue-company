@@ -49,6 +49,7 @@ public class Loading : MonoBehaviour {
         {
             isLoad = true;
             async = SceneManager.LoadSceneAsync(SceneDataManager.NextScene);
+            //async = SceneManager.LoadSceneAsync("SelectScene"); // 디버깅용
             SceneDataManager.NextScene = null; //다시 다음씬이 지정될때까지 null로 둔다.
             async.allowSceneActivation = false; //다음 씬의 준비가 완료되더라도 바로 로딩되는걸 막는다.
             while (!async.isDone)

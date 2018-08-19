@@ -7,6 +7,7 @@ class GameData
 {
     float hp;
     int hungry;
+    int stamina;
     int m_floor;
     int m_coin;
     int m_kill;
@@ -25,6 +26,7 @@ class GameData
     }
     #region getter
     public float GetHp() { return hp; }
+    public int GetStamina() { return stamina; }
     public int GetFloor() { return m_floor; }
     public int GetCoin() { return m_coin; }
     public int GetKill() { return m_kill; }
@@ -35,6 +37,7 @@ class GameData
     #endregion
     #region setter
     public void SetHp(float _hp) { hp = _hp; }
+    public void SetStamina(int _stamina) { stamina = _stamina; }
     public void SetFloor() { m_floor++; }
     public void SetCoin(int _coin) { m_coin = _coin; }
     public void SetKill(int _kill) { m_kill = _kill; }

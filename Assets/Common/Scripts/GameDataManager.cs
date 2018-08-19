@@ -84,6 +84,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         // 0611 모장현
         // gameData.SetPlayerData(PlayerManager.Instance.GetPlayer().PlayerData);
         gameData.SetHp(PlayerManager.Instance.GetPlayer().PlayerData.Hp);
+        gameData.SetStamina(PlayerManager.Instance.GetPlayer().PlayerData.Stamina);
         Debug.Log("save hp : " + gameData.GetHp());
 
         BinarySerialize(gameData);
@@ -106,6 +107,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             // this.playerData = gameData.GetPlayerData();
             playerData = playerDatas[(int)m_playerType].Clone();
             playerData.Hp = gameData.GetHp();
+            playerData.Stamina = gameData.GetStamina();
 
             return true;
         }
@@ -126,6 +128,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             m_time = 0;
             m_playerType = Player.PlayerType.SOCCER;
             playerData.Hp = playerDatas[0].Hp;
+            playerData.Stamina = playerDatas[0].Stamina;
+
             playerData = null;
         }
     }

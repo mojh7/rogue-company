@@ -35,8 +35,6 @@ public class Player : Character
     private RaycasthitEnemy raycasthitEnemyInfo;
     private int layerMask;  // autoAim을 위한 layerMask
     private int killedEnemyCount;
-    
-
 
     [SerializeField] private PlayerHpbarUI PlayerHPUi;
     [SerializeField] private WeaponSwitchButton weaponSwitchButton;
@@ -44,9 +42,9 @@ public class Player : Character
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
     // 윤아 0802
-    [SerializeField] private Stamina stamina;
+    private Stamina stamina;
     // 윤아 0802
-    [SerializeField] private float playTime;
+    private float playTime;
 
 
     private int shieldCount;
@@ -182,7 +180,6 @@ public class Player : Character
         buffManager.SetOwner(this);
         stamina = GameObject.Find("Image_stamina").GetComponent<Stamina>();
         stamina.SetPlayer(this);
-        //Stamina.Instance.setTotalStamina(100);
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);
@@ -195,8 +192,7 @@ public class Player : Character
         originPlayerData = playerData.Clone();
         UpdatePlayerData();
         PlayerHPUi.SetHpBar(playerData.Hp);
-        stamina.setTotalStamina(playerData.StaminaMax);
-
+        stamina.SetStaminaBar(playerData.StaminaMax);
     }
     #endregion
 
