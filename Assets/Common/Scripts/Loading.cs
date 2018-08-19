@@ -12,17 +12,28 @@ public class Loading : MonoBehaviour {
     private Slider sliderbar = null; //하단 슬라이더바
     [SerializeField]
     private Text Tip = null; //상단 팁 텍스트
+    //[SerializeField]
+    //private Transform wheel = null;//중앙 회전 이미지
     [SerializeField]
-    private Transform wheel = null;//중앙 회전 이미지
+    private Image image = null;
     [SerializeField]
     private string[] Tips = null;//팁 텍스트 모음
+    [SerializeField]
+    private Sprite[] cSprite;
+    [SerializeField]
+    private RuntimeAnimatorController[] anim;
+    private int selectChar;
     private bool isLoad = false; //중복 실행 방지
     private float timer = 0; //시간 측정
-    private Vector3 wheeleuler;//중앙 회전 이미지 오일러 각도측정용
+    //private Vector3 wheeleuler;//중앙 회전 이미지 오일러 각도측정용
     AsyncOperation async;
 
-    private void Awake()    
+    private void Awake()
     {
+        selectChar = (int)Random.RandomRange(0, cSprite.Length);
+        image.sprite = cSprite[selectChar];
+        image.GetComponent<Animator>().runtimeAnimatorController = anim[selectChar];
+        Debug.Log(selectChar);
         if (Tips.Length <= 0)
             return;
         int loc = UnityEngine.Random.Range(0, Tips.Length - 1); //배열내에서 무작위로 인덱스를 얻는다.
@@ -38,9 +49,9 @@ public class Loading : MonoBehaviour {
     {
         if (async == null)
             return;
-        wheeleuler = wheel.rotation.eulerAngles;
-        wheeleuler.z -= 3f;
-        wheel.rotation = Quaternion.Euler(wheeleuler);
+        //wheeleuler = wheel.rotation.eulerAngles;
+        //wheeleuler.z -= 3f;
+        //wheel.rotation = Quaternion.Euler(wheeleuler);
         timer += Time.deltaTime;
     }
     IEnumerator LoadingScene()
