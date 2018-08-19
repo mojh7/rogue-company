@@ -180,6 +180,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     IEnumerator FindRoomCoroutine() // 현재 방 찾기 코루틴
     {
+        PlayerManager.Instance.GetPlayer().SetInFloor();
+
         while (true)
         {
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
@@ -193,6 +195,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
                 SetMask();
                 currentRoom.isClear = true;
+                PlayerManager.Instance.GetPlayer().SetInRoom();
                 if (currentRoom.eRoomType == RoomType.BOSS) //보스 방
                 {
                     InitRoom();

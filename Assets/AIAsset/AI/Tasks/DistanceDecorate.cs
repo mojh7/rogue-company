@@ -44,7 +44,7 @@ public class DistanceDecorate : ConditionDecorate
     }
     public override Task Clone()
     {
-        DistanceDecorate parent = new DistanceDecorate();
+        DistanceDecorate parent = ScriptableObject.CreateInstance<DistanceDecorate>();
         parent.Set(condition, distance);
         if (GetChildren() != null)
             parent.AddChild(GetChildren().Clone());

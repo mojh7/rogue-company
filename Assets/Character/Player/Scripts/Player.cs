@@ -27,7 +27,7 @@ public class Player : Character
 
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
-    
+
     private Transform objTransform;
 
     private RaycastHit2D hit;
@@ -46,7 +46,7 @@ public class Player : Character
     // 윤아 0802
     private float playTime;
 
-
+    private float floorSpeed;
     private int shieldCount;
     #endregion
 
@@ -78,7 +78,7 @@ public class Player : Character
 
     #region getter
     public PlayerController PlayerController { get { return controller; } }
-    public Vector3 GetInputVector () { return controller.GetInputVector(); }
+    public Vector3 GetInputVector() { return controller.GetInputVector(); }
 
     public WeaponSwitchButton GetWeaponSwitchButton() { return weaponSwitchButton; }
 
@@ -86,9 +86,19 @@ public class Player : Character
     public int GetSkillGauage() { return playerData.SkillGauge; }
 
     public void SetStamina(int stamina) { playerData.Stamina = stamina; }
-        //Debug.Log(playerData.Stamina); 
+    //Debug.Log(playerData.Stamina); 
     #endregion
 
+    #region setter
+    public void SetInFloor()
+    {
+        floorSpeed = 2;
+    }
+    public void SetInRoom()
+    {
+        floorSpeed = 0;
+    }
+    #endregion
 
     #region UnityFunc
     void Awake()
@@ -100,6 +110,7 @@ public class Player : Character
         raycastHitEnemies = new List<RaycasthitEnemy>();
         raycasthitEnemyInfo = new RaycasthitEnemy();
         layerMask = 1 << LayerMask.NameToLayer("Wall");
+        floorSpeed = 0;
     }
 
     //for debug
@@ -197,7 +208,7 @@ public class Player : Character
     #endregion
 
     #region function
-    
+
     protected override void Die()
     {
         GameDataManager.Instance.SetTime(playTime);
@@ -265,7 +276,7 @@ public class Player : Character
 
     public void ActiveSkill()
     {
-        if(100 == playerData.SkillGauge)
+        if (100 == playerData.SkillGauge)
         {
             Debug.Log("Player 스킬 활성화");
             //skillGauge = 0;
@@ -276,8 +287,8 @@ public class Player : Character
         float bestDistance = interactiveCollider2D.radius * 10;
         Collider2D bestCollider = null;
 
-        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position,interactiveCollider2D.radius, 1 << 1);
-        
+        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius, 1 << 1);
+
         for (int i = 0; i < collider2D.Length; i++)
         {
             if (!collider2D[i].GetComponent<CustomObject>().GetAvailable())
@@ -302,8 +313,8 @@ public class Player : Character
     private void Move()
     {
         // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
-        objTransform.Translate(controller.GetInputVector() * playerData.MoveSpeed * Time.fixedDeltaTime);
-        if(controller.GetInputVector().sqrMagnitude > 0.1f)
+        objTransform.Translate(controller.GetInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
+        if (controller.GetInputVector().sqrMagnitude > 0.1f)
         {
             animationHandler.Walk();
         }
@@ -341,7 +352,7 @@ public class Player : Character
     {
         if (false == buffManager.CharacterTargetEffectTotal.canDrainHp) return;
         killedEnemyCount += 1;
-        if(killedEnemyCount == 7)
+        if (killedEnemyCount == 7)
         {
             Debug.Log("몬스터 7마리 처치 후 피 회복");
             RecoverHp(1f);
@@ -375,9 +386,9 @@ public class Player : Character
     /// player 에임 조정, 몬스터 자동 조준 or 조이스틱 방향 
     /// </summary>
     private void SetAim()
-    {       
+    {
         int enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
-        
+
         if (0 == enemyTotal)
         {
             directionVector = controller.GetRecentNormalInputVector();
@@ -436,7 +447,7 @@ public class Player : Character
         }
     }
 
-    
+
     // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
     public void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
     {
@@ -506,7 +517,7 @@ public class PlayerController
     /// 조이스틱이 현재 바라보는 방향의 벡터  
     /// </summary> 
     public Vector3 GetInputVector()
-    {    
+    {
         float h = joystick.GetHorizontalValue();
         float v = joystick.GetVerticalValue();
 
@@ -528,5 +539,5 @@ public class PlayerController
         //Debug.Log(joystick.GetRecenteNormalInputVector().magnitude);
         return joystick.GetRecentNormalInputVector();
     }
-    
+
 }
