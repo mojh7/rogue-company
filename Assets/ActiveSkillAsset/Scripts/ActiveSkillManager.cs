@@ -212,6 +212,8 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     {
         Transform userTransform = user.transform;
         user.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Effect";
+        Vector3 shadowScaleSrc = user.GetCharacterComponents().ShadowTransform.localScale;
+        Vector3 shadowScaleDest = shadowScaleSrc * 0.5f;
         Vector3 shadowSrc = user.GetCharacterComponents().ShadowTransform.localPosition;
         Vector3 shadowDest = user.GetCharacterComponents().ShadowTransform.localPosition - upVector;
         float startTime = Time.time;
@@ -223,6 +225,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
             userTransform.position = Vector2.Lerp(src, dest, elapsedTime / durationOfFlight);
             user.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowSrc, shadowDest, elapsedTime / durationOfFlight);
+            user.GetCharacterComponents().ShadowTransform.localScale = Vector2.Lerp(shadowScaleSrc, shadowScaleDest, elapsedTime / durationOfFlight);
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
         yield return YieldInstructionCache.WaitForSeconds(0.1f); // delay Flight state;
@@ -236,6 +239,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
             userTransform.position = Vector2.Lerp(dest, newDest, elapsedTime / durationOfFlight);
             user.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowDest, shadowSrc, elapsedTime / durationOfFlight);
+            user.GetCharacterComponents().ShadowTransform.localScale = Vector2.Lerp(shadowScaleDest, shadowScaleSrc, elapsedTime / durationOfFlight);
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
         user.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Default";
