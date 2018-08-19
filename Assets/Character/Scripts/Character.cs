@@ -45,6 +45,7 @@ public abstract class Character : MonoBehaviour
     protected BuffManager buffManager;
     protected Rigidbody2D rgbody;
     protected AIController aiController;
+    protected Transform shadowTransform;
     #endregion
     #region variables
     // 디버그용 SerializeField
@@ -162,6 +163,7 @@ public abstract class Character : MonoBehaviour
         buffManager = Components.BuffManager;
         rgbody = Components.Rigidbody2D;
         aiController = Components.AIController;
+        shadowTransform = Components.ShadowTransform;
 
         isActiveAI = true;
         isCasting = false;

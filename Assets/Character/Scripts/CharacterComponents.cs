@@ -19,6 +19,8 @@ public class CharacterComponents : MonoBehaviour
     private CircleCollider2D interactiveCollider2D;
     [SerializeField]
     private CircleCollider2D circleCollider2D;
+    [SerializeField]
+    private Transform shadowTransform;
 
     [SerializeField]
     private GameObject poisonEffect;
@@ -91,6 +93,15 @@ public class CharacterComponents : MonoBehaviour
             return circleCollider2D;
         }
     }
+    public Transform ShadowTransform
+    {
+        get
+        {
+            return shadowTransform;
+        }
+    }
+
+
 
     public GameObject PoisonEffect
     {

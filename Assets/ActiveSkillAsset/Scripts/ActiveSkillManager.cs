@@ -211,6 +211,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     IEnumerator CoroutineJump(Character user, Vector3 src, Vector3 dest)
     {
         Transform userTransform = user.transform;
+        user.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Effect";
+        Vector3 shadowSrc = user.GetCharacterComponents().ShadowTransform.localPosition;
+        Vector3 shadowDest = user.GetCharacterComponents().ShadowTransform.localPosition - upVector;
         float startTime = Time.time;
         float elapsedTime = 0;
         float durationOfFlight = 0.5f;
@@ -219,6 +222,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             elapsedTime = Time.time - startTime;
 
             userTransform.position = Vector2.Lerp(src, dest, elapsedTime / durationOfFlight);
+            user.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowSrc, shadowDest, elapsedTime / durationOfFlight);
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
         yield return YieldInstructionCache.WaitForSeconds(0.1f); // delay Flight state;
@@ -231,9 +235,11 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             elapsedTime = Time.time - startTime;
 
             userTransform.position = Vector2.Lerp(dest, newDest, elapsedTime / durationOfFlight);
+            user.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowDest, shadowSrc, elapsedTime / durationOfFlight);
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
-        if(user)
+        user.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Default";
+        if (user)
         {
             user.GetCharacterComponents().CircleCollider2D.enabled = true;
             user.GetCharacterComponents().AIController.PlayMove();
