@@ -17,12 +17,16 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     
     private void IniMask()
     {
+        PlayerManager.Instance.GetPlayer().SetInFloor();
+
         mask.transform.localPosition = zeroVector;
         mask.transform.localScale = maskSize;
     }
 
     private void SetMask()
     {
+        PlayerManager.Instance.GetPlayer().SetInRoom();
+
         mask.transform.localPosition = new Vector2(currentRoom.x * mapSize + currentRoom.width * mapSize * 0.5f + 0.5f, currentRoom.y * mapSize + currentRoom.height * mapSize * 0.5f - 0.5f);
         mask.transform.localScale = new Vector2(currentRoom.width * mapSize * 1.1f, currentRoom.height * mapSize * 1.1f + 1);
     }
@@ -40,7 +44,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         mapSize = MapManager.Instance.size;
         maskSize = new Vector2(MapManager.Instance.width * mapSize + 0.5f, MapManager.Instance.height * mapSize + 1.5f);
         zeroVector = new Vector2(MapManager.Instance.width * mapSize * 0.5f + 0.5f, MapManager.Instance.height * mapSize * 0.5f - 0.5f);
-        IniMask();
     } // 룸리스트 받아오기
 
     public int GetGage()
@@ -180,8 +183,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     IEnumerator FindRoomCoroutine() // 현재 방 찾기 코루틴
     {
-        PlayerManager.Instance.GetPlayer().SetInFloor();
-
         while (true)
         {
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
@@ -195,7 +196,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
                 SetMask();
                 currentRoom.isClear = true;
-                PlayerManager.Instance.GetPlayer().SetInRoom();
                 if (currentRoom.eRoomType == RoomType.BOSS) //보스 방
                 {
                     InitRoom();
