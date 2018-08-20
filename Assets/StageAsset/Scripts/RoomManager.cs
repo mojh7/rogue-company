@@ -56,6 +56,11 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         return currentRoom.GetAvailableArea();
     }
 
+    public Vector2 GetNearestAvailableArea(Vector2 position)
+    {
+        return currentRoom.GetNearestAvailableArea(position);
+    }
+
     public void GetCurrentRoomBound(out Vector3 leftDown,out Vector3 rightTop)
     {
         leftDown = currentRoom.areaLeftDown;

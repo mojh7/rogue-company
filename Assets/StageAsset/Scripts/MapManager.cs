@@ -879,6 +879,23 @@ namespace Map
             return availableAreas[Random.Range(0, availableAreas.Count)]; ;
         }
 
+        public Vector3 GetNearestAvailableArea(Vector2 position)
+        {
+            float dist = (position - availableAreas[0]).sqrMagnitude;
+            float newDist = 0;
+            Vector2 returnVector = availableAreas[0];
+            for (int i=0;i< availableAreas.Count;i++)
+            {
+                newDist = (position - availableAreas[i]).sqrMagnitude;
+                if(newDist < dist)
+                {
+                    dist = newDist;
+                    returnVector = availableAreas[i];
+                }
+            }
+            return returnVector;
+        }
+
         public void EdgeRect(Rect _rect)
         {
             if (!edgeRect.Contains(_rect) && _rect != this)

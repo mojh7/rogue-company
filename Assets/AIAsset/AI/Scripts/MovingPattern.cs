@@ -222,7 +222,7 @@ public class MovingPattern : MonoBehaviour
         while (true)
         {
             position = transform.position;
-            if (position == currentWaypoint)
+            if ((position - currentWaypoint).sqrMagnitude < 0.1f)
             {
                 targetIndex++;
                 if (targetIndex >= path.Length)

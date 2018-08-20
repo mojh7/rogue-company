@@ -40,12 +40,17 @@ namespace AStar
             Node startNode = grid.NodeFromWorldPoint(request.pathStart);
             Node targetNode = grid.NodeFromWorldPoint(request.pathEnd);
 
-            startNode.parent = startNode;
-
+            if(!startNode.walkable)
+            {
+                startNode = TileGrid.Instance.GetWalkableNeighbours(startNode);
+            }
             if (!targetNode.walkable)
             {
                 targetNode = TileGrid.Instance.GetWalkableNeighbours(targetNode);
             }
+            startNode.parent = startNode;
+
+   
             if (startNode.walkable && targetNode.walkable)
             {
                 openSet.RemoveAll();
@@ -174,10 +179,10 @@ namespace AStar
             waypointList.Clear();
             directionOld = zero;
 
-            int gap = 3;
-            if(path.Count <= gap)
+            int gap = (int)path.Count / 3;
+            if (0 == gap)
             {
-                gap = path.Count;
+                gap = 1;
             }
             for (int i = gap; i < path.Count; i++)
             {
