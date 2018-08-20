@@ -43,7 +43,7 @@ public class RoundingTrackAction : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
-
+        character.SetAutoAim();
         bool success = movingPattern.RoundingTracking();
         if (success)
         {

@@ -16,6 +16,10 @@ namespace CharacterInfo
     {
         NONE, DAMAGE
     }
+    public enum AutoAimType
+    {
+        AUTO, SEMIAUTO, RANDOM, REACTANCE, WALKING
+    }
 }
 
 struct RaycasthitEnemy
@@ -48,7 +52,10 @@ public abstract class Character : MonoBehaviour
     protected Transform shadowTransform;
     #endregion
     #region variables
-    // 디버그용 SerializeField
+
+    protected CharacterInfo.AutoAimType autoAimType;
+    protected CharacterInfo.AutoAimType originalautoAimType;
+
     public bool isCasting;
     protected bool isActiveAI;
     protected bool isActiveMoveAI;
@@ -184,6 +191,26 @@ public abstract class Character : MonoBehaviour
 
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
+
+    public void SetWalkingAim()
+    {
+        if(!IsAbnormal())
+        {
+            autoAimType = CharacterInfo.AutoAimType.WALKING;
+        }
+        originalautoAimType = CharacterInfo.AutoAimType.WALKING;
+    }
+
+    public void SetAutoAim()
+    {
+        if (!IsAbnormal())
+        {
+            autoAimType = CharacterInfo.AutoAimType.AUTO;
+        }
+        originalautoAimType = CharacterInfo.AutoAimType.AUTO;
+    }
+
+    protected abstract bool IsAbnormal();
 }
 
 

@@ -33,6 +33,7 @@ public class AStarTrackAtion : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
+        character.SetAutoAim();
         bool success = movingPattern.AStarTracking();
 
         if (success)

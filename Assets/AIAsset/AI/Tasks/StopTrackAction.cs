@@ -26,6 +26,7 @@ public class StopTrackAction : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
+        character.SetAutoAim();
         bool success = movingPattern.StopTracking();
         if (success)
         {

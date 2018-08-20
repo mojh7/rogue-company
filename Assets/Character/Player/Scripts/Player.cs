@@ -447,7 +447,6 @@ public class Player : Character
         }
     }
 
-
     // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
     public void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
     {
@@ -473,6 +472,10 @@ public class Player : Character
     {
     }
 
+    protected override bool IsAbnormal()
+    {
+        return false;
+    }
     // 안 쓸거 같음.
     public void UpdatePlayerData()
     {

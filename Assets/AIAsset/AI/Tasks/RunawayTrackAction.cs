@@ -27,6 +27,7 @@ public class RunawayTrackAction : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
+        character.SetAutoAim();
         bool success = movingPattern.RunawayTracking();
         if (success)
         {

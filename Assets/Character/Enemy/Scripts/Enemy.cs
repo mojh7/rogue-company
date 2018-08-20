@@ -8,14 +8,9 @@ using UnityEngine;
 /// </summary>
 public enum AbnormalStatusType { NAG, CLIMBING, GRAVEYARDSHIFT, FREEZE, REACTANCE, STUN, CHARM, END }
 
-public enum EnemyAutoAimType { AUTO, SEMIAUTO, RANDOM, REACTANCE }
-
 public class Enemy : Character
 {
     #region variables
-
-    private EnemyAutoAimType autoAimType;
-    private EnemyAutoAimType originalautoAimType;
 
     // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
     private float hpMax;
@@ -102,7 +97,7 @@ public class Enemy : Character
         ownerType = CharacterInfo.OwnerType.Enemy;
         immune = CharacterInfo.Immune.NONE;
 
-        originalautoAimType = EnemyAutoAimType.AUTO;
+        originalautoAimType = CharacterInfo.AutoAimType.AUTO;
         autoAimType = originalautoAimType;
 
         isActiveAttackAI = true;
@@ -256,7 +251,11 @@ public class Enemy : Character
         // 개발 중
     }
 
-
+    protected override bool IsAbnormal()
+    {
+        return isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] ||
+             isAbnormalStatuses[(int)AbnormalStatusType.CHARM] || isAbnormalStatuses[(int)AbnormalStatusType.CLIMBING];
+    }
 
     // TODO : 0802 모장현, enemy aim 조절 타입에 따라서 알고리즘 변경
 
@@ -265,13 +264,17 @@ public class Enemy : Character
     {
         switch (autoAimType)
         {
-            case EnemyAutoAimType.AUTO:
+            case CharacterInfo.AutoAimType.AUTO:
                 directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
                 directionDegree = directionVector.GetDegFromVector();
                 break;
-            case EnemyAutoAimType.SEMIAUTO:
+            case CharacterInfo.AutoAimType.SEMIAUTO:
                 break;
-            case EnemyAutoAimType.RANDOM:
+            case CharacterInfo.AutoAimType.RANDOM:
+                break;
+            case CharacterInfo.AutoAimType.WALKING:
+                directionVector = rgbody.velocity;
+                directionDegree = directionVector.GetDegFromVector();
                 break;
             default:
                 break;
@@ -280,7 +283,7 @@ public class Enemy : Character
     
     private void ReactanceAim()
     {
-        if(EnemyAutoAimType.REACTANCE == autoAimType)
+        if(CharacterInfo.AutoAimType.REACTANCE == autoAimType)
         {
             directionVector = PlayerManager.Instance.GetPlayer().GetDirVector();
             directionDegree = directionVector.GetDegFromVector();
@@ -851,7 +854,7 @@ public class Enemy : Character
         isAbnormalStatuses[type] = true;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = StatusConstants.Instance.ReactanceInfo.effectiveTime;
-        autoAimType = EnemyAutoAimType.REACTANCE;
+        autoAimType = CharacterInfo.AutoAimType.REACTANCE;
 
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
