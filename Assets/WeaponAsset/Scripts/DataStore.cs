@@ -96,7 +96,12 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private EffectInfo[] effectInfos;
 
-    
+    [Header("true하고 실행 시 엑셀 내용으로 무기 초기화")]
+    [SerializeField]
+    private bool canInputWeaponDatas;
+    public List<Dictionary<string, object>> weaponDatas;
+
+
     // private List<BulletInfo> initializedBulletInfosAtRuntime;
     // private int initializedBulletInfosLength;
 
@@ -246,6 +251,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             enemyWeaponInfos[i].Init();
         }
         //passiveItems
+        
+        InputWeaponDatas();
     }
 
     /*
@@ -255,6 +262,82 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         initializedBulletInfosLength += 1;
     }
     */
+
+    public void InputWeaponDatas()
+    {
+        if (false == canInputWeaponDatas)
+            return;
+        weaponDatas = WeaponDataCSVParser.Read("weaponDatas");
+        Debug.Log("CSV 데이터 파싱 후 weapon data 입력");
+
+        WeaponType weaponType;
+        AttackAniType attackAniType;
+        Rating rating;
+        float chargeTimeMax;
+        float criticalChance;
+        float damage;
+        float staminaConsumption;
+        float cooldown;
+        int ammoCapacity;
+        float range;
+        float bulletSpeed;
+        int size = weaponDatas.Count;
+        for (int i = 0; i < size; i++)
+        {
+            tempWeaponInfos[i].name = (string)weaponDatas[i]["name"];
+            Debug.Log(i + ", name : " + (string)weaponDatas[i]["name"]);
+        
+            weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)weaponDatas[i]["weaponType"]);
+            tempWeaponInfos[i].weaponType = weaponType;
+            //Debug.Log(weaponType);
+
+            attackAniType = (AttackAniType)System.Enum.Parse(typeof(AttackAniType), (string)weaponDatas[i]["attackAniType"]);
+            tempWeaponInfos[i].attackAniType = attackAniType;
+            //Debug.Log(attackAniType);
+
+            rating = (Rating)System.Enum.Parse(typeof(Rating), (string)weaponDatas[i]["rating"]);
+            tempWeaponInfos[i].rating = rating;
+            //Debug.Log(rating);
+
+
+            float.TryParse(weaponDatas[i]["chargeTimeMax"].ToString(), out chargeTimeMax);
+            tempWeaponInfos[i].chargeTimeMax = chargeTimeMax;
+            //Debug.Log(chargeTimeMax);
+            if (0 == chargeTimeMax)
+                tempWeaponInfos[i].touchMode = TouchMode.Normal;
+            else
+                tempWeaponInfos[i].touchMode = TouchMode.Charge;
+
+            float.TryParse(weaponDatas[i]["criticalChance"].ToString(), out criticalChance);
+            tempWeaponInfos[i].criticalChance = criticalChance;
+            //Debug.Log(criticalChance);
+
+            float.TryParse(weaponDatas[i]["damage"].ToString(), out damage);
+            tempWeaponInfos[i].damage = damage;
+            //Debug.Log(damage);
+
+            float.TryParse(weaponDatas[i]["staminaConsumption"].ToString(), out staminaConsumption);
+            tempWeaponInfos[i].staminaConsumption = staminaConsumption;
+            //Debug.Log(staminaConsumption);
+
+            float.TryParse(weaponDatas[i]["cooldown"].ToString(), out cooldown);
+            tempWeaponInfos[i].cooldown = cooldown;
+            //Debug.Log(cooldown);
+
+            int.TryParse(weaponDatas[i]["ammoCapacity"].ToString(), out ammoCapacity);
+            tempWeaponInfos[i].ammoCapacity = ammoCapacity;
+            //Debug.Log(ammoCapacity);
+
+            float.TryParse(weaponDatas[i]["range"].ToString(), out range);
+            tempWeaponInfos[i].range = range;
+            //Debug.Log(range);
+
+            float.TryParse(weaponDatas[i]["bulletSpeed"].ToString(), out bulletSpeed);
+            tempWeaponInfos[i].bulletMoveSpeed = bulletSpeed;
+            //Debug.Log(bulletSpeed);
+        }
+        
+    }
     #endregion
 
     

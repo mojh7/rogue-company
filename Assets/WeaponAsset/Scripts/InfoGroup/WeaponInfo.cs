@@ -32,6 +32,7 @@ public class WeaponInfo : ScriptableObject
     [Header("기본 스펙")]
     // 기본 스펙
     public string weaponName;           // 무기 이름
+    public Rating rating;
     public Sprite sprite;               // 무기 sprtie
     public float scaleX;                // 가로 크기 scale x
     public float scaleY;                // 세로 크기 scale y
@@ -83,6 +84,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.ownerType = ownerType;
 
         clonedInfo.weaponName = weaponName;
+        clonedInfo.rating = rating;
         clonedInfo.sprite = sprite;
         clonedInfo.scaleX = scaleX;
         clonedInfo.scaleY = scaleY;
