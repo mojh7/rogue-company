@@ -25,9 +25,11 @@ public class UsableItem : Item
     {
         this.info = info;
         this.value = info.Price;
-        this.name = info.Name;
+        this.name = info.ItemName;
         spriteRenderer.sprite = info.Sprite;
     }
+
+    public override string GetName() { return info.ItemName; }
 
     public override void Active()
     {

@@ -315,8 +315,6 @@ public class BuffManager : MonoBehaviour
         if (targetEffect.increaseStaminaWhenkillingEnemies)
             CharacterTargetEffectTotal.increaseStaminaWhenkillingEnemies = boolSign;
 
-        Debug.Log(characterTargetEffectTotal.moveSpeedIncrement);
-        Debug.Log(targetEffect.moveSpeedIncrement);
         owner.ApplyItemEffect(characterTargetEffectTotal);
     }
 

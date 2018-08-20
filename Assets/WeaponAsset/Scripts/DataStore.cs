@@ -289,7 +289,49 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         
             weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)weaponDatas[i]["weaponType"]);
             tempWeaponInfos[i].weaponType = weaponType;
-            //Debug.Log(weaponType);
+
+            switch (weaponType)
+            {
+                case WeaponType.PISTOL:
+                case WeaponType.SHOTGUN:
+                case WeaponType.MACHINEGUN:
+                case WeaponType.SNIPER_RIFLE:
+                    tempWeaponInfos[i].showsMuzzleFlash = true;
+                    break;
+                default:
+                    tempWeaponInfos[i].showsMuzzleFlash = false;
+                    break;
+            }
+
+            switch (weaponType)
+            {
+                case WeaponType.SPEAR:
+                case WeaponType.CLUB:
+                case WeaponType.SPORTING_GOODS:
+                case WeaponType.SWORD:
+                case WeaponType.CLEANING_TOOL:
+                    tempWeaponInfos[i].addDirVecMagnitude = 1.2f;
+                    break;
+                case WeaponType.KNUCKLE:
+                case WeaponType.SHOTGUN:
+                case WeaponType.BOW:
+                case WeaponType.WAND:
+                case WeaponType.SNIPER_RIFLE:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0.5f;
+                    break;
+                case WeaponType.LASER:
+                case WeaponType.MACHINEGUN:
+                case WeaponType.TRASH:
+                case WeaponType.OTHER:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0.3f;
+                    break;
+                case WeaponType.PISTOL:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0.2f;
+                    break;
+                default:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0f;
+                    break;
+            }
 
             attackAniType = (AttackAniType)System.Enum.Parse(typeof(AttackAniType), (string)weaponDatas[i]["attackAniType"]);
             tempWeaponInfos[i].attackAniType = attackAniType;

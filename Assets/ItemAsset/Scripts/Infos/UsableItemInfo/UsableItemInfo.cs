@@ -52,8 +52,8 @@ public class UsableItemInfo : ScriptableObject
         get { return price; }
     }
 
-    public string Name
+    public string ItemName
     {
-        get { return name; }
+        get { return itemName; }
     }
 }
