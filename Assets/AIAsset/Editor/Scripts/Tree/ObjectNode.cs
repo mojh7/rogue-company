@@ -116,6 +116,11 @@ namespace BT
                     actionTask = EActionTask.ShotAction;
                     value1 = (task as ShotAction).Value;
                     break;
+                case "PositionAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.PositionAction;
+                    value1 = (task as ShotAction).Value;
+                    break;
             }
         }
 
@@ -148,16 +153,6 @@ namespace BT
 
         public void DrawCurves()
         {
-            //if (input)
-            //{
-            //    Rect rect = windowRect;
-            //    rect.x += inputRect.x;
-            //    rect.y += inputRect.y + inputRect.height / 2;
-            //    rect.width = 1;
-            //    rect.height = 1;
-
-            //    NodeEditor.DrawNodeCurve(input.windowRect, rect);
-            //}
             if (parents == null)
                 return;
             for(int i=0;i<parents.Count;i++)
@@ -284,7 +279,8 @@ namespace BT
                             return ScriptableObject.CreateInstance<RunawayTrackAction>().Set(value1);
                         case EActionTask.ShotAction:
                             return ScriptableObject.CreateInstance<ShotAction>().Set((int)value1);
-
+                        case EActionTask.PositionAction:
+                            return ScriptableObject.CreateInstance<PositionTrackAction>().Set(value1);
                     }
                     break;
             }

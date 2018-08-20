@@ -75,6 +75,28 @@ namespace AStar
             }
         }
 
+        public void Bake(Sprite sprite, Vector2 position)
+        {
+            Node node = NodeFromWorldPoint(position);
+            float x = node.worldPos.x;
+            float y = node.worldPos.y;
+
+            float minX = sprite.bounds.min.x - nodeRadius;
+            float maxX = sprite.bounds.max.x + nodeRadius;
+            float minY = sprite.bounds.min.y - nodeRadius;
+            float maxY = sprite.bounds.max.y + nodeRadius;
+            Vector3 posNode;
+
+            for (float i = x + minX; i <= x + maxX; i += nodeRadius)
+            {
+                for (float j = y + minY; j <= y + maxY; j += nodeRadius)
+                {
+                    posNode = new Vector3(i, j, 0);
+                    bool walkable = !(Physics2D.OverlapBox(posNode, box, 0, unwalkableMask));
+                    NodeFromWorldPoint(posNode).walkable = walkable;
+                }
+            }
+        }
         public List<Node> GetNeighbours(Node node)
         {
             neighbours.Clear();

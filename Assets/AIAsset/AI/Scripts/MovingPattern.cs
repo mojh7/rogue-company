@@ -12,6 +12,7 @@ public class MovingPattern : MonoBehaviour
     RushTracker rushTracker;
     RunawayTracker runawayTracker;
     StopTracker stopTracker;
+    PositionTracker positionTracker;
     #endregion
     #region components
     Rigidbody2D rb2d;
@@ -88,6 +89,10 @@ public class MovingPattern : MonoBehaviour
     {
         stopTracker = new StopTracker(transform, ref target, Follwing);
     }
+    public void PositionTracker(Transform target, float doublingValue)
+    {
+        positionTracker = new PositionTracker(transform, ref target, Follwing);
+    }
     #endregion
 
     #region MovingFunc
@@ -162,6 +167,34 @@ public class MovingPattern : MonoBehaviour
         speed = 0;
 
         return stopTracker.Update();
+    }
+
+    public bool PositionTracking(Vector2 position, ref bool arrived)
+    {
+        if (positionTracker == null)
+            return false;
+        if (rushTracker != null)
+        {
+            rushTracker.isRun = false;
+        }
+        speed = baseSpeed;
+        if(null != path)
+        {
+            float dist = (position - path[0]).sqrMagnitude;
+            if (dist < 1f)
+            {
+                arrived = true;
+            }
+            else
+            {
+                arrived = false;
+            }
+        }
+        else
+        {
+            arrived = true;
+        }
+        return positionTracker.Update(position);
     }
     #endregion
 
@@ -246,10 +279,6 @@ abstract class Tracker
         this.target = target;
     }
     /// <summary>
-    /// 추적 알고리즘를 통해 path 업데이트.
-    /// </summary>
-    public abstract bool Update();
-    /// <summary>
     /// 성공적으로 path를 찾았을 경우 AI컨트롤러의 FollowPath를 실행.
     /// </summary>
     /// <param name="newPath">알고리즘에 의해 반환 된 path.</param>
@@ -274,7 +303,7 @@ class AStarTracker : Tracker
         this.doublingValue = doublingValue;
     }
 
-    public override bool Update()
+    public bool Update()
     {
         if (transform == null || target == null)
             return false;
@@ -296,7 +325,7 @@ class RoundingTracker : Tracker
         this.doublingValue = doublingValue;
     }
 
-    public override bool Update()
+    public bool Update()
     {
         if (transform == null || target == null)
             return false;
@@ -309,7 +338,7 @@ class RoundingTracker : Tracker
 class RushTracker : Tracker
 {
     public bool isRun;
-    public RushTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback,float doublingValue)
+    public RushTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback, float doublingValue)
     {
         this.transform = transform;
         this.target = target;
@@ -317,7 +346,7 @@ class RushTracker : Tracker
         this.doublingValue = doublingValue;
         isRun = false;
     }
-    public override bool Update()
+    public bool Update()
     {
         if (transform == null || target == null)
             return false;
@@ -353,7 +382,7 @@ class RunawayTracker : Tracker
         rightDown = new Vector3(maxX, minY);
         rightTop = new Vector3(maxX, maxY);
     }
-    public override bool Update()
+    public bool Update()
     {
         if (transform == null || target == null)
             return false;
@@ -398,11 +427,28 @@ class StopTracker : Tracker
         this.target = target;
         this.callback = callback;
     }
-    public override bool Update()
+    public bool Update()
     {
         if (transform == null || target == null)
             return false;
         callback(new Vector2[1] { transform.position }, 0);
+        return true;
+    }
+}
+
+class PositionTracker : Tracker
+{
+    public PositionTracker(Transform transform, ref Transform target, Action<Vector2[], float> callback)
+    {
+        this.transform = transform;
+        this.target = target;
+        this.callback = callback;
+    }
+    public bool Update(Vector2 position)
+    {
+        if (transform == null || target == null)
+            return false;
+        AStar.PathRequestManager.RequestPath(new AStar.PathRequest(transform.position, position, OnPathFound), doublingValue);
         return true;
     }
 }

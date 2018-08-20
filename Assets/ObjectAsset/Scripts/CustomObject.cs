@@ -255,6 +255,7 @@ public class VendingMachine : RandomSpriteObject
 
 public class PushBox : RandomSpriteObject
 {
+    Vector2 oldPosition;
     Vector2 dir;
     Vector3 offset;
     public override void Init()
@@ -271,6 +272,7 @@ public class PushBox : RandomSpriteObject
     }
     public override bool Active()
     {
+        oldPosition = transform.position;
         isActive = true;
         dir = offset + transform.position - PlayerManager.Instance.GetPlayerPosition();
         dir.Normalize();
@@ -308,6 +310,8 @@ public class PushBox : RandomSpriteObject
 
     void StopMove()
     {
+        AStar.TileGrid.Instance.Bake(spriteRenderer.sprite,oldPosition);
+        AStar.TileGrid.Instance.Bake(spriteRenderer);
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         isActive = false;

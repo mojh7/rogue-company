@@ -174,7 +174,11 @@ namespace AStar
             waypointList.Clear();
             directionOld = zero;
 
-            int gap = 1;
+            int gap = 3;
+            if(path.Count <= gap)
+            {
+                gap = path.Count;
+            }
             for (int i = gap; i < path.Count; i++)
             {
                 Vector2 directionNew = new Vector2(path[i - gap].gridX - path[i].gridX, path[i - gap].gridY - path[i].gridY);

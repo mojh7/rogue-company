@@ -33,6 +33,7 @@
         SkillAction,
         StopAction,
         RunawayAction,
-        ShotAction
+        ShotAction,
+        PositionAction
     }
 }
