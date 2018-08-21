@@ -53,8 +53,9 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     {
         if (StaminaState())
         {
-            // 3초마다 한번씩 1씩 추가
-            // 몬스터 죽을때마다 1씩 추가
+            // 3초마다 채운다
+            // 한 번 마다 3씩 충전
+            // 몬스터 죽일 때마다도 3씩
             stamina += 3;
             playerData.Stamina = stamina;
             staminaImage.fillAmount += 3 / (float)maxStamina;
@@ -69,6 +70,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     {
         if (staminaImage.fillAmount > 0 && staminaImage.fillAmount <= 1)
         {
+            // 무기 공격시 5 깎인
             stamina -= 5;
             playerData.Stamina = stamina;
             staminaImage.fillAmount -= 5 / (float)maxStamina;

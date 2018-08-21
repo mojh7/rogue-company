@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour {
     protected new string name;
     protected int value;
+    protected Sprite sprite;
     public System.Action action;
 
     public int GetValue()
@@ -14,6 +15,7 @@ public abstract class Item : MonoBehaviour {
     public virtual void Active() { }
     public virtual void SubActive() { }
     public virtual string GetName() { return name; }
+    public Sprite GetSprite() { return sprite; }
 }
 
 public class Coin : Item

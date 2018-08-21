@@ -97,6 +97,7 @@ public class Weapon : Item
         objTransform = GetComponent<Transform>();
         weaponView = new WeaponView(objTransform, spriteRenderer);
         weaponView.Init(info.sprite, info.scaleX, info.scaleY);
+        sprite = spriteRenderer.sprite;
         weaponState = WeaponState.Idle;
         name = info.weaponName;
         if (OwnerType.Enemy == ownerType)
