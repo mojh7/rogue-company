@@ -14,6 +14,8 @@ public class TitleTest : MonoBehaviour {
 
     [SerializeField] private Image fadeImage;
 
+    int index = 2;
+
     public void FadeInScreen()
     {
         txt.gameObject.SetActive(false);
@@ -33,7 +35,15 @@ public class TitleTest : MonoBehaviour {
             _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, (float)i / _interval);
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        LoadSelect();
+        if (index == 0)
+        {
+            LoadSelect();
+        }
+        else
+        {
+            FadeIn(fadeImage, 20 * index);
+            index--;
+        }
     }
 
     private void LoadSelect()

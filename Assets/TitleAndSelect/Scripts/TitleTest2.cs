@@ -97,20 +97,6 @@ public class TitleTest2 : MonoBehaviour {
             {
                 GetPanelPosition();
             }
-            //else
-            //{
-            //    if (mousePos == Input.mousePosition)
-            //    {
-            //        Debug.Log(1234);
-            //        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-            //        RaycastHit hit;
-            //        if (Physics.Raycast(ray, out hit, 50000))
-            //        {
-            //            Debug.Log(hit.collider.name);
-            //            Debug.DrawLine(ray.origin, ray.direction);
-            //        }
-            //    }
-            //}
         }
         if (Vector3.Distance(panel[0].transform.position, titleDes) > 0.2f && !panel[2].activeSelf)
         {
