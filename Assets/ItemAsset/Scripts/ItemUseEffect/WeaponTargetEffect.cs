@@ -23,7 +23,7 @@ public class WeaponTargetEffect : ItemUseEffect
     public float chargingSpeedIncrement;    // 차징 속도 증가율
     public float chargingDamageIncrement;   // 차징 데미지 증가율
     public float gettingSkillGaugeIncrement;// 스킬 게이지 획득량 증가
-    public float gettingStaminaIncrement;   // 스테미너 획득량 상승
+    //public float gettingStaminaIncrement;   // 스테미너 획득량 상승
     public float skillPowerIncrement;       // 스킬 파워(시간, 세기 등등) 증가율
     public float bulletScaleIncrement;      // 총알 크기 증가율
     public float bulletRangeIncrement;      // 총알 사정 거리 증가율

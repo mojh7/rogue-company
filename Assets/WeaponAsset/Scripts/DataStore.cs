@@ -296,7 +296,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         float chargeTimeMax;
         float criticalChance;
         float damage;
-        float staminaConsumption;
+        int staminaConsumption;
         float cooldown;
         int ammoCapacity;
         float range;
@@ -378,7 +378,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             tempWeaponInfos[i].damage = damage;
             //Debug.Log(damage);
 
-            float.TryParse(weaponDatas[i]["staminaConsumption"].ToString(), out staminaConsumption);
+            int.TryParse(weaponDatas[i]["staminaConsumption"].ToString(), out staminaConsumption);
             tempWeaponInfos[i].staminaConsumption = staminaConsumption;
             //Debug.Log(staminaConsumption);
 

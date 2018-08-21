@@ -49,58 +49,60 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         staminaImage.fillAmount = stamina / (float)maxStamina;
     }
 
-    public void StaminaPlus()
+    /// <summary>
+    /// 스테미너 회복 : 자연 회복, 몬스터 처치시 회복
+    /// </summary>
+    public void RecoverStamina(int recoveryAmount = 3)
     {
-        if (StaminaState())
+        recoveryAmount += PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaIncrement;
+        stamina += recoveryAmount;
+        staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
+
+        if (staminaImage.fillAmount >= maxStamina)
         {
-            // 3초마다 채운다
-            // 한 번 마다 3씩 충전
-            // 몬스터 죽일 때마다도 3씩
-            stamina += 3;
-            playerData.Stamina = stamina;
-            staminaImage.fillAmount += 3 / (float)maxStamina;
+            stamina = maxStamina;
+            staminaImage.fillAmount = maxStamina;
         }
-        else
-        {
-            return;
-        }
+        playerData.Stamina = stamina;
     }
 
-    public void StaminaMinus()
+    public void ConsumeStamina(int staminaConsumption)
     {
-        if (staminaImage.fillAmount > 0 && staminaImage.fillAmount <= 1)
+        stamina -= staminaConsumption;
+        staminaImage.fillAmount -= staminaConsumption / (float)maxStamina;
+
+        if (staminaImage.fillAmount < 0)
         {
-            // 무기 공격시 5 깎인
-            stamina -= 5;
-            playerData.Stamina = stamina;
-            staminaImage.fillAmount -= 5 / (float)maxStamina;
+            stamina = 0;
+            staminaImage.fillAmount = 0;
         }
-        else if (staminaImage.fillAmount <= 0)
-        {
-            return;
-        }
+        playerData.Stamina = stamina;
     }
 
-    public bool StaminaState()
+    public bool IsFullStamina()
     {
-        if (staminaImage.fillAmount >= 0 && staminaImage.fillAmount < 1)
-        {
+        if (staminaImage.fillAmount >= 1f)
             return true;
-        }
         else
-        {
             return false;
-        }
     }
 
-    // 리턴 시키는 함수
-    public int StaminaAmout(float amount, int totalStamina)
+    public bool IsConsumableStamina()
     {
-        float temp = amount * totalStamina;
-        playerStamina = (int)temp;
-        if(player != null)
-            player.SetStamina(playerStamina);
-        return playerStamina;
+        if (0 < staminaImage.fillAmount && staminaImage.fillAmount <= 1)
+            return true;
+        else
+            return false;
     }
+
+    //// 리턴 시키는 함수
+    //public int StaminaAmout(float amount, int totalStamina)
+    //{
+    //    float temp = amount * totalStamina;
+    //    playerStamina = (int)temp;
+    //    if(player != null)
+    //        player.SetStamina(playerStamina);
+    //    return playerStamina;
+    //}
     #endregion
 }

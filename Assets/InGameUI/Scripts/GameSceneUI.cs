@@ -14,12 +14,12 @@ public class GameSceneUI : MonoBehaviour {
     }
 
     void Update () {
-        if (Stamina.Instance.StaminaState())
+        if (Stamina.Instance.IsFullStamina())
         {
             currentTime += Time.deltaTime;
             if (currentTime > 3)
             {
-                Stamina.Instance.StaminaPlus();
+                Stamina.Instance.RecoverStamina();
                 currentTime = 0;
             }
         }

@@ -92,11 +92,15 @@ public class BuffManager : MonoBehaviour
     {
         characterTargetEffectTotal = new CharacterTargetEffect
         {
+            // 합 옵션
             armorIncrement = 0,
+            gettingStaminaIncrement = 0,
 
+            // 곱 옵션 - 합 연산
             moveSpeedIncrement = 1f,
             rewardOfEndGameIncrement = 1f,
 
+            // 곱 옵션 - 곱 연산
             discountRateOfVendingMachineItems = 1f,
             discountRateOfCafeteriaItems = 1f,
             discountRateAllItems = 1f,
@@ -124,7 +128,7 @@ public class BuffManager : MonoBehaviour
             chargingSpeedIncrement = 1f,
             chargingDamageIncrement = 1f,
             gettingSkillGaugeIncrement = 1f,
-            gettingStaminaIncrement = 1f,
+            //gettingStaminaIncrement = 1f,
             skillPowerIncrement = 1f,
             bulletScaleIncrement = 1f,
             bulletRangeIncrement = 1f,
@@ -289,6 +293,7 @@ public class BuffManager : MonoBehaviour
 
         // 합 연산
         CharacterTargetEffectTotal.armorIncrement += targetEffect.armorIncrement * sign;
+        CharacterTargetEffectTotal.gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
 
         // 곱 옵션 - 합 연산
         CharacterTargetEffectTotal.moveSpeedIncrement += targetEffect.moveSpeedIncrement * sign;
@@ -353,7 +358,7 @@ public class BuffManager : MonoBehaviour
             WeaponTargetEffectTotal[index].chargingSpeedIncrement += targetEffect.chargingSpeedIncrement * sign;
             WeaponTargetEffectTotal[index].chargingDamageIncrement += targetEffect.chargingDamageIncrement * sign;
             WeaponTargetEffectTotal[index].gettingSkillGaugeIncrement += targetEffect.gettingSkillGaugeIncrement * sign;
-            WeaponTargetEffectTotal[index].gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
+            //WeaponTargetEffectTotal[index].gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
             WeaponTargetEffectTotal[index].skillPowerIncrement += targetEffect.skillPowerIncrement * sign;
             WeaponTargetEffectTotal[index].bulletScaleIncrement += targetEffect.bulletScaleIncrement * sign;
             WeaponTargetEffectTotal[index].bulletRangeIncrement += targetEffect.bulletRangeIncrement * sign;

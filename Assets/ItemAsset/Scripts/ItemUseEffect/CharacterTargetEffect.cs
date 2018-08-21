@@ -10,7 +10,8 @@ public class CharacterTargetEffect : ItemUseEffect
     public float recoveryHp;
     public int recoveryStamina;
     public int armorIncrement;
-    
+    public int gettingStaminaIncrement;
+
     [Header("곱 옵션 - 합 연산")]
     public float moveSpeedIncrement;
     public float rewardOfEndGameIncrement;          // 게임 끝날 때 보상 증가율

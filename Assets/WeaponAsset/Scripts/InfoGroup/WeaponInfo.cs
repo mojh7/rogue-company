@@ -51,7 +51,7 @@ public class WeaponInfo : ScriptableObject
     public float criticalChance;        // 크리티컬 확률 : 치명타가 뜰 확률
     public float cooldown;              // 쿨타임
     public float castingTime;           // 캐스팅 시간, 시전 시간
-    public float staminaConsumption;    // 근접 무기 1회 공격시 스테미너 소모량
+    public int staminaConsumption;    // 근접 무기 1회 공격시 스테미너 소모량
 
     public bool showsMuzzleFlash;       // 총구 화염 show on / off
     public int soundId;                 // 공격시 효과음 id

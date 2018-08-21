@@ -178,7 +178,7 @@ public class Weapon : Item
     {
         if (AttackType.MELEE == attackType)
         {
-            if (OwnerType.Player == ownerType && 0 == player.GetStamina() && 0 < info.staminaConsumption)
+            if (OwnerType.Player == ownerType && false == Stamina.Instance.IsConsumableStamina() && 0 < info.staminaConsumption)
                 return false;
         }
         else if (AttackType.RANGED == attackType)
@@ -197,23 +197,6 @@ public class Weapon : Item
         {
             if (info.touchMode == TouchMode.Normal)
             {
-                if (ShortWeapon())
-                {
-                    if (player.GetStamina() >= 5)
-                    {
-                        // (1/총스테미너 크기) 스태미너 줄어들게 함
-                        Stamina.Instance.StaminaMinus();
-                    }
-                    else
-                    {
-                        Debug.Log("스태미너0");
-                        return;
-                    }
-                }
-                else
-                {
-                    //Debug.Log("스태미너 안 쭐어든닷");
-                }
                 Attack(0f);
             }
             else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
@@ -242,6 +225,8 @@ public class Weapon : Item
             UpdateWeaponBuff();
             weaponState = WeaponState.Attack;
             PlayAttackAnimation();
+            if (AttackType.MELEE == attackType)
+                Stamina.Instance.ConsumeStamina(info.staminaConsumption);
             StartCoroutine(PatternCycle(damageIncreaseRate));
         }
         else

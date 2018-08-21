@@ -185,13 +185,14 @@ public class PassiveItemForDebug : MonoBehaviour
     private void UpdateEffectTotalNameText()
     {
         variableNames = 
-            "1.moveSpeedIncrement\n" +
-            "2.rewardOfEndGameIncrement\n" +
-            "3.discountRateOfVendingMachineItems\n" +
-            "4.discountRateOfCafeteriaItems\n" +
-            "5.discountRateAllItems\n" +
-            "6.canDrainHp\n" +
-            "7.increaseStaminaWhenkillingEnemies\n" +
+            "1.gettingStaminaIncrement\n" +
+            "2.moveSpeedIncrement\n" +
+            "3.rewardOfEndGameIncrement\n" +
+            "4.discountRateOfVendingMachineItems\n" +
+            "5.discountRateOfCafeteriaItems\n" +
+            "6.discountRateAllItems\n" +
+            "7.canDrainHp\n" +
+            "8.increaseStaminaWhenkillingEnemies\n" +
             "-----\n" +
             "Weapon\n" +
             "1.bulletCountIncrement\n" +
@@ -202,11 +203,11 @@ public class PassiveItemForDebug : MonoBehaviour
             "3.chargingSpeedIncrement\n" +
             "4.chargingDamageIncrement\n" +
             "5.gettingSkillGaugeIncrement\n" +
-            "6.gettingStaminaIncrement\n" +
-            "7.skillPowerIncrement\n" +
-            "8.bulletScaleIncrement\n" +
-            "9.bulletRangeIncrement\n" +
-            "10.bulletSpeedIncrement\n" +
+            //"6.gettingStaminaIncrement\n" +
+            "6.skillPowerIncrement\n" +
+            "7.bulletScaleIncrement\n" +
+            "8.bulletRangeIncrement\n" +
+            "9.bulletSpeedIncrement\n" +
             
             "1.decreaseDamageAfterPierceReduction\n" +
             "2.cooldownReduction\n" +
@@ -237,7 +238,8 @@ public class PassiveItemForDebug : MonoBehaviour
         viewTypeText.text = ((WeaponType)infoCurrentIndex).ToString();
         CharacterTargetEffect characterTotal = PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal;
         WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal[infoCurrentIndex];
-        string variableValues = 
+        string variableValues =
+            characterTotal.gettingStaminaIncrement + "\n" +
             characterTotal.moveSpeedIncrement + "\n" +
             characterTotal.rewardOfEndGameIncrement + "\n" +
             characterTotal.discountRateOfVendingMachineItems + "\n" +
@@ -255,7 +257,7 @@ public class PassiveItemForDebug : MonoBehaviour
             weaponTotal.chargingSpeedIncrement + "\n" +
             weaponTotal.chargingDamageIncrement + "\n" +
             weaponTotal.gettingSkillGaugeIncrement + "\n" +
-            weaponTotal.gettingStaminaIncrement + "\n" +
+            //weaponTotal.gettingStaminaIncrement + "\n" +
             weaponTotal.skillPowerIncrement + "\n" +
             weaponTotal.bulletScaleIncrement + "\n" +
             weaponTotal.bulletRangeIncrement + "\n" +
