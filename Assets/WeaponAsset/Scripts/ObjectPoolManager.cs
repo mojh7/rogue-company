@@ -72,9 +72,11 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     // 나중에 오브젝트 풀 바껴도 object Create, Delete 함수 내부만 바꾸면 되서 함수 새로 만듬.
 
     #region createObject
+
     public Weapon CreateWeapon()
     {
         GameObject createdObj = weaponPool.NewItem();
+        createdObj.GetComponent<Weapon>().Init(Random.Range(0, DataStore.Instance.GetWeaponInfosLength()));
         return createdObj.GetComponent<Weapon>();
     }
 
