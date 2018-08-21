@@ -6,7 +6,6 @@ public class CServant : SkillData
 {
     public override BT.State Run(Character character, object temporary, int idx)
     {
-        idx--;
-        return ActiveSkillManager.Instance.SpawnServant(character, temporary, idx, delay, amount);
+        return ActiveSkillManager.Instance.SpawnServant(character, (character as Enemy).GetServants(), idx, delay, amount);
     }
 }

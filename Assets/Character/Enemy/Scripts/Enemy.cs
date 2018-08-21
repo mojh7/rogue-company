@@ -97,6 +97,7 @@ public class Enemy : Character
     public virtual void Init(EnemyData enemyData)
     {
         base.Init();
+        this.enemyData = enemyData;
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
         immune = CharacterInfo.Immune.NONE;

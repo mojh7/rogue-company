@@ -78,11 +78,16 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         {
             return BT.State.FAILURE;
         }
+        EnemyData[] enemyDatas = servantData as EnemyData[];
+        if(enemyDatas.Length <=0)
+        {
+            return BT.State.FAILURE;
+        }
         user.isCasting = true;
         for (int i = 0; i < amount; i++)
         {
             float randDelay = UnityEngine.Random.Range(0, delay + 1);
-            StartCoroutine(CoroutineSkill(SpawnServant, user, (servantData as EnemyData[])[idx], randDelay, amount));
+            StartCoroutine(CoroutineSkill(SpawnServant, user, enemyDatas[idx], randDelay, amount));
         }
         user.isCasting = false;
         return BT.State.SUCCESS;
