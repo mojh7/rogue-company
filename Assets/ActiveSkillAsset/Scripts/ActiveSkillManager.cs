@@ -79,7 +79,11 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             return BT.State.FAILURE;
         }
         user.isCasting = true;
-        StartCoroutine(CoroutineSkill(HandClap, user, servantData, delay, amount));
+        for (int i = 0; i < amount; i++)
+        {
+            float randDelay = UnityEngine.Random.Range(0, delay + 1);
+            StartCoroutine(CoroutineSkill(SpawnServant, user, (servantData as EnemyData[])[idx], randDelay, amount));
+        }
         user.isCasting = false;
         return BT.State.SUCCESS;
     }
@@ -177,6 +181,12 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
         gameObject.AddComponent<CollisionSkill>().Init(user, amount, "handClap");
+    }
+
+    private void SpawnServant(Character user, object servantData, float amount)
+    {
+        EnemyManager.Instance.Generate(RoomManager.Instance.Spawned(), servantData as EnemyData);
+
     }
 
     private void Flash(Character user, object position, float amount)

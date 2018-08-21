@@ -258,6 +258,11 @@ public class WeaponManager : MonoBehaviour {
 
     public void Init(Character owner, EnemyData enemyData)
     {
+        if (enemyData.WeaponInfo.Count == 0)
+        {
+            stopsUpdate = true;
+            return;
+        }
         SetOwnerInfo(owner, OwnerType.Enemy);
         currentWeaponIndex = 0;
         if (DebugSetting.Instance.equipsEnemyDataWeapon)

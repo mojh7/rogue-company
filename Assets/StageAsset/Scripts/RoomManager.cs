@@ -146,6 +146,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                     return;
                 if (currentRoom.customObjects[j].GetComponent<Spawner>() != null)
                 {
+                    currentRoom.gage--;
                     currentRoom.customObjects[j].GetComponent<Spawner>().Active();
                     break;
                 }
@@ -155,7 +156,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     public Vector3 Spawned()
     {
-        currentRoom.gage--;
         monsterNum++;
         return currentRoom.GetAvailableArea();
     }
