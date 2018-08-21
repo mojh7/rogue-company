@@ -38,4 +38,13 @@ public class Select : MonoBehaviour {
         GameDataManager.Instance.SetPlayerType(m_playerType);
         GameStateManager.Instance.LoadInGame();
     }
+
+    public void ExitInfo()
+    {
+        // info 가 켜져있을 때, 판넬을 클릭하면 종료하게 한다.
+        if (panel.activeSelf)
+        {
+            panel.SetActive(false);
+        }
+    }
 }
