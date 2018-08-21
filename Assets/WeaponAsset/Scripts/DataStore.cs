@@ -109,10 +109,13 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
     #region getter
 
-    /// <summary> 0529 Player 무기 디버그용, 현재 weaponInfos에 있는 무기 전체 길이를 반환 </summary>
+    
     public int GetWeaponInfosLength()
     {
-        return weaponInfos.Length;
+        if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug)
+            return weaponInfos.Length;
+        else
+            return tempWeaponInfos.Length;
     }
     public int GetTempWeaponInfosLength()
     {
@@ -165,7 +168,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         switch(ownerType)
         {
             case CharacterInfo.OwnerType.Player:
-                return weaponInfos[id];
+                if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug)
+                    return weaponInfos[id];
+                else
+                    return tempWeaponInfos[id];
             // 구분 만 해놓고 아직 player 이외의 owner weaponDataList 안 만듬, 봐서 bullet, Pattern도 이렇게 처리 할듯
             case CharacterInfo.OwnerType.Enemy:
                 return enemyWeaponInfos[id];
@@ -249,10 +255,17 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     /// <summary> 무기 정보 관련 초기화 </summary>
     public void InitWepaonInfo()
     {
-        for(int i = 0; i < weaponInfos.Length; i++)
+        if(WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug)
         {
-            weaponInfos[i].Init();
+            for (int i = 0; i < weaponInfos.Length; i++)
+                weaponInfos[i].Init();
         }
+        else
+        {
+            for (int i = 0; i < tempWeaponInfos.Length; i++)
+                tempWeaponInfos[i].Init();
+        }
+        
         for (int i = 0; i < enemyWeaponInfos.Length; i++)
         {
             enemyWeaponInfos[i].Init();

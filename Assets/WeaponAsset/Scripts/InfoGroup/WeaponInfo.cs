@@ -50,6 +50,7 @@ public class WeaponInfo : ScriptableObject
     public float damage;                // 공격력
     public float criticalChance;        // 크리티컬 확률 : 치명타가 뜰 확률
     public float cooldown;              // 쿨타임
+    public float castingTime;           // 캐스팅 시간, 시전 시간
     public float staminaConsumption;    // 근접 무기 1회 공격시 스테미너 소모량
 
     public bool showsMuzzleFlash;       // 총구 화염 show on / off
@@ -101,6 +102,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.damage = damage;
         clonedInfo.criticalChance = criticalChance;
         clonedInfo.cooldown = cooldown;
+        clonedInfo.castingTime = castingTime;
         clonedInfo.staminaConsumption = staminaConsumption;
 
         clonedInfo.showsMuzzleFlash = showsMuzzleFlash;

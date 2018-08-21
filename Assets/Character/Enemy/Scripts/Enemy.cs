@@ -308,7 +308,7 @@ public class Enemy : Character
         {
             isActiveMoveAI = false;
             aiController.StopMove();
-            //Debug.Log(name + "이동 off");
+            Debug.Log(name + ", 이동 off, " + restrictMovingCount);
         }
     }
     /// <summary> 이동 방해 상태 이상 갯수 감소 및 이동 AI ON Check </summary>
@@ -319,7 +319,7 @@ public class Enemy : Character
         {
             isActiveMoveAI = true;
             aiController.PlayMove();
-            //Debug.Log(name + "이동 on");
+            Debug.Log(name + ", 이동 on, " + restrictMovingCount);
         }
     }
     /// <summary> 공격 방해 상태 이상 갯수 증가 및 공격 AI OFF Check </summary>
@@ -915,6 +915,7 @@ public class Enemy : Character
         {
             if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
             {
+                Debug.Log("z : " + restrictMovingCount);
                 SubRetrictsMovingCount();
                 knockBackCheck = null;
                 break;

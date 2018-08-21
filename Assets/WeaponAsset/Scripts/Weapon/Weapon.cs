@@ -303,6 +303,12 @@ public class Weapon : Item
             case AttackAniType.SHOT:
                 animator.SetTrigger("shot");
                 break;
+            case AttackAniType.PUNCH:
+                animator.SetTrigger("punch");
+                break;
+            case AttackAniType.SWING:
+                animator.SetTrigger("swing");
+                break;
             default:
                 break;
         }
@@ -359,6 +365,7 @@ public class Weapon : Item
     // 공격 패턴 한 사이클.
     private IEnumerator PatternCycle(float damageIncreaseRate)
     {
+        yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
         // 공격 한 사이클 실행
         for (int i = 0; i < info.bulletPatternsLength; i++)
         {
