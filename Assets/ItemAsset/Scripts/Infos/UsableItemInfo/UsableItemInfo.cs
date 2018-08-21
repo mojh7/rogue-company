@@ -13,6 +13,9 @@ public class UsableItemInfo : ScriptableObject
     [TextArea(3, 100)] private string memo;
 
     [SerializeField]
+    protected int id;
+
+    [SerializeField]
     protected Rating rating;
     [SerializeField]
     protected string itemName;
@@ -31,6 +34,16 @@ public class UsableItemInfo : ScriptableObject
     // 이 두개 같은거 쓸 수도 있고 다른 것 쓸 수도 있음
     protected Sprite beforeActivedSprite;   // 사용 전 sprite로 아이템 박스에서 땅에 떨어져있는 상태에서의 sprite
     protected Sprite iconSprite;            // 버프 표시, 아이템 소유 표시 등 아이콘 모양의 sprite
+
+    public void SetID(int id)
+    {
+        this.id = id;
+    }
+
+    public int GetID()
+    {
+        return id;
+    }
 
     public EffectApplyType[] EffectApplyTypes
     {

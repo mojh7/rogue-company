@@ -15,7 +15,7 @@ public class ConsumableBuffType : EffectApplyType
         // buffManager에 등록
         for (int i = 0; i < itemUseEffect.Length; i++)
         {
-            PlayerBuffManager.Instance.BuffManager.RegisterItemEffect(itemUseEffect[i], BuffManager.EffectApplyType.CONSUMABLEBUFF, effectiveTime);
+            PlayerBuffManager.Instance.BuffManager.RegisterItemEffect(itemUseEffect[i], BuffManager.EffectApplyType.CONSUMABLEBUFF, -1, effectiveTime);
         }
     }
 }

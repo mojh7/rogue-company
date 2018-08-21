@@ -19,5 +19,9 @@ public abstract class EffectApplyType : ScriptableObject
 
     protected bool removable;
 
+    protected int itemId;
+
     public abstract void UseItem();
+    public int GetItemId() { return itemId; }
+    public void SetItemId(int id) { itemId = id; }
 }

@@ -232,12 +232,19 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     void Awake()
     {
         InitWepaonInfo();
+        InitMiscItems();
         // initializedBulletInfosAtRuntime = new List<BulletInfo>();
         // initializedBulletInfosLength = 0;
     }
 
     #endregion
     #region Function
+
+    private void InitMiscItems()
+    {
+        for (int i = 0; i < miscItemInfos.Length; i++)
+            miscItemInfos[i].SetID(i);
+    }
 
     /// <summary> 무기 정보 관련 초기화 </summary>
     public void InitWepaonInfo()
@@ -381,34 +388,4 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         
     }
     #endregion
-
-    
-    /*
-    private void OnApplicationQuit()
-    {
-        Debug.Log("DataStore OnApplicationQuit");
-        if(null != initializedBulletInfosAtRuntime)
-        {
-            for(int i = 0; i < initializedBulletInfosLength; i++)
-            {
-                initializedBulletInfosAtRuntime[i].SetIsInitializable(true);
-            }
-            initializedBulletInfosAtRuntime = null;
-            Debug.Log("DataStore OnApplicationQuit BulletInfo Init 실행 여부 on");
-        }
-    }
-
-    public void Dispose()
-    {
-        Debug.Log("DataStore Dispose");
-        if (null != initializedBulletInfosAtRuntime)
-        {
-            for (int i = 0; i < initializedBulletInfosLength; i++)
-            {
-                initializedBulletInfosAtRuntime[i].SetIsInitializable(true);
-            }
-            initializedBulletInfosAtRuntime = null;
-            Debug.Log("DataStore Dispose BulletInfo Init 실행 여부 on");
-        }
-    }*/
 }

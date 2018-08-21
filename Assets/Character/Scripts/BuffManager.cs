@@ -40,6 +40,7 @@ public class BuffManager : MonoBehaviour
     {
         get { return passiveEffects; }
     }
+    public List<int> PassiveIds { get; private set; }
     public int PassiveEffectsLength
     {
         get { return passiveEffectsLength; }
@@ -68,6 +69,7 @@ public class BuffManager : MonoBehaviour
     {
         passiveEffects = new List<ItemUseEffect>();
         buffEffects = new List<ItemUseEffect>();
+        PassiveIds = new List<int>();
         consumableBuffs = new Heap<ConsumableCharacterBuff>(100);
         //characterTargetEffects = new List<CharacterTargetEffect>();
         //weaponTargetEffects = new List<WeaponTargetEffect>();
@@ -163,7 +165,7 @@ public class BuffManager : MonoBehaviour
     /// <summary> 효과 등록 </summary>
     /// <param name="itemUseEffect">효과 내용</param>
     /// <param name="effectiveTime">효과 적용 시간, default = -1, 0초과된 값 => 일정 시간 동안 효과 적용되는 버프 아이템</param>
-    public void RegisterItemEffect(ItemUseEffect itemUseEffect, EffectApplyType effectApplyType, float effectiveTime = -1f)
+    public void RegisterItemEffect(ItemUseEffect itemUseEffect, EffectApplyType effectApplyType, int passiveId, float effectiveTime = -1f)
     {
         Coroutine removeCoroutine = null;
 
@@ -201,7 +203,10 @@ public class BuffManager : MonoBehaviour
                 break;
             case EffectApplyType.PASSIVE:
                 passiveEffects.Add(itemUseEffect);
+                Debug.Log("passive id : " + passiveId);
+                PassiveIds.Add(passiveId);
                 passiveEffectsLength += 1;
+                PassiveItemSlot.Instance.UpdatePassiveItemUI();
                 break;
             case EffectApplyType.CONSUMABLEBUFF:
                 ConsumableCharacterBuff consumableCharacterBuff

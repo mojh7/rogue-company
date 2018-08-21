@@ -36,6 +36,7 @@ public class UsableItem : Item
         Debug.Log("UsableItem use");
         for(int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
+            info.EffectApplyTypes[i].SetItemId(info.GetID());
             info.EffectApplyTypes[i].UseItem();
         }
         ObjectPoolManager.Instance.DeleteUsableItem(gameObject);
