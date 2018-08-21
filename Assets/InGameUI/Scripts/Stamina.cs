@@ -74,7 +74,6 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             stamina -= 5;
             playerData.Stamina = stamina;
             staminaImage.fillAmount -= 5 / (float)maxStamina;
-            Debug.Log(playerData.Stamina);
         }
         else if (staminaImage.fillAmount <= 0)
         {

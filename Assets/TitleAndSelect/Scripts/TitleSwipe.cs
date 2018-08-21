@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TitleTest2 : MonoBehaviour {
+public class TitleSwipe : MonoBehaviour {
 
     #region Var
     [SerializeField] private Image arrow;

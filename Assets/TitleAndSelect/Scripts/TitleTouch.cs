@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 // 화면 터치하면 화면 깜빡거리면서 셀렉트이미지로 변경
 
-public class TitleTest : MonoBehaviour {
+public class TitleTouch : MonoBehaviour {
 
     public GameObject RestartButton;
     public GameObject StartNew;
