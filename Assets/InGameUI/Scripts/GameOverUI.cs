@@ -81,6 +81,10 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     {
         Init();
         LoadData();
+        if (Time.timeScale == 0)
+            Time.timeScale = 1;
+        else
+            Time.timeScale = 0;
     }
     #endregion
 }
