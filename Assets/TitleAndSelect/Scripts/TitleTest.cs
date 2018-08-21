@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class TitleTest : MonoBehaviour {
 
+    public GameObject RestartButton;
+    public GameObject StartNew;
+    private bool isRestart = false;
     [SerializeField] private Text txt;
     [SerializeField] private Image image;
     private bool isHide = true;
@@ -15,6 +18,20 @@ public class TitleTest : MonoBehaviour {
     [SerializeField] private Image fadeImage;
 
     int index = 2;
+
+    public void ClickStart()
+    {
+        StartNew.SetActive(false);
+        isRestart = false;
+        FadeInScreen();
+    }
+
+    public void ClickRestart()
+    {
+        StartNew.SetActive(false);
+        FadeInScreen();
+        isRestart = true;
+    }
 
     public void FadeInScreen()
     {
@@ -37,7 +54,10 @@ public class TitleTest : MonoBehaviour {
         }
         if (index == 0)
         {
-            LoadSelect();
+            if (!isRestart)
+                LoadSelect();
+            else
+                LoadInGame();
         }
         else
         {
@@ -48,16 +68,26 @@ public class TitleTest : MonoBehaviour {
 
     private void LoadSelect()
     {
+        GameStateManager.Instance.SetLoadsGameData(false);
+        GameDataManager.Instance.ResetData();
         GameStateManager.Instance.LoadSelect();
+    }
+
+    public void LoadInGame()
+    {
+        GameStateManager.Instance.SetLoadsGameData(true);
+        GameStateManager.Instance.LoadInGame();
+    }
+
+    private void Awake()
+    {
+        AudioManager.Instance.PlayMusic(0);
+        if (GameDataManager.Instance.LoadData())
+            RestartButton.SetActive(true);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
-            FadeInScreen();
-        }
-
         if (isHide)
         {
             Color color = txt.color;
