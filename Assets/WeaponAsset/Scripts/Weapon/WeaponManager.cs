@@ -383,6 +383,8 @@ public class WeaponManager : MonoBehaviour {
             dropedWeapon.ObjTransform.SetParent(obj.transform, false);
         }
         StartCoroutine("PickAndDropWeaponDelay");
+        weapon.ObjTransform.localRotation = Quaternion.identity;
+        weapon.ObjTransform.localScale = new Vector3(Mathf.Abs(weapon.ObjTransform.localScale.x), weapon.ObjTransform.localScale.y, weapon.ObjTransform.localScale.z);
         return true;
     }
 

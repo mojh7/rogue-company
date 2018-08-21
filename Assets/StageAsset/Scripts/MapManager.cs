@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 namespace Map
 {
+    public enum LinkedShape { NONE, HORIZONTAL, VERTICAL };
+
     public class MapManager : MonoBehaviourSingleton<MapManager>
     {
         public ObjectPool objectPool;
@@ -60,7 +62,7 @@ namespace Map
             rects = new Queue<Rect>();
             blocks = new Queue<Rect>();
             halls = new List<Rect>(_width * _height);
-            rooms = new List<Rect> (_width * _height);
+            rooms = new List<Rect>(_width * _height);
             floorTileMap = TileManager.Instance.floorTileMap;
             shadowTileMap = TileManager.Instance.shadowTileMap;
             verticalWallTileMap = TileManager.Instance.verticalWallTileMap;
@@ -81,12 +83,12 @@ namespace Map
 
         public void AddFallRock()
         {
-            for(int i = 0; i < rooms.Count; i++)
+            for (int i = 0; i < rooms.Count; i++)
             {
-                if(!rooms[i].isRoom)
+                if (!rooms[i].isRoom)
                 {
                     GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-                    obj.transform.position = rooms[i].GetAvailableArea(); 
+                    obj.transform.position = rooms[i].GetAvailableArea();
                     obj.AddComponent<FallRockTrap>();
                     obj.GetComponent<FallRockTrap>().Init(ResourceManager.Instance.Rock);
                 }
@@ -108,8 +110,9 @@ namespace Map
                 }
             }
         }
+
         #region MakeMap
-        public void Generate() 
+        public void Generate()
         {
             ClearTile();
             CreateMap();
@@ -188,14 +191,15 @@ namespace Map
             blocks.Clear();
             rooms.Clear();
             TotalHallArea = 0;
-      
+
         } // 데이터 초기화
-       
+
         void CreateMap()
         {
             int count = 0;
-           
-            while (true) {
+
+            while (true)
+            {
                 SettedRoomset();
                 count++;
                 Random.InitState((int)System.DateTime.Now.Ticks);
@@ -206,7 +210,7 @@ namespace Map
                 AssignAllRoom();
                 if (necessaryRoomSet.Count == 0)
                     break;
-                if (count > 1000)
+                if (count > 100)
                 {
                     break;
                 }
@@ -219,7 +223,7 @@ namespace Map
 
         void SettedRoomset()
         {
-            for(int i=0;i<settedRoomSet.Count;i++)
+            for (int i = 0; i < settedRoomSet.Count; i++)
             {
                 necessaryRoomSet.Add(settedRoomSet[i]);
             }
@@ -257,7 +261,7 @@ namespace Map
                 {
                     if (x == 0 || y == -1 || x == width * size || y == height * size - 1)
                     {
-                        if(y == height * size -1)
+                        if (y == height * size - 1)
                         {
                             shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
                         }
@@ -274,11 +278,11 @@ namespace Map
                     DrawHallTile(rect, TileManager.Instance.hallTile);
                     continue;
                 }
-                if(rect.eRoomType == RoomType.STORE)
+                if (rect.eRoomType == RoomType.STORE)
                 {
-                    DrawEventTile(rect,TileManager.Instance.cafeTile);
+                    DrawEventTile(rect, TileManager.Instance.cafeTile);
                 }
-                else if(rect.eRoomType == RoomType.REST)
+                else if (rect.eRoomType == RoomType.REST)
                 {
                     DrawEventTile(rect, TileManager.Instance.restTile);
                 }
@@ -376,13 +380,13 @@ namespace Map
                 rect = rects.Dequeue();
                 if (rect.area > MaximumRoomArea)
                     SplitHall(rect);
-                else blocks.Enqueue(rect);  
+                else blocks.Enqueue(rect);
             }
 
             while (rects.Count > 0)
             {
                 rect = rects.Dequeue();
-                if(rect.area > 1)
+                if (rect.area > 1)
                     blocks.Enqueue(rect);
             }
 
@@ -412,7 +416,7 @@ namespace Map
                     }
                 }
             }
-  
+
             return true;
         } // Blocks -> Rooms;
 
@@ -457,9 +461,9 @@ namespace Map
                     flag = false;
             }
 
-            if(flag)
+            if (flag)
             {
-                int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(3, 8) /10);
+                int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(3, 8) / 10);
                 _rectA = new Rect(_currentRect.x, _currentRect.y, x1 - _currentRect.x, _currentRect.height, size);
                 _hall = new Rect(_rectA.x + _rectA.width, _currentRect.y, 1, _currentRect.height, size);
                 _rectB = new Rect(_hall.x + _hall.width, _currentRect.y, _currentRect.width - _rectA.width - _hall.width, _currentRect.height, size);
@@ -474,7 +478,7 @@ namespace Map
 
         } // split 덩어리 and 홀 and 덩어리
 
-        bool RandomRoomSplit(Rect _currentBlock, out Rect _blockA,out Rect _blockB) 
+        bool RandomRoomSplit(Rect _currentBlock, out Rect _blockA, out Rect _blockB)
         {
             bool flag = true;
 
@@ -489,8 +493,8 @@ namespace Map
                 else
                     flag = false;
             }
-            
-            if(flag) // 가로
+
+            if (flag) // 가로
             {
                 int width = (int)((_currentBlock.width + 0.5f) * (float)Random.Range(3, 8) / 10);
                 _blockA = new Rect(_currentBlock.x, _currentBlock.y, width, _currentBlock.height, size);
@@ -505,9 +509,52 @@ namespace Map
             return true;
         } // split 방 and 방
 
-        void LinkAllRects() 
+        void MergeHalls()
         {
-            for(int i = 0; i < rooms.Count; i++)
+            LinkedShape linkedShape;
+            bool isMerge;
+            int i = 0;
+            for (i = 0; i < halls.Count; i++)
+            {
+                halls[i].Drawing(Color.red);
+            }
+
+            //for (i = 0; i < halls.Count; i++)
+            //{
+            //    for (int j = 0; j < halls[i].edgeRect.Count; j++)
+            //    {
+            //        linkedShape = CheckLinkedShape(halls[i], halls[i].edgeRect[j]);
+            //        if (linkedShape == LinkedShape.NONE)
+            //            continue;
+                    
+            //        isMerge = halls[i].Merge(halls[i].edgeRect[j], linkedShape);
+
+            //        if (isMerge)
+            //        {
+            //            halls.Remove(halls[i].edgeRect[j]);
+            //            j = 0;
+            //        }
+            //    }
+            //}
+
+            for (i = 0; i < halls.Count; i++)
+            {
+                halls[i].Drawing(Color.black);
+            }
+        }
+
+        void LinkAllRects()
+        {
+            for (int i = 0; i < halls.Count; i++)
+            {
+                for (int k = 0; k < halls.Count; k++)
+                {
+                    LinkRects(halls[i], halls[k]);
+                }
+            }
+            MergeHalls();
+
+            for (int i = 0; i < rooms.Count; i++)
             {
                 for (int k = 0; k < halls.Count; k++)
                 {
@@ -518,39 +565,44 @@ namespace Map
                     LinkRects(rooms[i], rooms[j]);
                 }
             }
-
-            for(int i = 0; i < halls.Count; i++)
-            {
-                for (int k = 0; k < halls.Count; k++)
-                {
-                    LinkRects(halls[i], halls[k]);
-                }
-            }
         } // 모든 Rects(Rooms and Halls) 연결
 
-        void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
+        LinkedShape CheckLinkedShape(Rect _rectA, Rect _rectB)
         {
-            if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width)/2) && 
-                (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2)) // 가로로 연결된 방
+            if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) &&
+                           (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2)) // 가로로 연결된 방
             {
-                _rectA.EdgeRect(_rectB);
+                return LinkedShape.HORIZONTAL;
             }
             else if ((Mathf.Abs(_rectA.midX - _rectB.midX) < (float)(_rectA.width + _rectB.width) / 2) &&
                 (Mathf.Abs(_rectA.midY - _rectB.midY) == (float)(_rectA.height + _rectB.height) / 2)) // 세로로 연결된 방
             {
-                if(_rectA.midY > _rectB.midY)
+                return LinkedShape.VERTICAL;
+            }
+
+            return LinkedShape.NONE;
+        }
+
+        void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
+        {
+            LinkedShape result = CheckLinkedShape(_rectA, _rectB);
+            if(result == LinkedShape.HORIZONTAL)
+            {
+                _rectA.EdgeRect(_rectB);
+            }
+            else if(result == LinkedShape.VERTICAL)
+            {
+                if (_rectA.midY > _rectB.midY)
                 {
                     if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
                         _rectA.EdgeRect(_rectB);
-                    else
-                        _rectA.LinkedEdgeRect(_rectB);
+
                 }
                 else
                 {
                     if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE)
                         _rectA.EdgeRect(_rectB);
-                    else
-                        _rectA.LinkedEdgeRect(_rectB);
+
                 }
             }
         }
@@ -597,7 +649,7 @@ namespace Map
             {
                 if (!_rect.edgeRect[i].visited/*방문한 적 없어야함*/ && _rect.edgeRect[i].eRoomType != RoomType.BOSS)
                 {
-                    if((_rect.isRoom || _rect.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/)
+                    if ((_rect.isRoom || _rect.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/)
                         DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
                     _rect.LinkedEdgeRect(_rect.edgeRect[i]);
                     RecursionLink(_rect.edgeRect[i]);
@@ -619,7 +671,7 @@ namespace Map
             }
         } // 복도랑 방문 연결
 
-        void DrawDoorTile(Rect _rectA,Rect _rectB) 
+        void DrawDoorTile(Rect _rectA, Rect _rectB)
         {
             RuleTile verticalRuleTile = TileManager.Instance.verticalWallRuleTile;
             RuleTile horizonRuleTile = TileManager.Instance.horizonWallRuleTile;
@@ -712,7 +764,7 @@ namespace Map
 
                     obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 0.5f, false);
                 }
-           
+
             } // 세로로 붙음
 
             _rectA.doorObjects.Add(obj);
@@ -720,7 +772,7 @@ namespace Map
 
         } // Door 부분 타일 floor로 변경
 
-        GameObject CreateDoorObject(float x,float y,bool isHorizon)
+        GameObject CreateDoorObject(float x, float y, bool isHorizon)
         {
             GameObject obj = objectPool.GetPooledObject();
             obj.AddComponent<Door>();
@@ -745,11 +797,11 @@ namespace Map
                 rooms[i].gage = roomSet.gage;
                 rooms[i].customObjects = AssignRoom(roomSet);
             }
-       
+
             CreateStartPoint();
         } // 모든 룸 셋 배치
 
-        RoomSet GetRoomSet(int width,int height)
+        RoomSet GetRoomSet(int width, int height)
         {
             if (necessaryRoomSet.Count == 0)
                 return RoomSetManager.Instance.LoadRoomSet(width, height);
@@ -806,7 +858,7 @@ namespace Map
             float xGap = 0.25f;
             float yGap = 0.5f;
             for (float i = leftDown.x + xGap; i < rightTop.x - xGap; i += _radius)
-                for (float j = leftDown.y + yGap; j < rightTop.y -yGap; j += _radius)
+                for (float j = leftDown.y + yGap; j < rightTop.y - yGap; j += _radius)
                     if (!Physics2D.OverlapCircle(new Vector2(i, j), _radius, layerMask))
                         _rect.availableAreas.Add(new Vector2(i, j));
         }
@@ -822,14 +874,43 @@ namespace Map
 
     }
 
-    public class Rect 
+    public class Rect
     {
-        public readonly int x;
-        public readonly int y;
-        public readonly int width;
-        public readonly int height;
-        public readonly int area;
-        public readonly float midX, midY;
+        public int x
+        {
+            private set;
+            get;
+        }
+        public int y
+        {
+            private set;
+            get;
+        }
+        public int width
+        {
+            private set;
+            get;
+        }
+        public int height
+        {
+            private set;
+            get;
+        }
+        public int area
+        {
+            private set;
+            get;
+        }
+        public float midX
+        {
+            private set;
+            get;
+        }
+        public float midY
+        {
+            private set;
+            get;
+        }
         public readonly int size;
         public int gage;
         public Vector2 areaLeftDown, areaRightTop;
@@ -845,7 +926,7 @@ namespace Map
         public bool isDrawed;
         public RoomType eRoomType;
 
-        public Rect(int _x,int _y,int _width,int _height,int _size)
+        public Rect(int _x, int _y, int _width, int _height, int _size)
         {
             x = _x;
             y = _y;
@@ -884,10 +965,10 @@ namespace Map
             float dist = (position - availableAreas[0]).sqrMagnitude;
             float newDist = 0;
             Vector2 returnVector = availableAreas[0];
-            for (int i=0;i< availableAreas.Count;i++)
+            for (int i = 0; i < availableAreas.Count; i++)
             {
                 newDist = (position - availableAreas[i]).sqrMagnitude;
-                if(newDist < dist)
+                if (newDist < dist)
                 {
                     dist = newDist;
                     returnVector = availableAreas[i];
@@ -926,9 +1007,54 @@ namespace Map
             return false;
         }
 
-        public void Dispose()
+        public bool Merge(Rect rect, LinkedShape linkedShape)
         {
-            System.GC.Collect();
+            if(linkedShape == LinkedShape.HORIZONTAL)
+            {
+                if(this.height == rect.height)
+                {
+                    for (int i = 0; i < rect.edgeRect.Count; i++)
+                    {
+                        if(!this.edgeRect.Contains(rect.edgeRect[i]))
+                            this.edgeRect.Add(rect.edgeRect[i]);
+                    }
+                    this.width += rect.width;
+                    this.x = Mathf.Min(this.x, rect.x);
+                    this.area += rect.area;
+                    this.midX += rect.midX;
+                    this.areaLeftDown = new Vector2(Mathf.Min(this.areaLeftDown.x, rect.areaLeftDown.x), this.areaLeftDown.y);
+                    return true;
+                }
+                return false;
+            }
+            else if(linkedShape == LinkedShape.VERTICAL)
+            {
+                if(this.width == rect.width)
+                {
+                    for (int i = 0; i < rect.edgeRect.Count; i++)
+                    {
+                        if (!this.edgeRect.Contains(rect.edgeRect[i]))
+                            this.edgeRect.Add(rect.edgeRect[i]);
+                    }
+                    this.height += rect.height;
+                    this.y = Mathf.Min(this.y, rect.y);
+                    this.area += rect.area;
+                    this.midY += rect.midY;
+                    this.areaRightTop = new Vector2(this.areaRightTop.x, Mathf.Max(this.areaRightTop.y, rect.areaRightTop.y));
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        public void Drawing(Color color)
+        {
+            Debug.DrawLine(new Vector3(x, y) * size, new Vector3(x, y + height) * size, color, 1000);
+            Debug.DrawLine(new Vector3(x, y + height) * size, new Vector3(x + width, y + height) * size, color, 1000);
+            Debug.DrawLine(new Vector3(x + width, y + height) * size, new Vector3(x + width, y) * size, color, 1000);
+            Debug.DrawLine(new Vector3(x + width, y) * size, new Vector3(x, y) * size, color, 1000);
+
         }
     }
 }

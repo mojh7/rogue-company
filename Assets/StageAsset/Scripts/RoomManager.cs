@@ -120,6 +120,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         //TODO : 무기만듬
 
         Item item = ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.CLOTHING);
+        item = ObjectPoolManager.Instance.CreateWeapon();
         ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
         ItemManager.Instance.CollectItem();
         if (currentRoom.eRoomType == RoomType.BOSS)

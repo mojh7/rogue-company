@@ -201,7 +201,7 @@ public class BreakalbeBox : RandomSpriteObject
         isActive = false;
         isAvailable = false;
         objectType = ObjectType.BREAKABLE;
-        duration = 10;
+        duration = 5;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -574,7 +574,7 @@ public class ItemContainer : RandomSpriteObject
     {
         Init();
         innerObject = _item;
-        sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
+        sprite = innerObject.GetSprite();
         ReAlign();
     }
 
