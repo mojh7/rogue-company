@@ -514,28 +514,29 @@ namespace Map
             LinkedShape linkedShape;
             bool isMerge;
             int i = 0;
+
             for (i = 0; i < halls.Count; i++)
             {
                 halls[i].Drawing(Color.red);
             }
+            for (i = 0; i < halls.Count; i++)
+            {
+                for (int j = 0; j < halls[i].edgeRect.Count; ++j)
+                {
+                    linkedShape = CheckLinkedShape(halls[i], halls[i].edgeRect[j]);
+                    if (linkedShape == LinkedShape.NONE || halls[i].edgeRect[j].isRoom)
+                        continue;
 
-            //for (i = 0; i < halls.Count; i++)
-            //{
-            //    for (int j = 0; j < halls[i].edgeRect.Count; j++)
-            //    {
-            //        linkedShape = CheckLinkedShape(halls[i], halls[i].edgeRect[j]);
-            //        if (linkedShape == LinkedShape.NONE)
-            //            continue;
-                    
-            //        isMerge = halls[i].Merge(halls[i].edgeRect[j], linkedShape);
+                    isMerge = halls[i].Merge(halls[i].edgeRect[j], linkedShape);
 
-            //        if (isMerge)
-            //        {
-            //            halls.Remove(halls[i].edgeRect[j]);
-            //            j = 0;
-            //        }
-            //    }
-            //}
+                    if (isMerge)
+                    {
+                        halls.Remove(halls[i].edgeRect[j]);
+                        j = -1;
+                        i--;
+                    }
+                }
+            }
 
             for (i = 0; i < halls.Count; i++)
             {
@@ -596,12 +597,15 @@ namespace Map
                 {
                     if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
                         _rectA.EdgeRect(_rectB);
-
+                    else
+                        _rectA.LinkedEdgeRect(_rectB);
                 }
                 else
                 {
                     if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE)
                         _rectA.EdgeRect(_rectB);
+                    else
+                        _rectA.LinkedEdgeRect(_rectB);
 
                 }
             }
@@ -1021,7 +1025,7 @@ namespace Map
                     this.width += rect.width;
                     this.x = Mathf.Min(this.x, rect.x);
                     this.area += rect.area;
-                    this.midX += rect.midX;
+                    this.midX = x + (float)width / 2;
                     this.areaLeftDown = new Vector2(Mathf.Min(this.areaLeftDown.x, rect.areaLeftDown.x), this.areaLeftDown.y);
                     return true;
                 }
@@ -1039,7 +1043,7 @@ namespace Map
                     this.height += rect.height;
                     this.y = Mathf.Min(this.y, rect.y);
                     this.area += rect.area;
-                    this.midY += rect.midY;
+                    this.midY = y + (float)height / 2;
                     this.areaRightTop = new Vector2(this.areaRightTop.x, Mathf.Max(this.areaRightTop.y, rect.areaRightTop.y));
                     return true;
                 }

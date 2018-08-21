@@ -317,7 +317,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         {
             case Direction.LEFT:
                 start = yArr[1];
-                end = yArr[2];
+                end = yArr[2] + 1;
 
                 x = _roomA.x * pixelNum;
                 break;
@@ -329,7 +329,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 break;
             case Direction.TOP:
                 start = xArr[1];
-                end = xArr[2];
+                end = xArr[2] + 1;
 
                 y = (_roomA.y + _roomA.height) * pixelNum;
                 leftOrRight = false;
@@ -503,7 +503,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
-        DrawAllRoom();
+        //DrawAllRoom();
         texture.SetPixels(mapColors);
 
         texture.Apply();

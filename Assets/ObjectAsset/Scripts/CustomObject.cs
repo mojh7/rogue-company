@@ -366,7 +366,7 @@ public class Spawner : RandomSpriteObject
     void Spawn()
     {
         gage--;
-        Vector2 tempPosition = RoomManager.Instance.Spawned();
+        Vector2 tempPosition = RoomManager.Instance.SpawndWithGage();
         EnemyManager.Instance.Generate(tempPosition);
     }
 }
