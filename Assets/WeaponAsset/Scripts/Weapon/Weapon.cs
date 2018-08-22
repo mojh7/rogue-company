@@ -365,7 +365,7 @@ public class Weapon : Item
                         yield break;
                     }
                 }
-                if (false == HasCostForAttack())
+                if (false == HasCostForAttack() && AttackType.RANGED == attackType)
                 {
                     //Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
                     Reload();
