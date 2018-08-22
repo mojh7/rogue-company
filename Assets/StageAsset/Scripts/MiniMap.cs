@@ -14,6 +14,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     [SerializeField] private Text floorT;
     [SerializeField] private GameObject[] title;
 
+    bool isDrawAll;
     Vector2 playerPositon;
     Vector2 oldPos;
     bool isToggle = false;
@@ -143,8 +144,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     }
     void DrawRoom(Map.Rect _room)
     {
-        _room.isDrawed = true;
-
         int minX = _room.x * pixelNum;
         int maxX = (_room.x + _room.width) * pixelNum - 1;
         int minY = _room.y * pixelNum;
@@ -444,6 +443,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     public void DrawMinimap()
     {
+        isDrawAll = false;
         SetFloorText();
         renderer = GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
@@ -468,45 +468,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         texture.filterMode = FilterMode.Point;
         renderer.texture = texture;
 
-        for (int i = 0; i <= minmapSizeWidth * minmapSizeHeight; i++)
-        {
-            mapColors[i] = white;
-        }
-
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (!roomList[i].isRoom)
-                Draw(roomList[i], DrawHall);
-        }
-
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (roomList[i].isRoom)
-                Draw(roomList[i], DrawRoomOutline);
-        }
-
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (!roomList[i].isRoom)
-                Draw(roomList[i], DrawDoor);
-        }
-
-        for (int i = 0; i <= minmapSizeWidth; i++)
-        {
-            for (int j = 0; j <= minmapSizeHeight; j++)
-            {
-                if (i == 0 || i == minmapSizeWidth ||
-                 j == 0 || j == minmapSizeHeight)
-                {
-                    DrawArray(i, j, black);
-                }
-            }
-        }
-
-        DrawAllRoom();
-        texture.SetPixels(mapColors);
-
-        texture.Apply();
+        DrawMap();
     } // 미니맵 그리는 함수
 
     public void HideMiniMap()
@@ -550,6 +512,51 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
             isToggle = !isToggle;
         }
+    }
+
+    void DrawMap()
+    {
+
+        for (int i = 0; i <= minmapSizeWidth * minmapSizeHeight; i++)
+        {
+            mapColors[i] = white;
+        }
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (!roomList[i].isRoom)
+                Draw(roomList[i], DrawHall);
+            else if(roomList[i].isDrawed)
+                Draw(roomList[i], DrawRoom);
+        }
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i].isRoom)
+                Draw(roomList[i], DrawRoomOutline);
+        }
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (!roomList[i].isRoom)
+                Draw(roomList[i], DrawDoor);
+        }
+
+        for (int i = 0; i <= minmapSizeWidth; i++)
+        {
+            for (int j = 0; j <= minmapSizeHeight; j++)
+            {
+                if (i == 0 || i == minmapSizeWidth ||
+                 j == 0 || j == minmapSizeHeight)
+                {
+                    DrawArray(i, j, black);
+                }
+            }
+        }
+
+        texture.SetPixels(mapColors);
+
+        texture.Apply();
     }
 
     void DrawAllRoom()
@@ -682,6 +689,19 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
     } // 현재 플레이어 위치 to MiniMap
 
+    public void DrawDebuging()
+    {
+        if(isDrawAll)
+        {
+            isDrawAll = false;
+            DrawMap();
+        }
+        else
+        {
+            isDrawAll = true;
+            DrawAllRoom();
+        }
+    }
     #region UnityFunc
     private void Update()
     {
