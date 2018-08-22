@@ -58,8 +58,8 @@ public class LaserPattern : BulletPattern
         this.ownerType = ownerType;
         if (canCreateLaser == true)
         {
-            CreateBullet(damageIncreaseRate);
             canCreateLaser = false;
+            CreateBullet(damageIncreaseRate);
         }
     }
 

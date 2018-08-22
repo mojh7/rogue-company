@@ -203,7 +203,7 @@ public class LaserUpdateProperty : UpdateProperty
         pos = new Vector3();
         laserSize = new Vector2(0.2f, 0.2f);
         // 일단 Player 레이저가 Enemy에게 적용 하는 것만
-        layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy"));
+        layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy") | 1 << LayerMask.NameToLayer("TransparentFX"));
     }
 
     public override UpdateProperty Clone()

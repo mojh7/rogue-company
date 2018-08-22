@@ -68,7 +68,6 @@ public class LaserDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 

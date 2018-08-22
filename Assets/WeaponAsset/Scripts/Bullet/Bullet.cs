@@ -304,7 +304,8 @@ public class Bullet : MonoBehaviour
             spriteAnimatorObj.SetActive(true);
             animator.SetTrigger(info.spriteAnimation.ToString());
             spriteRenderer.sprite = null;
-            boxCollider.size = new Vector2(0.1f, 0.1f);
+            //boxCollider.size = new Vector2(0.1f, 0.1f);
+            circleCollider.radius = 0.1f;
             setColliderSize = StartCoroutine("SetColliderSize");
         }
         // sprite 애니메이션 미 적용
@@ -312,7 +313,16 @@ public class Bullet : MonoBehaviour
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
-            boxCollider.size = spriteRenderer.sprite.bounds.size;
+            Debug.Log(info.bulletSprite);
+            Debug.Log(spriteRenderer.sprite);
+            Debug.Log();
+            Debug.Log(name + ", " + spriteAniRenderer.sprite.bounds.size);
+            float sizeX = spriteAniRenderer.sprite.bounds.size.x;
+            float sizeY = spriteAniRenderer.sprite.bounds.size.y;
+            float size = (sizeX > sizeY) ? sizeY : sizeX;
+            circleCollider.radius = size;
+
+            //boxCollider.size = spriteRenderer.sprite.bounds.size;
             //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
         }
 
@@ -344,18 +354,18 @@ public class Bullet : MonoBehaviour
         laserViewObj.SetActive(false);
 
         // component on/off
-        boxCollider.enabled = true;
+        circleCollider.enabled = true;
         lineRenderer.enabled = false;
         //lineRenderer.positionCount = 0;
 
         // 튕기는 총알 테스트 용, 일단 컬라이더 임시로 박스만 쓰는 중
         if (true == info.bounceAble)
         {
-            boxCollider.isTrigger = false;
+            circleCollider.isTrigger = false;
         }
         else
         {
-            boxCollider.isTrigger = true;
+            circleCollider.isTrigger = true;
         }
 
         if (true == info.canBlockBullet)
@@ -755,7 +765,11 @@ public class Bullet : MonoBehaviour
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
         //Debug.Log("size : " + spriteAniRenderer.sprite.bounds.size);
-        boxCollider.size = spriteAniRenderer.sprite.bounds.size;
+        float sizeX = spriteAniRenderer.sprite.bounds.size.x;
+        float sizeY = spriteAniRenderer.sprite.bounds.size.y;
+        float size = (sizeX > sizeY) ? sizeY : sizeX;
+        circleCollider.radius = size;
+        // boxCollider.size = spriteRenderer.sprite.bounds.size;
         //Debug.Log("t : " + Time.time + ", " + spriteAniRenderer.sprite.bounds.size +", colider Size : " + boxCollider.size);
     }
 
