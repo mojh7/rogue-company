@@ -328,49 +328,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)weaponDatas[i]["weaponType"]);
             tempWeaponInfos[i].weaponType = weaponType;
 
-            switch (weaponType)
-            {
-                case WeaponType.PISTOL:
-                case WeaponType.SHOTGUN:
-                case WeaponType.MACHINEGUN:
-                case WeaponType.SNIPER_RIFLE:
-                    tempWeaponInfos[i].showsMuzzleFlash = true;
-                    break;
-                default:
-                    tempWeaponInfos[i].showsMuzzleFlash = false;
-                    break;
-            }
-
-            switch (weaponType)
-            {
-                case WeaponType.SPEAR:
-                case WeaponType.CLUB:
-                case WeaponType.SPORTING_GOODS:
-                case WeaponType.SWORD:
-                case WeaponType.CLEANING_TOOL:
-                    tempWeaponInfos[i].addDirVecMagnitude = 1.2f;
-                    break;
-                case WeaponType.KNUCKLE:
-                case WeaponType.SHOTGUN:
-                case WeaponType.BOW:
-                case WeaponType.WAND:
-                case WeaponType.SNIPER_RIFLE:
-                    tempWeaponInfos[i].addDirVecMagnitude = 0.5f;
-                    break;
-                case WeaponType.LASER:
-                case WeaponType.MACHINEGUN:
-                case WeaponType.TRASH:
-                case WeaponType.OTHER:
-                    tempWeaponInfos[i].addDirVecMagnitude = 0.3f;
-                    break;
-                case WeaponType.PISTOL:
-                    tempWeaponInfos[i].addDirVecMagnitude = 0.2f;
-                    break;
-                default:
-                    tempWeaponInfos[i].addDirVecMagnitude = 0f;
-                    break;
-            }
-
             attackAniType = (AttackAniType)System.Enum.Parse(typeof(AttackAniType), (string)weaponDatas[i]["attackAniType"]);
             tempWeaponInfos[i].attackAniType = attackAniType;
             //Debug.Log(attackAniType);
@@ -415,6 +372,84 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             float.TryParse(weaponDatas[i]["bulletSpeed"].ToString(), out bulletSpeed);
             tempWeaponInfos[i].bulletMoveSpeed = bulletSpeed;
             //Debug.Log(bulletSpeed);
+
+            switch (weaponType)
+            {
+                case WeaponType.PISTOL:
+                case WeaponType.SHOTGUN:
+                case WeaponType.MACHINEGUN:
+                case WeaponType.SNIPER_RIFLE:
+                    tempWeaponInfos[i].showsMuzzleFlash = true;
+                    break;
+                case WeaponType.LASER:
+                    tempWeaponInfos[i].cooldown = 0.25f;
+                    tempWeaponInfos[i].cameraShakeAmount = 0f;
+                    tempWeaponInfos[i].cameraShakeTime = 0f;
+                    break;
+                default:
+                    tempWeaponInfos[i].showsMuzzleFlash = false;
+                    break;
+            }
+
+        //    NULL, PISTOL, SHOTGUN, MACHINEGUN, SNIPER_RIFLE, LASER, BOW,
+        //SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE,
+        //BOMB, GAS_SHELL, TRAP,
+        //WAND, TRASH, OTHER, END
+            switch (weaponType)
+            {
+                case WeaponType.PISTOL:
+                case WeaponType.SHOTGUN:
+                case WeaponType.MACHINEGUN:
+                case WeaponType.SNIPER_RIFLE:
+                case WeaponType.BOW:
+                case WeaponType.WAND:
+                case WeaponType.TRASH:
+                case WeaponType.OTHER:
+                    tempWeaponInfos[i].cameraShakeAmount = 0.1f;
+                    tempWeaponInfos[i].cameraShakeTime = 0.1f;
+                    break;
+                case WeaponType.SPEAR:
+                case WeaponType.CLUB:
+                case WeaponType.SPORTING_GOODS:
+                case WeaponType.SWORD:
+                case WeaponType.CLEANING_TOOL:
+                case WeaponType.KNUCKLE:
+                    tempWeaponInfos[i].cameraShakeAmount = 0.2f;
+                    tempWeaponInfos[i].cameraShakeTime = 0.04f;
+                    break;
+                default:
+                    break;
+            }
+
+            switch (weaponType)
+            {
+                case WeaponType.SPEAR:
+                case WeaponType.CLUB:
+                case WeaponType.SPORTING_GOODS:
+                case WeaponType.SWORD:
+                case WeaponType.CLEANING_TOOL:
+                    tempWeaponInfos[i].addDirVecMagnitude = 1.2f;
+                    break;
+                case WeaponType.KNUCKLE:
+                case WeaponType.SHOTGUN:
+                case WeaponType.BOW:
+                case WeaponType.WAND:
+                case WeaponType.SNIPER_RIFLE:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0.5f;
+                    break;
+                case WeaponType.LASER:
+                case WeaponType.MACHINEGUN:
+                case WeaponType.TRASH:
+                case WeaponType.OTHER:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0.3f;
+                    break;
+                case WeaponType.PISTOL:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0.2f;
+                    break;
+                default:
+                    tempWeaponInfos[i].addDirVecMagnitude = 0f;
+                    break;
+            }
         }
         
     }
