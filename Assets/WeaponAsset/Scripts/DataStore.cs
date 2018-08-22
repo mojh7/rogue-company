@@ -79,6 +79,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     //[FormerlySerializedAs("tests")] 이거 선언, 이전 이름, 새로운 변수 명 한 번에 해야됨.
     private WeaponInfo[] tempWeaponInfos;
     [SerializeField]
+    private WeaponInfo[] temp2WeaponInfos;
+
+    [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
     [SerializeField]
     private UsableItemInfo[] clothingItemInfos;
@@ -112,10 +115,18 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     
     public int GetWeaponInfosLength()
     {
-        if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug)
-            return weaponInfos.Length;
-        else
-            return tempWeaponInfos.Length;
+        switch(DebugSetting.Instance.weaponModeForDebug)
+        {
+            case WeaponModeForDebug.TEST:
+                return weaponInfos.Length;
+            case WeaponModeForDebug.TEMP:
+                return tempWeaponInfos.Length;
+            case WeaponModeForDebug.TEMP2:
+                return temp2WeaponInfos.Length;
+            default:
+                break;
+        }
+        return 0;
     }
     public int GetTempWeaponInfosLength()
     {
@@ -170,8 +181,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             case CharacterInfo.OwnerType.Player:
                 if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug)
                     return weaponInfos[id];
-                else
+                else if (WeaponModeForDebug.TEMP == DebugSetting.Instance.weaponModeForDebug)
                     return tempWeaponInfos[id];
+                else
+                    return temp2WeaponInfos[id];
             // 구분 만 해놓고 아직 player 이외의 owner weaponDataList 안 만듬, 봐서 bullet, Pattern도 이렇게 처리 할듯
             case CharacterInfo.OwnerType.Enemy:
                 return enemyWeaponInfos[id];
@@ -260,12 +273,17 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             for (int i = 0; i < weaponInfos.Length; i++)
                 weaponInfos[i].Init();
         }
-        else
+        else if (WeaponModeForDebug.TEMP == DebugSetting.Instance.weaponModeForDebug)
         {
             for (int i = 0; i < tempWeaponInfos.Length; i++)
                 tempWeaponInfos[i].Init();
         }
-        
+        else
+        {
+            for (int i = 0; i < tempWeaponInfos.Length; i++)
+                temp2WeaponInfos[i].Init();
+        }
+
         for (int i = 0; i < enemyWeaponInfos.Length; i++)
         {
             enemyWeaponInfos[i].Init();
