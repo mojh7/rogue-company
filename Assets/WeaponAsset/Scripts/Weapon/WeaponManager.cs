@@ -202,6 +202,7 @@ public class WeaponManager : MonoBehaviour {
                     // Debug.Log("a");
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
+                    Debug.Log("weaponCountMax : " + weaponCountMax);
 
                     for (int i = 0; i < weaponCountMax; i++)
                     {

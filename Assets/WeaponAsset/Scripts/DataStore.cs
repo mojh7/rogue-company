@@ -80,6 +80,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private WeaponInfo[] tempWeaponInfos;
     [SerializeField]
     private WeaponInfo[] temp2WeaponInfos;
+    [SerializeField]
+    //[FormerlySerializedAs("temp2WeaponInfos")]
+    private WeaponInfo[] temp3WeaponInfos;
 
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
@@ -280,7 +283,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         }
         else
         {
-            for (int i = 0; i < tempWeaponInfos.Length; i++)
+            for (int i = 0; i < temp2WeaponInfos.Length; i++)
                 temp2WeaponInfos[i].Init();
         }
 
@@ -324,7 +327,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         {
             tempWeaponInfos[i].weaponName = (string)weaponDatas[i]["name"];
             Debug.Log(i + ", name : " + (string)weaponDatas[i]["name"]);
-        
+
+            tempWeaponInfos[i].scaleX = 1.0f;
+            tempWeaponInfos[i].scaleY = 1.0f;
+
             weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)weaponDatas[i]["weaponType"]);
             tempWeaponInfos[i].weaponType = weaponType;
 
@@ -363,6 +369,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
             int.TryParse(weaponDatas[i]["ammoCapacity"].ToString(), out ammoCapacity);
             tempWeaponInfos[i].ammoCapacity = ammoCapacity;
+            tempWeaponInfos[i].ammo = ammoCapacity;
             //Debug.Log(ammoCapacity);
 
             float.TryParse(weaponDatas[i]["range"].ToString(), out range);
@@ -414,8 +421,13 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 case WeaponType.SWORD:
                 case WeaponType.CLEANING_TOOL:
                 case WeaponType.KNUCKLE:
-                    tempWeaponInfos[i].cameraShakeAmount = 0.2f;
+                    tempWeaponInfos[i].cameraShakeAmount = 0.1f;
                     tempWeaponInfos[i].cameraShakeTime = 0.04f;
+                    break;
+                case WeaponType.BOMB:
+                case WeaponType.TRAP:
+                    tempWeaponInfos[i].cameraShakeAmount = 0f;
+                    tempWeaponInfos[i].cameraShakeTime = 0f;
                     break;
                 default:
                     break;
@@ -448,6 +460,45 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                     break;
                 default:
                     tempWeaponInfos[i].addDirVecMagnitude = 0f;
+                    break;
+            }
+
+            //시전 시간
+            switch (tempWeaponInfos[i].attackAniType)
+            {
+                case AttackAniType.STRIKE:
+                    tempWeaponInfos[i].soundId = 0;
+                    tempWeaponInfos[i].castingTime = 0.25f;
+                    break;
+                case AttackAniType.BLOW:
+                    tempWeaponInfos[i].castingTime = 0.1f;
+                    tempWeaponInfos[i].soundId = 3;
+                    break;
+                case AttackAniType.SWING:
+                    tempWeaponInfos[i].castingTime = 0.3f;
+                    tempWeaponInfos[i].soundId = 3;
+                    break;
+                case AttackAniType.SHOT:
+                    tempWeaponInfos[i].soundId = 0;
+                    break;
+                default:
+                    break;
+            }
+
+            //sound
+            switch (weaponType)
+            {
+                case WeaponType.BOMB:
+                case WeaponType.TRAP:
+                    tempWeaponInfos[i].soundId = 3;
+                    break;
+                case WeaponType.SHOTGUN:
+                    tempWeaponInfos[i].soundId = 2;
+                    break;
+                case WeaponType.LASER:
+                    tempWeaponInfos[i].soundId = -1;
+                    break;
+                default:
                     break;
             }
         }

@@ -99,7 +99,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -158,8 +158,8 @@ TextureImporter:
         serializedVersion: 2
         x: 38
         y: 428
-        width: 16
-        height: 16
+        width: 17
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,9 +171,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 202
-        y: 428
-        width: 16
-        height: 15
+        y: 427
+        width: 17
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,8 +228,8 @@ TextureImporter:
         serializedVersion: 2
         x: 117
         y: 423
-        width: 16
-        height: 16
+        width: 17
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -493,9 +493,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 37
-        y: 314
-        width: 16
-        height: 16
+        y: 313
+        width: 17
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -522,8 +522,8 @@ TextureImporter:
         serializedVersion: 2
         x: 118
         y: 318
-        width: 16
-        height: 16
+        width: 17
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -550,8 +550,8 @@ TextureImporter:
         serializedVersion: 2
         x: 204
         y: 320
-        width: 16
-        height: 16
+        width: 17
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
