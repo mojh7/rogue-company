@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 6c9d009de7a159e47b21659079767118
-timeCreated: 1532807226
+guid: e806a3f07cdac7641a669dad6c0fdf24
+timeCreated: 1534926269
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: goldIcon_0
+    21300002: goldIcon_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -88,7 +90,35 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: goldIcon_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 7
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: goldIcon_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 7
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 

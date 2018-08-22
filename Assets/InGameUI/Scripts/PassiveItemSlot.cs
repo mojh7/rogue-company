@@ -18,7 +18,7 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
 
     // 패시브 아이템 창 관련
     [SerializeField]
-    private Transform standardPos;
+    private Transform contentsParent;
     [SerializeField]
     private Transform passiveSlotsParent;
     [SerializeField]
@@ -41,7 +41,7 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     void Start()
     {
         slotCountMax = slotRow * slotColumn;
-        CreatePassiveSlots(standardPos.position);
+        CreatePassiveSlots(contentsParent);
     }
     #endregion
 
@@ -54,7 +54,7 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
         UIManager.Instance.TogglePreventObj();
     }
 
-    private void CreatePassiveSlots(Vector3 standardPos)
+    private void CreatePassiveSlots(Transform contentParent)
     {
         passiveSlotIds = new List<int>();
         passiveSlotIdsLength = 0;
@@ -65,14 +65,13 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
         {
             for (int x = 0; x < slotColumn; x++)
             {
-                currentPos.x = standardPos.x + x * intervalPos.x;
-                currentPos.y = standardPos.y - y * intervalPos.y;
                 createdObj = Instantiate(passiveSlotPrefab);
                 createdObj.name = "패시브 슬룻 " + (y * slotRow + x);
                 createdObj.transform.position = currentPos;
-                createdObj.transform.SetParent(passiveSlotsParent);
+                createdObj.transform.SetParent(contentParent);
                 passiveSlots[y * slotColumn + x] = createdObj.GetComponent<PassiveSlot>();
                 activeOffAllPassiveSlot += passiveSlots[y * slotColumn + x].ActiveOffPassiveSlot;
+                createdObj.transform.localScale = new Vector3(1, 1, 1);
             }
         }
     }

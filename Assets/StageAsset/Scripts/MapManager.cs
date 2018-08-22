@@ -530,14 +530,14 @@ namespace Map
 
                     if (isMerge)
                     {
+                        halls[i].edgeRect[j].RemoveLinkedEdge(halls[i]);
                         halls.Remove(halls[i].edgeRect[j]);
                         j = -1;
                         i = 0;
                     }
                 }
             }
-
-            for(i=0;i<halls.Count;i++)
+            for (i=0;i<halls.Count;i++)
             {
                 halls[i].Drawing(Color.blue, 0);
             }
@@ -552,7 +552,7 @@ namespace Map
                     LinkRects(halls[i], halls[k]);
                 }
             }
-            MergeHalls();
+            //MergeHalls();
 
             for (int i = 0; i < rooms.Count; i++)
             {
@@ -867,7 +867,6 @@ namespace Map
             for (int i = 0; i < rooms.Count; i++)
             {
                 AvailableAreas(rooms[i], 0.5f);
-                rooms[i].DrawingArea(Color.cyan);
             }
         }
 
@@ -1036,8 +1035,10 @@ namespace Map
                 {
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
-                        if(!this.edgeRect.Contains(rect.edgeRect[i]))
+                        if (!this.edgeRect.Contains(rect.edgeRect[i]))
+                        {
                             this.edgeRect.Add(rect.edgeRect[i]);
+                        }
                     }
                     this.width += rect.width;
                     this.x = Mathf.Min(this.x, rect.x);
@@ -1045,6 +1046,7 @@ namespace Map
                     this.midX = x + (float)width / 2;
                     this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
                     this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
+
                     return true;
                 }
                 return false;
@@ -1056,7 +1058,9 @@ namespace Map
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
                         if (!this.edgeRect.Contains(rect.edgeRect[i]))
+                        {
                             this.edgeRect.Add(rect.edgeRect[i]);
+                        }
                     }
                     this.height += rect.height;
                     this.y = Mathf.Min(this.y, rect.y);
@@ -1064,11 +1068,17 @@ namespace Map
                     this.midY = y + (float)height / 2;
                     this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
                     this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
+
                     return true;
                 }
                 return false;
             }
             return false;
+        }
+
+        public void RemoveLinkedEdge(Rect rect)
+        {
+
         }
 
         public void Drawing(Color color,float offset)
