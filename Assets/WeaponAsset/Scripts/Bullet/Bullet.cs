@@ -313,14 +313,10 @@ public class Bullet : MonoBehaviour
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
-            Debug.Log(info.bulletSprite);
-            Debug.Log(spriteRenderer.sprite);
-            Debug.Log();
-            Debug.Log(name + ", " + spriteAniRenderer.sprite.bounds.size);
-            float sizeX = spriteAniRenderer.sprite.bounds.size.x;
-            float sizeY = spriteAniRenderer.sprite.bounds.size.y;
+            float sizeX = spriteRenderer.sprite.bounds.size.x;
+            float sizeY = spriteRenderer.sprite.bounds.size.y;
             float size = (sizeX > sizeY) ? sizeY : sizeX;
-            circleCollider.radius = size;
+            circleCollider.radius = size * 0.5f;
 
             //boxCollider.size = spriteRenderer.sprite.bounds.size;
             //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);

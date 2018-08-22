@@ -322,7 +322,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         int size = weaponDatas.Count;
         for (int i = 0; i < size; i++)
         {
-            tempWeaponInfos[i].name = (string)weaponDatas[i]["name"];
+            tempWeaponInfos[i].weaponName = (string)weaponDatas[i]["name"];
             Debug.Log(i + ", name : " + (string)weaponDatas[i]["name"]);
         
             weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)weaponDatas[i]["weaponType"]);
