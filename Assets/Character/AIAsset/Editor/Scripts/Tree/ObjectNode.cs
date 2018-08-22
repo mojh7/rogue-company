@@ -190,7 +190,7 @@ namespace BT
             }
             if (inputTitle != "")
                 windowTitle = inputTitle;
-            if (decorateTask == EDecorateTask.DistanceDecorate || decorateTask == EDecorateTask.TimeDecorate)
+            if (taskType == TaskType.DecorateTask)
             {
                 behaviorCondition = (BehaviorCondition)EditorGUILayout.EnumPopup("BehaviorCondition", behaviorCondition);
             }

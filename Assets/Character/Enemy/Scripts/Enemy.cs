@@ -125,6 +125,7 @@ public class Enemy : Character
         isBossEnemy = false;
         hpMax = enemyData.HP;
         hp = enemyData.HP;
+        maxHP = hp;
         moveSpeed = enemyData.Speed;
         scaleVector = Vector3.one * enemyData.Size;
         sprite = enemyData.Sprite;
@@ -306,7 +307,7 @@ public class Enemy : Character
     private void AddRetrictsMovingCount()
     {
         restrictMovingCount += 1;
-        if (1 == restrictMovingCount)
+        if (1 <= restrictMovingCount)
         {
             isActiveMoveAI = false;
             aiController.StopMove();
@@ -317,8 +318,9 @@ public class Enemy : Character
     private void SubRetrictsMovingCount()
     {
         restrictMovingCount -= 1;
-        if (0 == restrictMovingCount)
+        if (0 >= restrictMovingCount)
         {
+            restrictMovingCount = 0;
             isActiveMoveAI = true;
             aiController.PlayMove();
             //Debug.Log(name + ", 이동 on, " + restrictMovingCount);
