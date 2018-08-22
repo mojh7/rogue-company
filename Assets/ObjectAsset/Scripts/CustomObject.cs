@@ -376,17 +376,19 @@ public class Door : RandomSpriteObject
     bool isHorizon;
     Sprite openSprite;
     Sprite closeSprite;
+    GameObject[] doorArrows;
 
     public override void Init()
     {
         base.Init();
         objectType = ObjectType.NONE;
     }
-    public void Init(Sprite _openSprite, Sprite _closeSprite)
+    public void Init(Sprite openSprite, Sprite closeSprite, GameObject[] doorArrows)
     {
         Init();
-        openSprite = _openSprite;
-        closeSprite = _closeSprite;
+        this.openSprite = openSprite;
+        this.closeSprite = closeSprite;
+        this.doorArrows = doorArrows;
         sprite = openSprite;
         SetCollision();
     }
@@ -410,6 +412,8 @@ public class Door : RandomSpriteObject
         if (isActive)
         {
             isActive = false;
+            doorArrows[0].SetActive(true);
+            doorArrows[1].SetActive(true);
             sprite = openSprite;
         }
         else
@@ -417,6 +421,8 @@ public class Door : RandomSpriteObject
             isActive = true;
             isAnimate = true;
             StartAni();
+            doorArrows[0].SetActive(false);  
+            doorArrows[1].SetActive(false);
             if (!isHorizon)
             {
                 animator.SetTrigger("door_horizon");

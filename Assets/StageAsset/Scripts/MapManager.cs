@@ -514,10 +514,9 @@ namespace Map
             LinkedShape linkedShape;
             bool isMerge;
             int i = 0;
-
             for (i = 0; i < halls.Count; i++)
             {
-                halls[i].Drawing(Color.red);
+                halls[i].Drawing(Color.red, width);
             }
             for (i = 0; i < halls.Count; i++)
             {
@@ -533,14 +532,14 @@ namespace Map
                     {
                         halls.Remove(halls[i].edgeRect[j]);
                         j = -1;
-                        i--;
+                        i = 0;
                     }
                 }
             }
 
-            for (i = 0; i < halls.Count; i++)
+            for(i=0;i<halls.Count;i++)
             {
-                halls[i].Drawing(Color.black);
+                halls[i].Drawing(Color.blue, 0);
             }
         }
 
@@ -781,10 +780,27 @@ namespace Map
             GameObject obj = objectPool.GetPooledObject();
             obj.AddComponent<Door>();
             obj.GetComponent<Door>().SetAxis(isHorizon);
+            GameObject[] doorArrows = new GameObject[2];
+            doorArrows[0] = Object.Instantiate(ResourceManager.Instance.DoorArrow);
+            doorArrows[0].transform.parent = obj.transform; 
+            doorArrows[1] = Object.Instantiate(ResourceManager.Instance.DoorArrow);
+            doorArrows[1].transform.parent = obj.transform;
             if (isHorizon)
-                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1]);
+            {
+                doorArrows[0].transform.position = obj.transform.position - Vector3.right * .8f;
+                doorArrows[1].transform.position = obj.transform.position + Vector3.right * .2f;
+                doorArrows[1].transform.localScale *= -1;
+                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1], doorArrows);
+            }
             else
-                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3]);
+            {
+                doorArrows[0].transform.position = obj.transform.position - Vector3.up * .8f;
+                doorArrows[0].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+                doorArrows[1].transform.position = obj.transform.position + Vector3.up * .8f;
+                doorArrows[1].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+                doorArrows[1].transform.localScale *= -1;
+                obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3], doorArrows);
+            }
             obj.transform.localPosition = new Vector2(x, y);
             obj.GetComponent<SpriteRenderer>().sortingOrder = -Mathf.RoundToInt((y + 1) * 100);
             return obj;
@@ -851,6 +867,7 @@ namespace Map
             for (int i = 0; i < rooms.Count; i++)
             {
                 AvailableAreas(rooms[i], 0.5f);
+                rooms[i].DrawingArea(Color.cyan);
             }
         }
 
@@ -1015,7 +1032,7 @@ namespace Map
         {
             if(linkedShape == LinkedShape.HORIZONTAL)
             {
-                if(this.height == rect.height)
+                if(this.height == rect.height && this.y == rect.y)
                 {
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
@@ -1026,14 +1043,15 @@ namespace Map
                     this.x = Mathf.Min(this.x, rect.x);
                     this.area += rect.area;
                     this.midX = x + (float)width / 2;
-                    this.areaLeftDown = new Vector2(Mathf.Min(this.areaLeftDown.x, rect.areaLeftDown.x), this.areaLeftDown.y);
+                    this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
+                    this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
                     return true;
                 }
                 return false;
             }
             else if(linkedShape == LinkedShape.VERTICAL)
             {
-                if(this.width == rect.width)
+                if(this.width == rect.width && this.x == rect.x)
                 {
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
@@ -1044,7 +1062,8 @@ namespace Map
                     this.y = Mathf.Min(this.y, rect.y);
                     this.area += rect.area;
                     this.midY = y + (float)height / 2;
-                    this.areaRightTop = new Vector2(this.areaRightTop.x, Mathf.Max(this.areaRightTop.y, rect.areaRightTop.y));
+                    this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
+                    this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
                     return true;
                 }
                 return false;
@@ -1052,13 +1071,18 @@ namespace Map
             return false;
         }
 
-        public void Drawing(Color color)
+        public void Drawing(Color color,float offset)
         {
-            Debug.DrawLine(new Vector3(x, y) * size, new Vector3(x, y + height) * size, color, 1000);
-            Debug.DrawLine(new Vector3(x, y + height) * size, new Vector3(x + width, y + height) * size, color, 1000);
-            Debug.DrawLine(new Vector3(x + width, y + height) * size, new Vector3(x + width, y) * size, color, 1000);
-            Debug.DrawLine(new Vector3(x + width, y) * size, new Vector3(x, y) * size, color, 1000);
+            Debug.DrawLine(new Vector3(x + offset, y) * size, new Vector3(x + offset, y + height) * size, color, 1000);
+            Debug.DrawLine(new Vector3(x + offset, y + height) * size, new Vector3(x + offset + width, y + height) * size, color, 1000);
+            Debug.DrawLine(new Vector3(x + offset + width, y + height) * size, new Vector3(x + offset + width, y) * size, color, 1000);
+            Debug.DrawLine(new Vector3(x + offset + width, y) * size, new Vector3(x + offset, y) * size, color, 1000);
 
+        }
+
+        public void DrawingArea(Color color)
+        {
+            Debug.DrawLine(areaLeftDown, areaRightTop, color, 100);
         }
     }
 }

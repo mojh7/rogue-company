@@ -88,6 +88,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     {
         //TODO : sin, cos sin^2, cos^2 등을 이용해서 가속, 감속? 속도 커브를 좀 다양하게 해야 할듯, 지속적으로 개선
         //Focus();
+        m_cameraShakeType = CameraShakeType.RANDOM;
         switch (m_cameraShakeType)
         {
             case CameraShakeType.RANDOM:

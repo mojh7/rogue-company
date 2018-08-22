@@ -145,13 +145,9 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -12, y: 16}
+      - - {x: 16, y: 16.188377}
         - {x: -16, y: 16}
         - {x: -16, y: -16}
-        - {x: -12, y: -16}
-      - - {x: 13, y: -17}
-        - {x: 13, y: 16}
-        - {x: 16, y: 16}
         - {x: 16, y: -16}
       tessellationDetail: 0
     - serializedVersion: 2
@@ -209,12 +205,8 @@ TextureImporter:
       physicsShape:
       - - {x: -16, y: -16}
         - {x: -6, y: -16}
-        - {x: -6, y: -13}
-        - {x: -16, y: -13}
-      - - {x: -16, y: 16}
-        - {x: -16, y: 13}
-        - {x: -6, y: 13}
-        - {x: -6, y: 16}
+        - {x: -5.9450283, y: 16}
+        - {x: -15.811626, y: 16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: doorTiles_6
