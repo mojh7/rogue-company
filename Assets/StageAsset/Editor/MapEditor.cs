@@ -183,7 +183,7 @@ public class MapEditor : EditorWindow
             }
             if(roomSet.gage == 0)
             {
-                roomSet.gage = width * height;
+                roomSet.gage = width * height * 2;
             }
         }
         else

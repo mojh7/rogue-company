@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 6c9d009de7a159e47b21659079767118
-timeCreated: 1532807226
+guid: e05222e4e2348534c89ee9001074dade
+timeCreated: 1534928602
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: hpBar_0
+    21300002: hpBar_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -32,7 +34,7 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
+    aniso: 1
     mipBias: -1
     wrapU: 1
     wrapV: 1
@@ -46,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -88,7 +90,35 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: hpBar_0
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 45
+        width: 135
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hpBar_1
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 15
+        width: 152
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 
