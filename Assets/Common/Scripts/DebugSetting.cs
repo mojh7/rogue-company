@@ -19,4 +19,10 @@ public class DebugSetting : MonoBehaviourSingleton<DebugSetting>
 
     [Header("Player 무기 설정")]
     public WeaponModeForDebug weaponModeForDebug;
+
+    [Header("temp Player 무기 테스트 범위")]
+    [Range(0, 45)]
+    public int startWeaponIndex;
+    [Range(1, 45)]
+    public int endWeaponIndex;
 }
