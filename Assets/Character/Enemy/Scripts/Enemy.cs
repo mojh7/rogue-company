@@ -98,6 +98,8 @@ public class Enemy : Character
     {
         base.Init();
         this.enemyData = enemyData;
+        spriteRenderer.color = Color.white;
+
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
         immune = CharacterInfo.Immune.NONE;

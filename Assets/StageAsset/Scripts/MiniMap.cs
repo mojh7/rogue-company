@@ -503,7 +503,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
-        //DrawAllRoom();
+        DrawAllRoom();
         texture.SetPixels(mapColors);
 
         texture.Apply();

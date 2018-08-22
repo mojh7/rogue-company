@@ -375,7 +375,7 @@ public class Weapon : Item
                 ShowMuzzleFlash();
                 // 공격 사운드 실행
                 AudioManager.Instance.PlaySound(info.soundId);
-                //CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
+                CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime, info.cameraShakeType, ownerDirVec());
                 info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
                 if (info.bulletPatterns[i].GetDelay() > 0)
                 {
