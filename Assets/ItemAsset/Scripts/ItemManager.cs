@@ -58,7 +58,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             withdraws.Enqueue(obj.GetComponent<ItemContainer>());
         }
         if (dest.Length == 0)
-            StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-1, 2), 5)));
+            StartCoroutine(CoroutineDropping(obj, new Vector2(0, 5)));
         else
             StartCoroutine(CoroutineDropping(obj, dest[0]));
 

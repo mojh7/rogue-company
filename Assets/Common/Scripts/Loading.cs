@@ -65,7 +65,7 @@ public class Loading : MonoBehaviour {
             async.allowSceneActivation = false; //다음 씬의 준비가 완료되더라도 바로 로딩되는걸 막는다.
             while (!async.isDone)
             {
-                if (async.progress == 0.9f && timer > minTime)
+                if (async.progress == 0.9f)
                 {
                     async.allowSceneActivation = true;
                     //Tip.text = "화면을 눌러주세요.";

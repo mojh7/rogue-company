@@ -37,7 +37,7 @@ public class PositionTrackAction : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
-        character.SetWalkingAim();
+        character.SetManualAim();
         if(isArrived)
         {
             destPosition = RoomManager.Instance.GetCurrentRoomAvailableArea();

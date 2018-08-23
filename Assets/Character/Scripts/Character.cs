@@ -18,7 +18,7 @@ namespace CharacterInfo
     }
     public enum AutoAimType
     {
-        AUTO, SEMIAUTO, RANDOM, REACTANCE, WALKING
+        AUTO, SEMIAUTO, RANDOM, REACTANCE, MANUAL
     }
 }
 
@@ -38,6 +38,10 @@ public abstract class Character : MonoBehaviour
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     protected float maxHP;
     protected CharacterInfo.Immune immune;
+    protected CharacterInfo.AutoAimType autoAimType;
+    protected CharacterInfo.AutoAimType originalautoAimType;
+    protected CharacterInfo.State pState;
+    protected CharacterInfo.OwnerType ownerType;
     #endregion
     #region componets
     protected CharacterComponents Components;
@@ -52,10 +56,6 @@ public abstract class Character : MonoBehaviour
     protected Transform shadowTransform;
     #endregion
     #region variables
-
-    protected CharacterInfo.AutoAimType autoAimType;
-    protected CharacterInfo.AutoAimType originalautoAimType;
-
     public bool isCasting;
     protected bool isActiveAI;
     protected bool isActiveMoveAI;
@@ -64,8 +64,6 @@ public abstract class Character : MonoBehaviour
     protected bool isKnockBack = false;
     [SerializeField]
     protected Sprite sprite;
-    protected CharacterInfo.State pState;
-    protected CharacterInfo.OwnerType ownerType;
 
     protected bool isAutoAiming;    // 오토에임 적용 유무
     protected Vector3 directionVector;
@@ -175,6 +173,16 @@ public abstract class Character : MonoBehaviour
         isActiveAI = true;
         isCasting = false;
     }
+    public virtual void ActiveSkill()
+    {
+        //TODO : 만약에 Enemy를 조종하게 될 경우 Enemy Class에 재정의 필요
+    }
+    public virtual CustomObject Interact()
+    {   
+        //TODO : 만약에 Enemy를 조종하게 될 경우 Enemy Class에 재정의 필요
+        return null;
+    }
+    protected abstract void SetAim();
     /*--abstract--*/
     protected abstract void Die();
     public abstract float Attacked(TransferBulletInfo info);
@@ -192,15 +200,6 @@ public abstract class Character : MonoBehaviour
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
 
-    public void SetWalkingAim()
-    {
-        if(!IsAbnormal())
-        {
-            autoAimType = CharacterInfo.AutoAimType.WALKING;
-        }
-        originalautoAimType = CharacterInfo.AutoAimType.WALKING;
-    }
-
     public void SetAutoAim()
     {
         if (!IsAbnormal())
@@ -208,6 +207,24 @@ public abstract class Character : MonoBehaviour
             autoAimType = CharacterInfo.AutoAimType.AUTO;
         }
         originalautoAimType = CharacterInfo.AutoAimType.AUTO;
+    }
+
+    public void SetSemiAutoAim()
+    {
+        if (!IsAbnormal())
+        {
+            autoAimType = CharacterInfo.AutoAimType.SEMIAUTO;
+        }
+        originalautoAimType = CharacterInfo.AutoAimType.SEMIAUTO;
+    }
+
+    public void SetManualAim()
+    {
+        if(!IsAbnormal())
+        {
+            autoAimType = CharacterInfo.AutoAimType.MANUAL;
+        }
+        originalautoAimType = CharacterInfo.AutoAimType.MANUAL;
     }
 
     protected abstract bool IsAbnormal();

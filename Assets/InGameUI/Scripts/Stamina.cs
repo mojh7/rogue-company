@@ -14,7 +14,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     private int maxStamina;        // 스태미너의 Max치 
     private int playerStamina;       // player 의 스태미너
     private int stamina;
-
+    private float currentTime = 0;
     #region pro
     public PlayerData PlayerData
     {
@@ -30,9 +30,22 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     #endregion
 
     void Awake() {
+        currentTime = 0;
         staminaImage = GetComponent<Image>();
         if (playerData == null)
             playerData = new PlayerData();
+    }
+    void Update()
+    {
+        if (Stamina.Instance.IsFullStamina())
+        {
+            currentTime += Time.deltaTime;
+            if (currentTime > 3)
+            {
+                Stamina.Instance.RecoverStamina();
+                currentTime = 0;
+            }
+        }
     }
 
 
@@ -66,6 +79,19 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         playerData.Stamina = stamina;
     }
 
+    public void RecoverFullStamina()
+    {
+        int recoveryAmount = maxStamina;
+        stamina += recoveryAmount;
+        staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
+
+        if (staminaImage.fillAmount >= maxStamina)
+        {
+            stamina = maxStamina;
+            staminaImage.fillAmount = maxStamina;
+        }
+        playerData.Stamina = stamina;
+    }
     public void ConsumeStamina(int staminaConsumption)
     {
         stamina -= staminaConsumption;

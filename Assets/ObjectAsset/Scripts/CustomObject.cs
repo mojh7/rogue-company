@@ -56,6 +56,7 @@ public class CustomObject : MonoBehaviour
 
     public virtual void Init()
     {
+        textMesh.text = "";
         gameObject.layer = 1;
         SetNullPolygon();
 #if UNITY_EDITOR
@@ -458,6 +459,7 @@ public class Alert : RandomSpriteObject
         isAvailable = false;
         polygonCollider2D.SetPath(0, null);
         objectType = ObjectType.NONE;
+        gameObject.layer = 0;
     }
     public void Init(Del _call, object temporary, float amount, int type)
     {
@@ -506,6 +508,7 @@ public class Portal : RandomSpriteObject
         isActive = false;
         isAvailable = true;
         objectType = ObjectType.PORTAL;
+        gameObject.layer = 0;
     }
     public override void SetAvailable()
     {
@@ -574,6 +577,7 @@ public class ItemContainer : RandomSpriteObject
         objectType = ObjectType.NONE;
         tag = "Untagged";
         textMesh.text = "";
+        gameObject.layer = 0;
     }
 
     public void Init(Item _item)
@@ -807,8 +811,7 @@ public class SnackBox : NoneRandomSpriteObject
         {
             //stamina recovery
             isAvailable = false;
-            sprite = sprites[1];
-            spriteRenderer.sprite = sprite;
+            Stamina.Instance.RecoverFullStamina();
             return true;
         }
         return false;

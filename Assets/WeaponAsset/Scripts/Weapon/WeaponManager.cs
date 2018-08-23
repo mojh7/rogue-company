@@ -325,8 +325,8 @@ public class WeaponManager : MonoBehaviour {
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
         if(CharacterInfo.OwnerType.Player == ownerType)
         {
-            player.GetWeaponSwitchButton().UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
-            player.GetWeaponSwitchButton().UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
+            ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
+            ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
         }
     }
 
@@ -334,7 +334,7 @@ public class WeaponManager : MonoBehaviour {
     {
         if(CharacterInfo.OwnerType.Player == ownerType)
         {
-            player.GetWeaponSwitchButton().UpdateAmmoView(info);
+            ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(info);
         }
     }
 

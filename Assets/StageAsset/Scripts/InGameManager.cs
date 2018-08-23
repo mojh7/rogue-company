@@ -11,6 +11,7 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     }
     private void Start()
     {
+        TimeController.StartTime();
         GenerateMap();
         SpawnPlayer();
         DrawUI();

@@ -74,7 +74,7 @@ public class Enemy : Character
 
     private void Update()
     {
-        AutoAim();
+        SetAim();
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
         {
@@ -268,7 +268,7 @@ public class Enemy : Character
     // TODO : 0802 모장현, enemy aim 조절 타입에 따라서 알고리즘 변경
 
     // 0526 땜빵
-    public void AutoAim()
+    protected override void SetAim()
     {
         switch (autoAimType)
         {
@@ -280,7 +280,7 @@ public class Enemy : Character
                 break;
             case CharacterInfo.AutoAimType.RANDOM:
                 break;
-            case CharacterInfo.AutoAimType.WALKING:
+            case CharacterInfo.AutoAimType.MANUAL:
                 directionVector = rgbody.velocity;
                 directionDegree = directionVector.GetDegFromVector();
                 break;
@@ -356,12 +356,16 @@ public class Enemy : Character
             return;
         if (null == statusEffectInfo) return;
 
+        if (0 != statusEffectInfo.knockBack)
+            KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
+
+        if (isBossEnemy)
+            return;
+
         if (true == statusEffectInfo.canPoison)
             Poison();
         if (true == statusEffectInfo.canBurn)
             Burn();
-        if (0 != statusEffectInfo.knockBack)
-            KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
         if (true == statusEffectInfo.canDelayState)
             DelayState();
 

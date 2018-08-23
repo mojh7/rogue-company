@@ -17,11 +17,12 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 {
 
     #region variables
-    public Image backgroundImage;               // 배경 image, 큰 원
-    public Image joystickImage;                 // 움직일 image, 작은 원
+    [SerializeField]
+    protected Image backgroundImage;               // 배경 image, 큰 원
+    [SerializeField]
+    protected Image joystickImage;                 // 움직일 image, 작은 원
     private Vector3 inputVector;                // 입력 중일 때의 vector 값
     private Vector3 recentNormalInputVector;   // 터치 다운, 업에 상관없이 가장 최근 입력된 노말 벡터 
-    // private float recentMagnitude;
     #endregion
 
     #region getter
@@ -73,38 +74,29 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
         {
             pos.x = (pos.x / backgroundImage.rectTransform.sizeDelta.x);
             pos.y = (pos.y / backgroundImage.rectTransform.sizeDelta.y);
-            //Debug.Log(backgroundImage.rectTransform.sizeDelta.x + ", " + backgroundImage.rectTransform.sizeDelta.y);
-            // -0.5 ~ 0.5 나옴 0723 모장현
-            // Debug.Log("2 : " + pos.x + ", " + pos.y);
 
             inputVector = new Vector3(pos.x * 2, pos.y * 2, 0);
-            //recentMagnitude = 
+
             if (inputVector.magnitude > 1.0f)
             {
                 inputVector = inputVector.normalized;
                 recentNormalInputVector = inputVector;
             }
-            /*else if(inputVector.magnitude < 0.2f)
+            else
             {
-                inputVector = Vector3.zero;
-                recentNormalInputVector = inputVector;
-            }*/
-            else recentNormalInputVector = inputVector.normalized;
-
-            // Move Joystick IMG
+                recentNormalInputVector = inputVector.normalized;
+            }
             joystickImage.rectTransform.anchoredPosition = new Vector3(inputVector.x * (backgroundImage.rectTransform.sizeDelta.x / 2.5f)
                 , inputVector.y * (backgroundImage.rectTransform.sizeDelta.y / 2.5f));
         }
     }
 
-    // 터치 했을 때
-    public void OnPointerDown(PointerEventData ped)
+    public virtual void OnPointerDown(PointerEventData ped)
     {
         OnDrag(ped);
     }
 
-    // 땠을 때
-    public void OnPointerUp(PointerEventData ped)
+    public virtual void OnPointerUp(PointerEventData ped)
     {
         
         inputVector = Vector3.zero;

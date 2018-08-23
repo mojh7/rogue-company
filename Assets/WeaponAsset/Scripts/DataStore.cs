@@ -389,7 +389,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                     tempWeaponInfos[i].showsMuzzleFlash = true;
                     break;
                 case WeaponType.LASER:
-                    tempWeaponInfos[i].cooldown = 0.25f;
+                    tempWeaponInfos[i].cooldown = 0.4f;
                     tempWeaponInfos[i].cameraShakeAmount = 0f;
                     tempWeaponInfos[i].cameraShakeTime = 0f;
                     break;

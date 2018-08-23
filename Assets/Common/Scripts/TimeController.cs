@@ -6,19 +6,19 @@ public class TimeController : MonoBehaviour {
 
     public static float currentScale = 1;
     public static float oldScale = 1;
-    public void StopTime()
+    public static void StopTime()
     {
         oldScale = currentScale;
         Time.timeScale = 0;
         currentScale = Time.timeScale;
     }
-    public void StartTime()
+    public static void StartTime()
     {
         oldScale = currentScale;
         Time.timeScale = 1;
         currentScale = Time.timeScale;
     }
-    public void MulTime(float mul)
+    public static void MulTime(float mul)
     {
         oldScale = currentScale;
         Time.timeScale *= mul;

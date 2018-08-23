@@ -6,19 +6,17 @@ public class ActiveSkillButton : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField]
     private Image fireImage;
-    private Player player;
+    private Character character;
 
-    //public bool IsAttackTouchDown { get { return isAttackTouchDown; } }
-
-    public void SetPlayer(Player player)
+    public void SetPlayer(Character character)
     {
-        this.player = player;
+        this.character = character;
     }
     // 터치 했을 때
     public void OnPointerDown(PointerEventData ped)
     {
         if (UIManager.Instance.GetActived())
             return;
-        player.ActiveSkill();
+        character.ActiveSkill();
     }
 }
