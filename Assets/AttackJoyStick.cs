@@ -14,6 +14,11 @@ public class AttackJoyStick : Joystick
     private bool isAttackTouchDown = false;
     private float currentTime = 0;
 
+    public bool GetAttackDown()
+    {
+        return isAttackTouchDown;
+    }
+
     private void Update()
     {
         if (isAttackTouchDown)

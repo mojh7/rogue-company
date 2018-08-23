@@ -380,7 +380,7 @@ public class Player : Character
 
         if (0 == enemyTotal)
         {
-            directionVector = controller.GetMoveRecentNormalInputVector();
+            directionVector = controller.GetMoveAttackInputVector();
             directionDegree = directionVector.GetDegFromVector();
             return;
         }
@@ -435,16 +435,17 @@ public class Player : Character
         Vector2 enemyVector;
 
         int enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
-        directionVector = controller.GetAttackInputVector();
-        directionVector.Normalize();
-        directionDegree = directionVector.GetDegFromVector();
 
         if (0 == enemyTotal)
         {
+            directionVector = controller.GetMoveAttackInputVector();
+            directionDegree = directionVector.GetDegFromVector();
             return;
         }
         else
         {
+            directionVector = controller.GetAttackRecentNormalInputVector();
+            directionVector.Normalize();
             List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
             List<CircleCollider2D> enemyColliderList = EnemyManager.Instance.GetEnemyColliderList;
             raycastHitEnemies.Clear();
@@ -488,7 +489,7 @@ public class Player : Character
     }
     private void ManualAim()
     {
-        directionVector = controller.GetAttackInputVector();
+        directionVector = controller.GetMoveAttackInputVector();
         directionDegree = directionVector.GetDegFromVector();
     }
 
@@ -558,7 +559,14 @@ public class PlayerController
         this.moveJoyStick = moveJoyStick;
         this.attackJoyStick = attackJoyStick;
     }
-
+    public Vector2 GetMoveAttackInputVector()
+    {
+        if(attackJoyStick.GetAttackDown())
+        {
+            return attackJoyStick.GetRecentNormalInputVector();
+        }
+        return moveJoyStick.GetRecentNormalInputVector();
+    }
     #region move
     /// <summary>
     /// 조이스틱이 현재 바라보는 방향의 벡터  
