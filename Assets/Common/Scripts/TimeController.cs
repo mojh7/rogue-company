@@ -2,42 +2,76 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeController : MonoBehaviour {
+public class TimeController : MonoBehaviourSingleton<TimeController> {
 
-    public static float currentScale = 1;
-    public static float oldScale = 1;
-    public static void StopTime()
+    private float currentScale = 1;
+    private float oldScale = 1;
+
+    private float playStartTime;
+    private float elapsedTime;
+
+    private bool isTimeLerp;
+
+    private void Start()
+    {
+        elapsedTime = 0;
+        isTimeLerp = false;
+    }
+
+    private void Update()
+    {
+        elapsedTime += Time.deltaTime;
+    }
+
+    public void PlayStart()
+    {
+        playStartTime = elapsedTime;
+    }
+    public float GetPlayTime
+    {
+        get
+        {
+            return elapsedTime - playStartTime;
+        }
+    }
+
+    public void StopTime()
     {
         oldScale = currentScale;
         Time.timeScale = 0;
         currentScale = Time.timeScale;
     }
-    public static void StartTime()
+    public void StartTime()
     {
         oldScale = currentScale;
         Time.timeScale = 1;
         currentScale = Time.timeScale;
     }
-    public static void MulTime(float mul)
+    public void MulTime(float mul)
     {
         oldScale = currentScale;
         Time.timeScale *= mul;
         currentScale = Time.timeScale;
     }
-    public void LerpTime(float src, float dest, float time)
+    public void LerpTimeScale(float src, float dest, float time)
     {
-        StartCoroutine(CoroutineLerpTime(src, dest, time));
+        if (src == 0 || dest == 0 || isTimeLerp)
+            return;
+        isTimeLerp = true;
+        StartCoroutine(CoroutineLerpTimeScale(src, dest, time));
     }
-    IEnumerator CoroutineLerpTime(float src, float dest, float time)
+    IEnumerator CoroutineLerpTimeScale(float src, float dest, float time)
     {
-        float t = 0;
-        while(time < Time.deltaTime)
+        float startTime = Time.time;
+        float tempElapsedTime = 0;
+        while (time >= tempElapsedTime)
         {
-            t += Time.deltaTime / time;
+            tempElapsedTime = Time.time - startTime;
 
-            Time.timeScale = Mathf.Lerp(src, dest, t);
+            Time.timeScale = Mathf.Lerp(src, dest, tempElapsedTime / time);
             currentScale = Time.timeScale;
-            yield return YieldInstructionCache.WaitForSeconds(0.1f);
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
+        isTimeLerp = false;
     }
 }

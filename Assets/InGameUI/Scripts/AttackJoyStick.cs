@@ -10,7 +10,6 @@ public class AttackJoyStick : Joystick
     private Sprite interactSprite;
     private CustomObject interactiveObject;
     private CustomObject olderInteractiveObject;
-    private float currentTime = 0;
 
     private void Update()
     {
@@ -18,6 +17,7 @@ public class AttackJoyStick : Joystick
         {
             if (UIManager.Instance.GetActived())
                 return;
+            character.SetAim();
             character.GetWeaponManager().AttackButtonDown();
         }
         else

@@ -25,8 +25,6 @@ public class Player : Character
 
     // 윤아 0802
     private Stamina stamina;
-    // 윤아 0802
-    private float playTime;
 
     private float floorSpeed;
     private int shieldCount;
@@ -95,7 +93,6 @@ public class Player : Character
     void Awake()
     {
         objTransform = GetComponent<Transform>();
-        playTime = 0;
         scaleVector = new Vector3(1f, 1f, 1f);
         isRightDirection = true;
         raycastHitEnemies = new List<RaycasthitEnemy>();
@@ -117,7 +114,6 @@ public class Player : Character
             weaponManager.Init(this, OwnerType.Player);
         }
         */
-        playTime += Time.deltaTime;
 
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
         if (-90 <= directionDegree && directionDegree < 90)
@@ -168,6 +164,8 @@ public class Player : Character
 
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);
+
+        TimeController.Instance.PlayStart();
     }
 
     public void InitPlayerData(PlayerData playerData)
@@ -185,7 +183,7 @@ public class Player : Character
 
     protected override void Die()
     {
-        GameDataManager.Instance.SetTime(playTime);
+        GameDataManager.Instance.SetTime(TimeController.Instance.GetPlayTime);
         GameStateManager.Instance.GameOver();
         UIManager.Instance.GameOverUI();
     }
@@ -206,8 +204,8 @@ public class Player : Character
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
         // if (DefendAttack()) return 0;
-
         playerData.Hp -= transferredBulletInfo.damage;
+        AttackedAction();
         PlayerHPUi.DecreaseHp(playerData.Hp);
         AttackedEffect();
         if (playerData.Hp <= 0) Die();
@@ -221,7 +219,7 @@ public class Player : Character
         float criticalCheck = Random.Range(0f, 1f);
         // 크리티컬 공격
         playerData.Hp -= damage;
-
+        AttackedAction();
         if (knockBack > 0)
             isKnockBack = true;
 
@@ -257,6 +255,25 @@ public class Player : Character
         }
     }
 
+    public override void SetAim()
+    {
+        switch (autoAimType)
+        {
+            default:
+            case CharacterInfo.AutoAimType.RANDOM:
+            case CharacterInfo.AutoAimType.REACTANCE:
+            case CharacterInfo.AutoAimType.AUTO:
+                AutoAim();
+                break;
+            case CharacterInfo.AutoAimType.SEMIAUTO:
+                SemiAutoAim();
+                break;
+            case CharacterInfo.AutoAimType.MANUAL:
+                ManualAim();
+                break;
+        }
+    }
+
     public override CustomObject Interact()
     {
         float bestDistance = interactiveCollider2D.radius * 10;
@@ -281,37 +298,6 @@ public class Player : Character
             return null;
 
         return bestCollider.GetComponent<CustomObject>();
-    }
-
-    private void Move()
-    {
-        // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
-        objTransform.Translate(controller.GetMoveInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
-        if (controller.GetMoveInputVector().sqrMagnitude > 0.1f)
-        {
-            animationHandler.Walk();
-        }
-        else
-        {
-            animationHandler.Idle();
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(Vector2.up * playerData.MoveSpeed * Time.fixedDeltaTime);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector2.down * playerData.MoveSpeed * Time.fixedDeltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(Vector2.right * playerData.MoveSpeed * Time.fixedDeltaTime);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(Vector2.left * playerData.MoveSpeed * Time.fixedDeltaTime);
-        }
     }
 
     public bool AttackAble()
@@ -355,25 +341,11 @@ public class Player : Character
             return false;
     }
 
-    public override void SetAim()
+    private void AttackedAction()
     {
-        switch (autoAimType)
-        {
-            default:
-            case CharacterInfo.AutoAimType.RANDOM:
-            case CharacterInfo.AutoAimType.REACTANCE:
-            case CharacterInfo.AutoAimType.AUTO:
-                AutoAim();
-                break;
-            case CharacterInfo.AutoAimType.SEMIAUTO:
-                SemiAutoAim();
-                break;
-            case CharacterInfo.AutoAimType.MANUAL:
-                ManualAim();
-                break;
-        }
+        TimeController.Instance.LerpTimeScale(0.1f, 1, 0.3f);
+        CameraController.Instance.Shake(0.1f, 0.3f);
     }
-
     private void AutoAim()
     {
         int enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
@@ -497,6 +469,36 @@ public class Player : Character
         directionVector = controller.GetMoveAttackInputVector();
         directionVector.Normalize();
         directionDegree = directionVector.GetDegFromVector();
+    }
+    private void Move()
+    {
+        // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
+        objTransform.Translate(controller.GetMoveInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
+        if (controller.GetMoveInputVector().sqrMagnitude > 0.1f)
+        {
+            animationHandler.Walk();
+        }
+        else
+        {
+            animationHandler.Idle();
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Translate(Vector2.up * playerData.MoveSpeed * Time.fixedDeltaTime);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(Vector2.down * playerData.MoveSpeed * Time.fixedDeltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(Vector2.right * playerData.MoveSpeed * Time.fixedDeltaTime);
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(Vector2.left * playerData.MoveSpeed * Time.fixedDeltaTime);
+        }
     }
 
     // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
