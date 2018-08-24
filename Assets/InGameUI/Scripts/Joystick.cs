@@ -108,7 +108,6 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     {
         OnDrag(ped);
         isTouchDown = true;
-        character.SetAim();
     }
 
     public virtual void OnPointerUp(PointerEventData ped)
