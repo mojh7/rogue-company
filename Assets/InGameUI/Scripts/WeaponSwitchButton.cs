@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
+public class WeaponSwitchButton : MonoBehaviour, IPointerClickHandler
 {
     private Vector2 pos;
     // Use this for initialization
