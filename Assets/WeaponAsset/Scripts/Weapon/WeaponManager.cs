@@ -70,6 +70,7 @@ public class WeaponManager : MonoBehaviour {
     private bool stopsUpdate;
     #endregion
     #region getter
+    public WeaponState GetWeaponState() { return equipWeaponSlot[currentWeaponIndex].GetWeaponState(); }
     public Vector3 GetPosition() { return objTransform.position; }
     public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }

@@ -268,7 +268,7 @@ public class Enemy : Character
     // TODO : 0802 모장현, enemy aim 조절 타입에 따라서 알고리즘 변경
 
     // 0526 땜빵
-    protected override void SetAim()
+    public override void SetAim()
     {
         switch (autoAimType)
         {

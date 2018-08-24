@@ -118,7 +118,6 @@ public class Player : Character
         }
         */
         playTime += Time.deltaTime;
-        SetAim();
 
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
         if (-90 <= directionDegree && directionDegree < 90)
@@ -356,7 +355,7 @@ public class Player : Character
             return false;
     }
 
-    protected override void SetAim()
+    public override void SetAim()
     {
         switch (autoAimType)
         {
@@ -411,7 +410,7 @@ public class Player : Character
 
             if (raycasthitEnemyNum == 0)
             {
-                directionVector = controller.GetMoveRecentNormalInputVector();
+                directionVector = controller.GetMoveAttackInputVector();
                 directionDegree = directionVector.GetDegFromVector();
                 return;
             }
@@ -442,6 +441,7 @@ public class Player : Character
         if (0 == enemyTotal)
         {
             directionVector = controller.GetMoveAttackInputVector();
+            directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
             return;
         }
@@ -473,6 +473,7 @@ public class Player : Character
 
             if (raycasthitEnemyNum == 0)
             {
+                directionDegree = directionVector.GetDegFromVector();
                 return;
             }
 
@@ -487,6 +488,7 @@ public class Player : Character
             CircleCollider2D enemyColider = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index];
             enemyPos = enemyColider.transform.position + new Vector3(enemyColider.offset.x + enemyColider.offset.y, 0);
             directionVector = (enemyPos - objTransform.position);
+            directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
         }
     }
@@ -565,7 +567,7 @@ public class PlayerController
     }
     public Vector2 GetMoveAttackInputVector()
     {
-        if(attackJoyStick.GetAttackDown())
+        if(attackJoyStick.GetButtonDown())
         {
             return attackJoyStick.GetRecentNormalInputVector();
         }

@@ -182,7 +182,7 @@ public abstract class Character : MonoBehaviour
         //TODO : 만약에 Enemy를 조종하게 될 경우 Enemy Class에 재정의 필요
         return null;
     }
-    protected abstract void SetAim();
+    public abstract void SetAim();
     /*--abstract--*/
     protected abstract void Die();
     public abstract float Attacked(TransferBulletInfo info);

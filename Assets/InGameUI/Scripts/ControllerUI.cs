@@ -45,11 +45,11 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
     {
         touched = true;
     }
-    public void SetPlayer(Character player, ref PlayerController controller)
+    public void SetPlayer(Character character, ref PlayerController controller)
     {
-        attackJoyStick.SetPlayer(player);
-        activeSkillButton.SetPlayer(player);
-        weaponSwitchButton.SetPlayer(player);
+        attackJoyStick.SetPlayer(character);
+        activeSkillButton.SetPlayer(character);
+        weaponSwitchButton.SetPlayer(character);
         controller = new PlayerController(moveJoyStick, attackJoyStick);
     }
     void DrawMoveJoyStick()

@@ -11,17 +11,11 @@ public class AttackJoyStick : Joystick
     private Character character;
     private CustomObject interactiveObject;
     private CustomObject olderInteractiveObject;
-    private bool isAttackTouchDown = false;
     private float currentTime = 0;
-
-    public bool GetAttackDown()
-    {
-        return isAttackTouchDown;
-    }
 
     private void Update()
     {
-        if (isAttackTouchDown)
+        if (isTouchDown)
         {
             if (UIManager.Instance.GetActived())
                 return;
@@ -47,25 +41,20 @@ public class AttackJoyStick : Joystick
 
     public override void OnPointerDown(PointerEventData ped)
     {
-        base.OnPointerDown(ped);
         if (interactiveObject != null)
         {
             interactiveObject.Active();
         }
         else
         {
-            isAttackTouchDown = true;
+            base.OnPointerDown(ped);
         }
     }
 
     public override void OnPointerUp(PointerEventData ped)
     {
         base.OnPointerUp(ped);
-        if (isAttackTouchDown)
-        {
-            character.GetWeaponManager().AttackButtonUP();
-            isAttackTouchDown = false;
-        }
+        character.GetWeaponManager().AttackButtonUP();
     }
 
     public void SetPlayer(Character character)

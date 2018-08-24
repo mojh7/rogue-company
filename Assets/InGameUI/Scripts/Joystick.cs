@@ -23,6 +23,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     protected Image joystickImage;                 // 움직일 image, 작은 원
     private Vector3 inputVector;                // 입력 중일 때의 vector 값
     private Vector3 recentNormalInputVector;   // 터치 다운, 업에 상관없이 가장 최근 입력된 노말 벡터 
+    protected bool isTouchDown = false;
     #endregion
 
     #region getter
@@ -47,6 +48,11 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     void Awake()
     {
         recentNormalInputVector = Vector3.right;
+    }
+
+    public bool GetButtonDown()
+    {
+        return isTouchDown;
     }
 
     #region interface implement
@@ -94,13 +100,14 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     public virtual void OnPointerDown(PointerEventData ped)
     {
         OnDrag(ped);
+        isTouchDown = true;
     }
 
     public virtual void OnPointerUp(PointerEventData ped)
     {
-        
         inputVector = Vector3.zero;
         joystickImage.rectTransform.anchoredPosition = Vector3.zero;
+        isTouchDown = false;
     }
     #endregion
 
