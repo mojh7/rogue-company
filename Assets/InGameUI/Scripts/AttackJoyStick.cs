@@ -8,7 +8,6 @@ public class AttackJoyStick : Joystick
     private Sprite attackSprite;
     [SerializeField]
     private Sprite interactSprite;
-    private Character character;
     private CustomObject interactiveObject;
     private CustomObject olderInteractiveObject;
     private float currentTime = 0;
@@ -55,10 +54,5 @@ public class AttackJoyStick : Joystick
     {
         base.OnPointerUp(ped);
         character.GetWeaponManager().AttackButtonUP();
-    }
-
-    public void SetPlayer(Character character)
-    {
-        this.character = character;
     }
 }

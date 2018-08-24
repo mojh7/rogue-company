@@ -47,6 +47,7 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
     }
     public void SetPlayer(Character character, ref PlayerController controller)
     {
+        moveJoyStick.SetPlayer(character);
         attackJoyStick.SetPlayer(character);
         activeSkillButton.SetPlayer(character);
         weaponSwitchButton.SetPlayer(character);

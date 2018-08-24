@@ -23,6 +23,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     protected Image joystickImage;                 // 움직일 image, 작은 원
     private Vector3 inputVector;                // 입력 중일 때의 vector 값
     private Vector3 recentNormalInputVector;   // 터치 다운, 업에 상관없이 가장 최근 입력된 노말 벡터 
+    protected Character character;
     protected bool isTouchDown = false;
     #endregion
 
@@ -55,6 +56,11 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
         return isTouchDown;
     }
 
+    public void SetPlayer(Character character)
+    {
+        this.character = character;
+    }
+
     #region interface implement
     /*
      * 터치된 로컬 좌표값을 pos에 할당하고 bgImg 직사각형의 sizeDelta값으로 나누어
@@ -75,7 +81,8 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
             return;
         }
         Vector2 pos;
-        
+
+        character.SetAim();
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(backgroundImage.rectTransform, ped.position, ped.pressEventCamera, out pos))
         {
             pos.x = (pos.x / backgroundImage.rectTransform.sizeDelta.x);
@@ -101,6 +108,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     {
         OnDrag(ped);
         isTouchDown = true;
+        character.SetAim();
     }
 
     public virtual void OnPointerUp(PointerEventData ped)
