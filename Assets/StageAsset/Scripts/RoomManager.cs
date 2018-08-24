@@ -117,10 +117,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         ObjectSetAvailable();
         FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
-        //TODO : 무기만듬
-
         Item item = ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.CLOTHING);
-        ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), item);
+        ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere), item);
         ItemManager.Instance.CollectItem();
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
@@ -307,6 +305,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         for (int i = 0; i < currentRoom.edgeRect.Count; i++)
         {
+            Debug.DrawLine(currentRoom.areaLeftDown, currentRoom.edgeRect[i].areaLeftDown, Color.red);
             if (currentRoom.edgeRect[i].IsContain(_position))
             {
                 return currentRoom.edgeRect[i];

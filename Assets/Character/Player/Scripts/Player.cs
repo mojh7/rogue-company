@@ -343,9 +343,9 @@ public class Player : Character
 
     private void AttackedAction()
     {
-        TimeController.Instance.LerpTimeScale(0.1f, 1, 0.3f);
-        CameraController.Instance.Shake(0.2f, 0.3f);
-        LayerController.Instance.FlashAttackedLayer(0.3f);
+        TimeController.Instance.LerpTimeScale(0.1f, 1, 0.2f);
+        CameraController.Instance.Shake(0.2f, 0.2f);
+        LayerController.Instance.FlashAttackedLayer(0.2f);
     }
     private void AutoAim()
     {

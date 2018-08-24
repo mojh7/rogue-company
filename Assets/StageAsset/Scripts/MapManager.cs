@@ -531,8 +531,8 @@ namespace Map
                     if (isMerge)
                     {
                         halls.Remove(halls[i].edgeRect[j]);
-                        j = -1;
                         i = 0;
+                        break;
                     }
                 }
             }
@@ -551,7 +551,7 @@ namespace Map
                     LinkRects(halls[i], halls[k]);
                 }
             }
-            //MergeHalls();
+            MergeHalls();
 
             for (int i = 0; i < rooms.Count; i++)
             {
@@ -1036,12 +1036,7 @@ namespace Map
                     {
                         if (!this.edgeRect.Contains(rect.edgeRect[i]))
                         {
-                            this.edgeRect.Add(rect.edgeRect[i]);
-                            if(!rect.edgeRect[i].edgeRect.Contains(this))
-                            {
-                                rect.edgeRect[i].edgeRect.Add(this);
-                                rect.edgeRect[i].edgeRect.Remove(rect);
-                            }
+                            this.edgeRect.Add(rect.edgeRect[i]);                  
                         }
                     }
                     this.width += rect.width;
@@ -1064,11 +1059,6 @@ namespace Map
                         if (!this.edgeRect.Contains(rect.edgeRect[i]))
                         {
                             this.edgeRect.Add(rect.edgeRect[i]);
-                            if (!rect.edgeRect[i].edgeRect.Contains(this))
-                            {
-                                rect.edgeRect[i].edgeRect.Add(this);
-                                rect.edgeRect[i].edgeRect.Remove(rect);
-                            }
                         }
                     }
                     this.height += rect.height;
