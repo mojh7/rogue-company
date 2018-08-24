@@ -1,24 +1,19 @@
 fileFormatVersion: 2
-guid: 79488e6202b059548acec40a9b446e5e
-timeCreated: 1532248544
+guid: bb30a8d5c60257b41bb96f9402df00cd
+timeCreated: 1535114233
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: idle0
-    21300002: playerSprite_1
-    21300004: playerSprite_2
-    21300006: playerSprite_3
-    21300008: playerSprite_4
-    21300010: playerSprite_5
-    21300012: walk0
-    21300014: walk1
-    21300016: walk2
-    21300018: walk3
-    21300020: walk4
-    21300022: walk5
-    21300024: idle1
-    21300026: playerSprite_13
-    21300028: idle1
+    21300000: playerSprite (1)_0
+    21300002: playerSprite (1)_1
+    21300004: playerSprite (1)_2
+    21300006: playerSprite (1)_3
+    21300008: playerSprite (1)_5
+    21300010: playerSprite (1)_6
+    21300012: playerSprite (1)_7
+    21300014: playerSprite (1)_8
+    21300016: playerSprite (1)_9
+    21300018: playerSprite (1)_10
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -51,7 +46,7 @@ TextureImporter:
     mipBias: -1
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -105,123 +100,95 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle0
+      name: playerSprite (1)_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 102
+        width: 20
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_1
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 102
+        width: 20
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 102
+        width: 20
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_3
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 102
+        width: 41
+        height: 42
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_5
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 55
+        width: 20
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_6
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 55
+        width: 20
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_7
       rect:
         serializedVersion: 2
         x: 71
-        y: 122
-        width: 19
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: playerSprite_1
-      rect:
-        serializedVersion: 2
-        x: 101
-        y: 122
-        width: 20
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: playerSprite_2
-      rect:
-        serializedVersion: 2
-        x: 142
-        y: 121
-        width: 19
-        height: 34
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: playerSprite_3
-      rect:
-        serializedVersion: 2
-        x: 173
-        y: 121
-        width: 20
-        height: 34
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: playerSprite_4
-      rect:
-        serializedVersion: 2
-        x: 204
-        y: 121
-        width: 20
-        height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: playerSprite_5
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 140
-        width: 21
-        height: 23
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: walk0
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 75
-        width: 19
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: walk1
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 75
-        width: 19
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: walk2
-      rect:
-        serializedVersion: 2
-        x: 139
-        y: 76
+        y: 56
         width: 20
         height: 32
       alignment: 7
@@ -231,69 +198,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: walk3
+      name: playerSprite (1)_8
       rect:
         serializedVersion: 2
-        x: 175
-        y: 75
-        width: 19
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: walk4
-      rect:
-        serializedVersion: 2
-        x: 209
-        y: 75
-        width: 19
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: walk5
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 77
-        width: 19
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: idle1
-      rect:
-        serializedVersion: 2
-        x: 75
-        y: 33
-        width: 19
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: playerSprite_13
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 33
+        x: 107
+        y: 55
         width: 20
-        height: 32
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_9
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 55
+        width: 20
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: playerSprite (1)_10
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 57
+        width: 20
+        height: 33
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
