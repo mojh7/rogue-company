@@ -15,26 +15,26 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerUpHandler, IPointerDown
         this.character = character;
     }
 
-    // 터치 했을 때
-    public void OnPointerDown(PointerEventData ped)
-    {
-        pos.x = ped.position.x;
-    }
+    //// 터치 했을 때
+    //public void OnPointerDown(PointerEventData ped)
+    //{
+    //    pos.x = ped.position.x;
+    //}
 
-    // 터치 후 땠을 때
-    public void OnPointerUp(PointerEventData ped)
-    {
-        // 다음 무기로 교체 방향 ->
-        if (ped.position.x > pos.x)
-        {
-            character.GetWeaponManager().ChangeWeapon(true);
-        }
-        // 이전 무기로 교체 방향 <-
-        else if (ped.position.x < pos.x)
-        {
-            character.GetWeaponManager().ChangeWeapon(false);
-        }
-    }
+    //// 터치 후 땠을 때
+    //public void OnPointerUp(PointerEventData ped)
+    //{
+    //    // 다음 무기로 교체 방향 ->
+    //    if (ped.position.x > pos.x)
+    //    {
+    //        character.GetWeaponManager().ChangeWeapon(true);
+    //    }
+    //    // 이전 무기로 교체 방향 <-
+    //    else if (ped.position.x < pos.x)
+    //    {
+    //        character.GetWeaponManager().ChangeWeapon(false);
+    //    }
+    //}
 
 
     /// <summary> WeaponSwitchButton UI Weapon Sprite View Update </summary>

@@ -9,6 +9,7 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
     Vector2 outPos;
     Vector2 touchPos;
     float screenHalfWidth;
+    bool touched;
     #endregion
     #region controllComponents
     [SerializeField]
@@ -40,6 +41,10 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
     }
     #endregion
     #region func
+    public void IsTouched()
+    {
+        touched = true;
+    }
     public void SetPlayer(Character player, ref PlayerController controller)
     {
         attackJoyStick.SetPlayer(player);
@@ -61,6 +66,7 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
     {
         screenHalfWidth = Screen.width * 0.5f;
         outPos = new Vector2(-screenHalfWidth, 0);
+        touched = false;
         moveJouStickTransform = moveJoyStick.GetComponent<RectTransform>();
         moveJouStickTransform.position = outPos;
     }
@@ -80,19 +86,16 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-#if UNITY_EDITOR
+        if (touched)
+        {
+            touched = false;
+            return;
+        }
         if (eventData.position.x < screenHalfWidth)
         {
             touchPos = eventData.position;
             DrawMoveJoyStick();
         }
-#else
-        if (eventData.position.x < screenHalfWidth)
-        {
-            touchPos = eventData.position;
-            DrawMoveJoyStick();
-        }
-#endif
     }
     #endregion
 }

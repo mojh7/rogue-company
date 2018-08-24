@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum ObjectType
 {
@@ -20,6 +21,9 @@ public class CustomObject : MonoBehaviour
     protected bool isActive;
     protected bool isAvailable;
     protected bool isAnimate;
+
+    protected Vector2[] nullPolygon;
+    protected Vector2[] clickableBoxPolygon;
     #region components
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
@@ -74,7 +78,7 @@ public class CustomObject : MonoBehaviour
         polygonCollider2D = GetComponent<PolygonCollider2D>();
 #endif
         polygonCollider2D.pathCount = 1;
-        polygonCollider2D.SetPath(0, new Vector2[4] { new Vector2(-.1f, -.1f), new Vector2(.1f, -.1f), new Vector2(.1f, .1f), new Vector2(-.1f, .1f) });
+        polygonCollider2D.SetPath(0, nullPolygon);
     }
 #if UNITY_EDITOR
     public void SetPosition()
@@ -138,6 +142,8 @@ public class CustomObject : MonoBehaviour
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
+        nullPolygon = new Vector2[4] { new Vector2(-.1f, -.1f), new Vector2(.1f, -.1f), new Vector2(.1f, .1f), new Vector2(-.1f, .1f) };
+        clickableBoxPolygon = new Vector2[4] { new Vector2(-.25f, 0), new Vector2(.25f, 0), new Vector2(.25f, .5f), new Vector2(-.25f, .5f) };
     }
     #endregion
 }
@@ -508,7 +514,7 @@ public class Portal : RandomSpriteObject
         isActive = false;
         isAvailable = true;
         objectType = ObjectType.PORTAL;
-        gameObject.layer = 0;
+        gameObject.layer = 9;
     }
     public override void SetAvailable()
     {
@@ -544,7 +550,8 @@ public class ItemBox : RandomSpriteObject
     }
     public override bool Active()
     {
-        base.Active();
+        if (!base.Active())
+            return false;
         isAvailable = false;
         item.gameObject.SetActive(true);
         ItemManager.Instance.CreateItem(item, this.transform.position);
@@ -560,6 +567,16 @@ public class ItemBox : RandomSpriteObject
         }
         DestroyAndDeactive();
     }
+
+    private void OnMouseDown()
+    {
+        bool success = Active();
+        if(success)
+        {
+            ControllerUI.Instance.IsTouched();
+        }
+    }
+
 }
 
 public class ItemContainer : RandomSpriteObject
@@ -577,7 +594,7 @@ public class ItemContainer : RandomSpriteObject
         objectType = ObjectType.NONE;
         tag = "Untagged";
         textMesh.text = "";
-        gameObject.layer = 0;
+        gameObject.layer = 9;
     }
 
     public void Init(Item _item)
@@ -586,6 +603,7 @@ public class ItemContainer : RandomSpriteObject
         innerObject = _item;
         sprite = innerObject.GetSprite();
         ReAlign();
+        polygonCollider2D.SetPath(0, clickableBoxPolygon);
     }
 
     void ReAlign()
@@ -607,6 +625,9 @@ public class ItemContainer : RandomSpriteObject
 
     public override bool Active()
     {
+        if (!isAvailable)
+            return false;
+        isAvailable = false;
         if (innerObject.GetType() == typeof(Weapon))
         {
             bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
@@ -662,6 +683,16 @@ public class ItemContainer : RandomSpriteObject
         }
         DettachDestroy();
     }
+
+    private void OnMouseDown()
+    {
+        bool success = Active();
+        if (success)
+        {
+            ControllerUI.Instance.IsTouched();
+        }
+    }
+
 }
 
 public class FallRockTrap : RandomSpriteObject

@@ -257,12 +257,13 @@ public class Player : Character
             //skillGauge = 0;
         }
     }
+
     public override CustomObject Interact()
     {
         float bestDistance = interactiveCollider2D.radius * 10;
         Collider2D bestCollider = null;
 
-        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius, 1 << 1);
+        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius, (1 << 1) | (1 << 9));
 
         for (int i = 0; i < collider2D.Length; i++)
         {
@@ -381,6 +382,7 @@ public class Player : Character
         if (0 == enemyTotal)
         {
             directionVector = controller.GetMoveAttackInputVector();
+            directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
             return;
         }
@@ -427,6 +429,7 @@ public class Player : Character
             enemyPos = enemyColider.transform.position + new Vector3(enemyColider.offset.x + enemyColider.offset.y, 0);
             directionVector = (enemyPos - objTransform.position);
             directionVector.z = 0;
+            directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
         }
     }
@@ -490,6 +493,7 @@ public class Player : Character
     private void ManualAim()
     {
         directionVector = controller.GetMoveAttackInputVector();
+        directionVector.Normalize();
         directionDegree = directionVector.GetDegFromVector();
     }
 
