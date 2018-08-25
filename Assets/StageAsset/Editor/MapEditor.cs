@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 public class MapEditor : EditorWindow
 {
+    [SerializeField]
+    GameObject prefabs;
+
     public Vector2 scrollPosition = Vector2.zero;
 
     int width, height, size = 3, gage;
@@ -91,14 +94,10 @@ public class MapEditor : EditorWindow
             if (op && objectType == ObjectType.NONE || objectType == ObjectType.SPAWNER)
                 return;
         }
-   
-        GameObject gameObject = new GameObject();
+
+        GameObject gameObject = Object.Instantiate(prefabs);
         gameObject.name = objectType.ToString();
         gameObject.transform.parent = roomObj.transform;
-        gameObject.AddComponent<SpriteRenderer>();
-        gameObject.AddComponent<PolygonCollider2D>();
-        gameObject.AddComponent<Rigidbody2D>();
-        gameObject.AddComponent<Animator>();
         ObjectData objectData;
         if (multipleSprite != null && spriteNum == 0)
         {
@@ -122,12 +121,9 @@ public class MapEditor : EditorWindow
     {
         if (roomObj == null)
             return null;
-        GameObject gameObject = new GameObject();
+        GameObject gameObject = Object.Instantiate(prefabs);
         gameObject.name = objectType.GetType().ToString();
         gameObject.transform.parent = roomObj.transform;
-        gameObject.AddComponent<SpriteRenderer>();
-        gameObject.AddComponent<PolygonCollider2D>();
-        gameObject.AddComponent<Rigidbody2D>();
 
         ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
         objectData.LoadObject(gameObject);
@@ -159,8 +155,7 @@ public class MapEditor : EditorWindow
             if (child.GetComponent<CustomObject>() != null)
             {
                 CustomObject customObject = child.GetComponent<CustomObject>();
-                customObject.SetPosition();
-                roomSet.Add(new ObjectData(customObject.position, customObject.objectType, customObject.sprites));
+                roomSet.Add(new ObjectData(customObject.transform.position, customObject.objectType, customObject.sprites));
             }
         }
         if (roomType == RoomType.MONSTER || roomType == RoomType.BOSS)
@@ -281,11 +276,7 @@ public class MapEditor : EditorWindow
 
     void DataToObject(ObjectData _objectData)
     {
-        GameObject gameObject = new GameObject();
-        gameObject.AddComponent<SpriteRenderer>();
-        gameObject.AddComponent<PolygonCollider2D>();
-        gameObject.AddComponent<Rigidbody2D>();
-        gameObject.AddComponent<Animator>();
+        GameObject gameObject = Object.Instantiate(prefabs);
 
         _objectData.LoadObject(gameObject);
         gameObject.name = "Object";

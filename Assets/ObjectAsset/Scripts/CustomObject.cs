@@ -51,9 +51,6 @@ public class CustomObject : MonoBehaviour
 
     protected void StopAni()
     {
-#if UNITY_EDITOR
-        animator = GetComponent<Animator>();
-#endif
         animator.enabled = false;
         spriteRenderer.sprite = sprite;
     }
@@ -63,9 +60,6 @@ public class CustomObject : MonoBehaviour
         textMesh.text = "";
         gameObject.layer = 1;
         SetNullPolygon();
-#if UNITY_EDITOR
-        spriteRenderer = GetComponent<SpriteRenderer>();
-#endif
         spriteRenderer.color = Color.white;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         StopAni();
@@ -74,18 +68,9 @@ public class CustomObject : MonoBehaviour
 
     private void SetNullPolygon()
     {
-#if UNITY_EDITOR
-        polygonCollider2D = GetComponent<PolygonCollider2D>();
-#endif
         polygonCollider2D.pathCount = 1;
         polygonCollider2D.SetPath(0, nullPolygon);
     }
-#if UNITY_EDITOR
-    public void SetPosition()
-    {
-        position = new Vector3(transform.position.x, transform.position.y, 0);
-    }
-#endif
     protected void SetSpriteAndCollider()
     {
         if (sprite)
@@ -132,6 +117,10 @@ public class CustomObject : MonoBehaviour
 
     public virtual void DeIndicateInfo() { }
 
+    public void LoadAwake()
+    {
+        Awake();
+    }
     #region UnityFunc
     private void Awake()
     {

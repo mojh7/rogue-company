@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RoomType { NONE, MONSTER, EVENT, BOSS, STORE, REST }
+public enum RoomType { NONE, MONSTER, EVENT, BOSS, STORE, REST, HALL }
 
 public class RoomSet : ScriptableObject
 {
@@ -52,57 +52,57 @@ public struct ObjectData
         switch (objectType)
         {
             case ObjectType.UNBREAKABLE:
-                _gameObject.AddComponent<UnbreakableBox>();
+                _gameObject.AddComponent<UnbreakableBox>().LoadAwake();
                 _gameObject.GetComponent<UnbreakableBox>().sprites = sprites;
                 _gameObject.GetComponent<UnbreakableBox>().Init();
                 break;
             case ObjectType.BREAKABLE:
-                _gameObject.AddComponent<BreakalbeBox>();
+                _gameObject.AddComponent<BreakalbeBox>().LoadAwake();
                 _gameObject.GetComponent<BreakalbeBox>().sprites = sprites;
                 _gameObject.GetComponent<BreakalbeBox>().Init();
                 break;
             case ObjectType.PUSHBOX:
-                _gameObject.AddComponent<PushBox>();
+                _gameObject.AddComponent<PushBox>().LoadAwake();
                 _gameObject.GetComponent<PushBox>().sprites = sprites;
                 _gameObject.GetComponent<PushBox>().Init();
                 break;
             case ObjectType.ITEMBOX:
-                _gameObject.AddComponent<ItemBox>();
+                _gameObject.AddComponent<ItemBox>().LoadAwake();
                 _gameObject.GetComponent<ItemBox>().sprites = sprites;
                 _gameObject.GetComponent<ItemBox>().Init();
                 break;
             case ObjectType.VENDINMACHINE:
-                _gameObject.AddComponent<VendingMachine>();
+                _gameObject.AddComponent<VendingMachine>().LoadAwake();
                 _gameObject.GetComponent<VendingMachine>().sprites = sprites;
                 _gameObject.GetComponent<VendingMachine>().Init();
                 break;
             case ObjectType.SPAWNER:
-                _gameObject.AddComponent<Spawner>();
+                _gameObject.AddComponent<Spawner>().LoadAwake();
                 _gameObject.GetComponent<Spawner>().sprites = null;
                 _gameObject.GetComponent<Spawner>().Init();
                 break;
             case ObjectType.PORTAL:
-                _gameObject.AddComponent<Portal>();
+                _gameObject.AddComponent<Portal>().LoadAwake();
                 _gameObject.GetComponent<Portal>().sprites = sprites;
                 _gameObject.GetComponent<Portal>().Init();
                 break;
             case ObjectType.SNACKBOX:
-                _gameObject.AddComponent<SnackBox>();
+                _gameObject.AddComponent<SnackBox>().LoadAwake();
                 _gameObject.GetComponent<SnackBox>().sprites = sprites;
                 _gameObject.GetComponent<SnackBox>().Init();
                 break;
             case ObjectType.MEDKITBOX:
-                _gameObject.AddComponent<MedkitBox>();
+                _gameObject.AddComponent<MedkitBox>().LoadAwake();
                 _gameObject.GetComponent<MedkitBox>().sprites = sprites;
                 _gameObject.GetComponent<MedkitBox>().Init();
                 break;
             case ObjectType.SUBSTATION:
-                _gameObject.AddComponent<SubStation>();
+                _gameObject.AddComponent<SubStation>().LoadAwake();
                 _gameObject.GetComponent<SubStation>().sprites = sprites;
                 _gameObject.GetComponent<SubStation>().Init();
                 break;
             case ObjectType.STOREITEM:
-                _gameObject.AddComponent<StoreItem>();
+                _gameObject.AddComponent<StoreItem>().LoadAwake();
                 _gameObject.GetComponent<StoreItem>().sprites = null;
                 _gameObject.GetComponent<StoreItem>().Init();
                 break;

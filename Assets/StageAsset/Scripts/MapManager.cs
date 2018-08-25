@@ -117,6 +117,7 @@ namespace Map
             ClearTile();
             CreateMap();
             LinkAllRects();
+            AssignAllHalls();
             rooms.AddRange(halls);
             BakeMap();
             LinkRecursion(); // 보스 방을 제외한 방 연결
@@ -535,6 +536,11 @@ namespace Map
                     }
                 }
             }
+
+            for(i=0;i<halls.Count;i++)
+            {
+                halls[i].Drawing(Color.red,0);
+            }
         }
 
         void LinkAllRects()
@@ -815,6 +821,21 @@ namespace Map
             CreateStartPoint();
         } // 모든 룸 셋 배치
 
+        void AssignAllHalls()
+        {
+            for (int i = 0; i < halls.Count; i++)
+            {
+                RoomSet roomSet = GetHallSet(halls[i].width, halls[i].height);
+                if (roomSet == null)
+                    continue;
+                roomSet.x = halls[i].x;
+                roomSet.y = halls[i].y;
+                halls[i].eRoomType = roomSet.roomType;
+                halls[i].gage = roomSet.gage;
+                halls[i].customObjects = AssignRoom(roomSet);
+            }
+        }
+
         RoomSet GetRoomSet(int width, int height)
         {
             if (necessaryRoomSet.Count == 0)
@@ -836,6 +857,13 @@ namespace Map
 
                 return roomSet;
             }
+        }
+
+        RoomSet GetHallSet(int width, int height)
+        {
+            RoomSet roomSet = RoomSetManager.Instance.LoadHallSet(width, height);
+
+            return roomSet;
         }
 
         GameObject[] AssignRoom(RoomSet _roomSet)

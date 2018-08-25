@@ -6,10 +6,14 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
     public Sprite[] doorSprites;
     public RoomSet[] roomSetArr;
     public RoomSet[] firstFloorSet;
+    public RoomSet[] hallSetArr;
     List<RoomSetGroup> roomSetGroup;
+    RoomSet zeroRoomset;
 
     public void Init()
     {
+        zeroRoomset = new RoomSet(0, 0, 3, 0, RoomType.NONE);
+
         roomSetGroup = new List<RoomSetGroup>();
         bool isExist;
         for (int i = 0; i < roomSetArr.Length; i++)
@@ -35,11 +39,31 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
                     roomSetGroup[roomSetGroup.Count - 1].AddOtherRoom(roomSetArr[i]);
             }
         }
+        for (int i = 0; i < hallSetArr.Length; i++)
+        {
+            isExist = false;
+            for (int j = 0; j < roomSetGroup.Count; j++)
+            {
+                if (roomSetGroup[j].width == roomSetArr[i].width && roomSetGroup[j].height == roomSetArr[i].height)
+                {
+                    roomSetGroup[j].AddHallList(hallSetArr[i]);
+
+                    isExist = true;
+                }
+            }
+            if (!isExist)
+            {
+                roomSetGroup.Add(new RoomSetGroup(roomSetArr[i].width, roomSetArr[i].height));
+
+                roomSetGroup[roomSetGroup.Count - 1].AddHallList(hallSetArr[i]);
+
+            }
+        }
     }
 
     public RoomSet LoadRoomSet(int _width,int _height)
     {
-        RoomSet roomSet;
+        RoomSet roomSet = zeroRoomset;
 
         for (int i = 0;i< roomSetGroup.Count; i++)
         {
@@ -53,8 +77,43 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
                     continue;
                 return roomSet;
             }
+            else if (_width >= roomSetGroup[i].width && _height >= roomSetGroup[i].height)
+            {
+                RoomSet temp;
+                if (Random.Range(0, 10) >= 0)
+                    temp = roomSetGroup[i].GetMonsterRoomSet();
+                else
+                    temp = roomSetGroup[i].GetOtherRoomSet();
+                if (temp == null)
+                    continue;
+                if (roomSet.width < temp.width && roomSet.height < temp.height)
+                    roomSet = temp;
+            }
         }
-        return roomSetGroup[0].GetMonsterRoomSet(); 
+        return roomSet;  
+    }
+
+    public RoomSet LoadHallSet(int width,int height)
+    {
+        RoomSet roomSet = zeroRoomset;
+
+        for (int i = 0; i < roomSetGroup.Count; i++)
+        {
+            if (width == roomSetGroup[i].width && height == roomSetGroup[i].height)
+            {
+                roomSet = roomSetGroup[i].GetHallSet();
+                return roomSet;
+            }
+            else if(width >= roomSetGroup[i].width && height >= roomSetGroup[i].height)
+            {
+                RoomSet temp = roomSetGroup[i].GetHallSet();
+                if (temp == null)
+                    continue;
+                if (roomSet.width < temp.width && roomSet.height < temp.height)
+                    roomSet = temp;
+            }
+        }
+        return roomSet;
     }
 }
 
@@ -64,6 +123,7 @@ class RoomSetGroup
     public readonly int height;
     public List<RoomSet> monsterList;
     public List<RoomSet> otherList;
+    public List<RoomSet> hallList;
 
     public RoomSetGroup(int _width,int _height)
     {
@@ -71,6 +131,7 @@ class RoomSetGroup
         height = _height;
         monsterList = new List<RoomSet>();
         otherList = new List<RoomSet>();
+        hallList = new List<RoomSet>();
     }
 
     public void AddMonsterRoom(RoomSet _roomSet)
@@ -80,6 +141,10 @@ class RoomSetGroup
     public void AddOtherRoom(RoomSet _roomSet)
     {
         otherList.Add(_roomSet);
+    }
+    public void AddHallList(RoomSet roomSet)
+    {
+        hallList.Add(roomSet);
     }
 
     public RoomSet GetMonsterRoomSet()
@@ -93,5 +158,11 @@ class RoomSetGroup
         if (otherList.Count < 1)
             return null;
         return otherList[Random.Range(0, otherList.Count)];
+    }
+    public RoomSet GetHallSet()
+    {
+        if (hallList.Count < 1)
+            return null;
+        return hallList[Random.Range(0, hallList.Count)];
     }
 }

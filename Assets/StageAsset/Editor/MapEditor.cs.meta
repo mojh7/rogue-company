@@ -5,7 +5,9 @@ licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_PersistentViewDataDictionary: {instanceID: 0}
+  - prefabs: {fileID: 1369636008178790, guid: 6b316fdc30608134982526328ea367dc, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

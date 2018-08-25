@@ -345,7 +345,7 @@ public class Player : Character
     {
         Debug.Log(power);
         TimeController.Instance.LerpTimeScale(0.1f, 1, 0.2f);
-        CameraController.Instance.Shake(0.2f, 0.2f);
+        CameraController.Instance.Shake(0.1f, 0.2f);
         LayerController.Instance.FlashAttackedLayer(0.2f);
     }
     private void AutoAim()
