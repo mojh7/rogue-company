@@ -514,31 +514,26 @@ namespace Map
             LinkedShape linkedShape;
             bool isMerge;
             int i = 0;
-            for (i = 0; i < halls.Count; i++)
-            {
-                halls[i].Drawing(Color.red, width);
-            }
+            Rect tempRect;
             for (i = 0; i < halls.Count; i++)
             {
                 for (int j = 0; j < halls[i].edgeRect.Count; ++j)
                 {
-                    linkedShape = CheckLinkedShape(halls[i], halls[i].edgeRect[j]);
-                    if (linkedShape == LinkedShape.NONE || halls[i].edgeRect[j].isRoom)
-                        continue;
+                    tempRect = halls[i];
+                    linkedShape = CheckLinkedShape(tempRect, tempRect.edgeRect[j]);
 
-                    isMerge = halls[i].Merge(halls[i].edgeRect[j], linkedShape);
+                    if (linkedShape == LinkedShape.NONE)
+                        continue;
+                  
+
+                    isMerge = tempRect.Merge(ref halls,tempRect.edgeRect[j], linkedShape);
 
                     if (isMerge)
                     {
-                        halls.Remove(halls[i].edgeRect[j]);
                         i = 0;
-                        break;
+                        j = -1;
                     }
                 }
-            }
-            for (i=0;i<halls.Count;i++)
-            {
-                halls[i].Drawing(Color.blue, 0);
             }
         }
 
@@ -967,6 +962,25 @@ namespace Map
             isDrawed = false;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            Rect objAsPart = obj as Rect;
+            if (objAsPart == null) return false;
+            else return Equals(objAsPart);
+        }
+
+        public bool Equals(Rect other)
+        {
+            if (other == null) return false;
+            if(this.x == other.x && this.y == other.y
+                && this.width == other.width && this.height == other.height)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void IsRoom()
         {
             isRoom = true;
@@ -1026,17 +1040,26 @@ namespace Map
             return false;
         }
 
-        public bool Merge(Rect rect, LinkedShape linkedShape)
+        public bool Merge(ref List<Rect> rects, Rect rect, LinkedShape linkedShape)
         {
-            if(linkedShape == LinkedShape.HORIZONTAL)
+            if (linkedShape == LinkedShape.HORIZONTAL)
             {
                 if(this.height == rect.height && this.y == rect.y)
                 {
+                    rects.Remove(rect);
+                    rect.edgeRect.Remove(this);
+                    this.edgeRect.Remove(rect);
+
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
                         if (!this.edgeRect.Contains(rect.edgeRect[i]))
                         {
                             this.edgeRect.Add(rect.edgeRect[i]);                  
+                        }
+                        rect.edgeRect[i].edgeRect.Remove(rect);
+                        if(!rect.edgeRect[i].edgeRect.Contains(this))
+                        {
+                            rect.edgeRect[i].edgeRect.Add(this);
                         }
                     }
                     this.width += rect.width;
@@ -1054,11 +1077,20 @@ namespace Map
             {
                 if(this.width == rect.width && this.x == rect.x)
                 {
+                    rects.Remove(rect);
+                    rect.edgeRect.Remove(this);
+                    this.edgeRect.Remove(rect);
+
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
                         if (!this.edgeRect.Contains(rect.edgeRect[i]))
                         {
                             this.edgeRect.Add(rect.edgeRect[i]);
+                        }
+                        rect.edgeRect[i].edgeRect.Remove(rect);
+                        if (!rect.edgeRect[i].edgeRect.Contains(this))
+                        {
+                            rect.edgeRect[i].edgeRect.Add(this);
                         }
                     }
                     this.height += rect.height;

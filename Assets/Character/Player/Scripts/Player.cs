@@ -205,7 +205,7 @@ public class Player : Character
     {
         // if (DefendAttack()) return 0;
         playerData.Hp -= transferredBulletInfo.damage;
-        AttackedAction();
+        AttackedAction(1);
         PlayerHPUi.DecreaseHp(playerData.Hp);
         AttackedEffect();
         if (playerData.Hp <= 0) Die();
@@ -219,7 +219,7 @@ public class Player : Character
         float criticalCheck = Random.Range(0f, 1f);
         // 크리티컬 공격
         playerData.Hp -= damage;
-        AttackedAction();
+        AttackedAction(damage);
         if (knockBack > 0)
             isKnockBack = true;
 
@@ -341,8 +341,9 @@ public class Player : Character
             return false;
     }
 
-    private void AttackedAction()
+    private void AttackedAction(float power)
     {
+        Debug.Log(power);
         TimeController.Instance.LerpTimeScale(0.1f, 1, 0.2f);
         CameraController.Instance.Shake(0.2f, 0.2f);
         LayerController.Instance.FlashAttackedLayer(0.2f);

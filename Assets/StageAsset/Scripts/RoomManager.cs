@@ -305,7 +305,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         for (int i = 0; i < currentRoom.edgeRect.Count; i++)
         {
-            Debug.DrawLine(currentRoom.areaLeftDown, currentRoom.edgeRect[i].areaLeftDown, Color.red);
             if (currentRoom.edgeRect[i].IsContain(_position))
             {
                 return currentRoom.edgeRect[i];

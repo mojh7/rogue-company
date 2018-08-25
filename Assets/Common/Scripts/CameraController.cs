@@ -10,27 +10,36 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviourSingleton<CameraController> {
 
-    Player m_player;
     Transform cameraTransform;
     Vector2 m_velocity = Vector2.zero;
-    float m_shakeTime, m_shakeAmount;
     [SerializeField]
     float m_cameraDepth = -1;
-    Vector2 shakePos;
     Vector3 zeroPos;
+    private bool isShaking;
+
     private void Start()
     {
         cameraTransform = this.transform;
         zeroPos = new Vector3(0, 0, m_cameraDepth);
     }
-    private void Update()
+    IEnumerator CoroutineShaking(float duration, float magnitude)
     {
-        if (m_shakeTime > 0)
-            ShakeCamera(m_shakeAmount);
-        else
+        float elapsed = 0.0f;
+
+        while(elapsed < duration)
         {
-            cameraTransform.localPosition = zeroPos;
+            float x = Random.Range(-1.0f, 1.0f) * magnitude;
+            float y = Random.Range(-1.0f, 1.0f) * magnitude;
+
+            cameraTransform.localPosition = new Vector2(x, y);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
         }
+
+        cameraTransform.localPosition = zeroPos;
+        isShaking = false;
     }
     #region func
     void FindOther(Vector2 _targetPos)
@@ -39,18 +48,13 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
         cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
     }
 
-    public void Shake(float amout, float time)
+    public void Shake(float amount, float time)
     {
-        m_shakeTime = time;
-        m_shakeAmount = amout;
+        if (isShaking)
+            return;
+        isShaking = true;
+        StartCoroutine(CoroutineShaking(time, amount));
     }
 
-    void ShakeCamera(float _amount)
-    {
-        shakePos = Random.insideUnitCircle * _amount;
-
-        cameraTransform.position = new Vector3(cameraTransform.position.x + shakePos.x, cameraTransform.position.y + shakePos.y, m_cameraDepth);
-        m_shakeTime -= Time.fixedDeltaTime;
-    }
     #endregion
 }
