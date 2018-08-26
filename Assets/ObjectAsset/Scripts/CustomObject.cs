@@ -7,7 +7,7 @@ public enum ObjectType
 {
     NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX,
     VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX,
-    SUBSTATION, STOREITEM
+    SUBSTATION, STOREITEM, NPC
 }
 
 public class CustomObject : MonoBehaviour
@@ -638,9 +638,10 @@ public class ItemContainer : RandomSpriteObject
     {
         if (!isAvailable)
             return false;
-        isAvailable = false;
         if (innerObject.GetType() == typeof(Weapon))
         {
+            isAvailable = false;
+
             bool check = PlayerManager.Instance.GetPlayer().GetWeaponManager().PickAndDropWeapon(innerObject);
             if (check)
             {
@@ -650,6 +651,8 @@ public class ItemContainer : RandomSpriteObject
         }
         else if(innerObject.GetType() == typeof(UsableItem))
         {
+            isAvailable = false;
+
             innerObject.Active();
             DestroyAndDeactive();
             return true;
@@ -716,7 +719,6 @@ public class FallRockTrap : RandomSpriteObject
     public void Init(Sprite sprite)
     {
         Init();
-        isAvailable = true;
         this.tempSprite = sprite;
         List<Vector2> list = new List<Vector2>();
         int num = tempSprite.GetPhysicsShapeCount();
@@ -984,5 +986,29 @@ public class StoreItem : CustomObject
 
 public class NPC : NoneRandomSpriteObject
 {
+    public override void Init()
+    {
+        base.Init();
+        isAnimate = true;
+        isAvailable = true;
+        isActive = false;
+    }
+}
 
+public class Astrologer : NPC
+{
+    public override void Init()
+    {
+        base.Init();
+    }
+
+    public override bool Active()
+    {
+        if(base.Active())
+        {
+            //TODO: 점성술
+            return true;
+        }
+        return false;
+    }
 }
