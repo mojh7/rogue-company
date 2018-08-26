@@ -406,40 +406,24 @@ public class Door : RandomSpriteObject
     }
     public override bool Active()
     {
-        if (!isAvailable)
+        if (!isLock)
             return false;
-        base.Active();
-        if (isActive)
-        {
-            isActive = false;
-            doorArrows[0].SetActive(true);
-            doorArrows[1].SetActive(true);
-            sprite = openSprite;
-        }
-        else
-        {
-            isActive = true;
-            isAnimate = true;
-            StartAni();
-            doorArrows[0].SetActive(false);  
-            doorArrows[1].SetActive(false);
-            if (!isHorizon)
-            {
-                animator.SetTrigger("door_horizon");
-            }
-            else
-            {
-                animator.SetTrigger("door_vertical");
-            }
-            sprite = closeSprite;
-        }
+        if(GameDataManager.Instance.GetCard() <= 0)
+            return false;
+        isLock = true;
+        GameDataManager.Instance.UseCard();
+        isActive = false;
+        doorArrows[0].SetActive(true);
+        doorArrows[1].SetActive(true);
+        sprite = openSprite;
 
         SetCollision();
-
         return true;
     }
     public bool OpenAndClose()
     {
+        if (isLock)
+            return false;
         if (isActive)
         {
             isActive = false;
@@ -996,4 +980,9 @@ public class StoreItem : CustomObject
     {
         textMesh.text = "";
     }
+}
+
+public class NPC : NoneRandomSpriteObject
+{
+
 }

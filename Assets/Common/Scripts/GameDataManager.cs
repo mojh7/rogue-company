@@ -64,7 +64,11 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region Func
-    public void UseCard() { }
+    public void UseCard()
+    {
+        if (m_card > 0)
+            m_card--;
+    }
     public void UseKey()
     {
         if (m_key <= 0)

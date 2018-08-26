@@ -62,3 +62,93 @@ public class Coin : Item
         Destroy(gameObject);
     }
 }
+
+public class Key : Item
+{
+    bool isActive = false;
+
+    public override void Active()
+    {
+        if (!isActive)
+        {
+            GameDataManager.Instance.SetKey();
+            isActive = !isActive;
+            MoveToTarget();
+        }
+    }
+
+    public override void SubActive()
+    {
+        GameDataManager.Instance.SetKey();
+        isActive = !isActive;
+        MoveToTarget();
+    }
+
+    void MoveToTarget()
+    {
+        float distance = Vector2.Distance(transform.position, PlayerManager.Instance.GetPlayerPosition());
+
+        StartCoroutine(CoroutineMoveToTarget(transform, distance / 2));
+    }
+
+    IEnumerator CoroutineMoveToTarget(Transform _transform, float _duration)
+    {
+        float elapsed = 0.0f;
+        Vector2 start = _transform.position;
+        Vector2 target;
+        while (elapsed < _duration)
+        {
+            target = PlayerManager.Instance.GetPlayerPosition();
+            elapsed += Time.deltaTime + elapsed * elapsed / 50;
+            _transform.position = Vector2.Lerp(start, target, elapsed / _duration);
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
+        Destroy(gameObject);
+    }
+}
+
+public class Card : Item
+{
+    bool isActive = false;
+
+    public override void Active()
+    {
+        if (!isActive)
+        {
+            GameDataManager.Instance.SetCard();
+            isActive = !isActive;
+            MoveToTarget();
+        }
+    }
+
+    public override void SubActive()
+    {
+        GameDataManager.Instance.SetCard();
+        isActive = !isActive;
+        MoveToTarget();
+    }
+
+    void MoveToTarget()
+    {
+        float distance = Vector2.Distance(transform.position, PlayerManager.Instance.GetPlayerPosition());
+
+        StartCoroutine(CoroutineMoveToTarget(transform, distance / 2));
+    }
+
+    IEnumerator CoroutineMoveToTarget(Transform _transform, float _duration)
+    {
+        float elapsed = 0.0f;
+        Vector2 start = _transform.position;
+        Vector2 target;
+        while (elapsed < _duration)
+        {
+            target = PlayerManager.Instance.GetPlayerPosition();
+            elapsed += Time.deltaTime + elapsed * elapsed / 50;
+            _transform.position = Vector2.Lerp(start, target, elapsed / _duration);
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
+        Destroy(gameObject);
+    }
+}

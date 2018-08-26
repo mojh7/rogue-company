@@ -279,7 +279,7 @@ public class MapEditor : EditorWindow
         GameObject gameObject = Object.Instantiate(prefabs);
 
         _objectData.LoadObject(gameObject);
-        gameObject.name = "Object";
+        gameObject.name = _objectData.objectType.ToString();
         gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);
         gameObject.transform.parent = roomObj.transform;
         if(_objectData.sprites != null)
