@@ -13,7 +13,7 @@ public enum ObjectType
 public class CustomObject : MonoBehaviour
 {
 
-    public Vector3 position;
+    public Vector3 objectPosition;
     public ObjectType objectType;
     public Sprite[] sprites;
 
@@ -1013,6 +1013,10 @@ public class Astrologer : NPC
     {
         if(base.Active())
         {
+            if (GameDataManager.Instance.GetCoin() < 10)
+                return false;
+            GameDataManager.Instance.ReduceCoin(10);
+            ParticleManager.Instance.PlayParticle("Twinkle", transform.position);
             isAvailable = false;
             PlayerBuffManager.Instance.ApplyAstrologerBuff();
             return true;

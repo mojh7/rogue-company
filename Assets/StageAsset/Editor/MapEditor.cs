@@ -176,7 +176,7 @@ public class MapEditor : EditorWindow
             if (!op)
             {
                 CustomObject tempObj = CreateObject(ObjectType.SPAWNER);
-                roomSet.Add(new ObjectData(tempObj.position, tempObj.objectType, tempObj.sprites));
+                roomSet.Add(new ObjectData(tempObj.objectPosition, tempObj.objectType, tempObj.sprites));
             }
             if(roomSet.gage == 0)
             {
