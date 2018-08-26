@@ -39,12 +39,14 @@ public struct ObjectData
     public Sprite[] sprites;
     public bool isActive;
     public ObjectType objectType;
+    public string className;
 
-    public ObjectData(Vector2 _position, ObjectType _objectType, Sprite[] _sprites)
+    public ObjectData(Vector2 _position, ObjectType _objectType, Sprite[] _sprites, string className = "")
     {
-        position = _position;
-        sprites = _sprites;
-        objectType = _objectType;
+        this.position = _position;
+        this.sprites = _sprites;
+        this.objectType = _objectType;
+        this.className = className;
         isActive = false;
     }
 
@@ -106,6 +108,14 @@ public struct ObjectData
                 _gameObject.AddComponent<StoreItem>().LoadAwake();
                 _gameObject.GetComponent<StoreItem>().sprites = null;
                 _gameObject.GetComponent<StoreItem>().Init();
+                break;
+            case ObjectType.NPC:
+                if(className == "Astrologer")
+                {
+                    _gameObject.AddComponent<Astrologer>().LoadAwake();
+                    _gameObject.GetComponent<Astrologer>().sprites = sprites;
+                    _gameObject.GetComponent<Astrologer>().Init();
+                }
                 break;
         }
 

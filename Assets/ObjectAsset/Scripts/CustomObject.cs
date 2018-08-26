@@ -719,6 +719,7 @@ public class FallRockTrap : RandomSpriteObject
     public void Init(Sprite sprite)
     {
         Init();
+        isAvailable = true;
         this.tempSprite = sprite;
         List<Vector2> list = new List<Vector2>();
         int num = tempSprite.GetPhysicsShapeCount();
@@ -1000,12 +1001,19 @@ public class Astrologer : NPC
     public override void Init()
     {
         base.Init();
+        isAvailable = true;
+        StartAni();
+        objectType = ObjectType.NPC;
     }
-
+    public override void SetAvailable()
+    {
+        animator.SetTrigger("Astrologer");
+    }
     public override bool Active()
     {
         if(base.Active())
         {
+            isAvailable = false;
             PlayerBuffManager.Instance.ApplyAstrologerBuff();
             return true;
         }

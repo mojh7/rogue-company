@@ -22,6 +22,8 @@ public class MapEditor : EditorWindow
     Sprite objectSprite;
     Sprite[] objectSprites;
     RoomSet worldRoomSet;
+    string className;
+
     static MapEditor window;
     [MenuItem("Custom/RoomEditor")]
 
@@ -36,7 +38,6 @@ public class MapEditor : EditorWindow
         BeginWindows();
 
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, true, true, GUILayout.Width(window.position.width), GUILayout.Height(window.position.height));
-
         obj = Object.FindObjectOfType<Map.MapManager>().gameObject;
         roomName = EditorGUILayout.TextField("roomName", roomName);
         width = EditorGUILayout.IntField("width", width);
@@ -52,6 +53,7 @@ public class MapEditor : EditorWindow
             RemoveTilemap();
         }
         objectType = (ObjectType)EditorGUILayout.EnumPopup("ObjectType", objectType);
+        className = EditorGUILayout.TextField("className", className);
         EditorGUI.BeginChangeCheck();
         multipleSprite = (Sprite)EditorGUILayout.ObjectField("multipleSprite", multipleSprite, typeof(Sprite), allowSceneObjects: true);
         spriteNum = EditorGUILayout.IntField("spriteNum", spriteNum);
@@ -102,13 +104,13 @@ public class MapEditor : EditorWindow
         if (multipleSprite != null && spriteNum == 0)
         {
             Sprite[] objectSprites = GetSprites(multipleSprite);
-            objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
+            objectData = new ObjectData(Vector3.zero, objectType, objectSprites, className);
             objectData.LoadObject(gameObject);
             gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
         }
         else
         {
-            objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
+            objectData = new ObjectData(Vector3.zero, objectType, objectSprites, className);
             objectData.LoadObject(gameObject);
             if(objectSprites != null)
                 if (objectSprites.Length > 0)
@@ -125,7 +127,7 @@ public class MapEditor : EditorWindow
         gameObject.name = objectType.GetType().ToString();
         gameObject.transform.parent = roomObj.transform;
 
-        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites);
+        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites, className);
         objectData.LoadObject(gameObject);
         Selection.activeObject = gameObject;
         return gameObject.GetComponent<CustomObject>();
@@ -155,7 +157,7 @@ public class MapEditor : EditorWindow
             if (child.GetComponent<CustomObject>() != null)
             {
                 CustomObject customObject = child.GetComponent<CustomObject>();
-                roomSet.Add(new ObjectData(customObject.transform.position, customObject.objectType, customObject.sprites));
+                roomSet.Add(new ObjectData(customObject.transform.position, customObject.objectType, customObject.sprites, customObject.GetType().ToString()));
             }
         }
         if (roomType == RoomType.MONSTER || roomType == RoomType.BOSS)
