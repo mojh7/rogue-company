@@ -346,53 +346,60 @@ public class HomingProperty : UpdateProperty
         //targettingCycle -= Time.fixedDeltaTime;
         // 유도 대상 선정
 
-        enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
-
-        List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
-
-        raycastHitEnemies.Clear();
-        raycasthitEnemyNum = 0;
-        minDistance = 1000f;
-        proximateEnemyIndex = -1;
-
-        // raycast로 bullet과 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
-        for (int i = 0; i < enemyTotal; i++)
+        if(CharacterInfo.OwnerType.Player == bullet.GetOwnerType())
         {
-            raycasthitEnemyInfo.index = i;
-            raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, bulletTransform.position);
-            hit = Physics2D.Raycast(bulletTransform.position, enemyList[i].transform.position - bulletTransform.position, raycasthitEnemyInfo.distance, layerMask);
-            if (hit.collider == null)
+            enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
+
+            List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
+
+            raycastHitEnemies.Clear();
+            raycasthitEnemyNum = 0;
+            minDistance = 1000f;
+            proximateEnemyIndex = -1;
+
+            // raycast로 bullet과 enemy 사이에 장애물이 없는 enmey 방향만 찾아낸다.
+            for (int i = 0; i < enemyTotal; i++)
             {
-                raycastHitEnemies.Add(raycasthitEnemyInfo);
-                raycasthitEnemyNum += 1;
+                raycasthitEnemyInfo.index = i;
+                raycasthitEnemyInfo.distance = Vector2.Distance(enemyList[i].transform.position, bulletTransform.position);
+                hit = Physics2D.Raycast(bulletTransform.position, enemyList[i].transform.position - bulletTransform.position, raycasthitEnemyInfo.distance, layerMask);
+                if (hit.collider == null)
+                {
+                    raycastHitEnemies.Add(raycasthitEnemyInfo);
+                    raycasthitEnemyNum += 1;
+                }
+            }
+
+            // 위에서 찾은 enmey들 중 distance가 가장 작은, 가장 가까운 enemy를 찾는다.
+            for (int j = 0; j < raycasthitEnemyNum; j++)
+            {
+                if (raycastHitEnemies[j].distance <= minDistance)
+                {
+                    minDistance = raycastHitEnemies[j].distance;
+                    proximateEnemyIndex = j;
+                }
+            }
+
+            // 선정된 대상에게 유도 될 수 있도록 회전
+            if (proximateEnemyIndex != -1)
+            {
+                enemyTransform = enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform;
+
+                differenceVector = enemyTransform.position - bulletTransform.position;
+                // (Bx-Ax)*(Py-Ay) - (By-Ay)*(Px-Ax)
+                if (((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x)) >= 0)
+                {
+                    bullet.RotateDirection(deltaAngle);
+                }
+                else if ((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x) < 0)
+                {
+                    bullet.RotateDirection(-deltaAngle);
+                }
             }
         }
-
-        // 위에서 찾은 enmey들 중 distance가 가장 작은, 가장 가까운 enemy를 찾는다.
-        for (int j = 0; j < raycasthitEnemyNum; j++)
+        else
         {
-            if (raycastHitEnemies[j].distance <= minDistance)
-            {
-                minDistance = raycastHitEnemies[j].distance;
-                proximateEnemyIndex = j;
-            }
-        }
 
-        // 선정된 대상에게 유도 될 수 있도록 회전
-        if (proximateEnemyIndex != -1)
-        {
-            enemyTransform = enemyList[raycastHitEnemies[proximateEnemyIndex].index].transform;
-
-            differenceVector = enemyTransform.position - bulletTransform.position;
-            // (Bx-Ax)*(Py-Ay) - (By-Ay)*(Px-Ax)
-            if (((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x)) >= 0)
-            {
-                bullet.RotateDirection(deltaAngle);
-            }
-            else if ((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x) < 0)
-            {
-                bullet.RotateDirection(-deltaAngle);
-            }
         }
     }
 }

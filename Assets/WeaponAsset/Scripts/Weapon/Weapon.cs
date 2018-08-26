@@ -178,12 +178,13 @@ public class Weapon : Item
     {
         if (AttackType.MELEE == attackType)
         {
-            if (OwnerType.Player == ownerType && false == Stamina.Instance.IsConsumableStamina() && 0 < info.staminaConsumption)
+            if (OwnerType.Player == ownerType && false == Stamina.Instance.IsConsumableStamina() && 0 < info.staminaConsumption
+                && false == PlayerManager.Instance.GetPlayer().IsNotConsumeStamina)
                 return false;
         }
         else if (AttackType.RANGED == attackType)
         {
-            if (info.ammo <= 0 && info.ammoCapacity >= 0)
+            if (info.ammo <= 0 && info.ammoCapacity >= 0 && false == PlayerManager.Instance.GetPlayer().IsNotConsumeAmmo)
                 return false;
         }
         return true;
@@ -225,7 +226,7 @@ public class Weapon : Item
             UpdateWeaponBuff();
             weaponState = WeaponState.Attack;
             PlayAttackAnimation();
-            if (AttackType.MELEE == attackType)
+            if (AttackType.MELEE == attackType && false == PlayerManager.Instance.GetPlayer().IsNotConsumeStamina)
                 Stamina.Instance.ConsumeStamina(info.staminaConsumption);
             StartCoroutine(PatternCycle(damageIncreaseRate));
         }
@@ -312,8 +313,11 @@ public class Weapon : Item
 
     public void UseAmmo()
     {
-        info.ammo -= 1;
-        weaponManager.UpdateAmmoView(info);
+        if(false == PlayerManager.Instance.GetPlayer().IsNotConsumeAmmo)
+        {
+            info.ammo -= 1;
+            weaponManager.UpdateAmmoView(info);
+        }
     }
 
     /// <summary>

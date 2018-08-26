@@ -28,6 +28,7 @@ public class Player : Character
 
     private float floorSpeed;
     private int shieldCount;
+
     #endregion
 
     #region property
@@ -54,6 +55,16 @@ public class Player : Character
         private set { shieldCount = value; }
         get { return shieldCount; }
     }
+
+    public bool IsNotConsumeStamina
+    {
+        get; private set;
+    }
+    public bool IsNotConsumeAmmo
+    {
+        get; private set;
+    }
+
     #endregion
 
     #region getter
@@ -153,6 +164,9 @@ public class Player : Character
 
         animationHandler.Init(this, PlayerManager.Instance.runtimeAnimator);
 
+        IsNotConsumeStamina = false;
+        IsNotConsumeAmmo = false;
+
         shieldCount = 0;
         InitilizeController();
 
@@ -173,7 +187,7 @@ public class Player : Character
         Debug.Log("InitPlayerData hp : " + playerData.Hp);
         this.playerData = playerData;
         originPlayerData = playerData.Clone();
-        UpdatePlayerData();
+        ApplyItemEffect();
         PlayerHPUi.SetHpBar(playerData.Hp);
         stamina.SetStaminaBar(playerData.StaminaMax);
     }
@@ -515,11 +529,13 @@ public class Player : Character
         }
     }
 
-    // item Player 대상 효과 중 버프, 패시브 적용
-    public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
+    public override void ApplyItemEffect()
     {
+        CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
         playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement);
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
+        IsNotConsumeStamina = itemUseEffect.isNotConsumeStamina;
+        IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
     }
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
@@ -529,13 +545,6 @@ public class Player : Character
     protected override bool IsAbnormal()
     {
         return false;
-    }
-    // 안 쓸거 같음.
-    public void UpdatePlayerData()
-    {
-        // playerData. = originPlayerData. * buffManager.PlayerTargetEffectTotal.
-        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * buffManager.CharacterTargetEffectTotal.staminaMaxIncrement);
-        playerData.MoveSpeed = originPlayerData.MoveSpeed * buffManager.CharacterTargetEffectTotal.moveSpeedIncrement;
     }
     #endregion
 

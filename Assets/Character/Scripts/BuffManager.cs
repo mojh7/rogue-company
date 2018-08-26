@@ -17,6 +17,11 @@ public class BuffManager : MonoBehaviour
 
     // 소모형 버프 종류 늘어날 때 마다 따로 처리해야 되서, 0816 모
     public enum ConsumableBuffType { SHIELD }
+
+    // 등록, 제거 여러 개 일 때 true, false 처리하기 위해서
+    public enum CharacterBoolPropertyType { NONE, IS_NOT_CONSUME_STAMINA, IS_NOT_CONSUME_AMMO, END }
+    public enum WeaponBoolPropertyType { NONE, END }
+    
     #region variables
     private List<ItemUseEffect> passiveEffects;
     private int passiveEffectsLength;
@@ -33,6 +38,9 @@ public class BuffManager : MonoBehaviour
     private Character owner;
 
     private CharacterTargetEffect characterTargetEffectTotal;
+
+    private int[] characterBoolPropertyCounts;
+    private int[] weaponBoolPropertyCounts;
     #endregion
 
     #region get / set property
@@ -73,6 +81,9 @@ public class BuffManager : MonoBehaviour
         consumableBuffs = new Heap<ConsumableCharacterBuff>(100);
         //characterTargetEffects = new List<CharacterTargetEffect>();
         //weaponTargetEffects = new List<WeaponTargetEffect>();
+        characterBoolPropertyCounts = new int[(int)CharacterBoolPropertyType.END];
+        weaponBoolPropertyCounts = new int[(int)WeaponBoolPropertyType.END];
+
         passiveEffectsLength = 0;
         buffEffectsLength = 0;
         //characterTargetEffectsLength = 0;
@@ -107,7 +118,9 @@ public class BuffManager : MonoBehaviour
 
             staminaMaxIncrement = 1f,
             canDrainHp = false,
-            increaseStaminaWhenkillingEnemies = false
+            increaseStaminaWhenkillingEnemies = false,
+            isNotConsumeStamina = false,
+            isNotConsumeAmmo = false
         };
     }
 
@@ -324,8 +337,12 @@ public class BuffManager : MonoBehaviour
             CharacterTargetEffectTotal.canDrainHp = boolSign;
         if (targetEffect.increaseStaminaWhenkillingEnemies)
             CharacterTargetEffectTotal.increaseStaminaWhenkillingEnemies = boolSign;
+        if (targetEffect.isNotConsumeStamina)
+            UpdateCharacterBoolProperty(CharacterBoolPropertyType.IS_NOT_CONSUME_STAMINA, sign);
+        if (targetEffect.isNotConsumeAmmo)
+            UpdateCharacterBoolProperty(CharacterBoolPropertyType.IS_NOT_CONSUME_AMMO, sign);
 
-        owner.ApplyItemEffect(characterTargetEffectTotal);
+        owner.ApplyItemEffect();
     }
 
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
@@ -400,7 +417,27 @@ public class BuffManager : MonoBehaviour
         }
     }
 
-
+    private void UpdateCharacterBoolProperty(CharacterBoolPropertyType property, int sign)
+    {
+        characterBoolPropertyCounts[(int)property] += sign;
+        switch (property)
+        {
+            case CharacterBoolPropertyType.IS_NOT_CONSUME_STAMINA:
+                if (0 == characterBoolPropertyCounts[(int)property])
+                    CharacterTargetEffectTotal.isNotConsumeStamina = false;
+                else
+                    CharacterTargetEffectTotal.isNotConsumeStamina = true;
+                break;
+            case CharacterBoolPropertyType.IS_NOT_CONSUME_AMMO:
+                if (0 == characterBoolPropertyCounts[(int)property])
+                    CharacterTargetEffectTotal.isNotConsumeAmmo = false;
+                else
+                    CharacterTargetEffectTotal.isNotConsumeAmmo = true;
+                break;
+            default:
+                break;
+        }
+    }
     #endregion
 
     private IEnumerator RemoveBuffEffect(CharacterTargetEffect targetEffect, float effectiveTime)

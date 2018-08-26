@@ -254,7 +254,7 @@ public class Enemy : Character
         return damage;
     }
 
-    public override void ApplyItemEffect(CharacterTargetEffect itemUseEffect)
+    public override void ApplyItemEffect()
     {
         // 개발 중
     }

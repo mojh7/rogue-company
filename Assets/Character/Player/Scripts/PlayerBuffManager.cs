@@ -31,5 +31,7 @@ public class PlayerBuffManager : MonoBehaviourSingleton<PlayerBuffManager>
         int index = Random.Range(0, astrologerBuffs.Length);
         astrologerBuffs[index].UseItem();
     }
+
+
     #endregion
 }

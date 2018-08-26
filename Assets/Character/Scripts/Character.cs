@@ -200,7 +200,7 @@ public abstract class Character : MonoBehaviour
     public abstract float Attacked(TransferBulletInfo info);
 
     // item Character 대상 효과 적용
-    public abstract void ApplyItemEffect(CharacterTargetEffect itemUseEffect);
+    public abstract void ApplyItemEffect();
 
     /// <summary> 상태 이상 효과 적용 </summary>
     public virtual void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
