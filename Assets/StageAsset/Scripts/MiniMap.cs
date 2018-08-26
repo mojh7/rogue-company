@@ -438,8 +438,14 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     public void ClearRoom(Map.Rect _room)
     {
-        inDungeon = false;
+        HideEmoticon(true);
         Draw(_room, DrawRoom);
+    }
+
+    private void HideEmoticon(bool isActive)
+    {
+        playerIcon.gameObject.SetActive(isActive);
+        title[0].gameObject.SetActive(isActive);
     }
 
     public void DrawMinimap()
@@ -476,8 +482,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         if (isToggle)
             HideMap();
-        inDungeon = true;
-        playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
+        HideEmoticon(false);
         this.gameObject.SetActive(!this.gameObject.activeSelf);
     }
 
@@ -493,26 +498,27 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     public void ToggleMinimap()
     {
         EnableMask();
-        if (!inDungeon)
+
+        if (isToggle)
         {
-            if (isToggle)
-            {
-                // 미니맵으로
-                playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
-                mask.localPosition = oldPos;
-                GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
-                titleMap(0, 1);
-            }
-            else
-            {
-                // 크게 키운 맵
-                transform.localPosition = new Vector2(-maskSize, -maskSize);
-                mask.localPosition = new Vector2(maskSize, maskSize);
-                GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
-                titleMap(1, 0);
-            }
-            isToggle = !isToggle;
+            // 미니맵으로
+            playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
+            mask.localPosition = oldPos;
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
+            titleMap(0, 1);
         }
+        else
+        {
+            // 크게 키운 맵
+            transform.localPosition = new Vector2(-maskSize, -maskSize);
+            mask.localPosition = new Vector2(maskSize, maskSize);
+            GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
+            titleMap(1, 0);
+        }
+        isToggle = !isToggle;
+        //if (!inDungeon)
+        //{
+        //}
     }
 
     void DrawMap()
