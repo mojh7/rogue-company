@@ -999,14 +999,14 @@ public class Astrologer : NPC
 {
     public override void Init()
     {
-        base.Init();   
+        base.Init();
     }
 
     public override bool Active()
     {
         if(base.Active())
         {
-            //TODO: 점성술
+            PlayerBuffManager.Instance.ApplyAstrologerBuff();
             return true;
         }
         return false;
