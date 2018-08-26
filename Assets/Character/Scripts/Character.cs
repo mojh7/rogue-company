@@ -170,6 +170,7 @@ public abstract class Character : MonoBehaviour
     public virtual void Init()
     {
         Components = GetComponent<CharacterComponents>();
+        abnormalComponents = GetComponent<AbnormalComponents>();
         Components.Init();
         weaponManager = Components.WeaponManager;
         spriteRenderer = Components.SpriteRenderer;
