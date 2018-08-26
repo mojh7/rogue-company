@@ -9,6 +9,9 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerClickHandler
     private Character character;
     [SerializeField] private Text ammoViewText;
     [SerializeField] private Image weaponImage;
+    [SerializeField] private Image PrevImage;
+    [SerializeField] private Image NextImage;
+
 
     public void SetPlayer(Character character)
     {
@@ -42,6 +45,19 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerClickHandler
     {
         weaponImage.sprite = sprite;
     }
+
+    /// <summary> OwnWeaponView UI Right(Next) Own Weapon Sprite View Update </summary>
+    public void UpdateNextWeaponSprite(Sprite sprite)
+    {
+        NextImage.sprite = sprite;
+    }
+
+    /// <summary> OwnWeaponView UI Left(Prev) Own Weapon Sprite View Update </summary>
+    public void UpdatePrevWeaponSprite(Sprite sprite)
+    {
+        PrevImage.sprite = sprite;
+    }
+
 
     /// <summary> WeaponSwitchButton UI Weapon Sprite View Update </summary>
     public void UpdateAmmoView(WeaponInfo info)

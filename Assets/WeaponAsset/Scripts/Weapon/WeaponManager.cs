@@ -327,6 +327,25 @@ public class WeaponManager : MonoBehaviour {
         if(CharacterInfo.OwnerType.Player == ownerType)
         {
             ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
+            // 0827 윤아 추가
+            int nextWeaponIndex, prevWeaponIndex;
+            if (currentWeaponIndex == 0)
+            {
+                nextWeaponIndex = currentWeaponIndex + 1;
+                prevWeaponIndex = weaponCount - 1;
+            }
+            else if (currentWeaponIndex == (weaponCount - 1))
+            {
+                nextWeaponIndex = 0;
+                prevWeaponIndex = currentWeaponIndex - 1;
+            }
+            else
+            {
+                nextWeaponIndex = currentWeaponIndex + 1;
+                prevWeaponIndex = currentWeaponIndex - 1;
+            }
+            ControllerUI.Instance.WeaponSwitchButton.UpdateNextWeaponSprite(equipWeaponSlot[nextWeaponIndex].GetWeaponSprite());
+            ControllerUI.Instance.WeaponSwitchButton.UpdatePrevWeaponSprite(equipWeaponSlot[prevWeaponIndex].GetWeaponSprite());
             ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
         }
     }
