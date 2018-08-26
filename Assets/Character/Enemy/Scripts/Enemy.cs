@@ -102,7 +102,7 @@ public class Enemy : Character
 
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
-        immune = CharacterInfo.Immune.NONE;
+        damageImmune = CharacterInfo.DamageImmune.NONE;
 
         originalautoAimType = CharacterInfo.AutoAimType.AUTO;
         autoAimType = originalautoAimType;
@@ -110,17 +110,17 @@ public class Enemy : Character
         isActiveAttackAI = true;
         isActiveMoveAI = true;
 
-        Components.BurnEffect.SetActive(false);
-        Components.PoisonEffect.SetActive(false);
+        abnormalComponents.BurnEffect.SetActive(false);
+        abnormalComponents.PoisonEffect.SetActive(false);
 
-        Components.NagEffect.SetActive(false);
-        Components.ClibmingEffect.SetActive(false);
-        Components.GraveyardShiftEffect.SetActive(false);
-        Components.FreezeEffect.SetActive(false);
-        Components.ReactanceEffect.SetActive(false);
+        abnormalComponents.NagEffect.SetActive(false);
+        abnormalComponents.ClibmingEffect.SetActive(false);
+        abnormalComponents.GraveyardShiftEffect.SetActive(false);
+        abnormalComponents.FreezeEffect.SetActive(false);
+        abnormalComponents.ReactanceEffect.SetActive(false);
 
-        Components.StunEffect.SetActive(false);
-        Components.CharmEffect.SetActive(false);
+        abnormalComponents.StunEffect.SetActive(false);
+        abnormalComponents.CharmEffect.SetActive(false);
 
         isBossEnemy = false;
         hpMax = enemyData.HP;
@@ -615,7 +615,7 @@ public class Enemy : Character
         switch (abnormalStatusType)
         {
             case AbnormalStatusType.NAG:
-                Components.NagEffect.SetActive(false);
+                abnormalComponents.NagEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
                 break;
@@ -623,32 +623,32 @@ public class Enemy : Character
                 for (int i = 0; i < StatusConstants.Instance.ClimbingInfo.overlapCountMax; i++)
                     climbingTime[i] = 0;
                 overlappingCounts[type] = 0;
-                Components.ClibmingEffect.SetActive(false);
+                abnormalComponents.ClibmingEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
                 break;
             case AbnormalStatusType.GRAVEYARDSHIFT:
                 abnormalStatusCounts[type] = 0;
-                Components.GraveyardShiftEffect.SetActive(false);
+                abnormalComponents.GraveyardShiftEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 break;
             case AbnormalStatusType.FREEZE:
-                Components.FreezeEffect.SetActive(false);
+                abnormalComponents.FreezeEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
                 break;
             case AbnormalStatusType.REACTANCE:
-                Components.ReactanceEffect.SetActive(false);
+                abnormalComponents.ReactanceEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 autoAimType = originalautoAimType;
                 break;
             case AbnormalStatusType.STUN:
-                Components.StunEffect.SetActive(false);
+                abnormalComponents.StunEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
                 break;
             case AbnormalStatusType.CHARM:
-                Components.CharmEffect.SetActive(false);
+                abnormalComponents.CharmEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
                 break;
@@ -663,7 +663,7 @@ public class Enemy : Character
     IEnumerator PoisonCoroutine()
     {
         isPoisoning = true;
-        Components.PoisonEffect.SetActive(true);
+        abnormalComponents.PoisonEffect.SetActive(true);
         float damage = 0;
         while (poisonOverlappingCount > 0)
         {
@@ -692,14 +692,14 @@ public class Enemy : Character
                 }
             }
         }
-        Components.PoisonEffect.SetActive(false);
+        abnormalComponents.PoisonEffect.SetActive(false);
         isPoisoning = false;
     }
 
     IEnumerator BurnCoroutine()
     {
         isBurning = true;
-        Components.BurnEffect.SetActive(true);
+        abnormalComponents.BurnEffect.SetActive(true);
         float damage = 0;
         while (burnOverlappingCount > 0)
         {
@@ -728,7 +728,7 @@ public class Enemy : Character
                 }
             }
         }
-        Components.BurnEffect.SetActive(false);
+        abnormalComponents.BurnEffect.SetActive(false);
         isBurning = false;
     }
 
@@ -755,7 +755,7 @@ public class Enemy : Character
     {
         int type = (int)AbnormalStatusType.NAG;
         isAbnormalStatuses[type] = true;
-        Components.NagEffect.SetActive(true);
+        abnormalComponents.NagEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         abnormalStatusTime[type] = 0;
@@ -779,7 +779,7 @@ public class Enemy : Character
     {
         int type = (int)AbnormalStatusType.CLIMBING;
         isAbnormalStatuses[type] = true;
-        Components.ClibmingEffect.SetActive(true);
+        abnormalComponents.ClibmingEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         abnormalStatusTime[type] = 0;
@@ -825,7 +825,7 @@ public class Enemy : Character
         isAbnormalStatuses[type] = true;
         AddRetrictsMovingCount();
         animationHandler.Idle();
-        Components.GraveyardShiftEffect.SetActive(true);
+        abnormalComponents.GraveyardShiftEffect.SetActive(true);
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = StatusConstants.Instance.GraveyardShiftInfo.effectiveTime;
 
@@ -844,7 +844,7 @@ public class Enemy : Character
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         animationHandler.Idle();
-        Components.FreezeEffect.SetActive(true);
+        abnormalComponents.FreezeEffect.SetActive(true);
         isAbnormalStatuses[type] = true;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = StatusConstants.Instance.FreezeInfo.effectiveTime;
@@ -863,7 +863,7 @@ public class Enemy : Character
         int type = (int)AbnormalStatusType.REACTANCE;
         AddRetrictsMovingCount();
         animationHandler.Idle();
-        Components.ReactanceEffect.SetActive(true);
+        abnormalComponents.ReactanceEffect.SetActive(true);
         isAbnormalStatuses[type] = true;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = StatusConstants.Instance.ReactanceInfo.effectiveTime;
@@ -881,7 +881,7 @@ public class Enemy : Character
     IEnumerator StunCoroutine(float effectiveTime)
     {
         int type = (int)AbnormalStatusType.STUN;
-        Components.StunEffect.SetActive(true);
+        abnormalComponents.StunEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         animationHandler.Idle();
@@ -900,7 +900,7 @@ public class Enemy : Character
     IEnumerator CharmCoroutine(float effectiveTime)
     {
         int type = (int)AbnormalStatusType.CHARM;
-        Components.CharmEffect.SetActive(true);
+        abnormalComponents.CharmEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         isAbnormalStatuses[type] = true;

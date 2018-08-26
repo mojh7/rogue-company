@@ -12,10 +12,16 @@ namespace CharacterInfo
     {
         NOTSPAWNED, DIE, ALIVE
     }
-    public enum Immune
+    public enum DamageImmune
     {
         NONE, DAMAGE
     }
+    // 생각 중, 
+    public enum AbnormalImmune
+    {
+        NONE
+    }
+
     public enum AutoAimType
     {
         AUTO, SEMIAUTO, RANDOM, REACTANCE, MANUAL
@@ -37,7 +43,7 @@ public abstract class Character : MonoBehaviour
     public float moveSpeed;     // Character move Speed
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     protected float maxHP;
-    protected CharacterInfo.Immune immune;
+    protected CharacterInfo.DamageImmune damageImmune;
     protected CharacterInfo.AutoAimType autoAimType;
     protected CharacterInfo.AutoAimType originalautoAimType;
     protected CharacterInfo.State pState;
@@ -45,6 +51,7 @@ public abstract class Character : MonoBehaviour
     #endregion
     #region componets
     protected CharacterComponents Components;
+    protected AbnormalComponents abnormalComponents;
     protected WeaponManager weaponManager;
     protected SpriteRenderer spriteRenderer;
     protected Transform spriteTransform;

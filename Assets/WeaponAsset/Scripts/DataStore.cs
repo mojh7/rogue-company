@@ -326,7 +326,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         for (int i = 0; i < size; i++)
         {
             tempWeaponInfos[i].weaponName = (string)weaponDatas[i]["name"];
-            Debug.Log(i + ", name : " + (string)weaponDatas[i]["name"]);
+            //Debug.Log(i + ", name : " + (string)weaponDatas[i]["name"]);
 
             tempWeaponInfos[i].scaleX = 1.0f;
             tempWeaponInfos[i].scaleY = 1.0f;
@@ -389,7 +389,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                     tempWeaponInfos[i].showsMuzzleFlash = true;
                     break;
                 case WeaponType.LASER:
-                    tempWeaponInfos[i].cooldown = 0.4f;
+                    tempWeaponInfos[i].cooldown = 0f;
                     tempWeaponInfos[i].cameraShakeAmount = 0f;
                     tempWeaponInfos[i].cameraShakeTime = 0f;
                     break;
