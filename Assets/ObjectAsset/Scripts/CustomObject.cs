@@ -999,7 +999,7 @@ public class Astrologer : NPC
 {
     public override void Init()
     {
-        base.Init();
+        base.Init();   
     }
 
     public override bool Active()
