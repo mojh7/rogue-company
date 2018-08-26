@@ -11,11 +11,13 @@ public class TimeController : MonoBehaviourSingleton<TimeController> {
     private float elapsedTime;
 
     private bool isTimeLerp;
+    private bool isTimeStop;
 
     private void Start()
     {
         elapsedTime = 0;
         isTimeLerp = false;
+        isTimeStop = false;
     }
 
     private void Update()
@@ -37,12 +39,14 @@ public class TimeController : MonoBehaviourSingleton<TimeController> {
 
     public void StopTime()
     {
+        isTimeStop = true;
         oldScale = currentScale;
         Time.timeScale = 0;
         currentScale = Time.timeScale;
     }
     public void StartTime()
     {
+        isTimeStop = false;
         oldScale = currentScale;
         Time.timeScale = 1;
         currentScale = Time.timeScale;
@@ -55,7 +59,7 @@ public class TimeController : MonoBehaviourSingleton<TimeController> {
     }
     public void LerpTimeScale(float src, float dest, float time)
     {
-        if (src == 0 || dest == 0 || isTimeLerp)
+        if (src == 0 || dest == 0 || isTimeLerp || isTimeStop)
             return;
         isTimeLerp = true;
         StartCoroutine(CoroutineLerpTimeScale(src, dest, time));
@@ -66,6 +70,8 @@ public class TimeController : MonoBehaviourSingleton<TimeController> {
         float tempElapsedTime = 0;
         while (time >= tempElapsedTime)
         {
+            if (isTimeStop)
+                break;
             tempElapsedTime = Time.time - startTime;
 
             Time.timeScale = Mathf.Lerp(src, dest, tempElapsedTime / time);

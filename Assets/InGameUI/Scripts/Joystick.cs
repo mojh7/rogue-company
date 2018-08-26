@@ -90,7 +90,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
             inputVector = new Vector3(pos.x * 2, pos.y * 2, 0);
 
-            if (inputVector.magnitude > 1.0f)
+            if (inputVector.magnitude > 0.2f)
             {
                 inputVector = inputVector.normalized;
                 recentNormalInputVector = inputVector;

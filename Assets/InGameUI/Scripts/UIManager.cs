@@ -47,16 +47,20 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
 
     public void ReturnTitle()
     {
-        Time.timeScale = 1;
+        TimeController.Instance.StartTime();
         GameStateManager.Instance.LoadTitle();
     }
 
     public void ToggleMenu()
     {
-        if (Time.timeScale == 0)
-            Time.timeScale = 1;
+        if(menuObj.activeSelf)
+        {
+            TimeController.Instance.StartTime();
+        }
         else
-            Time.timeScale = 0;
+        {
+            TimeController.Instance.StopTime();
+        }
         TogglePreventObj();
         menuObj.SetActive(!menuObj.activeSelf);
     }
