@@ -384,7 +384,6 @@ public class Door : RandomSpriteObject
     {
         Init();
         this.isLock = isLock;
-        this.isAvailable = true;
         this.openSprite = openSprite;
         this.closeSprite = closeSprite;
         this.doorArrows = doorArrows;
@@ -407,6 +406,8 @@ public class Door : RandomSpriteObject
     }
     public override bool Active()
     {
+        if (!isAvailable)
+            return false;
         base.Active();
         if (isActive)
         {

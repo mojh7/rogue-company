@@ -98,6 +98,10 @@ public abstract class Character : MonoBehaviour
     {
         return Components;
     }
+    public AbnormalComponents GetAbnormalComponents()
+    {
+        return abnormalComponents;
+    }
     public bool GetAIAct()
     {
         return isActiveAI;

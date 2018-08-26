@@ -110,6 +110,7 @@ public class Enemy : Character
         isActiveAttackAI = true;
         isActiveMoveAI = true;
 
+        Debug.Log(abnormalComponents.BurnEffect);
         abnormalComponents.BurnEffect.SetActive(false);
         abnormalComponents.PoisonEffect.SetActive(false);
 
