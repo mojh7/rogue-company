@@ -211,7 +211,7 @@ namespace Map
                 AssignAllRoom();
                 if (necessaryRoomSet.Count == 0)
                     break;
-                if (count > 3)
+                if (count > 30)
                 {
                     break;
                 }
