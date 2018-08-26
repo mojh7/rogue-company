@@ -23,6 +23,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     Vector2 iconV = Vector2.zero;
     float mapMoveX, mapMoveY;
     bool inDungeon= false; // 던전안에 들어갔는지 아닌지 확인
+    
     #endregion
     #region minimapData
     const int minimapBaseWidth = 400, minimapBaseHeight = 400;
@@ -570,11 +571,12 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     
     bool FixedPlayer()
     {
-        float maxValue = 34;
-        float minValue = 11.1f;
+        float maxValue = 34 * Map.MapManager.Instance.width / 15;
+        float minValue = 11.1f * Map.MapManager.Instance.width / 15;
 
         bool isX = playerPositon.x >= maxValue || playerPositon.x <= minValue;
         bool isY = playerPositon.y >= maxValue || playerPositon.y <= minValue;
+
         if (isX && isY)
         {
             if (playerPositon.x >= maxValue)
@@ -599,10 +601,10 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         }
         else if (isY)
         {
-            if (playerPositon.y >= 34)
-                mapMoveY = 34;
+            if (playerPositon.y >= maxValue)
+                mapMoveY = maxValue;
             else
-                mapMoveY = 11.1f;
+                mapMoveY = minValue;
             isTranslate = 2;
             return true;
         }

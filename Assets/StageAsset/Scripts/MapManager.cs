@@ -770,8 +770,8 @@ namespace Map
 
             } // 세로로 붙음
 
-            _rectA.doorObjects.Add(obj);
-            _rectB.doorObjects.Add(obj);
+            _rectA.doorObjects.Add(obj.GetComponent<Door>());
+            _rectB.doorObjects.Add(obj.GetComponent<Door>());
 
         } // Door 부분 타일 floor로 변경
 
@@ -918,6 +918,7 @@ namespace Map
 
     public class Rect
     {
+        #region parameter
         public int x
         {
             private set;
@@ -954,68 +955,27 @@ namespace Map
             get;
         }
         public readonly int size;
+        #endregion
+        #region variables
         public int gage;
-        public Vector2 areaLeftDown, areaRightTop;
-        public bool visited;
-        public List<Rect> edgeRect;
-        public List<Rect> linkedEdgeRect;
-        public GameObject[] customObjects;
-        public List<GameObject> doorObjects;
-        public List<Vector2> availableAreas;
         public bool isRoom;
         public bool downExist;
         public bool isClear;
         public bool isDrawed;
+        public bool isLock;
+        public bool visited;
         public RoomType eRoomType;
+        #endregion
+        #region dataStruct
+        public Vector2 areaLeftDown, areaRightTop;
+        public List<Rect> edgeRect;
+        public List<Rect> linkedEdgeRect;
+        public GameObject[] customObjects;
+        public List<Door> doorObjects;
+        public List<Vector2> availableAreas;
 
-        public Rect(int _x, int _y, int _width, int _height, int _size)
-        {
-            x = _x;
-            y = _y;
-            width = _width;
-            height = _height;
-            area = width * height;
-            midX = x + (float)width / 2;
-            midY = y + (float)height / 2;
-            size = _size;
-            areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
-            areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
-            visited = false;
-            downExist = false;
-            isClear = false;
-            edgeRect = new List<Rect>();
-            linkedEdgeRect = new List<Rect>();
-            doorObjects = new List<GameObject>();
-            availableAreas = new List<Vector2>();
-            isDrawed = false;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
-            Rect objAsPart = obj as Rect;
-            if (objAsPart == null) return false;
-            else return Equals(objAsPart);
-        }
-
-        public bool Equals(Rect other)
-        {
-            if (other == null) return false;
-            if(this.x == other.x && this.y == other.y
-                && this.width == other.width && this.height == other.height)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public void IsRoom()
-        {
-            isRoom = true;
-            areaLeftDown = new Vector2(x * size + 0.6875f, y * size + 1);
-            areaRightTop = new Vector2((x + width) * size + 0.3125f, (y + height) * size);
-        }
-
+        #endregion
+        #region getter
         public Vector3 GetAvailableArea()
         {
             return availableAreas[Random.Range(0, availableAreas.Count)]; ;
@@ -1036,6 +996,57 @@ namespace Map
                 }
             }
             return returnVector;
+        }
+        #endregion
+        #region initialize
+        public Rect(int _x, int _y, int _width, int _height, int _size)
+        {
+            x = _x;
+            y = _y;
+            width = _width;
+            height = _height;
+            area = width * height;
+            midX = x + (float)width / 2;
+            midY = y + (float)height / 2;
+            size = _size;
+            areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
+            areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
+            visited = false;
+            downExist = false;
+            isClear = false;
+            edgeRect = new List<Rect>();
+            linkedEdgeRect = new List<Rect>();
+            doorObjects = new List<Door>();
+            availableAreas = new List<Vector2>();
+            isDrawed = false;
+        }
+        #endregion
+        #region override
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            Rect objAsPart = obj as Rect;
+            if (objAsPart == null) return false;
+            else return Equals(objAsPart);
+        }
+
+        public bool Equals(Rect other)
+        {
+            if (other == null) return false;
+            if (this.x == other.x && this.y == other.y
+                && this.width == other.width && this.height == other.height)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
+        #region func
+        public void IsRoom()
+        {
+            isRoom = true;
+            areaLeftDown = new Vector2(x * size + 0.6875f, y * size + 1);
+            areaRightTop = new Vector2((x + width) * size + 0.3125f, (y + height) * size);
         }
 
         public void EdgeRect(Rect _rect)
@@ -1134,8 +1145,9 @@ namespace Map
             }
             return false;
         }
-
-        public void Drawing(Color color,float offset)
+        #endregion
+        #region drawing
+        public void Drawing(Color color, float offset)
         {
             Debug.DrawLine(new Vector3(x + offset, y) * size, new Vector3(x + offset, y + height) * size, color, 1000);
             Debug.DrawLine(new Vector3(x + offset, y + height) * size, new Vector3(x + offset + width, y + height) * size, color, 1000);
@@ -1148,6 +1160,7 @@ namespace Map
         {
             Debug.DrawLine(areaLeftDown, areaRightTop, color, 100);
         }
+        #endregion
     }
 }
 

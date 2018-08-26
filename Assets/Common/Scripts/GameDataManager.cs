@@ -10,6 +10,9 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     int m_floor;
     Player.PlayerType m_playerType;
     int m_coin;
+    int m_key;
+    int m_card;
+
     GameData gameData;
     string dataPath;
     PlayerData playerData;
@@ -27,6 +30,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     private PlayerData[] playerDatas;
 
     #region setter
+    public void SetCard() { m_card++; ShowUI(); }
+    public void SetKey() { m_key++; ShowUI(); }
     public void SetCoin() { m_coin++; ShowUI(); }
     public void SetFloor() { m_floor++; }
     public void SetKill() { m_kill++; }
@@ -35,6 +40,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region getter
+    public int GetCard() { return m_card; }
+    public int GetKey() { return m_key; }
     public int GetCoin() { return m_coin; }
     public int GetFloor() { return m_floor; }
     public int GetKill() { return m_kill; }
@@ -57,6 +64,14 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region Func
+    public void UseCard() { }
+    public void UseKey()
+    {
+        if (m_key <= 0)
+            return;
+        m_key--;
+        ShowUI();
+    }
     public void ReduceCoin(int value)
     {
         if (value <= 0)
@@ -67,6 +82,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     void ShowUI()
     {
         UIManager.Instance.SetCoinText(m_coin);
+        UIManager.Instance.SetKeyText(m_key);
     }
   
     public void Savedata()

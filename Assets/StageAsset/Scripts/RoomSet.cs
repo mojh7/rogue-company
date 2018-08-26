@@ -14,6 +14,7 @@ public class RoomSet : ScriptableObject
     public int gage;
     public List<ObjectData> objectDatas;
     public RoomType roomType;
+    public bool isLock;
 
     public RoomSet(int _width, int _height,int _size,int _gage, RoomType _roomType)
     {

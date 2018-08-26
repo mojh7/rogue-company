@@ -74,7 +74,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         {
             for (int j = 0; j < currentRoom.doorObjects.Count; j++)
             {
-                currentRoom.doorObjects[j].GetComponent<CustomObject>().Active();
+                currentRoom.doorObjects[j].OpenAndClose();
             }
         }
     }//작동 가능여부 turn

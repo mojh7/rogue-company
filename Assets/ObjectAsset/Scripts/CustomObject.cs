@@ -369,6 +369,7 @@ public class Spawner : RandomSpriteObject
 
 public class Door : RandomSpriteObject
 {
+    bool isLock;
     bool isHorizon;
     Sprite openSprite;
     Sprite closeSprite;
@@ -379,9 +380,11 @@ public class Door : RandomSpriteObject
         base.Init();
         objectType = ObjectType.NONE;
     }
-    public void Init(Sprite openSprite, Sprite closeSprite, GameObject[] doorArrows)
+    public void Init(Sprite openSprite, Sprite closeSprite, GameObject[] doorArrows, bool isLock = false)
     {
         Init();
+        this.isLock = isLock;
+        this.isAvailable = true;
         this.openSprite = openSprite;
         this.closeSprite = closeSprite;
         this.doorArrows = doorArrows;
@@ -434,11 +437,45 @@ public class Door : RandomSpriteObject
 
         return true;
     }
+    public bool OpenAndClose()
+    {
+        if (isActive)
+        {
+            isActive = false;
+            doorArrows[0].SetActive(true);
+            doorArrows[1].SetActive(true);
+            sprite = openSprite;
+        }
+        else
+        {
+            isActive = true;
+            isAnimate = true;
+            StartAni();
+            doorArrows[0].SetActive(false);
+            doorArrows[1].SetActive(false);
+            if (!isHorizon)
+            {
+                animator.SetTrigger("door_horizon");
+            }
+            else
+            {
+                animator.SetTrigger("door_vertical");
+            }
+            sprite = closeSprite;
+        }
+
+        SetCollision();
+
+        return true;
+    }
     public void SetAxis(bool _isHorizon)
     {
         isHorizon = _isHorizon;
     }
-    public bool GetHorizon() { return isHorizon; }
+    public bool GetHorizon()
+    {
+        return isHorizon;
+    }
 }
 
 public class Alert : RandomSpriteObject

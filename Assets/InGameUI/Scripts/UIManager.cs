@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     [SerializeField] private GameObject gameOverObj;
     [SerializeField] private Image fadeImage;
     [SerializeField] private Text coinText;
+    [SerializeField] private Text keyText;
     public BossHPUI bossHPUI;
     bool actived = false;
     #endregion
@@ -33,7 +34,10 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
         UIManager.Instance.SetActivedBool(true);
     }
 
-    public void SetActivedBool(bool _actived) { actived = _actived; }
+    public void SetActivedBool(bool _actived)
+    {
+        actived = _actived;
+    }
 
     public bool GetActived()
     {
@@ -42,7 +46,16 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
 
     public void SetCoinText(int _num)
     {
+        if (null == coinText)
+            return;
         coinText.text = _num.ToString();
+    }
+
+    public void SetKeyText(int _num)
+    {
+        if (null == keyText)
+            return;
+        keyText.text = _num.ToString();
     }
 
     public void ReturnTitle()

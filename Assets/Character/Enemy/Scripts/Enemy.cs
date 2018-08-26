@@ -953,6 +953,7 @@ public class BossEnemy : Enemy
     {
         pState = CharacterInfo.State.DIE;
         GameDataManager.Instance.SetKill();
+        UIManager.Instance.bossHPUI.Toggle();
         EnemyManager.Instance.DeleteEnemy(this);
         RoomManager.Instance.DieMonster();
         gameObject.SetActive(false);
