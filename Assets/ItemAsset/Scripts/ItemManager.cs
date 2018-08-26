@@ -39,6 +39,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
 
+        ParticleManager.Instance.PlayParticle("Event", _position);
         objs.Enqueue(obj);
         obj.transform.position = _position;
         obj.AddComponent<ItemBox>();
