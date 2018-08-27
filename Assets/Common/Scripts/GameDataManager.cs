@@ -44,7 +44,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public int GetKey() { return m_key; }
     public int GetCoin() { return m_coin; }
     public int GetFloor() { return m_floor; }
-    public int GetKill() { return m_kill; }
+    public int GetKill() { Debug.Log("GetKill : " + m_kill); return m_kill; }
     public float GetTime() { return m_time; }
     public Player.PlayerType GetPlayerType() { return m_playerType; }
     public PlayerData GetPlayerData() { return playerData; }

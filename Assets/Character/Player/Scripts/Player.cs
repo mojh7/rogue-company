@@ -198,8 +198,8 @@ public class Player : Character
     protected override void Die()
     {
         GameDataManager.Instance.SetTime(TimeController.Instance.GetPlayTime);
-        GameStateManager.Instance.GameOver();
         UIManager.Instance.GameOverUI();
+        GameStateManager.Instance.GameOver();
     }
 
     /// <summary>

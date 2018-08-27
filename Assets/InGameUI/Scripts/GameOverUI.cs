@@ -82,11 +82,8 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     {
         Init();
         LoadData();
-        Debug.Log("처치 수        " + GameDataManager.Instance.GetKill().ToString());
-        if (Time.timeScale == 0)
-            Time.timeScale = 1;
-        else
-            Time.timeScale = 0;
+        GameDataManager.Instance.ResetData();
+        Time.timeScale = 0;
     }
     #endregion
 }

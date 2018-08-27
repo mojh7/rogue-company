@@ -43,7 +43,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     public void GameOver()
     {
         gameState = GameState.GAMEOVER;
-        GameDataManager.Instance.ResetData();
+        //GameDataManager.Instance.ResetData();
     }
     #endregion
 }

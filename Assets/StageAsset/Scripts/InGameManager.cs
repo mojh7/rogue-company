@@ -20,7 +20,6 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     {
         if (Input.GetKeyDown(KeyCode.C))
             GoUpFloor();
-        //Debug.Log("PlayTime " + test.ToString());
     }
     #endregion
     #region Func

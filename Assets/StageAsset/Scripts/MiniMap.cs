@@ -451,7 +451,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         playerIcon.gameObject.SetActive(isActive);
         if (title[0].gameObject.activeSelf == !isActive)
         {
-            Debug.Log(1234);
             title[0].gameObject.SetActive(isActive);
         }
     }
@@ -513,7 +512,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             if (isToggle)
             {
                 // 미니맵으로
-                Debug.Log("미니맵으로");
                 playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
                 mask.localPosition = oldPos;
                 GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
@@ -522,7 +520,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             else
             {
                 // 크게 키운 맵
-                Debug.Log("메인 맵");
+                // 크게 키운 맵
                 transform.localPosition = new Vector2(-maskSize, -maskSize);
                 mask.localPosition = new Vector2(maskSize, maskSize);
                 GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
