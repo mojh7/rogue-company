@@ -24,7 +24,8 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     #region function
     public void Init()
     {
-        playTime = GameDataManager.Instance.GetTime();
+        TimeController.Instance.StopTime();
+        playTime = TimeController.Instance.GetPlayTime;
         kill = GameDataManager.Instance.GetKill();
         coin = GameDataManager.Instance.GetCoin();
         currentFloor = GameDataManager.Instance.GetFloor() + 6;
@@ -81,6 +82,7 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     {
         Init();
         LoadData();
+        Debug.Log("처치 수        " + GameDataManager.Instance.GetKill().ToString());
         if (Time.timeScale == 0)
             Time.timeScale = 1;
         else
