@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class MapEditor : EditorWindow
 {
+    public enum NPCType { Astrologer }
     [SerializeField]
     GameObject prefabs;
 
@@ -17,12 +18,12 @@ public class MapEditor : EditorWindow
     GameObject roomObj;
     ObjectType objectType;
     RoomType roomType;
+    NPCType npcType;
     int spriteNum;
     Sprite multipleSprite;
     Sprite objectSprite;
     Sprite[] objectSprites;
     RoomSet worldRoomSet;
-    string className;
 
     static MapEditor window;
     [MenuItem("Custom/RoomEditor")]
@@ -53,14 +54,18 @@ public class MapEditor : EditorWindow
             RemoveTilemap();
         }
         objectType = (ObjectType)EditorGUILayout.EnumPopup("ObjectType", objectType);
-        className = EditorGUILayout.TextField("className", className);
+        if(objectType == ObjectType.NPC)
+        {
+            npcType = (NPCType)EditorGUILayout.EnumPopup("NPCType", npcType);
+        }
         EditorGUI.BeginChangeCheck();
-        multipleSprite = (Sprite)EditorGUILayout.ObjectField("multipleSprite", multipleSprite, typeof(Sprite), allowSceneObjects: true);
         spriteNum = EditorGUILayout.IntField("spriteNum", spriteNum);
         if (EditorGUI.EndChangeCheck())
         {
             objectSprites = new Sprite[spriteNum];
         }
+        if (spriteNum == 0)
+            multipleSprite = (Sprite)EditorGUILayout.ObjectField("multipleSprite", multipleSprite, typeof(Sprite), allowSceneObjects: true);
         for (int i = 0; i < spriteNum; i++)
         {
             objectSprites[i] = (Sprite)EditorGUILayout.ObjectField("ObjectSprite", objectSprites[i], typeof(Sprite), allowSceneObjects: true);
@@ -104,13 +109,13 @@ public class MapEditor : EditorWindow
         if (multipleSprite != null && spriteNum == 0)
         {
             Sprite[] objectSprites = GetSprites(multipleSprite);
-            objectData = new ObjectData(Vector3.zero, objectType, objectSprites, className);
+            objectData = new ObjectData(Vector3.zero, objectType, objectSprites, npcType.ToString());
             objectData.LoadObject(gameObject);
             gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
         }
         else
         {
-            objectData = new ObjectData(Vector3.zero, objectType, objectSprites, className);
+            objectData = new ObjectData(Vector3.zero, objectType, objectSprites, npcType.ToString());
             objectData.LoadObject(gameObject);
             if(objectSprites != null)
                 if (objectSprites.Length > 0)
@@ -127,7 +132,7 @@ public class MapEditor : EditorWindow
         gameObject.name = objectType.GetType().ToString();
         gameObject.transform.parent = roomObj.transform;
 
-        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites, className);
+        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectSprites, npcType.ToString());
         objectData.LoadObject(gameObject);
         Selection.activeObject = gameObject;
         return gameObject.GetComponent<CustomObject>();
