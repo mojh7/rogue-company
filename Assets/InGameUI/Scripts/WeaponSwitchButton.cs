@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class WeaponSwitchButton : MonoBehaviour, IPointerClickHandler
+public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpHandler
 {
     private Vector2 pos;
     // Use this for initialization
@@ -18,26 +18,26 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerClickHandler
         this.character = character;
     }
 
-    //// 터치 했을 때
-    //public void OnPointerDown(PointerEventData ped)
-    //{
-    //    pos.x = ped.position.x;
-    //}
+    // 터치 했을 때
+    public void OnPointerDown(PointerEventData ped)
+    {
+        pos.x = ped.position.x;
+    }
 
-    //// 터치 후 땠을 때
-    //public void OnPointerUp(PointerEventData ped)
-    //{
-    //    // 다음 무기로 교체 방향 ->
-    //    if (ped.position.x > pos.x)
-    //    {
-    //        character.GetWeaponManager().ChangeWeapon(true);
-    //    }
-    //    // 이전 무기로 교체 방향 <-
-    //    else if (ped.position.x < pos.x)
-    //    {
-    //        character.GetWeaponManager().ChangeWeapon(false);
-    //    }
-    //}
+    // 터치 후 땠을 때
+    public void OnPointerUp(PointerEventData ped)
+    {
+        // 다음 무기로 교체 방향 ->
+        if (ped.position.x > pos.x)
+        {
+            character.GetWeaponManager().ChangeWeapon(true);
+        }
+        // 이전 무기로 교체 방향 <-
+        else if (ped.position.x < pos.x)
+        {
+            character.GetWeaponManager().ChangeWeapon(false);
+        }
+    }
 
 
     /// <summary> WeaponSwitchButton UI Weapon Sprite View Update </summary>
@@ -74,8 +74,8 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        character.GetWeaponManager().ChangeWeapon(true);
-    }
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    character.GetWeaponManager().ChangeWeapon(true);
+    //}
 }
