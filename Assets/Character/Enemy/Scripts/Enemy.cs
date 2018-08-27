@@ -168,7 +168,10 @@ public class Enemy : Character
     #endregion
 
     #region Func
-
+    public override bool Evade()
+    {
+        return false;
+    }
 
     protected override void Die()
     {

@@ -68,6 +68,7 @@ public abstract class Character : MonoBehaviour
     protected bool isActiveMoveAI;
     protected bool isActiveAttackAI;
 
+    protected bool isEvade = false;
     protected bool isKnockBack = false;
     [SerializeField]
     protected Sprite sprite;
@@ -240,6 +241,8 @@ public abstract class Character : MonoBehaviour
     }
 
     protected abstract bool IsAbnormal();
+
+    public abstract bool Evade();
 }
 
 

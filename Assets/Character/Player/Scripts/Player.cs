@@ -195,6 +195,16 @@ public class Player : Character
 
     #region function
 
+    public override bool Evade()
+    {
+        if (isEvade)
+            return false;
+        isEvade = true;
+        damageImmune = CharacterInfo.DamageImmune.DAMAGE;
+        StartCoroutine(Roll(.1f, controller.GetMoveInputVector()));
+        return true;
+    }
+
     protected override void Die()
     {
         GameDataManager.Instance.SetTime(TimeController.Instance.GetPlayTime);
@@ -486,8 +496,12 @@ public class Player : Character
     }
     private void Move()
     {
+        if (isEvade)
+            return;
+        rgbody.MovePosition(objTransform.position 
+            + controller.GetMoveInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
         // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
-        objTransform.Translate(controller.GetMoveInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
+        //objTransform.Translate(controller.GetMoveInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
         if (controller.GetMoveInputVector().sqrMagnitude > 0.1f)
         {
             animationHandler.Walk();
@@ -560,6 +574,22 @@ public class Player : Character
                 //aiController.PlayMove();
             }
         }
+    }
+    private IEnumerator Roll(float time, Vector3 dir)
+    {
+        float startTime = Time.time;
+        float tempElapsedTime = 0;
+
+        while (time >= tempElapsedTime)
+        {
+            tempElapsedTime += Time.fixedDeltaTime;
+            rgbody.MovePosition(objTransform.position + dir * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime * 2);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        yield return YieldInstructionCache.WaitForSeconds(0.2f);
+
+        damageImmune = CharacterInfo.DamageImmune.NONE;
+        isEvade = false;
     }
     #endregion
 }

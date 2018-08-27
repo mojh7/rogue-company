@@ -20,6 +20,8 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
     private WeaponSwitchButton weaponSwitchButton;
     [SerializeField]
     private ActiveSkillButton activeSkillButton;
+    [SerializeField]
+    private EvadeButton evadeButton;
     #endregion
     #region components
     private RectTransform moveJouStickTransform;
@@ -51,6 +53,7 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
         attackJoyStick.SetPlayer(character);
         activeSkillButton.SetPlayer(character);
         weaponSwitchButton.SetPlayer(character);
+        evadeButton.SetPlayer(character);
         controller = new PlayerController(moveJoyStick, attackJoyStick);
     }
     void DrawMoveJoyStick()
