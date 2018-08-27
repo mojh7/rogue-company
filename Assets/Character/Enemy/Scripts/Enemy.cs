@@ -232,7 +232,7 @@ public class Enemy : Character
         {
             damage *= 2f;
         }
-        ReactanceAim();
+
         ReduceHp(damage);
         AttackedEffect();
         return damage;
@@ -265,7 +265,8 @@ public class Enemy : Character
     protected override bool IsAbnormal()
     {
         return isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] ||
-             isAbnormalStatuses[(int)AbnormalStatusType.CHARM] || isAbnormalStatuses[(int)AbnormalStatusType.CLIMBING];
+            isAbnormalStatuses[(int)AbnormalStatusType.CHARM] || isAbnormalStatuses[(int)AbnormalStatusType.CLIMBING] ||
+            isAbnormalStatuses[(int)AbnormalStatusType.NAG] || isAbnormalStatuses[(int)AbnormalStatusType.REACTANCE];
     }
 
     // TODO : 0802 모장현, enemy aim 조절 타입에 따라서 알고리즘 변경
@@ -279,9 +280,11 @@ public class Enemy : Character
                 directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
                 directionDegree = directionVector.GetDegFromVector();
                 break;
-            case CharacterInfo.AutoAimType.SEMIAUTO:
+            case CharacterInfo.AutoAimType.REACTANCE:
+                directionVector = (transform.position - PlayerManager.Instance.GetPlayer().GetPosition()).normalized;
+                directionDegree = directionVector.GetDegFromVector();
                 break;
-            case CharacterInfo.AutoAimType.RANDOM:
+            case CharacterInfo.AutoAimType.SEMIAUTO:
                 break;
             case CharacterInfo.AutoAimType.MANUAL:
                 directionVector = rgbody.velocity;
@@ -291,16 +294,6 @@ public class Enemy : Character
                 break;
         }
     }
-    
-    private void ReactanceAim()
-    {
-        if(CharacterInfo.AutoAimType.REACTANCE == autoAimType)
-        {
-            directionVector = PlayerManager.Instance.GetPlayer().GetDirVector();
-            directionDegree = directionVector.GetDegFromVector();
-        }
-    }
-
     #endregion
 
     #region abnormalState
@@ -871,7 +864,6 @@ public class Enemy : Character
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = StatusConstants.Instance.ReactanceInfo.effectiveTime;
         autoAimType = CharacterInfo.AutoAimType.REACTANCE;
-
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;

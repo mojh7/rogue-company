@@ -24,7 +24,7 @@ namespace CharacterInfo
 
     public enum AutoAimType
     {
-        AUTO, SEMIAUTO, RANDOM, REACTANCE, MANUAL
+        AUTO, SEMIAUTO, REACTANCE, MANUAL
     }
 }
 

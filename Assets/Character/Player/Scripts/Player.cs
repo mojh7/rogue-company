@@ -284,7 +284,6 @@ public class Player : Character
         switch (autoAimType)
         {
             default:
-            case CharacterInfo.AutoAimType.RANDOM:
             case CharacterInfo.AutoAimType.REACTANCE:
             case CharacterInfo.AutoAimType.AUTO:
                 AutoAim();

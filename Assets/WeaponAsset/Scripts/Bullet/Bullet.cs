@@ -621,7 +621,8 @@ public class Bullet : MonoBehaviour
         // 5. 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
         if (CheckEqualWeaponType(WeaponType.SHOTGUN) && effectInfo.shotgunBulletCanHoming)
         {
-            info.startDelay = 0.1f;
+            info.homingStartTime = 0.1f;
+            info.homingEndTime = 1.5f;
             info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
 
             //HomingProperty 중복 생성 방지

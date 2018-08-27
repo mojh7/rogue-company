@@ -78,8 +78,9 @@ public class BulletInfo : ScriptableObject
     [Header("Trap무기 SpiderMine화")]
     public bool becomeSpiderMine;
 
-    [Header("startDelay초 후 총알 유도 시작")]
-    public float startDelay;
+    [Header("생성 후 start~end Time 동안 총알 유도")]
+    public float homingStartTime;
+    public float homingEndTime;
 
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
@@ -196,7 +197,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.canBlockBullet = canBlockBullet;
         clonedInfo.canReflectBullet = canReflectBullet;
         clonedInfo.becomeSpiderMine = becomeSpiderMine;
-        clonedInfo.startDelay = startDelay;
+        clonedInfo.homingStartTime = homingStartTime;
+        clonedInfo.homingEndTime = homingEndTime;
 
         //clonedInfo = ; 
 

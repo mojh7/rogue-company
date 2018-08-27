@@ -283,7 +283,8 @@ public class HomingProperty : UpdateProperty
     private int enemyTotal;
     private float targettingCycle;
 
-    private float startDelay;
+    private float homingStartTime;
+    private float homingEndTime;
 
     private RaycastHit2D hit;
     private List<RaycasthitEnemy> raycastHitEnemies;
@@ -316,13 +317,17 @@ public class HomingProperty : UpdateProperty
         layerMask = 1 << LayerMask.NameToLayer("Wall");
 
         timeCount = 0;
-        startDelay = bullet.info.startDelay;
+        homingStartTime = bullet.info.homingStartTime;
+        homingEndTime = bullet.info.homingEndTime;
+
         if (bullet.info.speed != 0)
         {
             lifeTime = bullet.info.range / bullet.info.speed;
         }
         else
-            lifeTime = 20;
+        {
+            lifeTime = 10f;
+        }
 
     }
 
@@ -333,19 +338,17 @@ public class HomingProperty : UpdateProperty
 
     public override void Update()
     {
-        if (timeCount < startDelay)
+        timeCount += Time.fixedDeltaTime;
+        if (timeCount < homingStartTime || homingEndTime < timeCount)
         {
-            timeCount += Time.fixedDeltaTime;
             return;
         }
         if (timeCount >= lifeTime)
         {
             delDestroyBullet();
         }
-        timeCount += Time.fixedDeltaTime;
-        //targettingCycle -= Time.fixedDeltaTime;
-        // 유도 대상 선정
 
+        // owner 별로 유도 대상이 다름.
         if(CharacterInfo.OwnerType.Player == bullet.GetOwnerType())
         {
             enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
@@ -397,9 +400,18 @@ public class HomingProperty : UpdateProperty
                 }
             }
         }
-        else
+        else if (CharacterInfo.OwnerType.Enemy == bullet.GetOwnerType())
         {
-
+            differenceVector = PlayerManager.Instance.GetPlayer().GetPosition() - bulletTransform.position;
+            // (Bx-Ax)*(Py-Ay) - (By-Ay)*(Px-Ax)
+            if (((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x)) >= 0)
+            {
+                bullet.RotateDirection(deltaAngle * 0.3f);
+            }
+            else if ((bullet.GetDirVector().x) * (differenceVector.y) - (bullet.GetDirVector().y) * (differenceVector.x) < 0)
+            {
+                bullet.RotateDirection(-deltaAngle * 0.3f);
+            }
         }
     }
 }
@@ -443,13 +455,13 @@ public class MineBombProperty : UpdateProperty
 
             // 각도 맞춰서 추적
 
-            /*
+            
             Vector2 dir = (detectedEnemy.transform.position - bulletTransform.position).normalized;
             bullet.info.speed = 3f;
             bullet.SetDirection(new Vector3(dir.x, dir.y, 0));
-            */
+            
 
-
+            /*
             // x, y 따로 이동
             if (bulletTransform.position.x - detectedEnemy.transform.position.x > 0.1f
                 || bulletTransform.position.x - detectedEnemy.transform.position.x < -0.1f)
@@ -475,7 +487,7 @@ public class MineBombProperty : UpdateProperty
                 {
                     bulletTransform.Translate(Vector2.down * speed * Time.fixedDeltaTime);
                 }
-            }
+            }*/
         }
     }
 
