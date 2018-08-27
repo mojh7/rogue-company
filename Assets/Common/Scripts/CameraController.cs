@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
             float x = Random.Range(-1.0f, 1.0f) * magnitude;
             float y = Random.Range(-1.0f, 1.0f) * magnitude;
 
-            cameraTransform.localPosition = new Vector2(x, y);
+            cameraTransform.localPosition = new Vector3(x, y, m_cameraDepth);
 
             elapsed += Time.deltaTime;
 
