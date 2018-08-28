@@ -127,6 +127,8 @@ public class Player : Character
         */
 
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            Evade();
         if (-90 <= directionDegree && directionDegree < 90)
         {
             isRightDirection = true;
@@ -179,6 +181,7 @@ public class Player : Character
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);
 
+        animationHandler.SetEndAction(EndEvade);
         TimeController.Instance.PlayStart();
     }
 
@@ -199,9 +202,10 @@ public class Player : Character
     {
         if (isEvade)
             return false;
+        animationHandler.Skill(0);
         isEvade = true;
         damageImmune = CharacterInfo.DamageImmune.DAMAGE;
-        StartCoroutine(Roll(.1f, controller.GetMoveInputVector()));
+        StartCoroutine(Roll(controller.GetMoveRecentNormalInputVector()));
         return true;
     }
 
@@ -228,6 +232,8 @@ public class Player : Character
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
         // if (DefendAttack()) return 0;
+        if (damageImmune == CharacterInfo.DamageImmune.DAMAGE)
+            return 0;
         playerData.Hp -= transferredBulletInfo.damage;
         AttackedAction(1);
         PlayerHPUi.DecreaseHp(playerData.Hp);
@@ -238,7 +244,7 @@ public class Player : Character
 
     public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
     {
-        if (CharacterInfo.State.ALIVE != pState)
+        if (CharacterInfo.State.ALIVE != pState || damageImmune == CharacterInfo.DamageImmune.DAMAGE)
             return 0;
         float criticalCheck = Random.Range(0f, 1f);
         // 크리티컬 공격
@@ -325,7 +331,7 @@ public class Player : Character
 
     public bool AttackAble()
     {
-        if (pState == CharacterInfo.State.ALIVE)
+        if (pState == CharacterInfo.State.ALIVE && !isEvade)
             return true;
         else return false;
     }
@@ -527,6 +533,10 @@ public class Player : Character
             transform.Translate(Vector2.left * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
     }
+    private void EndEvade()
+    {
+        isEvade = false;
+    }
 
     // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
     public void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
@@ -574,21 +584,15 @@ public class Player : Character
             }
         }
     }
-    private IEnumerator Roll(float time, Vector3 dir)
+    private IEnumerator Roll(Vector3 dir)
     {
-        float startTime = Time.time;
-        float tempElapsedTime = 0;
-
-        while (time >= tempElapsedTime)
+        while (isEvade)
         {
-            tempElapsedTime += Time.fixedDeltaTime;
             rgbody.MovePosition(objTransform.position + dir * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime * 2);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         yield return YieldInstructionCache.WaitForSeconds(0.2f);
-
         damageImmune = CharacterInfo.DamageImmune.NONE;
-        isEvade = false;
     }
     #endregion
 }
