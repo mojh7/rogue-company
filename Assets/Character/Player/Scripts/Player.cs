@@ -205,7 +205,7 @@ public class Player : Character
         animationHandler.Skill(0);
         isEvade = true;
         damageImmune = CharacterInfo.DamageImmune.DAMAGE;
-        StartCoroutine(Roll(controller.GetMoveInputVector()));
+        StartCoroutine(Roll(controller.GetMoveRecentNormalInputVector()));
         return true;
     }
 
