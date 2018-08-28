@@ -42,7 +42,7 @@ namespace WeaponAsset
 
     public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
-    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing, MineBomb, FixedOwner }
+    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing, MineBomb, FixedOwner, Spiral }
     public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
 
     /*---*/
@@ -83,6 +83,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     //[FormerlySerializedAs("temp2WeaponInfos")]
     private WeaponInfo[] temp3WeaponInfos;
+
+    [SerializeField]
+    private WeaponInfo[] test2WeaponInfos;
 
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
@@ -126,14 +129,12 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 return tempWeaponInfos.Length;
             case WeaponModeForDebug.TEMP2:
                 return temp2WeaponInfos.Length;
+            case WeaponModeForDebug.TEST2:
+                return test2WeaponInfos.Length;
             default:
                 break;
         }
         return 0;
-    }
-    public int GetTempWeaponInfosLength()
-    {
-        return tempWeaponInfos.Length;
     }
 
     public int GetClothingItemInfosLength()
@@ -177,18 +178,27 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     /// <param name="id"></param>
     /// <param name="owner"></param>
     /// <returns></returns>
-    public WeaponInfo GetWeaponInfo(int id, CharacterInfo.OwnerType ownerType = CharacterInfo.OwnerType.Player)
+    public WeaponInfo GetWeaponInfo(int id, CharacterInfo.OwnerType ownerType)
     {
+        // player용 switch 안에 switch 못해서 따로 떼어놓음.
+        if (CharacterInfo.OwnerType.Player == ownerType)
+        {
+            switch (DebugSetting.Instance.weaponModeForDebug)
+            {
+                case WeaponModeForDebug.TEST:
+                    return weaponInfos[id];
+                case WeaponModeForDebug.TEMP:
+                    return tempWeaponInfos[id];
+                case WeaponModeForDebug.TEMP2:
+                    return temp2WeaponInfos[id];
+                case WeaponModeForDebug.TEST2:
+                    return test2WeaponInfos[id];
+                default:
+                    break;
+            }
+        }
         switch(ownerType)
         {
-            case CharacterInfo.OwnerType.Player:
-                if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug)
-                    return weaponInfos[id];
-                else if (WeaponModeForDebug.TEMP == DebugSetting.Instance.weaponModeForDebug)
-                    return tempWeaponInfos[id];
-                else
-                    return temp2WeaponInfos[id];
-            // 구분 만 해놓고 아직 player 이외의 owner weaponDataList 안 만듬, 봐서 bullet, Pattern도 이렇게 처리 할듯
             case CharacterInfo.OwnerType.Enemy:
                 return enemyWeaponInfos[id];
             case CharacterInfo.OwnerType.Object:
@@ -196,12 +206,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 break;
         }
         return null;
-    }
-
-    public WeaponInfo GetTempWeaponInfo(int id)
-    {
-        return tempWeaponInfos[id];
-
     }
 
     public EffectInfo GetEffectInfo(int id) { return effectInfos[id]; }
@@ -271,28 +275,33 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     /// <summary> 무기 정보 관련 초기화 </summary>
     public void InitWepaonInfo()
     {
-        if(WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug)
+        switch(DebugSetting.Instance.weaponModeForDebug)
         {
-            for (int i = 0; i < weaponInfos.Length; i++)
-                weaponInfos[i].Init();
-        }
-        else if (WeaponModeForDebug.TEMP == DebugSetting.Instance.weaponModeForDebug)
-        {
-            for (int i = 0; i < tempWeaponInfos.Length; i++)
-                tempWeaponInfos[i].Init();
-        }
-        else
-        {
-            for (int i = 0; i < temp2WeaponInfos.Length; i++)
-                temp2WeaponInfos[i].Init();
+            case WeaponModeForDebug.TEST:
+                for (int i = 0; i < weaponInfos.Length; i++)
+                    weaponInfos[i].Init();
+                break;
+            case WeaponModeForDebug.TEMP:
+                for (int i = 0; i < tempWeaponInfos.Length; i++)
+                    tempWeaponInfos[i].Init();
+                break;
+            case WeaponModeForDebug.TEMP2:
+                for (int i = 0; i < temp2WeaponInfos.Length; i++)
+                    temp2WeaponInfos[i].Init();
+                break;
+            case WeaponModeForDebug.TEST2:
+                for (int i = 0; i < test2WeaponInfos.Length; i++)
+                    test2WeaponInfos[i].Init();
+                break;
+            default:
+                break;
         }
 
         for (int i = 0; i < enemyWeaponInfos.Length; i++)
         {
             enemyWeaponInfos[i].Init();
         }
-        //passiveItems
-        
+        //passiveItems   
         InputWeaponDatas();
     }
 
@@ -306,6 +315,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
     public void InputWeaponDatas()
     {
+        if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug
+            || WeaponModeForDebug.TEST2 == DebugSetting.Instance.weaponModeForDebug)
+            return;
+
         if (false == canInputWeaponDatas)
             return;
         weaponDatas = WeaponDataCSVParser.Read("weaponDatas");

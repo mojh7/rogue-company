@@ -534,3 +534,38 @@ public class FixedOwnerProperty : UpdateProperty
         bulletTransform.rotation = Quaternion.Euler(0, 0, ownerDirDegree());
     }
 }
+
+/// <summary> 나선형 속성 </summary>
+public class SpiralProperty : UpdateProperty
+{
+    private float lifeTime;
+    private float timeCount;
+    private float rotateAnglePerSecond;
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+
+        lifeTime = bullet.info.lifeTime;
+        timeCount = 0;
+        rotateAnglePerSecond = bullet.info.rotateAnglePerSecond;
+    
+        //homingStartTime = bullet.info.homingStartTime;
+        //homingEndTime = bullet.info.homingEndTime;
+    }
+
+    public override UpdateProperty Clone()
+    {
+        return new SpiralProperty();
+    }
+
+    public override void Update()
+    {
+        timeCount += Time.fixedDeltaTime;
+        if (timeCount >= lifeTime)
+        {
+            delDestroyBullet();
+        }
+        bullet.RotateDirection(rotateAnglePerSecond * Time.fixedDeltaTime);
+    }
+}

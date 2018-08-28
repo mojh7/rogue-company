@@ -200,7 +200,6 @@ public class WeaponManager : MonoBehaviour {
             {
                 if (equipAllWeapons)
                 {
-                    // Debug.Log("a");
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
                     Debug.Log("weaponCountMax : " + weaponCountMax);
@@ -226,10 +225,8 @@ public class WeaponManager : MonoBehaviour {
             // 저장된 데이터를 로드한 게임 일 때
             else
             {
-
                 int[] weaponIds = GameDataManager.Instance.GetWeaponIds();
                 int[] weaponAmmos = GameDataManager.Instance.GetWeaponAmmos();
-
 
                 weaponCountMax = weaponIds.Length;
                 Debug.Log("무기 로드 weaponCountMax : " + weaponCountMax);

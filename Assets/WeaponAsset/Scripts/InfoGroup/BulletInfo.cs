@@ -82,6 +82,8 @@ public class BulletInfo : ScriptableObject
     public float homingStartTime;
     public float homingEndTime;
 
+    [Header("Spiral Property 용, 1초당 회전 각")]
+    public float rotateAnglePerSecond;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -199,6 +201,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.becomeSpiderMine = becomeSpiderMine;
         clonedInfo.homingStartTime = homingStartTime;
         clonedInfo.homingEndTime = homingEndTime;
+        clonedInfo.rotateAnglePerSecond = rotateAnglePerSecond;
 
         //clonedInfo = ; 
 
@@ -302,6 +305,9 @@ public class BulletInfo : ScriptableObject
                     break;
                 case UpdatePropertyType.FixedOwner:
                     updateProperties.Add(new FixedOwnerProperty());
+                    break;
+                case UpdatePropertyType.Spiral:
+                    updateProperties.Add(new SpiralProperty());
                     break;
                 default:
                     break;
