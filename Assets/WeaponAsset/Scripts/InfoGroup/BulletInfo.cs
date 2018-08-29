@@ -82,8 +82,11 @@ public class BulletInfo : ScriptableObject
     public float homingStartTime;
     public float homingEndTime;
 
-    [Header("Spiral Property 용, 1초당 회전 각")]
+    [Header("Spiral Property, 1초당 회전 각")]
     public float rotateAnglePerSecond;
+    [Header("Spiral Property, start~end time, -1값 : 적용 x")]
+    public float spiralStartTime;
+    public float spiralEndTime;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -145,6 +148,9 @@ public class BulletInfo : ScriptableObject
         canReflectBullet = false;
         becomeSpiderMine = false;
 
+        homingEndTime = -1;
+        spiralEndTime = -1;
+
         // isInitializable = true;
 
         // Debug.Log(name + ", 생성자 : " + isInitializable);
@@ -202,6 +208,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.homingStartTime = homingStartTime;
         clonedInfo.homingEndTime = homingEndTime;
         clonedInfo.rotateAnglePerSecond = rotateAnglePerSecond;
+        clonedInfo.spiralStartTime = spiralStartTime;
+        clonedInfo.spiralEndTime = spiralEndTime;
 
         //clonedInfo = ; 
 

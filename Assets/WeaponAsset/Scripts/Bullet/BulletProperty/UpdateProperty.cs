@@ -278,11 +278,11 @@ public class SummonProperty : UpdateProperty
 public class HomingProperty : UpdateProperty
 {
     private float lifeTime;
-    private float timeCount;
     private float deltaAngle;
     private int enemyTotal;
     private float targettingCycle;
 
+    private float timeCount;
     private float homingStartTime;
     private float homingEndTime;
 
@@ -339,7 +339,7 @@ public class HomingProperty : UpdateProperty
     public override void Update()
     {
         timeCount += Time.fixedDeltaTime;
-        if (timeCount < homingStartTime || homingEndTime < timeCount)
+        if (timeCount < homingStartTime || (homingEndTime < timeCount && -1 != homingEndTime))
         {
             return;
         }
@@ -539,8 +539,11 @@ public class FixedOwnerProperty : UpdateProperty
 public class SpiralProperty : UpdateProperty
 {
     private float lifeTime;
-    private float timeCount;
     private float rotateAnglePerSecond;
+
+    private float timeCount;
+    private float startTime;
+    private float endTime;
 
     public override void Init(Bullet bullet)
     {
@@ -548,6 +551,8 @@ public class SpiralProperty : UpdateProperty
 
         lifeTime = bullet.info.lifeTime;
         timeCount = 0;
+        startTime = bullet.info.spiralStartTime;
+        endTime = bullet.info.spiralEndTime;
         rotateAnglePerSecond = bullet.info.rotateAnglePerSecond;
     
         //homingStartTime = bullet.info.homingStartTime;
@@ -562,10 +567,15 @@ public class SpiralProperty : UpdateProperty
     public override void Update()
     {
         timeCount += Time.fixedDeltaTime;
+        if (timeCount < startTime || (endTime < timeCount && -1 != endTime))
+        {
+            return;
+        }
         if (timeCount >= lifeTime)
         {
             delDestroyBullet();
         }
+
         bullet.RotateDirection(rotateAnglePerSecond * Time.fixedDeltaTime);
     }
 }
