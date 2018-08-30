@@ -63,7 +63,7 @@ public class ActiveSkil : MonoBehaviour {
 
     void DestroySelf()
     {
-        UtilityClass.Invoke(this, DestroyAndDeactive, 100);
+        UtilityClass.Invoke(this, DestroyAndDeactive, 30);
     }
 }
 

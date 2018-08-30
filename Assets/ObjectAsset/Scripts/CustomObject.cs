@@ -536,7 +536,6 @@ public class Portal : RandomSpriteObject
         base.Active();
         isAvailable = false;
         InGameManager.Instance.GoUpFloor();
-        Debug.Log("PlayerEnd");
 
         return true;
     }

@@ -33,7 +33,6 @@ public class Loading : MonoBehaviour {
         selectChar = (int)Random.RandomRange(0, cSprite.Length);
         image.sprite = cSprite[selectChar];
         image.GetComponent<Animator>().runtimeAnimatorController = anim[selectChar];
-        Debug.Log(selectChar);
         if (Tips.Length <= 0)
             return;
         int loc = UnityEngine.Random.Range(0, Tips.Length - 1); //배열내에서 무작위로 인덱스를 얻는다.

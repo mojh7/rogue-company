@@ -9,46 +9,93 @@ namespace Map
 
     public class MapManager : MonoBehaviourSingleton<MapManager>
     {
-        public ObjectPool objectPool;
+        [SerializeField]
+        ObjectPool objectPool;
         [Space(10)]
         [Header("variable")]
         public int width = 1;
         public int height = 1, max = 17, mini = 6;
         public float maxHallRate = 0.15f;
         public readonly int size = 3;
+        [SerializeField]
+        bool Debug;
+        bool isBossRush;
         Map map;
+        private void Start()
+        {
+            if(!Debug)
+            {
+                switch (GameStateManager.Instance.GetMode())
+                {
+                    case GameStateManager.GameMode.NORMAL:
+                        isBossRush = false;
+                        break;
+                    case GameStateManager.GameMode.RUSH:
+                        isBossRush = true;
+                        break;
+                    default:
+                        isBossRush = false;
+                        break;
+                }
+            }
+            else
+            {
+                isBossRush = true;
+                GameStateManager.Instance.SetMode(GameStateManager.GameMode.RUSH);
+            }
+        }
         public void GenerateMap(int _floor)
         {
             if (map != null)
             {
-                map.Destruct();
                 map = null;
             }
-            map = new Map(width, height, max, mini, maxHallRate, objectPool);
-            map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
-            map.Generate();
-            map.AddFallRock();
-            RoomManager.Instance.InitRoomList();
+            if (isBossRush)
+            {
+                map = new BossRushMap(width, height, max, mini, maxHallRate, objectPool);
+                map.Generate();
+                RoomManager.Instance.InitRoomList();
+            }
+            else
+            {
+                map = new Map(width, height, max, mini, maxHallRate, objectPool);
+                map.AddNecessaryRoomSet(RoomSetManager.Instance.firstFloorSet);
+                map.Generate();
+                map.AddFallRock();
+                RoomManager.Instance.InitRoomList();
+            }
         }
-        public Map GetMap() { return map; }
+        public Map GetMap()
+        {
+            return map;
+        }
+        public bool GetRushMode()
+        {
+            return isBossRush;
+        }
     }
 
     public class Map
     {
-        Rect mainRect;
-        Queue<Rect> rects, blocks;
-        List<Rect> halls, rooms;
-        List<RoomSet> necessaryRoomSet, settedRoomSet;
-        Tilemap verticalWallTileMap, horizonWallTileMap, floorTileMap, shadowTileMap, fogTileMap;
-        float MaxHallRate = 0.15f;
-        int MaximumRoomArea = 4;
-        int MinimumRoomArea = 6;
-        int TotalHallArea = 0;
-        int width;
-        int height;
-        const int size = 3;
-        ObjectPool objectPool;
-        Vector3 startPosition;
+        #region dataStruct
+        protected Queue<Rect> rects, blocks;
+        protected List<Rect> halls, rooms;
+        protected List<RoomSet> necessaryRoomSet, settedRoomSet;
+        protected Vector3 startPosition;
+        #endregion
+        #region components
+        protected Tilemap verticalWallTileMap, horizonWallTileMap, floorTileMap, shadowTileMap, fogTileMap;
+        protected Rect mainRect;
+        protected ObjectPool objectPool;
+        #endregion
+
+        protected float MaxHallRate = 0.15f;
+        protected int MaximumRoomArea = 4;
+        protected int MinimumRoomArea = 6;
+        protected int TotalHallArea = 0;
+        protected int width;
+        protected int height;
+        protected const int size = 3;
 
         public Map(int _width, int _height, int _max, int _mini, float _maxHallRate, ObjectPool _objectPool)
         {
@@ -70,11 +117,7 @@ namespace Map
             fogTileMap = TileManager.Instance.fogTileMap;
         } // 생성자
 
-        public void Destruct()
-        {
-            RefreshData();
-        }
-
+        #region public
         public List<Rect> GetList(out Rect currentRoom)
         {
             currentRoom = halls[0];
@@ -111,7 +154,6 @@ namespace Map
             }
         }
 
-        #region MakeMap
         public void Generate()
         {
             ClearTile();
@@ -143,7 +185,8 @@ namespace Map
                 necessaryRoomSet.Add(_roomSet[i]);
             }
         } // 필수 방 세팅
-
+        #endregion
+        #region private
         void DrawEventTile(Rect rect, RandomTile tile)
         {
             Tilemap tilemap = TileManager.Instance.EventFloorTileMap;
@@ -209,6 +252,8 @@ namespace Map
                 RectToBlock();
                 BlockToRoom();
                 AssignAllRoom();
+                if (null == necessaryRoomSet)
+                    break;
                 if (necessaryRoomSet.Count == 0)
                     break;
                 if (count > 30)
@@ -224,6 +269,8 @@ namespace Map
 
         void SettedRoomset()
         {
+            if (null == settedRoomSet)
+                return;
             for (int i = 0; i < settedRoomSet.Count; i++)
             {
                 necessaryRoomSet.Add(settedRoomSet[i]);
@@ -372,7 +419,7 @@ namespace Map
 
         } // 맵 그리기
 
-        void RectToBlock()
+        protected virtual void RectToBlock()
         {
             Rect rect;
 
@@ -393,7 +440,7 @@ namespace Map
 
         } // Rects -> Blocks;
 
-        bool BlockToRoom()
+        protected virtual bool BlockToRoom()
         {
             Rect block;
             while (blocks.Count > 0)
@@ -421,7 +468,7 @@ namespace Map
             return true;
         } // Blocks -> Rooms;
 
-        void SplitHall(Rect _currentRect)
+        protected virtual void SplitHall(Rect _currentRect)
         {
             Rect hall = null;
 
@@ -525,9 +572,9 @@ namespace Map
 
                     if (linkedShape == LinkedShape.NONE)
                         continue;
-                  
 
-                    isMerge = tempRect.Merge(ref halls,tempRect.edgeRect[j], linkedShape);
+
+                    isMerge = tempRect.Merge(ref halls, tempRect.edgeRect[j], linkedShape);
 
                     if (isMerge)
                     {
@@ -537,9 +584,9 @@ namespace Map
                 }
             }
 
-            for(i=0;i<halls.Count;i++)
+            for (i = 0; i < halls.Count; i++)
             {
-                halls[i].Drawing(Color.red,0);
+                halls[i].Drawing(Color.red, 0);
             }
         }
 
@@ -586,11 +633,11 @@ namespace Map
         void LinkRects(Rect _rectA, Rect _rectB) // 두개의 방을 직접 연결
         {
             LinkedShape result = CheckLinkedShape(_rectA, _rectB);
-            if(result == LinkedShape.HORIZONTAL)
+            if (result == LinkedShape.HORIZONTAL)
             {
                 _rectA.EdgeRect(_rectB);
             }
-            else if(result == LinkedShape.VERTICAL)
+            else if (result == LinkedShape.VERTICAL)
             {
                 if (_rectA.midY > _rectB.midY)
                 {
@@ -782,7 +829,7 @@ namespace Map
             obj.GetComponent<Door>().SetAxis(isHorizon);
             GameObject[] doorArrows = new GameObject[2];
             doorArrows[0] = Object.Instantiate(ResourceManager.Instance.DoorArrow);
-            doorArrows[0].transform.parent = obj.transform; 
+            doorArrows[0].transform.parent = obj.transform;
             doorArrows[1] = Object.Instantiate(ResourceManager.Instance.DoorArrow);
             doorArrows[1].transform.parent = obj.transform;
             if (isHorizon)
@@ -838,6 +885,8 @@ namespace Map
 
         RoomSet GetRoomSet(int width, int height)
         {
+            if (null == necessaryRoomSet)
+                return RoomSetManager.Instance.LoadRoomSet(width, height); 
             if (necessaryRoomSet.Count == 0)
                 return RoomSetManager.Instance.LoadRoomSet(width, height);
             else
@@ -913,6 +962,99 @@ namespace Map
                 startPosition = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, 0);
         } // 스타트 포인트
         #endregion
+    }
+
+    public class BossRushMap : Map
+    {
+        public BossRushMap(int _width, int _height, int _max, int _mini, float _maxHallRate, ObjectPool _objectPool) : 
+            base(_width, _height, _max, _mini, _maxHallRate, _objectPool)
+        {
+
+        }
+
+        protected override void RectToBlock()
+        {
+            SplitHall(mainRect);
+        }
+        protected override void SplitHall(Rect _currentRect)
+        {
+            bool flag = true;
+            Rect _blockA, _blockB;
+
+            if (_currentRect.width > _currentRect.height)
+                flag = true;
+            else if (_currentRect.width < _currentRect.height)
+                flag = false;
+            else
+            {
+                if (UtilityClass.CoinFlip(50))
+                    flag = true;
+                else
+                    flag = false;
+            }
+
+            if (flag) // 가로
+            {
+                int width;
+                if (UtilityClass.CoinFlip(50))
+                {
+                    width = _currentRect.width - 1;
+                    _blockA = new Rect(_currentRect.x, _currentRect.y, width, _currentRect.height, size);
+                    _blockB = new Rect(_currentRect.x + width, _currentRect.y, _currentRect.width - width, _currentRect.height, size);
+                    _blockB.isRoom = false;
+                    _blockB.isClear = true;
+                    _blockA.isRoom = true;
+                    _blockA.isClear = false;
+                    halls.Add(_blockB);
+                    rooms.Add(_blockA);
+                }
+                else
+                {
+                    width = 1;
+                    _blockA = new Rect(_currentRect.x, _currentRect.y, width, _currentRect.height, size);
+                    _blockB = new Rect(_currentRect.x + width, _currentRect.y, _currentRect.width - width, _currentRect.height, size);
+                    _blockA.isRoom = false;
+                    _blockA.isClear = true;
+                    _blockB.isRoom = true;
+                    _blockB.isClear = false;
+                    halls.Add(_blockA);
+                    rooms.Add(_blockB);
+                }
+            }
+            else
+            {
+                int height;
+
+                if (UtilityClass.CoinFlip(50))
+                {
+                    height = _currentRect.height - 1;
+                    _blockA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, height, size);
+                    _blockB = new Rect(_currentRect.x, _currentRect.y + height, _currentRect.width, _currentRect.height - height, size);
+                    _blockB.isRoom = false;
+                    _blockB.isClear = true;
+                    _blockA.isRoom = true;
+                    _blockA.isClear = false;
+                    halls.Add(_blockB);
+                    rooms.Add(_blockA);
+                }
+                else
+                {
+                    height = 1;
+                    _blockA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, height, size);
+                    _blockB = new Rect(_currentRect.x, _currentRect.y + height, _currentRect.width, _currentRect.height - height, size);
+                    _blockA.isRoom = false;
+                    _blockA.isClear = true;
+                    _blockB.isRoom = true;
+                    _blockB.isClear = false;
+                    halls.Add(_blockA);
+                    rooms.Add(_blockB);
+                }
+            }
+        }
+        protected override bool BlockToRoom()
+        {
+            return true;
+        }
 
     }
 

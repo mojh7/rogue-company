@@ -64,6 +64,7 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
     public RoomSet LoadRoomSet(int _width,int _height)
     {
         RoomSet roomSet = zeroRoomset;
+        RoomSet temp = null;
 
         for (int i = 0;i< roomSetGroup.Count; i++)
         {
@@ -79,7 +80,6 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
             }
             else if (_width >= roomSetGroup[i].width && _height >= roomSetGroup[i].height)
             {
-                RoomSet temp;
                 if (Random.Range(0, 10) >= 0)
                     temp = roomSetGroup[i].GetMonsterRoomSet();
                 else
@@ -90,6 +90,31 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
                     roomSet = temp;
             }
         }
+
+        if (temp == null)
+        {
+            for (int i = 0; i < roomSetGroup.Count; i++)
+            {
+                if (_width == roomSetGroup[i].width && _height == roomSetGroup[i].height)
+                {
+                    roomSet = roomSetGroup[i].GetOtherRoomSet();
+
+                    if (!roomSet)
+                        continue;
+                    return roomSet;
+                }
+                else if (_width >= roomSetGroup[i].width && _height >= roomSetGroup[i].height)
+                {
+                    temp = roomSetGroup[i].GetOtherRoomSet();
+
+                    if (temp == null)
+                        continue;
+                    if (roomSet.width < temp.width && roomSet.height < temp.height)
+                        roomSet = temp;
+                }
+            }
+        }
+
         return roomSet;  
     }
 

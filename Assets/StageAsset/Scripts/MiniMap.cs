@@ -481,7 +481,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         mapColors = new Color[(minmapSizeWidth + 1) * (minmapSizeHeight + 1)];
         texture.filterMode = FilterMode.Point;
         renderer.texture = texture;
-
+        DrawAllRoom();
         DrawMap();
     } // 미니맵 그리는 함수
 

@@ -301,6 +301,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         CutSceneUI.Instance.Hide();
         EnemyManager.Instance.SpawnBoss(GameDataManager.Instance.GetFloor(), (currentRoom.areaLeftDown + currentRoom.areaRightTop) / 2);
         monsterNum++;
+        currentRoom.gage--;
         SpawnMonster();
     }
 
