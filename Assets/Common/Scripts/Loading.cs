@@ -25,12 +25,22 @@ public class Loading : MonoBehaviour {
     private int selectChar;
     private bool isLoad = false; //중복 실행 방지
     private float timer = 0; //시간 측정
+    private const float timeLimit = 1.0f;
+    private const float totalGage = timeLimit + 1;
     //private Vector3 wheeleuler;//중앙 회전 이미지 오일러 각도측정용
     AsyncOperation async;
 
     private void Awake()
     {
-        selectChar = (int)Random.RandomRange(0, cSprite.Length);
+        selectChar = Random.Range(0, cSprite.Length);
+        RectTransform imageTransform = image.GetComponent<RectTransform>();
+        RectTransform tipTransform = Tip.GetComponent<RectTransform>();
+        RectTransform sliderbarTransform = sliderbar.GetComponent<RectTransform>();
+        imageTransform.sizeDelta = new Vector2(Screen.width, Screen.height * 0.3f);
+        imageTransform.anchoredPosition = new Vector3(imageTransform.localPosition.x, Screen.height * 0.55f, imageTransform.localPosition.z);
+        tipTransform.anchoredPosition = new Vector3(tipTransform.localPosition.x, Screen.height * 0.2f, tipTransform.localPosition.z);
+        sliderbarTransform.sizeDelta = new Vector2(sliderbarTransform.sizeDelta.x, Screen.height * 0.05f);
+        Tip.fontSize = (int)(Screen.height * 0.1f);
         image.sprite = cSprite[selectChar];
         image.GetComponent<Animator>().runtimeAnimatorController = anim[selectChar];
         if (Tips.Length <= 0)
@@ -39,6 +49,7 @@ public class Loading : MonoBehaviour {
         StringBuilder sb = new StringBuilder("팁 : ");
         sb.Append(Tips[loc]); //배열 내 무작위 요소를 출력한다.
         Tip.text = sb.ToString();
+        Time.timeScale = 1;
     }
     void Start()
     {
@@ -48,9 +59,6 @@ public class Loading : MonoBehaviour {
     {
         if (async == null)
             return;
-        //wheeleuler = wheel.rotation.eulerAngles;
-        //wheeleuler.z -= 3f;
-        //wheel.rotation = Quaternion.Euler(wheeleuler);
         timer += Time.deltaTime;
     }
     IEnumerator LoadingScene()
@@ -59,12 +67,11 @@ public class Loading : MonoBehaviour {
         {
             isLoad = true;
             async = SceneManager.LoadSceneAsync(SceneDataManager.NextScene);
-            //async = SceneManager.LoadSceneAsync("SelectScene"); // 디버깅용
             SceneDataManager.NextScene = null; //다시 다음씬이 지정될때까지 null로 둔다.
             async.allowSceneActivation = false; //다음 씬의 준비가 완료되더라도 바로 로딩되는걸 막는다.
             while (!async.isDone)
             {
-                if (async.progress == 0.9f)
+                if (async.progress == 0.9f && timer >= timeLimit)
                 {
                     async.allowSceneActivation = true;
                     //Tip.text = "화면을 눌러주세요.";
@@ -73,7 +80,10 @@ public class Loading : MonoBehaviour {
                     sliderbar.value = 1;
                 }
                 else
-                    sliderbar.value = async.progress;
+                {
+                    Debug.Log((async.progress + timer) / totalGage);
+                    sliderbar.value = (async.progress + timer) / totalGage;
+                }
                 yield return null;
             }
         }
