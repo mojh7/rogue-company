@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;   // 총알 방향 각도.
 
-    private CharacterInfo.OwnerType ownerType;
+    private OwnerType ownerType;
     private DelGetPosition ownerPos;
     private DelGetPosition ownerDirVec;
     private DelGetDirDegree ownerDirDegree;
@@ -65,7 +65,7 @@ public class Bullet : MonoBehaviour
     public Transform LaserEndPoint { get { return laserEndPoint; } set { laserEndPoint = value; } }
 
     public LineRenderer GetLineRenderer() { return lineRenderer; }
-    public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
+    public OwnerType GetOwnerType() { return ownerType; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
@@ -81,7 +81,7 @@ public class Bullet : MonoBehaviour
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
 
-    public void SetOwnerType(CharacterInfo.OwnerType ownerType)
+    public void SetOwnerType(OwnerType ownerType)
     {
         this.ownerType = ownerType;
     }
@@ -275,16 +275,16 @@ public class Bullet : MonoBehaviour
         SetDirection(ownerDirDegree());
     }
 
-    private void InitOwnerInfo(CharacterInfo.OwnerType ownerType)
+    private void InitOwnerInfo(OwnerType ownerType)
     {
         this.ownerType = ownerType;
         // Enemy 13, Wall 14, Bullet 15, Player 16번
         switch (ownerType)
         {
-            case CharacterInfo.OwnerType.Enemy:
+            case OwnerType.Enemy:
                 gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
                 break;
-            case CharacterInfo.OwnerType.Player:
+            case OwnerType.Player:
                 gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
                 break;
             default:
@@ -366,17 +366,17 @@ public class Bullet : MonoBehaviour
 
         if (true == info.canBlockBullet)
         {
-            if (CharacterInfo.OwnerType.Player == ownerType)
-                objTransform.tag = "PlayerCanBlockBullet";
-            if (CharacterInfo.OwnerType.Enemy == ownerType)
-                objTransform.tag = "EnemyCanBlockBullet";
+            if (OwnerType.Player == ownerType)
+                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
+            if (OwnerType.Enemy == ownerType)
+                objTransform.gameObject.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
         }
         if (true == info.canReflectBullet)
         {
-            if (CharacterInfo.OwnerType.Player == ownerType)
-                objTransform.tag = "PlayerCanReflectBullet";
-            if (CharacterInfo.OwnerType.Enemy == ownerType)
-                objTransform.tag = "EnmeyCanReflectBullet";
+            if (OwnerType.Player == ownerType)
+                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
+            if (OwnerType.Enemy == ownerType)
+                objTransform.gameObject.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
         }
         else
         {
@@ -470,16 +470,15 @@ public class Bullet : MonoBehaviour
         CollisionBullet(coll);
     }
 
-    // 이거 collisionPropery안에서도 또 tag 체크하는데 봐서 간소화 시킬 수 있으면 간소화 시킬 예정
-
+    // TODO : collisionPropery안에서도 또 layer 체크하는데 봐서 간소화 시킬 수 있으면 간소화 시킬 예정
     /// <summary> 충돌 속성 실행 Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
         int length = info.collisionPropertiesLength;
         if (OwnerType.Player == ownerType)
         {
-            if(coll.transform.CompareTag("Enemy") || coll.transform.CompareTag("Wall") ||
-                coll.transform.CompareTag("EnemyCanBlockBullet") || coll.transform.CompareTag("EnemyCanReflectBullet"))
+            // TransparentFx 1, enemy 13, wall 14, EnemyCanBlockBullet 20, EnemyCanReflectBullet 21
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 13, 14, 20, 21))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -489,8 +488,8 @@ public class Bullet : MonoBehaviour
         }
         else if(OwnerType.Enemy == ownerType)
         {
-            if (coll.transform.CompareTag("Player") || coll.transform.CompareTag("Wall") ||
-                coll.transform.CompareTag("PlayerCanBlockBullet") || coll.transform.CompareTag("PlayerCanReflectBullet"))
+            // TransparentFx 1, wall 14, player 16, PlayerCanBlockBullet 18, PlayerCanReflectBullet 19
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14, 16, 18, 19))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -506,8 +505,8 @@ public class Bullet : MonoBehaviour
         int length = info.collisionPropertiesLength;
         if (OwnerType.Player == ownerType)
         {
-            if (coll.CompareTag("Enemy") || coll.CompareTag("Wall") ||
-                coll.CompareTag("EnemyCanBlockBullet") || coll.CompareTag("EnemyCanReflectBullet"))
+            // TransparentFx 1, enemy 13, wall 14, EnemyCanBlockBullet 20, EnemyCanReflectBullet 21
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 13, 14, 20, 21))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -517,8 +516,8 @@ public class Bullet : MonoBehaviour
         }
         else if (OwnerType.Enemy == ownerType)
         {
-            if (coll.CompareTag("Player") || coll.CompareTag("Wall") ||
-                coll.CompareTag("PlayerCanBlockBullet") || coll.CompareTag("PlayerCanReflectBullet"))
+            // TransparentFx 1, wall 14, player 16, PlayerCanBlockBullet 18, PlayerCanReflectBullet 19
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14, 16, 18, 19))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -638,20 +637,28 @@ public class Bullet : MonoBehaviour
         if (effectInfo.meleeWeaponsCanBlockBullet)
         {
             info.canBlockBullet = true;
-            if (CharacterInfo.OwnerType.Player == ownerType)
-                objTransform.tag = "PlayerCanBlockBullet";
-            if (CharacterInfo.OwnerType.Enemy == ownerType)
-                objTransform.tag = "EnemyCanBlockBullet";
+            if (OwnerType.Player == ownerType)
+            {
+                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
+            }
+            if (OwnerType.Enemy == ownerType)
+            {
+                objTransform.gameObject.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
+            }
         }
 
         // 7. 모든 근거리 무기 상대 총알 반사
         if (effectInfo.meleeWeaponsCanReflectBullet)
         {
             info.canReflectBullet = true;
-            if (CharacterInfo.OwnerType.Player == ownerType)
-                objTransform.tag = "PlayerCanReflectBullet";
-            if (CharacterInfo.OwnerType.Enemy == ownerType)
-                objTransform.tag = "EnmeyCanReflectBullet";
+            if (OwnerType.Player == ownerType)
+            {
+                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
+            }
+            if (OwnerType.Enemy == ownerType)
+            {
+                objTransform.gameObject.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
+            }
         }
 
         // 8. 총알이 벽에 1회 튕겨집니다. 

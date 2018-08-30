@@ -104,7 +104,7 @@ class BaseNormalCollisionProperty : CollisionProperty
 
     private void DecreaseDamageAfterPierce()
     {
-        if (false == canDecreaseDamageAfterPierce || CharacterInfo.OwnerType.Player != bullet.GetOwnerType()) return;
+        if (false == canDecreaseDamageAfterPierce || OwnerType.Player != bullet.GetOwnerType()) return;
         transferBulletInfo.damage = transferBulletInfo.damage * (1.0f - decreaseDamageAfterPierce);
         canDecreaseDamageAfterPierce = false;
     }
@@ -112,33 +112,22 @@ class BaseNormalCollisionProperty : CollisionProperty
     // collision
     public override void Collision(ref Collision2D coll)
     {
-        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (ex : 벽 14)
-        if (UtilityClass.CheckLayer(coll.gameObject.layer, 14))
+        if (OwnerType.Enemy == bullet.GetOwnerType())
         {
-            Bounce(ref coll);
-        }
-        /*
-        // Owner 상관 없는 처리이고 바운스 처리 o, 공격 o (ex : 바퀴 달린 의자, 내구도 있는 오브젝트)
-        else if(coll.transform.CompareTag("바퀴 달린 의자와 같은 종류"))
-        {
-            Bounce(ref coll);
-            Attack(ref coll);
-        }*/
-
-        else if (OwnerType.Enemy == bullet.GetOwnerType())
-        {
-            if (coll.transform.CompareTag("PlayerCanBlockBullet"))
-            {
-                delDestroyBullet();
-            }
+            // PlayerCanReflectBullet = 19, PlayerCanBlockBullet = 18
             // owenr = player bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
-            else if (coll.transform.CompareTag("PlayerCanReflectBullet"))
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 19))
             {
                 bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
                 bullet.SetOwnerType(OwnerType.Player);
                 bullet.RotateDirection(180);
             }
-            // Enemy가 Player 공격 : 관통 처리 o, 공격 o
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 18))
+            {
+                delDestroyBullet();
+            }
+            
+            // Enemy가 Player(16) 공격 : 관통 처리 o, 공격 o
             else if (UtilityClass.CheckLayer(coll.gameObject.layer, 16))
             {
                 if (pierceCount > 0)
@@ -154,20 +143,21 @@ class BaseNormalCollisionProperty : CollisionProperty
                 return;
             }
         }
-        else if (CharacterInfo.OwnerType.Player == bullet.GetOwnerType())
+        else if (OwnerType.Player == bullet.GetOwnerType())
         {
-            if (coll.transform.CompareTag("EnemyCanBlockBullet"))
-            {
-                delDestroyBullet();
-            }
+            // EnemyCanReflectBullet = 21, EnemyCanBlockBullet = 20
             // owenr = enemy bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
-            else if (coll.transform.CompareTag("EnemyCanReflectBullet"))
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 21))
             {
                 bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
                 bullet.SetOwnerType(OwnerType.Enemy);
                 bullet.RotateDirection(180);
             }
-            // Player가 Enemy 공격 : 관통 처리 o, 공격 o
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 20))
+            {
+                delDestroyBullet();
+            }
+            // Player(16)가 Enemy(13) 공격 : 관통 처리 o, 공격 o
             else if (UtilityClass.CheckLayer(coll.gameObject.layer, 13))
             {
                 if (pierceCount > 0)
@@ -183,36 +173,29 @@ class BaseNormalCollisionProperty : CollisionProperty
                 return;
             }
         }
+        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (ex : 벽 14, TransparentFX 1)
+        else if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
+        {
+            Bounce(ref coll);
+        }
     }
 
     // trigger
     public override void Collision(ref Collider2D coll)
     {
-        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x
-        if (UtilityClass.CheckLayer(coll.gameObject.layer, 14))
+        if (OwnerType.Enemy == bullet.GetOwnerType())
         {
-            delDestroyBullet();
-        }
-        /*
-        // Owner 상관 없는 처리이고 바운스 처리 o, 공격 o
-        else if(coll.transform.CompareTag("바퀴 달린 의자와 같은 종류"))
-        {
-            Attack(ref coll);
-            delDestroyBullet();
-        }*/
-        else if (CharacterInfo.OwnerType.Enemy == bullet.GetOwnerType())
-        {
-            
-            if (coll.CompareTag("PlayerCanBlockBullet"))
-            {
-                delDestroyBullet();
-            }
+            // PlayerCanReflectBullet = 19, PlayerCanBlockBullet = 18
             // owenr = player bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
-            else if (coll.CompareTag("PlayerCanReflectBullet"))
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 19))
             {
                 bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
-                bullet.SetOwnerType(CharacterInfo.OwnerType.Player);
+                bullet.SetOwnerType(OwnerType.Player);
                 bullet.RotateDirection(180);
+            }
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 18))
+            {
+                delDestroyBullet();
             }
             // Enemy가 Player공격 : 관통 처리 o, 공격 o
             else if (UtilityClass.CheckLayer(coll.gameObject.layer, 16))
@@ -232,18 +215,19 @@ class BaseNormalCollisionProperty : CollisionProperty
         }
         else if (OwnerType.Player == bullet.GetOwnerType())
         {
-            if (coll.CompareTag("EnemyCanBlockBullet"))
+            // EnemyCanReflectBullet = 21, EnemyCanBlockBullet = 20
+            // owenr = enemy bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 21))
+            {
+                bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+                bullet.SetOwnerType(OwnerType.Enemy);
+                bullet.RotateDirection(180);
+            }
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 20))
             {
                 delDestroyBullet();
             }
-            // owenr = enemy bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
-            else if (coll.CompareTag("EnemyCanReflectBullet"))
-            {
-                bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
-                bullet.SetOwnerType(CharacterInfo.OwnerType.Enemy);
-                bullet.RotateDirection(180);
-            }
-            // Player가 Enemy 공격 : 관통 처리 o, 공격 o
+            // Player(16)가 Enemy(13) 공격 : 관통 처리 o, 공격 o
             else if (UtilityClass.CheckLayer(coll.gameObject.layer, 13))
             {
                 if(pierceCount > 0)
@@ -259,6 +243,11 @@ class BaseNormalCollisionProperty : CollisionProperty
                 return;
             }
         }
+        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (TransparentFx 1, wall 14)
+        else if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
+        {
+            delDestroyBullet();
+        }
     }
 
     public override void Init(Bullet bullet)
@@ -270,7 +259,6 @@ class BaseNormalCollisionProperty : CollisionProperty
         decreaseDamageAfterPierce = bullet.DecreaseDamageAfterPierce;
         pierceCount = bullet.info.pierceCount;
         bounceCount = bullet.info.bounceCount;
-        //count = 1;
     }
 
     protected override void Bounce(ref Collision2D coll)
@@ -306,7 +294,8 @@ class LaserCollisionProperty : CollisionProperty
 
     public override void Collision(ref Collider2D coll)
     {
-        if (CharacterInfo.OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
+        //enemy layer 13
+        if (OwnerType.Player == bullet.GetOwnerType() && UtilityClass.CheckLayer(coll.gameObject.layer, 13))
         {
             AffectStatusEffect(ref coll);
             Attack(ref coll);
@@ -336,20 +325,16 @@ class UndeletedCollisionProperty : CollisionProperty
     // collision
     public override void Collision(ref Collision2D coll)
     {
-        /* Owner 상관 없는 처리이고 바운스 처리 o, 공격 o (ex : 바퀴 달린 의자, 내구도 있는 오브젝트)
-        if(coll.transform.CompareTag("바퀴 달린 의자와 같은 종류"))
-        {
-            Attack(ref coll);
-            Ignore(ref coll);
-        }*/
-        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.transform.CompareTag("Player"))
+        // player layer 16
+        if (OwnerType.Enemy == bullet.GetOwnerType() && UtilityClass.CheckLayer(coll.gameObject.layer, 16))
         {
             // Enemy가 Player 공격 : 관통 처리 o, 공격 o
             AffectStatusEffect(ref coll);
             Attack(ref coll);
             Ignore(ref coll);
         }
-        else if (OwnerType.Player == bullet.GetOwnerType() && coll.transform.CompareTag("Enemy"))
+        // enemy layer 13
+        else if (OwnerType.Player == bullet.GetOwnerType() && UtilityClass.CheckLayer(coll.gameObject.layer, 13))
         {
             AffectStatusEffect(ref coll);
             Attack(ref coll);
@@ -360,20 +345,14 @@ class UndeletedCollisionProperty : CollisionProperty
     // trigger
     public override void Collision(ref Collider2D coll)
     {
-        /* Owner 상관 없는 처리이고 바운스 처리 o, 공격 o (ex : 바퀴 달린 의자, 내구도 있는 오브젝트)
-        if(coll.transform.CompareTag("바퀴 달린 의자와 같은 종류"))
-        {
-            Attack(ref coll);
-            Ignore(ref coll);
-        }*/
-        if (OwnerType.Enemy == bullet.GetOwnerType() && coll.CompareTag("Player"))
+        if (OwnerType.Enemy == bullet.GetOwnerType() && UtilityClass.CheckLayer(coll.gameObject.layer, 16))
         {
             // Enemy가 Player 공격 : 관통 처리 o, 공격 o
             AffectStatusEffect(ref coll);
             Attack(ref coll);
             Ignore(ref coll);
         }
-        else if (OwnerType.Player == bullet.GetOwnerType() && coll.CompareTag("Enemy"))
+        else if (OwnerType.Player == bullet.GetOwnerType() && UtilityClass.CheckLayer(coll.gameObject.layer, 13))
         {
             AffectStatusEffect(ref coll);
             Attack(ref coll);
