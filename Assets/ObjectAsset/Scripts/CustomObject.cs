@@ -62,6 +62,7 @@ public class CustomObject : MonoBehaviour
         childTextMesh.text = textMesh.text;
         gameObject.layer = 1;
         SetNullPolygon();
+        polygonCollider2D.enabled = true;
         spriteRenderer.color = Color.white;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         StopAni();
@@ -87,7 +88,6 @@ public class CustomObject : MonoBehaviour
                 polygonCollider2D.SetPath(i, list.ToArray());
             }
             polygonCollider2D.isTrigger = false;
-            polygonCollider2D.enabled = true;
         }
     }
 
@@ -405,7 +405,6 @@ public class Door : RandomSpriteObject
             polygonCollider2D.SetPath(i, list.ToArray());
         }
         polygonCollider2D.isTrigger = false;
-        polygonCollider2D.enabled = true;
     }
     public override bool Active()
     {
@@ -773,7 +772,6 @@ public class Rock : RandomSpriteObject
     {
         base.Init();
         isAvailable = true;
-        polygonCollider2D.enabled = true;
         duration = 10;
     }
     public override bool Active()
@@ -843,7 +841,6 @@ public class SnackBox : NoneRandomSpriteObject
     public override void Init()
     {
         base.Init();
-        polygonCollider2D.enabled = true;
         isActive = false;
         isAvailable = true;
         isAnimate = false;
@@ -885,7 +882,6 @@ public class MedkitBox : NoneRandomSpriteObject
     public override void Init()
     {
         base.Init();
-        polygonCollider2D.enabled = true;
         isActive = false;
         isAvailable = true;
         isAnimate = false;
@@ -943,6 +939,7 @@ public class StoreItem : CustomObject
         isAvailable = true;
         isAnimate = true;
         objectType = ObjectType.STOREITEM;
+        polygonCollider2D.SetPath(0, clickableBoxPolygon);
     }
 
     public override void SetAvailable()

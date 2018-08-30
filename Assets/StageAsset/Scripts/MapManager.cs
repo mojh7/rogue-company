@@ -583,11 +583,6 @@ namespace Map
                     }
                 }
             }
-
-            for (i = 0; i < halls.Count; i++)
-            {
-                halls[i].Drawing(Color.red, 0);
-            }
         }
 
         void LinkAllRects()

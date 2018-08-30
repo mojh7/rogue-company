@@ -634,7 +634,7 @@ public class Player : Character
             rgbody.MovePosition(objTransform.position + dir * (totalSpeed) * Time.fixedDeltaTime * doubling);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        yield return YieldInstructionCache.WaitForSeconds(0.2f);
+        yield return YieldInstructionCache.WaitForSeconds(0.1f);
         damageImmune = CharacterInfo.DamageImmune.NONE;
         yield return YieldInstructionCache.WaitForSeconds(evadeCoolTime);
         canEvade = true;
