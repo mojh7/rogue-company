@@ -9,7 +9,7 @@ using UnityEngine;
 // 봐가지고 스킬이나 기타 큼직큼직한 연출에서 써야할 듯.
 
 public class CameraController : MonoBehaviourSingleton<CameraController> {
-
+    public enum IncreaseType { NORMAL, INCREASE, DECREASE }
     Transform cameraTransform;
     Vector2 m_velocity = Vector2.zero;
     [SerializeField]
@@ -22,14 +22,23 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
         cameraTransform = this.transform;
         zeroPos = new Vector3(0, 0, m_cameraDepth);
     }
-    IEnumerator CoroutineShaking(float duration, float magnitude)
+    IEnumerator CoroutineShaking(float duration, float magnitude, IncreaseType increaseType)
     {
         float elapsed = 0.0f;
+        float value = 1;
 
-        while(elapsed < duration)
+        while (elapsed < duration)
         {
-            float x = Random.Range(-1.0f, 1.0f) * magnitude;
-            float y = Random.Range(-1.0f, 1.0f) * magnitude;
+            if(increaseType == IncreaseType.INCREASE)
+            {
+                value = elapsed / duration;
+            }
+            else if(increaseType == IncreaseType.DECREASE)
+            {
+                value = (duration - elapsed) / duration;
+            }
+            float x = Random.Range(-1.0f, 1.0f) * magnitude * value;
+            float y = Random.Range(-1.0f, 1.0f) * magnitude * value;
 
             cameraTransform.localPosition = new Vector3(x, y, m_cameraDepth);
 
@@ -48,12 +57,12 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
         cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
     }
 
-    public void Shake(float amount, float time)
+    public void Shake(float amount, float time, IncreaseType increaseType = IncreaseType.NORMAL)
     {
         if (isShaking)
             return;
         isShaking = true;
-        StartCoroutine(CoroutineShaking(time, amount));
+        StartCoroutine(CoroutineShaking(time, amount, increaseType));
     }
 
     #endregion

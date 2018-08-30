@@ -27,7 +27,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     #region UnityFunc
     private void Awake()
     {
-        //Application.targetFrameRate = 60;
+        Application.targetFrameRate = 60;
     }
     private void Start()
     {

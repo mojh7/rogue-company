@@ -41,6 +41,8 @@ public class AttackJoyStick : Joystick
 
     public override void OnDrag(PointerEventData ped)
     {
+        if (character.IsEvade() || !isTouchDown)
+            return;
         base.OnDrag(ped);
     }
 
@@ -48,6 +50,8 @@ public class AttackJoyStick : Joystick
     {
         if (interactiveObject != null)
         {
+            if (character.IsEvade())
+                return;
             interactiveObject.Active();
         }
         else
