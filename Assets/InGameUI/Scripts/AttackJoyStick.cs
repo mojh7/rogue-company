@@ -10,6 +10,7 @@ public class AttackJoyStick : Joystick
     private Sprite interactSprite;
     private CustomObject interactiveObject;
     private CustomObject olderInteractiveObject;
+    private PointerEventData pointerEventData;
 
     private void Update()
     {
@@ -38,6 +39,11 @@ public class AttackJoyStick : Joystick
         }
     }
 
+    public override void OnDrag(PointerEventData ped)
+    {
+        base.OnDrag(ped);
+    }
+
     public override void OnPointerDown(PointerEventData ped)
     {
         if (interactiveObject != null)
@@ -54,6 +60,8 @@ public class AttackJoyStick : Joystick
 
     public override void OnPointerUp(PointerEventData ped)
     {
+        if (!isTouchDown)
+            return;
         base.OnPointerUp(ped);
         character.GetWeaponManager().AttackButtonUP();
     }

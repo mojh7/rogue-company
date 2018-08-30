@@ -943,7 +943,6 @@ namespace Map
 
         void AvailableAreas(Rect _rect, float _radius)
         {
-            _rect.DrawingArea(Color.red);
             Vector2 leftDown = _rect.areaLeftDown;
             Vector2 rightTop = _rect.areaRightTop;
             LayerMask layerMask = (1 << LayerMask.NameToLayer("TransparentFX"));
