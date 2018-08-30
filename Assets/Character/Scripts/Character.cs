@@ -243,6 +243,11 @@ public abstract class Character : MonoBehaviour
     protected abstract bool IsAbnormal();
 
     public abstract bool Evade();
+
+    public bool IsEvade()
+    {
+        return isEvade;
+    }
 }
 
 

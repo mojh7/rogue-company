@@ -15,7 +15,7 @@ public class AttackJoyStick : Joystick
     {
         if (isTouchDown)
         {
-            if (UIManager.Instance.GetActived())
+            if (UIManager.Instance.GetActived() || character.IsEvade())
                 return;
             character.SetAim();
             character.GetWeaponManager().AttackButtonDown();
@@ -46,6 +46,8 @@ public class AttackJoyStick : Joystick
         }
         else
         {
+            if (character.IsEvade())
+                return;
             base.OnPointerDown(ped);
         }
     }

@@ -943,6 +943,7 @@ namespace Map
 
         void AvailableAreas(Rect _rect, float _radius)
         {
+            _rect.DrawingArea(Color.red);
             Vector2 leftDown = _rect.areaLeftDown;
             Vector2 rightTop = _rect.areaRightTop;
             LayerMask layerMask = (1 << LayerMask.NameToLayer("TransparentFX"));
@@ -1183,8 +1184,8 @@ namespace Map
         public void IsRoom()
         {
             isRoom = true;
-            areaLeftDown = new Vector2(x * size + 0.6875f, y * size + 1);
-            areaRightTop = new Vector2((x + width) * size + 0.3125f, (y + height) * size);
+            areaLeftDown = new Vector2(x * size + 1, y * size + 1);
+            areaRightTop = new Vector2((x + width) * size + 0, (y + height) * size);
         }
 
         public void EdgeRect(Rect _rect)

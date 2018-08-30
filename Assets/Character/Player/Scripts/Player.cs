@@ -129,6 +129,9 @@ public class Player : Character
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        if (isEvade)
+            return;
         if (-90 <= directionDegree && directionDegree < 90)
         {
             isRightDirection = true;
@@ -141,7 +144,6 @@ public class Player : Character
             scaleVector.x = -1f;
             spriteTransform.localScale = scaleVector;
         }
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 
     void FixedUpdate()
@@ -205,6 +207,7 @@ public class Player : Character
         animationHandler.Skill(0);
         isEvade = true;
         damageImmune = CharacterInfo.DamageImmune.DAMAGE;
+        weaponManager.HideWeapon();
         StartCoroutine(Roll(controller.GetMoveRecentNormalInputVector()));
         return true;
     }
@@ -535,6 +538,7 @@ public class Player : Character
     }
     private void EndEvade()
     {
+        weaponManager.RevealWeapon();
         isEvade = false;
     }
 
@@ -586,9 +590,13 @@ public class Player : Character
     }
     private IEnumerator Roll(Vector3 dir)
     {
+        float doubling = 1.5f;
         while (isEvade)
         {
-            rgbody.MovePosition(objTransform.position + dir * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime * 2);
+            doubling -= Time.fixedDeltaTime;
+            if (doubling <= 1)
+                doubling = 1;
+            rgbody.MovePosition(objTransform.position + dir * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime * doubling);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         yield return YieldInstructionCache.WaitForSeconds(0.2f);

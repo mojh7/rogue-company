@@ -123,12 +123,20 @@ public class Weapon : Item
     #endregion
 
     #region Function
+    public void Hide()
+    {
+        spriteRenderer.enabled = false;
+    }
+
+    public void Reveal()
+    {
+        spriteRenderer.enabled = true;
+    }
 
     public override void Active()
     {
         //무기 습득에 쓸거같음
     }
-
 
     /// <summary> weaponManager에 처음 등록될 때 onwer 정보 얻어오고 bulletPattern 정보 초기화 </summary>
     public void RegisterWeapon(WeaponManager weaponManager)

@@ -278,9 +278,16 @@ public class WeaponManager : MonoBehaviour {
     }
     #endregion
 
-
     #region Function
+    public void HideWeapon()
+    {
+        equipWeaponSlot[currentWeaponIndex].Hide();
+    }
 
+    public void RevealWeapon()
+    {
+        equipWeaponSlot[currentWeaponIndex].Reveal();
+    }
 
     /// <summary> 차징 공격에 사용되는 차징 게이지 UI Update </summary>
     public void UpdateChargingUI(float chargedVaule)
