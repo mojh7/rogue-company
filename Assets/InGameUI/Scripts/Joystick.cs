@@ -73,7 +73,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
      * 위에 방법이 안되는 줄 알았지만 중앙으로 중심 잡고 pos.x * 2 + 1, pos.y * 2 - 1를 아래처럼 바꾸니 또 잘됨
      */
     // 드래그 중
-    public void OnDrag(PointerEventData ped)
+    public virtual void OnDrag(PointerEventData ped)
     {
         if (UIManager.Instance.GetActived())
         {

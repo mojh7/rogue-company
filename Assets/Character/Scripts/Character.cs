@@ -68,6 +68,8 @@ public abstract class Character : MonoBehaviour
     protected bool isActiveMoveAI;
     protected bool isActiveAttackAI;
 
+    protected float evadeCoolTime;
+    protected bool canEvade = true;
     protected bool isEvade = false;
     protected bool isKnockBack = false;
     [SerializeField]

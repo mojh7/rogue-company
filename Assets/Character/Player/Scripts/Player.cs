@@ -172,6 +172,7 @@ public class Player : Character
         IsNotConsumeAmmo = false;
 
         shieldCount = 0;
+        evadeCoolTime = 0.5f;
         InitilizeController();
 
         PlayerHPUi = GameObject.Find("HPbar").GetComponent<PlayerHpbarUI>();
@@ -202,8 +203,12 @@ public class Player : Character
 
     public override bool Evade()
     {
-        if (isEvade)
+        if (isEvade || !canEvade)
             return false;
+        controller.AttackJoyStickUp();
+        canEvade = false;
+        isEvade = true;
+        gameObject.layer = 0;
         directionVector = controller.GetMoveRecentNormalInputVector();
         directionVector.Normalize();
         directionDegree = directionVector.GetDegFromVector();
@@ -220,7 +225,6 @@ public class Player : Character
             spriteTransform.localScale = scaleVector;
         }
         animationHandler.Skill(0);
-        isEvade = true;
         damageImmune = CharacterInfo.DamageImmune.DAMAGE;
         weaponManager.HideWeapon();
         StartCoroutine(Roll(directionVector));
@@ -553,8 +557,9 @@ public class Player : Character
     }
     private void EndEvade()
     {
-        weaponManager.RevealWeapon();
         isEvade = false;
+        gameObject.layer = 16;
+        weaponManager.RevealWeapon();
     }
 
     // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
@@ -616,6 +621,8 @@ public class Player : Character
         }
         yield return YieldInstructionCache.WaitForSeconds(0.2f);
         damageImmune = CharacterInfo.DamageImmune.NONE;
+        yield return YieldInstructionCache.WaitForSeconds(evadeCoolTime);
+        canEvade = true;
     }
     #endregion
 }
@@ -678,6 +685,11 @@ public class PlayerController
     public Vector3 GetAttackRecentNormalInputVector()
     {
         return attackJoyStick.GetRecentNormalInputVector();
+    }
+
+    public void AttackJoyStickUp()
+    {
+        attackJoyStick.OnPointerUp(null);
     }
     #endregion
 }
