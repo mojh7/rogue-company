@@ -204,11 +204,26 @@ public class Player : Character
     {
         if (isEvade)
             return false;
+        directionVector = controller.GetMoveRecentNormalInputVector();
+        directionVector.Normalize();
+        directionDegree = directionVector.GetDegFromVector();
+        if (-90 <= directionDegree && directionDegree < 90)
+        {
+            isRightDirection = true;
+            scaleVector.x = 1f;
+            spriteTransform.localScale = scaleVector;
+        }
+        else
+        {
+            isRightDirection = false;
+            scaleVector.x = -1f;
+            spriteTransform.localScale = scaleVector;
+        }
         animationHandler.Skill(0);
         isEvade = true;
         damageImmune = CharacterInfo.DamageImmune.DAMAGE;
         weaponManager.HideWeapon();
-        StartCoroutine(Roll(controller.GetMoveRecentNormalInputVector()));
+        StartCoroutine(Roll(directionVector));
         return true;
     }
 
