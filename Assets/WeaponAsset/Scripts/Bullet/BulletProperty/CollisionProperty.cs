@@ -173,8 +173,9 @@ class BaseNormalCollisionProperty : CollisionProperty
                 return;
             }
         }
+        
         // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (ex : 벽 14, TransparentFX 1)
-        else if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
+        if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
         {
             Bounce(ref coll);
         }
@@ -243,8 +244,9 @@ class BaseNormalCollisionProperty : CollisionProperty
                 return;
             }
         }
+        
         // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (TransparentFx 1, wall 14)
-        else if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
+        if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
         {
             delDestroyBullet();
         }
