@@ -316,8 +316,11 @@ public class Bullet : MonoBehaviour
             float sizeX = spriteRenderer.sprite.bounds.size.x;
             float sizeY = spriteRenderer.sprite.bounds.size.y;
             float size = (sizeX > sizeY) ? sizeY : sizeX;
-            circleCollider.radius = size * 0.5f;
-
+            circleCollider.radius = size * 0.3f;
+            if (OwnerType.Enemy == ownerType)
+            {
+                circleCollider.radius = 0.05f;
+            }
             //boxCollider.size = spriteRenderer.sprite.bounds.size;
             //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
         }
