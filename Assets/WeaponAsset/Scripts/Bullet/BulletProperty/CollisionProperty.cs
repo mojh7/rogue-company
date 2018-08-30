@@ -112,8 +112,8 @@ class BaseNormalCollisionProperty : CollisionProperty
     // collision
     public override void Collision(ref Collision2D coll)
     {
-        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (ex : 벽)
-        if (coll.transform.CompareTag("Wall"))
+        // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (ex : 벽 14)
+        if (UtilityClass.CheckLayer(coll.gameObject.layer, 14))
         {
             Bounce(ref coll);
         }
@@ -139,7 +139,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.RotateDirection(180);
             }
             // Enemy가 Player 공격 : 관통 처리 o, 공격 o
-            else if (coll.transform.CompareTag("Player"))
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 16))
             {
                 if (pierceCount > 0)
                 {
@@ -168,7 +168,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.RotateDirection(180);
             }
             // Player가 Enemy 공격 : 관통 처리 o, 공격 o
-            else if (coll.transform.CompareTag("Enemy"))
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 13))
             {
                 if (pierceCount > 0)
                 {
@@ -189,7 +189,7 @@ class BaseNormalCollisionProperty : CollisionProperty
     public override void Collision(ref Collider2D coll)
     {
         // owner 상관 없는 처리이고 바운스 처리 o, 공격 x
-        if (coll.CompareTag("Wall"))
+        if (UtilityClass.CheckLayer(coll.gameObject.layer, 14))
         {
             delDestroyBullet();
         }
@@ -215,7 +215,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.RotateDirection(180);
             }
             // Enemy가 Player공격 : 관통 처리 o, 공격 o
-            else if (coll.CompareTag("Player"))
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 16))
             {
                 if (pierceCount > 0)
                 {
@@ -244,7 +244,7 @@ class BaseNormalCollisionProperty : CollisionProperty
                 bullet.RotateDirection(180);
             }
             // Player가 Enemy 공격 : 관통 처리 o, 공격 o
-            else if (coll.CompareTag("Enemy"))
+            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 13))
             {
                 if(pierceCount > 0)
                 {
