@@ -30,6 +30,7 @@ public class CustomObject : MonoBehaviour
     protected BoxCollider2D boxCollider;
     protected new Rigidbody2D rigidbody2D;
     protected TextMesh textMesh;
+    protected TextMesh childTextMesh;
     protected PolygonCollider2D polygonCollider2D;
     #endregion
 
@@ -58,6 +59,7 @@ public class CustomObject : MonoBehaviour
     public virtual void Init()
     {
         textMesh.text = "";
+        childTextMesh.text = textMesh.text;
         gameObject.layer = 1;
         SetNullPolygon();
         spriteRenderer.color = Color.white;
@@ -130,6 +132,7 @@ public class CustomObject : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         rigidbody2D.bodyType = RigidbodyType2D.Static;
         textMesh = GetComponentInChildren<TextMesh>();
+        childTextMesh = textMesh.transform.GetChild(0).GetComponent<TextMesh>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
         nullPolygon = new Vector2[4] { new Vector2(-.1f, -.1f), new Vector2(.1f, -.1f), new Vector2(.1f, .1f), new Vector2(-.1f, .1f) };
         clickableBoxPolygon = new Vector2[4] { new Vector2(-.25f, 0), new Vector2(.25f, 0), new Vector2(.25f, .5f), new Vector2(-.25f, .5f) };
@@ -604,6 +607,7 @@ public class ItemContainer : RandomSpriteObject
         objectType = ObjectType.NONE;
         tag = "Untagged";
         textMesh.text = "";
+        childTextMesh.text = textMesh.text;
         gameObject.layer = 9;
     }
 
@@ -671,11 +675,13 @@ public class ItemContainer : RandomSpriteObject
     public override void IndicateInfo()
     {
         textMesh.text = innerObject.GetName();
+        childTextMesh.text = textMesh.text;
     }
 
     public override void DeIndicateInfo()
     {
         textMesh.text = "";
+        childTextMesh.text = textMesh.text;
     }
 
     public void DettachDestroy()
@@ -864,11 +870,13 @@ public class SnackBox : NoneRandomSpriteObject
     public override void IndicateInfo()
     {
         textMesh.text = "간식을 드시겠습니까?";
+        childTextMesh.text = textMesh.text;
     }
 
     public override void DeIndicateInfo()
     {
         textMesh.text = "";
+        childTextMesh.text = textMesh.text;
     }
 }
 
@@ -905,11 +913,13 @@ public class MedkitBox : NoneRandomSpriteObject
     public override void IndicateInfo()
     {
         textMesh.text = "약이 들어있습니다.";
+        childTextMesh.text = textMesh.text;
     }
 
     public override void DeIndicateInfo()
     {
         textMesh.text = "";
+        childTextMesh.text = textMesh.text;
     }
 }
 
@@ -971,16 +981,19 @@ public class StoreItem : CustomObject
         if(GameDataManager.Instance.GetCoin() >= innerObject.GetValue())
         {
             textMesh.text = innerObject.GetName();
+            childTextMesh.text = textMesh.text;
         }
         else
         {
             textMesh.text = "돈이 부족합니다.";
+            childTextMesh.text = textMesh.text;
         }
     }
 
     public override void DeIndicateInfo()
     {
         textMesh.text = "";
+        childTextMesh.text = textMesh.text;
     }
 }
 

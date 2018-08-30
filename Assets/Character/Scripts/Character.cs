@@ -40,6 +40,8 @@ struct RaycasthitEnemy
 public abstract class Character : MonoBehaviour
 {
     #region Status
+    protected float totalSpeed;
+    protected float battleSpeed;
     public float moveSpeed;     // Character move Speed
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     protected float maxHP;
@@ -70,6 +72,7 @@ public abstract class Character : MonoBehaviour
 
     protected float evadeCoolTime;
     protected bool canEvade = true;
+    protected bool isBattle = false;
     protected bool isEvade = false;
     protected bool isKnockBack = false;
     [SerializeField]

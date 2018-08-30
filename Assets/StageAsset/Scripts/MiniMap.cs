@@ -481,7 +481,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         mapColors = new Color[(minmapSizeWidth + 1) * (minmapSizeHeight + 1)];
         texture.filterMode = FilterMode.Point;
         renderer.texture = texture;
-        DrawAllRoom();
         DrawMap();
     } // 미니맵 그리는 함수
 
@@ -533,7 +532,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     void DrawMap()
     {
 
-        for (int i = 0; i <= minmapSizeWidth * minmapSizeHeight; i++)
+        for (int i = 0; i < mapColors.Length; i++)
         {
             mapColors[i] = white;
         }

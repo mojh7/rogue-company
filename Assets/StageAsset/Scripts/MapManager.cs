@@ -1183,8 +1183,8 @@ namespace Map
         public void IsRoom()
         {
             isRoom = true;
-            areaLeftDown = new Vector2(x * size + 1, y * size + 1);
-            areaRightTop = new Vector2((x + width) * size + 0, (y + height) * size);
+            areaLeftDown = new Vector2(x * size + .8f, y * size + 1);
+            areaRightTop = new Vector2((x + width) * size + .2f, (y + height) * size);
         }
 
         public void EdgeRect(Rect _rect)

@@ -92,7 +92,7 @@ public class Player : Character
     #region setter
     public void SetInFloor()
     {
-        floorSpeed = 2;
+        floorSpeed = .5f;
     }
     public void SetInRoom()
     {
@@ -172,7 +172,8 @@ public class Player : Character
         IsNotConsumeAmmo = false;
 
         shieldCount = 0;
-        evadeCoolTime = 0.5f;
+        evadeCoolTime = 0.1f;
+        battleSpeed = 0.5f;
         InitilizeController();
 
         PlayerHPUi = GameObject.Find("HPbar").GetComponent<PlayerHpbarUI>();
@@ -394,7 +395,7 @@ public class Player : Character
 
     private void AttackedAction(float power)
     {
-        CameraController.Instance.Shake(0.1f, 0.2f);
+        CameraController.Instance.Shake(0.2f, 0.2f);
         LayerController.Instance.FlashAttackedLayer(0.2f);
     }
     private void AutoAim()
@@ -433,6 +434,7 @@ public class Player : Character
 
             if (raycasthitEnemyNum == 0)
             {
+                isBattle = false;
                 directionVector = controller.GetMoveAttackInputVector();
                 directionDegree = directionVector.GetDegFromVector();
                 return;
@@ -453,6 +455,7 @@ public class Player : Character
             directionVector.z = 0;
             directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
+            isBattle = true;
         }
     }
     private void SemiAutoAim()
@@ -466,6 +469,7 @@ public class Player : Character
             directionVector = controller.GetMoveAttackInputVector();
             directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
+            isBattle = false;
             return;
         }
         else
@@ -514,19 +518,29 @@ public class Player : Character
             directionVector.Normalize();
             directionDegree = directionVector.GetDegFromVector();
         }
+        isBattle = true;
     }
     private void ManualAim()
     {
         directionVector = controller.GetMoveAttackInputVector();
         directionVector.Normalize();
         directionDegree = directionVector.GetDegFromVector();
+        isBattle = true;
     }
     private void Move()
     {
         if (isEvade)
             return;
+        if(isBattle)
+        {
+            totalSpeed = playerData.MoveSpeed + floorSpeed - battleSpeed;
+        }
+        else
+        {
+            totalSpeed = playerData.MoveSpeed + floorSpeed;
+        }
         rgbody.MovePosition(objTransform.position 
-            + controller.GetMoveInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
+            + controller.GetMoveInputVector() * (totalSpeed) * Time.fixedDeltaTime);
         // 조이스틱 방향으로 이동하되 입력 거리에 따른 이동속도 차이가 생김.
         //objTransform.Translate(controller.GetMoveInputVector() * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime);
         if (controller.GetMoveInputVector().sqrMagnitude > 0.1f)
@@ -610,13 +624,14 @@ public class Player : Character
     }
     private IEnumerator Roll(Vector3 dir)
     {
-        float doubling = 1.5f;
+        float doubling = 1.8f;
+        totalSpeed = playerData.MoveSpeed + floorSpeed;
         while (isEvade)
         {
             doubling -= Time.fixedDeltaTime;
             if (doubling <= 1)
                 doubling = 1;
-            rgbody.MovePosition(objTransform.position + dir * (playerData.MoveSpeed + floorSpeed) * Time.fixedDeltaTime * doubling);
+            rgbody.MovePosition(objTransform.position + dir * (totalSpeed) * Time.fixedDeltaTime * doubling);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         yield return YieldInstructionCache.WaitForSeconds(0.2f);
