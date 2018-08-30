@@ -1003,8 +1003,7 @@ namespace Map
                     _blockB = new Rect(_currentRect.x + width, _currentRect.y, _currentRect.width - width, _currentRect.height, size);
                     _blockB.isRoom = false;
                     _blockB.isClear = true;
-                    _blockA.isRoom = true;
-                    _blockA.isClear = false;
+                    _blockA.IsRoom();
                     halls.Add(_blockB);
                     rooms.Add(_blockA);
                 }
@@ -1015,8 +1014,7 @@ namespace Map
                     _blockB = new Rect(_currentRect.x + width, _currentRect.y, _currentRect.width - width, _currentRect.height, size);
                     _blockA.isRoom = false;
                     _blockA.isClear = true;
-                    _blockB.isRoom = true;
-                    _blockB.isClear = false;
+                    _blockB.IsRoom();
                     halls.Add(_blockA);
                     rooms.Add(_blockB);
                 }
@@ -1032,8 +1030,7 @@ namespace Map
                     _blockB = new Rect(_currentRect.x, _currentRect.y + height, _currentRect.width, _currentRect.height - height, size);
                     _blockB.isRoom = false;
                     _blockB.isClear = true;
-                    _blockA.isRoom = true;
-                    _blockA.isClear = false;
+                    _blockA.IsRoom();
                     halls.Add(_blockB);
                     rooms.Add(_blockA);
                 }
@@ -1044,8 +1041,7 @@ namespace Map
                     _blockB = new Rect(_currentRect.x, _currentRect.y + height, _currentRect.width, _currentRect.height - height, size);
                     _blockA.isRoom = false;
                     _blockA.isClear = true;
-                    _blockB.isRoom = true;
-                    _blockB.isClear = false;
+                    _blockB.IsRoom();
                     halls.Add(_blockA);
                     rooms.Add(_blockB);
                 }
