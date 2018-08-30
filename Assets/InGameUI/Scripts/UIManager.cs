@@ -22,8 +22,11 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     [SerializeField] private Image fadeImage;
     [SerializeField] private Text coinText;
     [SerializeField] private Text keyText;
+    [SerializeField] private GameObject clearObj;
+    [SerializeField] private Image[] clearImage;
     public BossHPUI bossHPUI;
     bool actived = false;
+    bool isHide = true;
     #endregion
 
     #region function
@@ -120,6 +123,11 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
             _img.color = new Color(_img.color.r, _img.color.g, _img.color.b, (float)i / _interval);
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
+    }
+
+    public void ClearRoomUI(bool isActive)
+    {
+        clearObj.SetActive(isActive);
     }
     #endregion
 

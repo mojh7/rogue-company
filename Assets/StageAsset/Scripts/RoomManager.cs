@@ -235,6 +235,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         room.isDrawed = true;
         MiniMap.Instance.ClearRoom(room);
 
+        UIManager.Instance.ClearRoomUI(true);
+
         for (int i = 0; i < room.linkedEdgeRect.Count; i++)
         {
             if(room.linkedEdgeRect[i].isRoom && !room.linkedEdgeRect[i].isDrawed &&
