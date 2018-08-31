@@ -25,8 +25,7 @@ public class Loading : MonoBehaviour {
     private int selectChar;
     private bool isLoad = false; //중복 실행 방지
     private float timer = 0; //시간 측정
-    private const float timeLimit = 1.0f;
-    private const float totalGage = timeLimit + 1;
+    private float totalGage;
     //private Vector3 wheeleuler;//중앙 회전 이미지 오일러 각도측정용
     AsyncOperation async;
 
@@ -41,7 +40,7 @@ public class Loading : MonoBehaviour {
         tipTransform.anchoredPosition = new Vector3(tipTransform.localPosition.x, Screen.height * 0.2f, tipTransform.localPosition.z);
         sliderbarTransform.sizeDelta = new Vector2(sliderbarTransform.sizeDelta.x, Screen.height * 0.05f);
         Tip.fontSize = (int)(Screen.height * 0.1f);
-        image.sprite = cSprite[selectChar];
+        //image.sprite = cSprite[selectChar];
         image.GetComponent<Animator>().runtimeAnimatorController = anim[selectChar];
         if (Tips.Length <= 0)
             return;
@@ -49,6 +48,7 @@ public class Loading : MonoBehaviour {
         StringBuilder sb = new StringBuilder("팁 : ");
         sb.Append(Tips[loc]); //배열 내 무작위 요소를 출력한다.
         Tip.text = sb.ToString();
+        totalGage = minTime + 1; 
         Time.timeScale = 1;
     }
     void Start()
@@ -71,7 +71,7 @@ public class Loading : MonoBehaviour {
             async.allowSceneActivation = false; //다음 씬의 준비가 완료되더라도 바로 로딩되는걸 막는다.
             while (!async.isDone)
             {
-                if (async.progress == 0.9f && timer >= timeLimit)
+                if (async.progress == 0.9f && timer >= minTime)
                 {
                     async.allowSceneActivation = true;
                     //Tip.text = "화면을 눌러주세요.";

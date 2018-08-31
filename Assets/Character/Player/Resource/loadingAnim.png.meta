@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: bb30a8d5c60257b41bb96f9402df00cd
-timeCreated: 1535114233
+guid: 3892a5501630023419f7c8da1fab052a
+timeCreated: 1535702822
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: playerSprite (1)_0
-    21300002: playerSprite (1)_1
-    21300004: playerSprite (1)_2
-    21300006: playerSprite (1)_3
-    21300008: playerSprite (1)_5
-    21300010: playerSprite (1)_6
-    21300012: playerSprite (1)_7
-    21300014: playerSprite (1)_8
-    21300016: playerSprite (1)_9
-    21300018: playerSprite (1)_10
+    21300000: loadingAnim_0
+    21300002: loadingAnim_1
+    21300004: loadingAnim_2
+    21300006: loadingAnim_3
+    21300008: loadingAnim_4
+    21300010: loadingAnim_5
+    21300012: loadingAnim_6
+    21300014: loadingAnim_7
+    21300016: loadingAnim_8
+    21300018: loadingAnim_9
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -100,141 +100,141 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: playerSprite (1)_0
+      name: loadingAnim_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 102
-        width: 20
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_1
+      name: loadingAnim_1
       rect:
         serializedVersion: 2
-        x: 39
-        y: 102
-        width: 20
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 64
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_2
+      name: loadingAnim_2
       rect:
         serializedVersion: 2
-        x: 68
-        y: 102
-        width: 20
-        height: 34
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 128
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_3
+      name: loadingAnim_3
       rect:
         serializedVersion: 2
-        x: 99
-        y: 102
-        width: 41
-        height: 42
-      alignment: 9
-      pivot: {x: 0.25, y: 0}
+        x: 0
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_5
+      name: loadingAnim_4
       rect:
         serializedVersion: 2
-        x: 4
-        y: 55
-        width: 20
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 64
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_6
+      name: loadingAnim_5
       rect:
         serializedVersion: 2
-        x: 36
-        y: 55
-        width: 20
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 128
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_7
+      name: loadingAnim_6
       rect:
         serializedVersion: 2
-        x: 71
-        y: 56
-        width: 20
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_8
+      name: loadingAnim_7
       rect:
         serializedVersion: 2
-        x: 107
-        y: 55
-        width: 20
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_9
+      name: loadingAnim_8
       rect:
         serializedVersion: 2
-        x: 141
-        y: 55
-        width: 20
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: playerSprite (1)_10
+      name: loadingAnim_9
       rect:
         serializedVersion: 2
-        x: 172
-        y: 57
-        width: 20
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
