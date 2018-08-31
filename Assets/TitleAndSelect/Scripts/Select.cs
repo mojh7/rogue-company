@@ -8,7 +8,29 @@ public class Select : MonoBehaviour {
 
     public GameObject panel;
     public Text text;
+    [SerializeField]
+    Image soccerImage;
     Player.PlayerType m_playerType;
+    Color white, dest;
+    private void Start()
+    {
+        white = Color.white;
+        dest = white * 0.8f;
+
+        StartCoroutine(CoroutineColorLerp());
+    }
+
+    IEnumerator CoroutineColorLerp()
+    {
+        while(true)
+        {
+            UtilityClass.ColorLerp(this, soccerImage, white, dest, 1);
+            yield return YieldInstructionCache.WaitForSeconds(1.1f);
+            UtilityClass.ColorLerp(this, soccerImage, dest, white, 1);
+            yield return YieldInstructionCache.WaitForSeconds(1.1f);
+        }
+    }
+
     public void OpenInfo(string _str)
     {
         Player.PlayerType playerType = (Player.PlayerType)System.Enum.Parse(typeof(Player.PlayerType), _str);

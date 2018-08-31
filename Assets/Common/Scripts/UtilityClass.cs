@@ -5,6 +5,24 @@ using System;
 
 public static class UtilityClass
 {
+    public static void ColorLerp(this MonoBehaviour me, UnityEngine.UI.Image spriteRenderer, Color src, Color dest, float time)
+    {
+        me.StartCoroutine(CoroutineLerp(spriteRenderer, src, dest, time));
+    }
+    private static IEnumerator CoroutineLerp(UnityEngine.UI.Image spriteRenderer, Color src, Color dest, float time)
+    {
+        float startTime = Time.time;
+        float tempElapsedTime = 0;
+        while (time >= tempElapsedTime)
+        {
+            tempElapsedTime = Time.time - startTime;
+
+            spriteRenderer.color = Color.Lerp(src, dest, tempElapsedTime / time);
+
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
+    }
     /// <summary>
     /// 레이어 체크
     /// </summary>
