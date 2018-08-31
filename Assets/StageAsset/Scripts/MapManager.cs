@@ -831,7 +831,9 @@ namespace Map
             {
                 doorArrows[0].transform.position = obj.transform.position - Vector3.right * .8f;
                 doorArrows[1].transform.position = obj.transform.position + Vector3.right * .2f;
-                doorArrows[1].transform.localScale *= -1;
+                doorArrows[1].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+                doorArrows[0].GetComponent<PatrolObjectContoller>().SetDestVector(doorArrows[0].transform.localPosition, new Vector3(-0.2f, 0, 0));
+                doorArrows[1].GetComponent<PatrolObjectContoller>().SetDestVector(doorArrows[1].transform.localPosition, new Vector3(0.2f, 0, 0));
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[0], RoomSetManager.Instance.doorSprites[1], doorArrows);
             }
             else
@@ -839,12 +841,15 @@ namespace Map
                 doorArrows[0].transform.position = obj.transform.position - Vector3.up * .8f;
                 doorArrows[0].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
                 doorArrows[1].transform.position = obj.transform.position + Vector3.up * .8f;
-                doorArrows[1].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
-                doorArrows[1].transform.localScale *= -1;
+                doorArrows[1].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 270));
+                doorArrows[0].GetComponent<PatrolObjectContoller>().SetDestVector(doorArrows[0].transform.localPosition, new Vector3(0, -0.2f, 0));
+                doorArrows[1].GetComponent<PatrolObjectContoller>().SetDestVector(doorArrows[1].transform.localPosition, new Vector3(0, 0.2f, 0));
                 obj.GetComponent<Door>().Init(RoomSetManager.Instance.doorSprites[2], RoomSetManager.Instance.doorSprites[3], doorArrows);
             }
             obj.transform.localPosition = new Vector2(x, y);
             obj.GetComponent<SpriteRenderer>().sortingOrder = -Mathf.RoundToInt((y + 1) * 100);
+            doorArrows[0].GetComponent<PatrolObjectContoller>().enabled = true;
+            doorArrows[1].GetComponent<PatrolObjectContoller>().enabled = true;
             return obj;
         } // Door Object 생성
 
