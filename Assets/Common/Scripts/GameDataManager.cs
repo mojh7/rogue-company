@@ -93,7 +93,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     {
         if (gameData == null)
             gameData = new GameData();
-        gameData.SetFloor();
+        gameData.SetFloor(m_floor);
         gameData.SetCoin(m_coin);
         gameData.SetKill(m_kill);
         gameData.SetTime(m_time);

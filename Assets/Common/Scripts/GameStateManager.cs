@@ -34,6 +34,16 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
         DontDestroyOnLoad(this);
         Logo.Instance.LoadLogo();
     }
+    private void Update()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
+    }
     #endregion
 
     #region Func
