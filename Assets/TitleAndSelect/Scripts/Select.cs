@@ -41,7 +41,7 @@ public class Select : MonoBehaviour {
                 text.text = "대학교 시절 \n밴드 활동";
                 break;
             case Player.PlayerType.SOCCER:
-                text.text = "고등학교 친구들과\n축구";
+                text.text = "대학교 축구 동아리에서의 추억";
                 break;
             case Player.PlayerType.FISH:
                 text.text = "아버지와의 낚시";
