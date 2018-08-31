@@ -40,7 +40,7 @@ public class Loading : MonoBehaviour {
         tipTransform.anchoredPosition = new Vector3(tipTransform.localPosition.x, Screen.height * 0.2f, tipTransform.localPosition.z);
         sliderbarTransform.sizeDelta = new Vector2(sliderbarTransform.sizeDelta.x, Screen.height * 0.05f);
         Tip.fontSize = (int)(Screen.height * 0.1f);
-        //image.sprite = cSprite[selectChar];
+        image.sprite = cSprite[selectChar];
         image.GetComponent<Animator>().runtimeAnimatorController = anim[selectChar];
         if (Tips.Length <= 0)
             return;
@@ -73,15 +73,13 @@ public class Loading : MonoBehaviour {
             {
                 if (async.progress == 0.9f && timer >= minTime)
                 {
-                    async.allowSceneActivation = true;
-                    //Tip.text = "화면을 눌러주세요.";
-                    //if (Input.anyKey)
-                    //    async.allowSceneActivation = true;
+                    Tip.text = "화면을 눌러주세요.";
+                    if (Input.anyKey)
+                        async.allowSceneActivation = true;
                     sliderbar.value = 1;
                 }
                 else
                 {
-                    Debug.Log((async.progress + timer) / totalGage);
                     sliderbar.value = (async.progress + timer) / totalGage;
                 }
                 yield return null;
