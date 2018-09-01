@@ -172,7 +172,7 @@ public class Player : Character
         IsNotConsumeAmmo = false;
 
         shieldCount = 0;
-        evadeCoolTime = 0.1f;
+        evadeCoolTime = 0.05f;
         battleSpeed = 0.5f;
         InitilizeController();
 
@@ -624,17 +624,17 @@ public class Player : Character
     }
     private IEnumerator Roll(Vector3 dir)
     {
-        float doubling = 1.8f;
+        float doubling = 3;
         totalSpeed = playerData.MoveSpeed + floorSpeed;
         while (isEvade)
         {
-            doubling -= Time.fixedDeltaTime;
-            if (doubling <= 1)
-                doubling = 1;
+            doubling -= Time.fixedDeltaTime * 5;
+            if (doubling <= .5f)
+                doubling = .5f;
             rgbody.MovePosition(objTransform.position + dir * (totalSpeed) * Time.fixedDeltaTime * doubling);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        yield return YieldInstructionCache.WaitForSeconds(0.1f);
+        yield return YieldInstructionCache.WaitForSeconds(0.05f);
         damageImmune = CharacterInfo.DamageImmune.NONE;
         yield return YieldInstructionCache.WaitForSeconds(evadeCoolTime);
         canEvade = true;

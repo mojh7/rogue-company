@@ -19,6 +19,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         return currentRoom.isClear;
     }
+
     private void IniMask()
     {
         PlayerManager.Instance.GetPlayer().SetInFloor();
@@ -117,6 +118,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void ClearRoom()
     {
+        currentRoom.isClear = true;
+
         MiniMap.Instance.HideMiniMap();
         DoorActive();
         ObjectSetAvailable();
@@ -133,7 +136,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         }
 
         UIManager.Instance.ClearRoomUI(true);
-        ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere), item);
+        ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere * 3), item);
         ItemManager.Instance.CollectItem();
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
@@ -214,7 +217,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         while (true)
         {
-            yield return YieldInstructionCache.WaitForSeconds(0.05f);
+            yield return YieldInstructionCache.WaitForSeconds(0.1f);
 
             if (!currentRoom.isRoom || currentRoom.isClear)
             {
@@ -224,7 +227,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
                 SetMask();
-                currentRoom.isClear = true;
                 if (currentRoom.eRoomType == RoomType.BOSS) //보스 방
                 {
                     InitRoom();
@@ -239,6 +241,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 }
                 else
                 {
+                    currentRoom.isClear = true;
                     NeignborDraw(currentRoom);
                     EnableObjects();
                     ObjectSetAvailable();
