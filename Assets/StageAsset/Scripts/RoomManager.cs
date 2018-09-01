@@ -127,6 +127,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         {
             item = ObjectPoolManager.Instance.CreateWeapon();
         }
+
+        UIManager.Instance.ClearRoomUI(true);
         ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere), item);
         ItemManager.Instance.CollectItem();
         if (currentRoom.eRoomType == RoomType.BOSS)
@@ -242,8 +244,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             return;
         room.isDrawed = true;
         MiniMap.Instance.ClearRoom(room);
-
-        UIManager.Instance.ClearRoomUI(true);
 
         for (int i = 0; i < room.linkedEdgeRect.Count; i++)
         {
