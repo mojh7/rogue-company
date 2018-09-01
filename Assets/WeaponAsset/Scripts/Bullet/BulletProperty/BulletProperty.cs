@@ -9,6 +9,7 @@ public abstract class BulletProperty
 {
     protected Bullet bullet;
     protected GameObject bulletObj;
+    protected GameObject colliderObj;
     protected Transform bulletTransform;
     protected DelDestroyBullet delDestroyBullet;
     protected BuffManager ownerBuff;
@@ -22,6 +23,7 @@ public abstract class BulletProperty
     {
         this.bullet = bullet;
         bulletObj = bullet.gameObject;
+        colliderObj = bullet.GetColliderObj();
         bulletTransform = bullet.objTransform;
         delDestroyBullet = bullet.DestroyBullet;
         ownerBuff = bullet.GetOwnerBuff();

@@ -17,6 +17,8 @@ public class Bullet : MonoBehaviour
     public Transform objTransform;
     public BoxCollider2D boxCollider;
     public CircleCollider2D circleCollider;
+    [SerializeField]
+    private GameObject colliderObj;
     public Rigidbody2D objRigidbody;
 
     // 레이저용 lineRenderer
@@ -41,7 +43,7 @@ public class Bullet : MonoBehaviour
     private Coroutine rotationAnimation;
     private Coroutine scaleAnimation;
     private Coroutine deleteOnlifeTime;
-    private Coroutine setColliderSize;
+    private Coroutine setColliderSizeOfAniSprite;
 
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;   // 총알 방향 각도.
@@ -72,6 +74,7 @@ public class Bullet : MonoBehaviour
     public BuffManager GetOwnerBuff() { return ownerBuff; }
     public TransferBulletInfo GetTransferBulletInfo() { return transferBulletInfo; }
     public StatusEffectInfo GetStatusEffectInfo() { return info.statusEffectInfo; }
+    public GameObject GetColliderObj() { return colliderObj; }
 
     // 현재 바라보는 방향의 euler z 각도 반환
     public Vector3 GetPosition() { return objTransform.position; }
@@ -95,8 +98,8 @@ public class Bullet : MonoBehaviour
         active = false;
         //gameObject.hideFlags = HideFlags.HideInHierarchy;
         objTransform = GetComponent<Transform>();
-        boxCollider = GetComponent<BoxCollider2D>();
-        circleCollider = GetComponent<CircleCollider2D>();
+        //boxCollider = GetComponentInChildre<BoxCollider2D>();
+        //circleCollider = GetComponentInChildre<CircleCollider2D>();
         objRigidbody = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
         animator = GetComponentInChildren<Animator>();
@@ -109,13 +112,6 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        /* 애니메이션 경우 trigger 설정 하고 그 다음 프레임에서 실행
-         * 프레임 너무 떨어짐
-        if(BulletAnimationType.NotPlaySpriteAnimation!= info.spriteAnimation)
-        {
-            Debug.Log("T : " + Time.time + ", spriteAniRenderer : " + spriteAniRenderer.sprite);
-            boxCollider.size = spriteAniRenderer.sprite.bounds.size;
-        }*/
         for (int i = 0; i < info.updatePropertiesLength; i++)
         {
             info.updateProperties[i].Update();
@@ -141,6 +137,11 @@ public class Bullet : MonoBehaviour
         info = bulletInfo;
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
 
+        // 처음 위치 설정
+        objTransform.position = pos;
+        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+
         UpdateTransferBulletInfo();
         ApplyWeaponBuff();
         // 투사체 총알 속성 초기화
@@ -152,10 +153,7 @@ public class Bullet : MonoBehaviour
         // 총알 속성들 초기화
         InitPropertyClass();
 
-        // 처음 위치 설정
-        objTransform.position = pos;
-        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+        
         dirDegree = 0f;
         dirVector = Vector3.right;
         SetDirection(direction);
@@ -169,24 +167,21 @@ public class Bullet : MonoBehaviour
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
 
-        UpdateTransferBulletInfo();
-
-        // Owner 정보 초기화
-        InitOwnerInfo(ownerType);
-
-        // Owner buff 적용
-        ApplyWeaponBuff();
-
-        // 투사체 총알 속성 초기화
-        InitProjectileProperty();
-
-        // 총알 속성들 초기화
-        InitPropertyClass();
-
         // 처음 위치 설정
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+
+        UpdateTransferBulletInfo();
+        // Owner 정보 초기화
+        InitOwnerInfo(ownerType);
+        // Owner buff 적용
+        ApplyWeaponBuff();
+        // 투사체 총알 속성 초기화
+        InitProjectileProperty();
+        // 총알 속성들 초기화
+        InitPropertyClass();
+
         dirDegree = 0f;
         dirVector = Vector3.right;
         SetDirection(direction);
@@ -212,6 +207,7 @@ public class Bullet : MonoBehaviour
         lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = 0.4f;
         lineRenderer.endWidth = 0.4f;
+        lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, Vector2.zero);
         lineRenderer.SetPosition(1, Vector2.zero);
 
@@ -282,10 +278,10 @@ public class Bullet : MonoBehaviour
         switch (ownerType)
         {
             case OwnerType.Enemy:
-                gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+                colliderObj.layer = LayerMask.NameToLayer("EnemyBullet");
                 break;
             case OwnerType.Player:
-                gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
+                colliderObj.layer = LayerMask.NameToLayer("PlayerBullet");
                 break;
             default:
                 break;
@@ -298,28 +294,41 @@ public class Bullet : MonoBehaviour
     /// </summary>
     private void InitProjectileProperty()
     {
+        lineRenderer.positionCount = 0;
+        lineRenderer.enabled = false;
+        laserViewObj.SetActive(false);
+        ActivateColiider();
         // sprite 애니메이션 적용
         if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
         {
             spriteAnimatorObj.SetActive(true);
             animator.SetTrigger(info.spriteAnimation.ToString());
             spriteRenderer.sprite = null;
-            //boxCollider.size = new Vector2(0.1f, 0.1f);
-            circleCollider.radius = 0.1f;
-            setColliderSize = StartCoroutine("SetColliderSize");
+            switch (info.colliderType)
+            {
+                case ColliderType.Box:
+                    boxCollider.size = new Vector2(0.1f, 0.1f);
+                    break;
+                case ColliderType.Circle:
+                    circleCollider.radius = 0.1f;
+                    break;
+                default:
+                    break;
+            }
+            setColliderSizeOfAniSprite = StartCoroutine("SetColliderSizeOfAniSprite");
         }
         // sprite 애니메이션 미 적용
         else
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
-            float sizeX = spriteRenderer.sprite.bounds.size.x;
-            float sizeY = spriteRenderer.sprite.bounds.size.y;
-            float size = (sizeX > sizeY) ? sizeY : sizeX;
-            circleCollider.radius = size * 0.3f;
+            if(OwnerType.Player == ownerType)
+            {
+                SetColliderSize(spriteRenderer, info.colliderSizeRate);
+            }
             if (OwnerType.Enemy == ownerType)
             {
-                circleCollider.radius = 0.05f;
+                SetColliderSize(spriteRenderer, info.colliderSizeRate);
             }
             //boxCollider.size = spriteRenderer.sprite.bounds.size;
             //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
@@ -350,40 +359,31 @@ public class Bullet : MonoBehaviour
         // 파티클이 포함되어있는 오브젝트 on/ off
         paticleObj.SetActive(info.showsParticle);
 
-        laserViewObj.SetActive(false);
-
-        // component on/off
-        circleCollider.enabled = true;
-        lineRenderer.enabled = false;
-        //lineRenderer.positionCount = 0;
-
         // 튕기는 총알 테스트 용, 일단 컬라이더 임시로 박스만 쓰는 중
         if (true == info.bounceAble)
         {
+            boxCollider.isTrigger = false;
             circleCollider.isTrigger = false;
         }
         else
         {
+            boxCollider.isTrigger = true;
             circleCollider.isTrigger = true;
         }
 
         if (true == info.canBlockBullet)
         {
             if (OwnerType.Player == ownerType)
-                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
+                colliderObj.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
             if (OwnerType.Enemy == ownerType)
-                objTransform.gameObject.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
+                colliderObj.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
         }
         if (true == info.canReflectBullet)
         {
             if (OwnerType.Player == ownerType)
-                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
+                colliderObj.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
             if (OwnerType.Enemy == ownerType)
-                objTransform.gameObject.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
-        }
-        else
-        {
-            objTransform.tag = "Bullet";
+                colliderObj.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
         }
     }
 
@@ -409,6 +409,60 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region function
+    public void ActivateColiider()
+    {
+        boxCollider.enabled = false;
+        circleCollider.enabled = false;
+        switch (info.colliderType)
+        {
+            case ColliderType.Box:
+                boxCollider.enabled = true;
+                break;
+            case ColliderType.Beam:
+            case ColliderType.Circle:
+                circleCollider.enabled = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetColliderSize(SpriteRenderer renderer, float sizeRate = 0.3f)
+    {
+        float sizeX, sizeY, size;
+        switch (info.colliderType)
+        {
+            case ColliderType.Beam:
+                colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
+                sizeX = renderer.sprite.bounds.size.x;
+                sizeY = renderer.sprite.bounds.size.y;
+                size = (sizeX > sizeY) ? sizeY : sizeX;
+                circleCollider.radius = size * 0.3f;
+                circleCollider.offset = Vector2.zero;
+                break;
+            case ColliderType.Box:
+                colliderObj.transform.localScale = new Vector3(1, 1, 1f);
+                boxCollider.size = renderer.sprite.bounds.size * sizeRate;
+                boxCollider.offset = renderer.sprite.bounds.center;
+                break;
+            case ColliderType.Circle:
+                colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
+                sizeX = renderer.sprite.bounds.size.x;
+                sizeY = renderer.sprite.bounds.size.y;
+                size = (sizeX > sizeY) ? sizeY : sizeX;
+                circleCollider.radius = size * sizeRate;
+                circleCollider.offset = renderer.sprite.bounds.center;
+                break;
+            default:
+                break;
+        }
+        if(OwnerType.Enemy == ownerType)
+        {
+            //boxCollider.size = boxCollider.size / objTransform.localScale.x;
+            //circleCollider.radius = circleCollider.radius / objTransform.localScale.x;
+        }
+    }
+
     /// <summary> 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다. </summary>
     public void SetDirection(Vector3 dirVector)
     {
@@ -563,9 +617,9 @@ public class Bullet : MonoBehaviour
         {
             StopCoroutine(deleteOnlifeTime);
         }
-        if (null != setColliderSize)
+        if (null != setColliderSizeOfAniSprite)
         {
-            StopCoroutine(setColliderSize);
+            StopCoroutine(setColliderSizeOfAniSprite);
         }
 
         viewTransform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -642,11 +696,11 @@ public class Bullet : MonoBehaviour
             info.canBlockBullet = true;
             if (OwnerType.Player == ownerType)
             {
-                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
+                colliderObj.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
             }
             if (OwnerType.Enemy == ownerType)
             {
-                objTransform.gameObject.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
+                colliderObj.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
             }
         }
 
@@ -656,11 +710,11 @@ public class Bullet : MonoBehaviour
             info.canReflectBullet = true;
             if (OwnerType.Player == ownerType)
             {
-                objTransform.gameObject.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
+                colliderObj.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
             }
             if (OwnerType.Enemy == ownerType)
             {
-                objTransform.gameObject.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
+                colliderObj.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
             }
         }
 
@@ -756,27 +810,45 @@ public class Bullet : MonoBehaviour
         }
     }
 
-
-    // FIXME: init 쪽에서 바로 sprite.bounds 체크하려니 안됨(애니메이션 트리거 작동 특성상 setTrigger 이후 한 박자 뒤에 바뀌나봄)일정 텀 주고
-    // sprite.bounds 측정해야되서 일단 코루틴으로 0.01초 미뤄서 체크, 애니메이션 없는 sprite는 처음에 init 때 sprite 크기 측정해도 되는데 애니메이션 있는 sprite는 연구좀 해야됨. 
-    // fixedUpdate에서 매번 돌리면 프레임 많이 떨어짐.(애니메이션 있는 sprite는 sprite 크기가 매번 달라서 이런 식으로 해야 될 수도 있긴 함.)
-
-    // 땜빵용 코드
-    private IEnumerator SetColliderSize()
+    // 애니메이션 트리거 작동 특성 상 setTrigger 이후 한 프레임 뒤에 바뀌나봄. 그래서 코루틴으로 함. 
+    /// <summary> Animation Sprite용 collider size 설정</summary>
+    private IEnumerator SetColliderSizeOfAniSprite()
     {
         while(true)
         {
             if (null != spriteAniRenderer.sprite)
                 break;
-            //Debug.Log(spriteAniRenderer.sprite);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
-        //Debug.Log("size : " + spriteAniRenderer.sprite.bounds.size);
-        float sizeX = spriteAniRenderer.sprite.bounds.size.x;
-        float sizeY = spriteAniRenderer.sprite.bounds.size.y;
-        float size = (sizeX > sizeY) ? sizeY : sizeX;
-        circleCollider.radius = size;
-        // boxCollider.size = spriteRenderer.sprite.bounds.size;
+        //SetColliderSize(spriteAniRenderer);
+        
+        float sizeX, sizeY, size;
+        switch (info.colliderType)
+        {
+            case ColliderType.Beam:
+                colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
+                sizeX = spriteAniRenderer.sprite.bounds.size.x;
+                sizeY = spriteAniRenderer.sprite.bounds.size.y;
+                size = (sizeX > sizeY) ? sizeY : sizeX;
+                circleCollider.radius = size * 0.3f;
+                circleCollider.offset = Vector2.zero;
+                break;
+            case ColliderType.Box:
+                colliderObj.transform.localScale = new Vector3(1, 1, 1f);
+                boxCollider.size = spriteAniRenderer.sprite.bounds.size * info.colliderSizeRate;
+                boxCollider.offset = spriteAniRenderer.sprite.bounds.center;
+                break;
+            case ColliderType.Circle:
+                colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
+                sizeX = spriteAniRenderer.sprite.bounds.size.x;
+                sizeY = spriteAniRenderer.sprite.bounds.size.y;
+                size = (sizeX > sizeY) ? sizeY : sizeX;
+                circleCollider.radius = size * info.colliderSizeRate;
+                circleCollider.offset = spriteAniRenderer.sprite.bounds.center;
+                break;
+            default:
+                break;
+        }
         //Debug.Log("t : " + Time.time + ", " + spriteAniRenderer.sprite.bounds.size +", colider Size : " + boxCollider.size);
     }
 

@@ -118,7 +118,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             // owenr = player bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 19))
             {
-                bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
+                colliderObj.layer = LayerMask.NameToLayer("PlayerBullet");
                 bullet.SetOwnerType(OwnerType.Player);
                 bullet.RotateDirection(180);
             }
@@ -149,7 +149,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             // owenr = enemy bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 21))
             {
-                bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+                colliderObj.layer = LayerMask.NameToLayer("EnemyBullet");
                 bullet.SetOwnerType(OwnerType.Enemy);
                 bullet.RotateDirection(180);
             }
@@ -190,7 +190,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             // owenr = player bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 19))
             {
-                bullet.gameObject.layer = LayerMask.NameToLayer("PlayerBullet");
+                colliderObj.layer = LayerMask.NameToLayer("PlayerBullet");
                 bullet.SetOwnerType(OwnerType.Player);
                 bullet.RotateDirection(180);
             }
@@ -220,7 +220,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             // owenr = enemy bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 21))
             {
-                bullet.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+                colliderObj.layer = LayerMask.NameToLayer("EnemyBullet");
                 bullet.SetOwnerType(OwnerType.Enemy);
                 bullet.RotateDirection(180);
             }

@@ -34,7 +34,7 @@ namespace WeaponAsset
     }
 
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW
-    public enum AttackAniType { NULL, BLOW, STRIKE, SWING, PUNCH, SHOT }
+    public enum AttackAniType { None, Blow, Strike, Swing, Punch, Shot }
     public enum AttackType { MELEE, RANGED }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION}
@@ -47,7 +47,7 @@ namespace WeaponAsset
 
     /*---*/
 
-    public enum ColiderType { Box, Circle }
+    public enum ColliderType { Beam, Box, Circle }
 
     public enum BulletAnimationType
     {
@@ -479,19 +479,19 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             //시전 시간
             switch (tempWeaponInfos[i].attackAniType)
             {
-                case AttackAniType.STRIKE:
+                case AttackAniType.Strike:
                     tempWeaponInfos[i].soundId = 0;
                     tempWeaponInfos[i].castingTime = 0.25f;
                     break;
-                case AttackAniType.BLOW:
+                case AttackAniType.Blow:
                     tempWeaponInfos[i].castingTime = 0.1f;
                     tempWeaponInfos[i].soundId = 3;
                     break;
-                case AttackAniType.SWING:
+                case AttackAniType.Swing:
                     tempWeaponInfos[i].castingTime = 0.3f;
                     tempWeaponInfos[i].soundId = 3;
                     break;
-                case AttackAniType.SHOT:
+                case AttackAniType.Shot:
                     tempWeaponInfos[i].soundId = 0;
                     break;
                 default:

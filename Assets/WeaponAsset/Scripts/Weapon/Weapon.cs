@@ -281,30 +281,12 @@ public class Weapon : Item
         StartCoroutine(ReloadTime());
     }
 
-    // 공격 애니메이션 play
+    /// <summary> 공격 애니메이션 play </summary>
     public void PlayAttackAnimation()
     {        
-        // 근거리는 휘두르기, 찌르기 애니메이션
-        // 총은 반동 주기
-        switch (info.attackAniType)
+        if(AttackAniType.None != info.attackAniType)
         {
-            case AttackAniType.BLOW:
-                animator.SetTrigger("blow");
-                break;
-            case AttackAniType.STRIKE:
-                animator.SetTrigger("strike");
-                break;
-            case AttackAniType.SHOT:
-                animator.SetTrigger("shot");
-                break;
-            case AttackAniType.PUNCH:
-                animator.SetTrigger("punch");
-                break;
-            case AttackAniType.SWING:
-                animator.SetTrigger("swing");
-                break;
-            default:
-                break;
+            animator.SetTrigger(info.attackAniType.ToString());
         }
     }
 
