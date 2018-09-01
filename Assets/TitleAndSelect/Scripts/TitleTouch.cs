@@ -66,6 +66,11 @@ public class TitleTouch : MonoBehaviour {
         }
     }
 
+    public void QuitApp()
+    {
+        Application.Quit();
+    }
+
     public void LoadSelect()
     {
         GameStateManager.Instance.SetLoadsGameData(false);

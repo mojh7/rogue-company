@@ -256,7 +256,7 @@ namespace Map
                     break;
                 if (necessaryRoomSet.Count == 0)
                     break;
-                if (count > 30)
+                if (count > 1000)
                 {
                     break;
                 }

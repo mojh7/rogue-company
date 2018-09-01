@@ -15,6 +15,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     Vector2 zeroVector;
     int mapSize;
     
+    public bool isRoomClear()
+    {
+        return currentRoom.isClear;
+    }
     private void IniMask()
     {
         PlayerManager.Instance.GetPlayer().SetInFloor();
@@ -160,6 +164,11 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
         }
     } // 몬스터 소환
+
+    public Vector3 SpawnedServant()
+    {
+        return currentRoom.GetAvailableArea();
+    }
 
     public Vector3 Spawned()
     {

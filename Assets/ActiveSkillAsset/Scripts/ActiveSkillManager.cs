@@ -163,11 +163,11 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         GameObject gameObject = ResourceManager.Instance.objectPool.GetPooledObject();
         gameObject.transform.position = new Vector2(user.transform.position.x + randPos.x, user.transform.position.y + randPos.y);
         gameObject.AddComponent<Alert>();
-        gameObject.GetComponent<Alert>().Init(HandUpPart, user, amount, 1);
+        gameObject.GetComponent<Alert>().Init(HandUpPart, user, amount, 1, null);
         gameObject.GetComponent<Alert>().Active();
     }
 
-    private void HandUpPart(Vector3 pos, object user, float amount)
+    private void HandUpPart(Vector3 pos, object user, float amount, Character character)
     {
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
@@ -190,8 +190,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 
     private void SpawnServant(Character user, object servantData, float amount)
     {
-        EnemyManager.Instance.Generate(RoomManager.Instance.Spawned(), servantData as EnemyData);
-
+        EnemyManager.Instance.Generate(RoomManager.Instance.SpawnedServant(), servantData as EnemyData, user);
     }
 
     private void Flash(Character user, object position, float amount)

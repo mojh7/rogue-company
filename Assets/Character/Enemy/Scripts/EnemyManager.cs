@@ -32,12 +32,12 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     }
 
     #region 바꿔야되는것들
-    public void Generate(Vector2 position, EnemyData enemyData)
+    public void Generate(Vector2 position, EnemyData enemyData, Character owner)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = position;
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0);
+        obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0, owner);
         obj.GetComponent<Alert>().Active();
     }
 
@@ -46,7 +46,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().Init(CallBack, GetEnemy(false), 0, 0);
+        obj.GetComponent<Alert>().Init(CallBack, GetEnemy(false), 0, 0, null);
         obj.GetComponent<Alert>().Active();
     }
 
@@ -77,13 +77,13 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         obj.transform.position = position;
         obj.transform.localScale = new Vector3(1, 1, 0);
 
-        aliveEnemyTotal += 1;
-
         return obj;
     }
 
     public void SpawnBoss(int _floor, Vector2 position)
     {
+        aliveEnemyTotal += 1;
+
         BossEnemy enemy;
         GameObject obj = SpawnEnemy(position);
         EnemyData bossData = GetEnemy(true);
@@ -96,14 +96,22 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
     }
 
-    void CallBack(Vector3 position, object temporary, float amount)
+    void CallBack(Vector3 position, object temporary, float amount,Character owner)
     {
+        if (RoomManager.Instance.isRoomClear())
+            return;
         Enemy enemy;
         GameObject obj = SpawnEnemy(position);
 
         enemy = obj.AddComponent<Enemy>();
         enemy.Init(temporary as EnemyData);
-        enemyList.Add(enemy);
+        if (owner == null)
+        {
+            aliveEnemyTotal += 1;
+            enemyList.Add(enemy);
+        }
+        else
+            owner.SpawnServant(enemy);
         enemyColliderList.Add(enemy.GetCircleCollider2D());
     }
     #endregion

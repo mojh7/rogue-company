@@ -467,9 +467,10 @@ public class Door : RandomSpriteObject
 
 public class Alert : RandomSpriteObject
 {
-    public delegate void Del(Vector3 _position, object obj, float amount);
+    public delegate void Del(Vector3 _position, object obj, float amount, Character owner);
     Del callback;
     object temporary;
+    Character owner;
     float amount;
     int type = 0;
     public override void Init()
@@ -480,13 +481,14 @@ public class Alert : RandomSpriteObject
         objectType = ObjectType.NONE;
         gameObject.layer = 0;
     }
-    public void Init(Del _call, object temporary, float amount, int type)
+    public void Init(Del _call, object temporary, float amount, int type,Character owner)
     {
         Init();
         callback += _call;
         this.temporary = temporary;
-        this.amount = amount;
         this.type = type;
+        this.amount = amount;
+        this.owner = owner;
     }
     public override bool Active()
     {
@@ -514,7 +516,7 @@ public class Alert : RandomSpriteObject
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
-        callback(transform.position, temporary, amount);
+        callback(transform.position, temporary, amount, owner);
         DestroyAndDeactive();
     }
 }
@@ -740,7 +742,7 @@ public class FallRockTrap : RandomSpriteObject
     {
         this.gameObject.AddComponent<Alert>();
         this.gameObject.GetComponent<Alert>().sprites = null;
-        this.gameObject.GetComponent<Alert>().Init(CallBack, null, 0, 0);
+        this.gameObject.GetComponent<Alert>().Init(CallBack, null, 0, 0, null);
         this.gameObject.GetComponent<Alert>().Active();
         Destroy(this);
         return true;
@@ -753,7 +755,7 @@ public class FallRockTrap : RandomSpriteObject
             Active();
         }
     }
-    void CallBack(Vector3 _position, object temporary, float amount)
+    void CallBack(Vector3 _position, object temporary, float amount, Character owner)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.AddComponent<Rock>();

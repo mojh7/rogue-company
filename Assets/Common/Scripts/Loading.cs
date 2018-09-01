@@ -73,10 +73,8 @@ public class Loading : MonoBehaviour {
             {
                 if (async.progress == 0.9f && timer >= minTime)
                 {
-                    Tip.text = "화면을 눌러주세요.";
-                    if (Input.anyKey)
-                        async.allowSceneActivation = true;
                     sliderbar.value = 1;
+                    async.allowSceneActivation = true;
                 }
                 else
                 {

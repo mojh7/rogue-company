@@ -4,14 +4,20 @@ using UnityEngine;
 
 namespace CharacterInfo
 {
+    public enum SpawnType
+    {
+        NORMAL, SERVANT
+    }
     public enum OwnerType
     {
         Player, Enemy, Pet, Object
     }
+        
     public enum State
     {
-        NOTSPAWNED, DIE, ALIVE
+        DIE, ALIVE
     }
+
     public enum DamageImmune
     {
         NONE, DAMAGE
@@ -50,6 +56,7 @@ public abstract class Character : MonoBehaviour
     protected CharacterInfo.AutoAimType originalautoAimType;
     protected CharacterInfo.State pState;
     protected CharacterInfo.OwnerType ownerType;
+    protected CharacterInfo.SpawnType spawnType;    
     #endregion
     #region componets
     protected CharacterComponents Components;
@@ -86,6 +93,9 @@ public abstract class Character : MonoBehaviour
 
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
+    #endregion
+    #region dataStruct
+    protected List<Character> servants;
     #endregion
     #region getter
     public float GetHP()
@@ -151,6 +161,21 @@ public abstract class Character : MonoBehaviour
     }
     #endregion
     #region Func
+    public void SpawnServant(Character character)
+    {
+        character.SetSpawnType(CharacterInfo.SpawnType.SERVANT);
+        servants.Add(character);
+    }
+    
+    public void DeleteServant()
+    {
+        for(int i=0;i< servants.Count;i++)
+        {
+            if(servants[i] != null)
+                servants[i].Die();
+        }
+    }
+
     public bool IsDie()
     {
         if (CharacterInfo.State.DIE == pState)
@@ -190,6 +215,7 @@ public abstract class Character : MonoBehaviour
 
         isActiveAI = true;
         isCasting = false;
+        spawnType = CharacterInfo.SpawnType.NORMAL;
     }
     public virtual void ActiveSkill()
     {
@@ -243,6 +269,11 @@ public abstract class Character : MonoBehaviour
             autoAimType = CharacterInfo.AutoAimType.MANUAL;
         }
         originalautoAimType = CharacterInfo.AutoAimType.MANUAL;
+    }
+
+    public void SetSpawnType(CharacterInfo.SpawnType spawnType)
+    {
+        this.spawnType = spawnType;
     }
 
     protected abstract bool IsAbnormal();

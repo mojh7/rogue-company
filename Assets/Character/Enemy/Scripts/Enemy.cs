@@ -70,6 +70,7 @@ public class Enemy : Character
         abnormalStatusCoroutines = new Coroutine[(int)AbnormalStatusType.END];
         abnormalStatusTime = new float[(int)AbnormalStatusType.END];
         abnormalStatusDurationTime = new float[(int)AbnormalStatusType.END];
+        servants = new List<Character>();
     }
 
     private void Update()
@@ -192,13 +193,16 @@ public class Enemy : Character
                 StopCoroutine(abnormalStatusCoroutines[i]);
         }
 
+        if (spawnType == CharacterInfo.SpawnType.NORMAL)
+        {
+            PlayerManager.Instance.GetPlayer().AddKilledEnemyCount();
+            Stamina.Instance.RecoverStamina();
+            GameDataManager.Instance.SetKill();
+            EnemyManager.Instance.DeleteEnemy(this);
+            RoomManager.Instance.DieMonster();
+        }
         weaponManager.RemoveAllWeapons();
-        PlayerManager.Instance.GetPlayer().AddKilledEnemyCount();
         DropItem();
-        Stamina.Instance.RecoverStamina();
-        GameDataManager.Instance.SetKill();
-        EnemyManager.Instance.DeleteEnemy(this);
-        RoomManager.Instance.DieMonster();
         ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position, sprite);
         gameObject.SetActive(false);
         Destroy(this);
@@ -946,6 +950,9 @@ public class BossEnemy : Enemy
 
     protected override void Die()
     {
+        DeleteServant();
+        ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position, sprite);
+
         pState = CharacterInfo.State.DIE;
         GameDataManager.Instance.SetKill();
         UIManager.Instance.bossHPUI.Toggle();
