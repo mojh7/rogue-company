@@ -15,6 +15,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 
     GameData gameData;
     string dataPath;
+    string dataName;
     PlayerData playerData;
 
     // 0810 주윤아 플레이 타임
@@ -44,7 +45,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public int GetKey() { return m_key; }
     public int GetCoin() { return m_coin; }
     public int GetFloor() { return m_floor; }
-    public int GetKill() { Debug.Log("GetKill : " + m_kill); return m_kill; }
+    public int GetKill() { return m_kill; }
     public float GetTime() { return m_time; }
     public Player.PlayerType GetPlayerType() { return m_playerType; }
     public PlayerData GetPlayerData() { return playerData; }
@@ -91,6 +92,15 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
   
     public void Savedata()
     {
+        if (GameStateManager.Instance.GetMode() == GameStateManager.GameMode.NORMAL)
+            dataName = "/save.bin";
+        else
+            dataName = "/saveRush.bin";
+#if (UNITY_EDITOR)
+        dataPath = Application.dataPath + dataName;
+#else
+        dataPath = Application.persistentDataPath + dataName;
+#endif
         if (gameData == null)
             gameData = new GameData();
         gameData.SetFloor(m_floor);
@@ -111,6 +121,17 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     }
     public bool LoadData()
     {
+        if (GameStateManager.Instance.GetMode() == GameStateManager.GameMode.NORMAL)
+            dataName = "/save.bin";
+        else
+            dataName = "/saveRush.bin";
+#if (UNITY_EDITOR)
+        dataPath = Application.dataPath + dataName;
+#else
+        dataPath = Application.persistentDataPath + dataName;
+#endif
+        if (gameData != null)
+            gameData = null;
         if (File.Exists(dataPath))
         {
             gameData = BinaryDeserialize();
@@ -173,18 +194,10 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         else
             return null;
     }
-    #endregion
-
-    private void Start()
+    private void Awake()
     {
-#if (UNITY_EDITOR)
-        dataPath = Application.dataPath + "/save.bin";
-#else
-        dataPath = Application.persistentDataPath + "/save.bin";
-#endif
         DontDestroyOnLoad(this);
     }
-
-
+    #endregion
 }
 

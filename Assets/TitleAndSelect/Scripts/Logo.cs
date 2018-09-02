@@ -41,7 +41,6 @@ public class Logo : MonoBehaviourSingleton<Logo> {
             }
             if (image != teamLogoImage)
             {
-                //StartCoroutine(FadeLogo(teamLogoImage));
                 StartCoroutine(AnimationLogo(teamLogoImage));
             }
             else

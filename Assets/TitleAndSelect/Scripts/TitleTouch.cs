@@ -14,10 +14,27 @@ public class TitleTouch : MonoBehaviour {
     [SerializeField] private Text txt;
     [SerializeField] private Image image;
     private bool isHide = true;
-
     [SerializeField] private Image fadeImage;
+    [SerializeField] private Image modeButton;
+    [SerializeField] private Sprite[] modeImages;
 
     int index = 2;
+    int mode = 0; //0 = normal, 1 = rush
+
+    public void ChangeMode()
+    {
+        if(mode>=1)
+        {
+            mode = 0;
+        }
+        else
+        {
+            mode++;
+        }
+
+        GameStateManager.Instance.SetMode((GameStateManager.GameMode)mode);
+        InitTitle();
+    }
 
     public void ClickStart()
     {
@@ -43,6 +60,16 @@ public class TitleTouch : MonoBehaviour {
     void FadeIn(Image _img, int _interval)
     {
         StartCoroutine(CoroutineFadeIn(_img, _interval));
+    }
+
+    void InitTitle()
+    {
+        modeButton.sprite = modeImages[(int)GameStateManager.Instance.GetMode()];
+
+        if (GameDataManager.Instance.LoadData())
+            RestartButton.SetActive(true);
+        else
+            RestartButton.SetActive(false);
     }
 
     IEnumerator CoroutineFadeIn(Image _img, int _interval)
@@ -87,8 +114,7 @@ public class TitleTouch : MonoBehaviour {
     private void Awake()
     {
         AudioManager.Instance.PlayMusic(0);
-        if (GameDataManager.Instance.LoadData())
-            RestartButton.SetActive(true);
+        InitTitle();
     }
 
     private void Update()
