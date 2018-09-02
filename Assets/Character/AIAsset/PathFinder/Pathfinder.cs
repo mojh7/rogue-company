@@ -179,19 +179,25 @@ namespace AStar
             waypointList.Clear();
             directionOld = zero;
 
-            int gap = (int)path.Count / 3;
+            int pathCount = path.Count;
+            int gap = (int)pathCount / 3;
             if (0 == gap)
             {
-                gap = 1;
+                gap = pathCount;
             }
-            for (int i = gap; i < path.Count; i++)
+            int pathGap = pathCount - gap;
+            for (int i = 1; i < pathGap; i++)
             {
-                Vector2 directionNew = new Vector2(path[i - gap].gridX - path[i].gridX, path[i - gap].gridY - path[i].gridY);
+                Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
                 if (directionNew != directionOld)
                 {
                     waypointList.Add(path[i].worldPos);
                 }
                 directionOld = directionNew;
+            }
+            for (int i = pathGap; i < pathCount; i++)
+            {
+                waypointList.Add(path[i].worldPos);
             }
             return waypointList.ToArray();
         }
