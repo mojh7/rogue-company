@@ -280,7 +280,7 @@ namespace BT
                         case EActionTask.ShotAction:
                             return ScriptableObject.CreateInstance<ShotAction>().Set((int)value1);
                         case EActionTask.PositionAction:
-                            return ScriptableObject.CreateInstance<PositionTrackAction>().Set(value1);
+                            return ScriptableObject.CreateInstance<PositionTrackAction>().Set(value1, value2);
                     }
                     break;
             }

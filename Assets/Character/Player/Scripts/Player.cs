@@ -225,6 +225,7 @@ public class Player : Character
             scaleVector.x = -1f;
             spriteTransform.localScale = scaleVector;
         }
+        ParticleManager.Instance.PlayParticle("Smoke", transform.position, spriteRenderer.transform.localScale);
         animationHandler.Skill(0);
         damageImmune = CharacterInfo.DamageImmune.DAMAGE;
         weaponManager.HideWeapon();

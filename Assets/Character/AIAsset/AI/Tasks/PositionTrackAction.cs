@@ -12,16 +12,19 @@ public class PositionTrackAction : ActionTask
 {
     [SerializeField]
     float doublingValue;
+    [SerializeField]
+    float radius;
 
     MovingPattern movingPattern;
     Vector2 destPosition;
     bool isArrived;
 
-    public Task Set(float doublingValue)
+    public Task Set(float doublingValue,float radius)
     {
         if (doublingValue <= 1)
             doublingValue = 1;
         this.doublingValue = doublingValue;
+        this.radius = radius;
         return this;
     }
     public override void Init(Task task)
@@ -40,7 +43,7 @@ public class PositionTrackAction : ActionTask
         character.SetManualAim();
         if(isArrived)
         {
-            destPosition = RoomManager.Instance.GetCurrentRoomAvailableArea();
+            destPosition = RoomManager.Instance.GetNearestAvailableArea(character.transform.position + UnityEngine.Random.onUnitSphere * radius);
         }
 
         bool success = movingPattern.PositionTracking(destPosition,ref isArrived);
@@ -58,7 +61,7 @@ public class PositionTrackAction : ActionTask
     public override Task Clone()
     {
         PositionTrackAction parent = ScriptableObject.CreateInstance<PositionTrackAction>();
-        parent.Set(doublingValue);
+        parent.Set(doublingValue, radius);
         return parent;
     }
 }
