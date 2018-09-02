@@ -198,7 +198,7 @@ public class WeaponManager : MonoBehaviour {
             // 로드 게임이 아닐 때 디버그용 무기 셋팅
             if (false == GameStateManager.Instance.GetLoadsGameData())
             {
-                if (equipAllWeapons)
+                if (DebugSetting.Instance.EquipsPlayerAllWeapons)
                 {
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
@@ -215,11 +215,34 @@ public class WeaponManager : MonoBehaviour {
                 else
                 {
                     weaponCountMax = 3;
-                    weaponCount = 1;
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(startWeaponId) as Weapon;
+                    weaponCount = 3;
+
+                        weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0,8)) as Weapon;
+                        equipWeaponSlot.Add(weapon);
+                        weapon.ObjTransform.SetParent(registerPoint, false);
+                        weapon.RegisterWeapon(this);
+
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(8, 16)) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
+
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(16, 25)) as Weapon;
+                    equipWeaponSlot.Add(weapon);
+                    weapon.ObjTransform.SetParent(registerPoint, false);
+                    weapon.RegisterWeapon(this);
+
+                    /*if(-1 == DebugSetting.Instance.playerEquipWepaonId)
+                    {
+                        weapon = ObjectPoolManager.Instance.CreateWeapon() as Weapon;
+                    }
+                    else
+                    {
+                        weapon = ObjectPoolManager.Instance.CreateWeapon(DebugSetting.Instance.playerEquipWepaonId) as Weapon;
+                    }*/
+                    //equipWeaponSlot.Add(weapon);
+                    //weapon.ObjTransform.SetParent(registerPoint, false);
+                    //weapon.RegisterWeapon(this);
                 }
             }
             // 저장된 데이터를 로드한 게임 일 때

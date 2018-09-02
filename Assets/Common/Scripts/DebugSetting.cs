@@ -19,6 +19,10 @@ public class DebugSetting : MonoBehaviourSingleton<DebugSetting>
 
     [Header("Player 무기 설정")]
     public WeaponModeForDebug weaponModeForDebug;
+    [Header("Player 무기 모두 착용 ")]
+    public bool EquipsPlayerAllWeapons = true;
+    [Header("Player 착용 특정 index, 0이상 일 때 적용 ")]
+    public int playerEquipWepaonId = -1;
 
     [Header("temp Player 무기 테스트 범위")]
     [Range(0, 45)]
