@@ -22,7 +22,6 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     public void SetMode(GameMode gameMode)
     {
         this.gameMode = gameMode;
-        GameDataManager.Instance.LoadData();
     }
 
     #region UnityFunc

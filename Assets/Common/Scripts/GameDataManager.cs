@@ -152,6 +152,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 
             return true;
         }
+        ResetData();
         return false;
     }
     public void ResetData()
@@ -163,16 +164,11 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         if (gameData != null)
         {
             gameData = null;
-            m_floor = 1;
-            m_coin = 0;
-            m_kill = 0;
-            m_time = 0;
-            m_playerType = Player.PlayerType.SOCCER;
-            playerData.Hp = playerDatas[0].Hp;
-            playerData.Stamina = playerDatas[0].Stamina;
-
-            playerData = null;
         }
+        m_floor = 1;
+        m_coin = 0;
+        m_kill = 0;
+        m_time = 0;
     }
     void BinarySerialize(GameData _gameData)
     {
