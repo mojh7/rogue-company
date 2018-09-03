@@ -72,7 +72,7 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
         outPos = new Vector2(-screenHalfWidth, 0);
         touched = false;
         moveJouStickTransform = moveJoyStick.GetComponent<RectTransform>();
-        moveJouStickTransform.position = outPos;
+        //moveJouStickTransform.position = outPos;
     }
     #endregion
     #region Handler

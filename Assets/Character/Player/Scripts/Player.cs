@@ -625,12 +625,12 @@ public class Player : Character
     }
     private IEnumerator Roll(Vector3 dir)
     {
-        float doubling = 3;
+        float doubling = 2f;
         totalSpeed = playerData.MoveSpeed + floorSpeed;
         while (isEvade)
         {
-            doubling -= Time.fixedDeltaTime * 5;
-            if (doubling <= .5f)
+            doubling -= Time.fixedDeltaTime * 4;
+            if (doubling <= 1f)
                 doubling = .5f;
             rgbody.MovePosition(objTransform.position + dir * (totalSpeed) * Time.fixedDeltaTime * doubling);
             yield return YieldInstructionCache.WaitForFixedUpdate;
