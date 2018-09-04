@@ -118,7 +118,7 @@ namespace BT
                     break;
                 case "PositionAction":
                     taskType = TaskType.ActionTask;
-                    actionTask = EActionTask.PositionAction;
+                    actionTask = EActionTask.PositionTrackAction;
                     value1 = (task as ShotAction).Value;
                     break;
             }
@@ -279,7 +279,7 @@ namespace BT
                             return ScriptableObject.CreateInstance<RunawayTrackAction>().Set(value1);
                         case EActionTask.ShotAction:
                             return ScriptableObject.CreateInstance<ShotAction>().Set((int)value1);
-                        case EActionTask.PositionAction:
+                        case EActionTask.PositionTrackAction:
                             return ScriptableObject.CreateInstance<PositionTrackAction>().Set(value1, value2);
                     }
                     break;

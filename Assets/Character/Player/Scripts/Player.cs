@@ -631,7 +631,7 @@ public class Player : Character
         {
             doubling -= Time.fixedDeltaTime * 4;
             if (doubling <= 1f)
-                doubling = .5f;
+                doubling = 1f;
             rgbody.MovePosition(objTransform.position + dir * (totalSpeed) * Time.fixedDeltaTime * doubling);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }

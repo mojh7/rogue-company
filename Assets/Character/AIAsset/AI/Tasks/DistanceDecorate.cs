@@ -36,7 +36,7 @@ public class DistanceDecorate : ConditionDecorate
         this.character = RootTask.BlackBoard["Character"] as Character;
         this.target = RootTask.BlackBoard["Target"] as Character;
         this.obeserveTime = 1f;
-        this.elapsedTime = 0;
+        this.elapsedTime = obeserveTime;
         layer = 1 << LayerMask.NameToLayer("TransparentFX");
         observe = false;
     }

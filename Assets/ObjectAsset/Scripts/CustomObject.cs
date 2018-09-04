@@ -200,7 +200,7 @@ public class BreakalbeBox : RandomSpriteObject
         isActive = false;
         isAvailable = false;
         objectType = ObjectType.BREAKABLE;
-        duration = 5;
+        duration = 2;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
