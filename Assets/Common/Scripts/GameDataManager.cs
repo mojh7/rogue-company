@@ -36,7 +36,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public void SetCoin() { m_coin++; ShowUI(); }
     public void SetFloor() { m_floor++; }
     public void SetKill() { m_kill++; }
-    public void SetTime(float _time) { m_time = _time; }
+    public void SetTime(float _time) { m_time += _time; }
     public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
     #endregion
 
@@ -106,7 +106,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         gameData.SetFloor(m_floor);
         gameData.SetCoin(m_coin);
         gameData.SetKill(m_kill);
-        gameData.SetTime(m_time);
+        //gameData.SetTime(m_time);
+        gameData.SetTime(TimeController.Instance.GetPlayTime);
 
         // 0531 모장현
         gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());

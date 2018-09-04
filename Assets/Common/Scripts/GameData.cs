@@ -40,7 +40,7 @@ class GameData
     public void SetFloor(int m_floor) { this.m_floor = m_floor; }
     public void SetCoin(int _coin) { m_coin = _coin; }
     public void SetKill(int _kill) { m_kill = _kill; }
-    public void SetTime(float _time) { m_time = _time; }
+    public void SetTime(float _time) { m_time += _time; }
     public void SetWeaponIds(int[] _weaponIds) { weaponIds = _weaponIds; }
     public void SetWeaponAmmos(int[] _weaponAmmos) { weaponAmmos = _weaponAmmos; }
     #endregion

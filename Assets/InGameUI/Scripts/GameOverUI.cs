@@ -25,7 +25,7 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     public void Init()
     {
         TimeController.Instance.StopTime();
-        playTime = TimeController.Instance.GetPlayTime;
+        playTime = GameDataManager.Instance.GetTime();
         kill = GameDataManager.Instance.GetKill();
         coin = GameDataManager.Instance.GetCoin();
         currentFloor = GameDataManager.Instance.GetFloor() + 6;
