@@ -15,6 +15,8 @@ public class DistanceDecorate : ConditionDecorate
     private RaycastHit2D hit;
     private LayerMask layer;
     private bool observe;
+    private float obeserveTime;
+    private float elapsedTime = 0;
     public float Value
     {
         get
@@ -33,6 +35,8 @@ public class DistanceDecorate : ConditionDecorate
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
         this.target = RootTask.BlackBoard["Target"] as Character;
+        this.obeserveTime = 1f;
+        this.elapsedTime = 0;
         layer = 1 << LayerMask.NameToLayer("TransparentFX");
         observe = false;
     }
@@ -43,15 +47,26 @@ public class DistanceDecorate : ConditionDecorate
             hit = Physics2D.Raycast(character.transform.position, target.transform.position - character.transform.position, distance, layer);
             if (hit.collider)
             {
-                observe = false;
-                return State.FAILURE;
+                elapsedTime += Time.deltaTime;
+
+                if (elapsedTime >= obeserveTime)
+                {
+                    observe = false;
+                    return State.FAILURE;
+                }
+                return State.SUCCESS;
             }
-            if (!observe)
+            else
             {
-                ParticleManager.Instance.PlayParticle("ExclamationMark", character.transform.position + Vector3.up);
+                elapsedTime = 0;
+
+                if (!observe)
+                {
+                    ParticleManager.Instance.PlayParticle("ExclamationMark", character.transform.position + Vector3.up);
+                }
+                observe = true;
+                return GetChildren().Run();
             }
-            observe = true;
-            return GetChildren().Run();
         }
         else
         {
