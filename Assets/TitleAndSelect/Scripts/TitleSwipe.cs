@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TitleSwipe : MonoBehaviour {
+public class TitleSwipe : MonoBehaviour
+{
 
     #region Var
     [SerializeField] private Image arrow;
     private bool isHide = true;
 
-    [SerializeField] private Image layer;
-
     [SerializeField] private GameObject[] panel;
     private bool isSelect = false;
+    private bool isSwipe = false;
+
+    private Vector2 pos;
 
     Vector3 titleDes;
     Vector3 selectDes;
@@ -20,27 +23,34 @@ public class TitleSwipe : MonoBehaviour {
 
     float touchStart = 0f;
     
-    private float swipeSpeed = 0.05f;
+    private float swipeSpeed = 6f;
     #endregion
 
     #region Function
+
     void GetPanelPosition()
     {
         float delta = Input.mousePosition.x - touchStart;
 
-        if (delta < -50f && !isSelect)
+        Debug.Log(delta);
+
+        if (delta == 0)
         {
-            titleDes = new Vector3(panel[0].transform.position.x - 2f,
+            return;
+        }
+        if (delta > -100f && !isSelect)
+        {
+            titleDes = new Vector3(panel[0].transform.position.x + 600f,
                 panel[0].transform.position.y, panel[0].transform.position.z);
-            selectDes = new Vector3(panel[1].transform.position.x + 2f,
+            selectDes = new Vector3(panel[1].transform.position.x - 600f,
                 panel[1].transform.position.y, panel[1].transform.position.z);
             isSelect = !isSelect;
         }
-        else if (delta > 50f && isSelect)
+        else if (delta < 100f && isSelect)
         {
-            titleDes = new Vector3(panel[0].transform.position.x + 2f,
+            titleDes = new Vector3(panel[0].transform.position.x - 600f,
                 panel[0].transform.position.y, panel[0].transform.position.z);
-            selectDes = new Vector3(panel[1].transform.position.x - 2f,
+            selectDes = new Vector3(panel[1].transform.position.x + 600f,
                 panel[1].transform.position.y, panel[1].transform.position.z);
             isSelect = !isSelect;
         }
@@ -56,8 +66,7 @@ public class TitleSwipe : MonoBehaviour {
             panel[1].transform.position = new Vector3(panel[1].transform.position.x + swipeSpeed,
                    panel[1].transform.position.y, panel[1].transform.position.z);
 
-            // layer setactive false
-            layer.gameObject.SetActive(false);
+            isSwipe = true;
         }
         else
         {
@@ -66,15 +75,8 @@ public class TitleSwipe : MonoBehaviour {
 
             panel[1].transform.position = new Vector3(panel[1].transform.position.x - swipeSpeed,
                    panel[1].transform.position.y, panel[1].transform.position.z);
-
-            // layer setactive true
-            layer.gameObject.SetActive(true);
+            isSwipe = true;
         }
-    }
-
-    public void Test()
-    {
-
     }
     #endregion
 
@@ -84,7 +86,7 @@ public class TitleSwipe : MonoBehaviour {
         titleDes = panel[0].transform.position;
         selectDes = panel[1].transform.position;
     }
-
+    
     void Update () {
         if (Input.GetMouseButtonDown(0))
         {
@@ -93,14 +95,20 @@ public class TitleSwipe : MonoBehaviour {
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if (!panel[2].activeSelf)
+            if (!panel[2].activeSelf && !isSwipe)
             {
                 GetPanelPosition();
             }
         }
-        if (Vector3.Distance(panel[0].transform.position, titleDes) > 0.2f && !panel[2].activeSelf)
+
+        if (Vector3.Distance(panel[0].transform.position, titleDes) > 0.2f)
         {
+            panel[2].SetActive(false);
             Swipe();
+        }
+        else
+        {
+            isSwipe = false;
         }
 
         if (isHide)

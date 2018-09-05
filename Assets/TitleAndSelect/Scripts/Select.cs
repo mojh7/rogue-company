@@ -61,6 +61,11 @@ public class Select : MonoBehaviour {
         GameStateManager.Instance.LoadInGame();
     }
 
+    public void GoToTitleScene()
+    {
+        GameStateManager.Instance.LoadTitle();
+    }
+
     public void ExitInfo()
     {
         // info 가 켜져있을 때, 판넬을 클릭하면 종료하게 한다.
