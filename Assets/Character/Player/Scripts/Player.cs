@@ -629,7 +629,7 @@ public class Player : Character
         totalSpeed = playerData.MoveSpeed + floorSpeed;
         while (isEvade)
         {
-            doubling -= Time.fixedDeltaTime * 4;
+            doubling -= Time.fixedDeltaTime * 3;
             if (doubling <= 1f)
                 doubling = 1f;
             rgbody.MovePosition(objTransform.position + dir * (totalSpeed) * Time.fixedDeltaTime * doubling);
