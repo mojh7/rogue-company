@@ -68,11 +68,12 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
     #region unityFunc
     private void Awake()
     {
-        screenHalfWidth = Screen.width * 0.5f;
-        outPos = new Vector2(-screenHalfWidth, 0);
-        touched = false;
         moveJouStickTransform = moveJoyStick.GetComponent<RectTransform>();
-        //moveJouStickTransform.position = outPos;
+
+        screenHalfWidth = Screen.width * 0.5f;
+        outPos = moveJouStickTransform.position;
+        touched = false;
+         moveJouStickTransform.position = outPos;
     }
     #endregion
     #region Handler
