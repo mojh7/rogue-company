@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TitleSwipe : MonoBehaviour
 {
-
+    // 윤아는 세젤귀
     #region Var
     [SerializeField] private Image arrow;
     private bool isHide = true;
