@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TitleSwipe : MonoBehaviour
 {
-
+    // 윤아는 세젤귀
     #region Var
     [SerializeField] private Image arrow;
     private bool isHide = true;
@@ -17,15 +17,13 @@ public class TitleSwipe : MonoBehaviour
 
     private Vector2 pos;
 
-    Vector3 desSelect;
-    Vector3 desTitle;
+    Vector3 titleDes;
+    Vector3 selectDes;
     Vector3 mousePos;
-
-    float _width = Screen.width;
 
     float touchStart = 0f;
     
-    private float swipeSpeed = 0;
+    private float swipeSpeed = 6f;
     #endregion
 
     #region Function
@@ -34,25 +32,23 @@ public class TitleSwipe : MonoBehaviour
     {
         float delta = Input.mousePosition.x - touchStart;
 
-        Debug.Log(delta);
-
         if (delta == 0)
         {
             return;
         }
         if (delta > -100f && !isSelect)
         {
-            desSelect = new Vector3(panel[0].transform.position.x + _width,
+            titleDes = new Vector3(panel[0].transform.position.x + 600f,
                 panel[0].transform.position.y, panel[0].transform.position.z);
-            desTitle = new Vector3(panel[1].transform.position.x - _width,
+            selectDes = new Vector3(panel[1].transform.position.x - 600f,
                 panel[1].transform.position.y, panel[1].transform.position.z);
             isSelect = !isSelect;
         }
         else if (delta < 100f && isSelect)
         {
-            desSelect = new Vector3(panel[0].transform.position.x - _width,
+            titleDes = new Vector3(panel[0].transform.position.x - 600f,
                 panel[0].transform.position.y, panel[0].transform.position.z);
-            desTitle = new Vector3(panel[1].transform.position.x + _width,
+            selectDes = new Vector3(panel[1].transform.position.x + 600f,
                 panel[1].transform.position.y, panel[1].transform.position.z);
             isSelect = !isSelect;
         }
@@ -60,7 +56,7 @@ public class TitleSwipe : MonoBehaviour
 
     void Swipe()
     {
-        if (panel[0].transform.position.x < desSelect.x && panel[1].transform.position.x > desTitle.x)
+        if (panel[0].transform.position.x < titleDes.x && panel[1].transform.position.x > selectDes.x)
         {
             panel[0].transform.position = new Vector3(panel[0].transform.position.x + swipeSpeed,
                 panel[0].transform.position.y, panel[0].transform.position.z);
@@ -85,9 +81,8 @@ public class TitleSwipe : MonoBehaviour
     #region UnityEngine
     private void Awake()
     {
-        swipeSpeed = _width / 100;
-        desSelect = panel[0].transform.position;
-        desTitle = panel[1].transform.position;
+        titleDes = panel[0].transform.position;
+        selectDes = panel[1].transform.position;
     }
     
     void Update () {
@@ -104,7 +99,7 @@ public class TitleSwipe : MonoBehaviour
             }
         }
 
-        if (Vector3.Distance(panel[0].transform.position, desSelect) > 0.2f)
+        if (Vector3.Distance(panel[0].transform.position, titleDes) > 0.2f)
         {
             panel[2].SetActive(false);
             Swipe();
