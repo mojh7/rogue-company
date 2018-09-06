@@ -1,6 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using System.Collections;
 
 public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpHandler
 {
@@ -12,6 +13,32 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
     [SerializeField] private Image PrevImage;
     [SerializeField] private Image NextImage;
 
+    [SerializeField] float shakeAmount;
+    [SerializeField] float shakeDuration;
+
+    public void StartShake(float maxX, float maxY, float ShakeTime)
+    {
+        StartCoroutine(Shake(maxX, maxY, ShakeTime));
+    }
+
+    IEnumerator Shake(float maxX, float maxY, float ShakeTime)
+    {
+        float counter = 0f;
+        Vector3 uiPosition = transform.position;
+        while (true)
+        {
+            counter += Time.deltaTime;
+            if (counter >= ShakeTime)
+            {
+                yield break;
+            }
+            else
+            {
+                transform.position = uiPosition + new Vector3((ShakeTime - counter) * Random.Range(-maxX, maxX), (ShakeTime - counter) * Random.Range(-maxY, maxY));
+            }
+            yield return null;
+        }
+    }
 
     public void SetPlayer(Character character)
     {
@@ -78,4 +105,5 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
     //{
     //    character.GetWeaponManager().ChangeWeapon(true);
     //}
+
 }
