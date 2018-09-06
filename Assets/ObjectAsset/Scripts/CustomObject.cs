@@ -244,7 +244,7 @@ public class VendingMachine : RandomSpriteObject
             GameObject coin = new GameObject();
             coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
             coin.AddComponent<Coin>();
-            Vector2 pos = new Vector2(transform.position.x, transform.position.y - .8f);
+            Vector2 pos = new Vector2(transform.position.x, transform.position.y);
             ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), pos);
             return true;
         }

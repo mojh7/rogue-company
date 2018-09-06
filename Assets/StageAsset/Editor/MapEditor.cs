@@ -200,7 +200,7 @@ public class MapEditor : EditorWindow
         string path = AssetDatabase.GetAssetPath(Selection.activeObject);
         if (path == "")
         {
-            path = "Assets/StageAsset/GameData/RoomSet/";
+            path = "Assets/StageAsset/GameData/CommonRoomSet/";
         }
         else if (Path.GetExtension(path) != "")
         {

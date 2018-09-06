@@ -5,8 +5,8 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
 
     public Sprite[] doorSprites;
     public RoomSet[] roomSetArr;
-    public RoomSet[] firstFloorSet;
     public RoomSet[] hallSetArr;
+    public FloorRoomSetGroup[] floorRoomSet;
     List<RoomSetGroup> roomSetGroup;
     RoomSet zeroRoomset;
 
@@ -44,7 +44,7 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
             isExist = false;
             for (int j = 0; j < roomSetGroup.Count; j++)
             {
-                if (roomSetGroup[j].width == roomSetArr[i].width && roomSetGroup[j].height == roomSetArr[i].height)
+                if (roomSetGroup[j].width == hallSetArr[i].width && roomSetGroup[j].height == hallSetArr[i].height)
                 {
                     roomSetGroup[j].AddHallList(hallSetArr[i]);
 
@@ -53,7 +53,7 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
             }
             if (!isExist)
             {
-                roomSetGroup.Add(new RoomSetGroup(roomSetArr[i].width, roomSetArr[i].height));
+                roomSetGroup.Add(new RoomSetGroup(hallSetArr[i].width, hallSetArr[i].height));
 
                 roomSetGroup[roomSetGroup.Count - 1].AddHallList(hallSetArr[i]);
 
@@ -139,6 +139,29 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
             }
         }
         return roomSet;
+    }
+}
+[CreateAssetMenu(menuName = "Room/RoomSetGroup")]
+public class FloorRoomSetGroup : ScriptableObject
+{
+    [SerializeField]
+    private RoomSet[] roomSets;
+    [SerializeField]
+    private RoomSet[] hallSets;
+
+    public RoomSet[] RoomSets
+    {
+        get
+        {
+            return roomSets;
+        }
+    }
+    public RoomSet[] HallSets
+    {
+        get
+        {
+            return hallSets;
+        }
     }
 }
 
