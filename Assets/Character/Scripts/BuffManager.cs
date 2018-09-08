@@ -224,6 +224,7 @@ public class BuffManager : MonoBehaviour
                 PassiveIds.Add(passiveId);
                 passiveEffectsLength += 1;
                 PassiveItemSlot.Instance.UpdatePassiveItemUI();
+                PassiveItemForDebug.Instance.UpdatePassiveItemUI();
                 break;
             case EffectApplyType.CONSUMABLEBUFF:
                 ConsumableCharacterBuff consumableCharacterBuff

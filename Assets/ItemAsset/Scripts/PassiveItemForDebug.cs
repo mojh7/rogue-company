@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using WeaponAsset;
 
-public class PassiveItemForDebug : MonoBehaviour
+public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
 {
     #region variables
     // 디버깅 관련
@@ -55,6 +55,9 @@ public class PassiveItemForDebug : MonoBehaviour
 
     private List<int> passiveSlotIds;
     private int passiveSlotIdsLength;
+
+    private delegate void ActiveOffAllPassiveSlot();
+    private ActiveOffAllPassiveSlot activeOffAllPassiveSlot;
     #endregion
 
     #region UnityFunc
@@ -121,27 +124,22 @@ public class PassiveItemForDebug : MonoBehaviour
                 createdObj.transform.position = currentPos;
                 createdObj.transform.SetParent(passiveSlotsParent);
                 passiveSlots[y * slotColumn + x] = createdObj.GetComponent<PassiveSlot>();
+                activeOffAllPassiveSlot += passiveSlots[y * slotColumn + x].ActiveOffPassiveSlot;
             }
         }
     }
 
     public void ApplyPassiveForDebug()
     {
-        if (passiveSlotIdsLength >= slotCountMax)
-        {
-            Debug.Log("패시브 슬룻 꽉참. 아이템 적용 안됨.");
-            return;
-        }
         Debug.Log(currentIndex + "번 패시브 아이템 사용 for debug");
-        passiveSlotIds.Add(currentIndex);
-        passiveSlotIdsLength += 1;
         UsableItemInfo passive = DataStore.Instance.GetMiscItemInfo(currentIndex);
+
         for (int i = 0; i < passive.EffectApplyTypes.Length; i++)
         {
+            passive.EffectApplyTypes[i].SetItemId(passive.GetID());
             passive.EffectApplyTypes[i].UseItem();
         }
-        UpdatePassiveSlots();
-        UpdateEffectTotalValueText();
+        // PlayerBuffManager.Instance.BuffManager.RegisterItemEffect(itemUseEffect[i], BuffManager.EffectApplyType.PASSIVE, itemId);
     }
 
     public void UpdatePassiveSelectImage()
@@ -163,25 +161,20 @@ public class PassiveItemForDebug : MonoBehaviour
         UpdatePassiveSelectImage();
     }
 
-    public void UpdatePassiveSlots()
+    public void UpdatePassiveItemUI()
     {
-        Debug.Log("UpdatePassiveSlots : " + currentIndex + ", " + passiveSlotIdsLength);
-        for(int i = 0; i < passiveSlotIdsLength; i++)
+        //Debug.Log("UpdatePassiveSlots : " + currentIndex + ", " + passiveSlotIdsLength);
+        UpdateEffectTotalValueText();
+        activeOffAllPassiveSlot();
+        for (int i = 0; i < PlayerBuffManager.Instance.BuffManager.PassiveIds.Count; i++)
         {
-            //Debug.Log("a : " + i + ", " + passiveSlotIds[i]);
-            passiveSlots[i].UpdatePassiveSlot(DataStore.Instance.GetMiscItemInfo(passiveSlotIds[i]).Sprite);
-        }
-        for (int i = passiveSlotIdsLength; i < slotCountMax; i++)
-        {
-            //Debug.Log("b : " + i);
-            //passiveSlots[i].UpdatePassiveSlot(null);
+            passiveSlots[i].UpdatePassiveSlot(PlayerBuffManager.Instance.BuffManager.PassiveIds[i]);
         }
     }
-
     #endregion
 
-    #region viewEffectInfo
 
+    #region viewEffectInfo
     private void UpdateEffectTotalNameText()
     {
         variableNames = 

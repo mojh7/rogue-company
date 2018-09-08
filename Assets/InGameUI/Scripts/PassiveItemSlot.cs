@@ -11,7 +11,14 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     #region variables
     [SerializeField]
     private GameObject passiveItemSlot;
-    
+    [SerializeField]
+    private GameObject passiveItemInfoView;
+    [SerializeField]
+    private Image passiveItemInfoViewImage;
+    [SerializeField]
+    private Text passiveItemInfoViewName;
+    [SerializeField]
+    private Text passiveItemInfoViewNote;
     // 아이템 슬룻
     [SerializeField]
     private GameObject passiveSlotPrefab;
@@ -34,6 +41,9 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     private int passiveSlotIdsLength;
 
     private ActiveOffAllPassiveSlot activeOffAllPassiveSlot;
+
+    [SerializeField]
+    private Sprite emptySprite;
     #endregion
 
     #region UnityFunc
@@ -50,6 +60,7 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     public void ClosePassiveItemSlot()
     {
         passiveItemSlot.SetActive(false);
+        passiveItemInfoView.SetActive(false);
         Time.timeScale = 1;
         UIManager.Instance.TogglePreventObj();
     }
@@ -86,14 +97,27 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
         activeOffAllPassiveSlot();
         for(int i = 0; i < PlayerBuffManager.Instance.BuffManager.PassiveIds.Count; i++)
         {
-            passiveSlots[i].UpdatePassiveSlot(DataStore.Instance.GetMiscItemInfo(PlayerBuffManager.Instance.BuffManager.PassiveIds[i]).Sprite);
+            passiveSlots[i].UpdatePassiveSlot(PlayerBuffManager.Instance.BuffManager.PassiveIds[i]);
         }
     }
 
+    public void ShowPassiveInfoView(int id)
+    {
+        UsableItemInfo usableItemInfo = DataStore.Instance.GetMiscItemInfo(id);
+        passiveItemInfoViewImage.sprite = usableItemInfo.Sprite;
+        passiveItemInfoViewName.text = usableItemInfo.ItemName;
+        passiveItemInfoViewNote.text = usableItemInfo.Notes;
+    }
+
+    /// <summary>
+    /// 아이템 창(가방 모양) 터치 되었을 떄 아이템 창 UI On
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerDown(PointerEventData eventData)
     {
         UpdatePassiveItemUI();
         passiveItemSlot.SetActive(true);
+        passiveItemInfoView.SetActive(true);
         Time.timeScale = 0;
         UIManager.Instance.TogglePreventObj();
     }
