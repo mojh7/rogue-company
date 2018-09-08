@@ -157,8 +157,10 @@ namespace Map
         public void Generate()
         {
             ClearTile();
-            while (true)
+            int cnt = 0;
+            while (cnt < 100)
             {
+                cnt++;
                 CreateMap();
                 LinkAllRects();
                 AssignAllHalls();
@@ -291,7 +293,7 @@ namespace Map
             zeroRoomset = new RoomSet(0, 0, 3, 0, RoomType.NONE);
             int count = 0;
 
-            while (true)
+            while (count < 100)
             {
                 SettedRoomset();
                 count++;
@@ -308,10 +310,6 @@ namespace Map
                 if (tempRoomset.Count == 0)
                 {
                     AssignAllRoom();
-                    break;
-                }
-                if (count > 10000)
-                {
                     break;
                 }
             }

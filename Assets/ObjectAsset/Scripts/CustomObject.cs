@@ -1016,7 +1016,6 @@ public class NPC : NoneRandomSpriteObject
 
 public class Statue : RandomSpriteObject
 {
-    int idx;
     public override void Init()
     {
         base.Init();
