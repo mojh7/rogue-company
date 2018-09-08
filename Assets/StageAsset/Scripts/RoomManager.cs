@@ -137,7 +137,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
         UIManager.Instance.ClearRoomUI(true);
         ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere * 3), item);
-        ItemManager.Instance.CollectItem();
+        //ItemManager.Instance.CollectItem();
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
             for (int i = 0; i < currentRoom.customObjects.Length; i++)

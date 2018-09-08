@@ -686,14 +686,14 @@ namespace Map
             {
                 if (_rectA.midY > _rectB.midY)
                 {
-                    if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE)
+                    if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE && _rectB.eRoomType != RoomType.BOSS)
                         _rectA.EdgeRect(_rectB);
                     else
                         _rectA.LinkedEdgeRect(_rectB);
                 }
                 else
                 {
-                    if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE)
+                    if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE && _rectA.eRoomType != RoomType.BOSS)
                         _rectA.EdgeRect(_rectB);
                     else
                         _rectA.LinkedEdgeRect(_rectB);
@@ -848,7 +848,7 @@ namespace Map
                     horizonRuleTile.SetNull(new Vector3Int(x, _rectA.y * size, 0));
                     horizonRuleTile.SetNull(new Vector3Int(x, _rectA.y * size - 1, 0));
 
-                    obj = CreateDoorObject(x + 0.5f, _rectA.y * size - 0.5f, false);
+                    obj = CreateDoorObject(x + 0.5f, _rectA.y * size - 1f, false);
                 }
                 else // 아래쪽
                 {
@@ -857,7 +857,7 @@ namespace Map
                     horizonRuleTile.SetNull(new Vector3Int(x, _rectB.y * size, 0));
                     horizonRuleTile.SetNull(new Vector3Int(x, _rectB.y * size - 1, 0));
 
-                    obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 0.5f, false);
+                    obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 1f, false);
                 }
 
             } // 세로로 붙음

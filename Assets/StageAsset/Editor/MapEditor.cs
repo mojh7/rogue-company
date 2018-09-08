@@ -53,6 +53,7 @@ public class MapEditor : EditorWindow
         {
             RemoveTilemap();
         }
+        GUILayout.Space(20);
         objectType = (ObjectType)EditorGUILayout.EnumPopup("ObjectType", objectType);
         if(objectType == ObjectType.NPC)
         {
@@ -72,9 +73,12 @@ public class MapEditor : EditorWindow
         }
         if (GUILayout.Button("Create Object"))
             CreateObject();
+        if (GUILayout.Button("Save Object"))
+            SaveObject();
+        GUILayout.Space(20);
+        worldRoomSet = (RoomSet)EditorGUILayout.ObjectField("RoomSet", worldRoomSet, typeof(RoomSet), allowSceneObjects: true);
         if (GUILayout.Button("Save Roomset"))
             SaveRoomset();
-        worldRoomSet = (RoomSet)EditorGUILayout.ObjectField("RoomSet", worldRoomSet, typeof(RoomSet), allowSceneObjects: true);
         if (GUILayout.Button("Load Roomset"))
             LoadRoomset();
         EditorGUILayout.EndScrollView();
@@ -122,6 +126,43 @@ public class MapEditor : EditorWindow
                     gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
         }
         objectSprites = new Sprite[spriteNum];
+    }
+
+    void SaveObject()
+    {
+        ObjectData currentData;
+        if (multipleSprite != null && spriteNum == 0)
+        {
+            Sprite[] objectSprites = GetSprites(multipleSprite);
+            currentData = new ObjectData(Vector3.zero, objectType, objectSprites, npcType.ToString());
+        }
+        else
+        {
+            currentData = new ObjectData(Vector3.zero, objectType, objectSprites, npcType.ToString());
+
+        }
+        objectSprites = new Sprite[spriteNum];
+
+        ObjectSet objectSet = new ObjectSet();
+        objectSet.Add(currentData);
+        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        if (path == "")
+        {
+            path = "Assets/StageAsset/GameData/";
+        }
+        else if (Path.GetExtension(path) != "")
+        {
+            path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
+        }
+
+        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + currentData.objectType + ".asset");
+
+        AssetDatabase.CreateAsset(objectSet, assetPathAndName);
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        EditorUtility.FocusProjectWindow();
+        Selection.activeObject = objectSet;
     }
 
     CustomObject CreateObject(ObjectType objectType)
