@@ -117,6 +117,11 @@ public struct ObjectData
                     _gameObject.GetComponent<Astrologer>().Init();
                 }
                 break;
+            case ObjectType.STATUE:
+                _gameObject.AddComponent<Statue>().LoadAwake();
+                _gameObject.GetComponent<Statue>().sprites = sprites;
+                _gameObject.GetComponent<Statue>().Init();
+                break;
         }
 
         return _gameObject;

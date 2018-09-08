@@ -7,7 +7,7 @@ public enum ObjectType
 {
     NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX,
     VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX,
-    SUBSTATION, STOREITEM, NPC
+    SUBSTATION, STOREITEM, NPC,STATUE
 }
 
 public class CustomObject : MonoBehaviour
@@ -1006,6 +1006,20 @@ public class NPC : NoneRandomSpriteObject
         isAnimate = true;
         isAvailable = true;
         isActive = false;
+    }
+}
+
+public class Statue : NoneRandomSpriteObject
+{
+    int idx;
+    public override void Init()
+    {
+        base.Init();
+        idx = Random.Range(0, sprites.Length);
+    }
+    public override bool Active()
+    {
+        return base.Active();
     }
 }
 

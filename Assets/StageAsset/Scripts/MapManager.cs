@@ -1041,9 +1041,9 @@ namespace Map
             if (tempObjectset.Count == 0)
                 return;
             GameObject obj = objectPool.GetPooledObject();
+            obj.transform.localPosition = pos + Vector3Int.right + Vector3.down * 0.3f;
             tempObjectset[0].objectData.LoadObject(obj);
             tempObjectset.RemoveAt(0);
-            obj.transform.localPosition = pos + Vector3Int.right + Vector3.down * 0.3f;
         }
 
         GameObject[] AssignRoom(RoomSet _roomSet)
