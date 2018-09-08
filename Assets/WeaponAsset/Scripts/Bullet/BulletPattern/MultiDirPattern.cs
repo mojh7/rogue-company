@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using CharacterInfo;
 
 //  1~N개의 총알(1종류)을 다양한 방향으로 일정한 각도 텀을 두고 발사하는 패턴
 public class MultiDirPattern : BulletPattern
@@ -59,6 +60,10 @@ public class MultiDirPattern : BulletPattern
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude,
                 ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
+            if(OwnerType.Enemy == ownerType)
+            {
+                Debug.Log(ownerDirDegree() + ", " + addDirVecMagnitude);
+            }
         }
     }
 

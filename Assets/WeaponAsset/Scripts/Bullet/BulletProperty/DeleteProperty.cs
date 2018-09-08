@@ -109,20 +109,20 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
 public class DeleteAfterSummonPatternProperty : DeleteProperty
 {
     private BulletPattern summonBulletPattern;
-
-
+    private float dirDegree;
+    private Vector3 dirVec;
     public override DeleteProperty Clone()
     {
         return new DeleteAfterSummonPatternProperty();
     }
-
     public override void DestroyBullet()
     {
-        summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetTransferBulletInfo(), () => 0f, () => Vector3.zero, ()=>bulletTransform.transform.position);
+        dirDegree = bullet.GetDirDegree();
+        dirVec = bullet.GetDirVector();
+        summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetTransferBulletInfo(), () => dirDegree, () => dirVec, ()=>bulletTransform.transform.position, bullet.info.deleteAfterSummonPatternInfo.addDirVecMagnitude);
         summonBulletPattern.StartAttack(1.0f, bullet.GetOwnerType());
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
-
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
