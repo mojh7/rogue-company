@@ -94,7 +94,14 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     #region DrawArray
     void DrawArray(int x, int y, Color color)
     {
-        mapColors[x * (minmapSizeWidth + 1) + y] = color;
+        try
+        {
+            mapColors[x * (minmapSizeWidth + 1) + y] = color;
+        }
+        catch (System.IndexOutOfRangeException e)
+        {
+            System.Console.WriteLine("예외가 발생했지롱 : {0}", e.Message);
+        }
     }
     #endregion
     #region DrawArea

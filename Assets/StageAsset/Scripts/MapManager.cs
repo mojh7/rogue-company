@@ -82,7 +82,6 @@ namespace Map
         protected List<RoomSet> tempRoomset, necessaryRoomSet, settedRoomSet;
         protected List<RoomSet> tempHallset, necessaryHallSet, settedHallSet;
         protected List<ObjectSet> tempObjectset, settedObjectSet;
-        protected Vector3 startPosition;
         #endregion
         #region components
         protected Tilemap verticalWallTileMap, horizonWallTileMap, floorTileMap, shadowTileMap, fogTileMap;
@@ -141,7 +140,7 @@ namespace Map
 
         public Vector3 GetStartPosition()
         {
-            return startPosition;
+            return (halls[0].areaLeftDown + halls[0].areaRightTop) * .5f;
         }
 
         public void RemoveFog(Rect rect)
@@ -933,8 +932,6 @@ namespace Map
                 rooms[i].gage = roomSet.gage;
                 rooms[i].customObjects = AssignRoom(roomSet);
             }
-
-            CreateStartPoint();
         } // 모든 룸 셋 배치
 
         void AssignAllHalls()
@@ -1084,14 +1081,6 @@ namespace Map
                     if (!Physics2D.OverlapCircle(new Vector2(i, j), _radius, layerMask))
                         _rect.availableAreas.Add(new Vector2(i, j));
         }
-
-        void CreateStartPoint()
-        {
-            if (halls[0].width > halls[0].height)
-                startPosition = new Vector3(halls[0].areaLeftDown.x + (halls[0].areaRightTop.x - halls[0].areaLeftDown.x) * 0.1f, (halls[0].areaLeftDown.y + halls[0].areaRightTop.y) / 2, 0);
-            else
-                startPosition = new Vector3((halls[0].areaLeftDown.x + halls[0].areaRightTop.x) / 2, halls[0].areaLeftDown.y + (halls[0].areaRightTop.y - halls[0].areaLeftDown.y) * 0.1f, 0);
-        } // 스타트 포인트
         #endregion
     }
 
