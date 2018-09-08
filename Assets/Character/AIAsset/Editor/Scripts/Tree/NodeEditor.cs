@@ -182,7 +182,8 @@ namespace BT
                         int childNum = compositeTask.GetChildren().Count;
                         for(int i=0;i< childNum; i++)
                         {
-                            taskNode.AddChild(TaskToObjectNode(compositeTask.GetChildren()[i], x + windowWidth + 100, y + (windowHeight + 30) * i));
+                            TaskNode temp = TaskToObjectNode(compositeTask.GetChildren()[i], x + windowWidth + 100, y + (windowHeight + 30) * i);
+                            temp.SetInput(taskNode);
                         }
                     }
                     break;
@@ -193,7 +194,8 @@ namespace BT
                 case "HealthDecorate":
                     {
                         DecorateTask decorateTask = task as DecorateTask;
-                        taskNode.AddChild(TaskToObjectNode(decorateTask.GetChildren(), x + windowWidth + 100, y));
+                        TaskNode temp = TaskToObjectNode(decorateTask.GetChildren(), x + windowWidth + 100, y);
+                        temp.SetInput(taskNode);
                     }
                     break;
             }

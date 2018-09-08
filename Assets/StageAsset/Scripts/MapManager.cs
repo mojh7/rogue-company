@@ -946,7 +946,7 @@ namespace Map
                 RoomSet roomSet = GetHallSet(halls[i].width, halls[i].height);
                 if (roomSet == null)
                     continue;
-                if (roomSet.width == 0 || roomSet.height == 0)
+                if (roomSet == zeroRoomset)
                     continue;
                 roomSet.x = halls[i].x;
                 roomSet.y = halls[i].y;

@@ -1019,6 +1019,7 @@ public class Statue : RandomSpriteObject
     public override void Init()
     {
         base.Init();
+        objectType = ObjectType.STATUE;
         isAvailable = true;
     }
     public override bool Active()

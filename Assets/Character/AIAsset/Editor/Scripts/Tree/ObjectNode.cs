@@ -227,6 +227,14 @@ namespace BT
             return;
         }
 
+        public void SetInput(TaskNode input)
+        {
+            this.input = input;
+            if (!input.childrens.Contains(this))
+                input.childrens.Add(this);
+            parents.Add(input);
+        }
+
         public Task CreateBehaviorNode()
         {
             //TODO: AI 노드 추가마다 설정
