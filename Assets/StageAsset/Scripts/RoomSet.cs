@@ -32,15 +32,6 @@ public class RoomSet : ScriptableObject
     }
 }
 
-public class ObjectSet : ScriptableObject
-{
-    public ObjectData objectData;
-    public void Add(ObjectData _obj)
-    {
-        objectData = _obj;
-    }
-
-}
 [System.Serializable]
 public struct ObjectData
 {

@@ -148,6 +148,8 @@ public class FloorRoomSetGroup : ScriptableObject
     private RoomSet[] roomSets;
     [SerializeField]
     private RoomSet[] hallSets;
+    [SerializeField]
+    private ObjectSet[] objectSets;
 
     public RoomSet[] RoomSets
     {
@@ -161,6 +163,13 @@ public class FloorRoomSetGroup : ScriptableObject
         get
         {
             return hallSets;
+        }
+    }
+    public ObjectSet[] ObjectSets
+    {
+        get
+        {
+            return objectSets;
         }
     }
 }

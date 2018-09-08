@@ -377,11 +377,13 @@ public class Door : RandomSpriteObject
     Sprite openSprite;
     Sprite closeSprite;
     GameObject[] doorArrows;
+    public bool objectAssigned;
 
     public override void Init()
     {
         base.Init();
         objectType = ObjectType.NONE;
+        objectAssigned = false;
     }
     public void Init(Sprite openSprite, Sprite closeSprite, GameObject[] doorArrows, bool isLock = false)
     {

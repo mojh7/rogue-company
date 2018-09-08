@@ -60,6 +60,7 @@ namespace Map
             }
             map.AddNecessaryRoomSet(RoomSetManager.Instance.floorRoomSet[0].RoomSets);
             map.AddNecessaryHallSet(RoomSetManager.Instance.floorRoomSet[0].HallSets);
+            map.AddNecessaryObjectSet(RoomSetManager.Instance.floorRoomSet[0].ObjectSets);
             map.Generate();
             RoomManager.Instance.InitRoomList();
         }
@@ -80,6 +81,7 @@ namespace Map
         protected List<Rect> halls, rooms;
         protected List<RoomSet> tempRoomset, necessaryRoomSet, settedRoomSet;
         protected List<RoomSet> tempHallset, necessaryHallSet, settedHallSet;
+        protected List<ObjectSet> tempObjectset, settedObjectSet;
         protected Vector3 startPosition;
         #endregion
         #region components
@@ -163,6 +165,7 @@ namespace Map
             LinkRecursion(); // 보스 방을 제외한 방 연결
             LinkBossRoom(); // 보스 방 연결
             LinkHall(); // 홀 연결
+            AssignAllObjects();
             DrawTile();
             BakeAvailableArea();
         } // office creates
@@ -196,6 +199,16 @@ namespace Map
                 if (sum > maxSize)
                     break;
                 settedHallSet.Add(hallSet[i]);
+            }
+        }
+
+        public void AddNecessaryObjectSet(ObjectSet[] objectSets)
+        {
+            settedObjectSet = new List<ObjectSet>(objectSets.Length);
+            tempObjectset = new List<ObjectSet>(objectSets.Length);
+            for (int i = 0; i < objectSets.Length; i++)
+            {
+                settedObjectSet.Add(objectSets[i]);
             }
         }
         #endregion
@@ -279,11 +292,12 @@ namespace Map
                 RectToBlock();
                 BlockToRoom();
                 AssignAllHalls();
+
                 if (null == tempHallset)
                     break;
                 if (null == tempRoomset)
                     break;
-                if(tempHallset.Count >0)
+                if (tempHallset.Count > 0)
                 {
                     continue;
                 }
@@ -311,6 +325,7 @@ namespace Map
             tempRoomset.Clear();
             necessaryHallSet.Clear();
             tempHallset.Clear();
+            tempObjectset.Clear();
             for (int i = 0; i < settedRoomSet.Count; i++)
             {
                 necessaryRoomSet.Add(settedRoomSet[i]);
@@ -320,6 +335,10 @@ namespace Map
             {
                 necessaryHallSet.Add(settedHallSet[i]);
                 tempHallset.Add(settedHallSet[i]);
+            }
+            for(int i=0;i<settedObjectSet.Count;i++)
+            {
+                tempObjectset.Add(settedObjectSet[i]);
             }
         }
 
@@ -933,6 +952,34 @@ namespace Map
             }
         }
 
+        void AssignAllObjects()
+        {
+            for (int i = 0; i < halls.Count; i++)
+            {
+                Rect temp = halls[i];
+                for(int j=0;j<temp.doorObjects.Count;j++)
+                {
+                    if (tempObjectset.Count == 0)
+                        return;
+                    if (!temp.doorObjects[j].objectAssigned && temp.doorObjects[j].GetHorizon())
+                        continue;
+
+                    for (int k=0;k<temp.linkedEdgeRect.Count;k++)
+                    {
+                        if (!temp.linkedEdgeRect[k].isRoom || temp.linkedEdgeRect[k].y < temp.y)
+                            continue;
+                        if (temp.linkedEdgeRect[k].doorObjects.Contains(temp.doorObjects[j]))
+                        {
+                            temp.doorObjects[j].objectAssigned = true;
+                            GetObjectSet(temp.doorObjects[j].transform.localPosition);
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+
         RoomSet GetRoomSet(int width, int height)
         {
             if (null == necessaryRoomSet)
@@ -989,6 +1036,16 @@ namespace Map
             return roomSet;
         }
 
+        void GetObjectSet(Vector3 pos)
+        {
+            if (tempObjectset.Count == 0)
+                return;
+            GameObject obj = objectPool.GetPooledObject();
+            tempObjectset[0].objectData.LoadObject(obj);
+            tempObjectset.RemoveAt(0);
+            obj.transform.localPosition = pos + Vector3Int.right + Vector3.down * 0.3f;
+        }
+
         GameObject[] AssignRoom(RoomSet _roomSet)
         {
             if (_roomSet == null)
@@ -1011,7 +1068,6 @@ namespace Map
         {
             for (int i = 0; i < rooms.Count; i++)
             {
-                rooms[i].Drawing(Color.red, 0);
                 AvailableAreas(rooms[i], 0.5f);
             }
         }
@@ -1256,6 +1312,8 @@ namespace Map
 
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
+                        rect.doorObjects.AddRange(rect.edgeRect[i].doorObjects);
+
                         if (!this.edgeRect.Contains(rect.edgeRect[i]))
                         {
                             this.edgeRect.Add(rect.edgeRect[i]);                  
@@ -1272,7 +1330,6 @@ namespace Map
                     this.midX = x + (float)width / 2;
                     this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
                     this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
-
                     return true;
                 }
                 return false;
@@ -1287,6 +1344,8 @@ namespace Map
 
                     for (int i = 0; i < rect.edgeRect.Count; i++)
                     {
+                        rect.doorObjects.AddRange(rect.edgeRect[i].doorObjects);
+
                         if (!this.edgeRect.Contains(rect.edgeRect[i]))
                         {
                             this.edgeRect.Add(rect.edgeRect[i]);
@@ -1303,7 +1362,6 @@ namespace Map
                     this.midY = y + (float)height / 2;
                     this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
                     this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
-
                     return true;
                 }
                 return false;
