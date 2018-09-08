@@ -157,14 +157,24 @@ namespace Map
         public void Generate()
         {
             ClearTile();
-            CreateMap();
-            LinkAllRects();
-            rooms.AddRange(halls);
+            while (true)
+            {
+                CreateMap();
+                LinkAllRects();
+                AssignAllHalls();
+                if (tempHallset.Count > 0)
+                    continue;
+                LinkHall(); // 홀 연결
+                rooms.AddRange(halls);
+                LinkRecursion(); // 보스 방을 제외한 방 연결
+                LinkBossRoom(); // 보스 방 연결
+                AssignAllObjects();
+                if (tempObjectset.Count == 0)
+                {
+                    break;
+                }
+            }
             BakeMap();
-            LinkRecursion(); // 보스 방을 제외한 방 연결
-            LinkBossRoom(); // 보스 방 연결
-            LinkHall(); // 홀 연결
-            AssignAllObjects();
             DrawTile();
             BakeAvailableArea();
         } // office creates
@@ -290,16 +300,11 @@ namespace Map
                 rects.Enqueue(mainRect);
                 RectToBlock();
                 BlockToRoom();
-                AssignAllHalls();
 
                 if (null == tempHallset)
                     break;
                 if (null == tempRoomset)
                     break;
-                if (tempHallset.Count > 0)
-                {
-                    continue;
-                }
                 if (tempRoomset.Count == 0)
                 {
                     AssignAllRoom();
@@ -938,14 +943,19 @@ namespace Map
         {
             for (int i = 0; i < halls.Count; i++)
             {
+                if (halls[i].isAssigned)
+                    continue;
                 RoomSet roomSet = GetHallSet(halls[i].width, halls[i].height);
                 if (roomSet == null)
+                    continue;
+                if (roomSet.width == 0 || roomSet.height == 0)
                     continue;
                 roomSet.x = halls[i].x;
                 roomSet.y = halls[i].y;
                 halls[i].eRoomType = roomSet.roomType;
                 halls[i].gage = roomSet.gage;
                 halls[i].customObjects = AssignRoom(roomSet);
+                halls[i].isAssigned = true;
             }
         }
 
@@ -1174,6 +1184,7 @@ namespace Map
         public bool isDrawed;
         public bool isLock;
         public bool visited;
+        public bool isAssigned;
         public RoomType eRoomType;
         #endregion
         #region dataStruct
@@ -1211,6 +1222,7 @@ namespace Map
         #region initialize
         public Rect(int _x, int _y, int _width, int _height, int _size)
         {
+            isAssigned = false;
             x = _x;
             y = _y;
             width = _width;

@@ -21,6 +21,7 @@ public class CustomObject : MonoBehaviour
     protected bool isActive;
     protected bool isAvailable;
     protected bool isAnimate;
+    protected int idx;
 
     protected Vector2[] nullPolygon;
     protected Vector2[] clickableBoxPolygon;
@@ -58,6 +59,7 @@ public class CustomObject : MonoBehaviour
 
     public virtual void Init()
     {
+        idx = 0;
         textMesh.text = "";
         childTextMesh.text = textMesh.text;
         gameObject.layer = 1;
@@ -164,7 +166,10 @@ public class RandomSpriteObject : CustomObject
         //gameObject.hideFlags = HideFlags.HideInHierarchy;
         isAnimate = false;
         if (sprites != null)
-            sprite = sprites[Random.Range(0, sprites.Length)];
+        {
+            idx = Random.Range(0, sprites.Length);
+            sprite = sprites[idx];
+        }
         else
             sprite = null;
         SetSpriteAndCollider();
@@ -1009,17 +1014,21 @@ public class NPC : NoneRandomSpriteObject
     }
 }
 
-public class Statue : NoneRandomSpriteObject
+public class Statue : RandomSpriteObject
 {
     int idx;
     public override void Init()
     {
         base.Init();
-        idx = Random.Range(0, sprites.Length);
+        isAvailable = true;
     }
     public override bool Active()
     {
-        return base.Active();
+        if (!base.Active())
+            return false;
+        isAvailable = false;
+        PlayerBuffManager.Instance.ApplyStatueBuff(idx);
+        return true;
     }
 }
 

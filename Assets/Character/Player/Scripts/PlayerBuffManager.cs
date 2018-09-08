@@ -16,6 +16,8 @@ public class PlayerBuffManager : MonoBehaviourSingleton<PlayerBuffManager>
     [Header("Npc에 따른 효과 적용")]
     [SerializeField]
     private EffectApplyType[] astrologerBuffs;
+    [SerializeField]
+    private EffectApplyType[] statueBuffs;
     public void Awake()
     {
         // 게임 새로 시작 or 층 넘어 갈 때 or 로드 게임 구분 해야됨.
@@ -28,10 +30,18 @@ public class PlayerBuffManager : MonoBehaviourSingleton<PlayerBuffManager>
 
     public void ApplyAstrologerBuff()
     {
+        if (astrologerBuffs == null || astrologerBuffs.Length == 0)
+            return;
         int index = Random.Range(0, astrologerBuffs.Length);
         astrologerBuffs[index].UseItem();
     }
 
+    public void ApplyStatueBuff(int idx)
+    {
+        if (statueBuffs == null || idx >= statueBuffs.Length)
+            return;
+        statueBuffs[idx].UseItem();
+    }
 
     #endregion
 }
