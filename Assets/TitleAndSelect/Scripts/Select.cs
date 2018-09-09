@@ -8,10 +8,13 @@ public class Select : MonoBehaviour {
 
     public GameObject panel;
     public Text text;
+    // 디버그용
+    [SerializeField] Sprite[] SelectImage;
     [SerializeField]
     Image soccerImage;
     Player.PlayerType m_playerType;
     Color white, dest;
+
     private void Start()
     {
         white = Color.white;
@@ -41,7 +44,8 @@ public class Select : MonoBehaviour {
                 text.text = "대학교 시절 \n밴드 활동";
                 break;
             case Player.PlayerType.SOCCER:
-                text.text = "대학교 축구 동아리에서의 추억";
+                //text.text = "대학교 축구 동아리에서의 추억";
+                panel.GetComponent<Image>().sprite = SelectImage[0];
                 break;
             case Player.PlayerType.FISH:
                 text.text = "아버지와의 낚시";
