@@ -175,7 +175,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
 
 
     #region viewEffectInfo
-    private void UpdateEffectTotalNameText()
+    public void UpdateEffectTotalNameText()
     {
         variableNames = 
             "1.gettingStaminaIncrement\n" +

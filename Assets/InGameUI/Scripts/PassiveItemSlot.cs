@@ -103,10 +103,17 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
 
     public void ShowPassiveInfoView(int id)
     {
+        passiveItemInfoView.SetActive(true);
         UsableItemInfo usableItemInfo = DataStore.Instance.GetMiscItemInfo(id);
         passiveItemInfoViewImage.sprite = usableItemInfo.Sprite;
         passiveItemInfoViewName.text = usableItemInfo.ItemName;
         passiveItemInfoViewNote.text = usableItemInfo.Notes;
+        passiveItemInfoView.transform.position = Input.mousePosition;
+    }
+
+    public void ClosePassiveInfoView()
+    {
+        passiveItemInfoView.SetActive(false);
     }
 
     /// <summary>
@@ -115,9 +122,10 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     /// <param name="eventData"></param>
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("가방 클릭");
         UpdatePassiveItemUI();
         passiveItemSlot.SetActive(true);
-        passiveItemInfoView.SetActive(true);
+        //passiveItemInfoView.SetActive(true);
         Time.timeScale = 0;
         UIManager.Instance.TogglePreventObj();
     }

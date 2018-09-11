@@ -344,6 +344,7 @@ public class BuffManager : MonoBehaviour
             UpdateCharacterBoolProperty(CharacterBoolPropertyType.IS_NOT_CONSUME_AMMO, sign);
 
         owner.ApplyItemEffect();
+        PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
     }
 
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
@@ -416,6 +417,8 @@ public class BuffManager : MonoBehaviour
             if (targetEffect.meleeWeaponsCanReflectBullet)
                 WeaponTargetEffectTotal[index].meleeWeaponsCanReflectBullet = boolSign;
         }
+
+        PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
     }
 
     private void UpdateCharacterBoolProperty(CharacterBoolPropertyType property, int sign)
