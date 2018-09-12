@@ -56,6 +56,10 @@ namespace BT
                     taskType = TaskType.CompositeTask;
                     compositeTask = ECompositeTask.SubSelector;
                     break;
+                case "RandomSelector":
+                    taskType = TaskType.CompositeTask;
+                    compositeTask = ECompositeTask.RandomSelector;
+                    break;
                 case "Root":
                     taskType = TaskType.DecorateTask;
                     decorateTask = EDecorateTask.Root;
@@ -251,6 +255,9 @@ namespace BT
                             return ScriptableObject.CreateInstance<Sequence>();
                         case ECompositeTask.SubSelector:
                             return ScriptableObject.CreateInstance<SubSelector>();
+                        case ECompositeTask.RandomSelector:
+                            return ScriptableObject.CreateInstance<RandomSelector>();
+
                     }
                     break;
                 case TaskType.DecorateTask:

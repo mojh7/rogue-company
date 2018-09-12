@@ -12,6 +12,9 @@ namespace BT
     [SerializeField]
     public abstract class Task : ScriptableObject
     {
+        [SerializeField]
+        float probability;
+
         public Root RootTask;
         protected Character character;
         /// <summary>
@@ -22,6 +25,13 @@ namespace BT
             get
             {
                 return RootTask.BlackBoard;
+            }
+        }
+        public float Probability
+        {
+            get
+            {
+                return probability;
             }
         }
         /// <summary>

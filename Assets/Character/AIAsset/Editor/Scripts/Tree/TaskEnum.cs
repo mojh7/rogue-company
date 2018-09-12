@@ -12,7 +12,8 @@
         Service,
         Selector,
         Sequence,
-        SubSelector
+        SubSelector,
+        RandomSelector
     }
 
     public enum EDecorateTask
