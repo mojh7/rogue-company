@@ -47,6 +47,7 @@ public class RushTrackAtion : ActionTask
     public override Task Clone()
     {
         RushTrackAtion parent = ScriptableObject.CreateInstance<RushTrackAtion>();
+        parent.Set(Probability);
         parent.Set(doublingValue);
         return parent;
     }

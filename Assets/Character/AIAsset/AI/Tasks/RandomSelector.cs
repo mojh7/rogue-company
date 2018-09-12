@@ -25,6 +25,7 @@ public class RandomSelector : CompositeTask
         if (!isRun)
         {
             randomPoint = Random.value * total;
+            isRun = true;
         }
         tempRandomPoint = randomPoint;
 
@@ -54,6 +55,7 @@ public class RandomSelector : CompositeTask
     public override Task Clone()
     {
         RandomSelector parent = ScriptableObject.CreateInstance<RandomSelector>();
+        parent.Set(Probability);
         if (GetChildren() != null)
             for (int i = 0; i < GetChildren().Count; i++)
             {

@@ -58,6 +58,7 @@ public class RoundingTrackAction : ActionTask
     public override Task Clone()
     {
         RoundingTrackAction parent = ScriptableObject.CreateInstance<RoundingTrackAction>();
+        parent.Set(Probability);
         parent.Set(radius,doublingValue);
         return parent;
     }

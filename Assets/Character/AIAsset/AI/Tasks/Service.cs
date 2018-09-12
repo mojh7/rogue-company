@@ -56,6 +56,7 @@ public class Service  : CompositeTask
     public override Task Clone()
     {
         Service parent = ScriptableObject.CreateInstance<Service>();
+        parent.Set(Probability);
         parent.Set(frequency);
         if (GetChildren() != null)
             for (int i = 0; i < GetChildren().Count; i++)

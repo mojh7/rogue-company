@@ -27,6 +27,8 @@ public class BoolDecorate : DecorateTask
     public override Task Clone()
     {
         BoolDecorate parent = ScriptableObject.CreateInstance<BoolDecorate>();
+        parent.Set(Probability);
+
         if (GetChildren() != null)
             parent.AddChild(GetChildren().Clone());
 

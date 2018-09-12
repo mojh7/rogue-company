@@ -42,6 +42,7 @@ public class RunawayTrackAction : ActionTask
     public override Task Clone()
     {
         RunawayTrackAction parent = ScriptableObject.CreateInstance<RunawayTrackAction>();
+        parent.Set(Probability);
         parent.Set(doublingValue);
         return parent;
     }

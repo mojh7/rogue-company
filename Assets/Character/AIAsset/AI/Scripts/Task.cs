@@ -69,6 +69,10 @@ namespace BT
         {
             RootTask = task.RootTask;
         }
+        public void Set(float probability)
+        {
+            this.probability = probability;
+        }
         public abstract Task Clone();
     }
     /// <summary>

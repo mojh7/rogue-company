@@ -47,6 +47,7 @@ public class Root : DecorateTask
     public override Task Clone()
     {
         Root parent = ScriptableObject.CreateInstance<Root>();
+        parent.Set(Probability);
         if (GetChildren() != null)
             parent.AddChild(GetChildren().Clone());
 

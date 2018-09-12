@@ -61,6 +61,7 @@ public class PositionTrackAction : ActionTask
     public override Task Clone()
     {
         PositionTrackAction parent = ScriptableObject.CreateInstance<PositionTrackAction>();
+        parent.Set(Probability);
         parent.Set(doublingValue, radius);
         return parent;
     }

@@ -177,6 +177,7 @@ namespace BT
                 case "Selector":
                 case "Sequence":
                 case "SubSelector":
+                case "RandomSelector":
                     {
                         CompositeTask compositeTask = task as CompositeTask;
                         int childNum = compositeTask.GetChildren().Count;

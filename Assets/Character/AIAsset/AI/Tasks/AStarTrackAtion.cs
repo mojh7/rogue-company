@@ -49,6 +49,7 @@ public class AStarTrackAtion : ActionTask
     public override Task Clone()
     {
         AStarTrackAtion parent = ScriptableObject.CreateInstance<AStarTrackAtion>();
+        parent.Set(Probability);
         parent.Set(doublingValue);
         return parent;
     }

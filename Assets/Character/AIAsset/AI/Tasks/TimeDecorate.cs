@@ -63,6 +63,7 @@ public class TimeDecorate : ConditionDecorate
     public override Task Clone()
     {
         TimeDecorate parent = ScriptableObject.CreateInstance<TimeDecorate>();
+        parent.Set(Probability);
         parent.Set(condition, time);
         if(GetChildren() != null)
             parent.AddChild(GetChildren().Clone());

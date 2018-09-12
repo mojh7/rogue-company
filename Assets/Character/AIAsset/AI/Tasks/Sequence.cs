@@ -22,6 +22,7 @@ public class Sequence : CompositeTask
     public override Task Clone()
     {
         Sequence parent = new Sequence();
+        parent.Set(Probability);
         if (GetChildren() != null)
             for (int i = 0; i < GetChildren().Count; i++)
             {

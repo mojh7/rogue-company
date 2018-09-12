@@ -35,6 +35,7 @@ public class ShotAction : ActionTask {
     public override Task Clone()
     {
         ShotAction parent = ScriptableObject.CreateInstance<ShotAction>();
+        parent.Set(Probability);
         parent.Set(Idx);
         return parent;
     }

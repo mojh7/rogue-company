@@ -78,6 +78,7 @@ public class DistanceDecorate : ConditionDecorate
     {
         DistanceDecorate parent = ScriptableObject.CreateInstance<DistanceDecorate>();
         parent.Set(condition, distance);
+        parent.Set(Probability);
         if (GetChildren() != null)
             parent.AddChild(GetChildren().Clone());
 

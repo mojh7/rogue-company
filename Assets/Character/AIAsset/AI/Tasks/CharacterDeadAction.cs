@@ -28,6 +28,7 @@ public class CharacterDeadAction : ActionTask
     public override Task Clone()
     {
         CharacterDeadAction parent = ScriptableObject.CreateInstance<CharacterDeadAction>();
+        parent.Set(Probability);
 
         return parent;
     }

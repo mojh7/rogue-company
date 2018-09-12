@@ -42,6 +42,8 @@ public class HealthDecorate : ConditionDecorate
     {
         HealthDecorate parent = new HealthDecorate();
         parent.Set(condition, healthPer);
+        parent.Set(Probability);
+
         if (GetChildren() != null)
             parent.AddChild(GetChildren().Clone());
 

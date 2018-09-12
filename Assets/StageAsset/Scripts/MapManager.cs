@@ -293,7 +293,7 @@ namespace Map
             zeroRoomset = new RoomSet(0, 0, 3, 0, RoomType.NONE);
             int count = 0;
 
-            while (count < 100)
+            while (count < 1000)
             {
                 SettedRoomset();
                 count++;
