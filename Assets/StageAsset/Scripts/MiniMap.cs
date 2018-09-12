@@ -91,6 +91,15 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         threadStart.Invoke();
     }
 
+    void Draw(Map.Rect _room, float f, System.Action<Map.Rect, float> action)
+    {
+        ThreadStart threadStart = delegate
+        {
+            action(_room, f);
+        };
+        threadStart.Invoke();
+    }
+
     #region DrawArray
     void DrawArray(int x, int y, Color color)
     {
@@ -105,7 +114,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     }
     #endregion
     #region DrawArea
-    void DrawIcon(Map.Rect _rect)
+    void DrawIcon(Map.Rect _rect,float percent)
     {
         if (!_rect.isRoom)
             return;
@@ -139,6 +148,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             for (int j = 0; j < rectHeight; j++)
             {
                 Color color = sprite.texture.GetPixel((int)textureRect.x + i, (int)textureRect.y + j);
+                if(color != white)
+                    color.a = percent;
                 if (color == clear)
                 {
                     DrawArray(x + i, y + j, white);
@@ -150,7 +161,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
     }
-    void DrawRoom(Map.Rect _room)
+    void DrawRoom(Map.Rect _room, float percent)
     {
         int minX = _room.x * pixelNum;
         int maxX = (_room.x + _room.width) * pixelNum - 1;
@@ -195,7 +206,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                         DrawArray(x, y, black);
                     }
                 }
-                Draw(_room,DrawIcon);
+                Draw(_room, percent, DrawIcon);
             }
         }
         for (int i = 0; i < _room.doorObjects.Count; i++)
@@ -443,14 +454,14 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
     }
 
-    public void ClearRoom(Map.Rect _room)
+    public void ClearRoom(Map.Rect _room, float percent)
     {
         if (inDungeon)
         {
             HideEmoticon(true);
             inDungeon = false;
         }
-        Draw(_room, DrawRoom);
+        Draw(_room, percent, DrawRoom);
     }
 
     private void HideEmoticon(bool isActive)
@@ -549,7 +560,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             if (!roomList[i].isRoom)
                 Draw(roomList[i], DrawHall);
             else if(roomList[i].isDrawed)
-                Draw(roomList[i], DrawRoom);
+                Draw(roomList[i], 1, DrawRoom);
         }
 
         for (int i = 0; i < roomList.Count; i++)
@@ -586,7 +597,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         for(int i = 0; i < roomList.Count; i++)
         {
             if (roomList[i].isRoom)
-                Draw(roomList[i], DrawRoom);
+                Draw(roomList[i], 1, DrawRoom);
         }
     }
     

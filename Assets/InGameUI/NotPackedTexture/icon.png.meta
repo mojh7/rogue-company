@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: 99f0a7170758bb94eba7c6808ab6cfa0
-timeCreated: 1535100222
+guid: 298a67ea65f690543885f80e1b402685
+timeCreated: 1536736324
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: icon 1_0
-    21300002: icon 1_1
-    21300004: icon 1_2
-    21300006: icon 1_3
-    21300008: icon 1_4
+    21300000: icon_0
+    21300002: icon_1
+    21300004: icon_2
+    21300006: icon_3
+    21300008: icon_4
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: 1
+    aniso: -1
     mipBias: -1
     wrapU: 1
     wrapV: 1
@@ -47,12 +47,12 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 8
-  alphaUsage: 0
+  alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
@@ -95,7 +95,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: icon 1_0
+      name: icon_0
       rect:
         serializedVersion: 2
         x: 0
@@ -109,7 +109,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: icon 1_1
+      name: icon_1
       rect:
         serializedVersion: 2
         x: 8
@@ -123,7 +123,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: icon 1_2
+      name: icon_2
       rect:
         serializedVersion: 2
         x: 0
@@ -137,7 +137,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: icon 1_3
+      name: icon_3
       rect:
         serializedVersion: 2
         x: 8
@@ -151,7 +151,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: icon 1_4
+      name: icon_4
       rect:
         serializedVersion: 2
         x: 0

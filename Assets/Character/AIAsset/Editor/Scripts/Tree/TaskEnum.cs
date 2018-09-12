@@ -31,8 +31,8 @@
         RoundingTrackAction,
         RushTrackAtion,
         SkillAction,
-        StopAction,
-        RunawayAction,
+        StopTrackAction,
+        RunawayTrackAction,
         ShotAction,
         PositionTrackAction
     }

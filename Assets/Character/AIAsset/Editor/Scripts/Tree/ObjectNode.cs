@@ -103,13 +103,13 @@ namespace BT
                     actionTask = EActionTask.SkillAction;
                     value1 = (task as SkillAction).Value;
                     break;
-                case "StopAction":
+                case "StopTrackAction":
                     taskType = TaskType.ActionTask;
-                    actionTask = EActionTask.StopAction;
+                    actionTask = EActionTask.StopTrackAction;
                     break;
-                case "RunawayAction":
+                case "RunawayTrackAction":
                     taskType = TaskType.ActionTask;
-                    actionTask = EActionTask.RunawayAction;
+                    actionTask = EActionTask.RunawayTrackAction;
                     break;
                 case "ShotAction":
                     taskType = TaskType.ActionTask;
@@ -281,9 +281,9 @@ namespace BT
                             return ScriptableObject.CreateInstance<RushTrackAtion>().Set(value1);
                         case EActionTask.SkillAction:
                             return ScriptableObject.CreateInstance<SkillAction>().Set((int)value1);
-                        case EActionTask.StopAction:
+                        case EActionTask.StopTrackAction:
                             return ScriptableObject.CreateInstance<StopTrackAction>();
-                        case EActionTask.RunawayAction:
+                        case EActionTask.RunawayTrackAction:
                             return ScriptableObject.CreateInstance<RunawayTrackAction>().Set(value1);
                         case EActionTask.ShotAction:
                             return ScriptableObject.CreateInstance<ShotAction>().Set((int)value1);
