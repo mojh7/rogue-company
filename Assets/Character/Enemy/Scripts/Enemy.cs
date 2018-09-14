@@ -348,6 +348,18 @@ public class Enemy : Character
     }
 
 
+    private bool AbnormalChance(float appliedChance)
+    {
+        float chance = Random.Range(0, 1f);
+        if(chance < appliedChance)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
@@ -363,30 +375,33 @@ public class Enemy : Character
             return;
 
         if (true == statusEffectInfo.canPoison)
-            Poison();
+            Poison(statusEffectInfo.posionChance);
         if (true == statusEffectInfo.canBurn)
-            Burn();
+            Burn(statusEffectInfo.burnChance);
         if (true == statusEffectInfo.canDelayState)
-            DelayState();
+            DelayState(statusEffectInfo.delayStateChance);
 
         if (true == statusEffectInfo.canNag)
-            Nag();
+            Nag(statusEffectInfo.nagChance);
         if (true == statusEffectInfo.canClimb)
-            Climbing();
+            Climbing(statusEffectInfo.climbChance);
         if (true == statusEffectInfo.graveyardShift)
-            GraveyardShift();
+            GraveyardShift(statusEffectInfo.graveyardShiftChance);
         if (true == statusEffectInfo.canFreeze)
-            Freeze();
+            Freeze(statusEffectInfo.freezeChance);
         if (true == statusEffectInfo.reactance)
-            Reactance();
+            Reactance(statusEffectInfo.reactanceChance);
 
         if (0 != statusEffectInfo.stun)
-            Stun(statusEffectInfo.stun);
+            Stun(statusEffectInfo.stun, statusEffectInfo.stunChance);
         if (0 != statusEffectInfo.charm)
-            Charm(statusEffectInfo.charm);
+            Charm(statusEffectInfo.charm, statusEffectInfo.charmChance);
     }
-    private void Poison()
+    private void Poison(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         if (poisonOverlappingCount >= StatusConstants.Instance.PoisonInfo.overlapCountMax)
             return;
         poisonOverlappingCount += 1;
@@ -404,8 +419,11 @@ public class Enemy : Character
         }
     }
 
-    private void Burn()
+    private void Burn(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         if (burnOverlappingCount >= StatusConstants.Instance.BurnInfo.overlapCountMax)
             return;
         burnOverlappingCount += 1;
@@ -424,8 +442,11 @@ public class Enemy : Character
     }
     // TODO : 다른 상태이상이 걸려있는 상태에서 상태이상이 걸릴 때 우선 순위 처리 고민 및 해야됨.
 
-    private void DelayState()
+    private void DelayState(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         if (delayStateCount >= StatusConstants.Instance.DelayStateInfo.overlapCountMax)
             return;
         Debug.Log(gameObject.name + " 이동지연 적용");
@@ -437,8 +458,11 @@ public class Enemy : Character
         }
     }
 
-    private void Nag()
+    private void Nag(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         int type = (int)AbnormalStatusType.NAG;
 
         if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] ||
@@ -458,8 +482,11 @@ public class Enemy : Character
             abnormalStatusDurationTime[type] += StatusConstants.Instance.NagInfo.effectiveTime;
     }
 
-    private void Climbing()
+    private void Climbing(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         int type = (int)AbnormalStatusType.CLIMBING;
         if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] ||
              isAbnormalStatuses[(int)AbnormalStatusType.CHARM])
@@ -484,8 +511,11 @@ public class Enemy : Character
         }
     }
 
-    private void GraveyardShift()
+    private void GraveyardShift(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         int type = (int)AbnormalStatusType.GRAVEYARDSHIFT;
         if (abnormalStatusCounts[type] >= StatusConstants.Instance.GraveyardShiftInfo.overlapCountMax)
         {
@@ -499,8 +529,11 @@ public class Enemy : Character
             abnormalStatusDurationTime[type] += StatusConstants.Instance.GraveyardShiftInfo.effectiveTime;
         Debug.Log(gameObject.name + " 철야근무 적용");
     }
-    private void Freeze()
+    private void Freeze(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         int type = (int)AbnormalStatusType.FREEZE;
         StopAbnormalStatus(AbnormalStatusType.CHARM);
         StopAbnormalStatus(AbnormalStatusType.NAG);
@@ -518,8 +551,11 @@ public class Enemy : Character
         }
     }
 
-    private void Reactance()
+    private void Reactance(float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         int type = (int)AbnormalStatusType.REACTANCE;
         if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] || isAbnormalStatuses[(int)AbnormalStatusType.CHARM] ||
             isAbnormalStatuses[(int)AbnormalStatusType.NAG] || isAbnormalStatuses[(int)AbnormalStatusType.CLIMBING])
@@ -538,8 +574,11 @@ public class Enemy : Character
     }
 
 
-    private void Stun(float effectiveTime)
+    private void Stun(float effectiveTime, float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         int type = (int)AbnormalStatusType.STUN;
         StopAbnormalStatus(AbnormalStatusType.CHARM);
         StopAbnormalStatus(AbnormalStatusType.NAG);
@@ -556,8 +595,11 @@ public class Enemy : Character
             abnormalStatusDurationTime[type] = abnormalStatusTime[type] + effectiveTime;
         }
     }
-    private void Charm(float effectiveTime)
+    private void Charm(float effectiveTime, float chance)
     {
+        if (false == AbnormalChance(chance))
+            return;
+
         int type = (int)AbnormalStatusType.CHARM;
         if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE])
             return;
