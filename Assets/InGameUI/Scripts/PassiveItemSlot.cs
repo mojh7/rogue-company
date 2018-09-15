@@ -108,7 +108,25 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
         passiveItemInfoViewImage.sprite = usableItemInfo.Sprite;
         passiveItemInfoViewName.text = usableItemInfo.ItemName;
         passiveItemInfoViewNote.text = usableItemInfo.Notes;
-        passiveItemInfoView.transform.position = Input.mousePosition;
+        Vector3 pos = Input.mousePosition;
+        if(pos.x < Screen.width * 0.5f)
+        {
+            pos.x += Screen.width * 0.25f;
+        }
+        else
+        {
+            pos.x -= Screen.width * 0.25f;
+        }
+
+        if (pos.y < Screen.height * 0.5f)
+        {
+            pos.y += Screen.height * 0.25f;
+        }
+        else
+        {
+            pos.y -= Screen.height * 0.25f;
+        }
+        passiveItemInfoView.transform.position = pos;
     }
 
     public void ClosePassiveInfoView()

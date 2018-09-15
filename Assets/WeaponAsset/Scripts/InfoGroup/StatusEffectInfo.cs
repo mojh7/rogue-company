@@ -66,6 +66,9 @@ public class StatusEffectInfo
         graveyardShiftChance = 1f;
         freezeChance = 1f;
         reactanceChance = 1f;
+
+        stunChance = 1f;
+        charmChance = 1f;
     }
 
     public StatusEffectInfo(StatusEffectInfo info)
@@ -94,5 +97,7 @@ public class StatusEffectInfo
         freezeChance = info.freezeChance;
         reactanceChance = info.reactanceChance;
 
+        stunChance = info.stunChance;
+        charmChance = info.charmChance;
     }
 }

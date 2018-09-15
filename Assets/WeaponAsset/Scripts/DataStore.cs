@@ -88,6 +88,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private WeaponInfo[] test2WeaponInfos;
 
     [SerializeField]
+    private WeaponInfo[] A1WeaponInfos;
+
+
+    [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
     [SerializeField]
     private UsableItemInfo[] clothingItemInfos;
@@ -131,6 +135,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 return temp2WeaponInfos.Length;
             case WeaponModeForDebug.TEST2:
                 return test2WeaponInfos.Length;
+            case WeaponModeForDebug.A1:
+                return A1WeaponInfos.Length;
             default:
                 break;
         }
@@ -193,6 +199,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                     return temp2WeaponInfos[id];
                 case WeaponModeForDebug.TEST2:
                     return test2WeaponInfos[id];
+                case WeaponModeForDebug.A1:
+                    return A1WeaponInfos[id];
                 default:
                     break;
             }
@@ -293,6 +301,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 for (int i = 0; i < test2WeaponInfos.Length; i++)
                     test2WeaponInfos[i].Init();
                 break;
+            case WeaponModeForDebug.A1:
+                for (int i = 0; i < A1WeaponInfos.Length; i++)
+                    A1WeaponInfos[i].Init();
+                break;
             default:
                 break;
         }
@@ -316,7 +328,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     public void InputWeaponDatas()
     {
         if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug
-            || WeaponModeForDebug.TEST2 == DebugSetting.Instance.weaponModeForDebug)
+            || WeaponModeForDebug.TEST2 == DebugSetting.Instance.weaponModeForDebug
+            || WeaponModeForDebug.A1 == DebugSetting.Instance.weaponModeForDebug)
             return;
 
         if (false == canInputWeaponDatas)
