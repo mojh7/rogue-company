@@ -78,7 +78,7 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     #endregion
 
     #region unityEngine
-    public void Start()
+    public void Awake()
     {
         Init();
         LoadData();
