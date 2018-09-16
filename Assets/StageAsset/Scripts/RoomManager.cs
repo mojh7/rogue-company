@@ -32,7 +32,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         PlayerManager.Instance.GetPlayer().SetInRoom();
 
-        mask.transform.localPosition = new Vector2(currentRoom.x * mapSize + currentRoom.width * mapSize * 0.5f + 0.5f, currentRoom.y * mapSize + currentRoom.height * mapSize * 0.5f - 0.5f);
+        mask.transform.localPosition = new Vector2(currentRoom.x * mapSize + currentRoom.width * mapSize * 0.5f + 0.5f, currentRoom.y * mapSize + currentRoom.height * mapSize * 0.5f);
         mask.transform.localScale = new Vector2(currentRoom.width * mapSize * 1.1f, currentRoom.height * mapSize * 1.1f + 1);
     }
 

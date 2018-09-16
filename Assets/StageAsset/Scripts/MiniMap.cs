@@ -36,6 +36,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     #region mapData
     List<Map.Rect> roomList;
     float mapSizeWidth, mapSizeHeight; // 실제 맵 사이즈
+    int mapSize;
     #endregion
     #region unityClass
     Texture2D texture;
@@ -168,8 +169,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         int minY = _room.y * pixelNum;
         int maxY = (_room.y + _room.height) * pixelNum - 1;
 
-        float mapMidX = _room.midX * Map.MapManager.Instance.size;
-        float mapMidY = _room.midY * Map.MapManager.Instance.size;
+        float mapMidX = _room.midX * mapSize;
+        float mapMidY = _room.midY * mapSize;
 
         for (int x = minX; x <= maxX; x++)
         {
@@ -385,8 +386,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         int minY = _room.y * pixelNum;
         int maxY = (_room.y + _room.height) * pixelNum - 1;
 
-        float mapMidX = _room.midX * Map.MapManager.Instance.size;
-        float mapMidY = _room.midY * Map.MapManager.Instance.size;
+        float mapMidX = _room.midX * mapSize;
+        float mapMidY = _room.midY * mapSize;
 
 
         for (int i = 0; i < _room.doorObjects.Count; i++)
@@ -482,9 +483,9 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         pixelNum = 8; // 미니맵 픽셀 
         minmapSizeWidth = Map.MapManager.Instance.width * pixelNum; // 미니맵 전체 픽셀 사이즈
         minmapSizeHeight = Map.MapManager.Instance.height * pixelNum;
-
-        mapSizeWidth = Map.MapManager.Instance.size * Map.MapManager.Instance.width; // 실제 맵 크기
-        mapSizeHeight = Map.MapManager.Instance.size * Map.MapManager.Instance.height;
+        mapSize = Map.MapManager.Instance.size;
+        mapSizeWidth = mapSize * Map.MapManager.Instance.width; // 실제 맵 크기
+        mapSizeHeight = mapSize * Map.MapManager.Instance.height;
 
         if (Map.MapManager.Instance.width * pixelNum > Map.MapManager.Instance.height * pixelNum)
             GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
@@ -603,8 +604,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     
     bool FixedPlayer()
     {
-        float maxValue = 34 * Map.MapManager.Instance.width / 15;
-        float minValue = 11.1f * Map.MapManager.Instance.width / 15;
+        float maxValue = 34 * mapSize / 3  * Map.MapManager.Instance.width / 15;
+        float minValue = 11.1f * mapSize / 3 * Map.MapManager.Instance.width / 15;
 
         bool isX = playerPositon.x >= maxValue || playerPositon.x <= minValue;
         bool isY = playerPositon.y >= maxValue || playerPositon.y <= minValue;

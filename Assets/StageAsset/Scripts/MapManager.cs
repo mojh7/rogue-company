@@ -16,7 +16,7 @@ namespace Map
         public int width = 1;
         public int height = 1, max = 17, mini = 6;
         public float maxHallRate = 0.15f;
-        public readonly int size = 3;
+        public int size = 5;
         [SerializeField]
         bool Debug;
         bool isBossRush;
@@ -52,11 +52,11 @@ namespace Map
             }
             if (isBossRush)
             {
-                map = new BossRushMap(width, height, max, mini, maxHallRate, objectPool);
+                map = new BossRushMap(size, width, height, max, mini, maxHallRate, objectPool);
             }
             else
             {
-                map = new Map(width, height, max, mini, maxHallRate, objectPool);
+                map = new Map(size, width, height, max, mini, maxHallRate, objectPool);
             }
             map.AddNecessaryRoomSet(RoomSetManager.Instance.floorRoomSet[0].RoomSets);
             map.AddNecessaryHallSet(RoomSetManager.Instance.floorRoomSet[0].HallSets);
@@ -95,10 +95,11 @@ namespace Map
         protected int TotalHallArea = 0;
         protected int width;
         protected int height;
-        protected const int size = 3;
+        protected int size = 3;
 
-        public Map(int _width, int _height, int _max, int _mini, float _maxHallRate, ObjectPool _objectPool)
+        public Map(int size ,int _width, int _height, int _max, int _mini, float _maxHallRate, ObjectPool _objectPool)
         {
+            this.size = size;
             mainRect = new Rect(0, 0, _width, _height, 3);
             width = _width;
             height = _height;
@@ -290,7 +291,7 @@ namespace Map
 
         void CreateMap()
         {
-            zeroRoomset = new RoomSet(0, 0, 3, 0, RoomType.NONE);
+            zeroRoomset = new RoomSet(0, 0, size, 0, RoomType.NONE);
             int count = 0;
 
             while (count < 1000)
@@ -1085,7 +1086,7 @@ namespace Map
             float xGap = 0.25f;
             float yGap = 0.5f;
             for (float i = leftDown.x + xGap; i < rightTop.x - xGap; i += _radius)
-                for (float j = leftDown.y + yGap; j < rightTop.y - yGap; j += _radius)
+                for (float j = leftDown.y + yGap + 1; j < rightTop.y - yGap; j += _radius)
                     if (!Physics2D.OverlapCircle(new Vector2(i, j), _radius, layerMask))
                         _rect.availableAreas.Add(new Vector2(i, j));
         }
@@ -1094,8 +1095,8 @@ namespace Map
 
     public class BossRushMap : Map
     {
-        public BossRushMap(int _width, int _height, int _max, int _mini, float _maxHallRate, ObjectPool _objectPool) : 
-            base(_width, _height, _max, _mini, _maxHallRate, _objectPool)
+        public BossRushMap(int size, int _width, int _height, int _max, int _mini, float _maxHallRate, ObjectPool _objectPool) :
+            base(size, _width, _height, _max, _mini, _maxHallRate, _objectPool)
         {
 
         }
