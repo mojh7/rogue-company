@@ -48,8 +48,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             }
         }
         mapSize = MapManager.Instance.size;
-        maskSize = new Vector2(MapManager.Instance.width * mapSize + 0.5f, MapManager.Instance.height * mapSize + 1.5f);
-        zeroVector = new Vector2(MapManager.Instance.width * mapSize * 0.5f + 0.5f, MapManager.Instance.height * mapSize * 0.5f - 0.5f);
+        maskSize = new Vector2(MapManager.Instance.mapSize.x * mapSize + 0.5f, MapManager.Instance.mapSize.y * mapSize + 1.5f);
+        zeroVector = new Vector2(MapManager.Instance.mapSize.x * mapSize * 0.5f + 0.5f, MapManager.Instance.mapSize.y * mapSize * 0.5f - 0.5f);
     } // 룸리스트 받아오기
 
     public int GetGage()

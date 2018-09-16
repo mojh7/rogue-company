@@ -12,9 +12,11 @@ namespace Map
         [SerializeField]
         ObjectPool objectPool;
         [Space(10)]
-        [Header("variable")]
-        public int width = 1;
-        public int height = 1, max = 17, mini = 6;
+        [Header("맵의 크기")]
+        public Vector2Int mapSize;
+        [Header("방의 크기")]
+        public Vector2Int maxSize, miniSize;
+        //public int height = 1, max = 17, mini = 6;
         public float maxHallRate = 0.15f;
         public int size = 5;
         [SerializeField]
@@ -52,11 +54,11 @@ namespace Map
             }
             if (isBossRush)
             {
-                map = new BossRushMap(size, width, height, max, mini, maxHallRate, objectPool);
+                map = new BossRushMap(size, mapSize.x, mapSize.y, maxSize.x * maxSize.y, miniSize.x * miniSize.y, maxHallRate, objectPool);
             }
             else
             {
-                map = new Map(size, width, height, max, mini, maxHallRate, objectPool);
+                map = new Map(size, mapSize.x, mapSize.y, maxSize.x * maxSize.y, miniSize.x * miniSize.y, maxHallRate, objectPool);
             }
             map.AddNecessaryRoomSet(RoomSetManager.Instance.floorRoomSet[0].RoomSets);
             map.AddNecessaryHallSet(RoomSetManager.Instance.floorRoomSet[0].HallSets);

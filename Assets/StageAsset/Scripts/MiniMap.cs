@@ -481,13 +481,13 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         renderer = GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
         pixelNum = 8; // 미니맵 픽셀 
-        minmapSizeWidth = Map.MapManager.Instance.width * pixelNum; // 미니맵 전체 픽셀 사이즈
-        minmapSizeHeight = Map.MapManager.Instance.height * pixelNum;
+        minmapSizeWidth = Map.MapManager.Instance.mapSize.x * pixelNum; // 미니맵 전체 픽셀 사이즈
+        minmapSizeHeight = Map.MapManager.Instance.mapSize.y * pixelNum;
         mapSize = Map.MapManager.Instance.size;
-        mapSizeWidth = mapSize * Map.MapManager.Instance.width; // 실제 맵 크기
-        mapSizeHeight = mapSize * Map.MapManager.Instance.height;
+        mapSizeWidth = mapSize * Map.MapManager.Instance.mapSize.x; // 실제 맵 크기
+        mapSizeHeight = mapSize * Map.MapManager.Instance.mapSize.y;
 
-        if (Map.MapManager.Instance.width * pixelNum > Map.MapManager.Instance.height * pixelNum)
+        if (Map.MapManager.Instance.mapSize.x * pixelNum > Map.MapManager.Instance.mapSize.y * pixelNum)
             GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
         else
             GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth, minimapBaseHeight * (float)mapSizeHeight / mapSizeWidth);
@@ -604,8 +604,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     
     bool FixedPlayer()
     {
-        float maxValue = 34 * mapSize / 3  * Map.MapManager.Instance.width / 15;
-        float minValue = 11.1f * mapSize / 3 * Map.MapManager.Instance.width / 15;
+        float maxValue = 34 * mapSize / 3  * Map.MapManager.Instance.mapSize.x / 15;
+        float minValue = 11.1f * mapSize / 3 * Map.MapManager.Instance.mapSize.x / 15;
 
         bool isX = playerPositon.x >= maxValue || playerPositon.x <= minValue;
         bool isY = playerPositon.y >= maxValue || playerPositon.y <= minValue;

@@ -33,7 +33,7 @@ namespace AStar
         public void Bake()
         {
             neighbours = new List<Node>(9);
-            gridWorldSize = new Vector2(Map.MapManager.Instance.width * Map.MapManager.Instance.size + 1, Map.MapManager.Instance.height * Map.MapManager.Instance.size + 1);
+            gridWorldSize = new Vector2(Map.MapManager.Instance.mapSize.x * Map.MapManager.Instance.size + 1, Map.MapManager.Instance.mapSize.y * Map.MapManager.Instance.size + 1);
             nodeDiameter = nodeRadius * 2;
             width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
