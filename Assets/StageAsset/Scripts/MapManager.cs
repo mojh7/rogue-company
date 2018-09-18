@@ -820,7 +820,6 @@ namespace Map
                     verticalRuleTile.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
                     horizonRuleTile.SetNull(new Vector3Int(_rectA.x * size, y, 0));
                     horizonRuleTile.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
-
                     if (_rectB.isRoom) // 왼쪽 방이  방임
                     {
                         obj = CreateDoorObject(_rectA.x * size + 0.84375f, y + 0.5f, true);

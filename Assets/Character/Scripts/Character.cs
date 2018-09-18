@@ -90,6 +90,8 @@ public abstract class Character : MonoBehaviour
     protected float directionDegree;  // 바라보는 각도(총구 방향)
 
     protected bool isRightDirection;    // character 방향이 우측이냐(true) 아니냐(flase = 좌측)
+    Color red = Color.red;
+    Color white = Color.white;
 
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
@@ -188,14 +190,14 @@ public abstract class Character : MonoBehaviour
     protected void AttackedEffect()
     {
         if(gameObject.activeSelf)
-            StartCoroutine(ColorChange(Color.red));
+            StartCoroutine(ColorChange(red));
     }
 
     IEnumerator ColorChange(Color color)
     {
-        spriteRenderer.color = Color.red;
+        spriteRenderer.color = color;
         yield return YieldInstructionCache.WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.white;
+        spriteRenderer.color = white;
     }
     #endregion
     public virtual void Init()

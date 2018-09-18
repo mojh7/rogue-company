@@ -69,6 +69,8 @@ public class ActiveSkil : MonoBehaviour {
 
 public class CollisionSkill : ActiveSkil
 {
+    StatusEffectInfo statusEffect;
+
     public void Init(Character character, object temporary, float amount, System.Action<Character, object, float> action)
     {
         Init();
@@ -128,6 +130,7 @@ public class CollisionSkill : ActiveSkil
             isAvailable = false;
             Character character = collision.GetComponent<Character>();
             character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
+            character.ApplyStatusEffect(statusEffect);
         }
     }   
 }
