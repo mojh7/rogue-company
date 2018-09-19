@@ -7,6 +7,20 @@ using WeaponAsset;
  * 새 변수 추가시 Clone에도 꼭 추가해줘야 됨.
  */
 
+[System.Serializable]
+public class DurationTime
+{
+    public float startTime;
+    public float endTime;
+    public float value;
+    public DurationTime()
+    {
+        startTime = 0;
+        endTime = -1;
+        value = 0;
+    }
+}
+
 // player bullet
 [CreateAssetMenu(fileName = "BulletInfo", menuName = "WeaponData/OwnerPlayer/BulletInfo", order = 1)]
 public class BulletInfo : ScriptableObject
@@ -87,14 +101,15 @@ public class BulletInfo : ScriptableObject
     [Header("Spiral Property, 1초당 회전 각")]
     public float rotateAnglePerSecond;
     [Header("Spiral Property, start~end time, -1값 : 적용 x")]
-    public float spiralStartTime;
-    public float spiralEndTime;
+    public bool routineSprial;
+    public List<DurationTime> spiralDurationTime;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
     public DeletePropertyType[] deletePropertiesEdit;       // 삭제 속성 edit용
 
     // 실제로 쓰일 속성 정보, 추가 삭제에 용이하게 List<T>
+    [SerializeField]
     public List<CollisionProperty> collisionProperties; // 충돌 속성 원본
     public List<UpdateProperty> updateProperties;       // update 속성 원본
     public List<DeleteProperty> deleteProperties;       // 삭제 속성 원본
@@ -152,7 +167,8 @@ public class BulletInfo : ScriptableObject
         becomeSpiderMine = false;
 
         homingEndTime = -1;
-        spiralEndTime = -1;
+
+        routineSprial = false;
 
         // isInitializable = true;
 
@@ -212,8 +228,9 @@ public class BulletInfo : ScriptableObject
         clonedInfo.homingStartTime = homingStartTime;
         clonedInfo.homingEndTime = homingEndTime;
         clonedInfo.rotateAnglePerSecond = rotateAnglePerSecond;
-        clonedInfo.spiralStartTime = spiralStartTime;
-        clonedInfo.spiralEndTime = spiralEndTime;
+
+        clonedInfo.routineSprial = routineSprial;
+        clonedInfo.spiralDurationTime = spiralDurationTime;
 
         //clonedInfo = ; 
 

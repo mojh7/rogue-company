@@ -380,10 +380,10 @@ TextureImporter:
       name: beams_16
       rect:
         serializedVersion: 2
-        x: 294
-        y: 300
-        width: 71
-        height: 120
+        x: 297
+        y: 305
+        width: 65
+        height: 112
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -814,10 +814,10 @@ TextureImporter:
       name: beams_47
       rect:
         serializedVersion: 2
-        x: 8
-        y: 50
-        width: 99
-        height: 167
+        x: 13
+        y: 57
+        width: 54
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -856,10 +856,10 @@ TextureImporter:
       name: beams_50
       rect:
         serializedVersion: 2
-        x: 135
-        y: 40
-        width: 54
-        height: 97
+        x: 142
+        y: 45
+        width: 43
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

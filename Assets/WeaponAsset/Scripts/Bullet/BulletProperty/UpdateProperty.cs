@@ -29,10 +29,8 @@ using WeaponAsset;
  * 1.
  */
 
-
 public abstract class UpdateProperty : BulletProperty
 {
-
     public abstract UpdateProperty Clone();
     public abstract void Update();
 }
@@ -544,6 +542,7 @@ public class SpiralProperty : UpdateProperty
     private float timeCount;
     private float startTime;
     private float endTime;
+    private int durationTimeIndex;
 
     public override void Init(Bullet bullet)
     {
@@ -551,12 +550,14 @@ public class SpiralProperty : UpdateProperty
 
         lifeTime = bullet.info.lifeTime;
         timeCount = 0;
-        startTime = bullet.info.spiralStartTime;
-        endTime = bullet.info.spiralEndTime;
-        rotateAnglePerSecond = bullet.info.rotateAnglePerSecond;
-    
-        //homingStartTime = bullet.info.homingStartTime;
-        //homingEndTime = bullet.info.homingEndTime;
+        durationTimeIndex = 0;
+        //startTime = bullet.info.spiralStartTime;
+        //endTime = bullet.info.spiralEndTime;
+        rotateAnglePerSecond = 0;
+        // value 값 만큼 endTime - startTime 시간 동안 회전
+        rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value
+            / (bullet.info.spiralDurationTime[durationTimeIndex].endTime) - (bullet.info.spiralDurationTime[durationTimeIndex].startTime);
+        //Debug.Log(durationTimeIndex + " : " + rotateAnglePerSecond);
     }
 
     public override UpdateProperty Clone()
@@ -566,16 +567,78 @@ public class SpiralProperty : UpdateProperty
 
     public override void Update()
     {
-        timeCount += Time.fixedDeltaTime;
-        if (timeCount < startTime || (endTime < timeCount && -1 != endTime))
+        if (durationTimeIndex >= bullet.info.spiralDurationTime.Count)
         {
+            if(bullet.info.routineSprial)
+            {
+                timeCount = 0;
+                durationTimeIndex = 0;
+                rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value
+            / (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime);
+            }
+            else return;
+        }
+
+        if (timeCount < bullet.info.spiralDurationTime[durationTimeIndex].startTime)
+        {
+            timeCount += Time.fixedDeltaTime;
             return;
         }
+
+        bullet.RotateDirection(rotateAnglePerSecond * Time.fixedDeltaTime);
+        timeCount += Time.fixedDeltaTime;
+
+        if ((bullet.info.spiralDurationTime[durationTimeIndex].endTime < timeCount && -1 != bullet.info.spiralDurationTime[durationTimeIndex].endTime))
+        {
+            durationTimeIndex += 1;
+            if(durationTimeIndex < bullet.info.spiralDurationTime.Count)
+            {
+                rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value
+            / (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime);
+            //    Debug.Log(durationTimeIndex + " : " + rotateAnglePerSecond + ", " + bullet.info.spiralDurationTime[durationTimeIndex].value + ", " + (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime)
+            //        + ", " + bullet.info.spiralDurationTime[durationTimeIndex].value
+            /// (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime));
+            }
+            return;
+        }
+        
         if (timeCount >= lifeTime)
         {
             delDestroyBullet();
         }
-
-        bullet.RotateDirection(rotateAnglePerSecond * Time.fixedDeltaTime);
     }
 }
+
+// TODO : 삼각함수 속성 만들기
+/// <summary> 삼각함수 속성 </summary>
+public class TrigonometricProperty : UpdateProperty
+{
+    private float lifeTime;
+    private float verticalDistance;
+    private float period;
+    private float timeCount;
+    private float startTime;
+    private float endTime;
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+
+        lifeTime = bullet.info.lifeTime;
+        timeCount = 0;
+
+        //homingStartTime = bullet.info.homingStartTime;
+        //homingEndTime = bullet.info.homingEndTime;
+    }
+
+    public override UpdateProperty Clone()
+    {
+        return new TrigonometricProperty();
+    }
+
+    public override void Update()
+    {
+        timeCount += Time.fixedDeltaTime;
+    }
+}
+
