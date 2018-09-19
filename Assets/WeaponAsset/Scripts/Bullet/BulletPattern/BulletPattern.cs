@@ -41,7 +41,8 @@ public abstract class BulletPattern
     protected Weapon weapon;
     protected int executionCount;               // 한 사이클에서의 실행 횟수
     protected float delay;                      // 사이클 내에서의 delay
-    protected float addDirVecMagnitude;         // onwer 총구 방향으로 총알 위치 추가 적인 위치 조절 값
+    protected float addDirVecMagnitude;         // onwer 바라보는 방향 추가적인 수평 위치
+    protected float additionalVerticalPos;      // onwer 바라보는 방향 추가적인 수직 위치
     protected float accuracyIncrement;
 
     protected CharacterInfo.OwnerType ownerType;
@@ -77,6 +78,7 @@ public abstract class BulletPattern
         ownerBuff = weapon.GetOwnerBuff();
 
         addDirVecMagnitude = weapon.info.addDirVecMagnitude;
+        additionalVerticalPos = weapon.info.additionalVerticalPos;
 
         transferBulletInfo = new TransferBulletInfo();
         UpdateTransferBulletInfo();

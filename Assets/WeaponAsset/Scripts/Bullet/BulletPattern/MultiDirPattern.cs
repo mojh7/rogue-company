@@ -58,12 +58,9 @@ public class MultiDirPattern : BulletPattern
                 }
             }
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + ownerDirVec() * addDirVecMagnitude,
+            createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
+                weapon.GetMuzzlePos(),
                 ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
-            if(OwnerType.Enemy == ownerType)
-            {
-                Debug.Log(ownerDirDegree() + ", " + addDirVecMagnitude);
-            }
         }
     }
 

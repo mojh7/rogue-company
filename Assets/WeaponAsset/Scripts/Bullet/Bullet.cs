@@ -55,6 +55,7 @@ public class Bullet : MonoBehaviour
     private BuffManager ownerBuff;
     private TransferBulletInfo transferBulletInfo;
     private float addDirVecMagnitude;
+    private float additionalVerticalPos;
 
     // 코루틴 deltaTime
     private float coroutineDeltaTime = 0.016f;
@@ -79,6 +80,7 @@ public class Bullet : MonoBehaviour
     // 현재 바라보는 방향의 euler z 각도 반환
     public Vector3 GetPosition() { return objTransform.position; }
     public float GetAddDirVecMagnitude() { return addDirVecMagnitude; }
+    public float GetAdditionalVerticalPos() { return additionalVerticalPos; }
 
     public float GetDirDegree() { return dirDegree; }
     // 현재 바라보는 방향의 vector 반환
@@ -188,7 +190,7 @@ public class Bullet : MonoBehaviour
     }
 
     // 레이저 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, float addDirVecMagnitude, DelGetPosition ownerPos, DelGetPosition ownerDirVec, DelGetDirDegree ownerDirDegree,TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, float addDirVecMagnitude, float additionalVerticalPos, DelGetPosition ownerPos, DelGetPosition ownerDirVec, DelGetDirDegree ownerDirDegree,TransferBulletInfo transferBulletInfo)
     {
         active = true;
         info = bulletInfo;
@@ -228,6 +230,7 @@ public class Bullet : MonoBehaviour
         this.ownerDirVec = ownerDirVec;
         this.ownerDirDegree = ownerDirDegree;
         this.addDirVecMagnitude = addDirVecMagnitude;
+        this.additionalVerticalPos = additionalVerticalPos;
         objTransform.position = ownerPos();
 
         InitPropertyClass();

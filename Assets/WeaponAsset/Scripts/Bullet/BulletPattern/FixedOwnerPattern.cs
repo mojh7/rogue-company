@@ -59,7 +59,8 @@ public class FixedOwnerPattern : BulletPattern
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdBullet = createdObj.GetComponent<Bullet>();
         createdBullet.Init(info.bulletInfo.Clone(), ownerBuff, ownerType, addDirVecMagnitude,
-            ownerPos() + ownerDirVec() * addDirVecMagnitude, ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo);
+            weapon.GetMuzzlePos(),
+            ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo);
 
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }

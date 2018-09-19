@@ -29,6 +29,10 @@ public class Player : Character
     private float floorSpeed;
     private int shieldCount;
 
+    [SerializeField]
+    private GameObject muzzlePosObj;
+    [SerializeField]
+    private Transform muzzlePosTransform;
     #endregion
 
     #region property
@@ -112,7 +116,6 @@ public class Player : Character
         floorSpeed = 0;
     }
 
-    // bool e = false;
     // Update is called once per frame
     void Update()
     {
@@ -201,6 +204,11 @@ public class Player : Character
     #endregion
 
     #region function
+    public void UpdateMuzzlePosition(Vector3 pos, bool visible)
+    {
+        muzzlePosObj.SetActive(visible);
+        muzzlePosTransform.position = pos;
+    }
 
     public override bool Evade()
     {
@@ -241,7 +249,7 @@ public class Player : Character
     }
 
     /// <summary>
-    /// 쉴드가 있을시 데미지 상관 없이 공격(공격 타입 상관 X) 방어
+    /// 쉴드가 있을시 데미지 상관 없이 공격(공격 타입 상관 X) 방어, 아직 미사용
     /// </summary>
     public bool DefendAttack()
     {

@@ -11,12 +11,16 @@ public struct BulletPatternEditInfo
     public BulletPatternInfo patternInfo;
     public int executionCount;      // 한 사이클에서의 실행 횟수
     public float delay;             // 사이클 내에서의 delay
+    public bool isFixedOwnerDir;
+    public bool isFixedOwnerPos;
 
-    public BulletPatternEditInfo(BulletPatternInfo patternInfo, int executionCount, float delay)
+    public BulletPatternEditInfo(BulletPatternInfo patternInfo, int executionCount, float delay, bool isFixedOwnerDir, bool isFixedOwnerPos)
     {
         this.patternInfo = patternInfo;
         this.executionCount = executionCount;
         this.delay = delay;
+        this.isFixedOwnerDir = isFixedOwnerDir;
+        this.isFixedOwnerPos = isFixedOwnerPos;
     }
 }
 
@@ -60,6 +64,8 @@ public class WeaponInfo : ScriptableObject
 
     [Tooltip("총알 발사시 초기 position이 중심에서 멀어지는 정도")]
     public float addDirVecMagnitude;    // onwer가 바라보는 방향의 벡터의 크기 값, bullet 초기 위치 = owner position + owner 방향 벡터 * addDirVecMagnitude
+    [Tooltip("총알 발사시 바라보는 방향에 +90도인 수직 방향으로 멀어지는 정도")]
+    public float additionalVerticalPos;
 
     // edit용 총알 패턴 정보
     public BulletPatternEditInfo[] bulletPatternEditInfos; // 패턴 종류, 해당 패턴 id
@@ -109,6 +115,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.cameraShakeAmount = cameraShakeAmount;
         clonedInfo.cameraShakeTime = cameraShakeTime;
         clonedInfo.addDirVecMagnitude = addDirVecMagnitude;
+        clonedInfo.additionalVerticalPos = additionalVerticalPos;
 
         clonedInfo.bulletPatterns = new List<BulletPattern>();
         clonedInfo.bulletPatternsLength = bulletPatternsLength;

@@ -74,7 +74,7 @@ public class LaserPattern : BulletPattern
     {
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdBullet = createdObj.GetComponent<Bullet>();
-        createdBullet.Init(info.bulletInfo.Clone(), ownerBuff, ownerType, addDirVecMagnitude,
+        createdBullet.Init(info.bulletInfo.Clone(), ownerBuff, ownerType, addDirVecMagnitude, additionalVerticalPos,
             ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo);
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }

@@ -178,6 +178,7 @@ public class LaserUpdateProperty : UpdateProperty
     private DelGetDirDegree ownerDirDegree;
     private float angle;
     private float addDirVecMagnitude;
+    private float additionalVerticalPos;
 
     private LineRenderer lineRenderer;
     private RaycastHit2D hit;
@@ -197,6 +198,7 @@ public class LaserUpdateProperty : UpdateProperty
         ownerDirDegree = bullet.GetOwnerDirDegree();
         
         addDirVecMagnitude = bullet.GetAddDirVecMagnitude();
+        additionalVerticalPos = bullet.GetAdditionalVerticalPos();
         lineRenderer = bullet.GetLineRenderer();
         pos = new Vector3();
         laserSize = new Vector2(0.2f, 0.2f);
@@ -211,9 +213,15 @@ public class LaserUpdateProperty : UpdateProperty
 
     public override void Update()
     {
-        //Debug.Log(ownerDirDegree());
         bulletTransform.position = ownerPos();
-        pos = ownerPos() + (ownerDirVec() * addDirVecMagnitude);
+        if (-90 <= ownerDirDegree() && ownerDirDegree() < 90)
+        {
+            pos = ownerPos() + ownerDirVec() * addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), 90) * additionalVerticalPos;
+        }
+        else
+        {
+            pos = ownerPos() + ownerDirVec() * addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), -90) * additionalVerticalPos;
+        }
         pos.z = 0;
         bullet.LaserStartPoint.position = pos;
         // 100f => 레이저에도 사정거리 개념을 넣게 된다면 이 부분 값을 변수로 처리할 예정이고 현재는 일단 raycast 체크 범위를 100f까지 함
