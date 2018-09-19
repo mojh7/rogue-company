@@ -29,4 +29,7 @@ public class DebugSetting : MonoBehaviourSingleton<DebugSetting>
     public int startWeaponIndex;
     [Range(1, 45)]
     public int endWeaponIndex;
+
+    [Header("총구 pos 표시 for Debug")]
+    public bool showsMuzzlePos;
 }

@@ -16,6 +16,8 @@ public class Weapon : Item
     private SpriteRenderer spriteRenderer;
     [SerializeField]
     private GameObject muzzleFlashObj;
+    [SerializeField]
+    private Transform muzzleFlashTransform;
     // enum State
     public WeaponState weaponState; // 무기 상태
 
@@ -163,7 +165,6 @@ public class Weapon : Item
         totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)info.weaponType];
 
-
         // 공격 패턴(bulletPattern) 초기화
         for (int i = 0; i < info.bulletPatternsLength; i++)
         {
@@ -180,7 +181,6 @@ public class Weapon : Item
             StartCoroutine(MuzzleFlash());
         }
     }
-
 
     public bool HasCostForAttack()
     {
@@ -199,7 +199,6 @@ public class Weapon : Item
     }
 
     // startAttack -> attack
-
     public void StartAttack()
     {
         if (weaponState == WeaponState.Idle)
@@ -241,7 +240,7 @@ public class Weapon : Item
         else
         {
             Debug.Log("총알 혹은 스테미너 부족으로 인한 공격 실패");
-            // UI에니메이션 실행
+            // UI 에니메이션 실행
             Handheld.Vibrate(); // 진동 효과
             ControllerUI.Instance.WeaponSwitchButton.StartShake(1.5f, 1.5f, 1);
         }
@@ -333,12 +332,25 @@ public class Weapon : Item
                 return false;
         }
     }
+
+    public Vector3 GetMuzzlePos()
+    {
+        if (-90 <= ownerDirDegree() && ownerDirDegree() < 90)
+        {
+            return ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), 90) * info.additionalVerticalPos;
+        }
+        else
+        {
+            return ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), -90) * info.additionalVerticalPos;
+        }
+    }
     #endregion
 
     #region coroutine
 
     private IEnumerator MuzzleFlash()
     {
+        muzzleFlashTransform.position = GetMuzzlePos();
         muzzleFlashObj.SetActive(true);
         yield return YieldInstructionCache.WaitForSeconds(0.07f);
         muzzleFlashObj.SetActive(false);
@@ -347,8 +359,20 @@ public class Weapon : Item
     // 공격 패턴 한 사이클.
     private IEnumerator PatternCycle(float damageIncreaseRate)
     {
-        if(0 < info.castingTime)
+        // 총구 위치 보기용
+        if(OwnerType.Player == ownerType)
+        {
+            if(DebugSetting.Instance.showsMuzzlePos)
+                PlayerManager.Instance.GetPlayer().UpdateMuzzlePosition(GetMuzzlePos(), true);
+            else
+                PlayerManager.Instance.GetPlayer().UpdateMuzzlePosition(Vector3.zero, false);
+        }
+
+
+        if (0 < info.castingTime)
+        {
             yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
+        }
         // 공격 한 사이클 실행
         for (int i = 0; i < info.bulletPatternsLength; i++)
         {

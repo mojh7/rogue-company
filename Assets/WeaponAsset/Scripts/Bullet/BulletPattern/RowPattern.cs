@@ -70,7 +70,8 @@ public class RowPattern : BulletPattern
                 }
 
                 createdObj = ObjectPoolManager.Instance.CreateBullet();
-                createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType, ownerPos() + angleVector * addDirVecMagnitude + perpendicularVector * (info.initPos - info.deltaPos * j),
+                createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
+                    weapon.GetMuzzlePos() + perpendicularVector * (info.initPos - info.deltaPos * j),
                     ownerDirDegree() + currentAngle, transferBulletInfo);
             }
         }
