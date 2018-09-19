@@ -7,6 +7,16 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 {
     Vector3 upVector = Vector3.up;
     #region public
+    public void StartCoroutine(Action<Character, object, float> action, Character user, object parameter, float delay, float amount)
+    {
+        StartCoroutine(CoroutineSkill(action, user, parameter, delay, amount));
+    }
+
+    public void StartJumpCoroutine(Character user, Vector3 src, Vector3 dest)
+    {
+        StartCoroutine(CoroutineJump(user, user.transform.position, dest + upVector));
+    }
+
     public BT.State Charm(Character user, object victim, int idx, float delay, float amount)
     {
         if (!user || delay < 0 || amount < 0)
@@ -43,101 +53,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         return BT.State.SUCCESS;
     }
 
-    public BT.State HandUp(Character user, object radius, int idx, float delay, float amount, float num)
-    {
-        if (!user || delay < 0 || amount < 0 || num < 1)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        for (int i = 0; i < num; i++)
-        {
-            float randDelay = UnityEngine.Random.Range(0, delay + 1);
-            StartCoroutine(CoroutineSkill(HandUp, user, radius, randDelay, amount));
-        }
-        user.isCasting = false;
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State HandClap(Character user, object unneeded, int idx, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        StartCoroutine(CoroutineSkill(HandClap, user, user.transform.position + Vector3.left, 0, amount));
-        StartCoroutine(CoroutineSkill(HandClap, user, user.transform.position + Vector3.right, delay, amount));
-        user.isCasting = false;
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State SpawnServant(Character user, object servantData, int idx, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        EnemyData[] enemyDatas = servantData as EnemyData[];
-        if(enemyDatas.Length <=0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        for (int i = 0; i < amount; i++)
-        {
-            float randDelay = UnityEngine.Random.Range(0, delay + 1);
-            StartCoroutine(CoroutineSkill(SpawnServant, user, enemyDatas[idx], randDelay, amount));
-        }
-        user.isCasting = false;
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State RangeAttack(Character user, object radius, int idx, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = user.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, (float)radius);
-        gameObject.GetComponent<CollisionSkill>().SetAvailableFalse();
-        user.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().SetAvailableTrue);
-        user.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
-        user.GetCharacterComponents().AnimationHandler.Skill(idx);
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State Flash(Character user, object position, int idx, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = user.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(user as Character, position, amount, Flash);
-
-        user.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().LapseAnimation);
-        user.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
-        user.GetCharacterComponents().AnimationHandler.Skill(idx);
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State Jump(Character user, object victim, int idx,float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        StartCoroutine(CoroutineSkill(Jump, user, victim, delay, amount));
-        return BT.State.SUCCESS;
-    }
-    #endregion
+     #endregion
     #region private
     private void Charm(Character user, object victim, float amount)
     {
@@ -152,61 +68,6 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     private void Confuse(Character user, object victim, float amount)
     {
 
-    }
-
-    private void HandUp(Character user, object radius, float amount)
-    {
-        if (!user)
-            return;
-        float rad = (float)radius;
-        Vector2 randPos = UnityEngine.Random.insideUnitCircle * rad;
-        GameObject gameObject = ResourceManager.Instance.objectPool.GetPooledObject();
-        gameObject.transform.position = new Vector2(user.transform.position.x + randPos.x, user.transform.position.y + randPos.y);
-        gameObject.AddComponent<Alert>();
-        gameObject.GetComponent<Alert>().Init(HandUpPart, user, amount, 1, null);
-        gameObject.GetComponent<Alert>().Active();
-    }
-
-    private void HandUpPart(Vector3 pos, object user, float amount, Character character)
-    {
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = pos;
-        gameObject.AddComponent<CollisionSkill>().Init(user as Character, amount, "handUp");
-    }
-
-    private void HandClap(Character user, object unneeded, float amount)
-    {
-        Vector3 pos = (Vector3)unneeded;
-
-        HandClapPart(pos, user, amount);
-    }
-
-    private void HandClapPart(Vector3 pos, Character user, float amount)
-    {
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = pos;
-        gameObject.AddComponent<CollisionSkill>().Init(user, amount, "handClap");
-    }
-
-    private void SpawnServant(Character user, object servantData, float amount)
-    {
-        EnemyManager.Instance.Generate(RoomManager.Instance.SpawnedServant(), servantData as EnemyData, user);
-    }
-
-    private void Flash(Character user, object position, float amount)
-    {
-        user.transform.position = (Vector2)position;
-    }
-
-    private void Jump(Character user, object victim, float amount)
-    {
-        Vector2 targetPos = ((victim as Character).transform).position + upVector;
-        if (user)
-        {
-            user.GetCharacterComponents().AIController.StopMove();
-            user.GetCharacterComponents().CircleCollider2D.enabled = false;
-            StartCoroutine(CoroutineJump(user, user.transform.position, targetPos));
-        }
     }
 
     #endregion

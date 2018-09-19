@@ -8,6 +8,14 @@ public abstract class SkillData : ScriptableObject
     protected float delay;
     [SerializeField]
     protected float amount;
-
-    public abstract BT.State Run(Character character, object temporary, int idx);
+    protected Character character;
+    protected object temporary;
+    protected int idx;
+    public virtual BT.State Run(Character character, object temporary, int idx)
+    {
+        this.character = character;
+        this.temporary = temporary;
+        this.idx = idx;
+        return BT.State.SUCCESS;
+    }
 }
