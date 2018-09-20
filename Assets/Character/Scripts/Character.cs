@@ -96,6 +96,32 @@ public abstract class Character : MonoBehaviour
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
     #endregion
+    // TODO : Enemy에서 다른 owner에서도 적용하는 것들은 옮겨 와야됨~
+    #region abnormalStatusVariables
+    protected int restrictMovingCount;
+    protected int restrictAttackingCount;
+
+    protected bool isPoisoning;
+    protected int poisonOverlappingCount;
+    protected int[] poisonCount;
+    protected bool isBurning;
+    protected int burnOverlappingCount;
+    protected int[] burnCount;
+    protected bool isDelayingState;
+    protected int delayStateOverlappingCount;
+    protected int delayStateCount;
+
+    protected float[] climbingTime;
+    protected bool[] isAbnormalStatuses;
+    protected int[] abnormalStatusCounts;
+    protected int[] overlappingCounts;
+    protected float[] abnormalStatusTime;
+    protected float[] abnormalStatusDurationTime;
+    protected Coroutine[] abnormalStatusCoroutines;
+
+    protected Coroutine poisonCoroutine;
+    protected Coroutine burnCoroutine;
+    #endregion
     #region dataStruct
     protected List<Character> servants;
     #endregion
@@ -285,6 +311,47 @@ public abstract class Character : MonoBehaviour
     public bool IsEvade()
     {
         return isEvade;
+    }
+
+    protected void DeactivateAbnormalComponents()
+    {
+        abnormalComponents.BurnEffect.SetActive(false);
+        abnormalComponents.PoisonEffect.SetActive(false);
+
+        abnormalComponents.NagEffect.SetActive(false);
+        abnormalComponents.ClibmingEffect.SetActive(false);
+        abnormalComponents.GraveyardShiftEffect.SetActive(false);
+        abnormalComponents.FreezeEffect.SetActive(false);
+        abnormalComponents.ReactanceEffect.SetActive(false);
+
+        abnormalComponents.StunEffect.SetActive(false);
+        abnormalComponents.CharmEffect.SetActive(false);
+    }
+
+    protected void InitStatusEffects()
+    {
+        isPoisoning = false;
+        poisonOverlappingCount = 0;
+        poisonCount = new int[StatusConstants.Instance.PoisonInfo.overlapCountMax];
+        isBurning = false;
+        burnOverlappingCount = 0;
+        burnCount = new int[StatusConstants.Instance.BurnInfo.overlapCountMax];
+        isDelayingState = false;
+        delayStateCount = 0;
+
+        climbingTime = new float[StatusConstants.Instance.ClimbingInfo.overlapCountMax];
+
+        restrictMovingCount = 0;
+        restrictAttackingCount = 0;
+        for (int i = 0; i < (int)AbnormalStatusType.END; i++)
+        {
+            isAbnormalStatuses[i] = false;
+            abnormalStatusCounts[i] = 0;
+            overlappingCounts[i] = 0;
+            abnormalStatusCoroutines[i] = null;
+            abnormalStatusTime[i] = 0;
+            abnormalStatusDurationTime[i] = 0;
+        }
     }
 }
 

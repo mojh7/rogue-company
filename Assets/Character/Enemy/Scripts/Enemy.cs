@@ -19,32 +19,8 @@ public class Enemy : Character
     #endregion
 
     #region abnormalStatusVariables
-    private int restrictMovingCount;
-    private int restrictAttackingCount;
-
-    private bool isPoisoning;
-    private int poisonOverlappingCount;
-    private int[] poisonCount;
-    private bool isBurning;
-    private int burnOverlappingCount;
-    private int[] burnCount;
-    private bool isDelayingState;
-    private int delayStateOverlappingCount;
-    private int delayStateCount;
-
-    private float[] climbingTime;
-    private bool[] isAbnormalStatuses;
-    private int[] abnormalStatusCounts;
-    private int[] overlappingCounts;
-    private float[] abnormalStatusTime;
-    private float[] abnormalStatusDurationTime;
-    private Coroutine[] abnormalStatusCoroutines;
-
     private Coroutine knockBackCheck;
-    private Coroutine poisonCoroutine;
-    private Coroutine burnCoroutine;
     private Coroutine delayStateCoroutine;
-
     #endregion
 
     #region setter
@@ -115,17 +91,7 @@ public class Enemy : Character
         isActiveAttackAI = true;
         isActiveMoveAI = true;
 
-        abnormalComponents.BurnEffect.SetActive(false);
-        abnormalComponents.PoisonEffect.SetActive(false);
-
-        abnormalComponents.NagEffect.SetActive(false);
-        abnormalComponents.ClibmingEffect.SetActive(false);
-        abnormalComponents.GraveyardShiftEffect.SetActive(false);
-        abnormalComponents.FreezeEffect.SetActive(false);
-        abnormalComponents.ReactanceEffect.SetActive(false);
-
-        abnormalComponents.StunEffect.SetActive(false);
-        abnormalComponents.CharmEffect.SetActive(false);
+        DeactivateAbnormalComponents();
 
         isBossEnemy = false;
         hpMax = enemyData.HP;
@@ -143,32 +109,6 @@ public class Enemy : Character
         animationHandler.Init(this, enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
-    }
-    /// <summary> 상태 이상 효과 관련 초기화 </summary>
-    private void InitStatusEffects()
-    {
-        isPoisoning = false;
-        poisonOverlappingCount = 0;
-        poisonCount = new int[StatusConstants.Instance.PoisonInfo.overlapCountMax];
-        isBurning = false;
-        burnOverlappingCount = 0;
-        burnCount = new int[StatusConstants.Instance.BurnInfo.overlapCountMax];
-        isDelayingState = false;
-        delayStateCount = 0;
-
-        climbingTime = new float[StatusConstants.Instance.ClimbingInfo.overlapCountMax];
-
-        restrictMovingCount = 0;
-        restrictAttackingCount = 0;
-        for (int i = 0; i < (int)AbnormalStatusType.END; i++)
-        {
-            isAbnormalStatuses[i] = false;
-            abnormalStatusCounts[i] = 0;
-            overlappingCounts[i] = 0;
-            abnormalStatusCoroutines[i] = null;
-            abnormalStatusTime[i] = 0;
-            abnormalStatusDurationTime[i] = 0;
-        }
     }
     #endregion
 
@@ -304,7 +244,7 @@ public class Enemy : Character
     }
     #endregion
 
-    #region abnormalState
+    #region abnormalStatus
 
     // 여러 상태이상, 단일 상태이상 중첩 시 공격, 이동 제한을 한 곳에서 관리하기 위해서
     /// <summary> 이동 방해 상태 이상 갯수 증가 및 이동 AI OFF Check </summary>
@@ -351,7 +291,6 @@ public class Enemy : Character
         }
     }
 
-
     private bool AbnormalChance(float appliedChance)
     {
         float chance = Random.Range(0, 1f);
@@ -368,9 +307,8 @@ public class Enemy : Character
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
-        if (CharacterInfo.State.ALIVE != pState)
+        if (CharacterInfo.State.ALIVE != pState || null == statusEffectInfo)
             return;
-        if (null == statusEffectInfo) return;
 
         if (0 != statusEffectInfo.knockBack)
             KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
@@ -444,7 +382,6 @@ public class Enemy : Character
             burnCoroutine = StartCoroutine(BurnCoroutine());
         }
     }
-    // TODO : 다른 상태이상이 걸려있는 상태에서 상태이상이 걸릴 때 우선 순위 처리 고민 및 해야됨.
 
     private void DelayState(float chance)
     {

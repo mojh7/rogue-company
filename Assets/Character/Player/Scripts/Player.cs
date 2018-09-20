@@ -114,6 +114,13 @@ public class Player : Character
         raycasthitEnemyInfo = new RaycasthitEnemy();
         layerMask = 1 << LayerMask.NameToLayer("TransparentFX");
         floorSpeed = 0;
+
+        isAbnormalStatuses = new bool[(int)AbnormalStatusType.END];
+        abnormalStatusCounts = new int[(int)AbnormalStatusType.END];
+        overlappingCounts = new int[(int)AbnormalStatusType.END];
+        abnormalStatusCoroutines = new Coroutine[(int)AbnormalStatusType.END];
+        abnormalStatusTime = new float[(int)AbnormalStatusType.END];
+        abnormalStatusDurationTime = new float[(int)AbnormalStatusType.END];
     }
 
     // Update is called once per frame
@@ -174,6 +181,8 @@ public class Player : Character
         IsNotConsumeStamina = false;
         IsNotConsumeAmmo = false;
 
+        DeactivateAbnormalComponents();
+
         shieldCount = 0;
         evadeCoolTime = 0.05f;
         battleSpeed = 0.5f;
@@ -190,6 +199,9 @@ public class Player : Character
 
         animationHandler.SetEndAction(EndEvade);
         TimeController.Instance.PlayStart();
+
+        DeactivateAbnormalComponents();
+        InitStatusEffects();
     }
 
     public void InitPlayerData(PlayerData playerData)
@@ -609,16 +621,93 @@ public class Player : Character
         IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
     }
 
-    public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
-    {
-    }
-
     protected override bool IsAbnormal()
     {
         return false;
     }
     #endregion
 
+    #region abnormalStatusFunc
+    private bool AbnormalChance(float appliedChance)
+    {
+        float chance = Random.Range(0, 1f);
+        if (chance < appliedChance)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
+    {
+        if (CharacterInfo.State.ALIVE != pState || null == statusEffectInfo)
+            return;
+
+        //if (0 != statusEffectInfo.knockBack)
+        //    KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
+
+        //if (true == statusEffectInfo.canPoison)
+        //    Poison(statusEffectInfo.posionChance);
+        if (true == statusEffectInfo.canBurn)
+            Burn(statusEffectInfo.burnChance);
+        //if (true == statusEffectInfo.canDelayState)
+        //    DelayState(statusEffectInfo.delayStateChance);
+
+        //if (true == statusEffectInfo.canNag)
+        //    Nag(statusEffectInfo.nagChance);
+        //if (true == statusEffectInfo.canClimb)
+        //    Climbing(statusEffectInfo.climbChance);
+        //if (true == statusEffectInfo.graveyardShift)
+        //    GraveyardShift(statusEffectInfo.graveyardShiftChance);
+        //if (true == statusEffectInfo.canFreeze)
+        //    Freeze(statusEffectInfo.freezeChance);
+        //if (true == statusEffectInfo.reactance)
+        //    Reactance(statusEffectInfo.reactanceChance);
+
+        //if (0 != statusEffectInfo.stun)
+        //    Stun(statusEffectInfo.stun, statusEffectInfo.stunChance);
+        //if (0 != statusEffectInfo.charm)
+        //    Charm(statusEffectInfo.charm, statusEffectInfo.charmChance);
+    }
+
+    // 불 처리랑 데미지 따로 있는데 player 일단 임시로 해놓음.
+    private void Burn(float chance)
+    {
+        if (false == AbnormalChance(chance))
+            return;
+
+        if (false == isBurning)
+        {
+            burnCoroutine = StartCoroutine(BurnCoroutine());
+        }
+    }
+
+
+    #endregion
+
+    #region abnormalStatusCoroutine
+    IEnumerator BurnCoroutine()
+    {
+        isBurning = true;
+        abnormalComponents.BurnEffect.SetActive(true);
+        // 불 처리랑 데미지 enemy는 따로 뭐가 있는데 player는 일단 임시로 이렇게함.
+        int count = 6;
+        //float damage = 1;
+        while (count > 0)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(0.5f);
+
+            playerData.Hp -= 1;
+            PlayerHPUi.DecreaseHp(playerData.Hp);
+            count -= 1;
+        }
+        abnormalComponents.BurnEffect.SetActive(false);
+        isBurning = false;
+    }
+    #endregion
     #region coroutine
     private IEnumerator KnockBackCheck()
     {

@@ -27,7 +27,6 @@ public class PlayerData : ScriptableObject
 
     [SerializeField]
     private float hp;
-    // 모든 캐릭터 최대 체력 15개 통일 완전히 확정나면 SerializeField 제거
     [SerializeField]
     private float hpMax;
     [SerializeField]
@@ -50,21 +49,9 @@ public class PlayerData : ScriptableObject
     // on / off bool;
     private bool canDrainHp;
     private bool cannotDamagedWhenFalling;
-    /*
-     * 패시브
-     * passiveItem;
-     * 
-     * 액티브
-     * activeSkill
-     */
+    #endregion
 
-
-
-// 
-
-#endregion
-
-#region get/set Property
+    #region get/set Property
 
     public float Hp
     {
@@ -118,11 +105,6 @@ public class PlayerData : ScriptableObject
     }
 
     #endregion
-
-    public PlayerData()
-    {
-        hpMax = 15;
-    }
 
     public PlayerData Clone()
     {
