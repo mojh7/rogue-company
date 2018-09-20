@@ -20,6 +20,8 @@ public class CharacterComponents : MonoBehaviour
     [SerializeField]
     private CircleCollider2D circleCollider2D;
     [SerializeField]
+    private BoxCollider2D hitBox;
+    [SerializeField]
     private Transform shadowTransform;
 
     #endregion
@@ -71,6 +73,13 @@ public class CharacterComponents : MonoBehaviour
         get
         {
             return circleCollider2D;
+        }
+    }
+    public BoxCollider2D HitBox
+    {
+        get
+        {
+            return hitBox;
         }
     }
     public Transform ShadowTransform

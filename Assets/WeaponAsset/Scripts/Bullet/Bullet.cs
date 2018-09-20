@@ -205,10 +205,10 @@ public class Bullet : MonoBehaviour
         lineRenderer.enabled = true;
 
         paticleObj.SetActive(false);
-        lineRenderer.startColor = Color.blue;
-        lineRenderer.endColor = Color.cyan;
-        lineRenderer.startWidth = 0.4f;
-        lineRenderer.endWidth = 0.4f;
+        //lineRenderer.startColor = Color.blue;
+        //lineRenderer.endColor = Color.cyan;
+        lineRenderer.startWidth = info.laserSize;
+        lineRenderer.endWidth = info.laserSize;
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, Vector2.zero);
         lineRenderer.SetPosition(1, Vector2.zero);

@@ -55,6 +55,10 @@ public class Enemy : Character
     {
         return Components.CircleCollider2D;
     }
+    public BoxCollider2D GetHitBox()
+    {
+        return Components.HitBox;
+    }
     public EnemyData[] GetServants()
     {
         return enemyData.ServantDatas;

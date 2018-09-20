@@ -47,6 +47,8 @@ public class BulletInfo : ScriptableObject
     public float scaleX;
     public float scaleY;
 
+    public float laserSize;
+
     public int pierceCount;
     public int bounceCount;
 
@@ -145,6 +147,7 @@ public class BulletInfo : ScriptableObject
 
         scaleX = 1.0f;
         scaleY = 1.0f;
+        laserSize = 1.0f;
 
         pierceCount = 1;
         bounceCount = 0;
@@ -200,6 +203,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.range = range;
         clonedInfo.scaleX = scaleX;
         clonedInfo.scaleY = scaleY;
+        clonedInfo.laserSize = laserSize;
 
         clonedInfo.pierceCount = pierceCount;
         clonedInfo.bounceCount = bounceCount;

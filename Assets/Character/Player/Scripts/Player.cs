@@ -422,7 +422,7 @@ public class Player : Character
         else
         {
             List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
-            List<CircleCollider2D> enemyColliderList = EnemyManager.Instance.GetEnemyColliderList;
+            List<BoxCollider2D> enemyColliderList = EnemyManager.Instance.GetEnemyColliderList;
             raycastHitEnemies.Clear();
             int raycasthitEnemyNum = 0;
             float minDistance = 10000f;
@@ -459,7 +459,7 @@ public class Player : Character
                 }
             }
 
-            CircleCollider2D enemyColider = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index];
+            BoxCollider2D enemyColider = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index];
             enemyPos = enemyColider.transform.position + new Vector3(enemyColider.offset.x + enemyColider.offset.y, 0);
             directionVector = (enemyPos - objTransform.position);
             directionVector.z = 0;
@@ -487,7 +487,7 @@ public class Player : Character
             directionVector = controller.GetAttackRecentNormalInputVector();
             directionVector.Normalize();
             List<Enemy> enemyList = EnemyManager.Instance.GetEnemyList;
-            List<CircleCollider2D> enemyColliderList = EnemyManager.Instance.GetEnemyColliderList;
+            List<BoxCollider2D> enemyColliderList = EnemyManager.Instance.GetEnemyColliderList;
             raycastHitEnemies.Clear();
             int raycasthitEnemyNum = 0;
             float minDistance = 10000f;
@@ -522,7 +522,7 @@ public class Player : Character
                     proximateEnemyIndex = j;
                 }
             }
-            CircleCollider2D enemyColider = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index];
+            BoxCollider2D enemyColider = enemyColliderList[raycastHitEnemies[proximateEnemyIndex].index];
             enemyPos = enemyColider.transform.position + new Vector3(enemyColider.offset.x + enemyColider.offset.y, 0);
             directionVector = (enemyPos - objTransform.position);
             directionVector.Normalize();

@@ -201,7 +201,7 @@ public class LaserUpdateProperty : UpdateProperty
         additionalVerticalPos = bullet.GetAdditionalVerticalPos();
         lineRenderer = bullet.GetLineRenderer();
         pos = new Vector3();
-        laserSize = new Vector2(0.2f, 0.2f);
+        laserSize = new Vector2(0.1f, bullet.info.laserSize);
         // 일단 Player 레이저가 Enemy에게 적용 하는 것만
         layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy") | 1 << LayerMask.NameToLayer("TransparentFX"));
     }
@@ -428,8 +428,8 @@ public class MineBombProperty : UpdateProperty
     private enum MineState { DETECTION, TRAKING }
     private MineState state;
     private float speed;
-    private CircleCollider2D detectedEnemy;
-    private List<CircleCollider2D> enemies;
+    private BoxCollider2D detectedEnemy;
+    private List<BoxCollider2D> enemies;
     public override UpdateProperty Clone()
     {
         return new MineBombProperty();
@@ -456,9 +456,7 @@ public class MineBombProperty : UpdateProperty
         // 추적
         else if(MineState.TRAKING == state)
         {
-
             // if(detectedEnemy)
-
             // 각도 맞춰서 추적
 
             
