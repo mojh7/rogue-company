@@ -38,7 +38,7 @@ public class SkillAction : ActionTask
         if (!isRun)
         {
             isRun = true;
-            return attackPattern.CastingSKill(character, Idx, temporary);
+            return attackPattern.CastingSKill(character, temporary, Idx);
         }
         else
         {

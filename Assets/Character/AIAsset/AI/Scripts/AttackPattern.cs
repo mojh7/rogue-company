@@ -39,7 +39,7 @@ public class AttackPattern : MonoBehaviour
         return false;  
     }
 
-    public BT.State CastingSKill(Character character, int i, object temporary)
+    public BT.State CastingSKill(Character character, object temporary, int i)
     {
         if (i >= skillDatas.Length || !isActive)
             return BT.State.FAILURE;

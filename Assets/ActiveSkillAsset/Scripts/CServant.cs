@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "CServant", menuName = "SkillData/CServant")]
 public class CServant : SkillData
 {
@@ -8,10 +9,10 @@ public class CServant : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return SpawnServant(character, parameter, idx, delay, amount);
+        return SpawnServant(character, parameter);
     }
 
-    private BT.State SpawnServant(Character user, object servantData, int idx, float delay, float amount)
+    private BT.State SpawnServant(Character user, object servantData)
     {
         if (!user || delay < 0 || amount < 0)
         {

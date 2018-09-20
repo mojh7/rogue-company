@@ -12,6 +12,7 @@ public class ActiveSkil : MonoBehaviour {
     protected object temporary;
     protected float amount;
     protected float radius;
+    protected int idx;
 
     protected bool isActvie;
     protected bool isAvailable;
@@ -32,12 +33,12 @@ public class ActiveSkil : MonoBehaviour {
         this.gameObject.SetActive(false);
     }
 
-    public void LapseAnimation()
+    public virtual void LapseAnimation()
     {
         action.Invoke(character, temporary, amount);
     }
 
-    public void EndAnimation()
+    public virtual void EndAnimation()
     {
         DestroyAndDeactive();
     }
@@ -47,6 +48,11 @@ public class ActiveSkil : MonoBehaviour {
         animator = GetComponent<Animator>();
         circleCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingLayerName = "Default";
+        spriteRenderer.sortingOrder = 0;
+        spriteRenderer.color = Color.white;
+        transform.localScale = new Vector3(1, 1, 1);
+        animator.SetTrigger("default");
 
         DestroySelf();
     }
@@ -69,7 +75,7 @@ public class ActiveSkil : MonoBehaviour {
 
 public class CollisionSkill : ActiveSkil
 {
-    StatusEffectInfo statusEffect;
+    StatusEffectInfo statusEffectInfo;
 
     public void Init(Character character, object temporary, float amount, System.Action<Character, object, float> action)
     {
@@ -90,6 +96,7 @@ public class CollisionSkill : ActiveSkil
         isAvailable = true;
         isActvie = true;
         this.damage = damage;
+        this.radius = radius;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
         circleCollider.radius = radius;
@@ -105,6 +112,21 @@ public class CollisionSkill : ActiveSkil
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
         StartCoroutine(ColliderUpdate());
+    }
+
+    public void Init(Character character, float time, float radius, StatusEffectInfo statusEffectInfo,string skillName,Color color)
+    {
+        Init();
+        this.radius = radius;
+        this.statusEffectInfo = statusEffectInfo;
+        this.enemyLayer = UtilityClass.GetEnemyLayer(character);
+        this.isAvailable = true;
+        transform.localScale = new Vector3(1, 1, 1) * radius;
+        spriteRenderer.sortingLayerName = "Background";
+        circleCollider.radius = 0.3f;
+        animator.SetTrigger(skillName);
+        spriteRenderer.color = color;
+        UtilityClass.Invoke(this, DestroyAndDeactive, time);
     }
 
     public override void SetAvailableFalse()
@@ -129,8 +151,91 @@ public class CollisionSkill : ActiveSkil
         {
             isAvailable = false;
             Character character = collision.GetComponent<Character>();
-            character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
-            character.ApplyStatusEffect(statusEffect);
+            if (statusEffectInfo == null)
+                character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
+            character.ApplyStatusEffect(statusEffectInfo);
         }
     }   
+}
+
+public class ThrowingSkill : ActiveSkil
+{
+    SkillData importedSkill;
+    Vector3 src, dest, direction;
+    float speed, acceleration;
+    string skillName;
+    bool isActive;
+
+    public override void LapseAnimation()
+    {
+        Throwing();
+    }
+
+    public override void EndAnimation()
+    {
+    }
+
+    public void Init(Character character, object temporary, int idx, string skillName, SkillData skillData, float speed, float acceleration)
+    {
+        Init();
+        this.enemyLayer = UtilityClass.GetEnemyLayer(character);
+        this.character = character;
+        this.temporary = temporary;
+        this.idx = idx;
+        this.skillName = skillName;
+        this.importedSkill = skillData;
+        this.src = character.transform.position;
+        this.dest = (Vector3)temporary;
+        this.direction = (dest - src).normalized;
+
+        this.speed = speed;
+        this.acceleration = acceleration;
+
+        this.isActive = false;
+    }
+
+    private void Throwing()
+    {
+        animator.SetTrigger(skillName);
+        StartCoroutine(CoroutineThrow());
+    }
+
+    IEnumerator CoroutineThrow()
+    {
+        float dist = Vector2.Distance(dest, src);
+        float elapsedDist = 0;
+        float elapsedTime = 0;
+        while (elapsedDist <= dist && speed > 0)
+        {
+            transform.localPosition = transform.localPosition + direction * speed * Time.deltaTime;
+            elapsedDist += speed * Time.deltaTime;
+            elapsedTime += Time.deltaTime;
+            speed += acceleration * elapsedTime * Time.deltaTime;
+            if (isActive)
+                break;
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
+        if(!isActive)
+        {
+            animator.SetTrigger("default");
+            this.importedSkill.Run(this.character, this.transform.position, this.idx);
+        }
+        DestroyAndDeactive();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!isAvailable)
+            return;
+        if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer))
+        {
+            StopCoroutine(CoroutineThrow());
+            isActive = true;
+            isAvailable = false;
+            animator.SetTrigger("default");
+            this.importedSkill.Run(this.character, this.transform.position, this.idx);
+            DestroyAndDeactive();
+        }
+    }
 }

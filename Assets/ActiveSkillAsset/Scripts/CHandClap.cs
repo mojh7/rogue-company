@@ -9,10 +9,10 @@ public class CHandClap : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return HandClap(character, temporary, idx, delay, amount);
+        return HandClap(character);
     }
 
-    private BT.State HandClap(Character user, object unneeded, int idx, float delay, float amount)
+    private BT.State HandClap(Character user)
     {
         if (!user || delay < 0 || amount < 0)
         {
@@ -25,9 +25,9 @@ public class CHandClap : SkillData
         return BT.State.SUCCESS;
     }
 
-    private void HandClap(Character user, object unneeded, float amount)
+    private void HandClap(Character user, object temporary, float amount)
     {
-        Vector3 pos = (Vector3)unneeded;
+        Vector3 pos = (Vector3)temporary;
 
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;

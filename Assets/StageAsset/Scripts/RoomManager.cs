@@ -99,6 +99,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         if (!currentRoom.isRoom)
             return;
+        if (currentRoom.customObjects == null)
+            return;
         for (int i = 0; i < currentRoom.customObjects.Length; i++)
         {
             if (currentRoom.customObjects[i].GetComponent<Portal>() == null)

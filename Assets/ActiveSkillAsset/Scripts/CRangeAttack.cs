@@ -11,10 +11,10 @@ public class CRangeAttack : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return RangeAttack(character, radius, idx, delay, amount);
+        return RangeAttack(character);
     }
 
-    public BT.State RangeAttack(Character user, object radius, int idx, float delay, float amount)
+    private BT.State RangeAttack(Character user)
     {
         if (!user || delay < 0 || amount < 0)
         {

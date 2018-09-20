@@ -13,10 +13,10 @@ public class CHandUp : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return HandUp(character, radius, idx, delay, amount, num);
+        return HandUp(character);
     }
 
-    private BT.State HandUp(Character user, object radius, int idx, float delay, float amount, float num)
+    private BT.State HandUp(Character user)
     {
         if (!user || delay < 0 || amount < 0 || num < 1)
         {

@@ -16,60 +16,6 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     {
         StartCoroutine(CoroutineJump(user, user.transform.position, dest + upVector));
     }
-
-    public BT.State Charm(Character user, object victim, int idx, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        StartCoroutine(CoroutineSkill(Charm, user, victim, delay, amount));
-        user.isCasting = false;
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State IncreaseStatus(Character user, object victim, int idx, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        StartCoroutine(CoroutineSkill(IncreaseStatus, user, victim, delay, amount));
-        user.isCasting = false;
-        return BT.State.SUCCESS;
-    }
-
-    public BT.State Confuse(Character user, object victim, int idx, float delay, float amount)
-    {
-        if (!user || delay < 0 || amount < 0)
-        {
-            return BT.State.FAILURE;
-        }
-        user.isCasting = true;
-        StartCoroutine(CoroutineSkill(Confuse, user, victim, delay, amount));
-        user.isCasting = false;
-        return BT.State.SUCCESS;
-    }
-
-     #endregion
-    #region private
-    private void Charm(Character user, object victim, float amount)
-    {
-
-    }
-
-    private void IncreaseStatus(Character user, object victim, float amount)
-    {
-
-    }
-
-    private void Confuse(Character user, object victim, float amount)
-    {
-
-    }
-
     #endregion
     #region coroutine
     IEnumerator CoroutineSkill(Action<Character, object, float> action, Character user, object parameter, float delay, float amount)

@@ -161,7 +161,7 @@ namespace Map
         {
             ClearTile();
             int cnt = 0;
-            while (cnt < 100)
+            while (cnt < 1000)
             {
                 cnt++;
                 CreateMap();
