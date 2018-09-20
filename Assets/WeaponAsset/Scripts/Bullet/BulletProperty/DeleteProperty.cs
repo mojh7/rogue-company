@@ -126,6 +126,6 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
-        summonBulletPattern = new MultiDirPattern(bullet.info.deleteAfterSummonPatternInfo as MultiDirPatternInfo, 1, 0, bullet.GetOwnerType());
+        summonBulletPattern = new MultiDirPattern(bullet.info.deleteAfterSummonPatternInfo as MultiDirPatternInfo, 1, 0, false, false, bullet.GetOwnerType());
     }
 }

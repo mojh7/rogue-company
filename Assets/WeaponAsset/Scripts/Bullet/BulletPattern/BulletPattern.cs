@@ -41,10 +41,13 @@ public abstract class BulletPattern
     protected Weapon weapon;
     protected int executionCount;               // 한 사이클에서의 실행 횟수
     protected float delay;                      // 사이클 내에서의 delay
+    protected bool isFixedOwnerDir;
+    protected bool isFixedOwnerPos;
     protected float addDirVecMagnitude;         // onwer 바라보는 방향 추가적인 수평 위치
     protected float additionalVerticalPos;      // onwer 바라보는 방향 추가적인 수직 위치
     protected float accuracyIncrement;
 
+    protected float additionalAngle;
     protected CharacterInfo.OwnerType ownerType;
     protected DelGetDirDegree ownerDirDegree;
     protected DelGetPosition ownerDirVec;
@@ -153,4 +156,10 @@ public abstract class BulletPattern
     {
         accuracyIncrement = totalInfo.accuracyIncrement * effectInfo.accuracyIncrement;
     }
+
+    public virtual void InitAdditionalAngle()
+    {
+        additionalAngle = 0;
+    }
+    public abstract void IncreaseAdditionalAngle();
 }

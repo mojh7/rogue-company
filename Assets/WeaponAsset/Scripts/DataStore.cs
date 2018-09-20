@@ -88,8 +88,11 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private WeaponInfo[] test2WeaponInfos;
 
+    /// <summary> 기획자 무기 테스트용 </summary>
     [SerializeField]
     private WeaponInfo[] A1WeaponInfos;
+    [SerializeField]
+    private WeaponInfo[] testBossWeaponInfos;
 
 
     [SerializeField]
@@ -138,6 +141,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 return test2WeaponInfos.Length;
             case WeaponModeForDebug.A1:
                 return A1WeaponInfos.Length;
+            case WeaponModeForDebug.TESTBOSS:
+                return testBossWeaponInfos.Length;
             default:
                 break;
         }
@@ -202,6 +207,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                     return test2WeaponInfos[id];
                 case WeaponModeForDebug.A1:
                     return A1WeaponInfos[id];
+                case WeaponModeForDebug.TESTBOSS:
+                    return testBossWeaponInfos[id];
                 default:
                     break;
             }
@@ -305,6 +312,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             case WeaponModeForDebug.A1:
                 for (int i = 0; i < A1WeaponInfos.Length; i++)
                     A1WeaponInfos[i].Init();
+                break;
+            case WeaponModeForDebug.TESTBOSS:
+                for (int i = 0; i < testBossWeaponInfos.Length; i++)
+                    testBossWeaponInfos[i].Init();
                 break;
             default:
                 break;

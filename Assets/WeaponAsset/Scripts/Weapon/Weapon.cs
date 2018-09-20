@@ -368,11 +368,11 @@ public class Weapon : Item
                 PlayerManager.Instance.GetPlayer().UpdateMuzzlePosition(Vector3.zero, false);
         }
 
-
         if (0 < info.castingTime)
         {
             yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
         }
+
         // 공격 한 사이클 실행
         for (int i = 0; i < info.bulletPatternsLength; i++)
         {
@@ -399,11 +399,13 @@ public class Weapon : Item
                 AudioManager.Instance.PlaySound(info.soundId);
                 CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime);
                 info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
+                info.bulletPatterns[i].IncreaseAdditionalAngle();
                 if (info.bulletPatterns[i].GetDelay() > 0)
                 {
                     yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[i].GetDelay());
                 }
             }
+            info.bulletPatterns[i].InitAdditionalAngle();
         }
         Reload();
     }
