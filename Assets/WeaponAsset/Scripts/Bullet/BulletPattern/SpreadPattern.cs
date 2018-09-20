@@ -10,16 +10,19 @@ public class SpreadPattern : BulletPattern
     private SpreadPatternInfo info;
     private float sectorAngle;
     private int bulletCount;
-    public SpreadPattern(SpreadPatternInfo patternInfo, int executionCount, float delay, CharacterInfo.OwnerType ownerType)
+
+    public SpreadPattern(SpreadPatternInfo patternInfo, int executionCount, float delay, bool isFixedOwnerDir, bool isFixedOwnerPos, CharacterInfo.OwnerType ownerType)
     {
         info = patternInfo;
         this.executionCount = executionCount;
         this.delay = delay;
+        this.isFixedOwnerDir = isFixedOwnerDir;
+        this.isFixedOwnerPos = isFixedOwnerPos;
         this.ownerType = ownerType;
     }
     public override BulletPattern Clone()
     {
-        return new SpreadPattern(info, executionCount, delay, ownerType);
+        return new SpreadPattern(info, executionCount, delay, isFixedOwnerDir, isFixedOwnerPos, ownerType);
     }
 
     public override void CreateBullet(float damageIncreaseRate)
@@ -78,5 +81,10 @@ public class SpreadPattern : BulletPattern
         sectorAngle = info.sectorAngle * accuracyIncrement;
         // 샷건 발사 수 증가
         bulletCount = info.bulletCount + effectInfo.bulletCountIncrement;
+    }
+
+    public override void IncreaseAdditionalAngle()
+    {
+        additionalAngle += info.rotatedAnglePerExecution;
     }
 }

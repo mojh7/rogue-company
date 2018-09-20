@@ -69,4 +69,9 @@ public class FixedOwnerPattern : BulletPattern
     {
         base.ApplyWeaponBuff();
     }
+
+    public override void IncreaseAdditionalAngle()
+    {
+        additionalAngle += info.rotatedAnglePerExecution;
+    }
 }

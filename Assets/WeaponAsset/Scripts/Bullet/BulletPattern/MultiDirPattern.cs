@@ -10,11 +10,13 @@ public class MultiDirPattern : BulletPattern
     private MultiDirPatternInfo info;
 
     // 기존 정보를 참조하는 방식으로 변수 초기화
-    public MultiDirPattern(MultiDirPatternInfo patternInfo, int executionCount, float delay, CharacterInfo.OwnerType ownerType)
+    public MultiDirPattern(MultiDirPatternInfo patternInfo, int executionCount, float delay, bool isFixedOwnerDir, bool isFixedOwnerPos, CharacterInfo.OwnerType ownerType)
     {
         info = patternInfo;
         this.executionCount = executionCount;
         this.delay = delay;
+        this.isFixedOwnerDir = isFixedOwnerDir;
+        this.isFixedOwnerPos = isFixedOwnerPos;
         this.ownerType = ownerType;
     }
 
@@ -33,7 +35,7 @@ public class MultiDirPattern : BulletPattern
 
     public override BulletPattern Clone()
     {
-        return new MultiDirPattern(info, executionCount, delay, ownerType);
+        return new MultiDirPattern(info, executionCount, delay, isFixedOwnerDir, isFixedOwnerPos, ownerType);
     }
 
     public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)
@@ -57,15 +59,29 @@ public class MultiDirPattern : BulletPattern
                     else break;
                 }
             }
+            float tempDir;
+            if(info.ignoreOwnerDir)
+            {
+                tempDir = 0;
+            }
+            else
+            {
+                tempDir = ownerDirDegree();
+            }
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
                 weapon.GetMuzzlePos(),
-                ownerDirDegree() - info.initAngle + info.deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
+                tempDir - info.initAngle + info.deltaAngle * i + additionalAngle + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
         }
     }
 
     public override void ApplyWeaponBuff()
     {
         base.ApplyWeaponBuff();
+    }
+
+    public override void IncreaseAdditionalAngle()
+    {
+        additionalAngle += info.rotatedAnglePerExecution;
     }
 }

@@ -13,11 +13,13 @@ public class RowPattern : BulletPattern
     private float currentAngle;
 
     // 기존 정보를 참조하는 방식으로 변수 초기화
-    public RowPattern(RowPatternInfo patternInfo, int executionCount, float delay, CharacterInfo.OwnerType ownerType)
+    public RowPattern(RowPatternInfo patternInfo, int executionCount, float delay, bool isFixedOwnerDir, bool isFixedOwnerPos, CharacterInfo.OwnerType ownerType)
     {
         info = patternInfo;
         this.executionCount = executionCount;
         this.delay = delay;
+        this.isFixedOwnerDir = isFixedOwnerDir;
+        this.isFixedOwnerPos = isFixedOwnerPos;
         this.ownerType = ownerType;
     }
 
@@ -36,7 +38,7 @@ public class RowPattern : BulletPattern
 
     public override BulletPattern Clone()
     {
-        return new RowPattern(info, executionCount, delay, ownerType);
+        return new RowPattern(info, executionCount, delay, isFixedOwnerDir, isFixedOwnerPos, ownerType);
     }
 
     public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)
@@ -80,5 +82,10 @@ public class RowPattern : BulletPattern
     public override void ApplyWeaponBuff()
     {
         base.ApplyWeaponBuff();
+    }
+
+    public override void IncreaseAdditionalAngle()
+    {
+        additionalAngle += info.rotatedAnglePerExecution;
     }
 }

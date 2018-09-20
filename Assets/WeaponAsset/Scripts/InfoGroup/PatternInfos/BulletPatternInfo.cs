@@ -17,6 +17,7 @@ public class BulletPatternInfo : ScriptableObject
     [Header("BulletPattern 공통 속성")]
     public float addDirVecMagnitude;
     public float rotatedAnglePerExecution;
+    public bool ignoreOwnerDir;
 
     /// <summary> bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
     public static BulletPattern CreatePatternInfo(BulletPatternInfo patternInfo, CharacterInfo.OwnerType ownerType)
@@ -33,11 +34,11 @@ public class BulletPatternInfo : ScriptableObject
         // c# 6 이전 버전에서는 switch식 또는 case 레이블은 bool, char, string, integral, enum 또는 해당하는 nullable 형식이어야 합니다.
         if (typeof(MultiDirPatternInfo) == bulletPatternType)
         {
-            return new MultiDirPattern(patternEditInfo.patternInfo as MultiDirPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, ownerType);
+            return new MultiDirPattern(patternEditInfo.patternInfo as MultiDirPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, patternEditInfo.isFixedOwnerDir, patternEditInfo.isFixedOwnerPos, ownerType);
         }
         else if (typeof(RowPatternInfo) == bulletPatternType)
         {
-            return new RowPattern(patternEditInfo.patternInfo as RowPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, ownerType);
+            return new RowPattern(patternEditInfo.patternInfo as RowPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, patternEditInfo.isFixedOwnerDir, patternEditInfo.isFixedOwnerPos, ownerType);
         }
         else if (typeof(LaserPatternInfo) == bulletPatternType)
         {
@@ -45,7 +46,7 @@ public class BulletPatternInfo : ScriptableObject
         }
         else if (typeof(SpreadPatternInfo) == bulletPatternType)
         {
-            return new SpreadPattern(patternEditInfo.patternInfo as SpreadPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, ownerType);
+            return new SpreadPattern(patternEditInfo.patternInfo as SpreadPatternInfo, patternEditInfo.executionCount, patternEditInfo.delay, patternEditInfo.isFixedOwnerDir, patternEditInfo.isFixedOwnerPos, ownerType);
         }
         else if (typeof(FixedOwnerPatternInfo) == bulletPatternType)
         {
