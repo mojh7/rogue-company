@@ -13,6 +13,8 @@ public class CAbnormal : SkillData
     string skillName;
     [SerializeField]
     Color color;
+    [SerializeField]
+    string particleName;
 
     public override BT.State Run(Character character, object temporary, int idx)
     {
@@ -26,7 +28,7 @@ public class CAbnormal : SkillData
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         Vector3 pos = (Vector3)position;
         gameObject.transform.position = pos;
-        gameObject.AddComponent<CollisionSkill>().Init(user, amount, radius, statusEffectInfo, skillName, color);
+        gameObject.AddComponent<CollisionSkill>().Init(user, amount, radius, statusEffectInfo, skillName, color, particleName);
 
         return BT.State.FAILURE;
     }

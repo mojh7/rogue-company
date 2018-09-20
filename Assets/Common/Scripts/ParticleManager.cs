@@ -39,6 +39,19 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
     }
 
+
+    public void PlayParticle(string str, Vector2 pos, float radius, float time)
+    {
+        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        if (particle == null)
+            return;
+        particle.gameObject.transform.position = pos;
+        particle.gameObject.transform.localScale = one * radius;
+        particle.time = time;
+        particle.Play();
+        UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
+    }
+
     void SpriteToMesh(Sprite sprite, ParticleSystem particleSystem)
     {
         Mesh mesh = new Mesh();

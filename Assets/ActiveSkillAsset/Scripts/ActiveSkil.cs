@@ -114,7 +114,7 @@ public class CollisionSkill : ActiveSkil
         StartCoroutine(ColliderUpdate());
     }
 
-    public void Init(Character character, float time, float radius, StatusEffectInfo statusEffectInfo,string skillName,Color color)
+    public void Init(Character character, float time, float radius, StatusEffectInfo statusEffectInfo, string skillName, Color color, string particleName)
     {
         Init();
         this.radius = radius;
@@ -126,6 +126,7 @@ public class CollisionSkill : ActiveSkil
         circleCollider.radius = 0.3f;
         animator.SetTrigger(skillName);
         spriteRenderer.color = color;
+        ParticleManager.Instance.PlayParticle(particleName, this.transform.position, 0.3f * radius, time);
         UtilityClass.Invoke(this, DestroyAndDeactive, time);
     }
 
