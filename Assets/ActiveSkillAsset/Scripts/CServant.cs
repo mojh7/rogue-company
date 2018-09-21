@@ -5,20 +5,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CServant", menuName = "SkillData/CServant")]
 public class CServant : SkillData
 {
-    public override BT.State Run(Character character, object parameter, int idx)
+    public override BT.State Run(Character character, object temporary, int idx)
     {
         base.Run(character, temporary, idx);
 
-        return SpawnServant(character, parameter);
+        return SpawnServant(character);
     }
 
-    private BT.State SpawnServant(Character user, object servantData)
+    private BT.State SpawnServant(Character user)
     {
         if (!user || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        EnemyData[] enemyDatas = servantData as EnemyData[];
+        EnemyData[] enemyDatas = (user as Enemy).GetServants();
         if (enemyDatas.Length <= 0)
         {
             return BT.State.FAILURE;

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour {
 
+    [SerializeField]
+    Animator headAnim;
     Character character;
     Animator animator;
     System.Action lapsedAction, endAction;
@@ -22,36 +24,49 @@ public class AnimationHandler : MonoBehaviour {
     {
         ResetAllParameter();
         animator.SetTrigger("idle");
+        if(headAnim)
+            headAnim.SetTrigger("idle");
     }
 
     public void Attack()
     {
         ResetAllParameter();
         animator.SetTrigger("attack");
+        if (headAnim)
+            headAnim.SetTrigger("attack");
+
     }
 
     public void Attacked()
     {
         ResetAllParameter();
         animator.SetTrigger("attaked");
+        if (headAnim)
+            headAnim.SetTrigger("attaked");
     }
 
     public void Walk()
     {
         ResetAllParameter();
         animator.SetTrigger("walk");
+        if (headAnim)
+            headAnim.SetTrigger("walk");
     }
 
     public void Run()
     {
         ResetAllParameter();
         animator.SetTrigger("run");
+        if (headAnim)
+            headAnim.SetTrigger("run");
     }
 
     public void Skill(int i)
     {
         ResetAllParameter();
         animator.SetInteger("skill", i);
+        if (headAnim)
+            headAnim.SetInteger("skill", i);
     }
 
     public void Play()
@@ -83,6 +98,17 @@ public class AnimationHandler : MonoBehaviour {
         animator.ResetTrigger("walk");
         animator.ResetTrigger("run");
         animator.SetInteger("skill", -1);
+
+        if (headAnim)
+        {
+            headAnim.ResetTrigger("idle");
+            headAnim.ResetTrigger("attack");
+            headAnim.ResetTrigger("attacked");
+            headAnim.ResetTrigger("walk");
+            headAnim.ResetTrigger("run");
+            headAnim.SetInteger("skill", -1);
+        }
+
     }
 
     private void LapseAnimation()

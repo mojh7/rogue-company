@@ -5,6 +5,10 @@ using WeaponAsset;
 
 public class Player : Character
 {
+    #region components
+    [SerializeField]
+    protected SpriteRenderer headRenderer;
+    #endregion
     #region variables
     public enum PlayerType { SOCCER, MUSIC, FISH, ARMY }
 
@@ -140,6 +144,7 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        headRenderer.sortingOrder = spriteRenderer.sortingOrder + 1;
         if (isEvade)
             return;
         if (-90 <= directionDegree && directionDegree < 90)
