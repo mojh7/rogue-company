@@ -16,6 +16,7 @@ public class BulletPatternInfo : ScriptableObject
     public BulletInfo bulletInfo;
     [Header("BulletPattern 공통 속성")]
     public float addDirVecMagnitude;
+    public float additionalVerticalPos;
     public float rotatedAnglePerExecution;
     public bool ignoreOwnerDir;
 

@@ -162,4 +162,18 @@ public abstract class BulletPattern
         additionalAngle = 0;
     }
     public abstract void IncreaseAdditionalAngle();
+
+    protected Vector3 GetVerticalVector()
+    {
+        if (-90 <= ownerDirDegree() && ownerDirDegree() < 90)
+        {
+            return MathCalculator.VectorRotate(ownerDirVec(), 90);
+        }
+        else
+        {
+            return MathCalculator.VectorRotate(ownerDirVec(), -90);
+        }
+    }
+
+    protected abstract Vector3 GetadditionalPos();
 }

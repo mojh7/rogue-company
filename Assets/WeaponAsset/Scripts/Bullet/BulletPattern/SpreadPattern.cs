@@ -45,7 +45,7 @@ public class SpreadPattern : BulletPattern
 
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
-                weapon.GetMuzzlePos(),
+                weapon.GetMuzzlePos() + GetadditionalPos(),
                 ownerDirDegree() - initAngle + deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
                 transferBulletInfo);
         }
@@ -86,5 +86,10 @@ public class SpreadPattern : BulletPattern
     public override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
+    }
+
+    protected override Vector3 GetadditionalPos()
+    {
+        return ownerDirVec() * info.addDirVecMagnitude + GetVerticalVector() * info.additionalVerticalPos;
     }
 }

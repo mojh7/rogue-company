@@ -59,7 +59,7 @@ public class FixedOwnerPattern : BulletPattern
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdBullet = createdObj.GetComponent<Bullet>();
         createdBullet.Init(info.bulletInfo.Clone(), ownerBuff, ownerType, addDirVecMagnitude,
-            weapon.GetMuzzlePos(),
+            weapon.GetMuzzlePos() + GetadditionalPos(),
             ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo);
 
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
@@ -73,5 +73,10 @@ public class FixedOwnerPattern : BulletPattern
     public override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
+    }
+
+    protected override Vector3 GetadditionalPos()
+    {
+        return ownerDirVec() * info.addDirVecMagnitude + GetVerticalVector() * info.additionalVerticalPos;
     }
 }
