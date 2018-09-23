@@ -169,9 +169,8 @@ namespace Map
                 AssignAllHalls();
                 if (tempHallset.Count > 0)
                     continue;
-                LinkHall(); // 홀 연결
                 rooms.AddRange(halls);
-                LinkRecursion(); // 보스 방을 제외한 방 연결
+                LinkRooms(); // 보스 방을 제외한 방 연결
                 LinkBossRoom(); // 보스 방 연결
                 AssignAllObjects();
                 if (tempObjectset.Count == 0)
@@ -278,7 +277,10 @@ namespace Map
                         Object.DestroyImmediate(rooms[i].customObjects[j].GetComponent<CustomObject>());
                 if (rooms[i].doorObjects != null)
                     for (int j = 0; j < rooms[i].doorObjects.Count; j++)
-                        Object.DestroyImmediate(rooms[i].doorObjects[j].GetComponent<CustomObject>());
+                    {
+                        if(rooms[i].doorObjects[j].GetComponent<CustomObject>())
+                            Object.DestroyImmediate(rooms[i].doorObjects[j].GetComponent<CustomObject>());
+                    }
             }
 
             objectPool.Deactivation();
@@ -726,14 +728,26 @@ namespace Map
             }
         }
 
-        void LinkRecursion()
+        void LinkRooms()
         {
-            for (int i = 0; i < rooms.Count; i++)
+            Queue<Rect> q = new Queue<Rect>();
+            q.Enqueue(halls[0]);
+            halls[0].visited = true;
+
+            while (q.Count>0)
             {
-                if (rooms[i].eRoomType != RoomType.BOSS)
+                Rect x = q.Dequeue();
+
+                for(int i=0;i<x.edgeRect.Count;i++)
                 {
-                    RecursionLink(rooms[i]);
-                    break;
+                    if (!x.edgeRect[i].visited/*방문한 적 없어야함*/ && x.edgeRect[i].eRoomType != RoomType.BOSS)
+                    {
+                        x.edgeRect[i].visited = true;
+                        if ((x.isRoom || x.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/)
+                            DrawDoorTile(x, x.edgeRect[i]); //문 놓을 곳에 타일 지우기
+                        x.LinkedEdgeRect(x.edgeRect[i]);
+                        q.Enqueue(x.edgeRect[i]);
+                    }
                 }
             }
         } // 모두 연결
@@ -757,38 +771,6 @@ namespace Map
                 }
             }
         } // 보스 방 연결
-
-        void RecursionLink(Rect _rect)
-        {
-            if (_rect.eRoomType == RoomType.BOSS)
-                return;
-            _rect.visited = true;
-
-            for (int i = 0; i < _rect.edgeRect.Count; i++)
-            {
-                if (!_rect.edgeRect[i].visited/*방문한 적 없어야함*/ && _rect.edgeRect[i].eRoomType != RoomType.BOSS)
-                {
-                    if ((_rect.isRoom || _rect.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/)
-                        DrawDoorTile(_rect, _rect.edgeRect[i]); //문 놓을 곳에 타일 지우기
-                    _rect.LinkedEdgeRect(_rect.edgeRect[i]);
-                    RecursionLink(_rect.edgeRect[i]);
-                }
-            }
-        } // 신장 트리 연결 & 재귀함수
-
-        void LinkHall()
-        {
-            for (int indx = 0; indx < halls.Count; indx++)
-            {
-                for (int i = 0; i < halls[indx].edgeRect.Count; i++)
-                {
-                    if (UtilityClass.CoinFlip(50) && halls[indx].isRoom ^ halls[indx].edgeRect[i].isRoom && (halls[indx].LinkedEdgeRect(halls[indx].edgeRect[i])))
-                    {
-                        DrawDoorTile(halls[indx], halls[indx].edgeRect[i]); //문 놓을 곳에 타일 지우기
-                    }
-                }
-            }
-        } // 복도랑 방문 연결
 
         void DrawDoorTile(Rect _rectA, Rect _rectB)
         {
@@ -1331,6 +1313,7 @@ namespace Map
                     this.midX = x + (float)width / 2;
                     this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
                     this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
+                    rect = null;
                     return true;
                 }
                 return false;
@@ -1363,6 +1346,7 @@ namespace Map
                     this.midY = y + (float)height / 2;
                     this.areaLeftDown = new Vector2(x * size + 0.5f, y * size + 0.5f);
                     this.areaRightTop = new Vector2((x + width) * size + 0.5f, (y + height) * size + 0.5f);
+                    rect = null;
                     return true;
                 }
                 return false;

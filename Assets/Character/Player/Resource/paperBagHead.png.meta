@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 14c5b2053920f76469b32676f1cde4d8
-timeCreated: 1537547395
+guid: f82722ce3f190274794892710dd4a489
+timeCreated: 1537610429
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: paperHead_0
-    21300002: paperHead_1
-    21300004: paperHead_2
-    21300006: paperHead_3
-    21300008: paperHead_4
-    21300010: paperHead_5
-    21300012: paperHead_6
-    21300014: paperHead_7
-    21300016: paperHead_8
-    21300018: paperHead_9
+    21300000: paperBagHead_0
+    21300002: paperBagHead_1
+    21300004: paperBagHead_2
+    21300006: paperBagHead_3
+    21300008: paperBagHead_4
+    21300010: paperBagHead_5
+    21300012: paperBagHead_6
+    21300014: paperBagHead_7
+    21300016: paperBagHead_8
+    21300018: paperBagHead_9
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: paperHead_0
+      name: paperBagHead_0
       rect:
         serializedVersion: 2
         x: 0
@@ -114,7 +114,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_1
+      name: paperBagHead_1
       rect:
         serializedVersion: 2
         x: 64
@@ -128,7 +128,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_2
+      name: paperBagHead_2
       rect:
         serializedVersion: 2
         x: 128
@@ -142,7 +142,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_3
+      name: paperBagHead_3
       rect:
         serializedVersion: 2
         x: 0
@@ -156,7 +156,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_4
+      name: paperBagHead_4
       rect:
         serializedVersion: 2
         x: 64
@@ -170,7 +170,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_5
+      name: paperBagHead_5
       rect:
         serializedVersion: 2
         x: 128
@@ -184,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_6
+      name: paperBagHead_6
       rect:
         serializedVersion: 2
         x: 0
@@ -198,7 +198,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_7
+      name: paperBagHead_7
       rect:
         serializedVersion: 2
         x: 64
@@ -212,7 +212,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_8
+      name: paperBagHead_8
       rect:
         serializedVersion: 2
         x: 128
@@ -226,7 +226,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: paperHead_9
+      name: paperBagHead_9
       rect:
         serializedVersion: 2
         x: 0
