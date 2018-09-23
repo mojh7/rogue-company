@@ -278,7 +278,7 @@ namespace Map
                 if (rooms[i].doorObjects != null)
                     for (int j = 0; j < rooms[i].doorObjects.Count; j++)
                     {
-                        if(rooms[i].doorObjects[j].GetComponent<CustomObject>())
+                        if(rooms[i].doorObjects[j])
                             Object.DestroyImmediate(rooms[i].doorObjects[j].GetComponent<CustomObject>());
                     }
             }
