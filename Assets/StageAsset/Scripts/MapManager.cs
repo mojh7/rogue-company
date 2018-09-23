@@ -298,7 +298,7 @@ namespace Map
             zeroRoomset = new RoomSet(0, 0, size, 0, RoomType.NONE);
             int count = 0;
 
-            while (count < 1000)
+            while (count < 5000)
             {
                 SettedRoomset();
                 count++;
@@ -1102,14 +1102,14 @@ namespace Map
 
             if (flag)
             {
-                int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(0, 11) / 10);
+                int x1 = (int)((_currentRect.x + 0.5f) + _currentRect.width * (float)Random.Range(1, 10) / 10);
                 _rectA = new Rect(_currentRect.x, _currentRect.y, x1 - _currentRect.x, _currentRect.height, size);
                 _hall = new Rect(_rectA.x + _rectA.width, _currentRect.y, 1, _currentRect.height, size);
                 _rectB = new Rect(_hall.x + _hall.width, _currentRect.y, _currentRect.width - _rectA.width - _hall.width, _currentRect.height, size);
             }
             else
             {
-                int y1 = (int)((_currentRect.y + 0.5f) + _currentRect.height * (float)Random.Range(0, 11) / 10);
+                int y1 = (int)((_currentRect.y + 0.5f) + _currentRect.height * (float)Random.Range(1, 0) / 10);
                 _rectA = new Rect(_currentRect.x, _currentRect.y, _currentRect.width, y1 - _currentRect.y, size);
                 _hall = new Rect(_currentRect.x, _rectA.y + _rectA.height, _currentRect.width, 1, size);
                 _rectB = new Rect(_currentRect.x, _hall.y + _hall.height, _currentRect.width, _currentRect.height - _rectA.height - _hall.height, size);
