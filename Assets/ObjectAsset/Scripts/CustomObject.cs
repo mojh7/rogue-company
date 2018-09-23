@@ -232,6 +232,7 @@ public class BreakalbeBox : RandomSpriteObject
 
 public class VendingMachine : RandomSpriteObject
 {
+    int value;
     public override void Init()
     {
         base.Init();
@@ -239,18 +240,20 @@ public class VendingMachine : RandomSpriteObject
         isAvailable = true;
         isAnimate = true;
         objectType = ObjectType.VENDINMACHINE;
+        value = 5;
     }
 
     public override bool Active()
     {
         if (base.Active())
         {
-            //TODO : 지금은 코인인데 음료수가 들어가야함.
-            GameObject coin = new GameObject();
-            coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
-            coin.AddComponent<Coin>();
-            Vector2 pos = new Vector2(transform.position.x, transform.position.y);
-            ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), pos);
+            if (GameDataManager.Instance.GetCoin() >= value)
+            {
+                GameDataManager.Instance.ReduceCoin(value);
+                Item item = ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.FOOD);
+                Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+                ItemManager.Instance.CreateItem(item, pos);
+            }
             return true;
         }
         return base.Active();
