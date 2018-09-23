@@ -100,8 +100,6 @@ public class BulletInfo : ScriptableObject
     public float homingStartTime;
     public float homingEndTime;
 
-    [Header("Spiral Property, 1초당 회전 각")]
-    public float rotateAnglePerSecond;
     [Header("Spiral Property, start~end time, -1값 : 적용 x")]
     public bool routineSprial;
     public List<DurationTime> spiralDurationTime;
@@ -231,7 +229,6 @@ public class BulletInfo : ScriptableObject
         clonedInfo.becomeSpiderMine = becomeSpiderMine;
         clonedInfo.homingStartTime = homingStartTime;
         clonedInfo.homingEndTime = homingEndTime;
-        clonedInfo.rotateAnglePerSecond = rotateAnglePerSecond;
 
         clonedInfo.routineSprial = routineSprial;
         clonedInfo.spiralDurationTime = spiralDurationTime;

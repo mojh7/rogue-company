@@ -88,4 +88,9 @@ public class LaserPattern : BulletPattern
     {
         additionalAngle += info.rotatedAnglePerExecution;
     }
+
+    protected override Vector3 GetadditionalPos()
+    {
+        return ownerDirVec() * info.addDirVecMagnitude + GetVerticalVector() * info.additionalVerticalPos;
+    }
 }

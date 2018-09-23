@@ -70,7 +70,7 @@ public class MultiDirPattern : BulletPattern
             }
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
-                weapon.GetMuzzlePos(),
+                weapon.GetMuzzlePos() + GetadditionalPos(),
                 tempDir - info.initAngle + info.deltaAngle * i + additionalAngle + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement, transferBulletInfo);
         }
     }
@@ -83,5 +83,19 @@ public class MultiDirPattern : BulletPattern
     public override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
+    }
+
+    protected override Vector3 GetadditionalPos()
+    {
+        Vector3 verticalVector;
+        if (info.ignoreOwnerDir)
+        {
+            verticalVector = Vector3.right;
+        }
+        else
+        {
+            verticalVector = GetVerticalVector();
+        }
+        return ownerDirVec() * info.addDirVecMagnitude + verticalVector * info.additionalVerticalPos;
     }
 }

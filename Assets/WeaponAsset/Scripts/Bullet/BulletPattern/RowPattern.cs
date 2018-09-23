@@ -73,7 +73,7 @@ public class RowPattern : BulletPattern
 
                 createdObj = ObjectPoolManager.Instance.CreateBullet();
                 createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
-                    weapon.GetMuzzlePos() + perpendicularVector * (info.initPos - info.deltaPos * j),
+                    weapon.GetMuzzlePos() + GetadditionalPos() + perpendicularVector * (info.initPos - info.deltaPos * j),
                     ownerDirDegree() + currentAngle, transferBulletInfo);
             }
         }
@@ -87,5 +87,10 @@ public class RowPattern : BulletPattern
     public override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
+    }
+
+    protected override Vector3 GetadditionalPos()
+    {
+        return ownerDirVec() * info.addDirVecMagnitude + GetVerticalVector() * info.additionalVerticalPos;
     }
 }

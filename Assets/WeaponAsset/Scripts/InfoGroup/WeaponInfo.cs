@@ -67,6 +67,8 @@ public class WeaponInfo : ScriptableObject
     [Tooltip("총알 발사시 바라보는 방향에 +90도인 수직 방향으로 멀어지는 정도")]
     public float additionalVerticalPos;
 
+    [Header("공격 한 번에 n번 Cycle 실행")]
+    public int cycleRepetitionCount = 1;
     // edit용 총알 패턴 정보
     public BulletPatternEditInfo[] bulletPatternEditInfos; // 패턴 종류, 해당 패턴 id
     // 총알 패턴 정보
@@ -81,6 +83,7 @@ public class WeaponInfo : ScriptableObject
 
         ammoCapacity = -1;
         soundId = -1;
+        cycleRepetitionCount = 1;
     }
 
     public WeaponInfo Clone()
@@ -117,6 +120,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.addDirVecMagnitude = addDirVecMagnitude;
         clonedInfo.additionalVerticalPos = additionalVerticalPos;
 
+        clonedInfo.cycleRepetitionCount = cycleRepetitionCount; 
         clonedInfo.bulletPatterns = new List<BulletPattern>();
         clonedInfo.bulletPatternsLength = bulletPatternsLength;
 

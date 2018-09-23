@@ -373,40 +373,48 @@ public class Weapon : Item
             yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
         }
 
-        // 공격 한 사이클 실행
-        for (int i = 0; i < info.bulletPatternsLength; i++)
+        // 공격 한 번 실행. (pattern cycle n번 실행)
+        for (int i = 0; i < info.cycleRepetitionCount; i++)
         {
-            for (int j = 0; j < info.bulletPatterns[i].GetExeuctionCount(); j++)
+            // Pattern cycle 실행
+            for (int j = 0; j < info.bulletPatternsLength; j++)
             {
-                if(OwnerType.Enemy == ownerType)
+                for (int k = 0; k < info.bulletPatterns[j].GetExeuctionCount(); k++)
                 {
-                    if(false == enemy.GetIsAcitveAttackAI())
+                    if (OwnerType.Enemy == ownerType)
                     {
-                        //Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
+                        if (false == enemy.GetIsAcitveAttackAI())
+                        {
+                            //Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
+                            Reload();
+                            yield break;
+                        }
+                    }
+                    if (false == HasCostForAttack() && AttackType.RANGED == attackType)
+                    {
+                        //Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
                         Reload();
                         yield break;
                     }
-                }
-                if (false == HasCostForAttack() && AttackType.RANGED == attackType)
-                {
-                    //Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
-                    Reload();
-                    yield break;
-                }
 
-                ShowMuzzleFlash();
-                // 공격 사운드 실행
-                AudioManager.Instance.PlaySound(info.soundId);
-                CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime);
-                info.bulletPatterns[i].StartAttack(damageIncreaseRate, ownerType);
-                info.bulletPatterns[i].IncreaseAdditionalAngle();
-                if (info.bulletPatterns[i].GetDelay() > 0)
-                {
-                    yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[i].GetDelay());
+                    ShowMuzzleFlash();
+                    // 공격 사운드 실행
+                    AudioManager.Instance.PlaySound(info.soundId);
+                    CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime);
+                    info.bulletPatterns[j].StartAttack(damageIncreaseRate, ownerType);
+                    info.bulletPatterns[j].IncreaseAdditionalAngle();
+                    if (info.bulletPatterns[j].GetDelay() > 0)
+                    {
+                        yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[j].GetDelay());
+                    }
                 }
             }
+        }
+        for (int i = 0; i < info.bulletPatternsLength; i++)
+        {
             info.bulletPatterns[i].InitAdditionalAngle();
         }
+            
         Reload();
     }
 
