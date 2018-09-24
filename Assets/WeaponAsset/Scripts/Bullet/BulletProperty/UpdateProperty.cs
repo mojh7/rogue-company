@@ -125,13 +125,6 @@ public class AccelerationMotionProperty : UpdateProperty
     {
         // 이동
         bullet.SetVelocity(moveSpeed);
-        distance += moveSpeed * Time.fixedDeltaTime;
-
-        // 사정거리 넘어가면 delete 속성 실행
-        if (distance >= range)
-        {
-            delDestroyBullet();
-        }
 
         // 가속화
         if (acceleratesBullet)
@@ -166,6 +159,14 @@ public class AccelerationMotionProperty : UpdateProperty
                 acceleration = -acceleration;
                 bullet.RotateDirection(180);
             }
+        }
+
+        distance += moveSpeed * Time.fixedDeltaTime;
+
+        // 사정거리 넘어가면 delete 속성 실행
+        if (distance >= range)
+        {
+            delDestroyBullet();
         }
     }
 }
