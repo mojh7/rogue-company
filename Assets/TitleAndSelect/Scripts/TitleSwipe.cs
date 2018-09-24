@@ -82,7 +82,7 @@ public class TitleSwipe : MonoBehaviour
     #region UnityEngine
     private void Awake()
     {
-        swipeSpeed = width / 100;
+        swipeSpeed = width / 30;
         desSelect = panel[0].transform.position;
         desTitle = panel[1].transform.position;
     }
