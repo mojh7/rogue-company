@@ -558,13 +558,9 @@ public class SpiralProperty : UpdateProperty
         lifeTime = bullet.info.lifeTime;
         timeCount = 0;
         durationTimeIndex = 0;
-        //startTime = bullet.info.spiralStartTime;
-        //endTime = bullet.info.spiralEndTime;
         rotateAnglePerSecond = 0;
         // value 값 만큼 endTime - startTime 시간 동안 회전
-        rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value
-            / (bullet.info.spiralDurationTime[durationTimeIndex].endTime) - (bullet.info.spiralDurationTime[durationTimeIndex].startTime);
-        //Debug.Log(durationTimeIndex + " : " + rotateAnglePerSecond);
+        CalcRotateAngle();
     }
 
     public override UpdateProperty Clone()
@@ -580,8 +576,7 @@ public class SpiralProperty : UpdateProperty
             {
                 timeCount = 0;
                 durationTimeIndex = 0;
-                rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value
-            / (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime);
+                CalcRotateAngle();
             }
             else return;
         }
@@ -600,11 +595,7 @@ public class SpiralProperty : UpdateProperty
             durationTimeIndex += 1;
             if(durationTimeIndex < bullet.info.spiralDurationTime.Count)
             {
-                rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value
-            / (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime);
-            //    Debug.Log(durationTimeIndex + " : " + rotateAnglePerSecond + ", " + bullet.info.spiralDurationTime[durationTimeIndex].value + ", " + (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime)
-            //        + ", " + bullet.info.spiralDurationTime[durationTimeIndex].value
-            /// (bullet.info.spiralDurationTime[durationTimeIndex].endTime - bullet.info.spiralDurationTime[durationTimeIndex].startTime));
+                CalcRotateAngle();
             }
             return;
         }
@@ -614,8 +605,22 @@ public class SpiralProperty : UpdateProperty
             delDestroyBullet();
         }
     }
+
+    private void CalcRotateAngle()
+    {
+        if(-1 != bullet.info.spiralDurationTime[durationTimeIndex].endTime)
+        {
+            rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value
+                / ((bullet.info.spiralDurationTime[durationTimeIndex].endTime) - (bullet.info.spiralDurationTime[durationTimeIndex].startTime));
+        }
+        else
+        {
+            rotateAnglePerSecond = bullet.info.spiralDurationTime[durationTimeIndex].value;
+        }
+    }
 }
 
+// 현재는 미 사용
 // TODO : 삼각함수 속성 만들기
 /// <summary> 삼각함수 속성 </summary>
 public class TrigonometricProperty : UpdateProperty

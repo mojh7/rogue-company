@@ -52,6 +52,7 @@ public abstract class BulletPattern
     protected DelGetDirDegree ownerDirDegree;
     protected DelGetPosition ownerDirVec;
     protected DelGetPosition ownerPos;
+    protected float dirDegree;
 
     protected BuffManager ownerBuff;
     protected TransferBulletInfo transferBulletInfo;
@@ -175,5 +176,17 @@ public abstract class BulletPattern
         }
     }
 
-    protected abstract Vector3 GetadditionalPos();
+    protected Vector3 GetadditionalPos(bool ignoreOwnerDir, float addDirVecMagnitude, float additionalVerticalPos)
+    {
+        Vector3 verticalVector;
+        if (ignoreOwnerDir)
+        {
+            verticalVector = Vector3.up;
+        }
+        else
+        {
+            verticalVector = GetVerticalVector();
+        }
+        return ownerDirVec() * addDirVecMagnitude + verticalVector * additionalVerticalPos;
+    }
 }
