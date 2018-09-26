@@ -6,6 +6,8 @@ public class CRangeAttack : SkillData
 {
     [SerializeField]
     float radius;
+    [SerializeField]
+    bool hasAnimation;
 
     public override BT.State Run(Character character, object temporary, int idx)
     {
@@ -22,12 +24,24 @@ public class CRangeAttack : SkillData
         }
         character.isCasting = true;
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = character.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(character as Character, amount, (float)radius);
-        gameObject.GetComponent<CollisionSkill>().SetAvailableFalse();
-        character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().SetAvailableTrue);
-        character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
-        character.GetCharacterComponents().AnimationHandler.Skill(idx);
+        if((Vector3)temporary == null)
+            gameObject.transform.position = character.transform.position;
+        else
+            gameObject.transform.position = (Vector3)temporary;
+
+        if (hasAnimation)
+        {
+            gameObject.AddComponent<CollisionSkill>().Init(character as Character, amount, (float)radius);
+
+            gameObject.GetComponent<CollisionSkill>().SetAvailableFalse();
+            character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().SetAvailableTrue);
+            character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
+            character.GetCharacterComponents().AnimationHandler.Skill(idx);
+        }
+        else
+        {
+            gameObject.AddComponent<CollisionSkill>().Init(character as Character, delay, amount, (float)radius);
+        }
         return BT.State.SUCCESS;
     }
 

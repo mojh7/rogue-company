@@ -103,6 +103,20 @@ public class CollisionSkill : ActiveSkil
         circleCollider.radius = radius;
     }
 
+    public void Init(Character character, float time, float damage, float radius)
+    {
+        Init();
+
+        isAvailable = true;
+        isActvie = true;
+        this.damage = damage;
+        this.radius = radius;
+        this.enemyLayer = UtilityClass.GetEnemyLayer(character);
+
+        circleCollider.radius = radius;
+        UtilityClass.Invoke(this, DestroyAndDeactive, time);
+    }
+
     public void Init(Character character, float damage, string skillName)
     {
         Init();
@@ -153,8 +167,8 @@ public class CollisionSkill : ActiveSkil
             return;
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer))
         {
-            if(statusEffectInfo == null)
-                isAvailable = false;
+            //if(statusEffectInfo == null)
+            //    isAvailable = false;
             Character character = collision.GetComponent<Character>();
             character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
             character.ApplyStatusEffect(statusEffectInfo);
@@ -234,7 +248,6 @@ public class ThrowingSkill : ActiveSkil
     {
         if (!isAvailable)
             return;
-        Debug.Log(collision.gameObject.name);
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer) || 
             UtilityClass.CheckLayer(collision.gameObject.layer, 14, 1))
         {

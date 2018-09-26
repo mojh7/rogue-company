@@ -132,7 +132,7 @@ public class CustomObject : MonoBehaviour
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
-        rigidbody2D.bodyType = RigidbodyType2D.Static;
+        rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         textMesh = GetComponentInChildren<TextMesh>();
         childTextMesh = textMesh.transform.GetChild(0).GetComponent<TextMesh>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
@@ -319,7 +319,7 @@ public class PushBox : RandomSpriteObject
     {
         AStar.TileGrid.Instance.Bake(spriteRenderer.sprite,oldPosition);
         AStar.TileGrid.Instance.Bake(spriteRenderer);
-        rigidbody2D.bodyType = RigidbodyType2D.Static;
+        rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         isActive = false;
     }

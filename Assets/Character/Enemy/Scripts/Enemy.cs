@@ -202,6 +202,7 @@ public class Enemy : Character
             KnockBack(knockBack, _dir, bulletPos, positionBasedKnockBack);
 
         ReduceHp(damage);
+        AttackedEffect();
         return damage;
     }
 
