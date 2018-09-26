@@ -17,24 +17,24 @@ public class CThrowingImporter : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return ThrowingImporter(character);
+        return ThrowingImporter();
     }
 
-    private BT.State ThrowingImporter(Character user)
+    private BT.State ThrowingImporter()
     {
-        if (!user || delay < 0 || amount < 0)
+        if (!character || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        user.isCasting = true;
+        character.isCasting = true;
 
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = new Vector2(user.transform.position.x, user.transform.position.y);
-        gameObject.AddComponent<ThrowingSkill>().Init(user, (temporary as Character).transform.position, idx, skillName, skillData, speed, acceleration);
+        gameObject.transform.position = new Vector2(character.transform.position.x, character.transform.position.y);
+        gameObject.AddComponent<ThrowingSkill>().Init(character, (temporary as Character).transform.position, idx, skillName, skillData, speed, acceleration);
 
-        user.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<ThrowingSkill>().LapseAnimation);
-        user.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<ThrowingSkill>().EndAnimation);
-        user.GetCharacterComponents().AnimationHandler.Skill(idx);
+        character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<ThrowingSkill>().LapseAnimation);
+        character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<ThrowingSkill>().EndAnimation);
+        character.GetCharacterComponents().AnimationHandler.Skill(idx);
         return BT.State.SUCCESS;
     }
 

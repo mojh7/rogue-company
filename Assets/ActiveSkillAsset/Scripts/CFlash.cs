@@ -8,23 +8,23 @@ public class CFlash : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return Flash(character, RoomManager.Instance.GetNearestAvailableArea((temporary as Character).transform.position));
+        return Flash(RoomManager.Instance.GetNearestAvailableArea((temporary as Character).transform.position));
     }
 
-    private BT.State Flash(Character user, object position)
+    private BT.State Flash(object position)
     {
-        if (!user || delay < 0 || amount < 0)
+        if (!character || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        user.isCasting = true;
+        character.isCasting = true;
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = user.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(user as Character, position, amount, Flash);
+        gameObject.transform.position = character.transform.position;
+        gameObject.AddComponent<CollisionSkill>().Init(character as Character, position, amount, Flash);
 
-        user.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().LapseAnimation);
-        user.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
-        user.GetCharacterComponents().AnimationHandler.Skill(idx);
+        character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().LapseAnimation);
+        character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
+        character.GetCharacterComponents().AnimationHandler.Skill(idx);
         return BT.State.SUCCESS;
     }
 

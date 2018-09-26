@@ -30,5 +30,7 @@ public class CharacterTargetEffect : ItemUseEffect
     public bool increaseStaminaWhenkillingEnemies;    // 15. 적 죽일 때 얻는 스테미너량 증가
     public bool isNotConsumeStamina;
     public bool isNotConsumeAmmo;
+    public CharacterInfo.DamageImmune isImmuneDamage;
+    public CharacterInfo.AbnormalImmune isImmuneAbnormal;
 
 }

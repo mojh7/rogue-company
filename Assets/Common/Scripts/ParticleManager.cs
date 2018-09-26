@@ -49,7 +49,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         particle.gameObject.transform.localScale = one * radius;
         particle.time = time;
         particle.Play();
-        UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
+        UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.1f);
     }
 
     void SpriteToMesh(Sprite sprite, ParticleSystem particleSystem)

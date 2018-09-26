@@ -43,6 +43,8 @@ public class PlayerData : ScriptableObject
     private float criticalChance;
     [SerializeField]
     private WeaponInfo[] startingWeaponInfos;
+    [SerializeField]
+    private SkillData skillData;
 
     private int shield;
 
@@ -103,7 +105,13 @@ public class PlayerData : ScriptableObject
     {
         get { return startingWeaponInfos; }
     }
-
+    public SkillData SkillData
+    {
+        get
+        {
+            return skillData;
+        }
+    }
     #endregion
 
     public PlayerData Clone()
@@ -126,6 +134,7 @@ public class PlayerData : ScriptableObject
         clonedInfo.canDrainHp = canDrainHp;
         clonedInfo.cannotDamagedWhenFalling = cannotDamagedWhenFalling;
 
+        clonedInfo.skillData = skillData;
         return clonedInfo;
     }
 }

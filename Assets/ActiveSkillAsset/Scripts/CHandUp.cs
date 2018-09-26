@@ -13,22 +13,22 @@ public class CHandUp : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return HandUp(character);
+        return HandUp();
     }
 
-    private BT.State HandUp(Character user)
+    private BT.State HandUp()
     {
-        if (!user || delay < 0 || amount < 0 || num < 1)
+        if (!character || delay < 0 || amount < 0 || num < 1)
         {
             return BT.State.FAILURE;
         }
-        user.isCasting = true;
+        character.isCasting = true;
         for (int i = 0; i < num; i++)
         {
             float randDelay = UnityEngine.Random.Range(0, delay + 1);
-            ActiveSkillManager.Instance.StartCoroutine(HandUp, user, radius, randDelay, amount);
+            ActiveSkillManager.Instance.StartCoroutine(HandUp, character, radius, randDelay, amount);
         }
-        user.isCasting = false;
+        character.isCasting = false;
         return BT.State.SUCCESS;
     }
 

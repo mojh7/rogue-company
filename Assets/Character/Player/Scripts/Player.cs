@@ -37,6 +37,8 @@ public class Player : Character
     private GameObject muzzlePosObj;
     [SerializeField]
     private Transform muzzlePosTransform;
+
+    private SkillData skillData; 
     #endregion
 
     #region property
@@ -180,6 +182,7 @@ public class Player : Character
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Player;
         damageImmune = CharacterInfo.DamageImmune.NONE;
+        abnormalImmune = CharacterInfo.AbnormalImmune.NONE;
 
         animationHandler.Init(this, PlayerManager.Instance.runtimeAnimator);
 
@@ -217,6 +220,7 @@ public class Player : Character
         ApplyItemEffect();
         PlayerHPUi.SetHpBar(playerData.Hp);
         stamina.SetStaminaBar(playerData.StaminaMax);
+        playerData.SkillGauge = 100;
     }
     #endregion
 
@@ -252,7 +256,6 @@ public class Player : Character
         }
         ParticleManager.Instance.PlayParticle("Smoke", transform.position, spriteRenderer.transform.localScale);
         animationHandler.Skill(0);
-        damageImmune = CharacterInfo.DamageImmune.DAMAGE;
         weaponManager.HideWeapon();
         StartCoroutine(Roll(directionVector));
         return true;
@@ -281,7 +284,7 @@ public class Player : Character
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
         // if (DefendAttack()) return 0;
-        if (damageImmune == CharacterInfo.DamageImmune.DAMAGE)
+        if (CharacterInfo.State.ALIVE != pState || damageImmune == CharacterInfo.DamageImmune.ALL || isEvade)
             return 0;
         playerData.Hp -= transferredBulletInfo.damage;
         AttackedAction(1);
@@ -293,7 +296,7 @@ public class Player : Character
 
     public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
     {
-        if (CharacterInfo.State.ALIVE != pState || damageImmune == CharacterInfo.DamageImmune.DAMAGE)
+        if (CharacterInfo.State.ALIVE != pState || damageImmune == CharacterInfo.DamageImmune.ALL || isEvade)
             return 0;
         float criticalCheck = Random.Range(0f, 1f);
         // 크리티컬 공격
@@ -329,7 +332,7 @@ public class Player : Character
     {
         if (100 == playerData.SkillGauge)
         {
-            Debug.Log("Player 스킬 활성화");
+            playerData.SkillData.Run(this, null, 1);
             //skillGauge = 0;
         }
     }
@@ -421,7 +424,6 @@ public class Player : Character
 
     private void AttackedAction(float power)
     {
-        TimeController.Instance.LerpTimeScale(0.1f, 1, 0.2f);
         CameraController.Instance.Shake(0.2f, 0.2f);
         LayerController.Instance.FlashAttackedLayer(0.2f);
     }
@@ -624,6 +626,8 @@ public class Player : Character
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
         IsNotConsumeStamina = itemUseEffect.isNotConsumeStamina;
         IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
+        damageImmune = itemUseEffect.isImmuneDamage;
+        abnormalImmune = itemUseEffect.isImmuneAbnormal;
     }
 
     protected override bool IsAbnormal()
@@ -648,7 +652,7 @@ public class Player : Character
 
     public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
-        if (CharacterInfo.State.ALIVE != pState || null == statusEffectInfo)
+        if (CharacterInfo.State.ALIVE != pState || null == statusEffectInfo || isEvade || abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
             return;
 
         //if (0 != statusEffectInfo.knockBack)
@@ -704,9 +708,11 @@ public class Player : Character
         while (count > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(0.5f);
-
-            playerData.Hp -= 1;
-            PlayerHPUi.DecreaseHp(playerData.Hp);
+            if (abnormalImmune == CharacterInfo.AbnormalImmune.NONE)
+            {
+                playerData.Hp -= 1;
+                PlayerHPUi.DecreaseHp(playerData.Hp);
+            }
             count -= 1;
         }
         abnormalComponents.BurnEffect.SetActive(false);
@@ -739,7 +745,6 @@ public class Player : Character
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         yield return YieldInstructionCache.WaitForSeconds(0.05f);
-        damageImmune = CharacterInfo.DamageImmune.NONE;
         yield return YieldInstructionCache.WaitForSeconds(evadeCoolTime);
         canEvade = true;
     }

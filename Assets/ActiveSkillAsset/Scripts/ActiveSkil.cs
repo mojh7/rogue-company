@@ -93,6 +93,7 @@ public class CollisionSkill : ActiveSkil
     public void Init(Character character, float damage, float radius)
     {
         Init();
+
         isAvailable = true;
         isActvie = true;
         this.damage = damage;
@@ -105,6 +106,7 @@ public class CollisionSkill : ActiveSkil
     public void Init(Character character, float damage, string skillName)
     {
         Init();
+
         animator.SetTrigger(skillName);
         isAvailable = true;
         isActvie = true;
@@ -114,9 +116,10 @@ public class CollisionSkill : ActiveSkil
         StartCoroutine(ColliderUpdate());
     }
 
-    public void Init(Character character, float time, float radius, StatusEffectInfo statusEffectInfo, string skillName, Color color, string particleName)
+    public void Init(Character character, float time, float damage, float radius, StatusEffectInfo statusEffectInfo, string skillName, Color color, string particleName)
     {
         Init();
+
         this.radius = radius;
         this.statusEffectInfo = statusEffectInfo;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
@@ -150,10 +153,10 @@ public class CollisionSkill : ActiveSkil
             return;
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer))
         {
-            isAvailable = false;
+            if(statusEffectInfo == null)
+                isAvailable = false;
             Character character = collision.GetComponent<Character>();
-            if (statusEffectInfo == null)
-                character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
+            character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
             character.ApplyStatusEffect(statusEffectInfo);
         }
     }   

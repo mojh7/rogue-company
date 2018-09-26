@@ -9,19 +9,19 @@ public class CHandClap : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return HandClap(character);
+        return HandClap();
     }
 
-    private BT.State HandClap(Character user)
+    private BT.State HandClap()
     {
-        if (!user || delay < 0 || amount < 0)
+        if (!character || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        user.isCasting = true;
-        ActiveSkillManager.Instance.StartCoroutine(HandClap, user, user.transform.position + Vector3.left, 0, amount);
-        ActiveSkillManager.Instance.StartCoroutine(HandClap, user, user.transform.position + Vector3.right, delay, amount);
-        user.isCasting = false;
+        character.isCasting = true;
+        ActiveSkillManager.Instance.StartCoroutine(HandClap, character, character.transform.position + Vector3.left, 0, amount);
+        ActiveSkillManager.Instance.StartCoroutine(HandClap, character, character.transform.position + Vector3.right, delay, amount);
+        character.isCasting = false;
         return BT.State.SUCCESS;
     }
 

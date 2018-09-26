@@ -9,27 +9,27 @@ public class CServant : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return SpawnServant(character);
+        return SpawnServant();
     }
 
-    private BT.State SpawnServant(Character user)
+    private BT.State SpawnServant()
     {
-        if (!user || delay < 0 || amount < 0)
+        if (!character || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        EnemyData[] enemyDatas = (user as Enemy).GetServants();
+        EnemyData[] enemyDatas = (character as Enemy).GetServants();
         if (enemyDatas.Length <= 0)
         {
             return BT.State.FAILURE;
         }
-        user.isCasting = true;
+        character.isCasting = true;
         for (int i = 0; i < amount; i++)
         {
             float randDelay = UnityEngine.Random.Range(0, delay + 1);
             ActiveSkillManager.Instance.StartCoroutine(SpawnServant, character, enemyDatas[idx], randDelay, amount);
         }
-        user.isCasting = false;
+        character.isCasting = false;
         return BT.State.SUCCESS;
     }
 

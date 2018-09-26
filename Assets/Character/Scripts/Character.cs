@@ -20,12 +20,12 @@ namespace CharacterInfo
 
     public enum DamageImmune
     {
-        NONE, DAMAGE
+        NONE, ALL
     }
     // 생각 중, 
     public enum AbnormalImmune
     {
-        NONE
+        NONE, ALL
     }
 
     public enum AutoAimType
@@ -52,6 +52,7 @@ public abstract class Character : MonoBehaviour
     public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
     protected float maxHP;
     protected CharacterInfo.DamageImmune damageImmune;
+    protected CharacterInfo.AbnormalImmune abnormalImmune;
     protected CharacterInfo.AutoAimType autoAimType;
     protected CharacterInfo.AutoAimType originalautoAimType;
     protected CharacterInfo.State pState;

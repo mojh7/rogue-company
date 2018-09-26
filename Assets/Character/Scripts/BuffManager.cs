@@ -342,7 +342,20 @@ public class BuffManager : MonoBehaviour
             UpdateCharacterBoolProperty(CharacterBoolPropertyType.IS_NOT_CONSUME_STAMINA, sign);
         if (targetEffect.isNotConsumeAmmo)
             UpdateCharacterBoolProperty(CharacterBoolPropertyType.IS_NOT_CONSUME_AMMO, sign);
-
+        if (targetEffect.isImmuneDamage != CharacterInfo.DamageImmune.NONE)
+        {
+            if(boolSign)
+                CharacterTargetEffectTotal.isImmuneDamage = targetEffect.isImmuneDamage;
+            else
+                CharacterTargetEffectTotal.isImmuneDamage = CharacterInfo.DamageImmune.NONE;
+        }
+        if (targetEffect.isImmuneAbnormal != CharacterInfo.AbnormalImmune.NONE)
+        {
+            if (boolSign)
+                CharacterTargetEffectTotal.isImmuneAbnormal = targetEffect.isImmuneAbnormal;
+            else
+                CharacterTargetEffectTotal.isImmuneAbnormal = CharacterInfo.AbnormalImmune.NONE;
+        }
         owner.ApplyItemEffect();
         PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
     }

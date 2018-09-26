@@ -20,16 +20,20 @@ public class CAbnormal : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return Abnormal(character, temporary, statusEffectInfo);
+        return Abnormal(temporary, statusEffectInfo);
     }
 
-    private BT.State Abnormal(Character user, object position, StatusEffectInfo statusEffectInfo)
+    private BT.State Abnormal(object position, StatusEffectInfo statusEffectInfo)
     {
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        Vector3 pos = (Vector3)position;
+        Vector3 pos = Vector3.zero;
+        if (position != null)
+            pos = (Vector3)position;
+        else
+            pos = character.transform.position;
         gameObject.transform.position = pos;
-        gameObject.AddComponent<CollisionSkill>().Init(user, amount, radius, statusEffectInfo, skillName, color, particleName);
+        gameObject.AddComponent<CollisionSkill>().Init(character, delay, amount, radius, statusEffectInfo, skillName, color, particleName);
 
-        return BT.State.FAILURE;
+        return BT.State.SUCCESS;
     }
 }

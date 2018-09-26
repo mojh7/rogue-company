@@ -9,17 +9,17 @@ public class CJump : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return Jump(character);
+        return Jump();
     }
 
-    private BT.State Jump(Character user)
+    private BT.State Jump()
     {
-        if (!user || delay < 0 || amount < 0)
+        if (!character || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        user.isCasting = true;
-        ActiveSkillManager.Instance.StartCoroutine(Jump, user, temporary, delay, amount);
+        character.isCasting = true;
+        ActiveSkillManager.Instance.StartCoroutine(Jump, character, temporary, delay, amount);
         return BT.State.SUCCESS;
     }
 
