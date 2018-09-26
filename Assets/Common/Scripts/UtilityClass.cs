@@ -75,28 +75,62 @@ public static class UtilityClass
     /// </summary>
     public static LayerMask GetEnemyLayer(Character me)
     {
-        LayerMask enemyayer = 1;
+        LayerMask enemyLayer = 1;
 
         switch (me.GetOwnerType())
         {
             case CharacterInfo.OwnerType.Player:
-                enemyayer = enemyayer << 13;
+            case CharacterInfo.OwnerType.Pet:
+                enemyLayer = enemyLayer << 13;
                 break;
             case CharacterInfo.OwnerType.Enemy:
-                enemyayer = enemyayer << 16;
-                break;
-            case CharacterInfo.OwnerType.Pet:
-                enemyayer = enemyayer << 13;
-                break;
             case CharacterInfo.OwnerType.Object:
-                enemyayer = enemyayer << 13;
+                enemyLayer = enemyLayer << 16;
                 break;
             default:
                 break;
         }
-        return enemyayer;
+        return enemyLayer;
     }
 
+    public static LayerMask GetEnemyBulletLayer(Character me)
+    {
+        LayerMask enemyBulletLayer = 1;
+
+        switch (me.GetOwnerType())
+        {
+            case CharacterInfo.OwnerType.Player:
+            case CharacterInfo.OwnerType.Pet:
+                enemyBulletLayer = enemyBulletLayer << 17;
+                enemyBulletLayer |= (1 << 20);
+                enemyBulletLayer |= (1 << 21);
+                break;
+            case CharacterInfo.OwnerType.Enemy:
+            case CharacterInfo.OwnerType.Object:
+                enemyBulletLayer = enemyBulletLayer << 15;
+                enemyBulletLayer |= (1 << 18);
+                enemyBulletLayer |= (1 << 19);
+                break;
+            default:
+                break;
+        }
+        return enemyBulletLayer;
+    }
+
+    public static CharacterInfo.OwnerType GetOnwerTypeLayer(Character me)
+    {
+        switch (me.GetOwnerType())
+        {
+            case CharacterInfo.OwnerType.Player:
+            case CharacterInfo.OwnerType.Pet:
+                return CharacterInfo.OwnerType.Player;
+            case CharacterInfo.OwnerType.Enemy:
+            case CharacterInfo.OwnerType.Object:
+                return CharacterInfo.OwnerType.Enemy;
+            default:
+                return CharacterInfo.OwnerType.Player;
+        }
+    }
     public static void Invoke(this MonoBehaviour me, Action theDelegate, float time)
     {
         me.StartCoroutine(ExecuteAfterTime(theDelegate, time));

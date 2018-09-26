@@ -9,10 +9,10 @@ public class CHandClap : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return HandClap();
+        return Run();
     }
 
-    private BT.State HandClap()
+    private BT.State Run()
     {
         if (!character || delay < 0 || amount < 0)
         {

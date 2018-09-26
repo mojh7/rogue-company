@@ -7,6 +7,8 @@ using UnityEngine;
 public class CThrowingImporter : SkillData
 {
     [SerializeField]
+    float radius;
+    [SerializeField]
     SkillData skillData;
     [SerializeField]
     float speed, acceleration;
@@ -17,10 +19,10 @@ public class CThrowingImporter : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return ThrowingImporter();
+        return Run();
     }
 
-    private BT.State ThrowingImporter()
+    private BT.State Run()
     {
         if (!character || delay < 0 || amount < 0)
         {
@@ -41,7 +43,7 @@ public class CThrowingImporter : SkillData
 
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = new Vector2(character.transform.position.x, character.transform.position.y);
-        gameObject.AddComponent<ThrowingSkill>().Init(character, destPos, idx, skillName, skillData, speed, acceleration);
+        gameObject.AddComponent<ThrowingSkill>().Init(character, destPos, radius, idx, skillName, skillData, speed, acceleration);
         if (null != enemy)
         {
             character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<ThrowingSkill>().LapseAnimation);

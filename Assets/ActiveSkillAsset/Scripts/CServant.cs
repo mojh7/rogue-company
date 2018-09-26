@@ -9,10 +9,10 @@ public class CServant : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return SpawnServant();
+        return Run();
     }
 
-    private BT.State SpawnServant()
+    private BT.State Run()
     {
         if (!character || delay < 0 || amount < 0)
         {

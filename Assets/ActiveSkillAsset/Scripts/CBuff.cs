@@ -20,10 +20,10 @@ public class CBuff : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return Buff();
+        return Run();
     }
 
-    private BT.State Buff()
+    private BT.State Run()
     {
         character.GetBuffManager().RegisterItemEffect(buffEffectInfo, BuffManager.EffectApplyType.BUFF, -1, delay);
         ParticleManager.Instance.PlayParticle(particleName, character.transform.position);

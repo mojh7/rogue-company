@@ -9,10 +9,10 @@ public class CJump : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return Jump();
+        return Run();
     }
 
-    private BT.State Jump()
+    private BT.State Run()
     {
         if (!character || delay < 0 || amount < 0)
         {

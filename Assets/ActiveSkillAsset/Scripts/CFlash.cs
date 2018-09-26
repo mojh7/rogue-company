@@ -8,10 +8,10 @@ public class CFlash : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return Flash(RoomManager.Instance.GetNearestAvailableArea((temporary as Character).transform.position));
+        return Run(RoomManager.Instance.GetNearestAvailableArea((temporary as Character).transform.position));
     }
 
-    private BT.State Flash(object position)
+    private BT.State Run(object position)
     {
         if (!character || delay < 0 || amount < 0)
         {

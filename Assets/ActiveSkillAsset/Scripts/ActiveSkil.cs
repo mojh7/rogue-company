@@ -76,6 +76,8 @@ public class ActiveSkil : MonoBehaviour {
 public class CollisionSkill : ActiveSkil
 {
     StatusEffectInfo statusEffectInfo;
+    SkillData skillData;
+    CBulletEffect.EffectType effectType;
 
     public void Init(Character character, object temporary, float amount, System.Action<Character, object, float> action)
     {
@@ -88,7 +90,7 @@ public class CollisionSkill : ActiveSkil
         isAvailable = true;
         isActvie = true;
         circleCollider.radius = 0;
-    }
+    } // CFlash - 스킬 함수 전달 시전자 애니메이션으로 종료 선언
 
     public void Init(Character character, float damage, float radius)
     {
@@ -96,12 +98,13 @@ public class CollisionSkill : ActiveSkil
 
         isAvailable = true;
         isActvie = true;
+        this.character = character;
         this.damage = damage;
         this.radius = radius;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
         circleCollider.radius = radius;
-    }
+    } //CRangeAttack with animation  - 시전자 애니메이션으로 종료 선언
 
     public void Init(Character character, float time, float damage, float radius)
     {
@@ -109,13 +112,30 @@ public class CollisionSkill : ActiveSkil
 
         isAvailable = true;
         isActvie = true;
+        this.character = character;
         this.damage = damage;
         this.radius = radius;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
         circleCollider.radius = radius;
         UtilityClass.Invoke(this, DestroyAndDeactive, time);
-    }
+    } // CRangeAttack - 애니메이션 없는 객체
+
+    public void Init(Character character, float time, float damage, float radius, SkillData skillData)
+    {
+        Init();
+
+        isAvailable = true;
+        isActvie = true;
+        this.character = character;
+        this.damage = damage;
+        this.radius = radius;
+        this.skillData = skillData;
+        this.enemyLayer = UtilityClass.GetEnemyLayer(character);
+
+        circleCollider.radius = radius;
+        UtilityClass.Invoke(this, DestroyAndDeactive, time);
+    } // CRangeAttack - 애니메이션 없는 객체
 
     public void Init(Character character, float damage, string skillName)
     {
@@ -124,16 +144,17 @@ public class CollisionSkill : ActiveSkil
         animator.SetTrigger(skillName);
         isAvailable = true;
         isActvie = true;
+        this.character = character;
         this.damage = damage;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
 
         StartCoroutine(ColliderUpdate());
-    }
+    } // HandUp, HandClap - 자체 애니메이션 객체
 
     public void Init(Character character, float time, float damage, float radius, StatusEffectInfo statusEffectInfo, string skillName, Color color, string particleName)
     {
         Init();
-
+        this.character = character;
         this.radius = radius;
         this.statusEffectInfo = statusEffectInfo;
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
@@ -145,7 +166,23 @@ public class CollisionSkill : ActiveSkil
         spriteRenderer.color = color;
         ParticleManager.Instance.PlayParticle(particleName, this.transform.position, 0.3f * radius, time);
         UtilityClass.Invoke(this, DestroyAndDeactive, time);
-    }
+    } // CAbnormal - 자체 애니메이션 객체
+
+    public void InitBullet(Character character, float time, float damage, float radius,CBulletEffect.EffectType effectType)
+    {
+        Init();
+
+        isAvailable = true;
+        isActvie = true;
+        this.character = character;
+        this.damage = damage;
+        this.radius = radius;
+        this.effectType = effectType;
+        this.enemyLayer = UtilityClass.GetEnemyBulletLayer(character);
+
+        circleCollider.radius = radius;
+        UtilityClass.Invoke(this, DestroyAndDeactive, time);
+    } // CRangeAttack - 애니메이션 없는 객체
 
     public override void SetAvailableFalse()
     {
@@ -167,11 +204,33 @@ public class CollisionSkill : ActiveSkil
             return;
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer))
         {
-            //if(statusEffectInfo == null)
-            //    isAvailable = false;
-            Character character = collision.GetComponent<Character>();
-            character.Attacked(Vector2.zero, transform.position, damage, 0, 0);
-            character.ApplyStatusEffect(statusEffectInfo);
+            Character triggeredCharacter = collision.GetComponent<Character>();
+            if (triggeredCharacter)
+            {
+                triggeredCharacter.Attacked(Vector2.zero, transform.position, damage, 0, 0);
+                triggeredCharacter.ApplyStatusEffect(statusEffectInfo);
+                if (skillData)
+                    skillData.Run(this.character, this.transform.position, this.idx);
+            }
+            else
+            {
+                Bullet bullet = collision.transform.parent.GetComponent<Bullet>();
+                if (!bullet)
+                    return;
+                switch (effectType)
+                {
+                    case CBulletEffect.EffectType.REMOVE:
+                        bullet.DestroyBullet();
+                        break;
+                    case CBulletEffect.EffectType.REFLECT:
+                        bullet.SetOwnerType(UtilityClass.GetOnwerTypeLayer(character));
+                        bullet.RotateDirection(180);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
         }
     }   
 }
@@ -194,7 +253,7 @@ public class ThrowingSkill : ActiveSkil
     {
     }
 
-    public void Init(Character character, object temporary, int idx, string skillName, SkillData skillData, float speed, float acceleration)
+    public void Init(Character character, object temporary, float radius, int idx, string skillName, SkillData skillData, float speed, float acceleration)
     {
         Init();
         this.enemyLayer = UtilityClass.GetEnemyLayer(character);
@@ -210,7 +269,7 @@ public class ThrowingSkill : ActiveSkil
         this.isAvailable = true;
         this.speed = speed;
         this.acceleration = acceleration;
-
+        circleCollider.radius = radius;
         this.isActive = false;
     }
 
@@ -255,7 +314,7 @@ public class ThrowingSkill : ActiveSkil
             isActive = true;
             isAvailable = false;
             animator.SetTrigger("default");
-            this.importedSkill.Run(this.character, this.transform.position, this.idx);
+            this.importedSkill.Run(this.character, this.transform.position, this.idx);                                          
             DestroyAndDeactive();
         }
     }

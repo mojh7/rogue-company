@@ -20,15 +20,15 @@ public class CAbnormal : SkillData
     {
         base.Run(character, temporary, idx);
 
-        return Abnormal(temporary, statusEffectInfo);
+        return Run(statusEffectInfo);
     }
 
-    private BT.State Abnormal(object position, StatusEffectInfo statusEffectInfo)
+    private BT.State Run(StatusEffectInfo statusEffectInfo)
     {
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         Vector3 pos = Vector3.zero;
-        if (position != null)
-            pos = (Vector3)position;
+        if (temporary != null)
+            pos = (Vector3)temporary;
         else
             pos = character.transform.position;
         gameObject.transform.position = pos;
