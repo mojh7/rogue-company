@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
 
     public void SpawnPlayer()
     {
-        playerObj = Instantiate(playerPrefab,RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
+        playerObj = Instantiate(playerPrefab, RoomManager.Instance.RoomStartPoint(), Quaternion.identity);
         player = playerObj.GetComponent<Player>();
         player.Init();
         // 저장된 데이터 없이 새로운 게임을 시작할 때
@@ -51,6 +51,13 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
         }
         GameStateManager.Instance.SetLoadsGameData(false);
         RoomManager.Instance.FindCurrentRoom(); // 플레이어 방찾기.
+    }
+
+    public void FindPlayer()
+    {
+        playerObj = Instantiate(playerPrefab);
+        player = playerObj.GetComponent<Player>();
+        player.Init();
     }
     #endregion
 
