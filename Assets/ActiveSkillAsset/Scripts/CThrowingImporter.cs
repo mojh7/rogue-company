@@ -28,13 +28,30 @@ public class CThrowingImporter : SkillData
         }
         character.isCasting = true;
 
+        Character enemy = temporary as Character;
+        Vector3 destPos = Vector2.zero;
+        if (null == enemy)
+        {
+            destPos = character.transform.position + character.GetDirVector() * speed;
+        }
+        else
+        {
+            destPos = enemy.transform.position;
+        }
+
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = new Vector2(character.transform.position.x, character.transform.position.y);
-        gameObject.AddComponent<ThrowingSkill>().Init(character, (temporary as Character).transform.position, idx, skillName, skillData, speed, acceleration);
-
-        character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<ThrowingSkill>().LapseAnimation);
-        character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<ThrowingSkill>().EndAnimation);
-        character.GetCharacterComponents().AnimationHandler.Skill(idx);
+        gameObject.AddComponent<ThrowingSkill>().Init(character, destPos, idx, skillName, skillData, speed, acceleration);
+        if (null != enemy)
+        {
+            character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<ThrowingSkill>().LapseAnimation);
+            character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<ThrowingSkill>().EndAnimation);
+            character.GetCharacterComponents().AnimationHandler.Skill(idx);
+        }
+        else
+        {
+            gameObject.GetComponent<ThrowingSkill>().LapseAnimation();
+        }
         return BT.State.SUCCESS;
     }
 

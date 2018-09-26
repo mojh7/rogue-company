@@ -143,6 +143,8 @@ public class Player : Character
         */
 
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+            ActiveSkill();
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
@@ -190,7 +192,7 @@ public class Player : Character
         IsNotConsumeAmmo = false;
 
         DeactivateAbnormalComponents();
-
+        directionVector = new Vector3(1, 0, 0);
         shieldCount = 0;
         evadeCoolTime = 0.05f;
         battleSpeed = 0.5f;

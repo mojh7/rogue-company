@@ -166,6 +166,7 @@ public class ThrowingSkill : ActiveSkil
 {
     SkillData importedSkill;
     Vector3 src, dest, direction;
+    float dist;
     float speed, acceleration;
     string skillName;
     bool isActive;
@@ -191,7 +192,8 @@ public class ThrowingSkill : ActiveSkil
         this.src = character.transform.position;
         this.dest = (Vector3)temporary;
         this.direction = (dest - src).normalized;
-
+        this.dist = Vector2.Distance(dest, src);
+        this.isAvailable = true;
         this.speed = speed;
         this.acceleration = acceleration;
 
@@ -201,12 +203,12 @@ public class ThrowingSkill : ActiveSkil
     private void Throwing()
     {
         animator.SetTrigger(skillName);
-        StartCoroutine(CoroutineThrow());
+        if(this)
+            StartCoroutine(CoroutineThrow());
     }
 
     IEnumerator CoroutineThrow()
     {
-        float dist = Vector2.Distance(dest, src);
         float elapsedDist = 0;
         float elapsedTime = 0;
         while (elapsedDist <= dist && speed > 0)
@@ -232,7 +234,9 @@ public class ThrowingSkill : ActiveSkil
     {
         if (!isAvailable)
             return;
-        if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer))
+        Debug.Log(collision.gameObject.name);
+        if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer) || 
+            UtilityClass.CheckLayer(collision.gameObject.layer, 14, 1))
         {
             StopCoroutine(CoroutineThrow());
             isActive = true;
