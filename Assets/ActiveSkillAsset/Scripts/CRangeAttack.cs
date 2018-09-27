@@ -5,8 +5,6 @@ using UnityEngine;
 public class CRangeAttack : SkillData
 {
     [SerializeField]
-    float radius;
-    [SerializeField]
     bool hasAnimation;
     [SerializeField]
     SkillData skillData;

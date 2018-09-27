@@ -7,8 +7,6 @@ public class CBulletEffect : SkillData
 {
     public enum EffectType { REMOVE, REFLECT }
     [SerializeField]
-    float radius;
-    [SerializeField]
     EffectType effectType;
 
     public override BT.State Run(Character character, object temporary, int idx)

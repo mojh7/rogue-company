@@ -6,8 +6,6 @@ using UnityEngine;
 public class CAbnormal : SkillData
 {
     [SerializeField]
-    float radius;
-    [SerializeField]
     StatusEffectInfo statusEffectInfo;
     [SerializeField]
     string skillName;

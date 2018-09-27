@@ -6,8 +6,6 @@ using UnityEngine;
 public class CBuff : SkillData
 {
     [SerializeField]
-    float radius;
-    [SerializeField]
     ItemUseEffect buffEffectInfo;
     [SerializeField]
     string skillName;

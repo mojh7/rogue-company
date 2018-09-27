@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class SkillData : ScriptableObject
 {
+    public float radius;
     [SerializeField]
     protected float delay;
     [SerializeField]

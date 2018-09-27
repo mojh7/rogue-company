@@ -286,7 +286,12 @@ public class Player : Character
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
         // if (DefendAttack()) return 0;
-        if (CharacterInfo.State.ALIVE != pState || damageImmune == CharacterInfo.DamageImmune.ALL || isEvade)
+        if(damageImmune == CharacterInfo.DamageImmune.ALL)
+        {
+            ParticleManager.Instance.PlayParticle("Guard", interactiveCollider2D.transform.position);
+            return 0;
+        }
+        if (CharacterInfo.State.ALIVE != pState || isEvade)
             return 0;
         playerData.Hp -= transferredBulletInfo.damage;
         AttackedAction(1);
@@ -298,7 +303,12 @@ public class Player : Character
 
     public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
     {
-        if (CharacterInfo.State.ALIVE != pState || damageImmune == CharacterInfo.DamageImmune.ALL || isEvade)
+        if (damageImmune == CharacterInfo.DamageImmune.ALL)
+        {
+            ParticleManager.Instance.PlayParticle("Guard", interactiveCollider2D.transform.position);
+            return 0;
+        }
+        if (CharacterInfo.State.ALIVE != pState || isEvade)
             return 0;
         float criticalCheck = Random.Range(0f, 1f);
         // 크리티컬 공격
