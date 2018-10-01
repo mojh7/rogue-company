@@ -17,31 +17,10 @@ public class StatusEffectInfo
     public float knockBack;
     public bool positionBasedKnockBack;
 
-    [Header("이동 지연")]
-    public bool canDelayState;
-    [Range(0, 1)]
-    public float delayStateChance;
-
-    [Header("잔소리")]
-    public bool canNag;
-    [Range(0, 1)]
-    public float nagChance;
-    [Header("등산")]
-    public bool canClimb;
-    [Range(0, 1)]
-    public float climbChance;
-    [Header("철야 근무")]
-    public bool graveyardShift;
-    [Range(0, 1)]
-    public float graveyardShiftChance;
     [Header("빙결 (= 아재 개그)")]
     public bool canFreeze;
     [Range(0, 1)]
     public float freezeChance;
-    [Header("청개구리")]
-    public bool reactance;
-    [Range(0, 1)]
-    public float reactanceChance;
 
     [Header("스턴 시간")]
     public float stun;
@@ -59,13 +38,6 @@ public class StatusEffectInfo
     {
         posionChance = 1f;
         burnChance = 1f;
-        delayStateChance = 1f;
-        nagChance = 1f;
-
-        climbChance = 1f;
-        graveyardShiftChance = 1f;
-        freezeChance = 1f;
-        reactanceChance = 1f;
 
         stunChance = 1f;
         charmChance = 1f;
@@ -77,25 +49,16 @@ public class StatusEffectInfo
         canBurn = info.canBurn;
         knockBack = info.knockBack;
         positionBasedKnockBack = info.positionBasedKnockBack;
-        canDelayState = info.canDelayState;
 
-        canNag = info.canNag;
-        canClimb = info.canClimb;
-        graveyardShift = info.graveyardShift;
         canFreeze = info.canFreeze;
-        reactance = info.reactance;
 
         stun = info.stun;
         charm = info.charm;
 
         posionChance = info.posionChance;
         burnChance = info.burnChance;
-        delayStateChance = info.delayStateChance;
-        nagChance = info.nagChance;
-        climbChance = info.climbChance;
-        graveyardShiftChance = info.graveyardShiftChance;
+
         freezeChance = info.freezeChance;
-        reactanceChance = info.reactanceChance;
 
         stunChance = info.stunChance;
         charmChance = info.charmChance;

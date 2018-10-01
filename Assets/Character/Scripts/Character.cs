@@ -319,11 +319,7 @@ public abstract class Character : MonoBehaviour
         abnormalComponents.BurnEffect.SetActive(false);
         abnormalComponents.PoisonEffect.SetActive(false);
 
-        abnormalComponents.NagEffect.SetActive(false);
-        abnormalComponents.ClibmingEffect.SetActive(false);
-        abnormalComponents.GraveyardShiftEffect.SetActive(false);
         abnormalComponents.FreezeEffect.SetActive(false);
-        abnormalComponents.ReactanceEffect.SetActive(false);
 
         abnormalComponents.StunEffect.SetActive(false);
         abnormalComponents.CharmEffect.SetActive(false);
