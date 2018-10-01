@@ -1,0 +1,5 @@
+﻿1. DataStore에서 해당 PropertyType Enum에 내용 추가
+
+(1-1. bulletInfo에서 Property와 관련된 변수 추가)
+
+2. BulletInfo.cs의 Init 함수에서 switch case 내용 추가

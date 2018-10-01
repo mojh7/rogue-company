@@ -663,6 +663,10 @@ public class Bullet : MonoBehaviour
     public void ApplyWeaponBuff()
     {
         int type = (int)transferBulletInfo.weaponType;
+        // (중요함) 보스 무기 등 테스트 중에 무기 info 생성시 default값이 NULL인데 이러면 total+effect가 1.0이 아닌 1+1=>2가 나옴.
+        // 실제로 bullet Speed 자꾸 2배가 되서 찾다가 여기서 버그 발생한 것.
+        if (WeaponType.NULL == transferBulletInfo.weaponType) return;
+        
         //Debug.Log(info.memo + ", " + (WeaponType)type + ", " + info.bulletType);
         //Debug.Log(name + " zzz : " + ownerBuff);
 
@@ -749,7 +753,9 @@ public class Bullet : MonoBehaviour
         // 1.모든 무기 치명타 확률 n% 증가, 합 옵션
         info.criticalChance = info.criticalChance + totalInfo.criticalChanceIncrement + effectInfo.damageIncrement;
 
+        //Debug.Log("버프 전 : " + info.speed);
         info.speed = info.speed * (totalInfo.bulletSpeedIncrement + effectInfo.bulletSpeedIncrement);    // 총알 이동속도 변화
+        //Debug.Log("버프 후 : " + info.speed + ", " + effectInfo.bulletSpeedIncrement);
 
         if (OwnerType.Player == ownerType)
         {

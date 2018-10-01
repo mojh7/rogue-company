@@ -31,6 +31,8 @@ using WeaponAsset;
 
 public abstract class UpdateProperty : BulletProperty
 {
+    protected float timeCount;
+    protected float lifeTime;
     public abstract UpdateProperty Clone();
     public abstract void Update();
 }
@@ -43,8 +45,8 @@ public class StraightMoveProperty : UpdateProperty
     private float moveSpeed;    // 속력
     private float range;
 
-    private float lifeTime;  // bullet 생존 시간 * (1.0f / Time.fixedDeltaTime)
-    private float timeCount; // 지나간 시간 카운트
+    // lifeTime bullet 생존 시간 * (1.0f / Time.fixedDeltaTime)
+    // timeCount 지나간 시간 카운트
 
     public override UpdateProperty Clone()
     {
@@ -102,9 +104,11 @@ public class AccelerationMotionProperty : UpdateProperty
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
+        timeCount = 0;
         distance = 0;
         deltaSpeedTotal = 0;
         deltaSpeedTotalLimit = bullet.info.deltaSpeedTotalLimit;
+        lifeTime = bullet.info.lifeTime;
 
         if (bullet.info.speed != 0)
         {
@@ -146,7 +150,7 @@ public class AccelerationMotionProperty : UpdateProperty
                     moveSpeed += deltaSpeedTotal - deltaSpeedTotalLimit;
                 }
 
-                if (Mathf.Abs(moveSpeed) < 0.1f)
+                if (Mathf.Abs(moveSpeed) < 0.05f)
                 {
                     moveSpeed = 0f;
                 }
@@ -164,7 +168,12 @@ public class AccelerationMotionProperty : UpdateProperty
         distance += moveSpeed * Time.fixedDeltaTime;
 
         // 사정거리 넘어가면 delete 속성 실행
-        if (distance >= range)
+        /*if (distance >= range)
+        {
+            delDestroyBullet();
+        }*/
+        timeCount += Time.fixedDeltaTime;
+        if (timeCount >= lifeTime)
         {
             delDestroyBullet();
         }
@@ -244,7 +253,6 @@ public class SummonProperty : UpdateProperty
 {
     private BulletPattern bulletPattern; // 생성할 총알 패턴
     private float creationCycle; // 생성 주기
-    private float timeCount; // time count
 
     private DelGetDirDegree bulletDirDegree;
     private DelGetPosition bulletDirVec;
@@ -284,12 +292,10 @@ public class SummonProperty : UpdateProperty
 /// <summary> 유도 총알 </summary>
 public class HomingProperty : UpdateProperty
 {
-    private float lifeTime;
     private float deltaAngle;
     private int enemyTotal;
     private float targettingCycle;
 
-    private float timeCount;
     private float homingStartTime;
     private float homingEndTime;
 
@@ -543,10 +549,8 @@ public class FixedOwnerProperty : UpdateProperty
 /// <summary> 나선형 속성 </summary>
 public class SpiralProperty : UpdateProperty
 {
-    private float lifeTime;
     private float rotateAnglePerSecond;
 
-    private float timeCount;
     private float startTime;
     private float endTime;
     private int durationTimeIndex;
@@ -620,15 +624,64 @@ public class SpiralProperty : UpdateProperty
     }
 }
 
+/// <summary> 특정 Time에서 회전하는 속성 </summary>
+public class RotationProperty : UpdateProperty
+{
+    private int durationTimeIndex;
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+
+        lifeTime = bullet.info.lifeTime;
+        timeCount = 0;
+        durationTimeIndex = 0;
+    }
+
+    public override UpdateProperty Clone()
+    {
+        return new RotationProperty();
+    }
+
+    public override void Update()
+    {
+        if (durationTimeIndex >= bullet.info.rotationTimeline.Count)
+        {
+            if (bullet.info.routineRotation)
+            {
+                timeCount = 0;
+                durationTimeIndex = 0;
+            }
+            else return;
+        }
+
+        if (timeCount < bullet.info.rotationTimeline[durationTimeIndex].time)
+        {
+            timeCount += Time.fixedDeltaTime;
+            return;
+        }
+        else
+        {
+            bullet.RotateDirection(bullet.info.rotationTimeline[durationTimeIndex].value);
+            timeCount += Time.fixedDeltaTime;
+            durationTimeIndex += 1;
+        }
+        
+        if (timeCount >= lifeTime)
+        {
+            delDestroyBullet();
+        }
+    }
+}
+
 // 현재는 미 사용
 // TODO : 삼각함수 속성 만들기
 /// <summary> 삼각함수 속성 </summary>
 public class TrigonometricProperty : UpdateProperty
 {
-    private float lifeTime;
     private float verticalDistance;
     private float period;
-    private float timeCount;
+
     private float startTime;
     private float endTime;
 
@@ -654,3 +707,6 @@ public class TrigonometricProperty : UpdateProperty
     }
 }
 
+// 네모, 세모 등등 따로 그려진 모양의 패턴 class 전용 업데이트 속성
+// PaintParentProperty
+// PaintChildProperty

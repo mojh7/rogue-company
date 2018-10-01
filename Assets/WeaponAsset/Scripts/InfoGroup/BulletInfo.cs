@@ -21,6 +21,13 @@ public class DurationTime
     }
 }
 
+[System.Serializable]
+public class PropertyTimeline
+{
+    public float time;
+    public float value;
+}
+
 // player bullet
 [CreateAssetMenu(fileName = "BulletInfo", menuName = "WeaponData/OwnerPlayer/BulletInfo", order = 1)]
 public class BulletInfo : ScriptableObject
@@ -89,10 +96,11 @@ public class BulletInfo : ScriptableObject
 
     // 튕기는 총알 테스트용, 반사 o / x
     public bool bounceAble;
-    [Header("근접 무기 다른 owner 총알 막기 on / off")]
+    [Header("다른 owner 총알 막기 on / off")]
     public bool canBlockBullet;
-    [Header("근접 무기 다른 owner 총알 튕겨내기 on / off")]
+    [Header("다른 owner 총알 튕겨내기 on / off")]
     public bool canReflectBullet;
+
     [Header("Trap무기 SpiderMine화")]
     public bool becomeSpiderMine;
 
@@ -100,9 +108,13 @@ public class BulletInfo : ScriptableObject
     public float homingStartTime;
     public float homingEndTime;
 
-    [Header("Spiral Property, start~end time, -1값 : 적용 x")]
+    [Header("Spiral Property, start~end time, end Time의 -1값 : 끝나는 시간 제한 없음")]
     public bool routineSprial;
     public List<DurationTime> spiralDurationTime;
+
+    [Header("Rotation Property, start~end time, -1값 : 적용 x")]
+    public bool routineRotation;
+    public List<PropertyTimeline> rotationTimeline;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
     public UpdatePropertyType[] updatePropertiesEdit;       // update 속성 edit용
@@ -232,7 +244,8 @@ public class BulletInfo : ScriptableObject
 
         clonedInfo.routineSprial = routineSprial;
         clonedInfo.spiralDurationTime = spiralDurationTime;
-
+        clonedInfo.routineRotation = routineRotation;
+        clonedInfo.rotationTimeline = rotationTimeline;
         //clonedInfo = ; 
 
         /*---*/
@@ -338,6 +351,9 @@ public class BulletInfo : ScriptableObject
                     break;
                 case UpdatePropertyType.Spiral:
                     updateProperties.Add(new SpiralProperty());
+                    break;
+                case UpdatePropertyType.Rotation:
+                    updateProperties.Add(new RotationProperty());
                     break;
                 default:
                     break;
