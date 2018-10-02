@@ -58,6 +58,10 @@ namespace WeaponAsset
         Wind,
         BashAfterImage2,
         Explosion0,
+        BashSkyBlue,
+        BashBlue,
+        BashRed,
+        BashOrange,
     }
 
     /*---*/
