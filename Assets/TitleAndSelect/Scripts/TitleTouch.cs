@@ -11,7 +11,7 @@ public class TitleTouch : MonoBehaviour {
     public GameObject RestartButton;
     public GameObject StartNew;
     private bool isRestart = false;
-    [SerializeField] private Text txt;
+    [SerializeField] private Text touch;
     [SerializeField] private Image image;
     private bool isHide = true;
     [SerializeField] private Image fadeImage;
@@ -52,7 +52,7 @@ public class TitleTouch : MonoBehaviour {
 
     public void FadeInScreen()
     {
-        txt.gameObject.SetActive(false);
+        touch.gameObject.SetActive(false);
         image.gameObject.SetActive(false);
         FadeIn(fadeImage, 100);
     }
@@ -121,7 +121,7 @@ public class TitleTouch : MonoBehaviour {
     {
         if (isHide)
         {
-            Color color = txt.color;
+            Color color = touch.color;
             color.a = color.a - Time.deltaTime;
 
             if (color.a < 0)
@@ -130,11 +130,11 @@ public class TitleTouch : MonoBehaviour {
                 isHide = false;
             }
 
-            txt.color = color;
+            touch.color = color;
         }
         else
         {
-            Color color = txt.color;
+            Color color = touch.color;
             color.a = color.a + Time.deltaTime;
 
             if (color.a > 1)
@@ -142,7 +142,7 @@ public class TitleTouch : MonoBehaviour {
                 color.a = 1.0f;
                 isHide = true;
             }
-            txt.color = color;
+            touch.color = color;
         }
     }
 }

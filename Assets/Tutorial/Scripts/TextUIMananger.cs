@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowMask : MonoBehaviour {
+public class TextUIMananger : MonoBehaviour {
 
-    public GameObject player;
-
+	// Use this for initialization
 	void Start () {
+		
 	}
 	
 	// Update is called once per frame

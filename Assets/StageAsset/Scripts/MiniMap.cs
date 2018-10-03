@@ -23,6 +23,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     Vector2 iconV = Vector2.zero;
     float mapMoveX, mapMoveY;
     bool inDungeon= false; // 던전안에 들어갔는지 아닌지 확인
+    [SerializeField] bool isTutorial = false;
     
     #endregion
     #region minimapData
@@ -538,7 +539,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             else
             {
                 // 크게 키운 맵
-                // 크게 키운 맵
                 transform.localPosition = new Vector2(-maskSize, -maskSize);
                 mask.localPosition = new Vector2(maskSize, maskSize);
                 GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
@@ -690,25 +690,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 break;
                 
         }
-
-        /**if (tanslateMapX)
-        {
-            // 맵의 x축은 이동하고 플레이어 아이콘의 y축이 이동
-            transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
-                mapV.y);
-            iconV = new Vector2(-maskSize,
-            playerPositon.y / mapSizeHeight * _height - maskSize - _height / 2f);
-            playerIcon.transform.localPosition = iconV;
-        }
-        else
-        {
-            // 맵의 y축은 이동하고 플레이어 아이콘의 x축이 이동
-            transform.localPosition = new Vector2(mapV.x,
-            -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
-            iconV = new Vector2(playerPositon.x / mapSizeWidth * _width - maskSize - _width / 2f,
-            -maskSize);
-            playerIcon.transform.localPosition = iconV;
-        }**/
     }
 
     void MovePlayerIcon()
@@ -742,14 +723,17 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         playerPositon = PlayerManager.Instance.GetPlayerPosition();
 
-        if (isToggle)
-            MovePlayerIcon();
-        else
+        if (!isTutorial)
         {
-            if (FixedPlayer())
-                MovePlayerIconMinimap();
+            if (isToggle)
+                MovePlayerIcon();
             else
-                MoveMinimapIcon();
+            {
+                if (FixedPlayer())
+                    MovePlayerIconMinimap();
+                else
+                    MoveMinimapIcon();
+            }
         }
     }
     #endregion
