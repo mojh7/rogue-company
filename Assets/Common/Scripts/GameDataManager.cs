@@ -10,7 +10,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     int m_floor;
     Player.PlayerType m_playerType;
     int m_coin;
-    int m_key;
     int m_card;
 
     GameData gameData;
@@ -32,7 +31,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 
     #region setter
     public void SetCard() { m_card++; ShowUI(); }
-    public void SetKey() { m_key++; ShowUI(); }
     public void SetCoin() { m_coin++; ShowUI(); }
     public void SetFloor() { m_floor++; }
     public void SetKill() { m_kill++; }
@@ -42,7 +40,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 
     #region getter
     public int GetCard() { return m_card; }
-    public int GetKey() { return m_key; }
     public int GetCoin() { return m_coin; }
     public int GetFloor() { return m_floor; }
     public int GetKill() { return m_kill; }
@@ -69,12 +66,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     {
         if (m_card > 0)
             m_card--;
-    }
-    public void UseKey()
-    {
-        if (m_key <= 0)
-            return;
-        m_key--;
         ShowUI();
     }
     public void ReduceCoin(int value)
@@ -87,7 +78,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     void ShowUI()
     {
         UIManager.Instance.SetCoinText(m_coin);
-        UIManager.Instance.SetKeyText(m_key);
+        UIManager.Instance.SetCardText(m_card);
     }
   
     public void Savedata()
@@ -105,18 +96,15 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             gameData = new GameData();
         gameData.SetFloor(m_floor);
         gameData.SetCoin(m_coin);
+        gameData.SetCard(m_card);
         gameData.SetKill(m_kill);
-        //gameData.SetTime(m_time);
         gameData.SetTime(TimeController.Instance.GetPlayTime);
 
-        // 0531 모장현
-        gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());
+         gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());
         gameData.SetWeaponAmmos(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponAmmos());
-        // 0611 모장현
-        // gameData.SetPlayerData(PlayerManager.Instance.GetPlayer().PlayerData);
+ 
         gameData.SetHp(PlayerManager.Instance.GetPlayer().PlayerData.Hp);
         gameData.SetStamina(PlayerManager.Instance.GetPlayer().PlayerData.Stamina);
-        Debug.Log("save hp : " + gameData.GetHp());
 
         BinarySerialize(gameData);
     }
@@ -138,15 +126,12 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             gameData = BinaryDeserialize();
             m_floor = gameData.GetFloor();
             m_coin = gameData.GetCoin();
+            m_card = gameData.GetCard();
             m_playerType = gameData.GetPlayerType();
             m_kill = gameData.GetKill();
             m_time = gameData.GetTime();
-            // 0531 모장현
             m_weaponIds = gameData.GetWeaponIds();
             m_weaponAmmos = gameData.GetWeaponAmmos();
-            //Debug.Log(gameData.GetWeaponIds()[0]);
-            // 0611 모장현
-            // this.playerData = gameData.GetPlayerData();
             playerData = playerDatas[(int)m_playerType].Clone();
             playerData.Hp = gameData.GetHp();
             playerData.Stamina = gameData.GetStamina();
@@ -168,6 +153,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         }
         m_floor = 1;
         m_coin = 0;
+        m_card = 1;
         m_kill = 0;
         m_time = 0;
     }

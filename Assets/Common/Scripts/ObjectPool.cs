@@ -17,7 +17,7 @@ public class ObjectPool : MonoBehaviour
         for(int i = 0; i < pooledAmount; i++)
         {
             GameObject obj = (GameObject)Instantiate(pooledObject);
-            //obj.hideFlags = HideFlags.HideInHierarchy;
+            obj.hideFlags = HideFlags.HideInHierarchy;
             obj.SetActive(false);
             obj.transform.parent = transform;
             pooledObjects.Add(obj);

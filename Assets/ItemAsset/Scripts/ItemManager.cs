@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public Sprite coinSprite;
     public Sprite sprite;
+    public Sprite keySprite;
     [SerializeField]
     private Sprite[] boxSprites;
 
@@ -56,6 +57,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         objs.Enqueue(obj);
         if (_item.GetType() == typeof(Coin))
         {
+            obj.GetComponent<ItemContainer>().IsCoin();
             withdraws.Enqueue(obj.GetComponent<ItemContainer>());
         }
         if (dest.Length == 0)

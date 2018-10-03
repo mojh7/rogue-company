@@ -273,21 +273,21 @@ public class PushBox : RandomSpriteObject
         objectType = ObjectType.PUSHBOX;
         offset = new Vector3(0, sprites[0].bounds.size.y * 0.5f, 0);
     }
-    public override void SetAvailable()
-    {
-        isAvailable = true;
-    }
-    public override bool Active()
-    {
-        oldPosition = transform.position;
-        isActive = true;
-        dir = offset + transform.position - PlayerManager.Instance.GetPlayerPosition();
-        dir.Normalize();
-        rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        StartCoroutine(CoroutinePushed(dir));
+    //public override void SetAvailable()
+    //{
+    //    isAvailable = true;
+    //}
+    //public override bool Active()
+    //{
+    //    oldPosition = transform.position;
+    //    isActive = true;
+    //    dir = offset + transform.position - PlayerManager.Instance.GetPlayerPosition();
+    //    dir.Normalize();
+    //    rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+    //    StartCoroutine(CoroutinePushed(dir));
 
-        return true;
-    }
+    //    return true;
+    //}
     //TODO : 캐릭터가 밀리는 문제가 발생
     IEnumerator CoroutinePushed(Vector2 direction)
     {
@@ -327,8 +327,9 @@ public class PushBox : RandomSpriteObject
 
 public class Spawner : RandomSpriteObject
 {
-    int spawnCount = 2;
+    int spawnCount;
     int gage;
+    int eachGage;
     public override void Init()
     {
         base.Init();
@@ -338,43 +339,41 @@ public class Spawner : RandomSpriteObject
         objectType = ObjectType.SPAWNER;
 
         gameObject.layer = 0;
+        spawnCount = Random.Range(2, 4);
     }
     public override bool Active()
     {
+        if(!isActive)
+        {
+            gage = RoomManager.Instance.GetGage();
+            eachGage = gage / spawnCount;
+            isActive = true;
+        }
+        spawnCount--;
+        if (spawnCount < 0)
+            return false;
         StartCoroutine(SpawnProcess());
         return true;
     }
     IEnumerator SpawnProcess()
     {
-        if (spawnCount >= 2)
+        int count = eachGage;
+        if(spawnCount == 0)
         {
-            gage = RoomManager.Instance.GetGage();
-            int count = gage / 2;
-            while (count > 0)
-            {
-                Spawn();
-                count--;
-                yield return YieldInstructionCache.WaitForSeconds(.5f);
-            }
-
-            spawnCount--;
+            count = RoomManager.Instance.GetGage();
         }
-        else if (spawnCount == 1)
+        while (count > 0)
         {
-            while (gage > 0)
-            {
-                Spawn();
-                yield return YieldInstructionCache.WaitForSeconds(.5f);
-            }
-
-            spawnCount--;
+            Spawn(ref count);
+            yield return YieldInstructionCache.WaitForSeconds(.5f);
         }
     }
-    void Spawn()
+    void Spawn(ref int count)
     {
-        gage--;
-        Vector2 tempPosition = RoomManager.Instance.SpawndWithGage();
-        EnemyManager.Instance.Generate(tempPosition);
+        EnemyData enemyData = EnemyManager.Instance.GetEnemy(false);
+        count -= enemyData.Price;
+        Vector2 tempPosition = RoomManager.Instance.SpawndWithGage(enemyData.Price);
+        EnemyManager.Instance.Generate(tempPosition, enemyData);
     }
 }
 
@@ -393,10 +392,10 @@ public class Door : RandomSpriteObject
         objectType = ObjectType.NONE;
         objectAssigned = false;
     }
-    public void Init(Sprite openSprite, Sprite closeSprite, GameObject[] doorArrows, bool isLock = false)
+    public void Init(Sprite openSprite, Sprite closeSprite, GameObject[] doorArrows)
     {
         Init();
-        this.isLock = isLock;
+        this.isLock = false;
         this.openSprite = openSprite;
         this.closeSprite = closeSprite;
         this.doorArrows = doorArrows;
@@ -416,6 +415,14 @@ public class Door : RandomSpriteObject
         }
         polygonCollider2D.isTrigger = false;
     }
+    public void Lock()
+    {
+        isLock = true;
+        sprite = closeSprite;
+        isAvailable = true;
+        StopAni();
+        SetCollision();
+    }
     public override bool Active()
     {
         if (!isLock)
@@ -423,6 +430,7 @@ public class Door : RandomSpriteObject
         if(GameDataManager.Instance.GetCard() <= 0)
             return false;
         isLock = true;
+        isAvailable = false;
         GameDataManager.Instance.UseCard();
         isActive = false;
         doorArrows[0].SetActive(true);
@@ -472,6 +480,14 @@ public class Door : RandomSpriteObject
     public bool GetHorizon()
     {
         return isHorizon;
+    }
+    public void DestroySelf()
+    {
+        for(int i=0;i< doorArrows.Length;i++)
+        {
+            doorArrows[i].SetActive(false);
+        }
+        doorArrows = null;
     }
 }
 
@@ -606,7 +622,7 @@ public class ItemBox : RandomSpriteObject
 public class ItemContainer : RandomSpriteObject
 {
     Item innerObject;
-
+    bool isCoin;
     public override void Init()
     {
         base.Init();
@@ -615,6 +631,7 @@ public class ItemContainer : RandomSpriteObject
         isActive = false;
         isAvailable = true;
         isAnimate = true;
+        isCoin = false;
         objectType = ObjectType.NONE;
         tag = "Untagged";
         textMesh.text = "";
@@ -631,6 +648,10 @@ public class ItemContainer : RandomSpriteObject
         polygonCollider2D.SetPath(0, clickableBoxPolygon);
     }
 
+    public void IsCoin()
+    {
+        isCoin = true;
+    }
     void ReAlign()
     {
         innerObject.transform.parent = transform;
@@ -644,7 +665,8 @@ public class ItemContainer : RandomSpriteObject
             if (innerObject.GetType() != typeof(Coin) || !isAvailable)
                 return;
             DettachDestroy();
-            innerObject.GetComponent<Item>().Active();
+            if(this)
+                innerObject.GetComponent<Item>().Active();
         }
     }
 
@@ -662,6 +684,7 @@ public class ItemContainer : RandomSpriteObject
                 DestroyAndDeactive();
                 return true;
             }
+            isAvailable = true;
         }
         else if(innerObject.GetType() == typeof(UsableItem))
         {
@@ -693,6 +716,13 @@ public class ItemContainer : RandomSpriteObject
     {
         textMesh.text = "";
         childTextMesh.text = textMesh.text;
+    }
+
+    public override bool GetAvailable()
+    {
+        if (isCoin)
+            return false;
+        return base.GetAvailable();
     }
 
     public void DettachDestroy()

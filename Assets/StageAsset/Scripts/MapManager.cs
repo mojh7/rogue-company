@@ -278,8 +278,11 @@ namespace Map
                 if (rooms[i].doorObjects != null)
                     for (int j = 0; j < rooms[i].doorObjects.Count; j++)
                     {
-                        if(rooms[i].doorObjects[j])
+                        if (rooms[i].doorObjects[j])
+                        {
+                            rooms[i].doorObjects[j].GetComponent<Door>().DestroySelf();
                             Object.DestroyImmediate(rooms[i].doorObjects[j].GetComponent<CustomObject>());
+                        }
                     }
             }
 
@@ -1164,7 +1167,6 @@ namespace Map
         public bool downExist;
         public bool isClear;
         public bool isDrawed;
-        public bool isLock;
         public bool visited;
         public bool isAssigned;
         public RoomType eRoomType;
@@ -1246,6 +1248,13 @@ namespace Map
         }
         #endregion
         #region func
+        public void DoorLock()
+        {
+            for(int i=0;i<doorObjects.Count;i++)
+            {
+                doorObjects[i].Lock();
+            }
+        }
         public void IsRoom()
         {
             isRoom = true;

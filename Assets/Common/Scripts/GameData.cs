@@ -9,6 +9,7 @@ class GameData
     int stamina;
     int m_floor;
     int m_coin;
+    int m_card;
     int m_kill;
     float m_time;
     int[] weaponIds;
@@ -19,6 +20,7 @@ class GameData
     {
         m_floor = 1;
         m_coin = 0;
+        m_card = 0;
         m_kill = 0;
         m_time = 0;
         m_playerType = Player.PlayerType.SOCCER;
@@ -28,6 +30,7 @@ class GameData
     public int GetStamina() { return stamina; }
     public int GetFloor() { return m_floor; }
     public int GetCoin() { return m_coin; }
+    public int GetCard() { return m_card; }
     public int GetKill() { return m_kill; }
     public float GetTime() { return m_time; }
     public int[] GetWeaponIds() { return weaponIds; }
@@ -39,6 +42,7 @@ class GameData
     public void SetStamina(int _stamina) { stamina = _stamina; }
     public void SetFloor(int m_floor) { this.m_floor = m_floor; }
     public void SetCoin(int _coin) { m_coin = _coin; }
+    public void SetCard(int _card) { m_card = _card; }
     public void SetKill(int _kill) { m_kill = _kill; }
     public void SetTime(float _time) { m_time += _time; }
     public void SetWeaponIds(int[] _weaponIds) { weaponIds = _weaponIds; }

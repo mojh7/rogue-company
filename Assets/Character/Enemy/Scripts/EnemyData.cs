@@ -7,6 +7,8 @@ public class EnemyData : ScriptableObject
 {
     #region serializeFiled
     [SerializeField]
+    private int price;
+    [SerializeField]
     private new string name;
     [SerializeField]
     private Sprite sprite;
@@ -29,6 +31,13 @@ public class EnemyData : ScriptableObject
     #endregion
 
     #region property
+    public int Price
+    {
+        get
+        {
+            return price;
+        }
+    }
     public string Name
     {
         get

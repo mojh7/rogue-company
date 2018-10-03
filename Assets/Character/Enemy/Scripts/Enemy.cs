@@ -15,7 +15,11 @@ public class Enemy : Character
     // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
     private float hpMax;
     protected bool isBossEnemy;  // 0810 모, 보스 몬스터, 일반 몬스터 구분을 위해 사용
-    
+    public int price
+    {
+        private set;
+        get;
+    }
     #endregion
 
     #region abnormalStatusVariables
@@ -80,7 +84,7 @@ public class Enemy : Character
         base.Init();
         this.enemyData = enemyData;
         spriteRenderer.color = Color.white;
-
+        this.price = enemyData.Price;
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
         damageImmune = CharacterInfo.DamageImmune.NONE;
@@ -154,10 +158,15 @@ public class Enemy : Character
 
     protected void DropItem()
     {
-        GameObject coin = new GameObject();
-        coin.AddComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
-        coin.AddComponent<Coin>();
-        ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position);
+        int count = EconomySystem.Instance.DropCoin(this.price);
+        for(int i=0;i< count;i++)
+        {
+            GameObject coin = ResourceManager.Instance.itemPool.GetPooledObject();
+            coin.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
+            coin.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            coin.AddComponent<Coin>();
+            ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+        }
     }
 
     // 0813 모, 체력이 깎이는 다양한 경우에서 hp감소를 공통된 방식으로 처리하기 위해 함수화하여 처리

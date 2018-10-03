@@ -50,8 +50,21 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         mapSize = MapManager.Instance.size;
         maskSize = new Vector2(MapManager.Instance.mapSize.x * mapSize + 0.5f, MapManager.Instance.mapSize.y * mapSize + 1.5f);
         zeroVector = new Vector2(MapManager.Instance.mapSize.x * mapSize * 0.5f + 0.5f, MapManager.Instance.mapSize.y * mapSize * 0.5f - 0.5f);
+        EconomySystem.Instance.InitFloorData(roomList);
+        LockDoor();
     } // 룸리스트 받아오기
 
+    void LockDoor()
+    {
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i].eRoomType == RoomType.EVENT || roomList[i].eRoomType == RoomType.BOSS)
+            {
+                roomList[i].DoorLock();
+            }
+        }
+
+    }
     public int GetGage()
     {
         return currentRoom.gage;
@@ -127,18 +140,18 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         ObjectSetAvailable();
         FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
-        Item item;
-        if(UtilityClass.CoinFlip(50))
-        {
-            item = ObjectPoolManager.Instance.CreateUsableItem();
-        }
-        else
-        {
-            item = ObjectPoolManager.Instance.CreateWeapon();
-        }
+        //Item item;
+        //if(UtilityClass.CoinFlip(50))
+        //{
+        //    item = ObjectPoolManager.Instance.CreateUsableItem();
+        //}
+        //else
+        //{
+        //    item = ObjectPoolManager.Instance.CreateWeapon();
+        //}
+        //ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere * 3), item);
 
         UIManager.Instance.ClearRoomUI(true);
-        ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere * 3), item);
         //ItemManager.Instance.CollectItem();
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
@@ -181,9 +194,9 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         return currentRoom.GetAvailableArea();
     }
 
-    public Vector3 SpawndWithGage()
+    public Vector3 SpawndWithGage(int gage)
     {
-        currentRoom.gage--;
+        currentRoom.gage -= gage;
         monsterNum++;
         return currentRoom.GetAvailableArea();
     }
@@ -265,7 +278,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 !IsLinkedVerticalEvent(room,room.linkedEdgeRect[i]))
             {
                 room.linkedEdgeRect[i].isDrawed = true;
-                MiniMap.Instance.ClearRoom(room.linkedEdgeRect[i], 0.8f);
+                MiniMap.Instance.ClearRoom(room.linkedEdgeRect[i], 0.2f);
             }
         }
     }

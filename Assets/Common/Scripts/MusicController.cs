@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class MusicController : MonoBehaviour
+public class MusicController : MonoBehaviourSingleton<MusicController>
 {
     //[Header("[PlayerPrefs Key]")]
     //[SerializeField] private string saveKey = "Option_Music";

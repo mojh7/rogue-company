@@ -32,8 +32,8 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 
     void Awake()
     {
-        musicController = GetComponentInChildren<MusicController>();
-        soundController = GetComponentInChildren<SoundController>();
+        musicController = MusicController.Instance;
+        soundController = SoundController.Instance;
     }
 
     /*

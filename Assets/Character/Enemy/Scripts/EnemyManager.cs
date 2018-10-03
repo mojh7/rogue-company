@@ -41,12 +41,12 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         obj.GetComponent<Alert>().Active();
     }
 
-    public void Generate(Vector3 _position)
+    public void Generate(Vector3 _position,EnemyData enemyData)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
-        obj.GetComponent<Alert>().Init(CallBack, GetEnemy(false), 0, 0, null);
+        obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0, null);
         obj.GetComponent<Alert>().Active();
     }
 
@@ -116,7 +116,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     }
     #endregion
 
-    EnemyData GetEnemy(bool isBoss)
+    public EnemyData GetEnemy(bool isBoss)
     {
         floor = InGameManager.Instance.GetFloor();
         if (floor >= floorDatas.Length)

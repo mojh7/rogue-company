@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     [SerializeField] private GameObject gameOverObj;
     [SerializeField] private Image fadeImage;
     [SerializeField] private Text coinText;
-    [SerializeField] private Text keyText;
+    [SerializeField] private Text cardText;
     [SerializeField] private GameObject clearObj;
     [SerializeField] private Image[] clearImage;
     public BossHPUI bossHPUI;
@@ -54,11 +54,11 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
         coinText.text = _num.ToString();
     }
 
-    public void SetKeyText(int _num)
+    public void SetCardText(int _num)
     {
-        if (null == keyText)
+        if (null == cardText)
             return;
-        keyText.text = _num.ToString();
+        cardText.text = _num.ToString();
     }
 
     public void ReturnTitle()

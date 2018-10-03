@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class SoundController : MonoBehaviour
+public class SoundController : MonoBehaviourSingleton<SoundController>
 {
 
     //[Header("[PlayerPrefs Key]")]
