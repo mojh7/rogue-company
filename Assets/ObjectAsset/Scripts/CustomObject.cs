@@ -379,7 +379,7 @@ public class Spawner : RandomSpriteObject
 
 public class Door : RandomSpriteObject
 {
-    bool isLock;
+    int isLock;
     bool isHorizon;
     Sprite openSprite;
     Sprite closeSprite;
@@ -395,14 +395,14 @@ public class Door : RandomSpriteObject
     public void Init(Sprite openSprite, Sprite closeSprite, GameObject[] doorArrows)
     {
         Init();
-        this.isLock = false;
+        this.isLock = 0;
         this.openSprite = openSprite;
         this.closeSprite = closeSprite;
         this.doorArrows = doorArrows;
         sprite = openSprite;
         SetCollision();
     }
-    void SetCollision()
+    public void SetCollision()
     {
         spriteRenderer.sprite = sprite;
         List<Vector2> list = new List<Vector2>();
@@ -417,19 +417,29 @@ public class Door : RandomSpriteObject
     }
     public void Lock()
     {
-        isLock = true;
+        isLock++;
         sprite = closeSprite;
         isAvailable = true;
         StopAni();
         SetCollision();
     }
+    public void UnLock()
+    {
+        isLock--;
+        if (isLock <= 0)
+            sprite = openSprite;
+    }
+    public override void SetAvailable()
+    {
+        isAvailable = false;
+    }
     public override bool Active()
     {
-        if (!isLock)
+        if (isLock <= 0)
             return false;
         if(GameDataManager.Instance.GetCard() <= 0)
             return false;
-        isLock = true;
+        isLock--;
         isAvailable = false;
         GameDataManager.Instance.UseCard();
         isActive = false;
@@ -442,8 +452,12 @@ public class Door : RandomSpriteObject
     }
     public bool OpenAndClose()
     {
-        if (isLock)
+        isAvailable = true;
+        if (isLock > 0)
+        {
+            isAvailable = false;
             return false;
+        }
         if (isActive)
         {
             isActive = false;
@@ -662,7 +676,7 @@ public class ItemContainer : RandomSpriteObject
     {
         if (collision.CompareTag("Interactor"))
         {
-            if (innerObject.GetType() != typeof(Coin) || !isAvailable)
+            if (innerObject.GetType() != typeof(Coin) && innerObject.GetType() != typeof(Card) || !isAvailable)
                 return;
             DettachDestroy();
             if(this)
@@ -972,7 +986,8 @@ public class SubStation : NoneRandomSpriteObject
 public class StoreItem : CustomObject
 {
     Item innerObject;
-
+    Grade itemGrade;
+    int price;
     public override void Init()
     {
         base.Init();
@@ -988,7 +1003,9 @@ public class StoreItem : CustomObject
     {
         if(isAvailable)
         {
-            innerObject = ObjectPoolManager.Instance.CreateUsableItem(); 
+            innerObject = ObjectPoolManager.Instance.CreateUsableItem();
+            itemGrade = innerObject.GetGrade();
+            price = EconomySystem.Instance.GetPrice(itemGrade);
             sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
             ReAlign();
         }
@@ -1004,10 +1021,10 @@ public class StoreItem : CustomObject
     {
         if(base.Active())
         {
-            if(GameDataManager.Instance.GetCoin() >= innerObject.GetValue())
+            if(GameDataManager.Instance.GetCoin() >= price)
             {
                 isAvailable = false;
-                GameDataManager.Instance.ReduceCoin(innerObject.GetValue());
+                GameDataManager.Instance.ReduceCoin(price);
                 ItemManager.Instance.CreateItem(innerObject, transform.position, new Vector2(Random.Range(-1, 2), 3));
             }
             return true;

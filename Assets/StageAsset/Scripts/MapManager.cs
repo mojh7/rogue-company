@@ -1169,6 +1169,7 @@ namespace Map
         public bool isDrawed;
         public bool visited;
         public bool isAssigned;
+        public bool isLock;
         public RoomType eRoomType;
         #endregion
         #region dataStruct
@@ -1206,6 +1207,7 @@ namespace Map
         #region initialize
         public Rect(int _x, int _y, int _width, int _height, int _size)
         {
+            isLock = false;
             isAssigned = false;
             x = _x;
             y = _y;
@@ -1248,11 +1250,27 @@ namespace Map
         }
         #endregion
         #region func
+        public void DoorUnLock()
+        {
+            for (int i = 0; i < doorObjects.Count; i++)
+            {
+                doorObjects[i].UnLock();
+            }
+        }
         public void DoorLock()
         {
+            isLock = true;
             for(int i=0;i<doorObjects.Count;i++)
             {
                 doorObjects[i].Lock();
+            }
+        }
+
+        public void ShowDoorState()
+        {
+            for (int i = 0; i < doorObjects.Count; i++)
+            {
+                doorObjects[i].SetCollision();
             }
         }
         public void IsRoom()

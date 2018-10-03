@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public Sprite coinSprite;
     public Sprite sprite;
-    public Sprite keySprite;
+    public Sprite cardSprite;
     [SerializeField]
     private Sprite[] boxSprites;
 
@@ -19,6 +19,14 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     }
     #endregion
     #region Func
+    public void DropCard(Vector3 pos)
+    {
+        GameObject card = ResourceManager.Instance.itemPool.GetPooledObject();
+        card.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.cardSprite;
+        card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        card.AddComponent<Card>();
+        ItemManager.Instance.CreateItem(card.GetComponent<Card>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+    }
     public void DeleteObjs()
     {
         if (objs == null)
@@ -55,7 +63,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         obj.transform.position = _position;
         obj.AddComponent<ItemContainer>().Init(_item);
         objs.Enqueue(obj);
-        if (_item.GetType() == typeof(Coin))
+        if (_item.GetType() == typeof(Coin) || _item.GetType() == typeof(Card))
         {
             obj.GetComponent<ItemContainer>().IsCoin();
             withdraws.Enqueue(obj.GetComponent<ItemContainer>());

@@ -14,7 +14,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     Vector2 maskSize;
     Vector2 zeroVector;
     int mapSize;
-    
+    int clearedRoom;
+    int cardNum;
     public bool isRoomClear()
     {
         return currentRoom.isClear;
@@ -38,6 +39,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     public void InitRoomList()
     {
+        cardNum = 4;
+        clearedRoom = 0;
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
         for (int i = 0; i < roomList.Count; i++)
         {
@@ -45,6 +48,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 && roomList[i].eRoomType != RoomType.HALL)
             {
                 DisalbeObject(roomList[i]);
+            }
+            if(roomList[i].eRoomType == RoomType.MONSTER)
+            {
+                clearedRoom++;
             }
         }
         mapSize = MapManager.Instance.size;
@@ -65,6 +72,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         }
 
     }
+
     public int GetGage()
     {
         return currentRoom.gage;
@@ -106,6 +114,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 currentRoom.customObjects[j].GetComponent<CustomObject>().SetAvailable();
             }
         }
+        if (currentRoom.doorObjects != null)
+        {
+            for (int j = 0; j < currentRoom.doorObjects.Count; j++)
+            {
+                currentRoom.doorObjects[j].SetAvailable();
+            }
+        }
     } // 작동 가능여부 turn
 
     void EnableObjects()
@@ -131,13 +146,30 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             _room.customObjects[j].SetActive(false);
     }
 
+    void DrowCard()
+    {
+        if (cardNum <= 0 || clearedRoom <= 0)
+            return;
+        int eachCardLow = cardNum / clearedRoom;
+        int eachCardHigh = (cardNum + clearedRoom - 1) / clearedRoom;
+
+        int ret = Random.Range(eachCardLow, eachCardHigh + 1);
+        if (ret == 1)
+        {
+            cardNum--;
+            ItemManager.Instance.DropCard(currentRoom.GetAvailableArea());
+        }
+    }
+
     void ClearRoom()
     {
+        DrowCard();
+        clearedRoom--;
         currentRoom.isClear = true;
 
         MiniMap.Instance.HideMiniMap();
-        DoorActive();
         ObjectSetAvailable();
+        DoorActive();
         FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
         //Item item;
@@ -152,7 +184,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         //ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere * 3), item);
 
         UIManager.Instance.ClearRoomUI(true);
-        //ItemManager.Instance.CollectItem();
+        UtilityClass.Invoke(this, ItemManager.Instance.CollectItem, 1f);
+
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
             for (int i = 0; i < currentRoom.customObjects.Length; i++)
@@ -242,6 +275,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             {
                 MapManager.Instance.GetMap().RemoveFog(currentRoom);
                 SetMask();
+                if (currentRoom.isLock)
+                {
+                    currentRoom.DoorUnLock();
+                }
                 if (currentRoom.eRoomType == RoomType.BOSS) //보스 방
                 {
                     InitRoom();
@@ -256,6 +293,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 }
                 else
                 {
+                    currentRoom.ShowDoorState();
                     currentRoom.isClear = true;
                     NeignborDraw(currentRoom);
                     EnableObjects();

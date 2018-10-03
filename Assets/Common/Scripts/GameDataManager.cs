@@ -151,9 +151,9 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         {
             gameData = null;
         }
-        m_floor = 1;
+        m_floor = 0;
         m_coin = 0;
-        m_card = 1;
+        m_card = 0;
         m_kill = 0;
         m_time = 0;
     }

@@ -6,12 +6,11 @@ public abstract class Item : MonoBehaviour {
     protected new string name;
     protected int value;
     protected Sprite sprite;
+    protected Grade grade;
     public System.Action action;
 
-    public int GetValue()
-    {
-        return value;
-    }
+    public Grade GetGrade() { return grade; }
+    public int GetValue() { return value; }
     public virtual void Active() { }
     public virtual void SubActive() { }
     public virtual string GetName() { return name; }
@@ -106,5 +105,6 @@ public class Card : Item
         }
 
         gameObject.SetActive(false);
+        Destroy(this);
     }
 }

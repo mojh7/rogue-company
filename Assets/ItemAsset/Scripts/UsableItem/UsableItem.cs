@@ -26,6 +26,7 @@ public class UsableItem : Item
         this.info = info;
         this.value = info.Price;
         this.name = info.ItemName;
+        this.grade = info.Grade;
         spriteRenderer.sprite = info.Sprite;
     }
 
