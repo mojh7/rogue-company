@@ -55,9 +55,22 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
 
     public void FindPlayer()
     {
-        playerObj = Instantiate(playerPrefab);
+        playerObj = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         player = playerObj.GetComponent<Player>();
         player.Init();
+        // 저장된 데이터 없이 새로운 게임을 시작할 때
+        if (false == GameStateManager.Instance.GetLoadsGameData())
+        {
+            player.InitPlayerData(GameDataManager.Instance.GetPlayerData(Player.PlayerType.SOCCER));
+        }
+        // 저장된 데이터를 로드한 상태일 때
+        else
+        {
+            player.InitPlayerData(GameDataManager.Instance.GetPlayerData());
+        }
+        GameStateManager.Instance.SetLoadsGameData(false);
+        //RoomManager.Instance.FindCurrentRoom(); // 플레이어 방찾기
+        // bool 써서 플레이어 방찾기 예외처리하기.
     }
     #endregion
 
