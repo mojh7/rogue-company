@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-struct GradePrice
+struct RatingPrice
 {
     [Header("S,A,B,C,D,E")]
     [SerializeField]
     float[] price;
 
-    public float GetPrice(Grade grade)
+    public float GetPrice(Rating rating)
     {
-        switch (grade)
+        switch (rating)
         {
             default:
-            case Grade.S:
+            case Rating.S:
                 return price[0];
-            case Grade.A:
+            case Rating.A:
                 return price[1];
-            case Grade.B:
+            case Rating.B:
                 return price[2];
-            case Grade.C:
+            case Rating.C:
                 return price[3];
-            case Grade.D:
+            case Rating.D:
                 return price[4];
-            case Grade.E:
+            case Rating.E:
                 return price[5];
 
         }
@@ -34,7 +34,7 @@ struct GradePrice
 public class EconomySystem : MonoBehaviourSingleton<EconomySystem> {
 
     [SerializeField]
-    GradePrice gradePrices;
+    RatingPrice ratingPrice;
     [SerializeField]
     float floorWeight;
     const int avgCoin = 100;
@@ -73,12 +73,12 @@ public class EconomySystem : MonoBehaviourSingleton<EconomySystem> {
         return ret;
     }
 
-    public int GetPrice(Grade grade)
+    public int GetPrice(Rating grade)
     {
         int ret = 0;
         float weight = Mathf.Pow(floorWeight, InGameManager.Instance.GetFloor());
-        ret = (int)(gradePrices.GetPrice(grade) * weight);
-        ret = ret * (UtilityClass.CoinFlip(50) ? 8 : 12);
+        ret = (int)(ratingPrice.GetPrice(grade) * weight);
+        ret = ret * (UtilityClass.CoinFlip(50) ? 7 : 13);
         ret /= 10;
         return ret;
     }

@@ -44,8 +44,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
         for (int i = 0; i < roomList.Count; i++)
         {
-            if(roomList[i].eRoomType != RoomType.BOSS && roomList[i].eRoomType != RoomType.MONSTER
-                && roomList[i].eRoomType != RoomType.HALL)
+            if(roomList[i].eRoomType != RoomType.HALL)
             {
                 DisalbeObject(roomList[i]);
             }
@@ -63,6 +62,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void LockDoor()
     {
+        if (GameStateManager.Instance.GetMode() == GameStateManager.GameMode.RUSH)
+            return;
         for (int i = 0; i < roomList.Count; i++)
         {
             if (roomList[i].eRoomType == RoomType.EVENT || roomList[i].eRoomType == RoomType.BOSS)
@@ -342,6 +343,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void InitRoom()
     {
+        EnableObjects();
         MiniMap.Instance.HideMiniMap();
         DoorActive();
         ObjectSetAvailable();

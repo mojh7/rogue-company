@@ -679,8 +679,8 @@ public class ItemContainer : RandomSpriteObject
             if (innerObject.GetType() != typeof(Coin) && innerObject.GetType() != typeof(Card) || !isAvailable)
                 return;
             DettachDestroy();
-            if(this)
-                innerObject.GetComponent<Item>().Active();
+            if(this && innerObject)
+                innerObject.Active();
         }
     }
 
@@ -986,7 +986,7 @@ public class SubStation : NoneRandomSpriteObject
 public class StoreItem : CustomObject
 {
     Item innerObject;
-    Grade itemGrade;
+    Rating itemRating;
     int price;
     public override void Init()
     {
@@ -997,6 +997,7 @@ public class StoreItem : CustomObject
         isAnimate = true;
         objectType = ObjectType.STOREITEM;
         polygonCollider2D.SetPath(0, clickableBoxPolygon);
+        SetAvailable();
     }
 
     public override void SetAvailable()
@@ -1004,8 +1005,8 @@ public class StoreItem : CustomObject
         if(isAvailable)
         {
             innerObject = ObjectPoolManager.Instance.CreateUsableItem();
-            itemGrade = innerObject.GetGrade();
-            price = EconomySystem.Instance.GetPrice(itemGrade);
+            itemRating = innerObject.GetRating();
+            price = EconomySystem.Instance.GetPrice(itemRating);
             sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
             ReAlign();
         }
@@ -1034,16 +1035,10 @@ public class StoreItem : CustomObject
 
     public override void IndicateInfo()
     {
-        if(GameDataManager.Instance.GetCoin() >= innerObject.GetValue())
-        {
-            textMesh.text = innerObject.GetName();
-            childTextMesh.text = textMesh.text;
-        }
-        else
-        {
-            textMesh.text = "돈이 부족합니다.";
-            childTextMesh.text = textMesh.text;
-        }
+        if (!isAvailable)
+            return;
+        textMesh.text = innerObject.GetName() + " " + price;
+        childTextMesh.text = textMesh.text;
     }
 
     public override void DeIndicateInfo()

@@ -7,8 +7,6 @@ using UnityEngine;
 public class CThrowingImporter : SkillData
 {
     [SerializeField]
-    float radius;
-    [SerializeField]
     SkillData skillData;
     [SerializeField]
     float speed, acceleration;

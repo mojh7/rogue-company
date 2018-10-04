@@ -1,11 +1,9 @@
 ﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "HandUp", menuName = "SkillData/CHandUp")]
+[CreateAssetMenu(fileName = "CHandUp", menuName = "SkillData/CHandUp")]
 public class CHandUp : SkillData
 {
-    [SerializeField]
-    float radius;
     [SerializeField]
     float num;
 

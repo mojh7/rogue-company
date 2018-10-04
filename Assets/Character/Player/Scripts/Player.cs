@@ -345,7 +345,8 @@ public class Player : Character
         if (100 == playerData.SkillGauge)
         {
             playerData.SkillData.Run(this, null, 1);
-            //skillGauge = 0;
+            playerData.SkillGauge = 0;
+            controller.ActiveSkill(playerData.SkillGauge, 100);
         }
     }
 
@@ -402,6 +403,11 @@ public class Player : Character
 
     public void AddKilledEnemyCount()
     {
+        
+        playerData.SkillGauge += 10;
+        if (playerData.SkillGauge >= 100)
+            playerData.SkillGauge = 100;
+        controller.ActiveSkill(playerData.SkillGauge, 100);
         if (false == buffManager.CharacterTargetEffectTotal.canDrainHp) return;
         killedEnemyCount += 1;
         if (killedEnemyCount == 7)
@@ -768,12 +774,14 @@ public class PlayerController
     #region components
     private Joystick moveJoyStick;
     private AttackJoyStick attackJoyStick;
+    private ActiveSkillButton activeSkillButton;
     #endregion
 
-    public PlayerController(Joystick moveJoyStick, AttackJoyStick attackJoyStick)
+    public PlayerController(Joystick moveJoyStick, AttackJoyStick attackJoyStick,ActiveSkillButton activeSkillButton)
     {
         this.moveJoyStick = moveJoyStick;
         this.attackJoyStick = attackJoyStick;
+        this.activeSkillButton = activeSkillButton;
     }
     public Vector2 GetMoveAttackInputVector()
     {
@@ -826,6 +834,12 @@ public class PlayerController
     public void AttackJoyStickUp()
     {
         attackJoyStick.OnPointerUp(null);
+    }
+    #endregion
+    #region skill
+    public void ActiveSkill(int sum, int total)
+    {
+        activeSkillButton.ChargeFill((float)sum / total);
     }
     #endregion
 }

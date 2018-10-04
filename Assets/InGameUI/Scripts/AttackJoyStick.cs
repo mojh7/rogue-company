@@ -24,11 +24,11 @@ public class AttackJoyStick : Joystick
         else
         {
             olderInteractiveObject = interactiveObject;
+            if (olderInteractiveObject != null)
+                olderInteractiveObject.DeIndicateInfo();
             interactiveObject = character.Interact();
             if (interactiveObject == null)
             {
-                if (olderInteractiveObject != null)
-                    olderInteractiveObject.DeIndicateInfo();
                 joystickImage.sprite = attackSprite;
             }
             else

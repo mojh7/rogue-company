@@ -6,10 +6,10 @@ public abstract class Item : MonoBehaviour {
     protected new string name;
     protected int value;
     protected Sprite sprite;
-    protected Grade grade;
+    protected Rating rating;
     public System.Action action;
 
-    public Grade GetGrade() { return grade; }
+    public Rating GetRating() { return rating; }
     public int GetValue() { return value; }
     public virtual void Active() { }
     public virtual void SubActive() { }

@@ -18,5 +18,11 @@ public class ActiveSkillButton : MonoBehaviour, IPointerDownHandler
         if (UIManager.Instance.GetActived())
             return;
         character.ActiveSkill();
+        fireImage.fillAmount = 0;
+    }
+
+    public void ChargeFill(float amount)
+    {
+        fireImage.fillAmount = amount;
     }
 }

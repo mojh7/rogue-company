@@ -23,7 +23,7 @@ namespace Map
         bool Debug;
         bool isBossRush;
         Map map;
-        private void Start()
+        private void Awake()
         {
             if(!Debug)
             {
@@ -713,14 +713,14 @@ namespace Map
             }
             else if (result == LinkedShape.VERTICAL)
             {
-                if (_rectA.midY > _rectB.midY)
+                if (_rectA.midY > _rectB.midY) //A가 위에있고 B가 아래있음
                 {
                     if (_rectB.eRoomType != RoomType.REST && _rectB.eRoomType != RoomType.STORE && _rectB.eRoomType != RoomType.BOSS)
                         _rectA.EdgeRect(_rectB);
                     else
                         _rectA.LinkedEdgeRect(_rectB);
                 }
-                else
+                else // B가 위에있고 A가 아래에있음
                 {
                     if (_rectA.eRoomType != RoomType.REST && _rectA.eRoomType != RoomType.STORE && _rectA.eRoomType != RoomType.BOSS)
                         _rectA.EdgeRect(_rectB);
@@ -743,7 +743,7 @@ namespace Map
 
                 for(int i=0;i<x.edgeRect.Count;i++)
                 {
-                    if (!x.edgeRect[i].visited/*방문한 적 없어야함*/ && x.edgeRect[i].eRoomType != RoomType.BOSS)
+                    if (!x.edgeRect[i].visited/*방문한 적 없어야함*/  && x.edgeRect[i].eRoomType != RoomType.BOSS)
                     {
                         x.edgeRect[i].visited = true;
                         if ((x.isRoom || x.edgeRect[i].isRoom)/*둘 중 하나는 방이어야함*/)

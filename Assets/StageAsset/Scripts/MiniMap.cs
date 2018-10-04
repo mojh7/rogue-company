@@ -13,7 +13,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     [SerializeField] private Transform mask;
     [SerializeField] private Text floorT;
     [SerializeField] private GameObject[] title;
-
+    [SerializeField] private Transform groupTransform;
+    [SerializeField] private GameObject minimapObj;
     bool isDrawAll;
     Vector2 playerPositon;
     Vector2 oldPos;
@@ -479,7 +480,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         isDrawAll = false;
         SetFloorText();
-        renderer = GetComponent<RawImage>();
+        renderer = minimapObj.GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
         pixelNum = 8; // 미니맵 픽셀 
         minmapSizeWidth = Map.MapManager.Instance.mapSize.x * pixelNum; // 미니맵 전체 픽셀 사이즈
@@ -489,13 +490,13 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         mapSizeHeight = mapSize * Map.MapManager.Instance.mapSize.y;
 
         if (Map.MapManager.Instance.mapSize.x * pixelNum > Map.MapManager.Instance.mapSize.y * pixelNum)
-            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
+            minimapObj.GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
         else
-            GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth, minimapBaseHeight * (float)mapSizeHeight / mapSizeWidth);
-        oldPos = new Vector2(mask.localPosition.x, mask.localPosition.y);
+            minimapObj.GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth, minimapBaseHeight * (float)mapSizeHeight / mapSizeWidth);
+        oldPos = new Vector2(transform.localPosition.x, transform.localPosition.y);
 
-        width = GetComponent<RectTransform>().sizeDelta.x;
-        height = GetComponent<RectTransform>().sizeDelta.y;
+        width = minimapObj.GetComponent<RectTransform>().sizeDelta.x;
+        height = minimapObj.GetComponent<RectTransform>().sizeDelta.y;
 
         texture = new Texture2D(minmapSizeWidth + 1, minmapSizeHeight + 1);
         mapColors = new Color[(minmapSizeWidth + 1) * (minmapSizeHeight + 1)];
@@ -517,7 +518,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     {
         playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
         mask.localPosition = oldPos;
-        GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
+        renderer.color = new Color(1, 1, 1, 1);
         title[1].gameObject.SetActive(false);
         isToggle = !isToggle;
     }
@@ -532,16 +533,17 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             {
                 // 미니맵으로
                 playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
-                mask.localPosition = oldPos;
-                GetComponent<RawImage>().color = new Color(1, 1, 1, 1);
+                transform.localPosition = oldPos;
+                renderer.color = new Color(1, 1, 1, 1);
                 titleMap(0, 1);
             }
             else
             {
                 // 크게 키운 맵
-                transform.localPosition = new Vector2(-maskSize, -maskSize);
-                mask.localPosition = new Vector2(maskSize, maskSize);
-                GetComponent<RawImage>().color = new Color(1, 1, 1, 0.7f);
+                oldPos = transform.localPosition;
+                minimapObj.transform.localPosition = new Vector2(-maskSize, -maskSize);
+                transform.localPosition = new Vector2(maskSize, maskSize);
+                renderer.color = new Color(1, 1, 1, 0.7f);
                 titleMap(1, 0);
             }
             isToggle = !isToggle;
@@ -588,6 +590,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             }
         }
 
+        DrawEventRoom();
+
         texture.SetPixels(mapColors);
 
         texture.Apply();
@@ -598,6 +602,15 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         for(int i = 0; i < roomList.Count; i++)
         {
             if (roomList[i].isRoom)
+                Draw(roomList[i], 1, DrawRoom);
+        }
+    }
+
+    void DrawEventRoom()
+    {
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i].eRoomType == RoomType.EVENT)
                 Draw(roomList[i], 1, DrawRoom);
         }
     }
@@ -660,7 +673,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 break;
             case 1:
                 //Debug.Log("맵의 y축은 이동하고 플레이어 아이콘의 x축이 이동");
-                transform.localPosition = new Vector2(-(mapMoveX / mapSizeWidth) * width + width / 2 - maskSize,
+                minimapObj.transform.localPosition = new Vector2(-(mapMoveX / mapSizeWidth) * width + width / 2 - maskSize,
                     -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
                 iconV = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - _width / 2f, -maskSize);
                 if (iconV.x > 0)
@@ -669,7 +682,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 break;
             case 2:
                 //Debug.Log("맵의 x축은 이동하고 플레이어 아이콘의 y축이 이동");
-                transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
+                minimapObj.transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
                     -(mapMoveY / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
                 iconV = new Vector2(-maskSize, playerPositon.y / mapSizeHeight * height - maskSize - _height / 2f);
                 if (iconV.y > 0)
@@ -678,7 +691,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 break;
             case 3:
                 //Debug.Log("맵은 고정해두고 플레이어 아이콘만 x축 y축 둘 다 이동");
-                transform.localPosition = new Vector2(-(mapMoveX / mapSizeWidth) * width + width / 2 - maskSize,
+                minimapObj.transform.localPosition = new Vector2(-(mapMoveX / mapSizeWidth) * width + width / 2 - maskSize,
                     -(mapMoveY / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
                 iconV = new Vector2(playerPositon.x / mapSizeWidth * width - maskSize - _width / 2f,
                     playerPositon.y / mapSizeHeight * height - maskSize - _height / 2f);
@@ -701,7 +714,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     void MoveMinimapIcon()
     {
-        transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
+        minimapObj.transform.localPosition = new Vector2(-(playerPositon.x / mapSizeWidth) * width + width / 2 - maskSize,
             -(playerPositon.y / mapSizeHeight) * height + height / 2 - maskSize - 0.2f);
     } // 현재 플레이어 위치 to MiniMap
 

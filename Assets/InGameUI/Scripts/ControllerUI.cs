@@ -54,7 +54,7 @@ public class ControllerUI : MonoBehaviourSingleton<ControllerUI>, IDragHandler, 
         activeSkillButton.SetPlayer(character);
         weaponSwitchButton.SetPlayer(character);
         evadeButton.SetPlayer(character);
-        controller = new PlayerController(moveJoyStick, attackJoyStick);
+        controller = new PlayerController(moveJoyStick, attackJoyStick, activeSkillButton);
     }
     void DrawMoveJoyStick()
     {

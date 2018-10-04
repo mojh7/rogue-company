@@ -6,8 +6,6 @@ using UnityEngine;
 // 푸드, 잡화, 의류 등 이런거 딱히 차이가 없고 효과 차이 어차피 다른 클래스들 UseMethod랑 ItemUseEffect 바꿔주면 되서
 // 굳이 UsableItem이랑 UsableItemInfo 자식 클래스로 나누어야 하나 생각 듬. enum 하나 만들어서 type 만 바꿔줘도 될 것 같은데
 
-public enum Grade { S, A, B, C, D, E };
-
 public class UsableItemInfo : ScriptableObject
 {
     [Tooltip("개발용 메모장")]
@@ -16,8 +14,6 @@ public class UsableItemInfo : ScriptableObject
 
     [SerializeField]
     protected int id;
-    [SerializeField]
-    protected Grade grade;
     [SerializeField]
     protected Rating rating;
     [SerializeField]
@@ -73,8 +69,8 @@ public class UsableItemInfo : ScriptableObject
         get { return itemName; }
     }
 
-    public Grade Grade
+    public Rating Rating
     {
-        get { return grade; }
+        get { return rating; }
     }
 }
