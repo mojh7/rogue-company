@@ -498,8 +498,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                     tempWeaponInfos[i].addDirVecMagnitude = 0.3f;
                     break;
                 case WeaponType.PISTOL:
-                    tempWeaponInfos[i].addDirVecMagnitude = 0.2f;
-                    break;
+                //    tempWeaponInfos[i].addDirVecMagnitude = 0.2f;
+                   break;
                 default:
                     tempWeaponInfos[i].addDirVecMagnitude = 0f;
                     break;

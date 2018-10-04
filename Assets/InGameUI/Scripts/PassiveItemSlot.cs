@@ -13,8 +13,8 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     private GameObject passiveItemSlot;
     [SerializeField]
     private GameObject passiveItemInfoView;
-    [SerializeField]
-    private Image passiveItemInfoViewImage;
+    //[SerializeField]
+    //private Image passiveItemInfoViewImage;
     [SerializeField]
     private Text passiveItemInfoViewName;
     [SerializeField]
@@ -105,17 +105,17 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     {
         passiveItemInfoView.SetActive(true);
         UsableItemInfo usableItemInfo = DataStore.Instance.GetMiscItemInfo(id);
-        passiveItemInfoViewImage.sprite = usableItemInfo.Sprite;
+        //passiveItemInfoViewImage.sprite = usableItemInfo.Sprite;
         passiveItemInfoViewName.text = usableItemInfo.ItemName;
         passiveItemInfoViewNote.text = usableItemInfo.Notes;
         Vector3 pos = Input.mousePosition;
         if(pos.x < Screen.width * 0.5f)
         {
-            pos.x += Screen.width * 0.25f;
+            pos.x += Screen.width * 0.15f;
         }
         else
         {
-            pos.x -= Screen.width * 0.25f;
+            pos.x -= Screen.width * 0.15f;
         }
 
         if (pos.y < Screen.height * 0.5f)
