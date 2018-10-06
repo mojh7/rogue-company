@@ -491,6 +491,7 @@ namespace Map
                 }
             } // 방그리기
 
+            TileManager.Instance.DrawBottomLine(width * size);
         } // 맵 그리기
 
         protected virtual void RectToBlock()

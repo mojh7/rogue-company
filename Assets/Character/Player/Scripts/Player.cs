@@ -181,6 +181,7 @@ public class Player : Character
     public override void Init()
     {
         base.Init();
+        baseColor = Color.white;
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Player;
         damageImmune = CharacterInfo.DamageImmune.NONE;

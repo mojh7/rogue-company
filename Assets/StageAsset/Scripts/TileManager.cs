@@ -20,4 +20,15 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     public RuleTile verticalWallRuleTile;
     public RuleTile horizonWallRuleTile;
     public RuleTile fogTile;
+
+    public GameObject tilePrefabs;
+
+    public void DrawBottomLine(int width)
+    {
+        for(int i=0;i<width;i++)
+        {
+            GameObject @object = Object.Instantiate<GameObject>(tilePrefabs);
+            @object.transform.position = new Vector3(i + 0.7f, .5f);
+        }
+    }
 }

@@ -11,6 +11,7 @@ public enum AbnormalStatusType {FREEZE, STUN, CHARM, END }
 public class Enemy : Character
 {
     #region variables
+    float bodyblowTime = 0;
     EnemyData enemyData;
     // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
     private float hpMax;
@@ -59,6 +60,7 @@ public class Enemy : Character
 
     private void Update()
     {
+        bodyblowTime -= Time.deltaTime;
         SetAim();
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
@@ -74,6 +76,17 @@ public class Enemy : Character
             transform.localScale = scaleVector;
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (bodyblowTime >= 0)
+            return;
+        if(UtilityClass.CheckLayer(collision.gameObject.layer,enemyLayer))
+        {
+            bodyblowTime = 3;
+            collision.GetComponent<Character>().Attacked((collision.transform.position - this.transform.position).normalized, this.transform.position, 1, 1);
+        }
+    }
     #endregion
 
     #region initalization
@@ -82,8 +95,10 @@ public class Enemy : Character
     public virtual void Init(EnemyData enemyData)
     {
         base.Init();
+        shadowTransform.localPosition = Vector3.zero;
         this.enemyData = enemyData;
-        spriteRenderer.color = Color.white;
+        baseColor = enemyData.Color;
+        spriteRenderer.color = baseColor;
         this.price = enemyData.Price;
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
@@ -107,7 +122,7 @@ public class Enemy : Character
         buffManager.Init();
         buffManager.SetOwner(this);
         Components.CircleCollider2D.enabled = true;
-
+        enemyLayer = UtilityClass.GetEnemyLayer(this);
         // weaponManager.init이 buff init 보다 뒤에 와야됨.
         weaponManager.Init(this, enemyData);
         animationHandler.Init(this, enemyData.AnimatorController);

@@ -7,6 +7,8 @@ public class EnemyData : ScriptableObject
 {
     #region serializeFiled
     [SerializeField]
+    private Color color;
+    [SerializeField]
     private int price;
     [SerializeField]
     private new string name;
@@ -31,6 +33,13 @@ public class EnemyData : ScriptableObject
     #endregion
 
     #region property
+    public Color Color
+    {
+        get
+        {
+            return color;
+        }
+    }
     public int Price
     {
         get

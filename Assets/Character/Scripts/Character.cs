@@ -93,7 +93,9 @@ public abstract class Character : MonoBehaviour
     protected bool isRightDirection;    // character 방향이 우측이냐(true) 아니냐(flase = 좌측)
     Color red = Color.red;
     Color white = Color.white;
+    protected Color baseColor;
 
+    protected LayerMask enemyLayer;
     /// <summary> owner 좌/우 바라볼 때 spriteObject scale 조절에 쓰일 player scale, 우측 (1, 1, 1), 좌측 : (-1, 1, 1) </summary>
     protected Vector3 scaleVector;
     #endregion
@@ -224,7 +226,7 @@ public abstract class Character : MonoBehaviour
     {
         spriteRenderer.color = color;
         yield return YieldInstructionCache.WaitForSeconds(0.1f);
-        spriteRenderer.color = white;
+        spriteRenderer.color = baseColor;
     }
     #endregion
     public virtual void Init()
