@@ -46,6 +46,11 @@ public class TimeDecorate : ConditionDecorate
 
             if (Check(elapsedTime, time))
             {
+                if(condition == BehaviorCondition.COOLTIME)
+                {
+                    isRun = false;
+                    GetChildren().SubRun();
+                }
                 return GetChildren().Run();
             }
             else

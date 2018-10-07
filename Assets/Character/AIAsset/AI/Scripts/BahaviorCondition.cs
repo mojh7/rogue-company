@@ -29,7 +29,9 @@ namespace BT
         /// <summary>
         /// A &gt;= B
         /// </summary>
-        GREATEROREUAQL
+        GREATEROREUAQL,
+
+        COOLTIME
     }
 
 }
