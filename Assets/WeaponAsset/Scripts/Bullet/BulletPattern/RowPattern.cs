@@ -104,7 +104,6 @@ public class RowPattern : BulletPattern
     protected override void CreateChildBullets()
     {
         parentBulletTransform = createdObj.GetComponent<Transform>();
-
         for (int i = 0; i < info.childBulletInfoList.Count; i++)
         {
             for (int j = 0; j < info.childBulletInfoList[i].initVectorList.Count; j++)
@@ -118,7 +117,7 @@ public class RowPattern : BulletPattern
             Vector3 initPos = Vector3.zero;
             for (int k = 0; k < info.childBulletInfoList[i].initPosList.Count; k++)
             {
-                initPos = new Vector3(info.childBulletInfoList[i].initPosList[k].x + info.childBulletInfoList[i].initPosList[k].y, 0);
+                initPos = new Vector3(info.childBulletInfoList[i].initPosList[k].x, info.childBulletInfoList[i].initPosList[k].y, 0);
                 initVector.magnitude = initPos.magnitude;
                 initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
