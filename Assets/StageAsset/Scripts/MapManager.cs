@@ -239,7 +239,7 @@ namespace Map
             return false;
         }
 
-        void DrawEventTile(Rect rect, RandomTile tile)
+        void DrawEventTile(Rect rect, TileBase tile)
         {
             Tilemap tilemap = TileManager.Instance.EventFloorTileMap;
             for (int x = rect.x * size * 2; x < ((rect.x + rect.width) * size) * 2; x++)
@@ -251,7 +251,7 @@ namespace Map
             }
         }
 
-        void DrawHallTile(Rect rect, RandomTile tile)
+        void DrawHallTile(Rect rect, TileBase tile)
         {
             for (int x = rect.x * size * 2; x < ((rect.x + rect.width) * size) * 2; x++)
             {
@@ -362,11 +362,11 @@ namespace Map
 
         void DrawTile()
         {
-            RandomTile floor = TileManager.Instance.floorTile;
-            RuleTile shadow = TileManager.Instance.shadowTile;
-            RuleTile verticalRuleTile = TileManager.Instance.verticalWallRuleTile;
-            RuleTile horizonRuleTile = TileManager.Instance.horizonWallRuleTile;
-            RuleTile fogTile = TileManager.Instance.fogTile;
+            TileBase floor = TileManager.Instance.GetSpriteTile();
+            TileBase shadow = TileManager.Instance.shadowTile;
+            TileBase verticalRuleTile = TileManager.Instance.verticalWallRuleTile;
+            TileBase horizonRuleTile = TileManager.Instance.horizonWallRuleTile;
+            TileBase fogTile = TileManager.Instance.fogTile;
 
             Rect rect;
 

@@ -21,6 +21,15 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     public RuleTile horizonWallRuleTile;
     public RuleTile fogTile;
 
+    [SerializeField]
+    private MultiSpriteTile multiSprite;
+
+    public MultiSpriteTile GetSpriteTile()
+    {
+        multiSprite.SetIdx();
+        return multiSprite;
+    }
+
     public GameObject tilePrefabs;
 
     public void DrawBottomLine(int width)
@@ -29,6 +38,7 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
         {
             GameObject @object = Object.Instantiate<GameObject>(tilePrefabs);
             @object.transform.position = new Vector3(i + 0.7f, .5f);
+            @object.hideFlags = HideFlags.HideInHierarchy;
         }
     }
 }
