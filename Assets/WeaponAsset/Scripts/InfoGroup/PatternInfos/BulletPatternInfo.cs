@@ -1,7 +1,47 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-// clone 해주는 함수 없으나 필요하다고 생각 하면 넣을 예정.
+
+/// <summary>
+/// parentBullet 좌표를 원점으로 멀어지는 길이(크기)와 방향(Vector 비슷)
+/// </summary>
+[System.Serializable]
+public struct InitVector
+{
+    public float magnitude;
+    public float dirDegree;
+}
+
+/// <summary>
+/// ChildBullet에서 bulletInfo랑 벡터 값(원점에서 멀어지는 길이와 방향)
+/// </summary>
+[System.Serializable]
+public struct ChildBulletInfo
+{
+    public BulletInfo bulletInfo;
+    [Header("Chile Bullet 원점에서의 길이와 방향으로 좌표 설정할 때 값")]
+    public List<InitVector> initVectorList;
+    [Header("Chile Bullet 원점에서의 x, y 좌표로 설정할 때 값")]
+    public List<Vector2> initPosList;
+}
+
+[System.Serializable]
+public struct ChildBulletCommonProperty
+{
+    [Header("parent Bullet 보다 작거나 같은 값으로 공통된 lifeTime")]
+    public float childBulletLifeTime;
+    [Header("원점(parentBullet position)에서 원래 모양으로 만들어 질 때 필요한 시간")]
+    public float timeForOriginalShape;
+    [Header("원점(parentBullet position) 기준으로 회전하는 각도(+ : 반시계 방향, - : 시계 방향")]
+    public float rotatedAngleForChild;
+    [Header("원점(parentBullet position)에서 멀어지는 속도 (+ : 멀어짐, - : 가까워 짐)")]
+    public float movingAwaySpeed;
+}
+
+
+
+// TODO: pattern clone 해주는 함수 필요 없으나 필요하다고 생각 하면 넣을 예정.
 
 public class BulletPatternInfo : ScriptableObject
 {
@@ -19,13 +59,6 @@ public class BulletPatternInfo : ScriptableObject
     public float additionalVerticalPos;
     public float rotatedAnglePerExecution;
     public bool ignoreOwnerDir;
-    
-    public virtual BulletPatternInfo Clone()
-    {
-        BulletPatternInfo bulletPatternInfo = ScriptableObject.CreateInstance<BulletPatternInfo>();
-
-        return bulletPatternInfo;
-    }
 
     /// <summary> bulletPatternInfo 클래스를 알맞은 클래스로 다운 캐스팅하고 bulletPattern을 생성하여 반환한다 </summary>
     public static BulletPattern CreatePatternInfo(BulletPatternInfo patternInfo, CharacterInfo.OwnerType ownerType)
@@ -71,4 +104,9 @@ public class ProjectilesPatternInfo : BulletPatternInfo
 {
     [Header("투사체 총알 정보")]
     public int bulletCount;     // 총알 갯수
+
+    [SerializeField]
+    [Header("Paint형태 필요할 때만 사용 bulletInfo 기준으로 배치되어 뿌려나갈 Child 총알들")]
+    public List<ChildBulletInfo> childBulletInfoList;
+    public ChildBulletCommonProperty childBulletCommonProperty;
 }
