@@ -86,8 +86,7 @@ public class RowPattern : BulletPattern
                 createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
                     weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos) + perpendicularVector * (info.initPos - info.deltaPos * j),
                     ownerDirDegree() + currentAngle, transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
-
-
+                CreateChildBullets();
             }
         }
     }
@@ -111,7 +110,7 @@ public class RowPattern : BulletPattern
             for (int j = 0; j < info.childBulletInfoList[i].initVectorList.Count; j++)
             {
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     info.childBulletCommonProperty, transferBulletInfo, info.childBulletInfoList[i].initVectorList[j]);
             }
 
@@ -123,7 +122,7 @@ public class RowPattern : BulletPattern
                 initVector.magnitude = initPos.magnitude;
                 initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     info.childBulletCommonProperty, transferBulletInfo, initVector);
             }
         }

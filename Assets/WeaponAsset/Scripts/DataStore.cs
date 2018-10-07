@@ -42,13 +42,13 @@ namespace WeaponAsset
 
     public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
-    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing, MineBomb, FixedOwner, Spiral, Rotation }
+    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing, MineBomb, FixedOwner, Spiral, Rotation, Child }
     public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
     public enum BehaviorPropertyType { SpeedControl, Rotate }
 
     /*---*/
 
-    public enum ColliderType { Beam, Box, Circle }
+    public enum ColliderType { Beam, Box, Circle, None }
 
     public enum BulletAnimationType
     {

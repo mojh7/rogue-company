@@ -45,6 +45,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
+        Debug.Log(bullet.name + " 삭제");
         // ObjectPoolManager.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
         TestScript.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);

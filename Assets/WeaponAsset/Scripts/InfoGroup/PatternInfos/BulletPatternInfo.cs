@@ -102,11 +102,11 @@ public class BulletPatternInfo : ScriptableObject
 
 public class ProjectilesPatternInfo : BulletPatternInfo
 {
-    [Header("투사체 총알 정보")]
-    public int bulletCount;     // 총알 갯수
-
     [SerializeField]
-    [Header("Paint형태 필요할 때만 사용 bulletInfo 기준으로 배치되어 뿌려나갈 Child 총알들")]
+    [Header("Saphe Pattern 필요할 때만 사용 bulletInfo 기준으로 배치되어 뿌려나갈 Child 총알들")]
     public List<ChildBulletInfo> childBulletInfoList;
     public ChildBulletCommonProperty childBulletCommonProperty;
+
+    [Header("투사체 총알 정보")]
+    public int bulletCount;     // 총알 갯수
 }

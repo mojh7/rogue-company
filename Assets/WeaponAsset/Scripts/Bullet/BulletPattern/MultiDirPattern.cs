@@ -76,6 +76,7 @@ public class MultiDirPattern : BulletPattern
                 weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos),
                 dirDegree - info.initAngle + info.deltaAngle * i + additionalAngle + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
                 transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
+            CreateChildBullets();
         }
     }
 
@@ -92,13 +93,12 @@ public class MultiDirPattern : BulletPattern
     protected override void CreateChildBullets()
     {
         parentBulletTransform = createdObj.GetComponent<Transform>();
-        
         for(int i = 0; i < info.childBulletInfoList.Count; i++)
         {
             for(int j = 0; j < info.childBulletInfoList[i].initVectorList.Count; j++)
             {
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     info.childBulletCommonProperty, transferBulletInfo, info.childBulletInfoList[i].initVectorList[j]);
             }
 
@@ -110,7 +110,7 @@ public class MultiDirPattern : BulletPattern
                 initVector.magnitude = initPos.magnitude;
                 initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     info.childBulletCommonProperty, transferBulletInfo, initVector);
             }
         }

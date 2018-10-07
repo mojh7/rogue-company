@@ -355,6 +355,9 @@ public class BulletInfo : ScriptableObject
                 case UpdatePropertyType.Rotation:
                     updateProperties.Add(new RotationProperty());
                     break;
+                case UpdatePropertyType.Child:
+                    updateProperties.Add(new ChildUpdateProperty());
+                    break;
                 default:
                     break;
             }

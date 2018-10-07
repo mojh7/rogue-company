@@ -21,9 +21,6 @@ public class Bullet : MonoBehaviour
     private GameObject colliderObj;
     public Rigidbody2D objRigidbody;
 
-    // paintPattern 관련
-    private Transform parentBulletTransform;
-
     // 레이저용 lineRenderer
     [SerializeField] private LineRenderer lineRenderer;
 
@@ -59,12 +56,14 @@ public class Bullet : MonoBehaviour
     private TransferBulletInfo transferBulletInfo;
     private float addDirVecMagnitude;
     private float additionalVerticalPos;
+
     private float timeCount;
     private float updateDelayTime;
-    private ChildBulletCommonProperty childBulletCommonProperty;
 
-    // 코루틴 deltaTime
-    private float coroutineDeltaTime = 0.016f;
+    // shapePattern 관련
+    private Transform parentBulletTransform;
+    private ChildBulletCommonProperty childBulletCommonProperty;
+    private InitVector initVector;
 
     private bool active;
     #endregion
@@ -83,6 +82,8 @@ public class Bullet : MonoBehaviour
     public StatusEffectInfo GetStatusEffectInfo() { return info.statusEffectInfo; }
     public GameObject GetColliderObj() { return colliderObj; }
     public ChildBulletCommonProperty GetChildBulletCommonProperty() { return childBulletCommonProperty; }
+    public Transform GetParentBulletTransform() { return parentBulletTransform; }
+    public InitVector GetInitVector() { return initVector; }
 
     // 현재 바라보는 방향의 euler z 각도 반환
     public Vector3 GetPosition() { return objTransform.position; }
@@ -123,7 +124,7 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (timeCount <= updateDelayTime)
+        if (timeCount < updateDelayTime)
         {
             timeCount += Time.fixedDeltaTime;
             return;
@@ -201,6 +202,10 @@ public class Bullet : MonoBehaviour
         dirDegree = 0f;
         dirVector = Vector3.right;
         SetDirection(direction);
+        if (0 < updateDelayTime)
+        {
+            objRigidbody.velocity = Vector2.zero;
+        }
     }
 
     // 레이저 총알 초기화
@@ -295,7 +300,10 @@ public class Bullet : MonoBehaviour
         info = bulletInfo;
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
+        this.parentBulletTransform = parentBulletTransform;
         this.childBulletCommonProperty = childBulletCommonProperty;
+        this.initVector = initVector;
+        info.lifeTime = childBulletCommonProperty.childBulletLifeTime + childBulletCommonProperty.timeForOriginalShape;
 
         // 처음 위치 설정
         objTransform.position = parentBulletTransform.position;
@@ -398,7 +406,8 @@ public class Bullet : MonoBehaviour
         // lifeTime이 0 초과되는 값을 가지면 시간이 lifeTime이 지나면 delete 속성 실행
         if (info.lifeTime > 0)
         {
-            deleteOnlifeTime = StartCoroutine("DeleteOnLifeTime");
+            //Debug.Log(name + ", lifeTime : " + info.lifeTime);
+            deleteOnlifeTime = StartCoroutine(DeleteOnLifeTime());
         }
 
         if (info.soundId >= 0)
@@ -541,7 +550,8 @@ public class Bullet : MonoBehaviour
     public void RotateDirection(float dirDegree)
     {
         this.dirDegree += dirDegree;
-        dirVector = MathCalculator.VectorRotate(dirVector, dirDegree);
+        if(0 != dirDegree)
+            dirVector = MathCalculator.VectorRotate(dirVector, dirDegree);
         if (info.isFixedAngle == false)
         {
             objTransform.rotation = Quaternion.Euler(0, 0, this.dirDegree);
@@ -864,7 +874,7 @@ public class Bullet : MonoBehaviour
             {
                 info.updateProperties[i].Update();
             }
-            yield return YieldInstructionCache.WaitForSeconds(0.016f);  // 일단은 약 60 fps 정도로 실행
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);  // 일단은 약 60 fps 정도로 실행
         }
     }
 
@@ -919,7 +929,7 @@ public class Bullet : MonoBehaviour
         {
             eulerAngleZ += 12f;
             viewTransform.localRotation = Quaternion.Euler(0f, 0f, eulerAngleZ);
-            yield return YieldInstructionCache.WaitForSeconds(coroutineDeltaTime);  // 일단은 약 60 fps 정도로 실행
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);  // 일단은 약 60 fps 정도로 실행
         }
     }
 
@@ -942,7 +952,7 @@ public class Bullet : MonoBehaviour
             {
                 sign = -1;
             }
-            yield return YieldInstructionCache.WaitForSeconds(coroutineDeltaTime);  // 일단은 약 60 fps 정도로 실행
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);  // 일단은 약 60 fps 정도로 실행
         }
     }
 
@@ -958,9 +968,10 @@ public class Bullet : MonoBehaviour
             if(time >= info.lifeTime)
             {
                 DestroyBullet();
+                Debug.Log(name + ", 코루틴으로 삭제");
             }
-            time += coroutineDeltaTime;
-            yield return YieldInstructionCache.WaitForSeconds(coroutineDeltaTime);
+            time += Time.fixedDeltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
     }
     #endregion

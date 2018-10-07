@@ -48,6 +48,7 @@ public class SpreadPattern : BulletPattern
                 weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos),
                 ownerDirDegree() - initAngle + deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
                 transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
+            CreateChildBullets();
         }
     }
 
@@ -96,12 +97,14 @@ public class SpreadPattern : BulletPattern
     {
         parentBulletTransform = createdObj.GetComponent<Transform>();
 
+        Debug.Log("자식 총알 생성 : " + info.childBulletInfoList.Count + ", " + info.childBulletInfoList[0].initPosList.Count);
+
         for (int i = 0; i < info.childBulletInfoList.Count; i++)
         {
             for (int j = 0; j < info.childBulletInfoList[i].initVectorList.Count; j++)
             {
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     info.childBulletCommonProperty, transferBulletInfo, info.childBulletInfoList[i].initVectorList[j]);
             }
 
@@ -113,7 +116,7 @@ public class SpreadPattern : BulletPattern
                 initVector.magnitude = initPos.magnitude;
                 initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     info.childBulletCommonProperty, transferBulletInfo, initVector);
             }
         }

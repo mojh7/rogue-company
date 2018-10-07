@@ -44,6 +44,7 @@ public class StraightMoveProperty : UpdateProperty
 {
     private float moveSpeed;    // 속력
     private float range;
+    private bool canSetVelocity;
 
     // lifeTime bullet 생존 시간 * (1.0f / Time.fixedDeltaTime)
     // timeCount 지나간 시간 카운트
@@ -57,6 +58,7 @@ public class StraightMoveProperty : UpdateProperty
     {
         base.Init(bullet);
         timeCount = 0;
+        canSetVelocity = true;
         if (bullet.info.speed != 0)
         {
             moveSpeed = bullet.info.speed;
@@ -67,11 +69,20 @@ public class StraightMoveProperty : UpdateProperty
         }
 
         lifeTime = (range / moveSpeed);
+        if(0 < bullet.info.lifeTime)
+        {
+            lifeTime = bullet.info.lifeTime;
+        }
     }
 
     // range / moveSpeed 시간 지나면 삭제
     public override void Update()
     {
+        if(canSetVelocity)
+        {
+            bullet.RotateDirection(0);
+            canSetVelocity = false;
+        }
         if (timeCount >= lifeTime)
         {
             delDestroyBullet();
@@ -719,24 +730,31 @@ public class TrigonometricProperty : UpdateProperty
 // 원점 기준으로 시계, 반시계 전체 형태 유지 하면서 childBullet들 회전.
 
 /// <summary> parentbullet기준으로 배치될 ChildBullet 속성 </summary>
-public class ChildProperty : UpdateProperty
+public class ChildUpdateProperty : UpdateProperty
 {
     private ChildBulletCommonProperty childBulletCommonProperty;
+    private Transform parentBulletTransform;
     private float magnitude;
     private float angle;
-
+    private InitVector initVector;
+    private Vector3 additinalPos;
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
 
         lifeTime = bullet.info.lifeTime;
         childBulletCommonProperty = bullet.GetChildBulletCommonProperty();
+        parentBulletTransform = bullet.GetParentBulletTransform();
+        initVector = bullet.GetInitVector();
+        additinalPos = MathCalculator.VectorRotate(Vector3.right, initVector.dirDegree) * initVector.magnitude;
+        //Debug.Log(bullet.name + " 시작 : " + initVector.magnitude + ", " + initVector.dirDegree);
+        //Debug.Log(childBulletCommonProperty.rotatedAngleForChild + ", speed " + childBulletCommonProperty.movingAwaySpeed);
         timeCount = 0;
     }
 
     public override UpdateProperty Clone()
     {
-        return new RotationProperty();
+        return new ChildUpdateProperty();
     }
 
     public override void Update()
@@ -744,13 +762,21 @@ public class ChildProperty : UpdateProperty
         // parentBullet 중심에서 원래 모양으로 퍼져 나감.
         if(timeCount < childBulletCommonProperty.timeForOriginalShape)
         {
-
+            bulletTransform.position = Vector3.Lerp(parentBulletTransform.position, parentBulletTransform.position + additinalPos,
+                timeCount / childBulletCommonProperty.timeForOriginalShape);
         }
         // parentBullet을 원점으로 원래 모양이 된 후 parentBullet 움직임에 따라 같이 평행 이동함.
         else
         {
-
+            initVector.dirDegree += childBulletCommonProperty.rotatedAngleForChild * Time.fixedDeltaTime;
+            initVector.magnitude += childBulletCommonProperty.movingAwaySpeed * Time.fixedDeltaTime;
+            additinalPos = MathCalculator.VectorRotate(Vector3.right, initVector.dirDegree) * initVector.magnitude;
+            bulletTransform.position = parentBulletTransform.position + additinalPos;
         }
         timeCount += Time.fixedDeltaTime;
+        if (timeCount >= lifeTime - Time.fixedDeltaTime)
+        {
+            delDestroyBullet();
+        }
     }
 }
