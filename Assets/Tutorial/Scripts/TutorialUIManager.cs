@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
-public class TutorialUIManager : MonoBehaviour {
+/// <summary>
+/// Tutorial의 UI를 관리하는 매니저 스크립트.
+/// </summary>
+public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
+{
+    [SerializeField] Image[] layers;
+    [SerializeField] GameObject textObj;
 
-    private void Start()
+    public void FirstTest()
     {
-        SpawnPlayer();
-        DrawUI();
-    }
-
-    void SpawnPlayer()
-    {
-        PlayerManager.Instance.FindPlayer(); // 플레이어 스폰
-    }
-
-    void DrawUI()
-    {
-        //UIManager.Instance.FadeInScreen(); // 화면 밝히기
+        textObj.SetActive(true);
+        TextUI.Instance.Test_Frist();
     }
 }
