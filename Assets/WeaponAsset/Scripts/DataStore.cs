@@ -117,6 +117,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private EffectInfo[] effectInfos;
 
+    // 런타임 때 결정되는 정보들.
+    private List<List<WeaponInfo>> weaponInfoByRating;
+
     [Header("true하고 실행 시 엑셀 내용으로 무기 초기화")]
     [SerializeField]
     private bool canInputWeaponDatas;
@@ -277,6 +280,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     #region UnityFunction
     void Awake()
     {
+        weaponInfoByRating = new List<List<WeaponInfo>>();
         InitWepaonInfo();
         InitMiscItems();
         // initializedBulletInfosAtRuntime = new List<BulletInfo>();

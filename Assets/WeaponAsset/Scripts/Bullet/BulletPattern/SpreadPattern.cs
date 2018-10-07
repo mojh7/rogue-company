@@ -97,8 +97,6 @@ public class SpreadPattern : BulletPattern
     {
         parentBulletTransform = createdObj.GetComponent<Transform>();
 
-        Debug.Log("자식 총알 생성 : " + info.childBulletInfoList.Count + ", " + info.childBulletInfoList[0].initPosList.Count);
-
         for (int i = 0; i < info.childBulletInfoList.Count; i++)
         {
             for (int j = 0; j < info.childBulletInfoList[i].initVectorList.Count; j++)

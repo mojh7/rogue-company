@@ -968,7 +968,6 @@ public class Bullet : MonoBehaviour
             if(time >= info.lifeTime)
             {
                 DestroyBullet();
-                Debug.Log(name + ", 코루틴으로 삭제");
             }
             time += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
