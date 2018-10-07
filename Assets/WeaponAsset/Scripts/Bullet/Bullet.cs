@@ -21,6 +21,9 @@ public class Bullet : MonoBehaviour
     private GameObject colliderObj;
     public Rigidbody2D objRigidbody;
 
+    // paintPattern 관련
+    private Transform parentBulletTransform;
+
     // 레이저용 lineRenderer
     [SerializeField] private LineRenderer lineRenderer;
 
@@ -56,6 +59,9 @@ public class Bullet : MonoBehaviour
     private TransferBulletInfo transferBulletInfo;
     private float addDirVecMagnitude;
     private float additionalVerticalPos;
+    private float timeCount;
+    private float updateDelayTime;
+    private ChildBulletCommonProperty childBulletCommonProperty;
 
     // 코루틴 deltaTime
     private float coroutineDeltaTime = 0.016f;
@@ -76,6 +82,7 @@ public class Bullet : MonoBehaviour
     public TransferBulletInfo GetTransferBulletInfo() { return transferBulletInfo; }
     public StatusEffectInfo GetStatusEffectInfo() { return info.statusEffectInfo; }
     public GameObject GetColliderObj() { return colliderObj; }
+    public ChildBulletCommonProperty GetChildBulletCommonProperty() { return childBulletCommonProperty; }
 
     // 현재 바라보는 방향의 euler z 각도 반환
     public Vector3 GetPosition() { return objTransform.position; }
@@ -105,6 +112,8 @@ public class Bullet : MonoBehaviour
         objRigidbody = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
         animator = GetComponentInChildren<Animator>();
+        timeCount = 0;
+        updateDelayTime = 0;
         // 총알 끼리 무시, 총알 레이어 무시, 현재 임시로 Enemy 13, Wall 14, Bullet 15, Player 16번 쓰고 있음.
         // Physics2D.IgnoreLayerCollision(15, 15);
         // edit -> project settings -> physics2D 에서 레이어별 충돌 무시 설정 가능, 거기서 일단 설정했음
@@ -114,6 +123,11 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (timeCount <= updateDelayTime)
+        {
+            timeCount += Time.fixedDeltaTime;
+            return;
+        }
         for (int i = 0; i < info.updatePropertiesLength; i++)
         {
             info.updateProperties[i].Update();
@@ -155,19 +169,19 @@ public class Bullet : MonoBehaviour
         // 총알 속성들 초기화
         InitPropertyClass();
 
-        
         dirDegree = 0f;
         dirVector = Vector3.right;
         SetDirection(direction);
     }
 
     // 일반(투사체) 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo, float updateDelayTime)
     {
         active = true;
         info = bulletInfo;
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
+        this.updateDelayTime = updateDelayTime;
 
         // 처음 위치 설정
         objTransform.position = pos;
@@ -273,6 +287,39 @@ public class Bullet : MonoBehaviour
         dirVector = Vector3.right;        
         SetDirection(ownerDirDegree());
     }
+
+    /// <summary>child bullet전용 초기화</summary>
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, Transform parentBulletTransform, ChildBulletCommonProperty childBulletCommonProperty, TransferBulletInfo transferBulletInfo, InitVector initVector)
+    {
+        active = true;
+        info = bulletInfo;
+        this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
+        this.ownerBuff = ownerBuff;
+        this.childBulletCommonProperty = childBulletCommonProperty;
+
+        // 처음 위치 설정
+        objTransform.position = parentBulletTransform.position;
+        objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+
+        UpdateTransferBulletInfo();
+        // childBullet은 speed에 의해서 움직이지 않고 UpdateProperty에서 childProperty에 의해 좌표 값 설정해서 스피드 필요 없음.
+        info.speed = 0;
+
+        // Owner 정보 초기화
+        InitOwnerInfo(ownerType);   
+        // Owner buff 적용                            
+        ApplyWeaponBuff();
+        // 투사체 총알 속성 초기화
+        InitProjectileProperty();
+        // 총알 속성들 초기화
+        InitPropertyClass();
+
+        dirDegree = 0;
+        dirVector = Vector3.right;
+        SetDirection(initVector.dirDegree);
+    }
+
 
     private void InitOwnerInfo(OwnerType ownerType)
     {
@@ -602,6 +649,8 @@ public class Bullet : MonoBehaviour
     private void CommonDelete()
     {
         active = false;
+        timeCount = 0;
+        updateDelayTime = 0;
 
         // 실행 중인 코루틴이 있으면 코루틴 멈춤
         if (null != bulletUpdate)

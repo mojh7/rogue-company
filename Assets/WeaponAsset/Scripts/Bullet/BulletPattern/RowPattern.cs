@@ -27,6 +27,10 @@ public class RowPattern : BulletPattern
     {
         base.Init(weapon);
         info.bulletInfo.Init();
+        for (int i = 0; i < info.childBulletInfoList.Count; i++)
+        {
+            info.childBulletInfoList[i].bulletInfo.Init();
+        }
     }
 
     public override void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
@@ -81,7 +85,9 @@ public class RowPattern : BulletPattern
                 createdObj = ObjectPoolManager.Instance.CreateBullet();
                 createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
                     weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos) + perpendicularVector * (info.initPos - info.deltaPos * j),
-                    ownerDirDegree() + currentAngle, transferBulletInfo);
+                    ownerDirDegree() + currentAngle, transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
+
+
             }
         }
     }
@@ -94,5 +100,32 @@ public class RowPattern : BulletPattern
     public override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
+    }
+
+    protected override void CreateChildBullets()
+    {
+        parentBulletTransform = createdObj.GetComponent<Transform>();
+
+        for (int i = 0; i < info.childBulletInfoList.Count; i++)
+        {
+            for (int j = 0; j < info.childBulletInfoList[i].initVectorList.Count; j++)
+            {
+                childBulletObj = ObjectPoolManager.Instance.CreateBullet();
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                    info.childBulletCommonProperty, transferBulletInfo, info.childBulletInfoList[i].initVectorList[j]);
+            }
+
+            InitVector initVector = new InitVector();
+            Vector3 initPos = Vector3.zero;
+            for (int k = 0; k < info.childBulletInfoList[i].initPosList.Count; k++)
+            {
+                initPos = new Vector3(info.childBulletInfoList[i].initPosList[k].x + info.childBulletInfoList[i].initPosList[k].y, 0);
+                initVector.magnitude = initPos.magnitude;
+                initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
+                childBulletObj = ObjectPoolManager.Instance.CreateBullet();
+                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo, ownerBuff, ownerType, parentBulletTransform,
+                    info.childBulletCommonProperty, transferBulletInfo, initVector);
+            }
+        }
     }
 }

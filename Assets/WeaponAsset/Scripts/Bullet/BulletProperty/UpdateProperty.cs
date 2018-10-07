@@ -710,3 +710,47 @@ public class TrigonometricProperty : UpdateProperty
 // 네모, 세모 등등 따로 그려진 모양의 패턴 class 전용 업데이트 속성
 // PaintParentProperty
 // PaintChildProperty
+
+
+
+// 좌표 변화 : parent 중심 -> parent 좌표를 원점으로 각각의 위치로 -> parentBullet 움직임에 따라 평행이동.
+// 할 수 있는 것.
+// 원점(parent Bullet 좌표)에서 멀어지거나 가까워지는 정도
+// 원점 기준으로 시계, 반시계 전체 형태 유지 하면서 childBullet들 회전.
+
+/// <summary> parentbullet기준으로 배치될 ChildBullet 속성 </summary>
+public class ChildProperty : UpdateProperty
+{
+    private ChildBulletCommonProperty childBulletCommonProperty;
+    private float magnitude;
+    private float angle;
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+
+        lifeTime = bullet.info.lifeTime;
+        childBulletCommonProperty = bullet.GetChildBulletCommonProperty();
+        timeCount = 0;
+    }
+
+    public override UpdateProperty Clone()
+    {
+        return new RotationProperty();
+    }
+
+    public override void Update()
+    {
+        // parentBullet 중심에서 원래 모양으로 퍼져 나감.
+        if(timeCount < childBulletCommonProperty.timeForOriginalShape)
+        {
+
+        }
+        // parentBullet을 원점으로 원래 모양이 된 후 parentBullet 움직임에 따라 같이 평행 이동함.
+        else
+        {
+
+        }
+        timeCount += Time.fixedDeltaTime;
+    }
+}

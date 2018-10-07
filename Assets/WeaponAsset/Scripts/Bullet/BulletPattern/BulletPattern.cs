@@ -38,6 +38,8 @@ public class TransferBulletInfo
 public abstract class BulletPattern
 {
     protected GameObject createdObj;
+    protected Transform parentBulletTransform;
+    protected GameObject childBulletObj;
     protected Weapon weapon;
     protected int executionCount;               // 한 사이클에서의 실행 횟수
     protected float delay;                      // 사이클 내에서의 delay
@@ -189,4 +191,6 @@ public abstract class BulletPattern
         }
         return ownerDirVec() * addDirVecMagnitude + verticalVector * additionalVerticalPos;
     }
+
+    protected virtual void CreateChildBullets() { }
 }
