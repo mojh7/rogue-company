@@ -3,32 +3,60 @@ using UnityEngine.UI;
 
 public class TextUI : MonoBehaviourSingleton<TextUI>
 {
-
     [HideInInspector] public int count = 0;
     [SerializeField] private Text touch;
     [SerializeField] private Text text;
     private bool isHide = true;
+    private string str;
 
-    // 한번만 호출되는데 계속 호출되게 하는 법은??
-    public void Test_Frist()
+    public void Test_Frist(string str)
     {
-        switch (count)
+        this.str = str;
+        switch (str)
         {
-            case 0:
-                text.text = "이동식 조이스틱 입니다!";
+            case "move":
+                switch (count)
+                {
+                    case 0:
+                        text.text = "이동식 조이스틱 입니다!";
+                        break;
+                    case 1:
+                        text.text = "자유롭게 조이스틱으로 이동하세요.";
+                        break;
+                    case 2:
+                        text.text = "앞에 총이 떨어져 있네요!";
+                        break;
+                    case 3:
+                        text.text = "총의 위치까지 이동해주세요!";
+                        break;
+                    case 4:
+                        count = 0;
+                        TutorialUIManager.Instance.SetLayersActive(0, false);
+                        this.gameObject.SetActive(false);
+                        break;
+                }
                 break;
-            case 1:
-                text.text = "자유롭게 조이스틱으로 이동하세요.";
-                break;
-            case 2:
-                text.text = "앞에 총이 떨어져 있네요!";
-                break;
-            case 3:
-                text.text = "총의 위치까지 이동해주세요!";
-                break;
-            case 4:
-                count = 0;
-                this.gameObject.SetActive(false);
+            case "attack":
+                switch (count)
+                {
+                    case 0:
+                        text.text = "이동식 조이스틱 입니다!";
+                        break;
+                    case 1:
+                        text.text = "자유롭게 조이스틱으로 이동하세요.";
+                        break;
+                    case 2:
+                        text.text = "앞에 총이 떨어져 있네요!";
+                        break;
+                    case 3:
+                        text.text = "총의 위치까지 이동해주세요!";
+                        break;
+                    case 4:
+                        count = 0;
+                        TutorialUIManager.Instance.SetLayersActive(0, false);
+                        this.gameObject.SetActive(false);
+                        break;
+                }
                 break;
         }
     }
@@ -65,5 +93,6 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
     public void TouchUp()
     {
         count++;
+        Test_Frist(str);
     }
 }
