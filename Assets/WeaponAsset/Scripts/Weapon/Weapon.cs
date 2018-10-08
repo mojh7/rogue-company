@@ -88,8 +88,8 @@ public class Weapon : Item
         this.ownerType = ownerType;
         this.weaponId = weaponId;
         // id에 따른 무기 정보 받아오기
-        info = DataStore.Instance.GetWeaponInfo(weaponId, ownerType).Clone();
         originInfo = DataStore.Instance.GetWeaponInfo(weaponId, ownerType);
+        info = originInfo.Clone();
         BaseInit();
     }
 

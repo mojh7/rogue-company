@@ -80,10 +80,18 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return createdObj.GetComponent<Weapon>();
     }
 
+    public Weapon CreateWeapon(Rating rating)
+    {
+        if (Rating.NORATING == rating)
+            return null;
+        GameObject createdObj = weaponPool.NewItem();
+        createdObj.GetComponent<Weapon>().Init(DataStore.Instance.GetWeaponInfo(rating));
+        return createdObj.GetComponent<Weapon>();
+    }
+
     public Item CreateWeapon(int weaponId)
     {
         GameObject createdObj = weaponPool.NewItem();
-        // Debug.Log("무기 만들자 : " + weaponId);
         createdObj.GetComponent<Weapon>().Init(weaponId);
         return createdObj.GetComponent<Item>();
     }

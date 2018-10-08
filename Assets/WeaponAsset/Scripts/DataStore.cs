@@ -89,7 +89,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     //[FormerlySerializedAs("temp2WeaponInfos")]
     private WeaponInfo[] temp3WeaponInfos;
 
-    [FormerlySerializedAs("test2WeaponInfos")]
+    //[FormerlySerializedAs("밑에 이전 변수명")] 이전 변수명과 밑에 에는 새로운 변수 명 쳐줘야 안의 값 그대로 이동함. 직렬화 되어있어야 했던가?
     [SerializeField]
     private WeaponInfo[] shapeSampleWeaponInfos;
 
@@ -196,6 +196,22 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     }
 
     /// <summary>
+    /// Player Weapon 중 해당 Rating에서 랜덤하게 무기 정보 얻기 
+    /// </summary>
+    /// <param name="rating"></param>
+    /// <returns></returns>
+    public WeaponInfo GetWeaponInfo(Rating rating)
+    {
+        if (Rating.NORATING == rating)
+            return null;
+        int ratingIndex = (int)(rating - 1);
+        if (0 >= weaponInfoByRating[ratingIndex].Count)
+            return null;
+        int weaponIndex = Random.Range(0, weaponInfoByRating[ratingIndex].Count);
+        return weaponInfoByRating[ratingIndex][weaponIndex];
+    }
+
+    /// <summary>
     /// Owner에 따른 Weapon Data 반환, ownerType 기본 값 Player
     /// </summary>
     /// <param name="id"></param>
@@ -284,8 +300,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     #region UnityFunction
     void Awake()
     {
-        ratingLength = (int)Rating.E;
-        weaponInfoByRating = new List<WeaponInfo>[ratingLength];
         InitWepaonInfo();
         InitMiscItems();
         // initializedBulletInfosAtRuntime = new List<BulletInfo>();
@@ -304,7 +318,15 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     /// <summary> 무기 정보 관련 초기화 </summary>
     public void InitWepaonInfo()
     {
-        switch(DebugSetting.Instance.weaponModeForDebug)
+        ratingLength = (int)Rating.E;
+        weaponInfoByRating = new List<WeaponInfo>[ratingLength];
+        for(int i = 0; i < weaponInfoByRating.Length; i++)
+        {
+            weaponInfoByRating[i] = new List<WeaponInfo>();
+            //Debug.Log(i + " 초기화");
+        }
+
+        switch (DebugSetting.Instance.weaponModeForDebug)
         {
             case WeaponModeForDebug.Test:
                 for (int i = 0; i < weaponInfos.Length; i++)
@@ -316,7 +338,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 break;
             case WeaponModeForDebug.Temp2:
                 for (int i = 0; i < temp2WeaponInfos.Length; i++)
+                {
                     temp2WeaponInfos[i].Init();
+                    InsertWeaponInfoByRating(temp2WeaponInfos[i]);
+                }
                 break;
             case WeaponModeForDebug.ShapeSample:
                 for (int i = 0; i < shapeSampleWeaponInfos.Length; i++)
@@ -343,11 +368,29 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
         //passiveItems   
         InputWeaponDatas();
+
+        // 디버깅용
+        for(int i = 0; i < ratingLength; i++)
+        {
+            Debug.Log((Rating)(i+1) + " 등급 무기 =========");
+            for (int j = 0; j < weaponInfoByRating[i].Count; j++)
+            {
+                Debug.Log("j : " + j + ", rating : " + weaponInfoByRating[i][j].rating + ", name : " + weaponInfoByRating[i][j].weaponName);
+            }
+            Debug.Log("=========================");
+        }
     }
 
     private void InsertWeaponInfoByRating(WeaponInfo weaponInfo)
     {
-
+        if (Rating.NORATING == weaponInfo.rating)
+        {
+            //Debug.Log(weaponInfo.name + ", " + weaponInfo.rating);
+            return;
+        }
+        int rating = (int)weaponInfo.rating - 1;
+        // notRating 일 때 넣지 않음.
+        weaponInfoByRating[rating].Add(weaponInfo);
     }
     /*
     public void AddInitialedbulletInfo(BulletInfo info)
