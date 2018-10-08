@@ -89,8 +89,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     //[FormerlySerializedAs("temp2WeaponInfos")]
     private WeaponInfo[] temp3WeaponInfos;
 
+    [FormerlySerializedAs("test2WeaponInfos")]
     [SerializeField]
-    private WeaponInfo[] test2WeaponInfos;
+    private WeaponInfo[] shapeSampleWeaponInfos;
 
     /// <summary> 기획자 무기 테스트용 </summary>
     [SerializeField]
@@ -117,8 +118,11 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     [SerializeField]
     private EffectInfo[] effectInfos;
 
+    private int ratingLength;
+
+    [SerializeField]
     // 런타임 때 결정되는 정보들.
-    private List<List<WeaponInfo>> weaponInfoByRating;
+    private List<WeaponInfo>[] weaponInfoByRating;
 
     [Header("true하고 실행 시 엑셀 내용으로 무기 초기화")]
     [SerializeField]
@@ -138,17 +142,17 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     {
         switch(DebugSetting.Instance.weaponModeForDebug)
         {
-            case WeaponModeForDebug.TEST:
+            case WeaponModeForDebug.Test:
                 return weaponInfos.Length;
-            case WeaponModeForDebug.TEMP:
+            case WeaponModeForDebug.Temp:
                 return tempWeaponInfos.Length;
-            case WeaponModeForDebug.TEMP2:
+            case WeaponModeForDebug.Temp2:
                 return temp2WeaponInfos.Length;
-            case WeaponModeForDebug.TEST2:
-                return test2WeaponInfos.Length;
+            case WeaponModeForDebug.ShapeSample:
+                return shapeSampleWeaponInfos.Length;
             case WeaponModeForDebug.A1:
                 return A1WeaponInfos.Length;
-            case WeaponModeForDebug.TESTBOSS:
+            case WeaponModeForDebug.TestBoss:
                 return testBossWeaponInfos.Length;
             default:
                 break;
@@ -204,17 +208,17 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         {
             switch (DebugSetting.Instance.weaponModeForDebug)
             {
-                case WeaponModeForDebug.TEST:
+                case WeaponModeForDebug.Test:
                     return weaponInfos[id];
-                case WeaponModeForDebug.TEMP:
+                case WeaponModeForDebug.Temp:
                     return tempWeaponInfos[id];
-                case WeaponModeForDebug.TEMP2:
+                case WeaponModeForDebug.Temp2:
                     return temp2WeaponInfos[id];
-                case WeaponModeForDebug.TEST2:
-                    return test2WeaponInfos[id];
+                case WeaponModeForDebug.ShapeSample:
+                    return shapeSampleWeaponInfos[id];
                 case WeaponModeForDebug.A1:
                     return A1WeaponInfos[id];
-                case WeaponModeForDebug.TESTBOSS:
+                case WeaponModeForDebug.TestBoss:
                     return testBossWeaponInfos[id];
                 default:
                     break;
@@ -280,7 +284,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     #region UnityFunction
     void Awake()
     {
-        weaponInfoByRating = new List<List<WeaponInfo>>();
+        ratingLength = (int)Rating.E;
+        weaponInfoByRating = new List<WeaponInfo>[ratingLength];
         InitWepaonInfo();
         InitMiscItems();
         // initializedBulletInfosAtRuntime = new List<BulletInfo>();
@@ -301,27 +306,27 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     {
         switch(DebugSetting.Instance.weaponModeForDebug)
         {
-            case WeaponModeForDebug.TEST:
+            case WeaponModeForDebug.Test:
                 for (int i = 0; i < weaponInfos.Length; i++)
                     weaponInfos[i].Init();
                 break;
-            case WeaponModeForDebug.TEMP:
+            case WeaponModeForDebug.Temp:
                 for (int i = 0; i < tempWeaponInfos.Length; i++)
                     tempWeaponInfos[i].Init();
                 break;
-            case WeaponModeForDebug.TEMP2:
+            case WeaponModeForDebug.Temp2:
                 for (int i = 0; i < temp2WeaponInfos.Length; i++)
                     temp2WeaponInfos[i].Init();
                 break;
-            case WeaponModeForDebug.TEST2:
-                for (int i = 0; i < test2WeaponInfos.Length; i++)
-                    test2WeaponInfos[i].Init();
+            case WeaponModeForDebug.ShapeSample:
+                for (int i = 0; i < shapeSampleWeaponInfos.Length; i++)
+                    shapeSampleWeaponInfos[i].Init();
                 break;
             case WeaponModeForDebug.A1:
                 for (int i = 0; i < A1WeaponInfos.Length; i++)
                     A1WeaponInfos[i].Init();
                 break;
-            case WeaponModeForDebug.TESTBOSS:
+            case WeaponModeForDebug.TestBoss:
                 for (int i = 0; i < testBossWeaponInfos.Length; i++)
                     testBossWeaponInfos[i].Init();
                 break;
@@ -333,10 +338,17 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         {
             enemyWeaponInfos[i].Init();
         }
+
+        // rating 별로 weaponInfo List 분류
+
         //passiveItems   
         InputWeaponDatas();
     }
 
+    private void InsertWeaponInfoByRating(WeaponInfo weaponInfo)
+    {
+
+    }
     /*
     public void AddInitialedbulletInfo(BulletInfo info)
     {
@@ -347,8 +359,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
     public void InputWeaponDatas()
     {
-        if (WeaponModeForDebug.TEST == DebugSetting.Instance.weaponModeForDebug
-            || WeaponModeForDebug.TEST2 == DebugSetting.Instance.weaponModeForDebug
+        if (WeaponModeForDebug.Test == DebugSetting.Instance.weaponModeForDebug
+            || WeaponModeForDebug.ShapeSample == DebugSetting.Instance.weaponModeForDebug
             || WeaponModeForDebug.A1 == DebugSetting.Instance.weaponModeForDebug)
             return;
 
