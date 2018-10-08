@@ -12,6 +12,11 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     public void FirstTest()
     {
         textObj.SetActive(true);
-        TextUI.Instance.Test_Frist();
+        TextUI.Instance.Test_Frist("move");
+    }
+
+    public void SetLayersActive(int i, bool act)
+    {
+        layers[i].gameObject.SetActive(act);
     }
 }
