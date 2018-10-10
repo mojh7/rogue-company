@@ -173,22 +173,12 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorActive();
         FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
-        //Item item;
-        //if(UtilityClass.CoinFlip(50))
-        //{
-        //    item = ObjectPoolManager.Instance.CreateUsableItem();
-        //}
-        //else
-        //{
-        //    item = ObjectPoolManager.Instance.CreateWeapon();
-        //}
-        //ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Random.onUnitSphere * 3), item);
-
         UIManager.Instance.ClearRoomUI(true);
         UtilityClass.Invoke(this, ItemManager.Instance.CollectItem, 1f);
 
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
+            ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), RoomType.BOSS);
             for (int i = 0; i < currentRoom.customObjects.Length; i++)
             {
                 if (currentRoom.customObjects[i].GetComponent<Portal>() != null)

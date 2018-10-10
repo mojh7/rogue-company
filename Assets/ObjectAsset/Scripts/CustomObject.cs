@@ -165,8 +165,8 @@ public class RandomSpriteObject : CustomObject
         base.Init();
         //gameObject.hideFlags = HideFlags.HideInHierarchy;
         isAnimate = false;
-        if (sprites != null)
-        {
+        if (sprites != null && sprites.Length != 0)
+        { 
             idx = Random.Range(0, sprites.Length);
             sprite = sprites[idx];
         }
@@ -601,6 +601,14 @@ public class ItemBox : RandomSpriteObject
         Init();
         item = _item;
         item.gameObject.SetActive(false);
+    }
+
+    public override void SetAvailable()
+    {
+        if(item==null)
+        {
+            ItemManager.Instance.SetItemBox(this);
+        }
     }
     public override bool Active()
     {

@@ -176,11 +176,7 @@ public class Enemy : Character
         int count = EconomySystem.Instance.DropCoin(this.price);
         for(int i=0;i< count;i++)
         {
-            GameObject coin = ResourceManager.Instance.itemPool.GetPooledObject();
-            coin.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
-            coin.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
-            coin.AddComponent<Coin>();
-            ItemManager.Instance.CreateItem(coin.GetComponent<Coin>(), transform.position, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+            ItemManager.Instance.CreateItem(ItemManager.Instance.DropCoin(), transform.position, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
         }
     }
 

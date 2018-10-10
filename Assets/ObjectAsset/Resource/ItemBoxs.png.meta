@@ -1,17 +1,13 @@
 fileFormatVersion: 2
-guid: 09ce4cb2680159e45a2ebf07712b12c3
-timeCreated: 1534687255
+guid: 1f1797cd95ffbb0478e1de95b95fbf6c
+timeCreated: 1539155079
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: KakaoTalk_20180819_223855425_0
-    21300002: KakaoTalk_20180819_223855425_1
-    21300004: KakaoTalk_20180819_223855425_2
-    21300006: KakaoTalk_20180819_223855425_3
-    21300008: KakaoTalk_20180819_223855425_4
-    21300010: KakaoTalk_20180819_223855425_5
-    21300012: KakaoTalk_20180819_223855425_6
-    21300014: KakaoTalk_20180819_223855425_7
+    21300000: ItemBoxs_0
+    21300002: ItemBoxs_1
+    21300004: ItemBoxs_2
+    21300006: ItemBoxs_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -98,11 +94,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_0
+      name: ItemBoxs_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 32
+        x: 6
+        y: 36
         width: 19
         height: 24
       alignment: 7
@@ -112,11 +108,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_1
+      name: ItemBoxs_1
       rect:
         serializedVersion: 2
         x: 38
-        y: 32
+        y: 36
         width: 19
         height: 24
       alignment: 7
@@ -126,11 +122,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_2
+      name: ItemBoxs_2
       rect:
         serializedVersion: 2
-        x: 73
-        y: 32
+        x: 6
+        y: 4
         width: 19
         height: 24
       alignment: 7
@@ -140,67 +136,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_3
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 32
-        width: 19
-        height: 24
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_4
-      rect:
-        serializedVersion: 2
-        x: 7
-        y: 0
-        width: 19
-        height: 24
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_5
+      name: ItemBoxs_3
       rect:
         serializedVersion: 2
         x: 38
-        y: 0
-        width: 19
-        height: 24
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_6
-      rect:
-        serializedVersion: 2
-        x: 73
-        y: 0
-        width: 19
-        height: 24
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KakaoTalk_20180819_223855425_7
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 0
+        y: 4
         width: 19
         height: 24
       alignment: 7

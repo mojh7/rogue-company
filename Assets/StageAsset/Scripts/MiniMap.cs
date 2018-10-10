@@ -46,7 +46,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     #endregion
     #region colors
     Color[] mapColors;
-    Color hallColor = new Color((float)160 / 255, (float)174 / 255, (float)186 / 255);
+    Color hallColor = new Color(0, 0, 0, 0);/* new Color((float)160 / 255, (float)174 / 255, (float)186 / 255);*/
     Color black = Color.black;
     Color white = Color.white;
     Color clear = Color.clear;

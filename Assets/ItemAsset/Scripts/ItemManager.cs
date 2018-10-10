@@ -3,16 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
-    public Sprite coinSprite;
-    public Sprite sprite;
-    public Sprite cardSprite;
+    #region boxPercentage
+    private int[,] iEventboxPercentage =
+    {   //not,S,A,B,C,D,E,B 
+/*floor*/{  0,    0,     0,     20,     80,     20,     0 },
+         {  0,    0,     0,     10,     80,     10,     0 },
+         {  0,    0,    10,     80,     10,      0,     0 },
+         {  0,   10,    80,     10,      0,      0,     0 },
+         {  0,   20,    90,      0,      0,      0,     0 }
+    };
+
+    private int[,] iBossboxPercentage =
+   {   //not,S,A,B,C,D,E,B 
+/*floor*/{  0,    0,     0,      0,     70,     30,     0 },
+         {  0,    0,     0,     70,     30,      0,     0 },
+         {  0,    0,    70,     30,      0,      0,     0 },
+         {  0,   50,    50,      0,      0,      0,     0 },
+         {  0,  100,     0,      0,      0,      0,     0 }
+    };
+
+    private int[,] iRestboxPercentage =
+{   //not,S,A,B,C,D,E,B 
+/*floor*/{  0,    0,     0,      0,      0,     40,    60 },
+         {  0,    0,     0,      0,     10,     80,    10 },
+         {  0,    0,     0,     10,     80,     10,     0 },
+         {  0,    0,    10,     80,     10,      0,     0 },
+         {  0,    0,    40,     60,      0,      0,     0 }
+    };
+    #endregion
     [SerializeField]
     private Sprite[] boxSprites;
+    [SerializeField]
+    private Sprite coinSprite;
+    [SerializeField]
+    private Sprite cardSprite;
+
 
     Queue<GameObject> objs;
     Queue<ItemContainer> withdraws;
     #region UnityFunc
-    private void Start()
+    private void Awake()
     {
         objs = new Queue<GameObject>();
         withdraws = new Queue<ItemContainer>();
@@ -26,6 +56,15 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         card.AddComponent<Card>();
         ItemManager.Instance.CreateItem(card.GetComponent<Card>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+    }
+    public Coin DropCoin()
+    {
+        GameObject coin = ResourceManager.Instance.itemPool.GetPooledObject();
+        coin.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.coinSprite;
+        coin.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        coin.AddComponent<Coin>();
+
+        return coin.GetComponent<Coin>();
     }
     public void DeleteObjs()
     {
@@ -43,21 +82,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
             }
         }
     }
-
-    public void CallItemBox(Vector2 _position,Item _item)
-    {
-        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-
-        ParticleManager.Instance.PlayParticle("Event", _position);
-        objs.Enqueue(obj);
-        obj.transform.position = _position;
-        obj.AddComponent<ItemBox>();
-        obj.GetComponent<ItemBox>().sprites = new Sprite[1] { sprite };
-        obj.GetComponent<ItemBox>().Init(_item);
-        obj.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y);
-    }
-
-    public GameObject CreateItem(Item _item, Vector3 _position,params Vector2[] dest)
+    public GameObject CreateItem(Item _item, Vector3 _position, params Vector2[] dest)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
@@ -75,7 +100,6 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
 
         return obj;
     }
-
     public void CollectItem()
     {
         if (withdraws == null)
@@ -83,11 +107,89 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         while (withdraws.Count > 0)
         {
             ItemContainer itemContainer = withdraws.Dequeue();
-            if(itemContainer != null)
+            if (itemContainer != null)
             {
                 itemContainer.DettachDestroy();
                 itemContainer.SubAcitve();
             }
+        }
+    }
+
+    public void CallItemBox(Vector2 _position, RoomType roomType)
+    {
+        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
+        int floor = InGameManager.Instance.GetFloor();
+        Rating rating = Rating.NORATING;
+        switch (roomType)
+        {
+            case RoomType.BOSS:
+                rating = GetRating(floor, iBossboxPercentage);
+                break;
+            case RoomType.REST:
+                rating = GetRating(floor, iRestboxPercentage);
+                break;
+            default:
+                return;
+        }
+        Item item = ObjectPoolManager.Instance.CreateWeapon(rating);
+        ParticleManager.Instance.PlayParticle("Event", _position);
+        objs.Enqueue(obj);
+        obj.transform.position = _position;
+        obj.AddComponent<ItemBox>();
+        obj.GetComponent<ItemBox>().sprites = new Sprite[1] { GetItemRatingSprite(item.GetRating()) };
+        obj.GetComponent<ItemBox>().Init(item);
+        obj.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y);
+    }
+
+    public void SetItemBox(ItemBox itemBox)
+    {
+        int floor = InGameManager.Instance.GetFloor();
+        Rating rating = Rating.NORATING;
+        rating = GetRating(floor, iEventboxPercentage);
+
+        Item item = ObjectPoolManager.Instance.CreateWeapon(rating);
+        itemBox.sprites = new Sprite[1] { GetItemRatingSprite(item.GetRating()) };
+        itemBox.Init(item);
+    }
+    private Rating GetRating(int floor,int [,] array)
+    {
+        int total = 0;
+        int length = System.Enum.GetValues(typeof(Rating)).Length;
+        for (int i = 0; i < length; i++)
+        {
+            total += array[floor, i];
+        }
+        float randomPoint = Random.value * total;
+        for (int i = 0; i < length; i++)
+        {
+            if (randomPoint < array[floor,i])
+            {
+                return (Rating)i;
+            }
+            else
+            {
+                randomPoint -= array[floor, i];
+            }
+        }
+
+        return Rating.NORATING;
+    }
+    private Sprite GetItemRatingSprite(Rating rating)
+    {
+        switch (rating)
+        {
+            case Rating.S:
+                return boxSprites[3];
+            case Rating.A:
+                return boxSprites[2];
+            case Rating.B:
+                return boxSprites[1];
+            default:
+            case Rating.NORATING:
+            case Rating.C:
+            case Rating.D:
+            case Rating.E:
+                return boxSprites[0];
         }
     }
     #endregion
