@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -8,6 +9,8 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
 {
     [SerializeField] Image[] layers;
     [SerializeField] GameObject textObj;
+    [SerializeField] GameObject focusImage;
+    [HideInInspector] public GameObject obj;
 
     public void FirstTest()
     {
@@ -15,6 +18,15 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
         TextUI.Instance.Test_Frist("move");
     }
 
+    // 1010 focus 동적할당 테스트
+    public void SetFocusImage()
+    {
+        obj = Instantiate(focusImage);
+        obj.transform.SetParent(GameObject.Find("Canvas").transform, false);
+        RectTransform im = obj.GetComponent<RectTransform>();
+        im.position = new Vector2(layers[0].rectTransform.position.x, layers[0].rectTransform.position.y);
+    }
+    // layer 하나하나 active 설정하기
     public void SetLayersActive(int i, bool act)
     {
         layers[i].gameObject.SetActive(act);

@@ -8,6 +8,7 @@ public class TutorialManager : MonoBehaviour {
         SpawnPlayer();
         DrawUI();
 
+        TutorialUIManager.Instance.SetFocusImage();
         StartCoroutine("First");
     }
 
