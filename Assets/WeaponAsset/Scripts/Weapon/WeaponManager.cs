@@ -188,17 +188,23 @@ public class WeaponManager : MonoBehaviour {
     public void Init(Character owner, OwnerType ownerType)
     {
         SetOwnerInfo(owner, ownerType);
-        if (CharacterInfo.OwnerType.Player == ownerType)
+        if (OwnerType.Player == ownerType)
         {
             Weapon weapon;
             equipWeaponSlot = new List<Weapon>();
             currentWeaponIndex = 0;
 
-            //Debug.Log("load Game : " + GameStateManager.Instance.GetLoadsGameData());
-            // 로드 게임이 아닐 때 디버그용 무기 셋팅
-            if (false == GameStateManager.Instance.GetLoadsGameData())
+            // 튜토리얼 씬 임시
+            if(true == DebugSetting.Instance.isTutorialScene)
             {
-                if (DebugSetting.Instance.EquipsPlayerAllWeapons)
+                weaponCountMax = 3;
+                weaponCount = 0;
+            }
+
+            // 튜토리얼씬이 아니고 로드 게임이 아닐 때 디버그용 무기 셋팅
+            else if (false == GameStateManager.Instance.GetLoadsGameData())
+            {
+                if (DebugSetting.Instance.equipsPlayerAllWeapons)
                 {
                     weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
@@ -302,13 +308,25 @@ public class WeaponManager : MonoBehaviour {
     #endregion
 
     #region Function
+    public bool WeaponEmpty()
+    {
+        if (0 == weaponCount)
+            return true;
+        else
+            return false;
+    }
+
     public void HideWeapon()
     {
+        if (WeaponEmpty())
+            return;
         equipWeaponSlot[currentWeaponIndex].Hide();
     }
 
     public void RevealWeapon()
     {
+        if (WeaponEmpty())
+            return;
         equipWeaponSlot[currentWeaponIndex].Reveal();
     }
 
@@ -334,24 +352,31 @@ public class WeaponManager : MonoBehaviour {
     /// <summary> 공격 버튼 누를 때, 누르는 중일 때 </summary>
     public void AttackButtonDown()
     {
+        if (WeaponEmpty())
+            return;
         equipWeaponSlot[currentWeaponIndex].StartAttack();
     }
 
     /// <summary> 공격 버튼 뗐을 때 </summary>
     public void AttackButtonUP()
     {
+        if (WeaponEmpty())
+            return;
         equipWeaponSlot[currentWeaponIndex].StopAttack();
     }
 
     /// <summary> 현재 착용 무기 대해서 내용 업데이트, 현재 착용 무기 외의 모든 무기 off </summary>
     public void UpdateCurrentWeapon()
     {
-        for(int i = 0; i < weaponCount; i++)
+        if (WeaponEmpty())
+            return;
+
+        for (int i = 0; i < weaponCount; i++)
         {
             equipWeaponSlot[i].gameObject.SetActive(false);
         }
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
-        if(CharacterInfo.OwnerType.Player == ownerType)
+        if(OwnerType.Player == ownerType)
         {
             ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
             // 0827 윤아 추가
@@ -379,7 +404,7 @@ public class WeaponManager : MonoBehaviour {
 
     public void UpdateAmmoView(WeaponInfo info)
     {
-        if(CharacterInfo.OwnerType.Player == ownerType)
+        if(OwnerType.Player == ownerType)
         {
             ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(info);
         }
@@ -406,7 +431,9 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
-    /// <summary> 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용 / 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기 </summary>
+    /// <summary>
+    /// 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용, 
+    /// 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기 </summary>
     /// <param name="pickedWeapon">얻어서 장착할 무기</param>
     public bool PickAndDropWeapon(Item pickedWeapon)
     {
@@ -474,6 +501,7 @@ public class WeaponManager : MonoBehaviour {
     }
 }
 
+// 시간 남으면 추가적으로 만들고 아님 말고
 // 공격키 누를 때(쿨타임 다름), 상시 알아서 공격, 특정 조건일 때??
 public class SubWeaponManager : WeaponManager
 {

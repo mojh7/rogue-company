@@ -110,10 +110,12 @@ public class BulletInfo : ScriptableObject
 
     [Header("Spiral Property, start~end time, end Time의 -1값 : 끝나는 시간 제한 없음")]
     public bool routineSprial;
+    public int spiralRoutineCount;
     public List<DurationTime> spiralDurationTime;
 
     [Header("Rotation Property, start~end time, -1값 : 적용 x")]
     public bool routineRotation;
+    public int rotationRoutineCount;
     public List<PropertyTimeline> rotationTimeline;
 
     public CollisionPropertyType[] collisionPropertiesEdit; // 충돌 속성 edit용
@@ -182,6 +184,8 @@ public class BulletInfo : ScriptableObject
         homingEndTime = -1;
 
         routineSprial = false;
+        spiralRoutineCount = -1;
+        rotationRoutineCount = -1;
 
         // isInitializable = true;
 
@@ -243,8 +247,10 @@ public class BulletInfo : ScriptableObject
         clonedInfo.homingEndTime = homingEndTime;
 
         clonedInfo.routineSprial = routineSprial;
+        clonedInfo.spiralRoutineCount = spiralRoutineCount;
         clonedInfo.spiralDurationTime = spiralDurationTime;
         clonedInfo.routineRotation = routineRotation;
+        clonedInfo.rotationRoutineCount = rotationRoutineCount;
         clonedInfo.rotationTimeline = rotationTimeline;
         //clonedInfo = ; 
 
