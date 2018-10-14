@@ -10,6 +10,8 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     [SerializeField] Image[] layers;
     [SerializeField] GameObject textObj;
     [SerializeField] GameObject focusImage;
+
+    [SerializeField] Image focus;
     [HideInInspector] public GameObject obj;
 
     public void FirstTest()
@@ -18,14 +20,25 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
         TextUI.Instance.Test_Frist("move");
     }
 
-    // 1010 focus 동적할당 테스트
+    // 1010 focus 동적할당 테스트 -> 사용 xx
     public void SetFocusImage()
     {
+        Debug.Log(1234);
         obj = Instantiate(focusImage);
         obj.transform.SetParent(GameObject.Find("Canvas").transform, false);
-        RectTransform im = obj.GetComponent<RectTransform>();
-        im.position = new Vector2(layers[0].rectTransform.position.x, layers[0].rectTransform.position.y);
+        obj.SetActive(true);
+        RectTransform rt = obj.GetComponent<RectTransform>();
+        rt.position = new Vector2(layers[0].rectTransform.position.x, layers[0].rectTransform.position.y);
     }
+    
+    public void SetFocus(int i)
+    {
+        focus.rectTransform.position = layers[i].rectTransform.position;
+
+        CircleAnimation.Instance.isTrue = false;
+        focus.gameObject.SetActive(true);
+    }
+
     // layer 하나하나 active 설정하기
     public void SetLayersActive(int i, bool act)
     {

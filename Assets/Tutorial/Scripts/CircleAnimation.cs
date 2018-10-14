@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CircleAnimation : MonoBehaviour {
+public class CircleAnimation : MonoBehaviourSingleton<CircleAnimation> {
     // 포커싱되게 하기
     private float width;
     private float height;
     private RectTransform rect;
-    private bool isTrue;
+    [HideInInspector] public bool isTrue;
 
-    private void Awake()
+    private void Start()
     {
         rect = this.gameObject.GetComponent<RectTransform>();
         width = rect.rect.width;
@@ -23,7 +23,10 @@ public class CircleAnimation : MonoBehaviour {
     private void Update()
     {
         if (isTrue)
+        {
+            TutorialUIManager.Instance.FirstTest();
             this.gameObject.SetActive(false);
+        }
     }
 
     public IEnumerator AnimationCircle()

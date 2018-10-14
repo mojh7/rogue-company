@@ -6,13 +6,11 @@ using System.Collections;
 public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpHandler
 {
     private Vector2 pos;
-    // Use this for initialization
     private Character character;
     [SerializeField] private Text ammoViewText;
     [SerializeField] private Image weaponImage;
     [SerializeField] private Image PrevImage;
     [SerializeField] private Image NextImage;
-
     [SerializeField] float shakeAmount;
     [SerializeField] float shakeDuration;
 
@@ -100,10 +98,5 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
             ammoViewText.text = info.ammo + " / " + info.ammoCapacity;
         }
     }
-
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    character.GetWeaponManager().ChangeWeapon(true);
-    //}
 
 }

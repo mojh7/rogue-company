@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class TutorialManager : MonoBehaviour {
-
+public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
     private void Start()
     {
         SpawnPlayer();
         DrawUI();
 
-        TutorialUIManager.Instance.SetFocusImage();
         StartCoroutine("First");
     }
 
@@ -25,7 +23,7 @@ public class TutorialManager : MonoBehaviour {
     IEnumerator First()
     {
         yield return new WaitForSeconds(1.5f);
-        TutorialUIManager.Instance.FirstTest();
+        TutorialUIManager.Instance.SetFocus(0);
         yield return null;
     }
 }
