@@ -91,10 +91,10 @@ namespace Map
         protected ObjectPool objectPool;
         #endregion
         RoomSet zeroRoomset;
-        protected float MaxHallRate = 0.15f;
+        protected float maxHall = 0.15f;
         protected int MaximumRoomArea = 4;
         protected int MinimumRoomArea = 6;
-        protected int TotalHallArea = 0;
+        protected int tatalHall = 0;
         protected int width;
         protected int height;
         protected int size = 3;
@@ -107,7 +107,7 @@ namespace Map
             height = _height;
             MaximumRoomArea = _max;
             MinimumRoomArea = _mini;
-            MaxHallRate = _maxHallRate;
+            maxHall = _maxHallRate;
             objectPool = _objectPool;
             rects = new Queue<Rect>();
             blocks = new Queue<Rect>();
@@ -185,7 +185,7 @@ namespace Map
 
         public void AddNecessaryRoomSet(RoomSet[] _roomSet)
         {
-            float maxSize = width * height * (1 - MaxHallRate);
+            float maxSize = width * height * (1 - maxHall);
             int sum = 0;
             necessaryRoomSet = new List<RoomSet>(_roomSet.Length);
             settedRoomSet = new List<RoomSet>(_roomSet.Length);
@@ -201,7 +201,7 @@ namespace Map
 
         public void AddNecessaryHallSet(RoomSet[] hallSet)
         {
-            float maxSize = width * height * (1 - MaxHallRate);
+            float maxSize = width * height * (1 - maxHall);
             int sum = 0;
             necessaryHallSet = new List<RoomSet>(hallSet.Length);
             settedHallSet= new List<RoomSet>(hallSet.Length);
@@ -292,7 +292,7 @@ namespace Map
             halls.Clear();
             blocks.Clear();
             rooms.Clear();
-            TotalHallArea = 0;
+            tatalHall = 0;
 
         } // 데이터 초기화
 
@@ -498,7 +498,7 @@ namespace Map
         {
             Rect rect;
 
-            while (rects.Count > 0 && ((float)TotalHallArea / mainRect.area < MaxHallRate))
+            while (rects.Count > 0 && ((float)tatalHall / mainRect.area < maxHall))
             {
                 rect = rects.Dequeue();
                 if (rect.area > MaximumRoomArea)
@@ -553,27 +553,27 @@ namespace Map
             Rect hall = null;
 
             Rect rect_a = null, rect_b = null;
-            RandomBlockSplit(_currentRect, out rect_a, out hall, out rect_b);
+            RandSplit_3(_currentRect, out rect_a, out hall, out rect_b);
 
             rects.Enqueue(rect_a);
             rects.Enqueue(rect_b);
             hall.isRoom = false;
             hall.isClear = true;
             halls.Add(hall);
-            TotalHallArea += hall.area;
+            tatalHall += hall.area;
         } // split rects -> rects & halls
 
         void SplitBlock(Rect _currentBlock)
         {
             Rect block_a = null;
             Rect block_b = null;
-            RandomRoomSplit(_currentBlock, out block_a, out block_b);
+            RandSplit_2(_currentBlock, out block_a, out block_b);
 
             blocks.Enqueue(block_a);
             blocks.Enqueue(block_b);
         } // split blocks -> blocks
 
-        protected virtual void RandomBlockSplit(Rect _currentRect, out Rect _rectA, out Rect _hall, out Rect _rectB)
+        protected virtual void RandSplit_3(Rect _currentRect, out Rect _rectA, out Rect _hall, out Rect _rectB)
         {
             bool flag = true;
 
@@ -606,7 +606,7 @@ namespace Map
 
         } // split 덩어리 and 홀 and 덩어리
 
-        bool RandomRoomSplit(Rect _currentBlock, out Rect _blockA, out Rect _blockB)
+        bool RandSplit_2(Rect _currentBlock, out Rect _blockA, out Rect _blockB)
         {
             bool flag = true;
 
@@ -1088,7 +1088,7 @@ namespace Map
 
         }
 
-        protected override void RandomBlockSplit(Rect _currentRect, out Rect _rectA, out Rect _hall, out Rect _rectB)
+        protected override void RandSplit_3(Rect _currentRect, out Rect _rectA, out Rect _hall, out Rect _rectB)
         {
             bool flag = true;
 

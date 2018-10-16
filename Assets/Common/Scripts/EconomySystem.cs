@@ -13,7 +13,6 @@ struct RatingPrice
     {
         switch (rating)
         {
-            default:
             case Rating.S:
                 return price[0];
             case Rating.A:
@@ -24,6 +23,7 @@ struct RatingPrice
                 return price[3];
             case Rating.D:
                 return price[4];
+            default:
             case Rating.E:
                 return price[5];
 

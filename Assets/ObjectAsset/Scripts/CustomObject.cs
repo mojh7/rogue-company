@@ -27,6 +27,7 @@ public class CustomObject : MonoBehaviour
     protected Vector2[] clickableBoxPolygon;
     #region components
     protected SpriteRenderer spriteRenderer;
+    protected SpriteRenderer shadowRenderer;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
     protected new Rigidbody2D rigidbody2D;
@@ -35,6 +36,14 @@ public class CustomObject : MonoBehaviour
     protected PolygonCollider2D polygonCollider2D;
     #endregion
 
+    protected void ShadowDrawing()
+    {
+        shadowRenderer.sprite = sprite;
+    }
+    protected void EraseShadow()
+    {
+        shadowRenderer.sprite = null;
+    }
     public bool GetActive()
     {
         return isActive;
@@ -59,6 +68,8 @@ public class CustomObject : MonoBehaviour
 
     public virtual void Init()
     {
+        EraseShadow();
+
         idx = 0;
         textMesh.text = "";
         childTextMesh.text = textMesh.text;
@@ -90,6 +101,10 @@ public class CustomObject : MonoBehaviour
                 polygonCollider2D.SetPath(i, list.ToArray());
             }
             polygonCollider2D.isTrigger = false;
+        }
+        else
+        {
+            shadowRenderer.sprite = null;
         }
     }
 
@@ -129,6 +144,7 @@ public class CustomObject : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        shadowRenderer = this.transform.GetComponentsInChildren<SpriteRenderer>()[1];
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -154,6 +170,7 @@ public class NoneRandomSpriteObject : CustomObject
         else
             sprite = null;
         SetSpriteAndCollider();
+        ShadowDrawing();
     }
 
 }
@@ -173,6 +190,7 @@ public class RandomSpriteObject : CustomObject
         else
             sprite = null;
         SetSpriteAndCollider();
+        ShadowDrawing();
     }
 
 }
@@ -401,6 +419,7 @@ public class Door : RandomSpriteObject
         this.doorArrows = doorArrows;
         sprite = openSprite;
         SetCollision();
+        EraseShadow();
     }
     public void SetCollision()
     {
