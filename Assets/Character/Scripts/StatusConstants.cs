@@ -59,7 +59,7 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
 
         GraduallyDamageCycle = 0.1f;
         // (int)(poisonInfo.effectiveTime / graduallyDamageCycle); 왜 30안나오고 29 나오지?
-        GraduallyDamageCountMax = 20;
+        GraduallyDamageCountMax = 30;
         // 1 / 1초당 처리 회수 => 지속 데미지 1회 적용 당 데미지 비율
         GraduallyDamagePerUnit = GraduallyDamageCycle / 1f;
         /*
