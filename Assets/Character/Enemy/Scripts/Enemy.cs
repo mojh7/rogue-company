@@ -520,7 +520,7 @@ public class Enemy : Character
         while (poisonOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
-
+            ColorChange(poisonColor);
             if (1 == poisonOverlappingCount)
                 damage = hpMax * StatusConstants.Instance.PoisonInfo.value;
             else
@@ -546,6 +546,7 @@ public class Enemy : Character
         }
         abnormalComponents.PoisonEffect.SetActive(false);
         isPoisoning = false;
+        ColorChange(baseColor);
     }
 
     IEnumerator BurnCoroutine()
@@ -556,6 +557,7 @@ public class Enemy : Character
         while (burnOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
+            ColorChange(burnColor);
 
             if (1 == burnOverlappingCount)
                 damage = hpMax * StatusConstants.Instance.BurnInfo.value;
@@ -582,6 +584,7 @@ public class Enemy : Character
         }
         abnormalComponents.BurnEffect.SetActive(false);
         isBurning = false;
+        ColorChange(baseColor);
     }
 
     IEnumerator DelayStateCoroutine()
@@ -615,11 +618,14 @@ public class Enemy : Character
 
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
+            ColorChange(freezeColor);
+
             abnormalStatusTime[type] += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
         StopAbnormalStatus(AbnormalStatusType.FREEZE);
+        ColorChange(baseColor);
     }
 
     IEnumerator StunCoroutine(float effectiveTime)

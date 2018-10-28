@@ -91,8 +91,10 @@ public abstract class Character : MonoBehaviour
     protected float directionDegree;  // 바라보는 각도(총구 방향)
 
     protected bool isRightDirection;    // character 방향이 우측이냐(true) 아니냐(flase = 좌측)
-    Color red = Color.red;
-    Color white = Color.white;
+    protected Color redColor = Color.red;
+    protected Color burnColor = new Color(1, 0, 0);
+    protected Color freezeColor = new Color(.7f, .7f, 1);
+    protected Color poisonColor = new Color(.7f, 1, .7f);
     protected Color baseColor;
 
     protected LayerMask enemyLayer;
@@ -219,14 +221,19 @@ public abstract class Character : MonoBehaviour
     protected void AttackedEffect()
     {
         if(gameObject.activeSelf)
-            StartCoroutine(ColorChange(red));
+            StartCoroutine(CoroutineColorChange(redColor, 0.1f));
     }
 
-    IEnumerator ColorChange(Color color)
+    protected IEnumerator CoroutineColorChange(Color color,float seconds)
     {
         spriteRenderer.color = color;
-        yield return YieldInstructionCache.WaitForSeconds(0.1f);
+        yield return YieldInstructionCache.WaitForSeconds(seconds);
         spriteRenderer.color = baseColor;
+    }
+
+    protected void ColorChange(Color color)
+    {
+        spriteRenderer.color = color;
     }
     #endregion
     public virtual void Init()
