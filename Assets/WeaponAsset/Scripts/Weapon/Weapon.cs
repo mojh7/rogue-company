@@ -63,7 +63,6 @@ public class Weapon : Item
     public int GetWeaponId() { return weaponId; }
     public AttackType GetAttackType() { return attackType; }
     #endregion
-
     #region UnityFunction
     private void Update()
     {
@@ -73,7 +72,7 @@ public class Weapon : Item
 
     #region initialization
     //6.02 이유성
-    public void Init(WeaponInfo weaponInfo, CharacterInfo.OwnerType ownerType = CharacterInfo.OwnerType.Player)
+    public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.Player)
     {
         this.ownerType = ownerType;
         // weaponInfo Clone
@@ -225,7 +224,7 @@ public class Weapon : Item
         }
     }
 
-    // 실제 공격 함수, 무기 상태를 Attack으로 바꾸고 공격 패턴 한 사이클 실행.
+    // 실제 공격 함수, 무기 상태를 Attack으로 바꾸고 공격 패턴 n사이클 실행.
     public void Attack(float damageIncreaseRate)
     {
         if(HasCostForAttack())
@@ -273,6 +272,11 @@ public class Weapon : Item
             }
             // 차징 UI off
             weaponManager.UpdateChargingUI(0);
+        }
+
+        if(WeaponType.LASER == info.weaponType)
+        {
+            Reload();
         }
     }
 
@@ -356,10 +360,10 @@ public class Weapon : Item
         muzzleFlashObj.SetActive(false);
     }
 
-    // 공격 패턴 한 사이클.
+    // 공격 패턴 사이클.
     private IEnumerator PatternCycle(float damageIncreaseRate)
     {
-        // 총구 위치 보기용
+        // 총구 위치 보기용 for Debug
         if(OwnerType.Player == ownerType)
         {
             if(DebugSetting.Instance.showsMuzzlePos)
@@ -403,7 +407,7 @@ public class Weapon : Item
                     CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime);
                     info.bulletPatterns[j].StartAttack(damageIncreaseRate, ownerType);
                     info.bulletPatterns[j].IncreaseAdditionalAngle();
-                    if (info.bulletPatterns[j].GetDelay() > 0)
+                    if (0 < info.bulletPatterns[j].GetDelay())
                     {
                         yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[j].GetDelay());
                     }
@@ -414,15 +418,28 @@ public class Weapon : Item
         {
             info.bulletPatterns[i].InitAdditionalAngle();
         }
-            
-        Reload();
+
+        if (WeaponType.LASER != info.weaponType)
+        {
+            Reload();
+        }
+        else
+        {
+            weaponState = WeaponState.Idle;
+        }
     }
 
     // 재장전 코루틴, cooldown 시간 이후의 WeaponState가 Idle로 됨.
     private IEnumerator ReloadTime()
     {
         weaponState = WeaponState.Reload;
-        yield return YieldInstructionCache.WaitForSeconds(info.cooldown);
+        // WaitForSeconds(0)인 경우 무시하고 진행되는게 아니고 코루틴이 한 프레임 밀리고 실행 됨. 
+        // 레이저 cost 처리할 때 0.5배속으로 감소 됨 그래서 if문 하나 걸어둠.
+        // info.bulletPatterns[j].GetDelay() 경우도 그래서 0 이상일 때 되게 함.
+        if (0 < info.cooldown)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(info.cooldown);
+        }
         weaponState = WeaponState.Idle;
     }
 

@@ -208,6 +208,8 @@ public class LaserUpdateProperty : UpdateProperty
     private Vector2 laserSize;
     private bool AttackAble;
 
+    private float timeForCollision;
+
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
@@ -217,7 +219,7 @@ public class LaserUpdateProperty : UpdateProperty
         ownerPos = bullet.GetOwnerPos();
         ownerDirVec = bullet.GetOwnerDirVec();
         ownerDirDegree = bullet.GetOwnerDirDegree();
-        
+
         addDirVecMagnitude = bullet.GetAddDirVecMagnitude();
         additionalVerticalPos = bullet.GetAdditionalVerticalPos();
         lineRenderer = bullet.GetLineRenderer();
@@ -225,6 +227,8 @@ public class LaserUpdateProperty : UpdateProperty
         laserSize = new Vector2(0.1f, bullet.info.laserSize);
         // 일단 Player 레이저가 Enemy에게 적용 하는 것만
         layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy") | 1 << LayerMask.NameToLayer("TransparentFX"));
+
+        timeForCollision = 0;
     }
 
     public override UpdateProperty Clone()
@@ -254,8 +258,13 @@ public class LaserUpdateProperty : UpdateProperty
             lineRenderer.SetPosition(0, pos);
             lineRenderer.SetPosition(1, hit.point);
             bullet.LaserEndPoint.position = hit.point;
-            delCollisionBullet(hit.collider);
+            if(timeForCollision > BulletConstants.laserCollisionPeriod)
+            {
+                timeForCollision -= BulletConstants.laserCollisionPeriod;
+                delCollisionBullet(hit.collider);
+            }
         }
+        timeForCollision += Time.fixedDeltaTime;
     }
 }
 

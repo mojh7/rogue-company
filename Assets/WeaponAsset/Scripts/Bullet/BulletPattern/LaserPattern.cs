@@ -14,8 +14,11 @@ public class LaserPattern : BulletPattern
     private LaserPatternInfo info;
     private DelDestroyBullet destroyBullet;
     private bool canCreateLaser;
+    private float timeForUseAmmo;
 
     private Bullet createdBullet;
+
+    private const float periodOfUsingLaserAmmo = 0.1f;
 
     // 기존에 저장된 정보 이외의 내용으로 변수 초기화
     public LaserPattern(LaserPatternInfo patternInfo, CharacterInfo.OwnerType ownerType)
@@ -32,20 +35,7 @@ public class LaserPattern : BulletPattern
         info.bulletInfo.Init();
         canCreateLaser = true;
 
-        /*
-        // weapon 정보 덮어 쓰려 할 때
-        if (weapon.info.damage != 0)
-        {
-            info.damage = weapon.info.damage;
-        }
-        if (weapon.info.knockBack != 0)
-        {
-            info.knockBack = weapon.info.knockBack;
-        }
-        if (weapon.info.criticalChance != 0)
-        {
-            info.criticalChance = weapon.info.criticalChance;
-        }*/
+        timeForUseAmmo = 0;
     }
 
     public override BulletPattern Clone()
@@ -56,11 +46,24 @@ public class LaserPattern : BulletPattern
     public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)
     {
         this.ownerType = ownerType;
+        if(timeForUseAmmo > periodOfUsingLaserAmmo)
+        {
+            timeForUseAmmo -= periodOfUsingLaserAmmo;
+            weapon.UseAmmo();
+        }
+        if (false == weapon.HasCostForAttack())
+        {
+            StopAttack();
+            return;
+        }
+
         if (canCreateLaser == true)
         {
             canCreateLaser = false;
             CreateBullet(damageIncreaseRate);
         }
+        timeForUseAmmo += Time.deltaTime;
+        //Debug.Log(timeForUseAmmo + ", " + Time.time + ", " + Time.deltaTime +", " + Time.realtimeSinceStartup);
     }
 
     public override void StopAttack()

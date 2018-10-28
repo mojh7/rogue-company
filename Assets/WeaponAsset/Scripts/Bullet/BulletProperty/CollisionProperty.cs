@@ -307,7 +307,7 @@ class LaserCollisionProperty : CollisionProperty
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
-        transferBulletInfo.damage = bullet.info.damage * Time.fixedDeltaTime;
+        transferBulletInfo.damage = bullet.info.damage * BulletConstants.laserCollisionPeriod;
     }
 
     protected override void Bounce(ref Collision2D coll)
