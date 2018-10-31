@@ -1,0 +1,48 @@
+name,weaponType,attackAniType,rating,chargeTimeMax,criticalChance,damage,staminaConsumption,cooldown,ammoCapacity,range,bulletSpeed
+삼지창,SPEAR,Strike,E,0,0.01,5,0,0.625,0,0,0
+스탠드옷걸이,SPEAR,Strike,E,0,0.03,6,1,0.9,0,0,0
+학주의 몽둥이,CLUB,Swing,D,0.4,0.06,9,2,0.9,0,0,0
+장우산,CLUB,Blow,D,0f,0.07,8,2,0.5,0,0,0
+골프채,SPORTING_GOODS,Swing,C,0.5,0.12,13,3,1,0,0,0
+하키채,SPORTING_GOODS,Swing,B,0.7,0.17,15,5,1,0,0,0
+커터칼,SWORD,Strike,D,0,0.07,8,2,0.7,0,0,0
+반쪽 가위,SWORD,Blow,E,0,0.05,6,1,0.6,0,0,0
+대걸레,CLEANING_TOOL,Strike,D,0,0.09,9,2,0.7,0,0,0
+먼지떨이,CLEANING_TOOL,Blow,E,0,0.02,7,1,0.6,0,0,0
+권투 글러브,KNUCKLE,Punch,E,0,0.03,5,1,0.5,0,0,0
+너클,KNUCKLE,Punch,C,0,0.13,11,3,0.75,0,0,0
+일반 권총,PISTOL,Shot,E,0,0.01,3,0,0.4,-1,20,13
+볼펜 뚜껑 권총,PISTOL,Shot,E,0,0.02,4,0,0.5,260,20,15
+딱풀 뚜껑 권총,PISTOL,Shot,D,0,0.04,6,0,0.7,230,20,13.5
+사인펜 뚜껑 권총,PISTOL,Shot,D,0,0.06,8,0,0.7,220,20,15
+F-ST,SHOTGUN,Shot,E,0,0.01,3,0,0.1,270,3,10
+키보드 산탄총,SHOTGUN,Shot,D,0,0.05,6,0,0.3,230,4,11
+의자 바퀴 산탄총,SHOTGUN,Shot,D,0,0.07,7,0,0.3,200,4,11
+스테이플러,SHOTGUN,Shot,E,0,0.02,5,0,0.3,252,2,14
+선풍기 날개 산탄총,SHOTGUN,Shot,C,0,0.10,10,0,0.3,160,4,14
+펜꽂이 산탄총,SHOTGUN,Shot,D,0,0.07,8,0,0.3,180,4,13
+S-35K,MACHINEGUN,Shot,D,0,0.05,6,0,0.1,230,20,20
+다트핀 기관총,MACHINEGUN,Shot,C,0,0.12,11,0,0.2,160,20,25
+골프공 기관총,MACHINEGUN,Shot,D,0,0.07,7,0,0.25,190,20,22
+폰형 압정 기관총,MACHINEGUN,Shot,C,0,0.12,12,0,0.25,150,20,25
+K2 소총,SNIPER_RIFLE,Shot,C,0.5,0.11,9,0,1,160,20,30
+부러진 분필 소총,SNIPER_RIFLE,Shot,D,0.5,0.07,7,0,0.8,190,20,25
+분필 소총,SNIPER_RIFLE,Shot,B,0.5,0.16,15,0,1.2,130,20,33
+AAA 건전지 소총,SNIPER_RIFLE,Shot,A,1,0.20,23,0,1.3,105,20,35
+레이저건,LASER,None,D,0,0.04,7,0,0,200,20,0
+포인터,LASER,None,C,0,0.11,12,0,0.7,155,20,0
+펜형수정액,LASER,None,C,0,0.07,8,0,0,170,20,0
+양궁,BOW,None,C,0.5,0.10,10,0,0.6,155,20,24
+석궁,BOW,None,B,0.5,0.16,15,0,0.8,145,20,28
+볼펜심 석궁,BOW,None,A,1,0.25,20,0,1,100,20,30
+샤프심 석궁,BOW,None,B,1,0.17,17,0,1,130,20,30
+쓰레기 뭉치,TRASH,None,E,0,0.01,3,0,0.6,250,20,12
+깡통,TRASH,None,D,0,0.04,6,0,0.6,240,20,12
+화염 지팡이,WAND,Shot,C,0,0.09,11,0,0.45,160,20,13
+떡갈나무 완드,WAND,Shot,C,0,0.10,10,0,0.8,160,20,13
+기타 피크,OTHER,Shot,D,0,0.04,6,0,0.8,231,20,16
+지뢰,BOMB,None,E,0,0.05,0,0,0.6,50,2,0
+서류 지뢰,BOMB,None,D,0,0.07,0,0,0.6,30,2,0
+끈끈이,TRAP,None,E,0,0.03,0,0,0.6,50,0,0
+덫,TRAP,None,D,0,0.10,0,0,0.6,30,0,0
+원판형 압정,TRAP,None,D,0,0.10,0,0,0.6,30,0,0

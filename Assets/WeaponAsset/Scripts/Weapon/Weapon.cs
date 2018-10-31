@@ -110,13 +110,14 @@ public class Weapon : Item
         canChargedAttack = true;
         chargedTime = 0;
         if (WeaponType.SPEAR == info.weaponType || WeaponType.CLUB == info.weaponType || WeaponType.SPORTING_GOODS == info.weaponType ||
-            WeaponType.SWORD == info.weaponType || WeaponType.CLEANING_TOOL == info.weaponType || WeaponType.KNUCKLE == info.weaponType)
+            WeaponType.SWORD == info.weaponType || WeaponType.CLEANING_TOOL == info.weaponType || WeaponType.KNUCKLE == info.weaponType ||
+            WeaponType.MELEE_SPECIAL == info.weaponType)
         {
             attackType = AttackType.MELEE;
         }
         else if (WeaponType.PISTOL == info.weaponType || WeaponType.SHOTGUN == info.weaponType || WeaponType.MACHINEGUN == info.weaponType ||
             WeaponType.SNIPER_RIFLE == info.weaponType || WeaponType.LASER == info.weaponType || WeaponType.BOW == info.weaponType ||
-            WeaponType.TRASH == info.weaponType || WeaponType.WAND == info.weaponType || WeaponType.OTHER == info.weaponType)
+            WeaponType.WAND == info.weaponType || WeaponType.RANGED_SPECIAL == info.weaponType)
         {
             attackType = AttackType.RANGED;
         }
