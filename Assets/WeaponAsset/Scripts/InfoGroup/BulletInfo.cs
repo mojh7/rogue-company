@@ -40,6 +40,10 @@ public class BulletInfo : ScriptableObject
     [SerializeField]
     public BulletType bulletType;
 
+    [Header("아직 미 적용")]
+    [SerializeField]
+    public BulletPresetType bulletPresetType;
+
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
     [Header("상태 이상, CC기 정보")]
