@@ -66,6 +66,7 @@ public class Bullet : MonoBehaviour
     private InitVector initVector;
 
     private bool active;
+    private BulletPresetInfo bulletPresetInfo;
     #endregion
 
     #region getter / setter
@@ -183,6 +184,12 @@ public class Bullet : MonoBehaviour
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
         this.updateDelayTime = updateDelayTime;
+        Debug.Log("a : " + info.bulletPresetType);
+        if(BulletPresetType.None != info.bulletPresetType)
+        {
+            this.bulletPresetInfo = BulletPresets.Instance.bulletPresetInfoList[(int)info.bulletPresetType - 1];
+            Debug.Log("z : " + bulletPresetInfo.sprite);
+        }
 
         // 처음 위치 설정
         objTransform.position = pos;
@@ -355,6 +362,16 @@ public class Bullet : MonoBehaviour
         lineRenderer.positionCount = 0;
         lineRenderer.enabled = false;
         laserViewObj.SetActive(false);
+
+        if (BulletPresetType.None != info.bulletPresetType)
+        {
+            objTransform.localScale = new Vector3(bulletPresetInfo.scaleX, bulletPresetInfo.scaleY, 1f);
+            info.bulletSprite = bulletPresetInfo.sprite;
+            info.colliderType = bulletPresetInfo.colliderType;
+            info.spriteAnimation = bulletPresetInfo.spriteAnimation;
+            Debug.Log(bulletPresetInfo.sprite);
+        }
+
         ActivateColiider();
         // sprite 애니메이션 적용
         if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
@@ -379,6 +396,7 @@ public class Bullet : MonoBehaviour
         else
         {
             spriteAnimatorObj.SetActive(false);
+            Debug.Log(info.bulletSprite);
             spriteRenderer.sprite = info.bulletSprite;
             if(OwnerType.Player == ownerType)
             {

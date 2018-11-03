@@ -209,6 +209,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.memo = memo;
         clonedInfo.ownerType = ownerType;
         clonedInfo.bulletType = bulletType;
+        clonedInfo.bulletPresetType = bulletPresetType;
 
         clonedInfo.bulletName = bulletName;
         clonedInfo.statusEffectInfo = new StatusEffectInfo(statusEffectInfo);
