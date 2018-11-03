@@ -82,5 +82,6 @@ public class EconomySystem : MonoBehaviourSingleton<EconomySystem> {
         ret /= 10;
         return ret;
     }
+
 }
     

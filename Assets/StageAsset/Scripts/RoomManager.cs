@@ -16,6 +16,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     int mapSize;
     int clearedRoom;
     int cardNum;
+    int ammoNum;
+
     public bool isRoomClear()
     {
         return currentRoom.isClear;
@@ -39,6 +41,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     public void InitRoomList()
     {
+        ammoNum = 2;
         cardNum = 4;
         clearedRoom = 0;
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
@@ -147,7 +150,22 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             _room.customObjects[j].SetActive(false);
     }
 
-    void DrowCard()
+    void DropAmmo()
+    {
+        if (ammoNum <= 0 || clearedRoom <= 0)
+            return;
+        int eachCardLow = ammoNum / clearedRoom;
+        int eachCardHigh = (ammoNum + clearedRoom - 1) / clearedRoom;
+
+        int ret = Random.Range(eachCardLow, eachCardHigh + 1);
+        if (ret == 1)
+        {
+            ammoNum--;
+            ItemManager.Instance.DropAmmo(currentRoom.GetAvailableArea());
+        }
+    }
+
+    void DropCard()
     {
         if (cardNum <= 0 || clearedRoom <= 0)
             return;
@@ -164,7 +182,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void ClearRoom()
     {
-        DrowCard();
+        DropCard();
         clearedRoom--;
         currentRoom.isClear = true;
 

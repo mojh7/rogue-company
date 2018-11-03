@@ -228,6 +228,11 @@ public class Player : Character
     #endregion
 
     #region function
+    private void ScaleChange(float scale)
+    {
+        this.transform.localScale = Vector3.one * scale;
+        this.GetComponentInChildren<Camera>().transform.localScale = Vector3.one / scale;
+    }
     public void UpdateMuzzlePosition(Vector3 pos, bool visible)
     {
         muzzlePosObj.SetActive(visible);
@@ -647,6 +652,8 @@ public class Player : Character
         IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
         damageImmune = itemUseEffect.isImmuneDamage;
         abnormalImmune = itemUseEffect.isImmuneAbnormal;
+        if(itemUseEffect.charScale != 0)
+            ScaleChange(itemUseEffect.charScale);
     }
 
     protected override bool IsAbnormal()

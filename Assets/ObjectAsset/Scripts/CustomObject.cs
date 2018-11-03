@@ -136,6 +136,8 @@ public class CustomObject : MonoBehaviour
 
     public virtual void DeIndicateInfo() { }
 
+    public virtual void Delete() { }
+
     public void LoadAwake()
     {
         Awake();
@@ -1072,6 +1074,12 @@ public class StoreItem : CustomObject
     {
         textMesh.text = "";
         childTextMesh.text = textMesh.text;
+    }
+
+    public override void Delete()
+    {
+        base.Delete();
+        Destroy(innerObject);
     }
 }
 

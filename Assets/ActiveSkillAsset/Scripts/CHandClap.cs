@@ -28,7 +28,7 @@ public class CHandClap : SkillData
     private void HandClap(Character user, object temporary, float amount)
     {
         Vector3 pos = (Vector3)temporary;
-
+        
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = pos;
         gameObject.AddComponent<CollisionSkill>().Init(user, amount, "handClap");

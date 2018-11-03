@@ -50,6 +50,7 @@ public class WeaponTargetEffect : ItemUseEffect
      */
     #region addProperties
     [Header("on / off 속성")]
+    public bool homing;                          // 유도탄 기능/ 아직 value 밖에 읎어
     public bool increasePierceCount;             // 무기 관통 횟수 1회 추가, 추후 합 옵션으로 이동 할 수도 있음.
     public bool becomesSpiderMine;               // 함정 무기 스파이더 마인화
     public bool bounceAble;                      // 총알이 벽에 1회 튕길 수 있음.

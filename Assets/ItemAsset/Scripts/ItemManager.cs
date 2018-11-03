@@ -5,30 +5,30 @@ using UnityEngine;
 public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     #region boxPercentage
     private int[,] iEventboxPercentage =
-    {   //not,S,A,B,C,D,E,B 
-/*floor*/{  0,    0,     0,     20,     80,     20,     0 },
-         {  0,    0,     0,     10,     80,     10,     0 },
-         {  0,    0,    10,     80,     10,      0,     0 },
-         {  0,   10,    80,     10,      0,      0,     0 },
-         {  0,   20,    90,      0,      0,      0,     0 }
+    {   //not,S,A,B,C,D,E
+/*floor*/{  0,    5,    10,     20,     80,     20,    10 },
+         {  0,    8,    10,     10,     80,     10,    10 },
+         {  0,   10,    10,     80,     10,     10,    10 },
+         {  0,   10,    80,     10,     10,     10,    10 },
+         {  0,   20,    90,     10,     10,     10,    10 }
     };
 
     private int[,] iBossboxPercentage =
-   {   //not,S,A,B,C,D,E,B 
-/*floor*/{  0,    0,     0,      0,     70,     30,     0 },
-         {  0,    0,     0,     70,     30,      0,     0 },
-         {  0,    0,    70,     30,      0,      0,     0 },
-         {  0,   50,    50,      0,      0,      0,     0 },
-         {  0,  100,     0,      0,      0,      0,     0 }
+   {   //not,S,A,B,C,D,E
+/*floor*/{  0,    5,    10,     10,     70,     30,    10 },
+         {  0,    5,    10,     70,     30,     10,    10 },
+         {  0,    5,    70,     30,     10,     10,    10 },
+         {  0,   50,    50,     10,     10,     10,    10 },
+         {  0,  100,    30,     20,     10,     10,    10 }
     };
 
     private int[,] iRestboxPercentage =
-{   //not,S,A,B,C,D,E,B 
-/*floor*/{  0,    0,     0,      0,      0,     40,    60 },
-         {  0,    0,     0,      0,     10,     80,    10 },
-         {  0,    0,     0,     10,     80,     10,     0 },
-         {  0,    0,    10,     80,     10,      0,     0 },
-         {  0,    0,    40,     60,      0,      0,     0 }
+    {   //not,S,A,B,C,D,E
+/*floor*/{  0,    2,     3,      4,      5,     40,    60 },
+         {  0,    4,     7,      8,     10,     80,    10 },
+         {  0,    6,     9,     10,     80,     10,     5 },
+         {  0,   10,    10,     80,     10,      5,     5 },
+         {  0,   10,    40,     60,      5,      5,     5 }
     };
     #endregion
     [SerializeField]
@@ -37,6 +37,8 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     private Sprite coinSprite;
     [SerializeField]
     private Sprite cardSprite;
+    [SerializeField]
+    private Sprite ammoSprite;
 
 
     Queue<GameObject> objs;
@@ -49,6 +51,14 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     }
     #endregion
     #region Func
+    public void DropAmmo(Vector3 pos)
+    {
+        GameObject ammo = ResourceManager.Instance.itemPool.GetPooledObject();
+        ammo.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.cardSprite;
+        ammo.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        ammo.AddComponent<Ammo>();
+        ItemManager.Instance.CreateItem(ammo.GetComponent<Ammo>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+    }
     public void DropCard(Vector3 pos)
     {
         GameObject card = ResourceManager.Instance.itemPool.GetPooledObject();

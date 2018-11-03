@@ -7,23 +7,28 @@ using UnityEngine;
 public class CharacterTargetEffect : ItemUseEffect
 {
     [Header("합 옵션")]
-    public float recoveryHp;
-    public int recoveryStamina;
-    public int armorIncrement;
-    public int gettingStaminaIncrement;
+    public float    recoveryHp;
+    public int      recoveryStamina;
+    public int      armorIncrement;
+    public int      gettingStaminaIncrement;
 
     [Header("곱 옵션 - 합 연산")]
     public float moveSpeedIncrement;
     public float rewardOfEndGameIncrement;          // 게임 끝날 때 보상 증가율
 
+    public float hpMaxRatio;
+    public float hpRatio;
     [Header("곱 옵션 - 곱 연산")]
     public float discountRateOfVendingMachineItems; // 자판기 아이템의 할인율
     public float discountRateOfCafeteriaItems;      // 카페테리아 아이템의 할인율
     public float discountRateAllItems;              // 모든 아이템의 할인율
 
+    public float skillGage;
+    public float steminaGage;
     // 미정
     public float staminaMaxIncrement;
-    // public float hpMaxIncrement;
+
+    public float charScale;
 
     [Header("on/ off 속성")]
     public bool canDrainHp; // 4. 흡혈 : 적 7명 처치당 체력 +1 회복
