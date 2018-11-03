@@ -63,6 +63,7 @@ public class PlayerData : ScriptableObject
     public float HpMax
     {
         get { return hpMax; }
+        set { hpMax = value; }
     }
     public float MoveSpeed
     {

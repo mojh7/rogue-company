@@ -27,6 +27,9 @@ public class Player : Character
     private PlayerData playerData;
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
+    private float skillGageMultiple;
+    private float steminaGageMultiple;
+
     // 윤아 0802
     private Stamina stamina;
 
@@ -217,6 +220,8 @@ public class Player : Character
 
     public void InitPlayerData(PlayerData playerData)
     {
+        skillGageMultiple = 1;
+        steminaGageMultiple = 1;
         Debug.Log("InitPlayerData hp : " + playerData.Hp);
         this.playerData = playerData;
         originPlayerData = playerData.Clone();
@@ -410,7 +415,7 @@ public class Player : Character
     public void AddKilledEnemyCount()
     {
         
-        playerData.SkillGauge += 10;
+        playerData.SkillGauge += (int)(10 * skillGageMultiple);
         if (playerData.SkillGauge >= 100)
             playerData.SkillGauge = 100;
         controller.ActiveSkill(playerData.SkillGauge, 100);
@@ -652,7 +657,12 @@ public class Player : Character
         IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
         damageImmune = itemUseEffect.isImmuneDamage;
         abnormalImmune = itemUseEffect.isImmuneAbnormal;
-        if(itemUseEffect.charScale != 0)
+        playerData.Hp = playerData.Hp * itemUseEffect.hpRatio;
+        playerData.HpMax = playerData.HpMax * itemUseEffect.hpMaxRatio;
+        skillGageMultiple = itemUseEffect.skillGage;
+        steminaGageMultiple = itemUseEffect.steminaGage;
+
+        if (itemUseEffect.charScale != 0)
             ScaleChange(itemUseEffect.charScale);
     }
 

@@ -6,8 +6,8 @@ using UnityEngine;
 public struct RateUpperPercent
 {
     public bool Act;
-    [Header("S,A,B,C,D,E")]
-    public List<float> percent;
+    [Header("Not, S,A,B,C,D,E")]
+    public List<int> percent;
 }
 ///<summary> 아이템 효과 상세 내용 및 대상 </summary>
 [CreateAssetMenu(fileName = "InGameTargetEffect", menuName = "ItemAsset/ItemUseEffect/InGameTargetEffect", order = 2)]

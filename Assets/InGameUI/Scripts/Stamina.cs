@@ -68,7 +68,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     public void RecoverStamina(int recoveryAmount = 3)
     {
         recoveryAmount += PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaIncrement;
-        stamina += recoveryAmount;
+        stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.steminaGage);
         staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
 
         if (staminaImage.fillAmount >= maxStamina)

@@ -167,18 +167,18 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         int length = System.Enum.GetValues(typeof(Rating)).Length;
         for (int i = 0; i < length; i++)
         {
-            total += array[floor, i];
+            total += array[floor, i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
         }
         float randomPoint = Random.value * total;
         for (int i = 0; i < length; i++)
         {
-            if (randomPoint < array[floor,i])
+            if (randomPoint < array[floor,i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i])
             {
                 return (Rating)i;
             }
             else
             {
-                randomPoint -= array[floor, i];
+                randomPoint -= array[floor, i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
             }
         }
 

@@ -126,11 +126,11 @@ public class BuffManager : MonoBehaviour
             discountRateOfCafeteriaItems = 1f,
             discountRateAllItems = 1f,
 
-            skillGage = 0,
-            steminaGage = 0,
+            skillGage = 1,
+            steminaGage = 1,
 
             staminaMaxIncrement = 1f,
-            charScale = 0,
+            charScale = 1,
 
             canDrainHp = false,
             increaseStaminaWhenkillingEnemies = false,
@@ -144,7 +144,7 @@ public class BuffManager : MonoBehaviour
     {
         inGameTargetEffectTotal = new InGameTargetEffect
         {
-            rateUpperPercent = new RateUpperPercent { Act = false, percent = new List<float>(6) { } },
+            rateUpperPercent = new RateUpperPercent { Act = false, percent = new List<int>(7) { } },
             bargain = 0,
             megaCoin = 0,
             buffAstrologer = false
@@ -374,7 +374,6 @@ public class BuffManager : MonoBehaviour
         // 곱 옵션 - 합 연산
         CharacterTargetEffectTotal.moveSpeedIncrement += targetEffect.moveSpeedIncrement * sign;
         CharacterTargetEffectTotal.rewardOfEndGameIncrement += targetEffect.rewardOfEndGameIncrement * sign;
-        //CharacterTargetEffectTotal += targetEffect * sign;
 
         CharacterTargetEffectTotal.hpRatio += targetEffect.hpRatio * sign;
         CharacterTargetEffectTotal.hpMaxRatio += targetEffect.hpMaxRatio * sign;
@@ -453,7 +452,7 @@ public class BuffManager : MonoBehaviour
         if(sign == 1)
         {
             inGameTargetEffectTotal.rateUpperPercent.Act = targetEffect.rateUpperPercent.Act;
-            for(int i=0;i<6;i++)
+            for (int i = 0; i < 7; i++)
             {
                 inGameTargetEffectTotal.rateUpperPercent.percent[i] += targetEffect.rateUpperPercent.percent[i];
             }
