@@ -21,7 +21,7 @@ public class BuffManager : MonoBehaviour
     // 등록, 제거 여러 개 일 때 true, false 처리하기 위해서
     public enum CharacterBoolPropertyType { NONE, IS_NOT_CONSUME_STAMINA, IS_NOT_CONSUME_AMMO, END }
     public enum WeaponBoolPropertyType { NONE, END }
-    
+
     #region variables
     private List<ItemUseEffect> passiveEffects;
     private int passiveEffectsLength;
@@ -38,6 +38,7 @@ public class BuffManager : MonoBehaviour
     private Character owner;
 
     private CharacterTargetEffect characterTargetEffectTotal;
+    private InGameTargetEffect inGameTargetEffectTotal;
 
     private int[] characterBoolPropertyCounts;
     private int[] weaponBoolPropertyCounts;
@@ -65,6 +66,10 @@ public class BuffManager : MonoBehaviour
     {
         get { return characterTargetEffectTotal; }
     }
+    public InGameTargetEffect InGameTargetEffectTotal
+    {
+        get { return inGameTargetEffectTotal; }
+    }
     public WeaponTargetEffect[] WeaponTargetEffectTotal
     {
         get;
@@ -89,6 +94,7 @@ public class BuffManager : MonoBehaviour
         //characterTargetEffectsLength = 0;
         //weaponTargetEffectsLength = 0;
         InitCharacterTargetEffectTotal();
+        InitInGameTargetEffectTotal();
         InitWeaponTargetEffectTotal();
     }
 
@@ -132,6 +138,19 @@ public class BuffManager : MonoBehaviour
             isNotConsumeAmmo = false
         };
     }
+
+    /// <summary> 게임 대상 효과 종합 초기화 </summary>
+    public void InitInGameTargetEffectTotal()
+    {
+        inGameTargetEffectTotal = new InGameTargetEffect
+        {
+            rateUpperPercent = new RateUpperPercent { Act = false, percent = new List<float>(6) { } },
+            bargain = 0,
+            megaCoin = 0,
+            buffAstrologer = false
+        };
+    }
+
 
     /// <summary> 무기 대상 효과 종합 초기화 </summary>
     public void InitWeaponTargetEffectTotal()
@@ -211,6 +230,20 @@ public class BuffManager : MonoBehaviour
                     StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
             }
         }
+        else if(typeof(InGameTargetEffect) == itemUseEffect.GetType())
+        {
+            InGameTargetEffect targetEffect = itemUseEffect as InGameTargetEffect;
+            UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
+            if (effectiveTime > 0)
+            {
+                if (EffectApplyType.CONSUMABLEBUFF == effectApplyType)
+                {
+                    removeCoroutine = StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
+                }
+                else if (EffectApplyType.BUFF == effectApplyType)
+                    StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
+            }
+        }
         else
         {
             WeaponTargetEffect targetEffect = itemUseEffect as WeaponTargetEffect;
@@ -260,6 +293,26 @@ public class BuffManager : MonoBehaviour
                 break;
             case EffectApplyType.CONSUMABLEBUFF:
                 
+                break;
+            default:
+                break;
+        }
+        UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REMOVE);
+    }
+    /// <summary> 게임 대상 버프 제거 </summary> 
+    public void RemoveTargetEffect(InGameTargetEffect targetEffect, EffectApplyType effectApplyType)
+    {
+        switch (effectApplyType)
+        {
+            case EffectApplyType.BUFF:
+                buffEffects.Remove(targetEffect);
+                buffEffectsLength -= 1;
+                break;
+            case EffectApplyType.PASSIVE:
+                passiveEffects.Remove(targetEffect);
+                passiveEffectsLength -= 1;
+                break;
+            case EffectApplyType.CONSUMABLEBUFF:
                 break;
             default:
                 break;
@@ -380,6 +433,43 @@ public class BuffManager : MonoBehaviour
         PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
     }
 
+    public void UpdateTargetEffectTotal(InGameTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
+    {
+        int sign;
+
+        if (TargetEffectTotalUpdateType.REGISTER == updateType)
+        {
+            sign = 1;
+        }
+        // 제거
+        else
+        {
+            sign = -1;
+        }
+
+        // 퍼센트 옵션 가격 할인
+        inGameTargetEffectTotal.bargain += targetEffect.bargain * sign;
+
+        if(sign == 1)
+        {
+            inGameTargetEffectTotal.rateUpperPercent.Act = targetEffect.rateUpperPercent.Act;
+            for(int i=0;i<6;i++)
+            {
+                inGameTargetEffectTotal.rateUpperPercent.percent[i] += targetEffect.rateUpperPercent.percent[i];
+            }
+        }
+        else
+        {
+            inGameTargetEffectTotal.rateUpperPercent.Act = targetEffect.rateUpperPercent.Act;
+            for (int i = 0; i < 6; i++)
+            {
+                inGameTargetEffectTotal.rateUpperPercent.percent[i] -= targetEffect.rateUpperPercent.percent[i];
+            }
+        }
+        owner.ApplyItemEffect();
+        PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
+    }
+
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
     {
         for(int i = 0; i < targetEffect.weaponType.Length; i++)
@@ -478,6 +568,13 @@ public class BuffManager : MonoBehaviour
     #endregion
 
     private IEnumerator RemoveBuffEffect(CharacterTargetEffect targetEffect, float effectiveTime)
+    {
+        float time = 0;
+        yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
+        RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
+    }
+
+    private IEnumerator RemoveBuffEffect(InGameTargetEffect targetEffect, float effectiveTime)
     {
         float time = 0;
         yield return YieldInstructionCache.WaitForSeconds(effectiveTime);

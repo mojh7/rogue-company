@@ -137,6 +137,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         for (int i = 0; i < passive.EffectApplyTypes.Length; i++)
         {
             passive.EffectApplyTypes[i].SetItemId(passive.GetID());
+            passive.EffectApplyTypes[i].SetPos(this.transform.position);
             passive.EffectApplyTypes[i].UseItem();
         }
         // PlayerBuffManager.Instance.BuffManager.RegisterItemEffect(itemUseEffect[i], BuffManager.EffectApplyType.PASSIVE, itemId);
