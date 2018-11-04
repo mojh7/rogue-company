@@ -18,6 +18,8 @@ public class CharacterTargetEffect : ItemUseEffect
 
     public float hpMaxRatio;
     public float hpRatio;
+    public float charScale;
+
     [Header("곱 옵션 - 곱 연산")]
     public float discountRateOfVendingMachineItems; // 자판기 아이템의 할인율
     public float discountRateOfCafeteriaItems;      // 카페테리아 아이템의 할인율
@@ -28,7 +30,6 @@ public class CharacterTargetEffect : ItemUseEffect
     // 미정
     public float staminaMaxIncrement;
 
-    public float charScale;
 
     [Header("on/ off 속성")]
     public bool canDrainHp; // 4. 흡혈 : 적 7명 처치당 체력 +1 회복

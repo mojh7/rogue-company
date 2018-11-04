@@ -120,6 +120,7 @@ public class BuffManager : MonoBehaviour
             rewardOfEndGameIncrement = 1f,
             hpMaxRatio = 1,
             hpRatio = 1,
+            charScale = 1f,
 
             // 곱 옵션 - 곱 연산
             discountRateOfVendingMachineItems = 1f,
@@ -130,7 +131,6 @@ public class BuffManager : MonoBehaviour
             steminaGage = 1,
 
             staminaMaxIncrement = 0f,
-            charScale = 1,
 
             canDrainHp = false,
             increaseStaminaWhenkillingEnemies = false,
@@ -377,6 +377,7 @@ public class BuffManager : MonoBehaviour
 
         CharacterTargetEffectTotal.hpRatio += targetEffect.hpRatio * sign;
         CharacterTargetEffectTotal.hpMaxRatio += targetEffect.hpMaxRatio * sign;
+        CharacterTargetEffectTotal.charScale += targetEffect.charScale * sign;
 
         // 곱 옵션 - 곱 연산
         if (1 == sign)
@@ -387,7 +388,6 @@ public class BuffManager : MonoBehaviour
             CharacterTargetEffectTotal.skillGage *= targetEffect.skillGage;
             CharacterTargetEffectTotal.steminaGage *= targetEffect.steminaGage;
             CharacterTargetEffectTotal.staminaMaxIncrement *= targetEffect.staminaMaxIncrement;
-            CharacterTargetEffectTotal.charScale *= targetEffect.charScale;
 
             //CharacterTargetEffectTotal *= (1.0f - targetEffect);
         }
@@ -399,7 +399,6 @@ public class BuffManager : MonoBehaviour
             CharacterTargetEffectTotal.skillGage /= targetEffect.skillGage;
             CharacterTargetEffectTotal.steminaGage /= targetEffect.steminaGage;
             CharacterTargetEffectTotal.staminaMaxIncrement /= targetEffect.staminaMaxIncrement;
-            CharacterTargetEffectTotal.charScale /= targetEffect.charScale;
 
             //CharacterTargetEffectTotal /= (1.0f - targetEffect);
         }

@@ -659,9 +659,9 @@ public class Player : Character
         abnormalImmune = itemUseEffect.isImmuneAbnormal;
 
         if (itemUseEffect.hpRatio > 0)
-            playerData.Hp = playerData.Hp * itemUseEffect.hpRatio;
+            playerData.Hp = originPlayerData.Hp * itemUseEffect.hpRatio;
         if (itemUseEffect.hpMaxRatio > 0)
-            playerData.HpMax = playerData.HpMax * itemUseEffect.hpMaxRatio;
+            playerData.HpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
         if (itemUseEffect.skillGage > 0)
             skillGageMultiple = itemUseEffect.skillGage;
         if (itemUseEffect.steminaGage > 0)
