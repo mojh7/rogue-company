@@ -88,18 +88,6 @@ public class Player : Character
             return controller;
         }
     }
-    public int GetStamina()
-    {
-        return playerData.Stamina;
-    }
-    public int GetSkillGauage()
-    {
-        return playerData.SkillGauge;
-    }
-    public void SetStamina(int stamina)
-    {
-        playerData.Stamina = stamina;
-    }
     #endregion
 
     #region setter
@@ -146,7 +134,7 @@ public class Player : Character
         */
 
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        if (Input.GetKeyDown(KeyCode.Q))
             ActiveSkill();
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
@@ -235,6 +223,10 @@ public class Player : Character
     #region function
     private void ScaleChange(float scale)
     {
+        if(scale != this.transform.localScale.x)
+        {
+            ParticleManager.Instance.PlayParticle("Smoke", this.transform.position);
+        }
         this.transform.localScale = Vector3.one * scale;
         this.GetComponentInChildren<Camera>().transform.localScale = Vector3.one / scale;
     }
@@ -267,7 +259,7 @@ public class Player : Character
             scaleVector.x = -1f;
             spriteTransform.localScale = scaleVector;
         }
-        ParticleManager.Instance.PlayParticle("Smoke", transform.position, spriteRenderer.transform.localScale);
+        ParticleManager.Instance.PlayParticle("WalkSmoke", transform.position, spriteRenderer.transform.localScale);
         animationHandler.Skill(0);
         weaponManager.HideWeapon();
         StartCoroutine(Roll(directionVector));
@@ -444,6 +436,7 @@ public class Player : Character
     {
         if (playerData.Hp + recoveryHp <= playerData.HpMax)
         {
+            ParticleManager.Instance.PlayParticle("Hp", this.transform.position);
             playerData.Hp += recoveryHp;
             return true;
         }
@@ -652,6 +645,17 @@ public class Player : Character
     {
         CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
         playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement);
+        if(playerData.MoveSpeed != originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
+        {
+            if(playerData.MoveSpeed > originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
+            {
+                ParticleManager.Instance.PlayParticle("SpeedDown", this.transform.position  );
+            }
+            else
+            {
+                ParticleManager.Instance.PlayParticle("SpeedUp", this.transform.position);
+            }
+        }
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
         IsNotConsumeStamina = itemUseEffect.isNotConsumeStamina;
         IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
@@ -667,7 +671,7 @@ public class Player : Character
         if (itemUseEffect.steminaGage > 0)
             steminaGageMultiple = itemUseEffect.steminaGage;
 
-        if (itemUseEffect.charScale > 0)
+        if (itemUseEffect.charScale > 0 && itemUseEffect.charScale <= 2f)
             ScaleChange(itemUseEffect.charScale);
     }
 

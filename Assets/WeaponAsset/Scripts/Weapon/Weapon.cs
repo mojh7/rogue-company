@@ -66,7 +66,7 @@ public class Weapon : Item
     #region UnityFunction
     private void Update()
     {
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt((transform.position.y - 0.26f) * 100);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt((transform.position.y - 0.5f) * 100);
     }
     #endregion
 
@@ -242,7 +242,7 @@ public class Weapon : Item
             Debug.Log("총알 혹은 스테미너 부족으로 인한 공격 실패");
             // UI 에니메이션 실행
             Handheld.Vibrate(); // 진동 효과
-            ControllerUI.Instance.WeaponSwitchButton.StartShake(1.5f, 1.5f, 1);
+            ControllerUI.Instance.WeaponSwitchButton.StartShake(2f, 2f, 1);
         }
     }
 

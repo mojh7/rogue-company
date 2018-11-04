@@ -67,6 +67,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     /// </summary>
     public void RecoverStamina(int recoveryAmount = 3)
     {
+        ParticleManager.Instance.PlayParticle("Stemina", player.GetPosition());
         recoveryAmount += PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaIncrement;
         stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.steminaGage);
         staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
