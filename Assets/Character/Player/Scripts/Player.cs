@@ -657,12 +657,17 @@ public class Player : Character
         IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
         damageImmune = itemUseEffect.isImmuneDamage;
         abnormalImmune = itemUseEffect.isImmuneAbnormal;
-        playerData.Hp = playerData.Hp * itemUseEffect.hpRatio;
-        playerData.HpMax = playerData.HpMax * itemUseEffect.hpMaxRatio;
-        skillGageMultiple = itemUseEffect.skillGage;
-        steminaGageMultiple = itemUseEffect.steminaGage;
 
-        if (itemUseEffect.charScale != 0)
+        if (itemUseEffect.hpRatio > 0)
+            playerData.Hp = playerData.Hp * itemUseEffect.hpRatio;
+        if (itemUseEffect.hpMaxRatio > 0)
+            playerData.HpMax = playerData.HpMax * itemUseEffect.hpMaxRatio;
+        if (itemUseEffect.skillGage > 0)
+            skillGageMultiple = itemUseEffect.skillGage;
+        if (itemUseEffect.steminaGage > 0)
+            steminaGageMultiple = itemUseEffect.steminaGage;
+
+        if (itemUseEffect.charScale > 0)
             ScaleChange(itemUseEffect.charScale);
     }
 

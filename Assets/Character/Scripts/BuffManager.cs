@@ -118,8 +118,8 @@ public class BuffManager : MonoBehaviour
             // 곱 옵션 - 합 연산
             moveSpeedIncrement = 1f,
             rewardOfEndGameIncrement = 1f,
-            hpMaxRatio = 0,
-            hpRatio = 0,
+            hpMaxRatio = 1,
+            hpRatio = 1,
 
             // 곱 옵션 - 곱 연산
             discountRateOfVendingMachineItems = 1f,
@@ -129,7 +129,7 @@ public class BuffManager : MonoBehaviour
             skillGage = 1,
             steminaGage = 1,
 
-            staminaMaxIncrement = 1f,
+            staminaMaxIncrement = 0f,
             charScale = 1,
 
             canDrainHp = false,

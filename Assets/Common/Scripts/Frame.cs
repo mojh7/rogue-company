@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Frame : MonoBehaviour {
-
+    public UsableItemInfo itemInfo;
 #if UNITY_EDITOR
     float deltaTime = 0.0f;
 
     void Update()
     {
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            UsableItem usableItem = ObjectPoolManager.Instance.CreateUsableItem();
+            usableItem.Init(itemInfo);
+            ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
+        }
     }
 
     void OnGUI()
