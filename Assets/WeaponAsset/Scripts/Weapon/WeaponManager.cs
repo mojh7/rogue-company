@@ -308,6 +308,11 @@ public class WeaponManager : MonoBehaviour {
     #endregion
 
     #region Function
+    public bool FillUpAmmo()
+    {
+        return equipWeaponSlot[currentWeaponIndex].FillUpAmmo();
+    }
+
     public bool WeaponEmpty()
     {
         if (0 == weaponCount)

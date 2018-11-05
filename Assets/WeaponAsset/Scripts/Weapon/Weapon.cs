@@ -125,6 +125,20 @@ public class Weapon : Item
     #endregion
 
     #region Function
+    public bool FillUpAmmo()
+    {
+        // oo 총 이거나 총알 꽉찼을 때, 근거리 무기일 때 false
+        if(-1 == info.ammoCapacity || info.ammo == info.ammoCapacity || AttackType.MELEE == attackType)
+        {
+            return false;
+        }
+        else
+        {
+            info.ammo = info.ammoCapacity;
+            return true;
+        }
+    }
+
     public void Hide()
     {
         spriteRenderer.enabled = false;
