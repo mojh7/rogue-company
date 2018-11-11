@@ -144,7 +144,7 @@ public class BuffManager : MonoBehaviour
     {
         inGameTargetEffectTotal = new InGameTargetEffect
         {
-            rateUpperPercent = new RateUpperPercent { Act = false, percent = new List<int>(7) { } },
+            rateUpperPercent = new RateUpperPercent { Act = false, percent = new List<int>(7) { 0, 0, 0, 0, 0, 0, 0 } },
             bargain = 0,
             megaCoin = 0,
             buffAstrologer = false
