@@ -8,7 +8,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     enum Direction { LEFT, RIGHT, TOP, DOWN }
 
     #region variables
-    [SerializeField] private Sprite unknownIcon, monsterIcon, bossIcon, eventIcon, storeIcon;
+    [SerializeField] private Sprite monsterIcon, bossIcon, eventIcon, storeIcon;
     [SerializeField] private GameObject playerIcon;
     [SerializeField] private Transform mask;
     [SerializeField] private Text floorT;
@@ -28,11 +28,11 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     
     #endregion
     #region minimapData
-    const int minimapBaseWidth = 400, minimapBaseHeight = 400;
+    const int minimapBaseWidth = 400, minimapBaseHeight = 400;// 미니맵 사이즈
     int minmapSizeWidth, minmapSizeHeight;
     const int maskSize = 100;
     float width, height;
-    int pixelNum;
+    int pixelNum = 8;// 미니맵 픽셀 
 
     #endregion
     #region mapData
@@ -46,9 +46,10 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     #endregion
     #region colors
     Color[] mapColors;
-    Color hallColor = new Color(0, 0, 0, 0);/* new Color((float)160 / 255, (float)174 / 255, (float)186 / 255);*/
-    Color black = Color.black;
-    Color white = Color.white;
+    Color hallColor = new Color(.2f, .2f, .2f, 1);/* new Color((float)160 / 255, (float)174 / 255, (float)186 / 255);*/
+    Color border = Color.white;
+    Color ground = new Color(.1f, .1f, .1f, 1);
+    Color doorColor = new Color(.1f, .1f, .1f, 1);
     Color clear = Color.clear;
     #endregion
 
@@ -151,13 +152,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             for (int j = 0; j < rectHeight; j++)
             {
                 Color color = sprite.texture.GetPixel((int)textureRect.x + i, (int)textureRect.y + j);
-                if(color != white)
-                    color.a = percent;
-                if (color == clear)
-                {
-                    DrawArray(x + i, y + j, white);
-                }
-                else
+                if (color != clear)
                 {
                     DrawArray(x + i, y + j, color);
                 }
@@ -183,30 +178,30 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 {
                     if (y == maxY)
                     {
-                        DrawArray(x, y + 1, black);
+                        DrawArray(x, y + 1, border);
                         if (x == maxX)
                         {
-                            DrawArray(x, y, white);
-                            DrawArray(x + 1, y, black);
-                            DrawArray(x + 1, y + 1, black);
+                            DrawArray(x, y, ground);
+                            DrawArray(x + 1, y, border);
+                            DrawArray(x + 1, y + 1, border);
                         }
                         else if (x == minX)
                         {
-                            DrawArray(x, y, black);
+                            DrawArray(x, y, border);
                         }
                     }
                     else if (x == maxX)
                     {
-                        DrawArray(x, y, white);
-                        DrawArray(x + 1, y, black);
+                        DrawArray(x, y, ground);
+                        DrawArray(x + 1, y, border);
                         if (y == minY)
                         {
-                            DrawArray(x, y, black);
+                            DrawArray(x, y, border);
                         }
                     }
                     else
                     {
-                        DrawArray(x, y, black);
+                        DrawArray(x, y, border);
                     }
                 }
                 Draw(_room, percent, DrawIcon);
@@ -232,16 +227,16 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 if (gap < 0)
                 {
                     //top
-                    DrawArray(pos - 1, maxY + 1, Color.red);
-                    DrawArray(pos, maxY + 1, Color.red);
-                    DrawArray(pos + 1, maxY + 1, Color.red);
+                    DrawArray(pos - 1, maxY + 1, doorColor);
+                    DrawArray(pos, maxY + 1, doorColor);
+                    DrawArray(pos + 1, maxY + 1, doorColor);
                 }
                 else
                 {
                     //bottom
-                    DrawArray(pos - 1, minY, Color.red);
-                    DrawArray(pos, minY, Color.red);
-                    DrawArray(pos + 1, minY, Color.red);
+                    DrawArray(pos - 1, minY, doorColor);
+                    DrawArray(pos, minY, doorColor);
+                    DrawArray(pos + 1, minY, doorColor);
                 }
             }
             else
@@ -257,16 +252,16 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 if (gap < 0)
                 {
                     //right
-                    DrawArray(maxX + 1, pos - 1, Color.red);
-                    DrawArray(maxX + 1, pos, Color.red);
-                    DrawArray(maxX + 1, pos + 1, Color.red);
+                    DrawArray(maxX + 1, pos - 1, doorColor);
+                    DrawArray(maxX + 1, pos, doorColor);
+                    DrawArray(maxX + 1, pos + 1, doorColor);
                 }
                 else
                 {
                     //left
-                    DrawArray(minX, pos - 1, Color.red);
-                    DrawArray(minX, pos, Color.red);
-                    DrawArray(minX, pos + 1, Color.red);
+                    DrawArray(minX, pos - 1, doorColor);
+                    DrawArray(minX, pos, doorColor);
+                    DrawArray(minX, pos + 1, doorColor);
                 }
             }
 
@@ -370,14 +365,14 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         {
             for(int i = start; i< end; i++)
             {
-                DrawArray(x, i, black);
+                DrawArray(x, i, border);
             }
         }
         else
         {
             for (int i = start; i < end; i++)
             {
-                DrawArray(i, y, black);
+                DrawArray(i, y, border);
             }
         }
     }
@@ -410,16 +405,16 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 if (gap < 0)
                 {
                     //top
-                    DrawArray(pos - 1, maxY + 1, Color.red);
-                    DrawArray(pos, maxY + 1, Color.red);
-                    DrawArray(pos + 1, maxY + 1, Color.red);
+                    DrawArray(pos - 1, maxY + 1, doorColor);
+                    DrawArray(pos, maxY + 1, doorColor);
+                    DrawArray(pos + 1, maxY + 1, doorColor);
                 }
                 else
                 {
                     //bottom
-                    DrawArray(pos - 1, minY, Color.red);
-                    DrawArray(pos, minY, Color.red);
-                    DrawArray(pos + 1, minY, Color.red);
+                    DrawArray(pos - 1, minY, doorColor);
+                    DrawArray(pos, minY, doorColor);
+                    DrawArray(pos + 1, minY, doorColor);
                 }
             }
             else
@@ -435,16 +430,16 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 if (gap < 0)
                 {
                     //right
-                    DrawArray(maxX + 1, pos - 1, Color.red);
-                    DrawArray(maxX + 1, pos, Color.red);
-                    DrawArray(maxX + 1, pos + 1, Color.red);
+                    DrawArray(maxX + 1, pos - 1, doorColor);
+                    DrawArray(maxX + 1, pos, doorColor);
+                    DrawArray(maxX + 1, pos + 1, doorColor);
                 }
                 else
                 {
                     //left
-                    DrawArray(minX, pos - 1, Color.red);
-                    DrawArray(minX, pos, Color.red);
-                    DrawArray(minX, pos + 1, Color.red);
+                    DrawArray(minX, pos - 1, doorColor);
+                    DrawArray(minX, pos, doorColor);
+                    DrawArray(minX, pos + 1, doorColor);
                 }
             }
 
@@ -482,7 +477,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         SetFloorText();
         renderer = minimapObj.GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
-        pixelNum = 8; // 미니맵 픽셀 
         minmapSizeWidth = Map.MapManager.Instance.mapSize.x * pixelNum; // 미니맵 전체 픽셀 사이즈
         minmapSizeHeight = Map.MapManager.Instance.mapSize.y * pixelNum;
         mapSize = Map.MapManager.Instance.size;
@@ -555,7 +549,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
         for (int i = 0; i < mapColors.Length; i++)
         {
-            mapColors[i] = white;
+            mapColors[i] = ground;
         }
 
         for (int i = 0; i < roomList.Count; i++)
@@ -585,7 +579,7 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
                 if (i == 0 || i == minmapSizeWidth ||
                  j == 0 || j == minmapSizeHeight)
                 {
-                    DrawArray(i, j, black);
+                    DrawArray(i, j, border);
                 }
             }
         }

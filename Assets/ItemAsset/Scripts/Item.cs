@@ -117,7 +117,8 @@ public class Ammo : Item
     {
         if (!isActive)
         {
-            PlayerManager.Instance.GetPlayer().GetWeaponManager();
+            if (!PlayerManager.Instance.GetPlayer().GetWeaponManager().FillUpAmmo())
+                return;
             isActive = !isActive;
             MoveToTarget();
         }
@@ -125,6 +126,8 @@ public class Ammo : Item
 
     public override void SubActive()
     {
+        if (!PlayerManager.Instance.GetPlayer().GetWeaponManager().FillUpAmmo())
+            return;
         isActive = !isActive;
         MoveToTarget();
     }

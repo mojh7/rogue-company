@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e6fe21f5ad1a1004aac80dbc10a13bf1
-timeCreated: 1534138733
+guid: 466d2ab0569b8124b95c08cd96aa9cf2
+timeCreated: 1541924313
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -35,7 +35,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -50,7 +50,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -97,12 +97,12 @@ TextureImporter:
       name: miniZombie_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 80
-        width: 22
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -111,12 +111,12 @@ TextureImporter:
       name: miniZombie_1
       rect:
         serializedVersion: 2
-        x: 85
-        y: 80
-        width: 22
-        height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 128
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -125,12 +125,12 @@ TextureImporter:
       name: miniZombie_2
       rect:
         serializedVersion: 2
-        x: 21
-        y: 16
-        width: 22
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,12 +139,12 @@ TextureImporter:
       name: miniZombie_3
       rect:
         serializedVersion: 2
-        x: 85
-        y: 17
-        width: 22
-        height: 31
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

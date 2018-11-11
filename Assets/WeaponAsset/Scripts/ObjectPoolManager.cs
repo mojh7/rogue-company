@@ -168,6 +168,8 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
 
     public UsableItem CreateUsableItem()
     {
+        if (itemPool == null)
+            return null;
         GameObject createdObj = itemPool.NewItem();
         UsableItem usableItem = createdObj.GetComponent<UsableItem>();
         UsableItemType type = (UsableItemType)Random.Range(0, System.Enum.GetNames(typeof(UsableItemType)).Length - 1);

@@ -373,7 +373,7 @@ public class Player : Character
 
     public override CustomObject Interact()
     {
-        float bestDistance = interactiveCollider2D.radius * 10;
+        float bestDistance = interactiveCollider2D.radius;
         Collider2D bestCollider = null;
 
         Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius, (1 << 1) | (1 << 9));

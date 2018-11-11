@@ -1034,6 +1034,8 @@ public class StoreItem : CustomObject
         if(isAvailable)
         {
             innerObject = ObjectPoolManager.Instance.CreateUsableItem();
+            if (innerObject == null)
+                return;
             itemRating = innerObject.GetRating();
             price = (int)(EconomySystem.Instance.GetPrice(itemRating) * (100 - PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.bargain) / 100);
             sprite = innerObject.GetComponent<SpriteRenderer>().sprite;

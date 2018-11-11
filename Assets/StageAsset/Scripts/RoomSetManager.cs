@@ -4,58 +4,67 @@ using UnityEngine;
 public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
 
     public Sprite[] doorSprites;
-    public RoomSet[] roomSetArr;
-    public RoomSet[] hallSetArr;
-    public FloorRoomSetGroup[] floorRoomSet;
+
+    [SerializeField]
+    private FloorRoomSetGroup commonFloorSet;
+    [SerializeField]
+    private FloorRoomSetGroup[] floorRoomSet;
     List<RoomSetGroup> roomSetGroup;
     RoomSet zeroRoomset;
 
+    public FloorRoomSetGroup[] FloorRoomSetGroups
+    {
+        get
+        {
+            return floorRoomSet;
+        }
+    }
     public void Init()
     {
         zeroRoomset = new RoomSet(0, 0, 3, 0, RoomType.NONE);
 
         roomSetGroup = new List<RoomSetGroup>();
         bool isExist;
-        for (int i = 0; i < roomSetArr.Length; i++)
+        for (int i = 0; i < commonFloorSet.RoomSets.Length; i++)
         {
             isExist = false;
             for (int j = 0; j < roomSetGroup.Count; j++)
             {
-                if (roomSetGroup[j].width == roomSetArr[i].width && roomSetGroup[j].height == roomSetArr[i].height)
+                if (roomSetGroup[j].width == commonFloorSet.RoomSets[i].width && roomSetGroup[j].height == commonFloorSet.RoomSets[i].height)
                 {
-                    if (roomSetArr[i].roomType == RoomType.MONSTER)
-                        roomSetGroup[j].AddMonsterRoom(roomSetArr[i]);
+                    if (commonFloorSet.RoomSets[i].roomType == RoomType.MONSTER)
+                        roomSetGroup[j].AddMonsterRoom(commonFloorSet.RoomSets[i]);
                     else
-                        roomSetGroup[j].AddOtherRoom(roomSetArr[i]);
+                        roomSetGroup[j].AddOtherRoom(commonFloorSet.RoomSets[i]);
                     isExist = true;
                 }
             }
             if (!isExist)
             {
-                roomSetGroup.Add(new RoomSetGroup(roomSetArr[i].width, roomSetArr[i].height));
-                if (roomSetArr[i].roomType == RoomType.MONSTER)
-                    roomSetGroup[roomSetGroup.Count - 1].AddMonsterRoom(roomSetArr[i]);
+                roomSetGroup.Add(new RoomSetGroup(commonFloorSet.RoomSets[i].width, commonFloorSet.RoomSets[i].height));
+                if (commonFloorSet.RoomSets[i].roomType == RoomType.MONSTER)
+                    roomSetGroup[roomSetGroup.Count - 1].AddMonsterRoom(commonFloorSet.RoomSets[i]);
                 else
-                    roomSetGroup[roomSetGroup.Count - 1].AddOtherRoom(roomSetArr[i]);
+                    roomSetGroup[roomSetGroup.Count - 1].AddOtherRoom(commonFloorSet.RoomSets[i]);
             }
         }
-        for (int i = 0; i < hallSetArr.Length; i++)
+        for (int i = 0; i < commonFloorSet.HallSets.Length; i++)
         {
             isExist = false;
             for (int j = 0; j < roomSetGroup.Count; j++)
             {
-                if (roomSetGroup[j].width == hallSetArr[i].width && roomSetGroup[j].height == hallSetArr[i].height)
+                if (roomSetGroup[j].width == commonFloorSet.HallSets[i].width && roomSetGroup[j].height == commonFloorSet.HallSets[i].height)
                 {
-                    roomSetGroup[j].AddHallList(hallSetArr[i]);
+                    roomSetGroup[j].AddHallList(commonFloorSet.HallSets[i]);
 
                     isExist = true;
                 }
             }
             if (!isExist)
             {
-                roomSetGroup.Add(new RoomSetGroup(hallSetArr[i].width, hallSetArr[i].height));
+                roomSetGroup.Add(new RoomSetGroup(commonFloorSet.HallSets[i].width, commonFloorSet.HallSets[i].height));
 
-                roomSetGroup[roomSetGroup.Count - 1].AddHallList(hallSetArr[i]);
+                roomSetGroup[roomSetGroup.Count - 1].AddHallList(commonFloorSet.HallSets[i]);
 
             }
         }

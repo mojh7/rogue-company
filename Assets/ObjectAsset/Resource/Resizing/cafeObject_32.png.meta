@@ -1,0 +1,249 @@
+fileFormatVersion: 2
+guid: ca143a9b7092925468ee3ba957a7a707
+timeCreated: 1541944038
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: cafeObject_32_0
+    21300002: cafeObject_32_1
+    21300004: cafeObject_32_2
+    21300006: cafeObject_32_3
+    21300008: cafeObject_32_4
+    21300010: cafeObject_32_5
+    21300012: cafeObject_32_6
+    21300014: cafeObject_32_7
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 64
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: cafeObject_32_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 276
+        width: 72
+        height: 60
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -29, y: -30}
+        - {x: 30, y: -30}
+        - {x: 33, y: -14}
+        - {x: -30, y: -13}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cafeObject_32_1
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 260
+        width: 72
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -21, y: -34}
+        - {x: -19, y: -60}
+        - {x: 24, y: -60}
+        - {x: 28, y: -37}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cafeObject_32_2
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 264
+        width: 64
+        height: 80
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -24, y: -14}
+        - {x: -21, y: -40}
+        - {x: 25, y: -40}
+        - {x: 26, y: -13}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cafeObject_32_3
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 136
+        width: 68
+        height: 100
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -14, y: -14}
+        - {x: -15, y: -50}
+        - {x: 18, y: -50}
+        - {x: 18, y: -14}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cafeObject_32_4
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 128
+        width: 68
+        height: 116
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -26, y: -10}
+        - {x: -26, y: -58}
+        - {x: 34, y: -58}
+        - {x: 34, y: -9}
+      tessellationDetail: 0.86
+    - serializedVersion: 2
+      name: cafeObject_32_5
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 136
+        width: 108
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 54, y: 32}
+        - {x: -51, y: 30}
+        - {x: -22, y: -41}
+        - {x: 24, y: -41}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cafeObject_32_6
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 8
+        width: 108
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 54, y: 12}
+        - {x: -54, y: 12}
+        - {x: -9, y: -46}
+        - {x: 11, y: -46}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cafeObject_32_7
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 20
+        width: 108
+        height: 92
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 17, y: -46}
+        - {x: 54, y: 22}
+        - {x: -52, y: 21}
+        - {x: -14, y: -46}
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

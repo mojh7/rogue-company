@@ -60,9 +60,9 @@ namespace Map
             {
                 map = new Map(size, mapSize.x, mapSize.y, maxSize.x * maxSize.y, miniSize.x * miniSize.y, maxHallRate, objectPool);
             }
-            map.AddNecessaryRoomSet(RoomSetManager.Instance.floorRoomSet[0].RoomSets);
-            map.AddNecessaryHallSet(RoomSetManager.Instance.floorRoomSet[0].HallSets);
-            map.AddNecessaryObjectSet(RoomSetManager.Instance.floorRoomSet[0].ObjectSets);
+            map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[0].RoomSets);
+            map.AddNecessaryHallSet(RoomSetManager.Instance.FloorRoomSetGroups[0].HallSets);
+            map.AddNecessaryObjectSet(RoomSetManager.Instance.FloorRoomSetGroups[0].ObjectSets);
             map.Generate();
             RoomManager.Instance.InitRoomList();
         }

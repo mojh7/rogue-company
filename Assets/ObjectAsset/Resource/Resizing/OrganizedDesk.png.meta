@@ -1,0 +1,249 @@
+fileFormatVersion: 2
+guid: cebd5257a6e770f4db63887a77542726
+timeCreated: 1541942788
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: OrganizedDesk_0
+    21300002: OrganizedDesk_1
+    21300004: OrganizedDesk_2
+    21300006: OrganizedDesk_3
+    21300008: OrganizedDesk_4
+    21300010: OrganizedDesk_5
+    21300012: OrganizedDesk_6
+    21300014: OrganizedDesk_7
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 64
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: OrganizedDesk_0
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 286
+        width: 82
+        height: 66
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -41, y: 14.351013}
+        - {x: -41, y: -33}
+        - {x: 41, y: -33}
+        - {x: 41, y: 15.481232}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: OrganizedDesk_1
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 286
+        width: 82
+        height: 68
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -41, y: 13.046356}
+        - {x: -41, y: -34}
+        - {x: 41, y: -34}
+        - {x: 41, y: 15.916107}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: OrganizedDesk_2
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 286
+        width: 82
+        height: 64
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -41, y: 17}
+        - {x: -41, y: -32}
+        - {x: 41, y: -32}
+        - {x: 41, y: 16.044159}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: OrganizedDesk_3
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 158
+        width: 82
+        height: 62
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -41, y: 15}
+        - {x: -41, y: -31}
+        - {x: 41, y: -31}
+        - {x: 41, y: 15.91391}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: OrganizedDesk_4
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 158
+        width: 82
+        height: 66
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -41, y: 12.783661}
+        - {x: -41, y: -33}
+        - {x: 41, y: -33}
+        - {x: 41, y: 13.088303}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: OrganizedDesk_5
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 158
+        width: 82
+        height: 58
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -41, y: 17.132462}
+        - {x: -41, y: -29}
+        - {x: 41, y: -29}
+        - {x: 41, y: 18.262695}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: OrganizedDesk_6
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 30
+        width: 92
+        height: 70
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -46, y: 9.699776}
+        - {x: -46, y: -35}
+        - {x: 46, y: -35}
+        - {x: 46, y: 8.699776}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: OrganizedDesk_7
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 30
+        width: 92
+        height: 70
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 46, y: 9.830025}
+        - {x: -46, y: 10.830025}
+        - {x: -46, y: -35}
+        - {x: 46, y: -35}
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

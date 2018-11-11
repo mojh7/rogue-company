@@ -1,0 +1,478 @@
+fileFormatVersion: 2
+guid: 4ef814d7b7e5f7e44b89c60ecb5f5e39
+timeCreated: 1541942786
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: restRoomObject_64_0
+    21300002: restRoomObject_64_1
+    21300004: restRoomObject_64_2
+    21300006: restRoomObject_64_3
+    21300008: restRoomObject_64_4
+    21300010: restRoomObject_64_5
+    21300012: restRoomObject_64_6
+    21300014: restRoomObject_64_7
+    21300016: restRoomObject_64_8
+    21300018: restRoomObject_64_9
+    21300020: restRoomObject_64_10
+    21300022: restRoomObject_64_11
+    21300024: restRoomObject_64_12
+    21300026: restRoomObject_64_13
+    21300028: restRoomObject_64_14
+    21300030: restRoomObject_64_15
+    21300032: restRoomObject_64_16
+    21300034: restRoomObject_64_17
+    21300036: restRoomObject_64_18
+    21300038: restRoomObject_64_19
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 64
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: restRoomObject_64_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 60
+        height: 38
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -30, y: 4.753601}
+        - {x: -30, y: -19}
+        - {x: 30, y: -19}
+        - {x: 30, y: 5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 512
+        width: 48
+        height: 108
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 24, y: 21}
+        - {x: -24, y: 21}
+        - {x: -24, y: -54}
+        - {x: 12, y: -54}
+        - {x: 11, y: -24}
+        - {x: 24, y: -19}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 124
+        height: 54
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -62, y: 8}
+        - {x: -59, y: -27}
+        - {x: 57, y: -27}
+        - {x: 62, y: 8}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 512
+        width: 104
+        height: 74
+      alignment: 9
+      pivot: {x: 0.5, y: -1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 52, y: -37}
+        - {x: 52, y: -37}
+        - {x: 52, y: -37}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 104
+        height: 76
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -52, y: 38}
+        - {x: -52, y: -38}
+        - {x: 52, y: -38}
+        - {x: 52, y: 38}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 384
+        width: 46
+        height: 72
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -23, y: 14}
+        - {x: -23, y: -36}
+        - {x: 23, y: -36}
+        - {x: 23, y: 15}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_6
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 384
+        width: 48
+        height: 82
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 24, y: 27}
+        - {x: -24, y: 27}
+        - {x: -24, y: -41}
+        - {x: 24, y: -41}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_7
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 384
+        width: 48
+        height: 90
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 24, y: 28}
+        - {x: -24, y: 27}
+        - {x: -24, y: -45}
+        - {x: 24, y: -45}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 78
+        height: 82
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -30, y: -7}
+        - {x: -31, y: -41}
+        - {x: 39, y: -41}
+        - {x: 39, y: -5}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_9
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 256
+        width: 70
+        height: 78
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 35, y: -6}
+        - {x: -35, y: -7}
+        - {x: -35, y: -39}
+        - {x: 35, y: -39}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_10
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 70
+        height: 124
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -35, y: -17}
+        - {x: -35, y: -62}
+        - {x: 35, y: -62}
+        - {x: 35, y: -17}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_11
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 256
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -58, y: -12}
+        - {x: -58, y: -60}
+        - {x: 58, y: -60}
+        - {x: 58, y: -12}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -58, y: -12}
+        - {x: -58, y: -60}
+        - {x: 58, y: -60}
+        - {x: 58, y: -11}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_13
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -58, y: -12}
+        - {x: -58, y: -60}
+        - {x: 58, y: -60}
+        - {x: 58, y: -12}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_14
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 128
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -58, y: -11}
+        - {x: -58, y: -60}
+        - {x: 58, y: -60}
+        - {x: 58, y: -12}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_15
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 128
+        width: 104
+        height: 82
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 52, y: 1}
+        - {x: -52, y: 1}
+        - {x: -52, y: -41}
+        - {x: 52, y: -41}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -58, y: -13}
+        - {x: -58, y: -60}
+        - {x: 58, y: -60}
+        - {x: 58, y: -13}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_17
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 58, y: -17}
+        - {x: -58, y: -17}
+        - {x: -58, y: -60}
+        - {x: 58, y: -60}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_18
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -58, y: -60}
+        - {x: 58, y: -60}
+        - {x: 58, y: -14}
+        - {x: -58, y: -14}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: restRoomObject_64_19
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 116
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -58, y: -14}
+        - {x: -58, y: -60}
+        - {x: 58, y: -60}
+        - {x: 58, y: -13}
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

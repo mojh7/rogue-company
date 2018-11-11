@@ -170,6 +170,7 @@ namespace AStar
                 }
             }
         }
+
     }
 
     public class Node : IHeapItem<Node>
