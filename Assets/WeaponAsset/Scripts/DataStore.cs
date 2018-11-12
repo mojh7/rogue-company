@@ -39,7 +39,7 @@ namespace WeaponAsset
     public enum AttackType { MELEE, RANGED }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION}
-    public enum BulletPresetType { None, YellowCircle, RedCircle, SkyBuleBash };
+    public enum BulletPresetType { None, YellowCircle, RedCircle, SkyBlueBash, BlueBash, RedBash, OrangeBash };
     /*---*/
 
     public enum BulletPropertyType { Collision, Update, Delete }
@@ -295,10 +295,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     }
     #endregion
 
-
     #region setter
     #endregion
-
 
     #region UnityFunction
     void Awake()

@@ -673,7 +673,6 @@ public class Enemy : Character
         {
             if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
             {
-                //Debug.Log("z : " + restrictMovingCount);
                 SubRetrictsMovingCount();
                 knockBackCheck = null;
                 break;

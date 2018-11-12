@@ -184,12 +184,7 @@ public class Bullet : MonoBehaviour
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
         this.updateDelayTime = updateDelayTime;
-        Debug.Log("a : " + info.bulletPresetType);
-        if(BulletPresetType.None != info.bulletPresetType)
-        {
-            this.bulletPresetInfo = BulletPresets.Instance.bulletPresetInfoList[(int)info.bulletPresetType - 1];
-            Debug.Log("z : " + bulletPresetInfo.sprite);
-        }
+        AutoBulletPresetType();
 
         // 처음 위치 설정
         objTransform.position = pos;
@@ -311,6 +306,7 @@ public class Bullet : MonoBehaviour
         this.childBulletCommonProperty = childBulletCommonProperty;
         this.initVector = initVector;
         info.lifeTime = childBulletCommonProperty.childBulletLifeTime + childBulletCommonProperty.timeForOriginalShape;
+        AutoBulletPresetType();
 
         // 처음 위치 설정
         objTransform.position = parentBulletTransform.position;
@@ -334,7 +330,6 @@ public class Bullet : MonoBehaviour
         dirVector = Vector3.right;
         SetDirection(initVector.dirDegree);
     }
-
 
     private void InitOwnerInfo(OwnerType ownerType)
     {
@@ -369,7 +364,6 @@ public class Bullet : MonoBehaviour
             info.bulletSprite = bulletPresetInfo.sprite;
             info.colliderType = bulletPresetInfo.colliderType;
             info.spriteAnimation = bulletPresetInfo.spriteAnimation;
-            Debug.Log(bulletPresetInfo.sprite);
         }
 
         ActivateColiider();
@@ -396,7 +390,6 @@ public class Bullet : MonoBehaviour
         else
         {
             spriteAnimatorObj.SetActive(false);
-            Debug.Log(info.bulletSprite);
             spriteRenderer.sprite = info.bulletSprite;
             if(OwnerType.Player == ownerType)
             {
@@ -486,6 +479,17 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region function
+    /// <summary>
+    /// bulletPresetInfo 설정
+    /// </summary>
+    private void AutoBulletPresetType()
+    {
+        if (BulletPresetType.None != info.bulletPresetType)
+        {
+            this.bulletPresetInfo = BulletPresets.Instance.bulletPresetInfoList[(int)info.bulletPresetType - 1];
+        }
+    }
+
     public void ActivateColiider()
     {
         boxCollider.enabled = false;
@@ -527,8 +531,12 @@ public class Bullet : MonoBehaviour
                 sizeX = renderer.sprite.bounds.size.x;
                 sizeY = renderer.sprite.bounds.size.y;
                 size = (sizeX > sizeY) ? sizeY : sizeX;
+
+                //Debug.Log(sizeX + ", " + sizeY + ", " + renderer.sprite.bounds.size);
                 circleCollider.radius = size * sizeRate;
                 circleCollider.offset = renderer.sprite.bounds.center;
+                //Debug.Log("bs.center : " + renderer.sprite.bounds.center);
+                //Debug.Log("size : " + size + ", sizeRate : " + sizeRate);
                 break;
             default:
                 break;

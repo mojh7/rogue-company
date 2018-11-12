@@ -10,6 +10,7 @@ public class BulletPresetInfo
     public float scaleY;
     public ColliderType colliderType;
     public BulletAnimationType spriteAnimation;
+    public float lifeTime;
 }
 
 public class BulletPresets : MonoBehaviourSingleton<BulletPresets>
