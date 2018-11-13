@@ -129,8 +129,8 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
 
     [Header("true하고 실행 시 엑셀 내용으로 무기 초기화")]
     [SerializeField]
-    private bool canInputWeaponDatas;
-    public List<Dictionary<string, object>> weaponDatas;
+    private bool canInputWeaponData;
+    public List<Dictionary<string, object>> csvWeaponData;
 
 
     // private List<BulletInfo> initializedBulletInfosAtRuntime;
@@ -368,7 +368,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         // rating 별로 weaponInfo List 분류
 
         //passiveItems   
-        InputWeaponDatas();
+        InputWeaponData();
 
         // 디버깅용
         for(int i = 0; i < ratingLength; i++)
@@ -401,16 +401,16 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     }
     */
 
-    public void InputWeaponDatas()
+    public void InputWeaponData()
     {
         if (WeaponModeForDebug.Test == DebugSetting.Instance.weaponModeForDebug
             || WeaponModeForDebug.ShapeSample == DebugSetting.Instance.weaponModeForDebug
             || WeaponModeForDebug.A1 == DebugSetting.Instance.weaponModeForDebug)
             return;
 
-        if (false == canInputWeaponDatas)
+        if (false == canInputWeaponData)
             return;
-        weaponDatas = WeaponDataCSVParser.Read("weaponDatas");
+        csvWeaponData = WeaponDataCSVParser.Read("weaponData");
         Debug.Log("CSV 데이터 파싱 후 weapon data 입력");
 
         WeaponType weaponType;
@@ -424,27 +424,27 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         int ammoCapacity;
         float range;
         float bulletSpeed;
-        int size = weaponDatas.Count;
+        int size = csvWeaponData.Count;
         for (int i = 0; i < size; i++)
         {
-            mainWeaponInfos[i].weaponName = (string)weaponDatas[i]["name"];
-            //Debug.Log(i + ", name : " + (string)weaponDatas[i]["name"]);
+            mainWeaponInfos[i].weaponName = (string)csvWeaponData[i]["name"];
+            //Debug.Log(i + ", name : " + (string)csvWeaponData[i]["name"]);
 
             mainWeaponInfos[i].scaleX = 1.0f;
             mainWeaponInfos[i].scaleY = 1.0f;
 
-            weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)weaponDatas[i]["weaponType"]);
+            weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)csvWeaponData[i]["weaponType"]);
             mainWeaponInfos[i].weaponType = weaponType;
 
-            attackAniType = (AttackAniType)System.Enum.Parse(typeof(AttackAniType), (string)weaponDatas[i]["attackAniType"]);
+            attackAniType = (AttackAniType)System.Enum.Parse(typeof(AttackAniType), (string)csvWeaponData[i]["attackAniType"]);
             mainWeaponInfos[i].attackAniType = attackAniType;
             //Debug.Log(attackAniType);
 
-            rating = (Rating)System.Enum.Parse(typeof(Rating), (string)weaponDatas[i]["rating"]);
+            rating = (Rating)System.Enum.Parse(typeof(Rating), (string)csvWeaponData[i]["rating"]);
             mainWeaponInfos[i].rating = rating;
             //Debug.Log(rating);
 
-            float.TryParse(weaponDatas[i]["chargeTimeMax"].ToString(), out chargeTimeMax);
+            float.TryParse(csvWeaponData[i]["chargeTimeMax"].ToString(), out chargeTimeMax);
             mainWeaponInfos[i].chargeTimeMax = chargeTimeMax;
             //Debug.Log(chargeTimeMax);
             if (0 == chargeTimeMax)
@@ -452,32 +452,32 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             else
                 mainWeaponInfos[i].touchMode = TouchMode.Charge;
 
-            float.TryParse(weaponDatas[i]["criticalChance"].ToString(), out criticalChance);
+            float.TryParse(csvWeaponData[i]["criticalChance"].ToString(), out criticalChance);
             mainWeaponInfos[i].criticalChance = criticalChance;
             //Debug.Log(criticalChance);
 
-            float.TryParse(weaponDatas[i]["damage"].ToString(), out damage);
+            float.TryParse(csvWeaponData[i]["damage"].ToString(), out damage);
             mainWeaponInfos[i].damage = damage;
             //Debug.Log(damage);
 
-            int.TryParse(weaponDatas[i]["staminaConsumption"].ToString(), out staminaConsumption);
+            int.TryParse(csvWeaponData[i]["staminaConsumption"].ToString(), out staminaConsumption);
             mainWeaponInfos[i].staminaConsumption = staminaConsumption;
             //Debug.Log(staminaConsumption);
 
-            float.TryParse(weaponDatas[i]["cooldown"].ToString(), out cooldown);
+            float.TryParse(csvWeaponData[i]["cooldown"].ToString(), out cooldown);
             mainWeaponInfos[i].cooldown = cooldown;
             //Debug.Log(cooldown);
 
-            int.TryParse(weaponDatas[i]["ammoCapacity"].ToString(), out ammoCapacity);
+            int.TryParse(csvWeaponData[i]["ammoCapacity"].ToString(), out ammoCapacity);
             mainWeaponInfos[i].ammoCapacity = ammoCapacity;
             mainWeaponInfos[i].ammo = ammoCapacity;
             //Debug.Log(ammoCapacity);
 
-            float.TryParse(weaponDatas[i]["range"].ToString(), out range);
+            float.TryParse(csvWeaponData[i]["range"].ToString(), out range);
             mainWeaponInfos[i].range = range;
             //Debug.Log(range);
 
-            float.TryParse(weaponDatas[i]["bulletSpeed"].ToString(), out bulletSpeed);
+            float.TryParse(csvWeaponData[i]["bulletSpeed"].ToString(), out bulletSpeed);
             mainWeaponInfos[i].bulletMoveSpeed = bulletSpeed;
             //Debug.Log(bulletSpeed);
 
