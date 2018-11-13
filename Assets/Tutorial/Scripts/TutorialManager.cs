@@ -2,6 +2,8 @@
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
+    [SerializeField]
+    WeaponInfo weapon1, weapon2, weapon3;
     private void Start()
     {
         SpawnPlayer();
@@ -10,6 +12,11 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
         StartCoroutine("First");
     }
 
+    void CallWeapon(int i)
+    {
+        Item obj = ObjectPoolManager.Instance.CreateWeapon(weapon1) as Item;
+        ItemManager.Instance.CreateItem(obj, Vector3.zero,Vector3.zero);
+    }
     void SpawnPlayer()
     {
         PlayerManager.Instance.FindPlayer(); // 플레이어 스폰

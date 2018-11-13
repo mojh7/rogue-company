@@ -80,6 +80,13 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return createdObj.GetComponent<Weapon>();
     }
 
+    public Weapon CreateWeapon(WeaponInfo weaponInfo)
+    {
+        GameObject createdObj = weaponPool.NewItem();
+        createdObj.GetComponent<Weapon>().Init(weaponInfo);
+        return createdObj.GetComponent<Weapon>();
+    }
+
     public Weapon CreateWeapon(Rating rating)
     {
         if (Rating.NORATING == rating)
