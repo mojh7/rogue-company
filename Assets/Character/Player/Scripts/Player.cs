@@ -644,7 +644,7 @@ public class Player : Character
     public override void ApplyItemEffect()
     {
         CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
-        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaMaxIncrement);
+        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.steminaGage);
         if(playerData.MoveSpeed != originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
         {
             if(playerData.MoveSpeed > originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)

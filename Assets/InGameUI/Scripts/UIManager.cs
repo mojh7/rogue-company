@@ -127,7 +127,8 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
 
     public void ClearRoomUI(bool isActive)
     {
-        clearObj.SetActive(isActive);
+        clearObj.GetComponent<ClearRoomUI>().Clear();
+        //clearObj.SetActive(isActive);
     }
     #endregion
 

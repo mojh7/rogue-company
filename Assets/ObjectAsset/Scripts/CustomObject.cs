@@ -608,7 +608,7 @@ public class Portal : RandomSpriteObject
 
 public class ItemBox : RandomSpriteObject
 {
-    Item item;
+    Item innerObject;
 
     public override void Init()
     {
@@ -620,13 +620,13 @@ public class ItemBox : RandomSpriteObject
     public void Init(Item _item)
     {
         Init();
-        item = _item;
-        item.gameObject.SetActive(false);
+        innerObject = _item;
+        innerObject.gameObject.SetActive(false);
     }
 
     public override void SetAvailable()
     {
-        if(item==null)
+        if(innerObject==null)
         {
             ItemManager.Instance.SetItemBox(this);
         }
@@ -636,17 +636,17 @@ public class ItemBox : RandomSpriteObject
         if (!base.Active())
             return false;
         isAvailable = false;
-        item.gameObject.SetActive(true);
-        ItemManager.Instance.CreateItem(item, this.transform.position);
+        innerObject.gameObject.SetActive(true);
+        ItemManager.Instance.CreateItem(innerObject, this.transform.position);
         UtilityClass.Invoke(this, DestroyAndDeactive, 3);
         return true;
     }
 
     public void DestroySelf()
     {
-        if (typeof(Weapon) != item.GetType())
+        if (typeof(Weapon) != innerObject.GetType())
         {
-            Destroy(item.gameObject);
+            Destroy(innerObject.gameObject);
         }
         DestroyAndDeactive();
     }
@@ -658,6 +658,12 @@ public class ItemBox : RandomSpriteObject
         {
             ControllerUI.Instance.IsTouched();
         }
+    }
+
+    public override void Delete()
+    {
+        base.Delete();
+        Destroy(innerObject);
     }
 
 }
@@ -796,6 +802,11 @@ public class ItemContainer : RandomSpriteObject
         }
     }
 
+    public override void Delete()
+    {
+        base.Delete();
+        Destroy(innerObject);
+    }
 }
 
 public class FallRockTrap : RandomSpriteObject
@@ -1045,7 +1056,7 @@ public class StoreItem : CustomObject
 
     void ReAlign()
     {
-        innerObject.transform.parent = transform;
+        innerObject.transform.parent = this.transform;
         innerObject.transform.localPosition = Vector3.zero;
     }
 
