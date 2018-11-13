@@ -6,11 +6,12 @@ public class BulletPresetInfo
 {
     public BulletPresetType presetType;
     public Sprite sprite;
-    public float scaleX;
-    public float scaleY;
+    public float scaleX = 1;
+    public float scaleY = 1;
     public ColliderType colliderType;
     public BulletAnimationType spriteAnimation;
-    public float lifeTime;
+    public float lifeTime = 0;
+    public int effectId = -1;
 }
 
 public class BulletPresets : MonoBehaviourSingleton<BulletPresets>

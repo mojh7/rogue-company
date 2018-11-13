@@ -184,7 +184,7 @@ public class Bullet : MonoBehaviour
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
         this.updateDelayTime = updateDelayTime;
-        AutoBulletPresetType();
+        SetBulletPresetType();
 
         // 처음 위치 설정
         objTransform.position = pos;
@@ -306,7 +306,7 @@ public class Bullet : MonoBehaviour
         this.childBulletCommonProperty = childBulletCommonProperty;
         this.initVector = initVector;
         info.lifeTime = childBulletCommonProperty.childBulletLifeTime + childBulletCommonProperty.timeForOriginalShape;
-        AutoBulletPresetType();
+        SetBulletPresetType();
 
         // 처음 위치 설정
         objTransform.position = parentBulletTransform.position;
@@ -358,13 +358,8 @@ public class Bullet : MonoBehaviour
         lineRenderer.enabled = false;
         laserViewObj.SetActive(false);
 
-        if (BulletPresetType.None != info.bulletPresetType)
-        {
-            objTransform.localScale = new Vector3(bulletPresetInfo.scaleX, bulletPresetInfo.scaleY, 1f);
-            info.bulletSprite = bulletPresetInfo.sprite;
-            info.colliderType = bulletPresetInfo.colliderType;
-            info.spriteAnimation = bulletPresetInfo.spriteAnimation;
-        }
+        // preset 설정
+        SetBulletPresetInfo();
 
         ActivateColiider();
         // sprite 애니메이션 적용
@@ -480,13 +475,35 @@ public class Bullet : MonoBehaviour
 
     #region function
     /// <summary>
-    /// bulletPresetInfo 설정
+    /// 적용할 bulletPresetInfo 있으면 설정
     /// </summary>
-    private void AutoBulletPresetType()
+    private void SetBulletPresetType()
     {
         if (BulletPresetType.None != info.bulletPresetType)
         {
             this.bulletPresetInfo = BulletPresets.Instance.bulletPresetInfoList[(int)info.bulletPresetType - 1];
+        }
+    }
+
+    /// <summary>
+    /// original info로 설정한 내용 외의 초기 기본 값으로 되어있는 정보들은 프리셋 정보로 설정 
+    /// </summary>
+    private void SetBulletPresetInfo()
+    {
+        if (BulletPresetType.None != info.bulletPresetType)
+        {
+            objTransform.localScale = new Vector3(bulletPresetInfo.scaleX, bulletPresetInfo.scaleY, 1f);
+            if(null == info.bulletSprite)
+                info.bulletSprite = bulletPresetInfo.sprite;
+            if(ColliderType.None == info.colliderType)
+                info.colliderType = bulletPresetInfo.colliderType;
+            if (BulletAnimationType.NotPlaySpriteAnimation == info.spriteAnimation)
+                info.spriteAnimation = bulletPresetInfo.spriteAnimation;
+
+            if(info.lifeTime == 0)
+                info.lifeTime = bulletPresetInfo.lifeTime;
+            if (info.effectId == -1)
+                info.effectId = bulletPresetInfo.effectId;
         }
     }
 
