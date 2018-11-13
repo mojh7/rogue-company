@@ -4,15 +4,15 @@ timeCreated: 1541907894
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: weapon4_0
-    21300002: weapon4_1
-    21300004: weapon4_2
-    21300006: weapon4_3
-    21300008: weapon4_4
-    21300010: weapon4_5
-    21300012: weapon4_6
-    21300014: weapon4_7
-    21300016: weapon4_8
+    21300000: weapon_28
+    21300002: weapon_29
+    21300004: weapon_30
+    21300006: weapon_31
+    21300008: weapon_32
+    21300010: weapon_33
+    21300012: weapon_34
+    21300014: weapon_35
+    21300016: weapon_36
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -99,7 +99,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: weapon4_0
+      name: weapon_28
       rect:
         serializedVersion: 2
         x: 25
@@ -113,7 +113,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_1
+      name: weapon_29
       rect:
         serializedVersion: 2
         x: 70
@@ -127,7 +127,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_2
+      name: weapon_30
       rect:
         serializedVersion: 2
         x: 126
@@ -141,7 +141,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_3
+      name: weapon_31
       rect:
         serializedVersion: 2
         x: 172
@@ -155,7 +155,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_4
+      name: weapon_32
       rect:
         serializedVersion: 2
         x: 25
@@ -169,7 +169,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_5
+      name: weapon_33
       rect:
         serializedVersion: 2
         x: 74
@@ -183,7 +183,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_6
+      name: weapon_34
       rect:
         serializedVersion: 2
         x: 125
@@ -197,7 +197,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_7
+      name: weapon_35
       rect:
         serializedVersion: 2
         x: 153
@@ -211,7 +211,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon4_8
+      name: weapon_36
       rect:
         serializedVersion: 2
         x: 186

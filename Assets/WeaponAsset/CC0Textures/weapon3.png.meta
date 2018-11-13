@@ -4,12 +4,12 @@ timeCreated: 1540567755
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: weapon3_8
-    21300002: weapon3_3
-    21300004: weapon3_26
+    21300000: weapon_20
+    21300002: weapon_10
+    21300004: weapon_4
     21300006: weapon3_37
     21300008: weapon3_-2
-    21300010: weapon3_33
+    21300010: weapon_11
     21300012: weapon3_-1
   externalObjects: {}
   serializedVersion: 4
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: weapon3_8
+      name: weapon_20
       rect:
         serializedVersion: 2
         x: 7
@@ -111,7 +111,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon3_3
+      name: weapon_10
       rect:
         serializedVersion: 2
         x: 74
@@ -125,7 +125,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon3_26
+      name: weapon_4
       rect:
         serializedVersion: 2
         x: 156
@@ -167,7 +167,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon3_33
+      name: weapon_11
       rect:
         serializedVersion: 2
         x: 349

@@ -404,6 +404,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     public void InputWeaponData()
     {
         if (WeaponModeForDebug.Test == DebugSetting.Instance.weaponModeForDebug
+            || WeaponModeForDebug.Temp2 == DebugSetting.Instance.weaponModeForDebug
             || WeaponModeForDebug.ShapeSample == DebugSetting.Instance.weaponModeForDebug
             || WeaponModeForDebug.A1 == DebugSetting.Instance.weaponModeForDebug)
             return;
