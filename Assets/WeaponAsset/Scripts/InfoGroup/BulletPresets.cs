@@ -10,7 +10,7 @@ public class BulletPresetInfo
     public float scaleY = 1;
     public ColliderType colliderType;
     public BulletAnimationType spriteAnimation;
-    public float lifeTime = 0;
+    public float lifeTime = -1;
     public int effectId = -1;
 }
 

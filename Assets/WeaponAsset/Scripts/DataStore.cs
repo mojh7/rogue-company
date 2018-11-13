@@ -444,7 +444,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             mainWeaponInfos[i].rating = rating;
             //Debug.Log(rating);
 
-
             float.TryParse(weaponDatas[i]["chargeTimeMax"].ToString(), out chargeTimeMax);
             mainWeaponInfos[i].chargeTimeMax = chargeTimeMax;
             //Debug.Log(chargeTimeMax);

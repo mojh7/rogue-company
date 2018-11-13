@@ -500,7 +500,7 @@ public class Bullet : MonoBehaviour
             if (BulletAnimationType.NotPlaySpriteAnimation == info.spriteAnimation)
                 info.spriteAnimation = bulletPresetInfo.spriteAnimation;
 
-            if(info.lifeTime == 0)
+            if(info.lifeTime == -1)
                 info.lifeTime = bulletPresetInfo.lifeTime;
             if (info.effectId == -1)
                 info.effectId = bulletPresetInfo.effectId;
