@@ -640,7 +640,7 @@ public class ItemBox : RandomSpriteObject
     {
         if (typeof(Weapon) != innerObject.GetType())
         {
-            Destroy(innerObject.gameObject);
+            Delete();
         }
         DestroyAndDeactive();
     }
@@ -657,6 +657,8 @@ public class ItemBox : RandomSpriteObject
     public override void Delete()
     {
         base.Delete();
+        if (innerObject == null)
+            return;
         innerObject.transform.parent = null;
         innerObject.gameObject.SetActive(false);
     }
@@ -794,7 +796,8 @@ public class ItemContainer : RandomSpriteObject
         // 일단 무기만 적용, 무기가 아닌 거(코인)이면 destroy
         if (typeof(Weapon) != innerObject.GetType())
         {
-            Destroy(innerObject.gameObject);
+            innerObject.transform.parent = null;
+            innerObject.gameObject.SetActive(false);
         }
         DettachDestroy();
     }
@@ -811,6 +814,8 @@ public class ItemContainer : RandomSpriteObject
     public override void Delete()
     {
         base.Delete();
+        if (innerObject == null)
+            return;
         innerObject.transform.parent = null;
         innerObject.gameObject.SetActive(false);
     }
@@ -1100,6 +1105,8 @@ public class StoreItem : CustomObject
     public override void Delete()
     {
         base.Delete();
+        if (innerObject == null)
+            return;
         innerObject.transform.parent = null;
         innerObject.gameObject.SetActive(false);
     }
