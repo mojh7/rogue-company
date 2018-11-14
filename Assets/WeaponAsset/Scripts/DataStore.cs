@@ -313,7 +313,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private void InitMiscItems()
     {
         for (int i = 0; i < miscItemInfos.Length; i++)
-            miscItemInfos[i].SetID(i);
+            miscItemInfos[i].SetId(i);
     }
 
     /// <summary> 무기 정보 관련 초기화 </summary>
@@ -335,7 +335,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 break;
             case WeaponModeForDebug.Main:
                 for (int i = 0; i < mainWeaponInfos.Length; i++)
+                {
                     mainWeaponInfos[i].Init();
+                    InsertWeaponInfoByRating(mainWeaponInfos[i]);
+                }
                 break;
             case WeaponModeForDebug.Temp2:
                 for (int i = 0; i < temp2WeaponInfos.Length; i++)

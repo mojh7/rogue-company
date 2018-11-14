@@ -37,7 +37,7 @@ public class UsableItem : Item
         Debug.Log("UsableItem use");
         for(int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
-            info.EffectApplyTypes[i].SetItemId(info.GetID());
+            info.EffectApplyTypes[i].SetItemId(info.GetId());
             info.EffectApplyTypes[i].SetPos(this.transform.position);
             info.EffectApplyTypes[i].UseItem();
         }
