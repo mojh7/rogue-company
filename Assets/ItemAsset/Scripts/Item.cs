@@ -113,12 +113,15 @@ public class Ammo : Item
 {
     bool isActive = false;
 
+    public bool isCanFill()
+    {
+        return PlayerManager.Instance.GetPlayer().GetWeaponManager().FillUpAmmo();
+    }
+
     public override void Active()
     {
         if (!isActive)
         {
-            if (!PlayerManager.Instance.GetPlayer().GetWeaponManager().FillUpAmmo())
-                return;
             isActive = !isActive;
             MoveToTarget();
         }
@@ -126,8 +129,6 @@ public class Ammo : Item
 
     public override void SubActive()
     {
-        if (!PlayerManager.Instance.GetPlayer().GetWeaponManager().FillUpAmmo())
-            return;
         isActive = !isActive;
         MoveToTarget();
     }

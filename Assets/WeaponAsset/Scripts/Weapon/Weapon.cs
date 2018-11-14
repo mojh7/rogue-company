@@ -135,6 +135,7 @@ public class Weapon : Item
         else
         {
             info.ammo = info.ammoCapacity;
+            weaponManager.UpdateAmmoView(info);
             return true;
         }
     }

@@ -28,6 +28,14 @@ public class Frame : MonoBehaviour {
             usableItem.Init(itemInfo3);
             ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            ItemManager.Instance.DropAmmo(PlayerManager.Instance.GetPlayerPosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            ItemManager.Instance.DropCard(PlayerManager.Instance.GetPlayerPosition());
+        }
         if (!frame)
             return;
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;

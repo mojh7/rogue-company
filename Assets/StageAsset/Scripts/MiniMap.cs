@@ -510,11 +510,13 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
 
     public void HideMap()
     {
+        mask.GetComponent<Mask>().enabled = !mask.GetComponent<Mask>().enabled;
+
         playerIcon.transform.localPosition = new Vector2(-maskSize, -maskSize);
-        mask.localPosition = oldPos;
+        transform.localPosition = oldPos;
         renderer.color = new Color(1, 1, 1, 1);
-        title[1].gameObject.SetActive(false);
-        isToggle = !isToggle;
+        titleMap(0, 1);
+        isToggle = false;
     }
 
     public void ToggleMinimap()

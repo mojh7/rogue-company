@@ -399,6 +399,7 @@ public class Spawner : RandomSpriteObject
 
 public class Door : RandomSpriteObject
 {
+    Map.Rect owner;
     int isLock;
     bool isHorizon;
     Sprite openSprite;
@@ -448,7 +449,10 @@ public class Door : RandomSpriteObject
     {
         isLock--;
         if (isLock <= 0)
+        {
             sprite = openSprite;
+            isAvailable = false;
+        }
     }
     public override void SetAvailable()
     {
@@ -463,51 +467,41 @@ public class Door : RandomSpriteObject
         isLock--;
         isAvailable = false;
         GameDataManager.Instance.UseCard();
-        isActive = false;
-        doorArrows[0].SetActive(true);
-        doorArrows[1].SetActive(true);
         sprite = openSprite;
 
         SetCollision();
         return true;
     }
-    public bool OpenAndClose()
+    public void Open()
     {
-        isAvailable = true;
         if (isLock > 0)
         {
-            isAvailable = false;
-            return false;
+            isAvailable = true;
+            return;
         }
-        if (isActive)
+        doorArrows[0].SetActive(true);
+        doorArrows[1].SetActive(true);
+        sprite = openSprite;
+        SetCollision();
+    }
+    public void Close()
+    {
+        isAnimate = true;
+        StartAni();
+        doorArrows[0].SetActive(false);
+        doorArrows[1].SetActive(false);
+        if (!isHorizon)
         {
-            isActive = false;
-            doorArrows[0].SetActive(true);
-            doorArrows[1].SetActive(true);
-            sprite = openSprite;
+            animator.SetTrigger("door_horizon");
         }
         else
         {
-            isActive = true;
-            isAnimate = true;
-            StartAni();
-            doorArrows[0].SetActive(false);
-            doorArrows[1].SetActive(false);
-            if (!isHorizon)
-            {
-                animator.SetTrigger("door_horizon");
-            }
-            else
-            {
-                animator.SetTrigger("door_vertical");
-            }
-            sprite = closeSprite;
+            animator.SetTrigger("door_vertical");
         }
-
+        sprite = closeSprite;
         SetCollision();
-
-        return true;
     }
+
     public void SetAxis(bool _isHorizon)
     {
         isHorizon = _isHorizon;
@@ -663,7 +657,8 @@ public class ItemBox : RandomSpriteObject
     public override void Delete()
     {
         base.Delete();
-        Destroy(innerObject);
+        innerObject.transform.parent = null;
+        innerObject.gameObject.SetActive(false);
     }
 
 }
@@ -714,7 +709,7 @@ public class ItemContainer : RandomSpriteObject
             if (innerObject.GetType() != typeof(Coin) && innerObject.GetType() != typeof(Card) || !isAvailable)
                 return;
             DettachDestroy();
-            if(this && innerObject)
+            if (this && innerObject)
                 innerObject.Active();
         }
     }
@@ -735,11 +730,20 @@ public class ItemContainer : RandomSpriteObject
             }
             isAvailable = true;
         }
-        else if(innerObject.GetType() == typeof(UsableItem))
+        else if (innerObject.GetType() == typeof(UsableItem))
         {
             isAvailable = false;
 
             innerObject.Active();
+            DestroyAndDeactive();
+            return true;
+        }
+        else if(innerObject.GetType() == typeof(Ammo))
+        {
+            if (!(innerObject as Ammo).isCanFill())
+                return false;
+            innerObject.Active();
+            isAvailable = false;
             DestroyAndDeactive();
             return true;
         }
@@ -777,7 +781,9 @@ public class ItemContainer : RandomSpriteObject
     public void DettachDestroy()
     {
         if (innerObject != null)
+        {
             innerObject.transform.parent = null;
+        }
         DestroyAndDeactive();
     }
 
@@ -805,7 +811,8 @@ public class ItemContainer : RandomSpriteObject
     public override void Delete()
     {
         base.Delete();
-        Destroy(innerObject);
+        innerObject.transform.parent = null;
+        innerObject.gameObject.SetActive(false);
     }
 }
 
@@ -1093,7 +1100,8 @@ public class StoreItem : CustomObject
     public override void Delete()
     {
         base.Delete();
-        Destroy(innerObject);
+        innerObject.transform.parent = null;
+        innerObject.gameObject.SetActive(false);
     }
 }
 

@@ -98,16 +98,27 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         rightTop = currentRoom.areaRightTop;
     }
 
-    void DoorActive() 
+    void DoorOpen()
     {
         if (currentRoom.doorObjects != null)
         {
             for (int j = 0; j < currentRoom.doorObjects.Count; j++)
             {
-                currentRoom.doorObjects[j].OpenAndClose();
+                currentRoom.doorObjects[j].Open();
             }
         }
-    }//작동 가능여부 turn
+    }
+
+    void DoorClose()
+    {
+        if (currentRoom.doorObjects != null)
+        {
+            for (int j = 0; j < currentRoom.doorObjects.Count; j++)
+            {
+                currentRoom.doorObjects[j].Close();
+            }
+        }
+    }
 
     void ObjectSetAvailable() 
     {
@@ -182,13 +193,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void ClearRoom()
     {
-        DropCard();
+        DropCard(); DropAmmo();
         clearedRoom--;
         currentRoom.isClear = true;
 
         MiniMap.Instance.HideMiniMap();
         ObjectSetAvailable();
-        DoorActive();
+        DoorOpen();
         FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
         UIManager.Instance.ClearRoomUI(true);
@@ -248,7 +259,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         monsterNum--;
         if (monsterNum == 0)
         {
-            if (currentRoom.gage == 0)
+            if (currentRoom.gage <= 0)
                 ClearRoom();
             else
                 SpawnMonster();
@@ -353,7 +364,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         EnableObjects();
         MiniMap.Instance.HideMiniMap();
-        DoorActive();
+        DoorClose();
         ObjectSetAvailable();
     }
 
