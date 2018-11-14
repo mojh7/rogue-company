@@ -6,8 +6,8 @@ public class BulletPresetInfo
 {
     public BulletPresetType presetType;
     public Sprite sprite;
-    public float scaleX = 1;
-    public float scaleY = 1;
+    public float scaleX = 0;
+    public float scaleY = 0;
     public ColliderType colliderType;
     public BulletAnimationType spriteAnimation;
     public float lifeTime = -1;

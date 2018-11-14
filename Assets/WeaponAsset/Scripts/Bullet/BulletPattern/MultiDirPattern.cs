@@ -62,6 +62,11 @@ public class MultiDirPattern : BulletPattern
                         weapon.UseAmmo();
                     else break;
                 }
+                muzzlePos = weapon.GetMuzzlePos();
+            }
+            else
+            {
+                muzzlePos = ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), 90) * info.additionalVerticalPos;
             }
             if (info.ignoreOwnerDir)
             {
@@ -73,9 +78,9 @@ public class MultiDirPattern : BulletPattern
             }
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
-                weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos),
+                muzzlePos + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos),
                 dirDegree - info.initAngle + info.deltaAngle * i + additionalAngle + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
-                transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
+                transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape); 
             CreateChildBullets();
         }
     }

@@ -160,6 +160,9 @@ public class Bullet : MonoBehaviour
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
 
+        SetBulletPresetType();
+        SetBulletPresetInfo();
+
         UpdateTransferBulletInfo();
         ApplyWeaponBuff();
         // 투사체 총알 속성 초기화
@@ -184,12 +187,13 @@ public class Bullet : MonoBehaviour
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
         this.updateDelayTime = updateDelayTime;
-        SetBulletPresetType();
-
         // 처음 위치 설정
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+
+        SetBulletPresetType();
+        SetBulletPresetInfo();
 
         UpdateTransferBulletInfo();
         // Owner 정보 초기화
@@ -266,6 +270,9 @@ public class Bullet : MonoBehaviour
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;
 
+        SetBulletPresetType();
+        SetBulletPresetInfo();
+
         UpdateTransferBulletInfo();
 
         // Owner 정보 초기화
@@ -306,12 +313,14 @@ public class Bullet : MonoBehaviour
         this.childBulletCommonProperty = childBulletCommonProperty;
         this.initVector = initVector;
         info.lifeTime = childBulletCommonProperty.childBulletLifeTime + childBulletCommonProperty.timeForOriginalShape;
-        SetBulletPresetType();
 
         // 처음 위치 설정
         objTransform.position = parentBulletTransform.position;
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+
+        SetBulletPresetType();
+        SetBulletPresetInfo();
 
         UpdateTransferBulletInfo();
         // childBullet은 speed에 의해서 움직이지 않고 UpdateProperty에서 childProperty에 의해 좌표 값 설정해서 스피드 필요 없음.
@@ -358,9 +367,6 @@ public class Bullet : MonoBehaviour
         lineRenderer.enabled = false;
         laserViewObj.SetActive(false);
 
-        // preset 설정
-        SetBulletPresetInfo();
-
         ActivateColiider();
         // sprite 애니메이션 적용
         if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
@@ -386,14 +392,7 @@ public class Bullet : MonoBehaviour
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
-            if(OwnerType.Player == ownerType)
-            {
-                SetColliderSize(spriteRenderer, info.colliderSizeRate);
-            }
-            if (OwnerType.Enemy == ownerType)
-            {
-                SetColliderSize(spriteRenderer, info.colliderSizeRate);
-            }
+            SetColliderSize(spriteRenderer, info.colliderSizeRate);
             //boxCollider.size = spriteRenderer.sprite.bounds.size;
             //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
         }
@@ -492,7 +491,8 @@ public class Bullet : MonoBehaviour
     {
         if (BulletPresetType.None != info.bulletPresetType)
         {
-            objTransform.localScale = new Vector3(bulletPresetInfo.scaleX, bulletPresetInfo.scaleY, 1f);
+            if(0 != bulletPresetInfo.scaleX && 0 != bulletPresetInfo.scaleY)
+                objTransform.localScale = new Vector3(bulletPresetInfo.scaleX, bulletPresetInfo.scaleY, 1f);
             if(null == info.bulletSprite)
                 info.bulletSprite = bulletPresetInfo.sprite;
             if(ColliderType.None == info.colliderType)
@@ -565,6 +565,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    #region setVelocityAndDirection
     /// <summary> 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다. </summary>
     public void SetDirection(Vector3 dirVector)
     {
@@ -617,7 +618,9 @@ public class Bullet : MonoBehaviour
             info.speed = -speed;
         }
     }
+    #endregion
 
+    #region collision
     /// <summary> 충돌 처리 Collision </summary>
     public void OnCollisionEnter2D(Collision2D coll)
     {
@@ -686,7 +689,9 @@ public class Bullet : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region delete
     /// <summary> 삭제 속성 실행 </summary>
     public void DestroyBullet()
     {
@@ -736,6 +741,7 @@ public class Bullet : MonoBehaviour
             animator.Rebind();
         }
     }
+    #endregion
 
     /// <summary> weapon -> bulletPattern으로 넘어온 정보 최신화, 이후 enemy에 정보 넘김. </summary>
     private void UpdateTransferBulletInfo()

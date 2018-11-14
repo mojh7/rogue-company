@@ -6,7 +6,7 @@ using WeaponAsset;
 // 패턴 추가시 InfoGroup 에서 해당 pattern info도 만들고
 // BulletPatternInfo 클래스에서 CreatePatternInfo함수에 내용 추가 해야됨.
 
-    public enum PatternCallType { WEAPON, BULLET }
+public enum PatternCallType { WEAPON, BULLET }
 
 // bullet 정보중에서 weapon->pattern->bullet 순으로 전달 되야할 정보들
 [System.Serializable]
@@ -61,6 +61,8 @@ public abstract class BulletPattern
 
     protected WeaponTargetEffect totalInfo;
     protected WeaponTargetEffect effectInfo;
+
+    protected Vector3 muzzlePos;
 
     protected PatternCallType patternCallType;
     public float GetDelay()

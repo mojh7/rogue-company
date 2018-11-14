@@ -33,6 +33,15 @@ public abstract class DeleteProperty : BulletProperty
 {
     public abstract DeleteProperty Clone();
     public abstract void DestroyBullet();
+    // TODO : 고쳐야 됨
+    protected void CreateEffect(int id, Vector3 pos)
+    {
+        if (id < 0) return;
+        if (id == 0)
+        {
+            ParticleManager.Instance.PlayParticle("BulletEffect1", new Vector2(pos.x, pos.y));
+        }
+    }
 }
 
 /// <summary> 기본 총알 삭제, effect만 생성 </summary>
@@ -45,8 +54,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
-        // ObjectPoolManager.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
-        TestScript.Instance.CreateEffect(bullet.info.effectId, bulletTransform.position);
+        CreateEffect(bullet.info.effectId, bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
@@ -90,6 +98,7 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
+        CreateEffect(bullet.info.effectId, bulletTransform.position);
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo.Clone(), ownerBuff, transferBulletInfo, bullet.GetOwnerType(), bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
@@ -117,6 +126,7 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
     }
     public override void DestroyBullet()
     {
+        CreateEffect(bullet.info.effectId, bulletTransform.position);
         dirDegree = bullet.GetDirDegree();
         dirVec = bullet.GetDirVector();
         summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetTransferBulletInfo(), () => dirDegree, () => dirVec, ()=>bulletTransform.transform.position, bullet.info.deleteAfterSummonPatternInfo.addDirVecMagnitude);

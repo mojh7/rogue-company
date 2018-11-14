@@ -161,8 +161,8 @@ public class BulletInfo : ScriptableObject
     {
         ownerType = CharacterInfo.OwnerType.Player;
 
-        scaleX = 1.0f;
-        scaleY = 1.0f;
+        scaleX = -1;
+        scaleY = -1;
         laserSize = 1.0f;
 
         pierceCount = 1;
