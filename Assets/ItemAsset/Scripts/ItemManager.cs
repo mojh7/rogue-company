@@ -161,6 +161,12 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         itemBox.sprites = new Sprite[1] { GetItemRatingSprite(item.GetRating()) };
         itemBox.Init(item);
     }
+    public Rating GetStoreItemRating()
+    {
+        int floor = InGameManager.Instance.GetFloor();
+
+        return GetRating(floor, iRestboxPercentage);
+    }
     private Rating GetRating(int floor,int [,] array)
     {
         int total = 0;

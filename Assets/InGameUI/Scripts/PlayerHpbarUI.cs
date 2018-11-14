@@ -7,7 +7,9 @@ public class PlayerHpbarUI : MonoBehaviour {
     [SerializeField] private GameObject obj;
     [SerializeField] private Image hpImage;
     [SerializeField] private Image delayHPImage;
+    [SerializeField] private Text hpText;
 
+    
     float hp;
     float oldHp;
     float remainHp;
@@ -25,6 +27,7 @@ public class PlayerHpbarUI : MonoBehaviour {
         oldHp = hp;
         remainHp = hp;
         hpImage.fillAmount = remainHp / hp;
+        hpText.text = remainHp + "/" + maxHp;
     }
 
     public void DecreaseHp(float _hp)
@@ -33,6 +36,7 @@ public class PlayerHpbarUI : MonoBehaviour {
         oldHp = remainHp;
         remainHp = _hp;
         hpImage.fillAmount = remainHp / hp;
+        hpText.text = remainHp + "/" + maxHp;
         StartCoroutine(CoroutineHP(oldHp, remainHp, hp, delayHPImage));
     }
 
@@ -42,6 +46,7 @@ public class PlayerHpbarUI : MonoBehaviour {
         oldHp = remainHp;
         remainHp = _hp;
         hpImage.fillAmount = remainHp / hp;
+        hpText.text = remainHp + "/" + maxHp;
         if (remainHp > maxHp)
         {
             hp = remainHp;

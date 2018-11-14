@@ -8,6 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public class Stamina : MonoBehaviourSingleton<Stamina>
 {
+    [SerializeField]
+    private Text steminaText;
     private PlayerData playerData;
     private Player player;
     private Image staminaImage;
@@ -60,6 +62,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         stamina = _stamina;
         maxStamina = _stamina;
         staminaImage.fillAmount = stamina / (float)maxStamina;
+        steminaText.text = stamina + "/" + maxStamina;
     }
 
     /// <summary>
@@ -67,17 +70,18 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     /// </summary>
     public void RecoverStamina(int recoveryAmount = 3)
     {
-        ParticleManager.Instance.PlayParticle("Stemina", player.GetPosition());
+        ParticleManager.Instance.PlayParticle("Stamina", player.GetPosition());
         recoveryAmount += PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaIncrement;
         stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.steminaGage);
         staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
 
-        if (staminaImage.fillAmount >= maxStamina)
+        if (stamina >= maxStamina)
         {
             stamina = maxStamina;
-            staminaImage.fillAmount = maxStamina;
+            staminaImage.fillAmount = 1;
         }
         playerData.Stamina = stamina;
+        steminaText.text = stamina + "/" + maxStamina;
     }
 
     public void RecoverFullStamina()
@@ -92,6 +96,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             staminaImage.fillAmount = maxStamina;
         }
         playerData.Stamina = stamina;
+        steminaText.text = stamina + "/" + maxStamina;
     }
     public void ConsumeStamina(int staminaConsumption)
     {
@@ -104,6 +109,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             staminaImage.fillAmount = 0;
         }
         playerData.Stamina = stamina;
+        steminaText.text = stamina + "/" + maxStamina;
     }
 
     public bool IsFullStamina()

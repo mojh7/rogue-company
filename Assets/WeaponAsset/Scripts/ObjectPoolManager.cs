@@ -209,6 +209,42 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return usableItem;
     }
 
+    public UsableItem CreateUsableItem(Rating rating)
+    {
+        if (itemPool == null)
+            return null;
+        GameObject createdObj = itemPool.NewItem();
+        UsableItem usableItem = createdObj.GetComponent<UsableItem>();
+        UsableItemType type = (UsableItemType)Random.Range(0, System.Enum.GetNames(typeof(UsableItemType)).Length - 1);
+        //TODO : Pet아이템이 없어서 legth -1을 넣어놓음
+        int usableItemId = -1;
+        switch (type)
+        {
+            case UsableItemType.CLOTHING:
+                usableItem.Init(DataStore.Instance.GetClothingItemInfo(usableItemId));
+                break;
+            case UsableItemType.ETC:
+                usableItem.Init(DataStore.Instance.GetEtcItemInfo(usableItemId));
+                break;
+            case UsableItemType.FOOD:
+                usableItem.Init(DataStore.Instance.GetFoodItemInfo(usableItemId));
+                break;
+            case UsableItemType.MEDICAL:
+                usableItem.Init(DataStore.Instance.GetMedicalItemInfo(usableItemId));
+                break;
+            case UsableItemType.MISC:
+                usableItem.Init(DataStore.Instance.GetMiscItemInfo(usableItemId));
+                break;
+            case UsableItemType.PET:
+                usableItem.Init(DataStore.Instance.GetPetItemInfo(usableItemId));
+                break;
+            default:
+                break;
+        }
+
+        return usableItem;
+    }
+
     #endregion
 
 

@@ -809,6 +809,7 @@ public class PlayerController
         this.moveJoyStick = moveJoyStick;
         this.attackJoyStick = attackJoyStick;
         this.activeSkillButton = activeSkillButton;
+        attackJoyStick.StartRoutine();
     }
     public Vector2 GetMoveAttackInputVector()
     {

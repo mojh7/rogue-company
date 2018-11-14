@@ -1044,7 +1044,8 @@ public class StoreItem : CustomObject
     {
         if(isAvailable)
         {
-            innerObject = ObjectPoolManager.Instance.CreateUsableItem();
+            Rating rating = ItemManager.Instance.GetStoreItemRating();
+            innerObject = ObjectPoolManager.Instance.CreateUsableItem(rating);
             if (innerObject == null)
                 return;
             itemRating = innerObject.GetRating();

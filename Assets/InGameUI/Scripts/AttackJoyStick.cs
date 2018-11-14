@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 using UnityEngine.UI;
 
 public class AttackJoyStick : Joystick
@@ -12,30 +13,39 @@ public class AttackJoyStick : Joystick
     private CustomObject olderInteractiveObject;
     private PointerEventData pointerEventData;
 
-    private void Update()
+    public void StartRoutine()
     {
-        if (isTouchDown)
+        StartCoroutine(JoyStickCoroutine());
+    }
+    IEnumerator JoyStickCoroutine()
+    {
+        while (true)
         {
-            if (UIManager.Instance.GetActived() || character.IsEvade())
-                return;
-            character.SetAim();
-            character.GetWeaponManager().AttackButtonDown();
-        }
-        else
-        {
-            olderInteractiveObject = interactiveObject;
-            if (olderInteractiveObject != null)
-                olderInteractiveObject.DeIndicateInfo();
-            interactiveObject = character.Interact();
-            if (interactiveObject == null)
+            if (isTouchDown)
             {
-                joystickImage.sprite = attackSprite;
+                if (!UIManager.Instance.GetActived() || !character.IsEvade())
+                {
+                    character.SetAim();
+                    character.GetWeaponManager().AttackButtonDown();
+                }
             }
             else
             {
-                interactiveObject.IndicateInfo();
-                joystickImage.sprite = interactSprite;
+                olderInteractiveObject = interactiveObject;
+                if (olderInteractiveObject != null)
+                    olderInteractiveObject.DeIndicateInfo();
+                interactiveObject = character.Interact();
+                if (interactiveObject == null)
+                {
+                    joystickImage.sprite = attackSprite;
+                }
+                else
+                {
+                    interactiveObject.IndicateInfo();
+                    joystickImage.sprite = interactSprite;
+                }
             }
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
     }
 

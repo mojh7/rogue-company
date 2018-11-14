@@ -270,16 +270,18 @@ namespace Map
 
         void RefreshData()
         {
-            for (int i = 0; i < rooms.Count; i++)
+            int i = 0, j = 0;
+
+            for (i = 0; i < rooms.Count; i++)
             {
                 if (rooms[i].customObjects != null)
-                    for (int j = 0; j < rooms[i].customObjects.Length; j++)
+                    for (j = 0; j < rooms[i].customObjects.Length; j++)
                     {
                         rooms[i].customObjects[j].GetComponent<CustomObject>().Delete();
                         Object.DestroyImmediate(rooms[i].customObjects[j].GetComponent<CustomObject>());
                     }
                 if (rooms[i].doorObjects != null)
-                    for (int j = 0; j < rooms[i].doorObjects.Count; j++)
+                    for (j = 0; j < rooms[i].doorObjects.Count; j++)
                     {
                         if (rooms[i].doorObjects[j])
                         {
@@ -288,6 +290,22 @@ namespace Map
                         }
                     }
             }
+
+    
+            for (i = 0; i < halls.Count; i++)
+            {
+                if (halls[i].customObjects != null)
+                    for (j = 0; j < halls[i].customObjects.Length; j++)
+                    {
+                        if (halls[i].customObjects[j].GetComponent<CustomObject>())
+                        {
+                            halls[i].customObjects[j].GetComponent<CustomObject>().Delete();
+                            Object.DestroyImmediate(halls[i].customObjects[j].GetComponent<CustomObject>());
+                        }
+                    }
+            }
+
+ 
 
             objectPool.Deactivation();
 

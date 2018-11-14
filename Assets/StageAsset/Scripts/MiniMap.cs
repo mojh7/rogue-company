@@ -534,7 +534,6 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
             else
             {
                 // 크게 키운 맵
-                oldPos = transform.localPosition;
                 minimapObj.transform.localPosition = new Vector2(-maskSize, -maskSize);
                 transform.localPosition = new Vector2(maskSize, maskSize);
                 renderer.color = new Color(1, 1, 1, 0.7f);
