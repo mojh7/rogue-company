@@ -12,6 +12,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
     public void Test_Frist(string str)
     {
         this.str = str;
+        Debug.Log(str + " " + count);
         switch (str)
         {
             case "move":
@@ -30,9 +31,79 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "총의 위치까지 이동해주세요!";
                         break;
                     case 4:
-                        count = 0;
+                        TutorialUIManager.Instance.HoldAll(false);
                         TutorialUIManager.Instance.SetLayersActive(0, false);
+                        //this.gameObject.SetActive(false);
+                        count = 0;
+                        TutorialUIManager.Instance.count++;
+                        TutorialUIManager.Instance.FirstTest();
+                        break;
+                }
+                break;
+            case "swap":
+                switch (count)
+                {
+                    case 0:
+                        text.text = "축하해요!\n권총을 얻으셨네요!";
+                        break;
+                    case 1:
+                        text.text = "장거리, 원거리 인스턴스화\n플레이어가 갖기\n무기 흔들리기";
+                        //count++;
+                        //this.gameObject.SetActive(false);
+                        TutorialManager.Instance.TestSpriteWeapon();
+                        TutorialUIManager.Instance.SetLayersActive(4, false);
+                        break;
+                    case 2:
+                        text.text = "좌우 스와이프로\n무기를 바꿀 수 있답니다!";
+                        break;
+                    case 3:
+                        text.text = "원거리는 한정된 총알이\n근거리는 스태미나가 닳아요!";
+                        break;
+                    case 4:
+                        count = 0;
+                        TutorialUIManager.Instance.count++;
+                        //TutorialUIManager.Instance.FirstTest();
+                        break;
+                }
+                break;
+            case "enemy":
+                Debug.Log(count);
+                switch (count)
+                {
+                    case 0:
+                        text.text = "이제 공격방식을\n변경하는 법에 대해 알아볼까요?";
+                        break;
+                    case 1:
+                        //text.text = "메뉴 보여주기";
+                        TutorialUIManager.Instance.StartCoroutine("ActiveTrueMenu");
+                        count++;
                         this.gameObject.SetActive(false);
+                        break;
+                    case 2:
+                        text.text = "공격방식은 오토, 세미오토, 수동\n세 가지 입니다!";
+                        break;
+                    case 3:
+                        text.text = "카메라 이동 + ai포커스 되는 코루틴 실행";
+                        // 카메라 이동 + ai포커스 되는 코루틴 실행
+                        //count++;
+                        //this.gameObject.SetActive(false);
+                        break;
+                    case 4:
+                        text.text = "아앗! 저기에 몬스터가 있어요!";
+                        break;
+                    case 5:
+                        text.text = "공격 버튼 포커스";
+                        // 공격버튼 포커스
+                        //count++;
+                        //this.gameObject.SetActive(false);
+                        break;
+                    case 6:
+                        text.text = "해골 사원을 향해 공격!";
+                        TutorialUIManager.Instance.SetLayersActive(1, false);
+                        this.gameObject.SetActive(false);
+                        count = 0;
+                        TutorialUIManager.Instance.count++;
+                        TutorialUIManager.Instance.FirstTest();
                         break;
                 }
                 break;
@@ -40,20 +111,54 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                 switch (count)
                 {
                     case 0:
-                        text.text = "이동식 조이스틱 입니다!";
+                        text.text = "아앗! 해골몬스터가\n잠에서 깨어나고 말았어요!";
                         break;
                     case 1:
-                        text.text = "자유롭게 조이스틱으로 이동하세요.";
+                        text.text = "구르기 + 스킬 해금";
+                        // count++
+                        // this.gameObject.SetActive(false);
+                        TutorialUIManager.Instance.SetLayersActive(2, false);
+                        TutorialUIManager.Instance.SetLayersActive(3, false);
                         break;
                     case 2:
-                        text.text = "앞에 총이 떨어져 있네요!";
+                        text.text = "와! 구르기와 스킬을\n쓸 수 있게 되었어요!";
                         break;
                     case 3:
-                        text.text = "총의 위치까지 이동해주세요!";
+                        text.text = "구르기를 통해\n몬스터의 공격을 피할 수 있답니다!";
                         break;
                     case 4:
+                        text.text = "스킬을 통해\n더 강해질 수 있어요!";
+                        break;
+                    case 5:
                         count = 0;
                         TutorialUIManager.Instance.SetLayersActive(0, false);
+                        this.gameObject.SetActive(false);
+                        TutorialUIManager.Instance.count++;
+                        TutorialUIManager.Instance.FirstTest();
+                        break;
+                }
+                break;
+            case "clear":
+                switch (count)
+                {
+                    case 0:
+                        text.text = "와우 깔끔한 클리어!";
+                        break;
+                    case 1:
+                        text.text = "튜토리얼은 아쉽지만\n여기까지 입니다!";
+                        break;
+                    case 2:
+                        text.text = "토탈 생기기, 포커스";
+                        // count++
+                        // this.gameObject.SetActive(false);
+                        break;
+                    case 3:
+                        text.text = "포탈을 누르시면\n다음 스테이지로 이동할 수 있습니다";
+                        break;
+                    case 4:
+                        text.text = "메뉴에서 다시 튜토리얼을\n하실 수 있습니다.";
+                        break;
+                    case 5:
                         this.gameObject.SetActive(false);
                         break;
                 }

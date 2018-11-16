@@ -95,20 +95,24 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public GameObject CreateItem(Item _item, Vector3 _position, params Vector2[] dest)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-        obj.transform.position = _position;
-        obj.AddComponent<ItemContainer>().Init(_item);
-        objs.Enqueue(obj);
-        if (_item.GetType() == typeof(Coin) || _item.GetType() == typeof(Card))
+        if (obj != null)
         {
-            obj.GetComponent<ItemContainer>().IsCoin();
-            withdraws.Enqueue(obj.GetComponent<ItemContainer>());
-        }
-        if (dest.Length == 0)
-            StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-0.5f, 0.5f), 5)));
-        else
-            StartCoroutine(CoroutineDropping(obj, dest[0]));
+            obj.transform.position = _position;
+            obj.AddComponent<ItemContainer>().Init(_item);
+            objs.Enqueue(obj);
+            if (_item.GetType() == typeof(Coin) || _item.GetType() == typeof(Card))
+            {
+                obj.GetComponent<ItemContainer>().IsCoin();
+                withdraws.Enqueue(obj.GetComponent<ItemContainer>());
+            }
+            if (dest.Length == 0)
+                StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-0.5f, 0.5f), 5)));
+            else
+                StartCoroutine(CoroutineDropping(obj, dest[0]));
 
-        return obj;
+            return obj;
+        }
+        return null;
     }
     public void CollectItem()
     {

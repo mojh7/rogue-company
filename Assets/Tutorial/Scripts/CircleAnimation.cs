@@ -12,7 +12,7 @@ public class CircleAnimation : MonoBehaviourSingleton<CircleAnimation> {
 
     private void Start()
     {
-        rect = this.gameObject.GetComponent<RectTransform>();
+        rect = this.gameObject.GetComponent<Image>().GetComponent<RectTransform>();
         width = rect.rect.width;
         height = rect.rect.height;
         isTrue = false;

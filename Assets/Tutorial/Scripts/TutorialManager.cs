@@ -4,19 +4,35 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
     [SerializeField]
     WeaponInfo weapon1, weapon2, weapon3;
+
     private void Start()
     {
         SpawnPlayer();
         DrawUI();
 
+        // 테스트용
+        ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(weapon1.sprite);
+
+        TutorialUIManager.Instance.HoldAll(true);
+
         StartCoroutine("First");
     }
 
-    void CallWeapon(int i)
+    private void Update()
     {
-        Item obj = ObjectPoolManager.Instance.CreateWeapon(weapon1) as Item;
-        ItemManager.Instance.CreateItem(obj, Vector3.zero,Vector3.zero);
+        if (TutorialUIManager.Instance.count == 2 && TextUI.Instance.count <= 1)
+        {
+            TutorialUIManager.Instance.FirstTest();
+        }
     }
+
+    void CallWeapon()
+    {
+        Weapon weapon = ObjectPoolManager.Instance.CreateWeapon(weapon1) as Weapon;
+        Debug.Log(weapon.name);
+        ItemManager.Instance.CreateItem(weapon, Vector3.zero, Vector3.zero);
+    }
+
     void SpawnPlayer()
     {
         PlayerManager.Instance.FindPlayer(); // 플레이어 스폰
@@ -29,8 +45,15 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
 
     IEnumerator First()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         TutorialUIManager.Instance.SetFocus(0);
         yield return null;
+    }
+
+    // 테스트용
+    public void TestSpriteWeapon()
+    {
+        ControllerUI.Instance.WeaponSwitchButton.UpdateNextWeaponSprite(weapon2.sprite);
+        ControllerUI.Instance.WeaponSwitchButton.UpdatePrevWeaponSprite(weapon3.sprite);
     }
 }
