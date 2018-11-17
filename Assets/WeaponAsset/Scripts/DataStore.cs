@@ -42,9 +42,13 @@ namespace WeaponAsset
     public enum AttackType { MELEE, RANGED }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION}
-    public enum BulletPresetType { None, YellowCircle, RedCircle, SkyBlueBash, BlueBash, RedBash, OrangeBash,
-                                    BlueCircle, SkyBlueCircle, PinkCircle, PurpleCircle,
-                                    Empty, YellowMissile, RedLaser};
+    public enum BulletPresetType
+    {
+        None, YellowCircle, RedCircle, SkyBlueBash, BlueBash, RedBash, OrangeBash,
+        BlueCircle, SkyBlueCircle, PinkCircle, VioletCircle, Empty,
+        YellowBullet, BlueBullet, PinkBullet, VioletBullet, RedBullet, GreenBullet,
+        YellowBeam, BlueBeam, PinkBeam, VioletBeam, RedBeam, GreenBeam
+    };
     /*---*/
 
     public enum BulletPropertyType { Collision, Update, Delete }
