@@ -127,20 +127,6 @@ namespace Map
             return rooms;
         }
 
-        public void AddFallRock()
-        {
-            for (int i = 0; i < rooms.Count; i++)
-            {
-                if (!rooms[i].isRoom)
-                {
-                    GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-                    obj.transform.position = rooms[i].GetAvailableArea();
-                    obj.AddComponent<FallRockTrap>();
-                    obj.GetComponent<FallRockTrap>().Init(ResourceManager.Instance.Rock);
-                }
-            }
-        }
-
         public Vector3 GetStartPosition()
         {
             return (halls[0].areaLeftDown + halls[0].areaRightTop) * .5f;
