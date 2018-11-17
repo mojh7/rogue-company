@@ -12,7 +12,6 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
 
         CallWeapon();
         CallEnemy();
-        //ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(weapon1.sprite);
         TutorialUIManager.Instance.HoldAll(true);
 
         StartCoroutine("First");
@@ -31,7 +30,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
         EnemyData skeleton = EnemyManager.Instance.GetEnemyToTutorial(5);
         EnemyManager.Instance.Generate(new Vector3(0, 3, 0), skeleton);
 
-        AStar.TileGrid.Instance.Bake(true);
+        AStar.TileGrid.Instance.BakeTutorial();
         AStar.Pathfinder.Instance.Bake();
     }
 

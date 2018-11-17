@@ -51,26 +51,23 @@ namespace AStar
             }
         }
 
-        public void Bake(bool isTutorial)
+        public void BakeTutorial()
         {
-            if (isTutorial)
+            neighbours = new List<Node>(9);
+            gridWorldSize = new Vector2(30, 30);
+            nodeDiameter = nodeRadius * 2;
+            width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
+            height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+            grid = new Node[width, height];
+            box = new Vector2(nodeDiameter, nodeDiameter);
+            for (int x = 0; x < width; x++)
             {
-                neighbours = new List<Node>(9);
-                gridWorldSize = new Vector2(100, 100);
-                nodeDiameter = nodeRadius * 2;
-                width = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-                height = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-                grid = new Node[width, height];
-                box = new Vector2(nodeDiameter, nodeDiameter);
-                for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
                 {
-                    for (int y = 0; y < height; y++)
-                    {
-                        Vector3 worldPoint = Vector3.right * (x * nodeDiameter + nodeRadius)
-                          + Vector3.up * (y * nodeDiameter + nodeRadius);
-                        bool walkable = !(Physics2D.OverlapBox(worldPoint, box, 0, unwalkableMask));
-                        grid[x, y] = new Node(walkable, worldPoint, x, y);
-                    }
+                    Vector3 worldPoint = Vector3.right * (x * nodeDiameter + nodeRadius)
+                      + Vector3.up * (y * nodeDiameter + nodeRadius);
+                    bool walkable = !(Physics2D.OverlapBox(worldPoint, box, 0, unwalkableMask));
+                    grid[x, y] = new Node(walkable, worldPoint, x, y);
                 }
             }
         }
