@@ -109,7 +109,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
     void CallBack(Vector3 position, object temporary, float amount,Character owner)
     {
-        if (!RoomManager.Instance.isRoomClear())
+        if (RoomManager.Instance.isRoomClear())
             return;
         Enemy enemy;
         GameObject obj = SpawnEnemy(position);

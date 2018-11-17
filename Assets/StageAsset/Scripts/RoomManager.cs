@@ -21,7 +21,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     public bool isRoomClear()
     {
         if (currentRoom == null)
-            return true;
+            return false;
         return currentRoom.isClear;
     }
 
