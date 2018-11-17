@@ -28,10 +28,13 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
     void CallEnemy()
     {
         EnemyData skeleton = EnemyManager.Instance.GetEnemyToTutorial(5);
-        EnemyManager.Instance.Generate(new Vector3(0, 3, 0), skeleton);
+        GameObject obj = EnemyManager.Instance.GenerateObj(new Vector3(0, 3, 0), skeleton);
 
         AStar.TileGrid.Instance.BakeTutorial();
         AStar.Pathfinder.Instance.Bake();
+
+        obj.GetComponent<Enemy>().GetCharacterComponents().AIController.StopMove();
+        obj.GetComponent<Enemy>().GetCharacterComponents().AIController.StopAttack();
     }
 
     void CallWeapon()

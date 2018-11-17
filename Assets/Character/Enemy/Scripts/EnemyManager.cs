@@ -41,13 +41,24 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         obj.GetComponent<Alert>().Active();
     }
 
-    public void Generate(Vector3 _position,EnemyData enemyData)
+    public void Generate(Vector3 _position, EnemyData enemyData)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
         obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0, null);
         obj.GetComponent<Alert>().Active();
+    }
+
+    public GameObject GenerateObj(Vector3 _position, EnemyData enemyData)
+    {
+        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
+        obj.transform.position = _position;
+        obj.AddComponent<Alert>();
+        obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0, null);
+        obj.GetComponent<Alert>().Active();
+
+        return obj;
     }
 
     public void CreateBossData()
