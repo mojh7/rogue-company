@@ -186,6 +186,7 @@ public class BuffManager : MonoBehaviour
             becomesSpiderMine = false,
             bounceAble = false,
             shotgunBulletCanHoming = false,
+            canHoming = false,
             meleeWeaponsCanBlockBullet = false,
             meleeWeaponsCanReflectBullet = false
         };
@@ -204,9 +205,6 @@ public class BuffManager : MonoBehaviour
     #endregion
 
     #region function
-
-
-
     /// <summary> 효과 등록 </summary>
     /// <param name="itemUseEffect">효과 내용</param>
     /// <param name="effectiveTime">효과 적용 시간, default = -1, 0초과된 값 => 일정 시간 동안 효과 적용되는 버프 아이템</param>
@@ -533,6 +531,8 @@ public class BuffManager : MonoBehaviour
                 WeaponTargetEffectTotal[index].bounceAble = boolSign;
             if (targetEffect.shotgunBulletCanHoming)
                 WeaponTargetEffectTotal[index].shotgunBulletCanHoming = boolSign;
+            if (targetEffect.canHoming)
+                WeaponTargetEffectTotal[index].canHoming = boolSign;
             if (targetEffect.meleeWeaponsCanBlockBullet)
                 WeaponTargetEffectTotal[index].meleeWeaponsCanBlockBullet = boolSign;
             if (targetEffect.meleeWeaponsCanReflectBullet)

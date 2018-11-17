@@ -12,6 +12,9 @@ using UnityEngine.Serialization;
  * 
  * 
  */
+
+//TODO : enum 모두 대문자, 대문자_대문자 형태로 바꿀 예정
+
 namespace WeaponAsset
 {
     public delegate float DelGetDirDegree();    // 총구 방향 각도
@@ -39,7 +42,8 @@ namespace WeaponAsset
     public enum AttackType { MELEE, RANGED }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION}
-    public enum BulletPresetType { None, YellowCircle, RedCircle, SkyBlueBash, BlueBash, RedBash, OrangeBash };
+    public enum BulletPresetType { None, YellowCircle, RedCircle, SkyBlueBash, BlueBash, RedBash, OrangeBash
+                                    };
     /*---*/
 
     public enum BulletPropertyType { Collision, Update, Delete }

@@ -804,6 +804,16 @@ public class Bullet : MonoBehaviour
             }
         }
 
+        if(effectInfo.canHoming)
+        {
+            info.homingEndTime = 1.5f;
+            //HomingProperty 중복 생성 방지
+            if (false == HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(HomingProperty)))
+            {
+                info.updateProperties.Add(new HomingProperty());
+                info.updatePropertiesLength += 1;
+            }
+        }
         
         // 6. 모든 근거리 무기 상대 총알 막기
         if (effectInfo.meleeWeaponsCanBlockBullet)
