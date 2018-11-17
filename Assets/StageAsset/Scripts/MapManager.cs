@@ -1265,6 +1265,7 @@ namespace Map
                 doorObjects[i].UnLock();
             }
         }
+
         public void DoorLock()
         {
             isLock = true;
@@ -1281,6 +1282,7 @@ namespace Map
                 doorObjects[i].SetCollision();
             }
         }
+
         public void IsRoom()
         {
             isRoom = true;

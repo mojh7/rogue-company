@@ -64,7 +64,7 @@ public class Coin : Item
     }
 }
 
-public class Card : Item
+public class Key : Item
 {
     bool isActive = false;
 
@@ -72,7 +72,7 @@ public class Card : Item
     {
         if (!isActive)
         {
-            GameDataManager.Instance.SetCard();
+            GameDataManager.Instance.SetKey();
             isActive = !isActive;
             MoveToTarget();
         }
@@ -80,7 +80,7 @@ public class Card : Item
 
     public override void SubActive()
     {
-        GameDataManager.Instance.SetCard();
+        GameDataManager.Instance.SetKey();
         isActive = !isActive;
         MoveToTarget();
     }

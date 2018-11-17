@@ -462,11 +462,9 @@ public class Door : RandomSpriteObject
     {
         if (isLock <= 0)
             return false;
-        if(GameDataManager.Instance.GetCard() <= 0)
-            return false;
+        UIManager.Instance.OpenWarningUI();
         isLock--;
         isAvailable = false;
-        GameDataManager.Instance.UseCard();
         sprite = openSprite;
 
         SetCollision();
@@ -629,6 +627,9 @@ public class ItemBox : RandomSpriteObject
     {
         if (!base.Active())
             return false;
+        if (GameDataManager.Instance.GetKey() <= 0)
+            return false;
+        GameDataManager.Instance.UseKey();
         isAvailable = false;
         innerObject.gameObject.SetActive(true);
         ItemManager.Instance.CreateItem(innerObject, this.transform.position);
@@ -698,6 +699,7 @@ public class ItemContainer : RandomSpriteObject
     {
         isCoin = true;
     }
+
     void ReAlign()
     {
         innerObject.transform.parent = transform;
@@ -708,7 +710,7 @@ public class ItemContainer : RandomSpriteObject
     {
         if (collision.CompareTag("Interactor"))
         {
-            if (innerObject.GetType() != typeof(Coin) && innerObject.GetType() != typeof(Card) || !isAvailable)
+            if (innerObject.GetType() != typeof(Coin) && innerObject.GetType() != typeof(Key) || !isAvailable)
                 return;
             DettachDestroy();
             if (this && innerObject)
@@ -819,128 +821,6 @@ public class ItemContainer : RandomSpriteObject
         innerObject.transform.parent = null;
         innerObject.gameObject.SetActive(false);
     }
-}
-
-public class FallRockTrap : RandomSpriteObject
-{
-    Sprite tempSprite;
-    public override void Init()
-    {
-        base.Init();
-    }
-    public void Init(Sprite sprite)
-    {
-        Init();
-        isAvailable = true;
-        this.tempSprite = sprite;
-        List<Vector2> list = new List<Vector2>();
-        int num = tempSprite.GetPhysicsShapeCount();
-        gameObject.layer = 0;
-        polygonCollider2D.pathCount = num;
-        for (int i = 0; i < num; i++)
-        {
-            tempSprite.GetPhysicsShape(i, list);
-            GetComponent<PolygonCollider2D>().SetPath(i, list.ToArray());
-        }
-        polygonCollider2D.isTrigger = false;
-    }
-    public override bool Active()
-    {
-        this.gameObject.AddComponent<Alert>();
-        this.gameObject.GetComponent<Alert>().sprites = null;
-        this.gameObject.GetComponent<Alert>().Init(CallBack, null, 0, 0, null);
-        this.gameObject.GetComponent<Alert>().Active();
-        Destroy(this);
-        return true;
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Interactor") && isAvailable)
-        {
-            isAvailable = false;
-            Active();
-        }
-    }
-    void CallBack(Vector3 _position, object temporary, float amount, Character owner)
-    {
-        GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-        obj.AddComponent<Rock>();
-        obj.GetComponent<Rock>().sprites = new Sprite[1] { tempSprite };
-        obj.GetComponent<Rock>().Init();
-        obj.transform.position = _position;
-        obj.GetComponent<Rock>().Active();
-    }
-}
-
-public class Rock : RandomSpriteObject
-{
-    int duration;
-
-    public override void Init()
-    {
-        base.Init();
-        isAvailable = true;
-        duration = 10;
-    }
-    public override bool Active()
-    {
-        StartCoroutine(Dropping());
-        return base.Active();
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        GameObject obj = collision.gameObject;
-
-        if (UtilityClass.CheckLayer(obj.gameObject.layer, 16, 13) && isAvailable)
-        {
-            isAvailable = false;
-            Vector2 dir = obj.transform.position - transform.position;
-            obj.GetComponent<Character>().Attacked(dir, transform.position, 1, 200, 0);
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (UtilityClass.CheckLayer(collision.gameObject.layer, 15, 17) && duration > 0)
-        {
-            duration--;
-            if (duration == 0)
-            {
-                Destruct();
-            }
-        }
-    }
-    void Destruct()
-    {
-        ParticleManager.Instance.PlayParticle("BrokenParticle", this.transform.position, sprite);
-        polygonCollider2D.enabled = false;
-        gameObject.SetActive(false);
-        AStar.TileGrid.Instance.Bake(spriteRenderer);
-    }
-
-    IEnumerator Dropping()
-    {
-        float lowerLimit = transform.position.y;
-        transform.position = new Vector2(transform.position.x, transform.position.y + 1.5f);
-        float elapsed_time = 0;
-        float sX = transform.position.x;
-        float sY = transform.position.y;
-        while (true)
-        {
-            elapsed_time += Time.deltaTime;
-            float x = sX;
-            float y = sY - (0.5f * 20 * elapsed_time * elapsed_time);
-            transform.position = new Vector2(x, y);
-            if (transform.position.y <= lowerLimit)
-                break;
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-        GetComponent<PolygonCollider2D>().enabled = true;
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
-        yield return YieldInstructionCache.WaitForEndOfFrame;
-
-        isAvailable = false;
-    }
-
 }
 
 public class SnackBox : NoneRandomSpriteObject

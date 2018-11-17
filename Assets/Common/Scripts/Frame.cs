@@ -34,7 +34,7 @@ public class Frame : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            ItemManager.Instance.DropCard(PlayerManager.Instance.GetPlayerPosition());
+            ItemManager.Instance.DropKey(PlayerManager.Instance.GetPlayerPosition());
         }
         if (!frame)
             return;

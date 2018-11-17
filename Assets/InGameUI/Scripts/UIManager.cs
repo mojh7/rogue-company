@@ -21,15 +21,28 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     [SerializeField] private GameObject gameOverObj;
     [SerializeField] private Image fadeImage;
     [SerializeField] private Text coinText;
-    [SerializeField] private Text cardText;
+    [SerializeField] private Text KeyText;
     [SerializeField] private GameObject clearObj;
     [SerializeField] private Image[] clearImage;
+    [SerializeField] private GameObject warningUI;
+
     public BossHPUI bossHPUI;
     bool actived = false;
     bool isHide = true;
     #endregion
 
     #region function
+
+    public void OpenWarningUI()
+    {
+        warningUI.SetActive(true);
+        UtilityClass.Invoke(this, CloseWarningUI, 1f);
+    }
+
+    private void CloseWarningUI()
+    {
+        warningUI.SetActive(false);
+    }
 
     public void GameOverUI()
     {
@@ -54,11 +67,11 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
         coinText.text = _num.ToString();
     }
 
-    public void SetCardText(int _num)
+    public void SetKeyText(int _num)
     {
-        if (null == cardText)
+        if (null == KeyText)
             return;
-        cardText.text = _num.ToString();
+        KeyText.text = _num.ToString();
     }
 
     public void ReturnTitle()

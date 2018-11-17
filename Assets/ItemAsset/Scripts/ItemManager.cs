@@ -36,7 +36,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     [SerializeField]
     private Sprite coinSprite;
     [SerializeField]
-    private Sprite cardSprite;
+    private Sprite KeySprite;
     [SerializeField]
     private Sprite ammoSprite;
 
@@ -60,14 +60,14 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         ParticleManager.Instance.PlayParticle("Smoke", pos);
         ItemManager.Instance.CreateItem(ammo.GetComponent<Ammo>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
     }
-    public void DropCard(Vector3 pos)
+    public void DropKey(Vector3 pos)
     {
-        GameObject card = ResourceManager.Instance.itemPool.GetPooledObject();
-        card.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.cardSprite;
-        card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
-        card.AddComponent<Card>();
+        GameObject Key = ResourceManager.Instance.itemPool.GetPooledObject();
+        Key.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.KeySprite;
+        Key.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        Key.AddComponent<Key>();
         ParticleManager.Instance.PlayParticle("Smoke", pos);
-        ItemManager.Instance.CreateItem(card.GetComponent<Card>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+        ItemManager.Instance.CreateItem(Key.GetComponent<Key>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
     }
     public Coin DropCoin()
     {
@@ -100,7 +100,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         obj.transform.position = _position;
         obj.AddComponent<ItemContainer>().Init(_item);
         objs.Enqueue(obj);
-        if (_item.GetType() == typeof(Coin) || _item.GetType() == typeof(Card))
+        if (_item.GetType() == typeof(Coin) || _item.GetType() == typeof(Key))
         {
             obj.GetComponent<ItemContainer>().IsCoin();
             withdraws.Enqueue(obj.GetComponent<ItemContainer>());

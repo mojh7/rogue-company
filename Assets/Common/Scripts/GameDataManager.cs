@@ -10,7 +10,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     int m_floor;
     Player.PlayerType m_playerType;
     int m_coin;
-    int m_card;
+    int m_key;
 
     GameData gameData;
     string dataPath;
@@ -30,7 +30,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     private PlayerData[] playerDatas;
 
     #region setter
-    public void SetCard() { m_card++; ShowUI(); }
+    public void SetKey() { m_key++; ShowUI(); }
     public void SetCoin() { m_coin++; ShowUI(); }
     public void SetFloor() { m_floor++; }
     public void SetKill() { m_kill++; }
@@ -39,7 +39,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region getter
-    public int GetCard() { return m_card; }
+    public int GetKey() { return m_key; }
     public int GetCoin() { return m_coin; }
     public int GetFloor() { return m_floor; }
     public int GetKill() { return m_kill; }
@@ -62,10 +62,10 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region Func
-    public void UseCard()
+    public void UseKey()
     {
-        if (m_card > 0)
-            m_card--;
+        if (m_key > 0)
+            m_key--;
         ShowUI();
     }
     public void ReduceCoin(int value)
@@ -78,7 +78,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     void ShowUI()
     {
         UIManager.Instance.SetCoinText(m_coin);
-        UIManager.Instance.SetCardText(m_card);
+        UIManager.Instance.SetKeyText(m_key);
     }
   
     public void Savedata()
@@ -96,7 +96,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             gameData = new GameData();
         gameData.SetFloor(m_floor);
         gameData.SetCoin(m_coin);
-        gameData.SetCard(m_card);
+        gameData.SetKey(m_key);
         gameData.SetKill(m_kill);
         gameData.SetTime(TimeController.Instance.GetPlayTime);
 
@@ -126,7 +126,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             gameData = BinaryDeserialize();
             m_floor = gameData.GetFloor();
             m_coin = gameData.GetCoin();
-            m_card = gameData.GetCard();
+            m_key = gameData.GetKey();
             m_playerType = gameData.GetPlayerType();
             m_kill = gameData.GetKill();
             m_time = gameData.GetTime();
@@ -153,7 +153,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         }
         m_floor = 0;
         m_coin = 0;
-        m_card = 0;
+        m_key = 0;
         m_kill = 0;
         m_time = 0;
     }

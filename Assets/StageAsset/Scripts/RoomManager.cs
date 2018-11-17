@@ -15,7 +15,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     Vector2 zeroVector;
     int mapSize;
     int clearedRoom;
-    int cardNum;
+    int KeyNum;
     int ammoNum;
 
     public bool isRoomClear()
@@ -42,7 +42,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     public void InitRoomList()
     {
         ammoNum = 2;
-        cardNum = 4;
+        KeyNum = 4;
         clearedRoom = 0;
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
         for (int i = 0; i < roomList.Count; i++)
@@ -169,10 +169,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         if (ammoNum <= 0 || clearedRoom <= 0)
             return;
-        int eachCardLow = ammoNum / clearedRoom;
-        int eachCardHigh = (ammoNum + clearedRoom - 1) / clearedRoom;
+        int eachKeyLow = ammoNum / clearedRoom;
+        int eachKeyHigh = (ammoNum + clearedRoom - 1) / clearedRoom;
 
-        int ret = Random.Range(eachCardLow, eachCardHigh + 1);
+        int ret = Random.Range(eachKeyLow, eachKeyHigh + 1);
         if (ret == 1)
         {
             ammoNum--;
@@ -180,24 +180,24 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         }
     }
 
-    void DropCard()
+    void DropKey()
     {
-        if (cardNum <= 0 || clearedRoom <= 0)
+        if (KeyNum <= 0 || clearedRoom <= 0)
             return;
-        int eachCardLow = cardNum / clearedRoom;
-        int eachCardHigh = (cardNum + clearedRoom - 1) / clearedRoom;
+        int eachKeyLow = KeyNum / clearedRoom;
+        int eachKeyHigh = (KeyNum + clearedRoom - 1) / clearedRoom;
 
-        int ret = Random.Range(eachCardLow, eachCardHigh + 1);
+        int ret = Random.Range(eachKeyLow, eachKeyHigh + 1);
         if (ret == 1)
         {
-            cardNum--;
-            ItemManager.Instance.DropCard(currentRoom.GetAvailableArea());
+            KeyNum--;
+            ItemManager.Instance.DropKey(currentRoom.GetAvailableArea());
         }
     }
 
     void ClearRoom()
     {
-        DropCard(); DropAmmo();
+        DropKey(); DropAmmo();
         clearedRoom--;
         currentRoom.isClear = true;
 
