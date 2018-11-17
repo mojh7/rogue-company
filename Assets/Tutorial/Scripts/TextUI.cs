@@ -12,7 +12,6 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
     public void Test_Frist(string str)
     {
         this.str = str;
-        Debug.Log(str + " " + count);
         switch (str)
         {
             case "move":
@@ -33,10 +32,11 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                     case 4:
                         TutorialUIManager.Instance.HoldAll(false);
                         TutorialUIManager.Instance.SetLayersActive(0, false);
-                        //this.gameObject.SetActive(false);
+                        TutorialUIManager.Instance.SetLayersActive(1, false);
+                        this.gameObject.SetActive(false);
                         count = 0;
                         TutorialUIManager.Instance.count++;
-                        TutorialUIManager.Instance.FirstTest();
+                        //TutorialUIManager.Instance.FirstTest();
                         break;
                 }
                 break;
@@ -45,6 +45,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                 {
                     case 0:
                         text.text = "축하해요!\n권총을 얻으셨네요!";
+                        TutorialUIManager.Instance.SetLayersActive(1, true);
                         break;
                     case 1:
                         text.text = "장거리, 원거리 인스턴스화\n플레이어가 갖기\n무기 흔들리기";
@@ -61,13 +62,13 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         break;
                     case 4:
                         count = 0;
+                        TutorialUIManager.Instance.HoldAll(false);
                         TutorialUIManager.Instance.count++;
-                        //TutorialUIManager.Instance.FirstTest();
+                        this.gameObject.SetActive(false);
                         break;
                 }
                 break;
             case "enemy":
-                Debug.Log(count);
                 switch (count)
                 {
                     case 0:
@@ -102,6 +103,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         TutorialUIManager.Instance.SetLayersActive(1, false);
                         this.gameObject.SetActive(false);
                         count = 0;
+                        TutorialUIManager.Instance.HoldAll(false);
                         TutorialUIManager.Instance.count++;
                         TutorialUIManager.Instance.FirstTest();
                         break;
@@ -131,10 +133,10 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         break;
                     case 5:
                         count = 0;
-                        TutorialUIManager.Instance.SetLayersActive(0, false);
                         this.gameObject.SetActive(false);
                         TutorialUIManager.Instance.count++;
                         TutorialUIManager.Instance.FirstTest();
+                        TutorialUIManager.Instance.HoldAll(false);
                         break;
                 }
                 break;
@@ -160,6 +162,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         break;
                     case 5:
                         this.gameObject.SetActive(false);
+                        TutorialUIManager.Instance.HoldAll(false);
                         break;
                 }
                 break;
@@ -192,6 +195,14 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                 isHide = true;
             }
             touch.color = color;
+        }
+        if (this.gameObject.activeSelf == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                count++;
+                Test_Frist(str);
+            }
         }
     }
 

@@ -443,6 +443,15 @@ public class WeaponManager : MonoBehaviour {
     public bool PickAndDropWeapon(Item pickedWeapon)
     {
         Weapon weapon = pickedWeapon as Weapon;
+        if(WeaponEmpty())
+        {
+            equipWeaponSlot.Add(weapon);
+            weapon.ObjTransform.SetParent(registerPoint, false);
+            weapon.RegisterWeapon(this);
+            currentWeaponIndex = weaponCount++;
+            UpdateCurrentWeapon();
+            return true;
+        }
         // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 1초간 무기 줍고 버리기 delay줌
         if (weapon == null || WeaponState.Idle != equipWeaponSlot[currentWeaponIndex].GetWeaponState() || !canPickAndDropWeapon)
             return false;

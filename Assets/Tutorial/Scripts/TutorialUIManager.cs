@@ -21,6 +21,7 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     public void FirstTest()
     {
         textObj.SetActive(true);
+        HoldAll(true);
         switch (count)
         {
             case 0:

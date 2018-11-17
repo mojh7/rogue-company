@@ -10,9 +10,9 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
         SpawnPlayer();
         DrawUI();
 
-        // 테스트용
-        ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(weapon1.sprite);
-
+        CallWeapon();
+        CallEnemy();
+        //ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(weapon1.sprite);
         TutorialUIManager.Instance.HoldAll(true);
 
         StartCoroutine("First");
@@ -20,17 +20,23 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
 
     private void Update()
     {
-        if (TutorialUIManager.Instance.count == 2 && TextUI.Instance.count <= 1)
+        if (!PlayerManager.Instance.GetPlayer().GetWeaponManager().WeaponEmpty() && TutorialUIManager.Instance.count == 1)
         {
             TutorialUIManager.Instance.FirstTest();
         }
+    }
+
+    void CallEnemy()
+    {
+        EnemyData skeleton = EnemyManager.Instance.GetEnemyToTutorial(5);
+        EnemyManager.Instance.Generate(Vector3.zero, skeleton);
     }
 
     void CallWeapon()
     {
         Weapon weapon = ObjectPoolManager.Instance.CreateWeapon(weapon1) as Weapon;
         Debug.Log(weapon.name);
-        ItemManager.Instance.CreateItem(weapon, Vector3.zero, Vector3.zero);
+        ItemManager.Instance.CreateItem(weapon, new Vector3(0, 1.5f, 0));    
     }
 
     void SpawnPlayer()
