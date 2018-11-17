@@ -20,7 +20,7 @@ public abstract class Item : MonoBehaviour {
 public class Coin : Item
 {
     bool isActive = false;
-    
+
     public override void Active()
     {
         if (!isActive)
@@ -59,6 +59,7 @@ public class Coin : Item
         }
 
         gameObject.SetActive(false);
+        gameObject.transform.parent = null;
         Destroy(this);
     }
 }
@@ -105,6 +106,7 @@ public class Card : Item
         }
 
         gameObject.SetActive(false);
+        gameObject.transform.parent = null;
         Destroy(this);
     }
 }
@@ -112,6 +114,11 @@ public class Card : Item
 public class Ammo : Item
 {
     bool isActive = false;
+
+    private void Start()
+    {
+        name = "탄약";
+    }
 
     public bool isCanFill()
     {
@@ -123,37 +130,9 @@ public class Ammo : Item
         if (!isActive)
         {
             isActive = !isActive;
-            MoveToTarget();
+            gameObject.SetActive(false);
+            gameObject.transform.parent = null;
+            Destroy(this);
         }
-    }
-
-    public override void SubActive()
-    {
-        isActive = !isActive;
-        MoveToTarget();
-    }
-
-    void MoveToTarget()
-    {
-        float distance = Vector2.Distance(transform.position, PlayerManager.Instance.GetPlayerPosition());
-
-        StartCoroutine(CoroutineMoveToTarget(transform, distance / 2));
-    }
-
-    IEnumerator CoroutineMoveToTarget(Transform _transform, float _duration)
-    {
-        float elapsed = 0.0f;
-        Vector2 start = _transform.position;
-        Vector2 target;
-        while (elapsed < _duration)
-        {
-            target = PlayerManager.Instance.GetPlayerPosition();
-            elapsed += Time.deltaTime + elapsed * elapsed / 50;
-            _transform.position = Vector2.Lerp(start, target, elapsed / _duration);
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-
-        gameObject.SetActive(false);
-        Destroy(this);
     }
 }

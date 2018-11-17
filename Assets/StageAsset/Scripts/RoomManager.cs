@@ -129,6 +129,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 currentRoom.customObjects[j].GetComponent<CustomObject>().SetAvailable();
             }
         }
+    } // 작동 가능여부 turn
+
+    void DoorSetAvailable()
+    {
         if (currentRoom.doorObjects != null)
         {
             for (int j = 0; j < currentRoom.doorObjects.Count; j++)
@@ -136,7 +140,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 currentRoom.doorObjects[j].SetAvailable();
             }
         }
-    } // 작동 가능여부 turn
+    }
 
     void EnableObjects()
     {
@@ -172,7 +176,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         if (ret == 1)
         {
             ammoNum--;
-            ItemManager.Instance.DropAmmo(currentRoom.GetAvailableArea());
+            ItemManager.Instance.DropAmmo(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition()));
         }
     }
 
@@ -199,6 +203,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
         MiniMap.Instance.HideMiniMap();
         ObjectSetAvailable();
+        DoorSetAvailable();
         DoorOpen();
         FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
@@ -366,6 +371,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         MiniMap.Instance.HideMiniMap();
         DoorClose();
         ObjectSetAvailable();
+        DoorSetAvailable();
     }
 
     void InitBossRoom()

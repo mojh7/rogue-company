@@ -54,9 +54,10 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public void DropAmmo(Vector3 pos)
     {
         GameObject ammo = ResourceManager.Instance.itemPool.GetPooledObject();
-        ammo.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.cardSprite;
+        ammo.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.ammoSprite;
         ammo.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         ammo.AddComponent<Ammo>();
+        ParticleManager.Instance.PlayParticle("Smoke", pos);
         ItemManager.Instance.CreateItem(ammo.GetComponent<Ammo>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
     }
     public void DropCard(Vector3 pos)
@@ -65,6 +66,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         card.GetComponent<SpriteRenderer>().sprite = ItemManager.Instance.cardSprite;
         card.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         card.AddComponent<Card>();
+        ParticleManager.Instance.PlayParticle("Smoke", pos);
         ItemManager.Instance.CreateItem(card.GetComponent<Card>(), pos, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
     }
     public Coin DropCoin()
@@ -95,24 +97,20 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public GameObject CreateItem(Item _item, Vector3 _position, params Vector2[] dest)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-        if (obj != null)
+        obj.transform.position = _position;
+        obj.AddComponent<ItemContainer>().Init(_item);
+        objs.Enqueue(obj);
+        if (_item.GetType() == typeof(Coin) || _item.GetType() == typeof(Card))
         {
-            obj.transform.position = _position;
-            obj.AddComponent<ItemContainer>().Init(_item);
-            objs.Enqueue(obj);
-            if (_item.GetType() == typeof(Coin) || _item.GetType() == typeof(Card))
-            {
-                obj.GetComponent<ItemContainer>().IsCoin();
-                withdraws.Enqueue(obj.GetComponent<ItemContainer>());
-            }
-            if (dest.Length == 0)
-                StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-0.5f, 0.5f), 5)));
-            else
-                StartCoroutine(CoroutineDropping(obj, dest[0]));
-
-            return obj;
+            obj.GetComponent<ItemContainer>().IsCoin();
+            withdraws.Enqueue(obj.GetComponent<ItemContainer>());
         }
-        return null;
+        if (dest.Length == 0)
+            StartCoroutine(CoroutineDropping(obj, new Vector2(Random.Range(-0.5f, 0.5f), 5)));
+        else
+            StartCoroutine(CoroutineDropping(obj, dest[0]));
+
+        return obj;
     }
     public void CollectItem()
     {
@@ -175,12 +173,22 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     {
         int total = 0;
         int length = System.Enum.GetValues(typeof(Rating)).Length;
-        for (int i = 0; i < length; i++)
+        int i = 0;
+        try
         {
-            total += array[floor, i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
+            for (i = 0; i < length; i++)
+            {
+                total += array[floor, i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
+            }
         }
+        catch (System.Exception)
+        {
+            Debug.Log(array.Length + " " + i);
+            throw;
+        }
+
         float randomPoint = Random.value * total;
-        for (int i = 0; i < length; i++)
+        for (i = 0; i < length; i++)
         {
             if (randomPoint < array[floor,i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i])
             {
