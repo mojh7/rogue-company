@@ -417,7 +417,7 @@ public class Bullet : MonoBehaviour
 
         if (info.soundId >= 0)
         {
-            AudioManager.Instance.PlaySound(info.soundId);
+            AudioManager.Instance.PlaySound(info.soundId, SOUNDTYPE.WEAPON);
         }
 
         // 파티클이 포함되어있는 오브젝트 on/ off
