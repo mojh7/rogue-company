@@ -135,6 +135,11 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         }
     }
 
+    public EnemyData GetEnemyToTutorial(int i)
+    {
+        return floorDatas[0].enemyDatas[i];
+    }
+
     public List<Enemy> GetEnemyList
     {
         get

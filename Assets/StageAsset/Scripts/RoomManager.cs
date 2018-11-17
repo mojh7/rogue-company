@@ -20,6 +20,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     public bool isRoomClear()
     {
+        if (currentRoom == null)
+            return true;
         return currentRoom.isClear;
     }
 
