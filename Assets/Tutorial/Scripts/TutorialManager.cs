@@ -29,7 +29,10 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager> {
     void CallEnemy()
     {
         EnemyData skeleton = EnemyManager.Instance.GetEnemyToTutorial(5);
-        EnemyManager.Instance.Generate(Vector3.zero, skeleton);
+        EnemyManager.Instance.Generate(new Vector3(0, 3, 0), skeleton);
+
+        AStar.TileGrid.Instance.Bake(true);
+        AStar.Pathfinder.Instance.Bake();
     }
 
     void CallWeapon()
