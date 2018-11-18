@@ -11,24 +11,33 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     public Tilemap shadowTileMap;
     public Tilemap fogTileMap;
 
-    public RandomTile floorTile;
+    [Space]
+
+    [SerializeField]
+    private RandomTile []floorTile;
     public RandomTile cafeTile;
     public RandomTile restTile;
     public RandomTile hallTile;
 
     public RuleTile shadowTile;
-    public RuleTile verticalWallRuleTile;
-    public RuleTile horizonWallRuleTile;
+    public RuleTile wallRuleTile;
     public RuleTile fogTile;
 
-    [SerializeField]
-    private MultiSpriteTile multiSprite;
-
-    public MultiSpriteTile GetSpriteTile()
+    public RandomTile GetSpriteTile()
     {
-        multiSprite.SetIdx();
-        return multiSprite;
+        Random.InitState((int)System.DateTime.Now.Ticks);
+        int rand = Random.Range(0, floorTile.Length);
+        return floorTile[rand];
     }
+
+    //[SerializeField]
+    //private MultiSpriteTile multiSprite;
+
+    //public MultiSpriteTile GetSpriteTile()
+    //{
+    //    multiSprite.SetIdx();
+    //    return multiSprite;
+    //}
 
     public GameObject tilePrefabs;
 
