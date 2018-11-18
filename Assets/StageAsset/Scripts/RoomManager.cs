@@ -152,10 +152,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             return;
         for (int i = 0; i < currentRoom.customObjects.Length; i++)
         {
-            if (currentRoom.customObjects[i].GetComponent<Portal>() == null)
-            {
-                currentRoom.customObjects[i].SetActive(true);
-            }
+            currentRoom.customObjects[i].SetActive(true);
         }
     }
 
@@ -214,12 +211,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
         if (currentRoom.eRoomType == RoomType.BOSS)
         {
-            ItemManager.Instance.CallItemBox(currentRoom.GetAvailableArea(), RoomType.BOSS);
+            ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition()), RoomType.BOSS);
+            ItemManager.Instance.DropKey(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Vector3.right));
             for (int i = 0; i < currentRoom.customObjects.Length; i++)
             {
                 if (currentRoom.customObjects[i].GetComponent<Portal>() != null)
                 {
-                    currentRoom.customObjects[i].SetActive(true);
+                    currentRoom.customObjects[i].GetComponent<Portal>().Possible();
                 }
             }
         }

@@ -580,16 +580,22 @@ public class Portal : RandomSpriteObject
     {
         base.Init();
         isActive = false;
-        isAvailable = true;
+        isAvailable = false;
         objectType = ObjectType.PORTAL;
         gameObject.layer = 9;
     }
+
     public override void SetAvailable()
     {
-        this.gameObject.SetActive(false);
+    }
+    public void Possible()
+    {
+        isAvailable = true;
     }
     public override bool Active()
     {
+        if (!isAvailable)
+            return false;
         base.Active();
         isAvailable = false;
         InGameManager.Instance.GoUpFloor();
