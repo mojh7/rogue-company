@@ -8,13 +8,13 @@ using UnityEngine.UI;
 /// </summary>
 public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
 {
-    [SerializeField] Image[] layers;
+    [SerializeField] public Image[] layers;
     [SerializeField] GameObject textObj;
-    [SerializeField] GameObject focusImage;
+    [SerializeField] Image focusImage;
     [SerializeField] GameObject[] menuObj;   
 
     [SerializeField] Image focus;
-    [HideInInspector] public GameObject obj;
+    [SerializeField] Canvas canvas;
 
     public int count = 0;
 
@@ -46,14 +46,16 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     }
 
     // 1010 focus 동적할당 테스트 -> 사용 xx
-    public void SetFocusImage()
+    public void SetFocusImage(Image obj)
     {
-        Debug.Log(1234);
-        obj = Instantiate(focusImage);
-        obj.transform.SetParent(GameObject.Find("Canvas").transform, false);
-        obj.SetActive(true);
-        RectTransform rt = obj.GetComponent<RectTransform>();
-        rt.position = new Vector2(layers[0].rectTransform.position.x, layers[0].rectTransform.position.y);
+        RectTransform rec = obj.rectTransform;
+        Image img = Instantiate(focusImage);
+        img.transform.parent = canvas.transform;
+        //img.rectTransform.position = new Vector2(layers[0].rectTransform.position.x, layers[0].rectTransform.position.y);
+        img.rectTransform.position = new Vector2(rec.position.x, rec.position.y);
+
+        if(obj == layers[0])
+            img.GetComponent<CircleAnimation>().isTrue = true;
     }
     
     public void SetFocus(int i)

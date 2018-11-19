@@ -50,6 +50,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
         cameraTransform.localPosition = zeroPos;
         isShaking = false;
     }
+
     #region func
     void FindOther(Vector2 _targetPos)
     {
