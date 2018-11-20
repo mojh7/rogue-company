@@ -6,8 +6,12 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
     [HideInInspector] public int count = 0;
     [SerializeField] private Text touch;
     [SerializeField] private Text text;
+    [SerializeField] private Image[] focus;
     private bool isHide = true;
     private string str;
+
+    TutorialManager tm;
+    TutorialUIManager tu;
 
     public void Test_Frist(string str)
     {
@@ -27,15 +31,15 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "앞에 총이 떨어져 있네요!";
                         break;
                     case 3:
-                        text.text = "총의 위치까지 이동해주세요!";
+                        text.text = "총의 위치까지 이동하여\n총이나 오른쪽 조이스틱 터치!";
                         break;
                     case 4:
-                        TutorialUIManager.Instance.HoldAll(false);
-                        TutorialUIManager.Instance.SetLayersActive(0, false);
-                        TutorialUIManager.Instance.SetLayersActive(1, false);
+                        tu.HoldAll(false);
+                        tu.SetLayersActive(0, false);
+                        tu.SetLayersActive(1, false);
                         this.gameObject.SetActive(false);
                         count = 0;
-                        TutorialUIManager.Instance.count++;
+                        tu.count++;
                         //TutorialUIManager.Instance.FirstTest();
                         break;
                 }
@@ -45,25 +49,30 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                 {
                     case 0:
                         text.text = "축하해요!\n권총을 얻으셨네요!";
-                        TutorialUIManager.Instance.SetLayersActive(1, true);
+                        tu.SetLayersActive(1, true);
                         break;
                     case 1:
-                        text.text = "장거리, 원거리 인스턴스화\n플레이어가 갖기\n무기 흔들리기";
-                        //count++;
-                        //this.gameObject.SetActive(false);
-                        TutorialManager.Instance.TestSpriteWeapon();
-                        TutorialUIManager.Instance.SetLayersActive(4, false);
+                        text.text = "원거리, 근거리 무기를 하나씩 드릴게요!";
                         break;
                     case 2:
-                        text.text = "좌우 스와이프로\n무기를 바꿀 수 있답니다!";
+                        tm.CallSwapWeapon();
+                        tu.SetLayersActive(4, false);
+                        count++;
                         break;
                     case 3:
-                        text.text = "원거리는 한정된 총알이\n근거리는 스태미나가 닳아요!";
+                        text.text = "무기는 최대 3개까지!";
                         break;
                     case 4:
+                        text.text = "좌우 스와이프로\n무기를 바꿀 수 있답니다!";
+                        break;
+                    case 5:
+                        text.text = "원거리는 한정된 총알이\n근거리는 스태미나가 닳아요!";
+                        break;
+                    case 6:
                         count = 0;
-                        TutorialUIManager.Instance.HoldAll(false);
-                        TutorialUIManager.Instance.count++;
+                        tu.HoldAll(false);
+                        tu.count++;
+                        ControllerUI.Instance.WeaponSwitchButton.StartShake(2f, 2f, 1, true);
                         this.gameObject.SetActive(false);
                         break;
                 }
@@ -75,8 +84,8 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "이제 공격방식을\n변경하는 법에 대해 알아볼까요?";
                         break;
                     case 1:
-                        //text.text = "메뉴 보여주기";
-                        TutorialUIManager.Instance.StartCoroutine("ActiveTrueMenu");
+                        tu.StartCoroutine("ActiveTrueMenu");
+                        tu.SetLayersActive(2, false);
                         count++;
                         this.gameObject.SetActive(false);
                         break;
@@ -84,29 +93,33 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "공격방식은 오토, 세미오토, 수동\n세 가지 입니다!";
                         break;
                     case 3:
-                        text.text = "카메라 이동 + ai포커스 되는 코루틴 실행";
-                        // 카메라 이동 + ai포커스 되는 코루틴 실행
-                        //count++;
-                        //this.gameObject.SetActive(false);
+                        tm.CallEnemy();
+                        tu.HoldAll(true);
+                        tu.SetLayersActive(0, true);
+                        count++;
+                        this.gameObject.SetActive(false);
                         break;
                     case 4:
                         text.text = "아앗! 저기에 몬스터가 있어요!";
                         break;
                     case 5:
-                        text.text = "공격 버튼 포커스";
-                        // 공격버튼 포커스
-                        //count++;
-                        //this.gameObject.SetActive(false);
+                        tu.SetFocus(focus[0]);
+                        count++;
+                        tu.StartCoroutine("StartText");
+                        this.gameObject.SetActive(false);
                         break;
                     case 6:
                         text.text = "해골 사원을 향해 공격!";
-                        TutorialUIManager.Instance.SetLayersActive(1, false);
-                        this.gameObject.SetActive(false);
-                        count = 0;
-                        TutorialUIManager.Instance.HoldAll(false);
-                        TutorialUIManager.Instance.count++;
-                        TutorialUIManager.Instance.FirstTest();
                         break;
+                    case 7:
+                        count = 0;
+                        tu.HoldAll(false);
+                        tu.SetLayersActive(0, false);
+                        tu.SetLayersActive(1, false);
+                        tu.count++;
+                        this.gameObject.SetActive(false);
+                        break;
+
                 }
                 break;
             case "attack":
@@ -116,11 +129,12 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "아앗! 해골몬스터가\n잠에서 깨어나고 말았어요!";
                         break;
                     case 1:
-                        text.text = "구르기 + 스킬 해금";
-                        // count++
-                        // this.gameObject.SetActive(false);
-                        TutorialUIManager.Instance.SetLayersActive(2, false);
-                        TutorialUIManager.Instance.SetLayersActive(3, false);
+                        tu.SetFocus(focus[2]);
+                        tu.SetFocus(focus[1]);
+                        tu.StartCoroutine("StartText");
+                        count++;
+                        this.gameObject.SetActive(false);
+                        count++;
                         break;
                     case 2:
                         text.text = "와! 구르기와 스킬을\n쓸 수 있게 되었어요!";
@@ -133,10 +147,14 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         break;
                     case 5:
                         count = 0;
+                        tm.StartAstar();
+                        tu.count++;
+                        tu.HoldAll(false);
                         this.gameObject.SetActive(false);
-                        TutorialUIManager.Instance.count++;
-                        TutorialUIManager.Instance.FirstTest();
-                        TutorialUIManager.Instance.HoldAll(false);
+                        tu.SetLayersActive(2, false);
+                        tu.SetLayersActive(3, false);
+
+                        tu.FirstTest();
                         break;
                 }
                 break;
@@ -162,13 +180,17 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         break;
                     case 5:
                         this.gameObject.SetActive(false);
-                        TutorialUIManager.Instance.HoldAll(false);
+                        tu.HoldAll(false);
                         break;
                 }
                 break;
         }
     }
-
+    private void Awake()
+    {
+        tm = TutorialManager.Instance;
+        tu = TutorialUIManager.Instance;
+    }
     void Update()
     {
         if (isHide)

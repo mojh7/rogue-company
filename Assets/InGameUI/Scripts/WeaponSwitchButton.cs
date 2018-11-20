@@ -14,12 +14,12 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
     [SerializeField] float shakeAmount;
     [SerializeField] float shakeDuration;
 
-    public void StartShake(float maxX, float maxY, float ShakeTime)
+    public void StartShake(float maxX, float maxY, float ShakeTime, bool tutorial)
     {
-        StartCoroutine(Shake(maxX, maxY, ShakeTime));
+        StartCoroutine(Shake(maxX, maxY, ShakeTime, tutorial));
     }
 
-    IEnumerator Shake(float maxX, float maxY, float ShakeTime)
+    IEnumerator Shake(float maxX, float maxY, float ShakeTime, bool tutorial)
     {
         float counter = 0f;
         Vector3 uiPosition = transform.position;
@@ -28,6 +28,10 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
             counter += Time.deltaTime;
             if (counter >= ShakeTime)
             {
+                if (tutorial)
+                {
+                    TutorialUIManager.Instance.FirstTest();
+                }
                 yield break;
             }
             else

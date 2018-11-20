@@ -8,12 +8,11 @@ using UnityEngine.UI;
 /// </summary>
 public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
 {
-    [SerializeField] public Image[] layers;
+    public Image[] layers;
+    [SerializeField] Image[] focusImages;
     [SerializeField] GameObject textObj;
-    [SerializeField] Image focusImage;
-    [SerializeField] GameObject[] menuObj;   
-
     [SerializeField] Image focus;
+    [SerializeField] GameObject[] menuObj;   
     [SerializeField] Canvas canvas;
 
     public int count = 0;
@@ -32,7 +31,6 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
                 TextUI.Instance.Test_Frist("swap");
                 break;
             case 2:
-                // TextUI.족 AI 활성화
                 TextUI.Instance.Test_Frist("enemy");
                 break;
             case 3:
@@ -46,32 +44,24 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     }
 
     // 1010 focus 동적할당 테스트 -> 사용 xx
-    public void SetFocusImage(Image obj)
+    public void SetFocus(Image obj)
     {
         RectTransform rec = obj.rectTransform;
-        Image img = Instantiate(focusImage);
+        Image img = Instantiate(focus);
         img.transform.parent = canvas.transform;
-        //img.rectTransform.position = new Vector2(layers[0].rectTransform.position.x, layers[0].rectTransform.position.y);
         img.rectTransform.position = new Vector2(rec.position.x, rec.position.y);
 
-        if(obj == layers[0])
+        if (obj == layers[0])
+        {
             img.GetComponent<CircleAnimation>().isTrue = true;
-    }
-    
-    public void SetFocus(int i)
-    {
-        focus.rectTransform.position = layers[i].rectTransform.position;
-
-        CircleAnimation.Instance.isTrue = false;
-        focus.gameObject.SetActive(true);
+        }
     }
 
-    public void SetFocus(GameObject obj)
+    IEnumerator StartText()
     {
-        focus.rectTransform.position = obj.GetComponent<Image>().rectTransform.position;
-
-        //CircleAnimation.Instance.isTrue = false;
-        focus.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+        FirstTest();
+        yield return null;
     }
 
     // layer 하나하나 active 설정하기
@@ -102,16 +92,18 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     IEnumerator ActiveTrueMenu()
     {
         layers[5].gameObject.SetActive(true);
-        //SetFocus(menuObj[0]);
-        yield return new WaitForSeconds(1.5f);
+        SetFocus(focusImages[0]);
+        yield return new WaitForSeconds(2.5f);
         menuObj[0].SetActive(true);
-        //SetFocus(menuObj[1]);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
+        SetFocus(focusImages[1]);
+        yield return new WaitForSeconds(2.5f);
         menuObj[1].SetActive(true);
-        //SetFocus(세미뭐시기);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
+        SetFocus(focusImages[2]);
+        yield return new WaitForSeconds(2.5f);
         FirstTest();
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         layers[5].gameObject.SetActive(false);
         menuObj[0].SetActive(false); menuObj[1].SetActive(false);
     }

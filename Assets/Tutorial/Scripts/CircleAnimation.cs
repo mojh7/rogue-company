@@ -44,6 +44,6 @@ public class CircleAnimation : MonoBehaviourSingleton<CircleAnimation> {
         {
             TutorialUIManager.Instance.FirstTest();
         }
-        Destroy(this.gameObject, 0.5f);
+        Destroy(this.gameObject);
     }
 }

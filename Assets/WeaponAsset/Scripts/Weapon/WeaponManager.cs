@@ -436,6 +436,19 @@ public class WeaponManager : MonoBehaviour {
         }
     }
 
+    public void TutorialWeapon(Item item)
+    {
+        Weapon weapon = item as Weapon;
+        if (weaponCount < weaponCountMax)
+        {
+            equipWeaponSlot.Add(weapon);
+            weapon.ObjTransform.SetParent(registerPoint, false);
+            weapon.RegisterWeapon(this);
+            weaponCount++;
+            UpdateCurrentWeapon();
+        }
+    }
+
     /// <summary>
     /// 무기 습득 : 슬룻 남을 때 = 무기 습득하고 습득한 무기 착용, 
     /// 슬룻 꽉찰 때 = 습득 무기 착용과 동시에 버려진 무기 </summary>
