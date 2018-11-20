@@ -64,6 +64,14 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
         yield return null;
     }
 
+    // 디버깅용
+    IEnumerator EndText()
+    {
+        yield return new WaitForSeconds(8f);
+        FirstTest();
+        yield return null;
+    }
+
     // layer 하나하나 active 설정하기
     public void SetLayersActive(int i, bool act)
     {

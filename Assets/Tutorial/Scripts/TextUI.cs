@@ -109,15 +109,13 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         this.gameObject.SetActive(false);
                         break;
                     case 6:
-                        text.text = "해골 사원을 향해 공격!";
+                        text.text = "오른쪽 조이스틱으로 공격할 수 있답니다!";
                         break;
                     case 7:
                         count = 0;
-                        tu.HoldAll(false);
-                        tu.SetLayersActive(0, false);
-                        tu.SetLayersActive(1, false);
                         tu.count++;
-                        this.gameObject.SetActive(false);
+                        //this.gameObject.SetActive(false);
+                        tu.FirstTest();
                         break;
 
                 }
@@ -151,10 +149,13 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         tu.count++;
                         tu.HoldAll(false);
                         this.gameObject.SetActive(false);
+                        tu.HoldAll(false);
+                        tu.SetLayersActive(0, false);
+                        tu.SetLayersActive(1, false);
                         tu.SetLayersActive(2, false);
                         tu.SetLayersActive(3, false);
 
-                        tu.FirstTest();
+                        tu.StartCoroutine("EndText");
                         break;
                 }
                 break;
@@ -162,6 +163,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                 switch (count)
                 {
                     case 0:
+                        // 몬스터가 죽고, 포탈이 생기면 시작
                         text.text = "와우 깔끔한 클리어!";
                         break;
                     case 1:

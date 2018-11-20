@@ -26,15 +26,15 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         {
             TutorialUIManager.Instance.FirstTest();
         }
-        if (Input.GetKeyDown(KeyCode.X))
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+        //    AStar.TileGrid.Instance.BakeTutorial();
+        //    AStar.Pathfinder.Instance.Bake();
+        //    //CallSwapWeapon();
+        //}
+        if (isis && TutorialUIManager.Instance.count == 4)
         {
-            AStar.TileGrid.Instance.BakeTutorial();
-            AStar.Pathfinder.Instance.Bake();
-            //CallSwapWeapon();
-        }
-        if (isis)
-        {
-            //StartCoroutine(CameraMove());
+            TutorialUIManager.Instance.FirstTest();
         }
     }
 
