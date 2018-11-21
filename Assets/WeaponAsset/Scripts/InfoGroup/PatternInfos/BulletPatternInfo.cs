@@ -26,6 +26,17 @@ public struct LineInfo
     public bool canDrawEndPoint;
 }
 
+[System.Serializable]
+public struct CircleShapeInfo
+{
+    public Vector2 centerOfCircle;
+    public int childBulletCount;
+    [Header("초기 bullet 놓일 각도, 시계방향 : +")]
+    public float initAngle;
+    [Tooltip("반 지름")]
+    public float radius;
+}
+
 /// <summary>
 /// ChildBullet에서 bulletInfo랑 벡터 값(원점에서 멀어지는 길이와 방향)
 /// </summary>
@@ -38,6 +49,7 @@ public struct ChildBulletInfo
     [Header("Chile Bullet 원점에서의 x, y 좌표로 설정할 때 값")]
     public List<Vector2> initPosList;
     public List<LineInfo> lineInfoList;
+    public List<CircleShapeInfo> circleShapeInfoList;
 }
 
 [System.Serializable]

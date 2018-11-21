@@ -207,18 +207,18 @@ public abstract class BulletPattern
             }
 
             InitVector initVector = new InitVector();
-            Vector3 initPos = Vector3.zero;
+            Vector3 childBulletPos = Vector3.zero;
             for (int j = 0; j < childBulletInfoList[i].initPosList.Count; j++)
             {
-                initPos = new Vector3(childBulletInfoList[i].initPosList[j].x, childBulletInfoList[i].initPosList[j].y, 0);
-                initVector.magnitude = initPos.magnitude;
-                initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
+                childBulletPos = new Vector3(childBulletInfoList[i].initPosList[j].x, childBulletInfoList[i].initPosList[j].y, 0);
+                initVector.magnitude = childBulletPos.magnitude;
+                initVector.dirDegree = MathCalculator.GetDegFromVector(childBulletPos);
                 childBulletObj = ObjectPoolManager.Instance.CreateBullet();
                 childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     childBulletCommonProperty, transferBulletInfo, initVector);
             }
 
-            Vector3 childBulletPos = Vector3.zero;
+            childBulletPos = Vector3.zero;
             Vector3 deltaVector = Vector3.zero;
             for (int j = 0; j < childBulletInfoList[i].lineInfoList.Count; j++)
             {
@@ -230,19 +230,40 @@ public abstract class BulletPattern
                     deltaVector = Vector3.zero;
                 for (int k = 0; k < childBulletInfoList[i].lineInfoList[j].childBulletCount; k++)
                 {
-                    // if(A and B) or (C and D)
-                    // else-> if (!A or !B) And (!C or !D)
+                    // if(A and B) or (C and D), = else -> if (!A or !B) And (!C or !D)
                     // k = 0 일 때 시작 점 안 그리고, k = last 일 때 끝 점 안 그리면 패스
                     // k = 0 = last 일 때는 canDrawStart, End 모두 true여야함.
                     if ( (0 != k || childBulletInfoList[i].lineInfoList[j].canDrawStartPoint)
                         && (childBulletInfoList[i].lineInfoList[j].childBulletCount - 1 != k || childBulletInfoList[i].lineInfoList[j].canDrawEndPoint))
                     {
-                        initVector.magnitude = initPos.magnitude;
-                        initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
+                        initVector.magnitude = childBulletPos.magnitude;
+                        initVector.dirDegree = MathCalculator.GetDegFromVector(childBulletPos);
                         childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                         childBulletCommonProperty, transferBulletInfo, initVector);
                     }
                     childBulletPos += deltaVector;
+                }
+            }
+
+            Vector3 centerOfCircle;
+            float currentAngle = 0;
+            float deltaAngle = 0;
+            for (int j = 0; j < childBulletInfoList[i].circleShapeInfoList.Count; j++)
+            {
+                if (0 == childBulletInfoList[i].circleShapeInfoList[j].childBulletCount)
+                    break;
+                centerOfCircle = new Vector3(childBulletInfoList[i].circleShapeInfoList[j].centerOfCircle.x,
+                    childBulletInfoList[i].circleShapeInfoList[j].centerOfCircle.y, 0);
+                currentAngle = childBulletInfoList[i].circleShapeInfoList[j].initAngle;
+                deltaAngle = 360 / childBulletInfoList[i].circleShapeInfoList[j].childBulletCount;
+                for (int k = 0; k < childBulletInfoList[i].circleShapeInfoList[j].childBulletCount; k++)
+                {
+                    childBulletPos = centerOfCircle + (childBulletInfoList[i].circleShapeInfoList[j].radius * MathCalculator.VectorRotate(Vector3.right, currentAngle));
+                    initVector.magnitude = childBulletPos.magnitude;
+                    initVector.dirDegree = MathCalculator.GetDegFromVector(childBulletPos);
+                    childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
+                    childBulletCommonProperty, transferBulletInfo, initVector);
+                    currentAngle += deltaAngle;
                 }
             }
         }
