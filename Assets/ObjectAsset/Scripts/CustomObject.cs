@@ -87,6 +87,7 @@ public class CustomObject : MonoBehaviour
         polygonCollider2D.pathCount = 1;
         polygonCollider2D.SetPath(0, nullPolygon);
     }
+
     protected void SetSpriteAndCollider()
     {
         if (sprite)
@@ -165,7 +166,6 @@ public class NoneRandomSpriteObject : CustomObject
     public override void Init()
     {
         base.Init();
-        //gameObject.hideFlags = HideFlags.HideInHierarchy;
         isAnimate = false;
         if (sprites != null)
             sprite = sprites[0];
@@ -852,6 +852,8 @@ public class SnackBox : NoneRandomSpriteObject
         {
             //stamina recovery
             isAvailable = false;
+            sprite = sprites[1];
+            spriteRenderer.sprite = sprite;
             Stamina.Instance.RecoverFullStamina();
             return true;
         }

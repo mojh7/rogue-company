@@ -280,7 +280,7 @@ public class MapEditor : EditorWindow
         {
             tilemap = roomObj.GetComponent<Tilemap>();
         }
-
+        tilemap.tileAnchor = new Vector3(1.5f, 0, 0);
         tilemap.ClearAllTiles();
         RuleTile wallRuleTile = TileManager.Instance.wallRuleTile;
 
