@@ -122,6 +122,11 @@ public struct ObjectData
                 _gameObject.GetComponent<TrapBox>().sprites = sprites;
                 _gameObject.GetComponent<TrapBox>().Init();
                 break;
+            case ObjectType.SKILLBOX:
+                _gameObject.AddComponent<SkillBox>().LoadAwake();
+                _gameObject.GetComponent<SkillBox>().sprites = sprites;
+                _gameObject.GetComponent<SkillBox>().Init();
+                break;
         }
 
         return _gameObject;

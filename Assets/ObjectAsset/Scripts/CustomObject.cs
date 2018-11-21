@@ -7,7 +7,7 @@ public enum ObjectType
 {
     NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX,
     VENDINMACHINE, TRAPBOX, PORTAL, SNACKBOX, MEDKITBOX,
-    SUBSTATION, STOREITEM, NPC, STATUE
+    SUBSTATION, STOREITEM, NPC, STATUE, SKILLBOX
 }
 
 public class CustomObject : MonoBehaviour
@@ -1066,7 +1066,7 @@ public class TrapBox : RandomSpriteObject
         base.Init();
         isActive = false;
         isAvailable = true;
-        objectType = ObjectType.ITEMBOX;
+        objectType = ObjectType.TRAPBOX;
     }
     public void Init(Item _item)
     {
@@ -1123,11 +1123,18 @@ public class TrapBox : RandomSpriteObject
     }
 }
 
-public class AbnormalBox : BreakalbeBox
+public class SkillBox : BreakalbeBox
 {
+    public override void Init()
+    {
+        base.Init();
+        objectType = ObjectType.SKILLBOX;
+    }
+
     protected override void Destruct()
     {
+        SkillData skillData = ObjectSkillManager.Instance.GetSkillData("Frozen");
+        skillData.Run(null, this.transform.position, 0);
         base.Destruct();
-
     }
 }

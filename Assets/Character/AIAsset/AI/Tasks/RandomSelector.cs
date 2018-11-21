@@ -25,7 +25,11 @@ public class RandomSelector : CompositeTask
         if (!isRun)
         {
             Random.InitState((int)System.DateTime.Now.Ticks);
+
             randomPoint = Random.value * total;
+
+            Debug.Log(Random.value + "," + JsonUtility.ToJson(UnityEngine.Random.state) + "," + +randomPoint);
+
             isRun = true;
         }
         tempRandomPoint = randomPoint;
@@ -39,7 +43,11 @@ public class RandomSelector : CompositeTask
                 {
                     return state;
                 }
-                tempRandomPoint += task.Probability;
+                else
+                {
+                    isRun = false;
+                    return State.CONTINUE;
+                }
             }
             else
             {
@@ -48,7 +56,6 @@ public class RandomSelector : CompositeTask
 
         }
 
-        isRun = false;
 
         return State.SUCCESS;
     }

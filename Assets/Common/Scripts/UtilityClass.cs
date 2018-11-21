@@ -77,15 +77,22 @@ public static class UtilityClass
     {
         LayerMask enemyLayer = 1;
 
+        if(me == null)
+        {
+            enemyLayer = 1 << 13;
+            enemyLayer |= 1 << 16;
+
+            return enemyLayer;
+        }
         switch (me.GetOwnerType())
         {
             case CharacterInfo.OwnerType.Player:
             case CharacterInfo.OwnerType.Pet:
-                enemyLayer = enemyLayer << 13;
+                enemyLayer = 1 << 13;
                 break;
             case CharacterInfo.OwnerType.Enemy:
             case CharacterInfo.OwnerType.Object:
-                enemyLayer = enemyLayer << 16;
+                enemyLayer = 1 << 16;
                 break;
             default:
                 break;

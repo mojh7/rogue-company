@@ -199,7 +199,7 @@ public class CollisionSkill : ActiveSkil
         radius = 0;
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isAvailable)
             return;
