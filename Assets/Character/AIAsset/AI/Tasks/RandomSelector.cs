@@ -24,6 +24,7 @@ public class RandomSelector : CompositeTask
     {
         if (!isRun)
         {
+            Random.InitState((int)System.DateTime.Now.Ticks);
             randomPoint = Random.value * total;
             isRun = true;
         }
@@ -49,7 +50,7 @@ public class RandomSelector : CompositeTask
 
         isRun = false;
 
-        return State.FAILURE;
+        return State.SUCCESS;
     }
 
     public override Task Clone()

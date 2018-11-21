@@ -240,7 +240,7 @@ public class BreakalbeBox : RandomSpriteObject
         }
     }
 
-    void Destruct()
+    protected virtual void Destruct()
     {
         ParticleManager.Instance.PlayParticle("BrokenParticle", this.transform.position, sprite);
         polygonCollider2D.enabled = false;
@@ -1120,5 +1120,14 @@ public class TrapBox : RandomSpriteObject
             return;
         innerObject.transform.parent = null;
         innerObject.gameObject.SetActive(false);
+    }
+}
+
+public class AbnormalBox : BreakalbeBox
+{
+    protected override void Destruct()
+    {
+        base.Destruct();
+
     }
 }

@@ -43,7 +43,7 @@ public class ActiveSkil : MonoBehaviour {
         DestroyAndDeactive();
     }
 
-    protected void Init()
+    protected virtual void Init()
     {
         animator = GetComponent<Animator>();
         circleCollider = GetComponent<CircleCollider2D>();
@@ -75,9 +75,9 @@ public class ActiveSkil : MonoBehaviour {
 
 public class CollisionSkill : ActiveSkil
 {
-    StatusEffectInfo statusEffectInfo;
-    SkillData skillData;
-    CBulletEffect.EffectType effectType;
+    protected StatusEffectInfo statusEffectInfo;
+    protected SkillData skillData;
+    protected CBulletEffect.EffectType effectType;
 
     public void Init(Character character, object temporary, float amount, System.Action<Character, object, float> action)
     {
@@ -162,7 +162,8 @@ public class CollisionSkill : ActiveSkil
         transform.localScale = new Vector3(1, 1, 1) * radius;
         spriteRenderer.sortingLayerName = "Background";
         circleCollider.radius = 0.3f;
-        animator.SetTrigger(skillName);
+        if(skillName.Length > 0)
+            animator.SetTrigger(skillName);
         spriteRenderer.color = color;
         ParticleManager.Instance.PlayParticle(particleName, this.transform.position, 0.3f * radius, time);
         UtilityClass.Invoke(this, DestroyAndDeactive, time);
@@ -198,7 +199,7 @@ public class CollisionSkill : ActiveSkil
         radius = 0;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isAvailable)
             return;
