@@ -66,7 +66,7 @@ public class EconomySystem : MonoBehaviourSingleton<EconomySystem> {
         eachCoinLow = currentRemainCoinNum / monsterRoomGage;
         eachCoinHigh = (currentRemainCoinNum + monsterRoomGage - 1) / monsterRoomGage;
 
-        int ret = Random.Range(eachCoinLow,eachCoinHigh) * gage;
+        int ret = Random.Range(eachCoinLow, eachCoinHigh) * gage;
 
         currentRemainCoinNum -= ret;
         monsterRoomGage -= gage;
