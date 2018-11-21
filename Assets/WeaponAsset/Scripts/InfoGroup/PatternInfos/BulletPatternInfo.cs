@@ -13,6 +13,19 @@ public struct InitVector
     public float dirDegree;
 }
 
+[System.Serializable]
+public struct LineInfo
+{
+    public Vector2 initPos;
+    public float magnitude;
+    public float dirDegree;
+    public int childBulletCount;
+    [Tooltip("시작 점 그릴 수 있는지")]
+    public bool canDrawStartPoint;
+    [Tooltip("끝 점 그릴 수 있는지")]
+    public bool canDrawEndPoint;
+}
+
 /// <summary>
 /// ChildBullet에서 bulletInfo랑 벡터 값(원점에서 멀어지는 길이와 방향)
 /// </summary>
@@ -24,6 +37,7 @@ public struct ChildBulletInfo
     public List<InitVector> initVectorList;
     [Header("Chile Bullet 원점에서의 x, y 좌표로 설정할 때 값")]
     public List<Vector2> initPosList;
+    public List<LineInfo> lineInfoList;
 }
 
 [System.Serializable]

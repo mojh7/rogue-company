@@ -194,5 +194,57 @@ public abstract class BulletPattern
         return ownerDirVec() * addDirVecMagnitude + verticalVector * additionalVerticalPos;
     }
 
-    protected virtual void CreateChildBullets() { }
+    protected virtual void CreateChildBullets(List<ChildBulletInfo> childBulletInfoList, ChildBulletCommonProperty childBulletCommonProperty)
+    {
+        parentBulletTransform = createdObj.GetComponent<Transform>();
+        for (int i = 0; i < childBulletInfoList.Count; i++)
+        {
+            for (int j = 0; j < childBulletInfoList[i].initVectorList.Count; j++)
+            {
+                childBulletObj = ObjectPoolManager.Instance.CreateBullet();
+                childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
+                    childBulletCommonProperty, transferBulletInfo, childBulletInfoList[i].initVectorList[j]);
+            }
+
+            InitVector initVector = new InitVector();
+            Vector3 initPos = Vector3.zero;
+            for (int j = 0; j < childBulletInfoList[i].initPosList.Count; j++)
+            {
+                initPos = new Vector3(childBulletInfoList[i].initPosList[j].x, childBulletInfoList[i].initPosList[j].y, 0);
+                initVector.magnitude = initPos.magnitude;
+                initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
+                childBulletObj = ObjectPoolManager.Instance.CreateBullet();
+                childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
+                    childBulletCommonProperty, transferBulletInfo, initVector);
+            }
+
+            Vector3 childBulletPos = Vector3.zero;
+            Vector3 deltaVector = Vector3.zero;
+            for (int j = 0; j < childBulletInfoList[i].lineInfoList.Count; j++)
+            {
+                childBulletPos = new Vector3(childBulletInfoList[i].lineInfoList[j].initPos.x, childBulletInfoList[i].lineInfoList[j].initPos.y, 0);
+                if (childBulletInfoList[i].lineInfoList[j].childBulletCount > 1)
+                    deltaVector = (childBulletInfoList[i].lineInfoList[j].magnitude) / (childBulletInfoList[i].lineInfoList[j].childBulletCount - 1) *
+                        MathCalculator.VectorRotate(Vector3.right, childBulletInfoList[i].lineInfoList[j].dirDegree);
+                else
+                    deltaVector = Vector3.zero;
+                for (int k = 0; k < childBulletInfoList[i].lineInfoList[j].childBulletCount; k++)
+                {
+                    // if(A and B) or (C and D)
+                    // else-> if (!A or !B) And (!C or !D)
+                    // k = 0 일 때 시작 점 안 그리고, k = last 일 때 끝 점 안 그리면 패스
+                    // k = 0 = last 일 때는 canDrawStart, End 모두 true여야함.
+                    if ( (0 != k || childBulletInfoList[i].lineInfoList[j].canDrawStartPoint)
+                        && (childBulletInfoList[i].lineInfoList[j].childBulletCount - 1 != k || childBulletInfoList[i].lineInfoList[j].canDrawEndPoint))
+                    {
+                        initVector.magnitude = initPos.magnitude;
+                        initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
+                        childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
+                        childBulletCommonProperty, transferBulletInfo, initVector);
+                    }
+                    childBulletPos += deltaVector;
+                }
+            }
+        }
+    }
 }

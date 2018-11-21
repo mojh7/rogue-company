@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using WeaponAsset;
 
+/// <summary>
+/// 정보 일괄 수정을 위해 bullet preset화, 주로 외형적인 정보만 설정
+/// </summary>
 [System.Serializable]
 public class BulletPresetInfo
 {

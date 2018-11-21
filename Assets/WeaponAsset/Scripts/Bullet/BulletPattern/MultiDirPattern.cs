@@ -81,7 +81,7 @@ public class MultiDirPattern : BulletPattern
                 muzzlePos + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos),
                 dirDegree - info.initAngle + info.deltaAngle * i + additionalAngle + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
                 transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape); 
-            CreateChildBullets();
+            CreateChildBullets(info.childBulletInfoList, info.childBulletCommonProperty);
         }
     }
 
@@ -93,31 +93,5 @@ public class MultiDirPattern : BulletPattern
     public override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
-    }
-
-    protected override void CreateChildBullets()
-    {
-        parentBulletTransform = createdObj.GetComponent<Transform>();
-        for(int i = 0; i < info.childBulletInfoList.Count; i++)
-        {
-            for(int j = 0; j < info.childBulletInfoList[i].initVectorList.Count; j++)
-            {
-                childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
-                    info.childBulletCommonProperty, transferBulletInfo, info.childBulletInfoList[i].initVectorList[j]);
-            }
-
-            InitVector initVector = new InitVector();
-            Vector3 initPos = Vector3.zero;
-            for (int k = 0; k < info.childBulletInfoList[i].initPosList.Count; k++)
-            {
-                initPos = new Vector3(info.childBulletInfoList[i].initPosList[k].x, info.childBulletInfoList[i].initPosList[k].y, 0);
-                initVector.magnitude = initPos.magnitude;
-                initVector.dirDegree = MathCalculator.GetDegFromVector(initPos);
-                childBulletObj = ObjectPoolManager.Instance.CreateBullet();
-                childBulletObj.GetComponent<Bullet>().Init(info.childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
-                    info.childBulletCommonProperty, transferBulletInfo, initVector);
-            }
-        }
-    }
+    }  
 }
