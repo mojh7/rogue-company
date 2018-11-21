@@ -90,21 +90,6 @@ public class MapEditor : EditorWindow
     {
         if (roomObj == null)
             return;
-        if (roomType == RoomType.MONSTER)
-        {
-            bool op = false;
-            foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
-            {
-                if (child.GetComponent<CustomObject>() != null)
-                {
-                    CustomObject customObject = child.GetComponent<CustomObject>();
-                    if (customObject.objectType == ObjectType.SPAWNER)
-                        op = true;
-                }
-            }
-            if (op && objectType == ObjectType.NONE || objectType == ObjectType.SPAWNER)
-                return;
-        }
 
         GameObject gameObject = Object.Instantiate(prefabs);
         gameObject.name = objectType.ToString();
@@ -208,22 +193,6 @@ public class MapEditor : EditorWindow
         }
         if (roomType == RoomType.MONSTER || roomType == RoomType.BOSS)
         {
-            bool op = false;
-            foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
-            {
-                if (child.GetComponent<CustomObject>() != null)
-                {
-                    CustomObject customObject = child.GetComponent<CustomObject>();
-
-                    if (customObject.objectType == ObjectType.SPAWNER)
-                        op = true;
-                }
-            }
-            if (!op)
-            {
-                CustomObject tempObj = CreateObject(ObjectType.SPAWNER);
-                roomSet.Add(new ObjectData(tempObj.objectPosition, tempObj.objectType, tempObj.sprites));
-            }
             if(roomSet.gage == 0)
             {
                 roomSet.gage = width * height * 2;

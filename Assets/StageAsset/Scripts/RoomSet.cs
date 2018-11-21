@@ -79,11 +79,6 @@ public struct ObjectData
                 _gameObject.GetComponent<VendingMachine>().sprites = sprites;
                 _gameObject.GetComponent<VendingMachine>().Init();
                 break;
-            case ObjectType.SPAWNER:
-                _gameObject.AddComponent<Spawner>().LoadAwake();
-                _gameObject.GetComponent<Spawner>().sprites = null;
-                _gameObject.GetComponent<Spawner>().Init();
-                break;
             case ObjectType.PORTAL:
                 _gameObject.AddComponent<Portal>().LoadAwake();
                 _gameObject.GetComponent<Portal>().sprites = sprites;
@@ -121,6 +116,11 @@ public struct ObjectData
                 _gameObject.AddComponent<Statue>().LoadAwake();
                 _gameObject.GetComponent<Statue>().sprites = sprites;
                 _gameObject.GetComponent<Statue>().Init();
+                break;
+            case ObjectType.TRAPBOX:
+                _gameObject.AddComponent<TrapBox>().LoadAwake();
+                _gameObject.GetComponent<TrapBox>().sprites = sprites;
+                _gameObject.GetComponent<TrapBox>().Init();
                 break;
         }
 

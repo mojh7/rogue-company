@@ -163,6 +163,18 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         itemBox.sprites = new Sprite[1] { GetItemRatingSprite(item.GetRating()) };
         itemBox.Init(item);
     }
+
+    public void SetTrapBox(TrapBox trapBox)
+    {
+        int floor = InGameManager.Instance.GetFloor();
+        Rating rating = Rating.NORATING;
+        rating = GetRating(floor, iEventboxPercentage);
+
+        Item item = ObjectPoolManager.Instance.CreateWeapon(rating);
+        trapBox.sprites = new Sprite[1] { GetItemRatingSprite(item.GetRating()) };
+        trapBox.Init(item);
+    }
+
     public Rating GetStoreItemRating()
     {
         int floor = InGameManager.Instance.GetFloor();

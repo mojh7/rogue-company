@@ -650,6 +650,7 @@ namespace Map
             Rect tempRect;
             for (i = 0; i < halls.Count; i++)
             {
+                halls[i].isClear = true;
                 for (int j = 0; j < halls[i].edgeRect.Count; ++j)
                 {
                     tempRect = halls[i];

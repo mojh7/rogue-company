@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 public enum ObjectType
 {
     NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX,
-    VENDINMACHINE, SPAWNER, PORTAL, SNACKBOX, MEDKITBOX,
-    SUBSTATION, STOREITEM, NPC,STATUE
+    VENDINMACHINE, TRAPBOX, PORTAL, SNACKBOX, MEDKITBOX,
+    SUBSTATION, STOREITEM, NPC, STATUE
 }
 
 public class CustomObject : MonoBehaviour
@@ -356,7 +356,6 @@ public class Spawner : RandomSpriteObject
         isActive = false;
         isAvailable = false;
         polygonCollider2D.enabled = false;
-        objectType = ObjectType.SPAWNER;
 
         gameObject.layer = 0;
         spawnCount = Random.Range(2, 4);
@@ -1055,5 +1054,71 @@ public class Astrologer : NPC
             return true;
         }
         return false;
+    }
+}
+
+public class TrapBox : RandomSpriteObject
+{
+    Item innerObject;
+
+    public override void Init()
+    {
+        base.Init();
+        isActive = false;
+        isAvailable = true;
+        objectType = ObjectType.ITEMBOX;
+    }
+    public void Init(Item _item)
+    {
+        Init();
+        innerObject = _item;
+        innerObject.gameObject.SetActive(false);
+    }
+
+    public override void SetAvailable()
+    {
+        if (innerObject == null)
+        {
+            //ItemManager.Instance.SetTrapBox(this);
+        }
+    }
+    public override bool Active()
+    {
+        if (!base.Active())
+            return false;
+
+        isAvailable = false;
+        //innerObject.gameObject.SetActive(true);
+        //ItemManager.Instance.CreateItem(innerObject, this.transform.position);
+        UtilityClass.Invoke(this, DestroyAndDeactive, 3);
+        RoomManager.Instance.Trap();
+        return true;
+    }
+
+    public void DestroySelf()
+    {
+        if (typeof(Weapon) != innerObject.GetType())
+        {
+            Delete();
+        }
+        DestroyAndDeactive();
+    }
+
+    private void OnMouseDown()
+    {
+        bool success = Active();
+        if (success)
+        {
+            ControllerUI.Instance.IsTouched();
+        }
+    }
+
+    public override void Delete()
+    {
+        base.Delete();
+        if (innerObject == null)
+            return;
+        innerObject.transform.parent = null;
+        innerObject.gameObject.SetActive(false);
     }
 }

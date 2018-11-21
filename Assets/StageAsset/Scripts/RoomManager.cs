@@ -18,6 +18,19 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     int KeyNum;
     int ammoNum;
 
+    protected Coroutine roomCoroutine;
+
+    public void Trap()
+    {
+        MiniMap.Instance.HideMiniMap();
+        DoorClose();
+        ObjectSetAvailable();
+        DoorSetAvailable();
+        currentRoom.gage = currentRoom.width * currentRoom.height * 2;
+        currentRoom.isClear = false;
+        SpawnMonster();
+    }
+
     public bool isRoomClear()
     {
         if (currentRoom == null)
@@ -44,7 +57,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     public void InitRoomList()
     {
         ammoNum = 2;
-        KeyNum = 4;
+        KeyNum = 1;
         clearedRoom = 0;
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
         for (int i = 0; i < roomList.Count; i++)
@@ -102,6 +115,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void DoorOpen()
     {
+        FindCurrentRoom();
+
         if (currentRoom.doorObjects != null)
         {
             for (int j = 0; j < currentRoom.doorObjects.Count; j++)
@@ -113,6 +128,9 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void DoorClose()
     {
+        StopCoroutine(roomCoroutine);
+        roomCoroutine = null;
+
         if (currentRoom.doorObjects != null)
         {
             for (int j = 0; j < currentRoom.doorObjects.Count; j++)
@@ -128,7 +146,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         {
             for (int j = 0; j < currentRoom.customObjects.Length; j++)
             {
-                currentRoom.customObjects[j].GetComponent<CustomObject>().SetAvailable();
+                if(currentRoom.customObjects[j].GetComponent<CustomObject>())
+                    currentRoom.customObjects[j].GetComponent<CustomObject>().SetAvailable();
             }
         }
     } // 작동 가능여부 turn
@@ -196,6 +215,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void ClearRoom()
     {
+        SpawnManager.Instance.ResetProcess();
+
         DropKey(); DropAmmo();
         clearedRoom--;
         currentRoom.isClear = true;
@@ -204,7 +225,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         ObjectSetAvailable();
         DoorSetAvailable();
         DoorOpen();
-        FindCurrentRoom();
         UnityContext.GetClock().RemoveAllTimer();
         UIManager.Instance.ClearRoomUI(true);
         UtilityClass.Invoke(this, ItemManager.Instance.CollectItem, 1f);
@@ -226,19 +246,9 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     void SpawnMonster()
     {
-        if (currentRoom.customObjects != null)
-        {
-            for (int j = 0; j < currentRoom.customObjects.Length; j++)
-            {
-                if (currentRoom.gage <= 0)
-                    return;
-                if (currentRoom.customObjects[j].GetComponent<Spawner>() != null)
-                {
-                    currentRoom.customObjects[j].GetComponent<Spawner>().Active();
-                    break;
-                }
-            }
-        }
+        if (currentRoom.gage <= 0)
+            return;
+        SpawnManager.Instance.Spawn();
     } // 몬스터 소환
 
     public Vector3 SpawnedServant()
@@ -283,7 +293,8 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     public void FindCurrentRoom()
     {
-        StartCoroutine("FindRoomCoroutine");
+        if(roomCoroutine == null)
+            roomCoroutine = StartCoroutine(FindRoomCoroutine());
     }
 
     IEnumerator FindRoomCoroutine() // 현재 방 찾기 코루틴
