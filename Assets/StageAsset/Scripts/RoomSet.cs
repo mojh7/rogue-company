@@ -39,13 +39,15 @@ public struct ObjectData
     public Sprite[] sprites;
     public bool isActive;
     public ObjectType objectType;
+    public ObjectAbnormalType objectAbnormalType;
     public string className;
 
-    public ObjectData(Vector2 _position, ObjectType _objectType, Sprite[] _sprites, string className = "")
+    public ObjectData(Vector2 _position, ObjectType _objectType, ObjectAbnormalType objectAbnormalType, Sprite[] _sprites, string className = "")
     {
         this.position = _position;
         this.sprites = _sprites;
         this.objectType = _objectType;
+        this.objectAbnormalType = objectAbnormalType;
         this.className = className;
         isActive = false;
     }
@@ -125,7 +127,7 @@ public struct ObjectData
             case ObjectType.SKILLBOX:
                 _gameObject.AddComponent<SkillBox>().LoadAwake();
                 _gameObject.GetComponent<SkillBox>().sprites = sprites;
-                _gameObject.GetComponent<SkillBox>().Init();
+                _gameObject.GetComponent<SkillBox>().Init(objectAbnormalType);
                 break;
         }
 

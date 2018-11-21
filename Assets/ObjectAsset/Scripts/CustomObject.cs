@@ -10,12 +10,18 @@ public enum ObjectType
     SUBSTATION, STOREITEM, NPC, STATUE, SKILLBOX
 }
 
+public enum ObjectAbnormalType
+{
+    NONE, FREEZE, POISON, BURN, STUN, CHARM
+}
+
 public class CustomObject : MonoBehaviour
 {
 
     public Vector3 objectPosition;
     public ObjectType objectType;
     public Sprite[] sprites;
+    public object subParameter;
 
     protected Sprite sprite;
     protected bool isActive;
@@ -1125,16 +1131,46 @@ public class TrapBox : RandomSpriteObject
 
 public class SkillBox : BreakalbeBox
 {
+    [SerializeField]
+    ObjectAbnormalType objectAbnormalType;
+
     public override void Init()
     {
         base.Init();
         objectType = ObjectType.SKILLBOX;
     }
 
+    public void Init(ObjectAbnormalType objectAbnormal)
+    {
+        Init();
+        objectAbnormalType = objectAbnormal;
+    }
+
     protected override void Destruct()
     {
-        SkillData skillData = ObjectSkillManager.Instance.GetSkillData("Frozen");
-        skillData.Run(null, this.transform.position, 0);
+        SkillData skillData = null;
+        switch (objectAbnormalType)
+        {
+            case ObjectAbnormalType.FREEZE:
+                skillData = ObjectSkillManager.Instance.GetSkillData("Freeze");
+                break;
+            case ObjectAbnormalType.POISON:
+                skillData = ObjectSkillManager.Instance.GetSkillData("Poison");
+                break;
+            case ObjectAbnormalType.BURN:
+                skillData = ObjectSkillManager.Instance.GetSkillData("Burn");
+                break;
+            case ObjectAbnormalType.STUN:
+                skillData = ObjectSkillManager.Instance.GetSkillData("Stun");
+                break;
+            case ObjectAbnormalType.CHARM:
+                skillData = ObjectSkillManager.Instance.GetSkillData("Charm");
+                break;
+            default:
+                break;
+        }
+        if(skillData != null)
+            skillData.Run(null, this.transform.position, 0);
         base.Destruct();
     }
 }
