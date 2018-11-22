@@ -299,7 +299,7 @@ public class ThrowingSkill : ActiveSkil
         if(!isActive)
         {
             animator.SetTrigger("default");
-            ParticleManager.Instance.PlayParticle("Explosion", transform.position, this.importedSkill.radius);
+            ParticleManager.Instance.PlayParticle("SpikyImpact", transform.position, this.importedSkill.radius * .3f);
             this.importedSkill.Run(this.character, this.transform.position, this.idx);
         }
         DestroyAndDeactive();
@@ -316,7 +316,7 @@ public class ThrowingSkill : ActiveSkil
             isActive = true;
             isAvailable = false;
             animator.SetTrigger("default");
-            ParticleManager.Instance.PlayParticle("Explosion", transform.position, this.importedSkill.radius);
+            ParticleManager.Instance.PlayParticle("SpikyImpact", transform.position, this.importedSkill.radius * .3f);
             this.importedSkill.Run(this.character, this.transform.position, this.idx);                                          
             DestroyAndDeactive();
         }

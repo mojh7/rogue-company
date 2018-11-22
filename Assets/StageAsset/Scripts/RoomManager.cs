@@ -26,7 +26,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         DoorClose();
         ObjectSetAvailable();
         DoorSetAvailable();
-        currentRoom.gage = currentRoom.width * currentRoom.height * 2;
+        currentRoom.gage = currentRoom.width * currentRoom.height * 3;
         currentRoom.isClear = false;
         SpawnMonster();
     }

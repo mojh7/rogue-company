@@ -111,7 +111,7 @@ public class CustomObject : MonoBehaviour
         }
         else
         {
-            shadowRenderer.sprite = null;
+            EraseShadow();
         }
     }
 
@@ -188,7 +188,6 @@ public class RandomSpriteObject : CustomObject
     public override void Init()
     {
         base.Init();
-        //gameObject.hideFlags = HideFlags.HideInHierarchy;
         isAnimate = false;
         if (sprites != null && sprites.Length != 0)
         { 
@@ -404,7 +403,6 @@ public class Spawner : RandomSpriteObject
 
 public class Door : RandomSpriteObject
 {
-    Map.Rect owner;
     int isLock;
     bool isHorizon;
     Sprite openSprite;
@@ -943,6 +941,7 @@ public class StoreItem : CustomObject
         objectType = ObjectType.STOREITEM;
         polygonCollider2D.SetPath(0, clickableBoxPolygon);
         SetAvailable();
+        ShadowDrawing();
     }
 
     public override void SetAvailable()
@@ -1085,7 +1084,7 @@ public class TrapBox : RandomSpriteObject
     {
         if (innerObject == null)
         {
-            //ItemManager.Instance.SetTrapBox(this);
+            ItemManager.Instance.SetTrapBox(this);
         }
     }
     public override bool Active()
@@ -1094,8 +1093,8 @@ public class TrapBox : RandomSpriteObject
             return false;
 
         isAvailable = false;
-        //innerObject.gameObject.SetActive(true);
-        //ItemManager.Instance.CreateItem(innerObject, this.transform.position);
+        innerObject.gameObject.SetActive(true);
+        ItemManager.Instance.CreateItem(innerObject, this.transform.position);
         UtilityClass.Invoke(this, DestroyAndDeactive, 3);
         RoomManager.Instance.Trap();
         return true;

@@ -27,9 +27,6 @@ public class RandomSelector : CompositeTask
             Random.InitState((int)System.DateTime.Now.Ticks);
 
             randomPoint = Random.value * total;
-
-            Debug.Log(Random.value + "," + JsonUtility.ToJson(UnityEngine.Random.state) + "," + +randomPoint);
-
             isRun = true;
         }
         tempRandomPoint = randomPoint;
