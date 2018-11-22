@@ -5,6 +5,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
 {
     [SerializeField]
     public WeaponInfo weapon1, weapon2, weapon3;
+    [SerializeField] GameObject portal;
     GameObject obj;
 
     public bool isis = false;
@@ -34,6 +35,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         //}
         if (isis && TutorialUIManager.Instance.count == 4)
         {
+            portal.SetActive(true);
             TutorialUIManager.Instance.FirstTest();
         }
     }
