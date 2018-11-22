@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
 {
     [SerializeField]
     public WeaponInfo weapon1, weapon2, weapon3;
     [SerializeField] GameObject portal;
+    [SerializeField] Sprite spritePortal;
     GameObject obj;
 
-    public bool isis = false;
+    [HideInInspector] public bool isis = false;
 
     private void Start()
     {
@@ -17,6 +19,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
 
         CallWeapon();
 
+        InitPortal();
         TutorialUIManager.Instance.HoldAll(true);
         TutorialUIManager.Instance.SetFocus(TutorialUIManager.Instance.layers[0]);
     }
@@ -33,6 +36,10 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         //    AStar.Pathfinder.Instance.Bake();
         //    //CallSwapWeapon();
         //}
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            portal.SetActive(true);
+        }
         if (isis && TutorialUIManager.Instance.count == 4)
         {
             portal.SetActive(true);
@@ -63,14 +70,16 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         ItemManager.Instance.CreateItem(weapon, new Vector3(0, 1.5f, 0));
     }
 
-    void SpawnPlayer()
+    public void CallSwapWeapon()
     {
-        PlayerManager.Instance.FindPlayer(); // 플레이어 스폰
+        CallWeapon(weapon2);
+        CallWeapon(weapon3);
     }
 
-    void DrawUI()
+    public void CallWeapon(WeaponInfo weapon)
     {
-        UIManager.Instance.FadeInScreen(); // 화면 밝히기
+        Item tutorialWeapon = ObjectPoolManager.Instance.CreateWeapon(weapon) as Weapon;
+        PlayerManager.Instance.GetPlayer().GetWeaponManager().TutorialWeapon(tutorialWeapon);
     }
 
     public void StartShake(float maxX, float maxY, float ShakeTime)
@@ -100,16 +109,21 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         }
     }
 
-    // 테스트용
-    public void CallSwapWeapon()
+    void SpawnPlayer()
     {
-        CallWeapon(weapon2);
-        CallWeapon(weapon3);
+        PlayerManager.Instance.FindPlayer(); // 플레이어 스폰
     }
 
-    public void CallWeapon(WeaponInfo weapon)
+    void DrawUI()
     {
-        Item tutorialWeapon = ObjectPoolManager.Instance.CreateWeapon(weapon) as Weapon;
-        PlayerManager.Instance.GetPlayer().GetWeaponManager().TutorialWeapon(tutorialWeapon);
+        UIManager.Instance.FadeInScreen(); // 화면 밝히기
+    }
+
+    void InitPortal()
+    {
+        portal.AddComponent<ItemContainer>().LoadAwake();
+        portal.GetComponent<ItemContainer>().Init();
+
+        portal.GetComponent<SpriteRenderer>().sprite = spritePortal;
     }
 }

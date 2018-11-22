@@ -32,8 +32,12 @@ public class AttackJoyStick : Joystick
             else
             {
                 olderInteractiveObject = interactiveObject;
+
                 if (olderInteractiveObject != null)
+                {
+                    Debug.Log(interactiveObject.GetType());
                     olderInteractiveObject.DeIndicateInfo();
+                }
                 interactiveObject = character.Interact();
                 if (interactiveObject == null)
                 {

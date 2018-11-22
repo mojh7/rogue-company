@@ -607,6 +607,45 @@ public class Portal : RandomSpriteObject
     }
 }
 
+public class PortalTutorial : RandomSpriteObject
+{
+    GameObject obj;
+    public override void Init()
+    {
+        base.Init();
+        isActive = false;
+        isAvailable = true;
+        objectType = ObjectType.PORTAL;
+        gameObject.layer = 9;
+    }
+
+    public override void SetAvailable()
+    {
+    }
+    public void Possible()
+    {
+        isAvailable = true;
+    }
+
+    public override bool Active()
+    {
+        if (!isAvailable)
+            return false;
+        base.Active();
+        isAvailable = false;
+        InGameManager.Instance.UpToInGame();
+        return true;
+    }
+    private void OnMouseDown()
+    {
+        bool success = Active();
+        if (success)
+        {
+            ControllerUI.Instance.IsTouched();
+        }
+    }
+}
+
 public class ItemBox : RandomSpriteObject
 {
     Item innerObject;
@@ -746,7 +785,6 @@ public class ItemContainer : RandomSpriteObject
         else if (innerObject.GetType() == typeof(UsableItem))
         {
             isAvailable = false;
-
             innerObject.Active();
             DestroyAndDeactive();
             return true;

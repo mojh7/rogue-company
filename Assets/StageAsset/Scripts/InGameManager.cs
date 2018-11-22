@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InGameManager : MonoBehaviourSingleton<InGameManager> {
 
@@ -36,7 +37,12 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         GameStateManager.Instance.SetLoadsGameData(true);
         GameStateManager.Instance.LoadInGame();
         System.GC.Collect();
-    } // 데이터 저장 타이밍
+    }
+    public void UpToInGame()
+    {
+        SceneManager.LoadScene("InGameScene");
+    }
+    // 데이터 저장 타이밍
     void GenerateMap()
     {
         Map.MapManager.Instance.GenerateMap(GameDataManager.Instance.GetFloor()); // 맵생성
