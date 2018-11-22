@@ -9,6 +9,7 @@ public class ObjectPool : MonoBehaviour
     public int pooledAmount = 20; // 오브젝트 수
     public bool willGrow = true; // 오브젝트 제한 여부
 
+    Vector3 one = Vector3.one;
     List<GameObject> pooledObjects;
 
     // Use this for initialization
@@ -42,6 +43,7 @@ public class ObjectPool : MonoBehaviour
             if (!pooledObjects[i].activeInHierarchy)
             {
                 pooledObjects[i].SetActive(true);
+                pooledObjects[i].transform.localScale = one;
                 return pooledObjects[i];
             }
         }

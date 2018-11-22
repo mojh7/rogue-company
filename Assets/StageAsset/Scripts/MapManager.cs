@@ -813,11 +813,12 @@ namespace Map
                     wallRuleTile.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
                     if (_rectB.isRoom) // 왼쪽 방이  방임
                     {
-                        obj = CreateDoorObject(_rectA.x * size + 0.84375f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectA.x * size + 0.344f, y, true);
+                        obj.transform.localScale = new Vector3(-1, 1, 1);
                     }
                     else
                     {
-                        obj = CreateDoorObject(_rectA.x * size + 0.84375f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectA.x * size + 0.656f, y, true);
                     }
                 }
                 else // 왼쪽 사각형이 메인
@@ -829,11 +830,12 @@ namespace Map
 
                     if (_rectA.isRoom) // 오른쪽 방이 방임
                     {
-                        obj = CreateDoorObject(_rectB.x * size + 0.84375f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectB.x * size + 0.656f, y, true);
                     }
                     else
                     {
-                        obj = CreateDoorObject(_rectB.x * size + 0.84375f, y + 0.5f, true);
+                        obj = CreateDoorObject(_rectB.x * size + 0.344f, y, true);
+                        obj.transform.localScale = new Vector3(-1, 1, 1);
                     }
                 }
             } // 가로로 붙음
@@ -863,6 +865,8 @@ namespace Map
                     wallRuleTile.SetNull(new Vector3Int(x, _rectA.y * size - 1, 0));
 
                     obj = CreateDoorObject(x + 0.5f, _rectA.y * size - 1f, false);
+                    if(intervalResult == 0)
+                        obj.transform.localScale = new Vector3(-1, 1, 1);
                 }
                 else // 아래쪽
                 {
@@ -872,6 +876,8 @@ namespace Map
                     wallRuleTile.SetNull(new Vector3Int(x, _rectB.y * size - 1, 0));
 
                     obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 1f, false);
+                    if (intervalResult == 0)
+                        obj.transform.localScale = new Vector3(-1, 1, 1);
                 }
 
             } // 세로로 붙음
