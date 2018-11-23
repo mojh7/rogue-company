@@ -13,7 +13,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
     TutorialManager tm;
     TutorialUIManager tu;
 
-    public void Test_Frist(string str)
+    public void TutorialText(string str)
     {
         this.str = str;
         switch (str)
@@ -114,8 +114,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                     case 7:
                         count = 0;
                         tu.count++;
-                        //this.gameObject.SetActive(false);
-                        tu.FirstTest();
+                        tu.ActiveText();
                         break;
 
                 }
@@ -124,26 +123,31 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                 switch (count)
                 {
                     case 0:
-                        text.text = "아앗! 해골몬스터가\n잠에서 깨어나고 말았어요!";
-                        break;
-                    case 1:
                         tu.SetFocus(focus[2]);
                         tu.SetFocus(focus[1]);
                         tu.StartCoroutine("StartText");
                         count++;
                         this.gameObject.SetActive(false);
-                        count++;
                         break;
-                    case 2:
+                    case 1:
                         text.text = "와! 구르기와 스킬을\n쓸 수 있게 되었어요!";
                         break;
-                    case 3:
+                    case 2:
                         text.text = "구르기를 통해\n몬스터의 공격을 피할 수 있답니다!";
                         break;
-                    case 4:
+                    case 3:
                         text.text = "스킬을 통해\n더 강해질 수 있어요!";
+                        count++;
+                        tm.StartShake(1, 1, 1f);
+                        this.gameObject.SetActive(false);
+                        break;
+                    case 4:
+                        text.text = "아앗! 해골몬스터가\n잠에서 깨어나고 말았어요!";
                         break;
                     case 5:
+                        text.text = "해골 몬스터를 향해\n공격!";
+                        break;
+                    case 6:
                         count = 0;
                         tm.StartAstar();
                         tu.count++;
@@ -154,8 +158,6 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         tu.SetLayersActive(1, false);
                         tu.SetLayersActive(2, false);
                         tu.SetLayersActive(3, false);
-
-                        tu.StartCoroutine("EndText");
                         break;
                 }
                 break;
@@ -170,17 +172,12 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "튜토리얼은 아쉽지만\n여기까지 입니다!";
                         break;
                     case 2:
-                        text.text = "토탈 생기기, 포커스";
-                        // count++
-                        // this.gameObject.SetActive(false);
-                        break;
-                    case 3:
                         text.text = "포탈을 누르시면\n다음 스테이지로 이동할 수 있습니다";
                         break;
-                    case 4:
+                    case 3:
                         text.text = "메뉴에서 다시 튜토리얼을\n하실 수 있습니다.";
                         break;
-                    case 5:
+                    case 4:
                         this.gameObject.SetActive(false);
                         tu.HoldAll(false);
                         break;
@@ -225,7 +222,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 count++;
-                Test_Frist(str);
+                TutorialText(str);
             }
         }
     }
@@ -233,6 +230,6 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
     public void TouchUp()
     {
         count++;
-        Test_Frist(str);
+        TutorialText(str);
     }
 }

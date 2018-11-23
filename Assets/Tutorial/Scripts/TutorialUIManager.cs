@@ -17,28 +17,28 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
 
     public int count = 0;
 
-    public void FirstTest()
+    public void ActiveText()
     {
         textObj.SetActive(true);
         HoldAll(true);
         switch (count)
         {
             case 0:
-                TextUI.Instance.Test_Frist("move");
+                TextUI.Instance.TutorialText("move");
                 break;
             case 1:
                 // 무기 주우면 실행
-                TextUI.Instance.Test_Frist("swap");
+                TextUI.Instance.TutorialText("swap");
                 break;
             case 2:
-                TextUI.Instance.Test_Frist("enemy");
+                TextUI.Instance.TutorialText("enemy");
                 break;
             case 3:
                 // 몬스터가 한 방 맞으면 활성화
-                TextUI.Instance.Test_Frist("attack");
+                TextUI.Instance.TutorialText("attack");
                 break;
             case 4:
-                TextUI.Instance.Test_Frist("clear");
+                TextUI.Instance.TutorialText("clear");
                 break;
         }
     }
@@ -60,7 +60,7 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     IEnumerator StartText()
     {
         yield return new WaitForSeconds(2.5f);
-        FirstTest();
+        ActiveText();
         yield return null;
     }
 
@@ -68,7 +68,7 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     IEnumerator EndText()
     {
         yield return new WaitForSeconds(8f);
-        FirstTest();
+        ActiveText();
         yield return null;
     }
 
@@ -110,7 +110,7 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
         yield return new WaitForSeconds(0.5f);
         SetFocus(focusImages[2]);
         yield return new WaitForSeconds(2.5f);
-        FirstTest();
+        ActiveText();
         yield return new WaitForSeconds(0.5f);
         layers[5].gameObject.SetActive(false);
         menuObj[0].SetActive(false); menuObj[1].SetActive(false);

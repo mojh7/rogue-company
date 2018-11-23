@@ -42,7 +42,7 @@ public class CircleAnimation : MonoBehaviourSingleton<CircleAnimation> {
         }
         if (isTrue)
         {
-            TutorialUIManager.Instance.FirstTest();
+            TutorialUIManager.Instance.ActiveText();
         }
         Destroy(this.gameObject);
     }

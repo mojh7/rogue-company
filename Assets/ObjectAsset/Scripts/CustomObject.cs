@@ -529,6 +529,7 @@ public class Alert : RandomSpriteObject
     Character owner;
     float amount;
     int type = 0;
+    bool tutorial;
     public override void Init()
     {
         base.Init();

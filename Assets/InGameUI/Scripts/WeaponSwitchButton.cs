@@ -30,7 +30,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
             {
                 if (tutorial)
                 {
-                    TutorialUIManager.Instance.FirstTest();
+                    TutorialUIManager.Instance.ActiveText();
                 }
                 yield break;
             }

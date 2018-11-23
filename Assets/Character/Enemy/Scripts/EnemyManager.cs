@@ -23,6 +23,8 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     private EnemyData bossData;
     // 0516 모장현
     private int aliveEnemyTotal;
+    // 1123 윤아
+    private bool tutorial;
 
     private void Start()
     {
@@ -50,14 +52,14 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         obj.GetComponent<Alert>().Active();
     }
 
-    public GameObject GenerateObj(Vector3 _position, EnemyData enemyData)
+    public GameObject GenerateObj(Vector3 _position, EnemyData enemyData, bool tutorial)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         obj.transform.position = _position;
         obj.AddComponent<Alert>();
         obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0, null);
         obj.GetComponent<Alert>().Active();
-
+        this.tutorial = tutorial;
         return obj;
     }
 
@@ -107,12 +109,18 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
     }
 
-    void CallBack(Vector3 position, object temporary, float amount,Character owner)
+    void CallBack(Vector3 position, object temporary, float amount, Character owner)
     {
         Enemy enemy;
         GameObject obj = SpawnEnemy(position);
 
         enemy = obj.AddComponent<Enemy>();
+        // 1123 윤아
+        if (this.tutorial)
+        {
+            enemy.SetTutorial(tutorial);
+        }
+
         enemy.Init(temporary as EnemyData);
         if (owner == null)
         {

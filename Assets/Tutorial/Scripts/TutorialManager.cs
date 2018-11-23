@@ -10,7 +10,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     [SerializeField] Sprite spritePortal;
     GameObject obj;
 
-    [HideInInspector] public bool isis = false;
+    //[HideInInspector] public bool isTutorial = false;
 
     private void Start()
     {
@@ -19,7 +19,9 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
 
         CallWeapon();
 
-        InitPortal();
+        //Debug.Log(isTutorial);
+        //isTutorial = true;
+
         TutorialUIManager.Instance.HoldAll(true);
         TutorialUIManager.Instance.SetFocus(TutorialUIManager.Instance.layers[0]);
     }
@@ -28,29 +30,26 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     {
         if (!PlayerManager.Instance.GetPlayer().GetWeaponManager().WeaponEmpty() && TutorialUIManager.Instance.count == 1)
         {
-            TutorialUIManager.Instance.FirstTest();
+            TutorialUIManager.Instance.ActiveText();
         }
-        //if (Input.GetKeyDown(KeyCode.X))
-        //{
-        //    AStar.TileGrid.Instance.BakeTutorial();
-        //    AStar.Pathfinder.Instance.Bake();
-        //    //CallSwapWeapon();
-        //}
         if (Input.GetKeyDown(KeyCode.V))
         {
-            portal.SetActive(true);
         }
-        if (isis && TutorialUIManager.Instance.count == 4)
-        {
-            portal.SetActive(true);
-            TutorialUIManager.Instance.FirstTest();
-        }
+    }
+
+    public void SetPortal()
+    {
+        portal.SetActive(true);
+        portal.AddComponent<ItemContainer>().LoadAwake();
+        portal.GetComponent<ItemContainer>().Init();
+
+        portal.GetComponent<SpriteRenderer>().sprite = spritePortal;
     }
 
     public void CallEnemy()
     {
         EnemyData skeleton = EnemyManager.Instance.GetEnemyToTutorial(5);
-        obj = EnemyManager.Instance.GenerateObj(new Vector3(0, 3.5f, 0), skeleton);
+        obj = EnemyManager.Instance.GenerateObj(new Vector3(0, 3.5f, 0), skeleton, true);
 
         StartShake(2, 2, 1);
 
@@ -62,6 +61,9 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     {
         AStar.TileGrid.Instance.BakeTutorial();
         AStar.Pathfinder.Instance.Bake();
+        
+        Enemy enemy = obj.GetComponent<Enemy>();
+        Debug.Log(enemy);
     }
 
     void CallWeapon()
@@ -98,7 +100,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
             counter += Time.deltaTime;
             if (counter >= ShakeTime)
             {
-                TutorialUIManager.Instance.FirstTest();
+                TutorialUIManager.Instance.ActiveText();
                 yield break;
             }
             else
@@ -121,9 +123,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
 
     void InitPortal()
     {
-        portal.AddComponent<ItemContainer>().LoadAwake();
-        portal.GetComponent<ItemContainer>().Init();
-
-        portal.GetComponent<SpriteRenderer>().sprite = spritePortal;
     }
+
+    
 }
