@@ -63,6 +63,7 @@ public abstract class BulletPattern
     protected WeaponTargetEffect effectInfo;
 
     protected Vector3 muzzlePos;
+    protected BulletInfo bulletInfo;
 
     protected PatternCallType patternCallType;
     public float GetDelay()
@@ -266,6 +267,19 @@ public abstract class BulletPattern
                     currentAngle += deltaAngle;
                 }
             }
+        }
+    }
+    
+    protected void AutoSelectBulletInfo(BulletInfo bulletInfo, BulletInfo[] randomBulletInfoList)
+    {
+        if (randomBulletInfoList.Length > 0)
+        {
+            int index = Random.Range(0, randomBulletInfoList.Length);
+            this.bulletInfo = randomBulletInfoList[index].Clone();
+        }
+        else
+        {
+            this.bulletInfo = bulletInfo.Clone();
         }
     }
 }

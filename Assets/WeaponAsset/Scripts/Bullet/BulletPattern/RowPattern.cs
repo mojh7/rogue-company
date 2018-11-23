@@ -26,7 +26,15 @@ public class RowPattern : BulletPattern
     public override void Init(Weapon weapon)
     {
         base.Init(weapon);
-        info.bulletInfo.Init();
+        if (info.randomBulletInfoList.Length > 0)
+        {
+            for (int i = 0; i < info.randomBulletInfoList.Length; i++)
+            {
+                info.randomBulletInfoList[i].Init();
+            }
+        }
+        else
+            info.bulletInfo.Init();
         for (int i = 0; i < info.childBulletInfoList.Count; i++)
         {
             info.childBulletInfoList[i].bulletInfo.Init();
@@ -82,8 +90,11 @@ public class RowPattern : BulletPattern
                 {
                     dirDegree = ownerDirDegree();
                 }
+                
+                AutoSelectBulletInfo(info.bulletInfo, info.randomBulletInfoList);
+
                 createdObj = ObjectPoolManager.Instance.CreateBullet();
-                createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
+                createdObj.GetComponent<Bullet>().Init(bulletInfo, ownerBuff, ownerType,
                     weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos) + perpendicularVector * (info.initPos - info.deltaPos * j),
                     ownerDirDegree() + currentAngle, transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
                 CreateChildBullets(info.childBulletInfoList, info.childBulletCommonProperty);

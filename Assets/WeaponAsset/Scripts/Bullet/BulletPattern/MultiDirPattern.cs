@@ -23,7 +23,22 @@ public class MultiDirPattern : BulletPattern
     public override void Init(Weapon weapon)
     {
         base.Init(weapon);
-        info.bulletInfo.Init();
+
+        if (info.randomBulletInfoList.Length > 0)
+        {
+            Debug.Log(weapon.info.name + ",z : " + info.randomBulletInfoList.Length);
+            for (int i = 0; i < info.randomBulletInfoList.Length; i++)
+            {
+                info.randomBulletInfoList[i].Init();
+            }
+        }
+        else
+        {
+            Debug.Log(weapon.originInfo.name + ",a " + info.bulletInfo);
+            info.bulletInfo.Init();
+        }
+
+         
         for (int i = 0; i < info.childBulletInfoList.Count; i++)
         {
             info.childBulletInfoList[i].bulletInfo.Init();
@@ -76,8 +91,11 @@ public class MultiDirPattern : BulletPattern
             {
                 dirDegree = ownerDirDegree();
             }
+
+            AutoSelectBulletInfo(info.bulletInfo, info.randomBulletInfoList);
+
             createdObj = ObjectPoolManager.Instance.CreateBullet();
-            createdObj.GetComponent<Bullet>().Init(info.bulletInfo.Clone(), ownerBuff, ownerType,
+            createdObj.GetComponent<Bullet>().Init(bulletInfo, ownerBuff, ownerType,
                 muzzlePos + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos),
                 dirDegree - info.initAngle + info.deltaAngle * i + additionalAngle + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
                 transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape); 

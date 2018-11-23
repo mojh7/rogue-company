@@ -49,13 +49,8 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
         // 독, 화상 데미지 점화식 ( fd / 2 ) ( n + 1 )
         PoisonInfo = new StatusConstant(0.05f, 2f, 4);
         BurnInfo = new StatusConstant(0.05f, 2f, 4);
-        DelayStateInfo = new StatusConstant(0.5f, 3f, 3);
 
-        NagInfo = new StatusConstant(0.5f, 4f, 2, 5f);
-        ClimbingInfo = new StatusConstant(0.45f, 2.5f, 2, 4f);
-        GraveyardShiftInfo = new StatusConstant(0f, 2f, 2);
         FreezeInfo = new StatusConstant(0f, 2f, -1);
-        ReactanceInfo = new StatusConstant(0f, 4f, -1);
 
         GraduallyDamageCycle = 0.1f;
         // (int)(poisonInfo.effectiveTime / graduallyDamageCycle); 왜 30안나오고 29 나오지?
@@ -72,4 +67,24 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
         Debug.Log("지속 데미지 횟수 : " + GraduallyDamageCountMax);
         */
     }
+}
+
+/*
+ * 상태이상 처리
+ * 
+ * 공격계 (독, 화상)
+ *  - 상태이상 공격 텀 A초 고정(현재 A = 0.5)
+ *  - 한 틱당 공격력 D, 총 N회 적용(N = 6 고정, 총 3초 걸리는 꼴)
+ *  - 중첩 되려고 할 때 처리, (기존 상태이상 공격력 * 남은 적용 횟수) 와 (새로운 상태이상 공격력 * 적용 횟수)의 합 중에서
+ *  - 높은 걸 적용????
+ * 
+ * 제어계 (스턴, 빙결)
+ *  - n초 적용
+ *  - 새로운 것이 들어왔을 때 기존 상태이상에 상관없이 초기화 되어 새로운 상태이상으로 적용 
+ */ 
+
+static class StatusConstantTest
+{
+    public const float STATUS_ATTACKING_TERM = 0.5f;
+    public const int STATUS_ATTACKING_COUNT_MAX = 6;
 }

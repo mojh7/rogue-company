@@ -75,9 +75,11 @@ public class LaserPattern : BulletPattern
     // 이미 저장된 정보 이용.
     public override void CreateBullet(float damageIncreaseRate)
     {
+        AutoSelectBulletInfo(info.bulletInfo, info.randomBulletInfoList);
+
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdBullet = createdObj.GetComponent<Bullet>();
-        createdBullet.Init(info.bulletInfo.Clone(), ownerBuff, ownerType, addDirVecMagnitude, additionalVerticalPos,
+        createdBullet.Init(bulletInfo, ownerBuff, ownerType, addDirVecMagnitude, additionalVerticalPos,
             ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo);
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }

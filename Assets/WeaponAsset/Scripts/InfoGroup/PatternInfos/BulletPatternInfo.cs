@@ -78,8 +78,13 @@ public class BulletPatternInfo : ScriptableObject
     // weapon Info에서 다운 캐스팅 할 때 pattern type 구분용
     // public BulletPatternType patternType;
 
+    [Header("총알 발사 할 때 BulletInfo 한 개만 사용하고 싶을 때 사용")]
     [Tooltip("총알 Info, laser 무기는 꼭 laserUpdate와 laserDelete 속성을 가진 총알 만 쓰기")]
     public BulletInfo bulletInfo;
+
+    [Header("여러 개의 총알 중 랜덤하게 bulletInfo 사용하고 싶을 때 사용")]
+    public BulletInfo[] randomBulletInfoList;
+
     [Header("BulletPattern 공통 속성")]
     public float addDirVecMagnitude;
     public float additionalVerticalPos;
