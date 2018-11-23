@@ -26,18 +26,13 @@ public class MultiDirPattern : BulletPattern
 
         if (info.randomBulletInfoList.Length > 0)
         {
-            Debug.Log(weapon.info.name + ",z : " + info.randomBulletInfoList.Length);
             for (int i = 0; i < info.randomBulletInfoList.Length; i++)
             {
                 info.randomBulletInfoList[i].Init();
             }
         }
         else
-        {
-            Debug.Log(weapon.originInfo.name + ",a " + info.bulletInfo);
             info.bulletInfo.Init();
-        }
-
          
         for (int i = 0; i < info.childBulletInfoList.Count; i++)
         {

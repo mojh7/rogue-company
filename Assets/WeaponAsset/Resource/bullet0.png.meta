@@ -1,23 +1,21 @@
 fileFormatVersion: 2
-guid: eb155f995c6b2b24ea6ac3e22e3b886d
-timeCreated: 1542468443
+guid: 35d225a0c95fcf541b0eb5671d97989b
+timeCreated: 1542987502
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: weapon_37
-    21300002: weapon_38
-    21300004: weapon_39
-    21300006: weapon_40
-    21300008: weapon_41
-    21300010: weapon_42
-    21300012: weapon_43
-    21300014: weapon_44
-    21300016: weapon_45
-    21300018: weapon5_-1
-    21300020: weapon_46
-    21300022: weapon_47
-    21300024: weapon_48
-    21300026: weapon_49
+    21300000: bullet0_0
+    21300002: bullet0_1
+    21300004: bullet0_2
+    21300006: bullet0_3
+    21300008: bullet0_4
+    21300010: bullet0_5
+    21300012: bullet0_6
+    21300014: bullet0_7
+    21300016: bullet0_8
+    21300018: bullet0_9
+    21300020: bullet0_10
+    21300022: bullet0_11
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -104,55 +102,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: weapon_37
+      name: bullet0_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 331
-        width: 50
-        height: 13
-      alignment: 9
-      pivot: {x: 0.34040153, y: 0.5613843}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_38
-      rect:
-        serializedVersion: 2
-        x: 95
-        y: 327
-        width: 51
-        height: 20
-      alignment: 9
-      pivot: {x: 0.3670014, y: 0.5598488}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_39
-      rect:
-        serializedVersion: 2
-        x: 154
-        y: 330
-        width: 37
-        height: 16
-      alignment: 9
-      pivot: {x: 0.39216325, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_40
-      rect:
-        serializedVersion: 2
-        x: 201
-        y: 329
-        width: 47
-        height: 14
+        x: 8
+        y: 61
+        width: 6
+        height: 4
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,97 +116,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon_41
+      name: bullet0_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 274
-        width: 14
-        height: 41
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_42
-      rect:
-        serializedVersion: 2
-        x: 63
-        y: 281
-        width: 32
-        height: 26
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_43
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 289
-        width: 43
-        height: 14
-      alignment: 9
-      pivot: {x: 0.39793113, y: 0.6139984}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_44
-      rect:
-        serializedVersion: 2
-        x: 155
-        y: 288
-        width: 39
-        height: 17
-      alignment: 9
-      pivot: {x: 0.31584793, y: 0.4765293}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_45
-      rect:
-        serializedVersion: 2
-        x: 207
-        y: 288
-        width: 32
-        height: 14
-      alignment: 9
-      pivot: {x: 0.3379073, y: 0.5854988}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon5_-1
-      rect:
-        serializedVersion: 2
-        x: 249
-        y: 288
-        width: 13
-        height: 17
-      alignment: 9
-      pivot: {x: 0.6227675, y: 0.49999955}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: weapon_46
-      rect:
-        serializedVersion: 2
-        x: 30
-        y: 238
+        x: 28
+        y: 53
         width: 28
-        height: 29
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -258,13 +130,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon_47
+      name: bullet0_2
       rect:
         serializedVersion: 2
-        x: 74
-        y: 233
-        width: 20
-        height: 36
+        x: 8
+        y: 54
+        width: 5
+        height: 4
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -272,29 +144,127 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon_48
+      name: bullet0_3
       rect:
         serializedVersion: 2
-        x: 112
-        y: 231
-        width: 24
-        height: 46
-      alignment: 9
-      pivot: {x: 0.19326782, y: 0.49999934}
+        x: 3
+        y: 39
+        width: 23
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon_49
+      name: bullet0_4
       rect:
         serializedVersion: 2
-        x: 152
-        y: 247
-        width: 13
-        height: 14
+        x: 29
+        y: 40
+        width: 27
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet0_5
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 22
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet0_6
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 22
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet0_7
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 23
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet0_8
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 25
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet0_9
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 6
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet0_10
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 7
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bullet0_11
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 6
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

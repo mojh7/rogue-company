@@ -44,10 +44,11 @@ namespace WeaponAsset
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION}
     public enum BulletPresetType
     {
-        None, YellowCircle, RedCircle, SkyBlueBash, BlueBash, RedBash, OrangeBash,
-        BlueCircle, SkyBlueCircle, PinkCircle, VioletCircle, Empty,
-        YellowBullet, BlueBullet, PinkBullet, VioletBullet, RedBullet, GreenBullet,
-        YellowBeam, BlueBeam, PinkBeam, VioletBeam, RedBeam, GreenBeam
+        None, YELLOW_CIRCLE, RED_CIRCLE, SKYBLUE_BASH, BLUE_BASH, RED_BASH, ORANGE_BASH,
+        BLUE_CIRCLE, SKYBLUECIRCLE, PINK_CIRCLE, VIOLET_CIRCLE, EMPTY,
+        YELLOW_BULLET, BLUE_BULLET, PINK_BULLET, VIOLET_BULLET, RED_BULLET, GREEN_BULLET,
+        YELLOW_BEAM, BLUE_BEAM, PINK_BEAM, VIOLET_BEAM, RED_BEAM, GREEN_BEAM, GREEN_CIRCLE,
+
     };
     /*---*/
 

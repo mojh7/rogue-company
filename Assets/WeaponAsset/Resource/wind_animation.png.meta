@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: eec272fd2562e804c86d21a04595393e
-timeCreated: 1542445046
+guid: ac7a1fc42634c43469a32ebd0230b068
+timeCreated: 1542989272
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: tempB_0
-    21300002: tempB_1
+    21300000: wind_animation_0
+    21300002: wind_animation_1
+    21300004: wind_animation_2
+    21300006: wind_animation_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -33,7 +35,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -92,13 +94,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tempB_0
+      name: wind_animation_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 17
-        width: 12
-        height: 8
+        x: 1
+        y: 8
+        width: 20
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -106,13 +108,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tempB_1
+      name: wind_animation_1
       rect:
         serializedVersion: 2
-        x: 2
-        y: 4
-        width: 15
-        height: 8
+        x: 29
+        y: 8
+        width: 19
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wind_animation_2
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 7
+        width: 18
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: wind_animation_3
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 8
+        width: 19
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

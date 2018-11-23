@@ -550,7 +550,7 @@ public class Bullet : MonoBehaviour
                 size = (sizeX > sizeY) ? sizeY : sizeX;
 
                 //Debug.Log(sizeX + ", " + sizeY + ", " + renderer.sprite.bounds.size);
-                circleCollider.radius = size * sizeRate;
+                circleCollider.radius = size * sizeRate * 0.5f;
                 circleCollider.offset = renderer.sprite.bounds.center;
                 //Debug.Log("bs.center : " + renderer.sprite.bounds.center);
                 //Debug.Log("size : " + size + ", sizeRate : " + sizeRate);
@@ -970,7 +970,7 @@ public class Bullet : MonoBehaviour
                 sizeX = spriteAniRenderer.sprite.bounds.size.x;
                 sizeY = spriteAniRenderer.sprite.bounds.size.y;
                 size = (sizeX > sizeY) ? sizeY : sizeX;
-                circleCollider.radius = size * info.colliderSizeRate;
+                circleCollider.radius = size * info.colliderSizeRate * 0.5f;
                 circleCollider.offset = spriteAniRenderer.sprite.bounds.center;
                 break;
             default:
