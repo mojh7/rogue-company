@@ -400,12 +400,12 @@ public class Bullet : MonoBehaviour
         // rotate 360도 계속 회전하는 애니메이션 적용
         if (true == info.showsRotationAnimation)
         {
-            rotationAnimation = StartCoroutine("RotationAnimation");
+            rotationAnimation = StartCoroutine(RotationAnimation());
         }
         // scale이 커지고 작아지는 애니메이션 적용
         if (true == info.showsScaleAnimation)
         {
-            scaleAnimation = StartCoroutine("ScaleAnimation");
+            scaleAnimation = StartCoroutine(ScaleAnimation());
         }
 
         // lifeTime이 0 초과되는 값을 가지면 시간이 lifeTime이 지나면 delete 속성 실행
@@ -984,11 +984,15 @@ public class Bullet : MonoBehaviour
     private IEnumerator RotationAnimation()
     {
         float eulerAngleZ = 0f;
+        float totalRotationAngle = 0;
         while (true)
         {
-            eulerAngleZ += 12f;
+            if (info.angleOfSpriteRotationMax != -1 && info.angleOfSpriteRotationMax < totalRotationAngle+1)
+                break;
+            eulerAngleZ += info.angleOfSpriteRotationPerSecond * Time.fixedDeltaTime;
+            totalRotationAngle += info.angleOfSpriteRotationPerSecond * Time.fixedDeltaTime;
             viewTransform.localRotation = Quaternion.Euler(0f, 0f, eulerAngleZ);
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);  // 일단은 약 60 fps 정도로 실행
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
     }
 

@@ -65,8 +65,6 @@ public struct ChildBulletCommonProperty
     public float movingAwaySpeed;
 }
 
-
-
 // TODO: pattern clone 해주는 함수 필요 없으나 필요하다고 생각 하면 넣을 예정.
 
 public class BulletPatternInfo : ScriptableObject

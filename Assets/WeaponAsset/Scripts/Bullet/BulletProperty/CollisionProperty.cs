@@ -40,11 +40,11 @@ public abstract class CollisionProperty : BulletProperty
     protected virtual void Bounce(ref Collision2D coll) { }
     protected void Ignore(ref Collision2D coll)
     {
-        //Physics2D.IgnoreCollision(coll.gameObject.GetComponent<Collider2D>(), bulletCollider2D);
+        Physics2D.IgnoreCollision(coll.gameObject.GetComponent<Collider2D>(), bulletCollider2D);
     }
     protected void Ignore(ref Collider2D coll)
     {
-        //Physics2D.IgnoreCollision(coll, bulletCollider2D);
+        Physics2D.IgnoreCollision(coll, bulletCollider2D);
     }
     protected virtual void Attack(ref Collision2D coll)
     {
