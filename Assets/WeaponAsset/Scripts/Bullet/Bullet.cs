@@ -67,6 +67,8 @@ public class Bullet : MonoBehaviour
 
     private bool active;
     private BulletPresetInfo bulletPresetInfo;
+
+    private float eulerAngleZ;
     #endregion
 
     #region getter / setter
@@ -565,6 +567,11 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public void RotateSpriteEulerAngle(float rotationAngle)
+    {
+        eulerAngleZ += rotationAngle;
+    }
+
     #region setVelocityAndDirection
     /// <summary> 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다. </summary>
     public void SetDirection(Vector3 dirVector)
@@ -983,7 +990,7 @@ public class Bullet : MonoBehaviour
     /// <summary>rotation Z 360도 회전하는 코루틴</summary>
     private IEnumerator RotationAnimation()
     {
-        float eulerAngleZ = 0f;
+        eulerAngleZ = 0;
         float totalRotationAngle = 0;
         while (true)
         {
