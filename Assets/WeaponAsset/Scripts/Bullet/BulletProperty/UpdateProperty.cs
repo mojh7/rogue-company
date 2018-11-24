@@ -38,7 +38,7 @@ public abstract class UpdateProperty : BulletProperty
 }
 
 /// <summary>
-/// 등속 직선 운동 속성
+/// 등속 직선 운동 속성, 삭제 조건 : range
 /// </summary>
 public class StraightMoveProperty : UpdateProperty
 {
@@ -91,11 +91,10 @@ public class StraightMoveProperty : UpdateProperty
     }
 }
 
-/// <summary> 등가속도 직선? 운동 </summary>
+/// <summary> 등가속도 직선? 운동, 삭제 조건 : range </summary>
 public class AccelerationMotionProperty : UpdateProperty
 {
     private float distance;     // 이동한 거리, range 체크용
-
     private float moveSpeed;    // 속력
     private float acceleration; // 가속도 (방향 일정)
     private float range;        // 사정거리
@@ -173,6 +172,8 @@ public class AccelerationMotionProperty : UpdateProperty
                 moveSpeed = -moveSpeed;
                 acceleration = -acceleration;
                 bullet.RotateDirection(180);
+                if (bullet.info.showsRotationAnimation)
+                    bullet.RotateSpriteEulerAngle(180);
             }
         }
 
