@@ -80,8 +80,9 @@ public class BulletPatternInfo : ScriptableObject
     [Tooltip("총알 Info, laser 무기는 꼭 laserUpdate와 laserDelete 속성을 가진 총알 만 쓰기")]
     public BulletInfo bulletInfo;
 
-    [Header("여러 개의 총알 중 랜덤하게 bulletInfo 사용하고 싶을 때 사용")]
     public BulletInfo[] randomBulletInfoList;
+    [Header("여러 개의 총알 중 랜덤하게 bulletInfo 사용하고 싶을 때 사용")]
+    public BulletInfo[] _pRoot;
 
     [Header("BulletPattern 공통 속성")]
     public float addDirVecMagnitude;

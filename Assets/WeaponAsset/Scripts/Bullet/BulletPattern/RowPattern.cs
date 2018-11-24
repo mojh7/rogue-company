@@ -26,7 +26,7 @@ public class RowPattern : BulletPattern
     public override void Init(Weapon weapon)
     {
         base.Init(weapon);
-        if (info.randomBulletInfoList.Length > 0)
+        if (null != info.randomBulletInfoList && info.randomBulletInfoList.Length > 0)
         {
             for (int i = 0; i < info.randomBulletInfoList.Length; i++)
             {

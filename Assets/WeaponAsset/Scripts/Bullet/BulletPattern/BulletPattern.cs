@@ -272,7 +272,7 @@ public abstract class BulletPattern
     
     protected void AutoSelectBulletInfo(BulletInfo bulletInfo, BulletInfo[] randomBulletInfoList)
     {
-        if (randomBulletInfoList.Length > 0)
+        if (null != randomBulletInfoList && randomBulletInfoList.Length > 0)
         {
             int index = Random.Range(0, randomBulletInfoList.Length);
             this.bulletInfo = randomBulletInfoList[index].Clone();
