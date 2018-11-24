@@ -190,7 +190,9 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         {
             for (i = 0; i < length; i++)
             {
-                total += array[floor, i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
+                total += array[floor, i];
+                if(PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal != null)
+                    total += PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
             }
         }
         catch (System.Exception)
@@ -202,13 +204,16 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
         float randomPoint = Random.value * total;
         for (i = 0; i < length; i++)
         {
-            if (randomPoint < array[floor,i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i])
+            float percent = array[floor, i];
+            if (PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal != null)
+                percent += PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
+            if (randomPoint < array[floor,i] + percent)
             {
                 return (Rating)i;
             }
             else
             {
-                randomPoint -= array[floor, i] + PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.rateUpperPercent.percent[i];
+                randomPoint -= percent;
             }
         }
 

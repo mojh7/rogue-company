@@ -333,7 +333,7 @@ public class Player : Character
         {
             rgbody.AddForce(knockBack * _dir);
         }
-        PlayerHPUi.DecreaseHp(playerData.Hp);
+        PlayerHPUi.SetHpBar(playerData.Hp);
         AttackedEffect();
         StopCoroutine(KnockBackCheck());
         StartCoroutine(KnockBackCheck());
@@ -432,16 +432,15 @@ public class Player : Character
         return true;
     }
 
-    public bool RecoverHp(float recoveryHp)
+    public void RecoverHp(float recoveryHp)
     {
-        if (playerData.Hp + recoveryHp <= playerData.HpMax)
+        ParticleManager.Instance.PlayParticle("Hp", this.transform.position);
+        playerData.Hp += recoveryHp;
+        if(playerData.Hp >= playerData.HpMax)
         {
-            ParticleManager.Instance.PlayParticle("Hp", this.transform.position);
-            playerData.Hp += recoveryHp;
-            return true;
+            playerData.Hp = playerData.HpMax;
         }
-        else
-            return false;
+        PlayerHPUi.SetHpBar(playerData.Hp);
     }
 
     private void AttackedAction(float power)
@@ -633,11 +632,11 @@ public class Player : Character
         Debug.Log("소모품 아이템 플레이어 대상 효과 적용");
         if (0 != itemUseEffect.recoveryHp)
         {
-            playerData.Hp += itemUseEffect.recoveryHp;
+            RecoverHp(itemUseEffect.recoveryHp);
         }
         if (0 != itemUseEffect.recoveryStamina)
         {
-            playerData.Stamina += itemUseEffect.recoveryStamina;
+            stamina.RecoverStamina(playerData.Stamina);
         }
     }
 
