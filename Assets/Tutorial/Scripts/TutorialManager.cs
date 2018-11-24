@@ -10,17 +10,12 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     [SerializeField] Sprite spritePortal;
     GameObject obj;
 
-    //[HideInInspector] public bool isTutorial = false;
-
     private void Start()
     {
         SpawnPlayer();
         DrawUI();
 
         CallWeapon();
-
-        //Debug.Log(isTutorial);
-        //isTutorial = true;
 
         TutorialUIManager.Instance.HoldAll(true);
         TutorialUIManager.Instance.SetFocus(TutorialUIManager.Instance.layers[0]);
@@ -116,5 +111,6 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     void DrawUI()
     {
         UIManager.Instance.FadeInScreen(); // 화면 밝히기
-    }    
+    }
+
 }

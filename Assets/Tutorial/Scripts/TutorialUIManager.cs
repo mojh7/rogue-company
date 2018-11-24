@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Tutorial의 UI를 관리하는 매니저 스크립트.
@@ -14,8 +15,9 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     [SerializeField] Image focus;
     [SerializeField] GameObject[] menuObj;   
     [SerializeField] Canvas canvas;
+    [SerializeField] GameObject skip;
 
-    public int count = 0;
+    [HideInInspector] public int count = 0;
 
     public void ActiveText()
     {
@@ -111,5 +113,21 @@ public class TutorialUIManager : MonoBehaviourSingleton<TutorialUIManager>
     public void HoldAll(bool isActive)
     {
         layers[5].gameObject.SetActive(isActive);
+    }
+
+    public void Skip()
+    {
+        skip.SetActive(true);
+    }
+
+    public void GoToIngame()
+    {
+        SceneDataManager.SetNextScene("InGameScene");
+        SceneManager.LoadScene("LoadingScene");
+    }
+
+    public void CancelSkip()
+    {
+        skip.SetActive(false);
     }
 }

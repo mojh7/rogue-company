@@ -401,9 +401,12 @@ public class WeaponManager : MonoBehaviour {
                 nextWeaponIndex = currentWeaponIndex + 1;
                 prevWeaponIndex = currentWeaponIndex - 1;
             }
-            ControllerUI.Instance.WeaponSwitchButton.UpdateNextWeaponSprite(equipWeaponSlot[nextWeaponIndex].GetWeaponSprite());
-            ControllerUI.Instance.WeaponSwitchButton.UpdatePrevWeaponSprite(equipWeaponSlot[prevWeaponIndex].GetWeaponSprite());
-            ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
+            if (weaponCount >= 2)
+            {
+                ControllerUI.Instance.WeaponSwitchButton.UpdateNextWeaponSprite(equipWeaponSlot[nextWeaponIndex].GetWeaponSprite());
+                ControllerUI.Instance.WeaponSwitchButton.UpdatePrevWeaponSprite(equipWeaponSlot[prevWeaponIndex].GetWeaponSprite());
+                ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
+            }
         }
     }
 
@@ -463,6 +466,7 @@ public class WeaponManager : MonoBehaviour {
             weapon.RegisterWeapon(this);
             currentWeaponIndex = weaponCount++;
             UpdateCurrentWeapon();
+
             return true;
         }
         // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 1초간 무기 줍고 버리기 delay줌

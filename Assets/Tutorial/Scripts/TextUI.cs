@@ -7,6 +7,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
     [SerializeField] private Text touch;
     [SerializeField] private Text text;
     [SerializeField] private Image[] focus;
+    [SerializeField] private Image menu;
     private bool isHide = true;
     private string str;
 
@@ -84,18 +85,20 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "이제 공격방식을\n변경하는 법에 대해 알아볼까요?";
                         break;
                     case 1:
+                        menu.gameObject.SetActive(true);
                         tu.StartCoroutine("ActiveTrueMenu");
-                        tu.SetLayersActive(2, false);
                         count++;
                         this.gameObject.SetActive(false);
                         break;
                     case 2:
+                        menu.gameObject.SetActive(false);
                         text.text = "공격방식은 오토, 세미오토, 수동\n세 가지 입니다!";
                         break;
                     case 3:
                         tm.CallEnemy();
                         tu.HoldAll(true);
                         tu.SetLayersActive(0, true);
+                        tu.SetLayersActive(2, false);
                         count++;
                         this.gameObject.SetActive(false);
                         break;
