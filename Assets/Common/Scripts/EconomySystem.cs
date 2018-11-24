@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-struct RatingPrice
+class RatingPrice
 {
     [Header("S,A,B,C,D,E")]
     [SerializeField]
-    float[] price;
+     float[] price = { 55, 50,45, 40, 35,30};
 
     public float GetPrice(Rating rating)
     {
@@ -75,6 +75,8 @@ public class EconomySystem : MonoBehaviourSingleton<EconomySystem> {
 
     public int GetPrice(Rating grade)
     {
+        if (ratingPrice == null)
+            ratingPrice = new RatingPrice();
         int ret = 0;
         float weight = Mathf.Pow(floorWeight, InGameManager.Instance.GetFloor());
         ret = (int)(ratingPrice.GetPrice(grade) * weight);

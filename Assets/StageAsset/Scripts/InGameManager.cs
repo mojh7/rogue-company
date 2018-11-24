@@ -38,10 +38,6 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
         GameStateManager.Instance.LoadInGame();
         System.GC.Collect();
     }
-    public void UpToInGame()
-    {
-        SceneManager.LoadScene("InGameScene");
-    }
     // 데이터 저장 타이밍
     void GenerateMap()
     {

@@ -40,8 +40,8 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     public void SetPortal()
     {
         portal.SetActive(true);
-        portal.AddComponent<ItemContainer>().LoadAwake();
-        portal.GetComponent<ItemContainer>().Init();
+        portal.AddComponent<PortalTutorial>().LoadAwake();
+        portal.GetComponent<PortalTutorial>().Init();
 
         portal.GetComponent<SpriteRenderer>().sprite = spritePortal;
     }
@@ -61,9 +61,6 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     {
         AStar.TileGrid.Instance.BakeTutorial();
         AStar.Pathfinder.Instance.Bake();
-        
-        Enemy enemy = obj.GetComponent<Enemy>();
-        Debug.Log(enemy);
     }
 
     void CallWeapon()
@@ -119,11 +116,5 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     void DrawUI()
     {
         UIManager.Instance.FadeInScreen(); // 화면 밝히기
-    }
-
-    void InitPortal()
-    {
-    }
-
-    
+    }    
 }

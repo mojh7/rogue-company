@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public enum ObjectType
 {
@@ -634,17 +635,12 @@ public class PortalTutorial : RandomSpriteObject
             return false;
         base.Active();
         isAvailable = false;
-        InGameManager.Instance.UpToInGame();
+        SceneDataManager.SetNextScene("InGameScene");
+        SceneManager.LoadScene("LoadingScene");
+
         return true;
     }
-    private void OnMouseDown()
-    {
-        bool success = Active();
-        if (success)
-        {
-            ControllerUI.Instance.IsTouched();
-        }
-    }
+
 }
 
 public class ItemBox : RandomSpriteObject

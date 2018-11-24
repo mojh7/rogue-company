@@ -5,13 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GoToInGameSence : MonoBehaviour {
 
-    void Update () {
-        // 활성화 되어 클릭 당하면 실행
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            SceneManager.LoadScene("InGameScene");
-        }
-	}
+    
 }
 
 /*public class VendingMachine : RandomSpriteObject
