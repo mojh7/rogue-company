@@ -20,6 +20,13 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     protected Coroutine roomCoroutine;
 
+    private void Awake()
+    {
+        if(mask == null)
+        {
+            mask = GetComponentInChildren<UnityEngine.UI.Mask>().transform;
+        }
+    }
     public void Trap()
     {
         MiniMap.Instance.HideMiniMap();
