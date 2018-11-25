@@ -221,22 +221,22 @@ public class WeaponManager : MonoBehaviour {
                 else
                 {
                     weaponCountMax = 3;
-                    weaponCount = 3;
+                    weaponCount = 2;
 
-                        weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0,8)) as Weapon;
-                        equipWeaponSlot.Add(weapon);
-                        weapon.ObjTransform.SetParent(registerPoint, false);
-                        weapon.RegisterWeapon(this);
-
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(8, 16)) as Weapon;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(0) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
 
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(16, 25)) as Weapon;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(2) as Weapon;
                     equipWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
+
+                    //weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(16, 25)) as Weapon;
+                    //equipWeaponSlot.Add(weapon);
+                    //weapon.ObjTransform.SetParent(registerPoint, false);
+                    //weapon.RegisterWeapon(this);
 
                     /*if(-1 == DebugSetting.Instance.playerEquipWepaonId)
                     {

@@ -50,7 +50,7 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
         PoisonInfo = new StatusConstant(0.05f, 2f, 4);
         BurnInfo = new StatusConstant(0.05f, 2f, 4);
 
-        FreezeInfo = new StatusConstant(0f, 2f, -1);
+        FreezeInfo = new StatusConstant(0f, 1f, -1);
 
         GraduallyDamageCycle = 0.1f;
         // (int)(poisonInfo.effectiveTime / graduallyDamageCycle); 왜 30안나오고 29 나오지?

@@ -311,6 +311,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     #region UnityFunction
     void Awake()
     {
+        AudioManager.Instance.PlayMusic(Random.Range(5, 8));
         InitWepaonInfo();
         InitMiscItems();
         // initializedBulletInfosAtRuntime = new List<BulletInfo>();
