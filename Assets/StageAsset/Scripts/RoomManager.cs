@@ -20,13 +20,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
 
     protected Coroutine roomCoroutine;
 
-    private void Awake()
-    {   
-        if(mask == null)
-        {
-            mask = GetComponentInChildren<UnityEngine.UI.Mask>().transform;
-        }
-    }
     public void Trap()
     {
         MiniMap.Instance.HideMiniMap();
@@ -50,7 +43,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         PlayerManager.Instance.GetPlayer().SetInFloor();
         if (mask == null)
         {
-            mask = GetComponentInChildren<UnityEngine.UI.Mask>().transform;
+            mask = GetComponentInChildren<SpriteMask>().transform;
         }
         mask.transform.localPosition = zeroVector;
         mask.transform.localScale = maskSize;
