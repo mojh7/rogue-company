@@ -758,6 +758,7 @@ public class Player : Character
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
             ColorChange(poisonColor);
+            headRenderer.color = poisonColor;
 
             playerData.Hp -= damage;
             ChangeHP();
@@ -776,6 +777,8 @@ public class Player : Character
         abnormalComponents.PoisonEffect.SetActive(false);
         isPoisoning = false;
         ColorChange(baseColor);
+        headRenderer.color = baseColor;
+
     }
 
     protected override IEnumerator BurnCoroutine()
@@ -787,6 +790,7 @@ public class Player : Character
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
             ColorChange(burnColor);
+            headRenderer.color = burnColor;
 
             playerData.Hp -= damage;
             ChangeHP();
@@ -805,6 +809,8 @@ public class Player : Character
         abnormalComponents.BurnEffect.SetActive(false);
         isBurning = false;
         ColorChange(baseColor);
+        headRenderer.color = baseColor;
+
     }
 
     protected override IEnumerator DelayStateCoroutine()
@@ -839,6 +845,7 @@ public class Player : Character
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             ColorChange(freezeColor);
+            headRenderer.color = freezeColor;
 
             abnormalStatusTime[type] += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
@@ -846,6 +853,8 @@ public class Player : Character
 
         StopAbnormalStatus(AbnormalStatusType.FREEZE);
         ColorChange(baseColor);
+        headRenderer.color = baseColor;
+
     }
 
     protected override IEnumerator StunCoroutine(float effectiveTime)

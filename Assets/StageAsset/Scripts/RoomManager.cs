@@ -48,7 +48,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     private void IniMask()
     {
         PlayerManager.Instance.GetPlayer().SetInFloor();
-
+        if (mask == null)
+        {
+            mask = GetComponentInChildren<UnityEngine.UI.Mask>().transform;
+        }
         mask.transform.localPosition = zeroVector;
         mask.transform.localScale = maskSize;
     }
