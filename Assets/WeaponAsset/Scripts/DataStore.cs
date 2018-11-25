@@ -39,7 +39,7 @@ namespace WeaponAsset
 
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW
     public enum AttackAniType { None, Blow, Strike, Swing, Punch, Shot }
-    public enum AttackType { MELEE, RANGED }
+    public enum AttackType { MELEE, RANGED, TRAP }
     public enum TouchMode { Normal, Charge }
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION}
     public enum BulletPresetType
@@ -582,25 +582,29 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 case WeaponType.SPORTING_GOODS:
                 case WeaponType.SWORD:
                 case WeaponType.CLEANING_TOOL:
-                    mainWeaponInfos[i].addDirVecMagnitude = 1.2f;
+                    if(addDirVec == 0)
+                        mainWeaponInfos[i].addDirVecMagnitude = 1.2f;
                     break;
                 case WeaponType.KNUCKLE:
                 case WeaponType.SHOTGUN:
                 case WeaponType.BOW:
                 case WeaponType.WAND:
                 case WeaponType.SNIPER_RIFLE:
-                    mainWeaponInfos[i].addDirVecMagnitude = 0.5f;
+                    if (addDirVec == 0)
+                        mainWeaponInfos[i].addDirVecMagnitude = 0.5f;
                     break;
                 case WeaponType.LASER:
                 case WeaponType.MACHINEGUN:
                 case WeaponType.RANGED_SPECIAL:
-                    mainWeaponInfos[i].addDirVecMagnitude = 0.3f;
+                    if (addDirVec == 0)
+                        mainWeaponInfos[i].addDirVecMagnitude = 0.3f;
                     break;
                 case WeaponType.PISTOL:
                 //    mainWeaponInfos[i].addDirVecMagnitude = 0.2f;
                    break;
                 default:
-                    mainWeaponInfos[i].addDirVecMagnitude = 0f;
+                    if (addDirVec == 0)
+                        mainWeaponInfos[i].addDirVecMagnitude = 0f;
                     break;
             }
 
@@ -609,10 +613,10 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             {
                 case AttackAniType.Strike:
                     mainWeaponInfos[i].soundId = 0;
-                    mainWeaponInfos[i].castingTime = 0.25f;
+                    mainWeaponInfos[i].castingTime = 0.3f;
                     break;
                 case AttackAniType.Blow:
-                    mainWeaponInfos[i].castingTime = 0.1f;
+                    mainWeaponInfos[i].castingTime = 0.2f;
                     mainWeaponInfos[i].soundId = 3;
                     break;
                 case AttackAniType.Swing:

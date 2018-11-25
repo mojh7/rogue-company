@@ -117,7 +117,8 @@ public class Weapon : Item
         }
         else if (WeaponType.PISTOL == info.weaponType || WeaponType.SHOTGUN == info.weaponType || WeaponType.MACHINEGUN == info.weaponType ||
             WeaponType.SNIPER_RIFLE == info.weaponType || WeaponType.LASER == info.weaponType || WeaponType.BOW == info.weaponType ||
-            WeaponType.WAND == info.weaponType || WeaponType.RANGED_SPECIAL == info.weaponType)
+            WeaponType.WAND == info.weaponType || WeaponType.RANGED_SPECIAL == info.weaponType || WeaponType.BOMB == info.weaponType ||
+WeaponType.TRAP == info.weaponType)
         {
             attackType = AttackType.RANGED;
         }
@@ -333,7 +334,7 @@ public class Weapon : Item
     }
 
     /// <summary>
-    /// 근거리 무기인지 아닌지 확인하기 -> 근거리면 true 반환 : 스태미너 달게 만들기
+    /// 근거리 무기인지 아닌지 확인하기 -> 근거리면 true 반환 : 스태미너 소모하게 만들기
     /// </summary>
     /// <returns></returns>
     private bool ShortWeapon()
