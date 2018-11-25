@@ -493,8 +493,10 @@ public class Bullet : MonoBehaviour
     {
         if (BulletPresetType.None != info.bulletPresetType)
         {
-            if(0 != bulletPresetInfo.scaleX && 0 != bulletPresetInfo.scaleY)
+            if(-1 == info.scaleX && -1 == info.scaleY)
+            {
                 objTransform.localScale = new Vector3(bulletPresetInfo.scaleX, bulletPresetInfo.scaleY, 1f);
+            }
             if(null == info.bulletSprite)
                 info.bulletSprite = bulletPresetInfo.sprite;
             if(ColliderType.None == info.colliderType)

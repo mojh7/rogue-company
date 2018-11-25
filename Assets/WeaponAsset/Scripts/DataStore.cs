@@ -427,6 +427,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         csvWeaponData = WeaponDataCSVParser.Read("weaponData");
         Debug.Log("CSV 데이터 파싱 후 weapon data 입력");
 
+        #region variables
         WeaponType weaponType;
         AttackAniType attackAniType;
         Rating rating;
@@ -438,14 +439,21 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         int ammoCapacity;
         float range;
         float bulletSpeed;
+        int soundId;
+        float scaleX;
+        float scaleY;
+        float castingTime;
+        float addDirVec;
+        float addVerticalVec;
+        #endregion
+
+        //TODO: soundID, showsMuzzleFalsh, ScaleX, ScaleY, CastingTime, AddDirVec, AddVerticalVec
+
         int size = csvWeaponData.Count;
         for (int i = 0; i < size; i++)
         {
             mainWeaponInfos[i].weaponName = (string)csvWeaponData[i]["name"];
             //Debug.Log(i + ", name : " + (string)csvWeaponData[i]["name"]);
-
-            mainWeaponInfos[i].scaleX = 1.0f;
-            mainWeaponInfos[i].scaleY = 1.0f;
 
             weaponType = (WeaponType)System.Enum.Parse(typeof(WeaponType), (string)csvWeaponData[i]["weaponType"]);
             mainWeaponInfos[i].weaponType = weaponType;
@@ -495,7 +503,28 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             mainWeaponInfos[i].bulletMoveSpeed = bulletSpeed;
             //Debug.Log(bulletSpeed);
 
-            //TODO: soundID, showsMuzzleFalsh, ScaleX, ScaleY, CastingTime, AddDirVec, AddVerticalVec
+            int.TryParse(csvWeaponData[i]["soundId"].ToString(), out soundId);
+            mainWeaponInfos[i].soundId = soundId;
+
+            if("TRUE" == csvWeaponData[i]["soundId"].ToString())
+                mainWeaponInfos[i].showsMuzzleFlash = true;
+            else
+                mainWeaponInfos[i].showsMuzzleFlash = false;
+
+            float.TryParse(csvWeaponData[i]["scaleX"].ToString(), out scaleX);
+            mainWeaponInfos[i].scaleX = scaleX;
+
+            float.TryParse(csvWeaponData[i]["scaleY"].ToString(), out scaleY);
+            mainWeaponInfos[i].scaleY = scaleY;
+
+            float.TryParse(csvWeaponData[i]["castingTime"].ToString(), out castingTime);
+            mainWeaponInfos[i].castingTime = castingTime;
+
+            float.TryParse(csvWeaponData[i]["addDirVec"].ToString(), out addDirVec);
+            mainWeaponInfos[i].addDirVecMagnitude = addDirVec;
+
+            float.TryParse(csvWeaponData[i]["addVerticalVec"].ToString(), out addVerticalVec);
+            mainWeaponInfos[i].additionalVerticalPos = addVerticalVec;
 
 
             switch (weaponType)
