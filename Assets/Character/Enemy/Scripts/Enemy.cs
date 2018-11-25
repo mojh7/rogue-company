@@ -140,6 +140,13 @@ public class Enemy : Character
 
     protected override void Die()
     {
+        if (tutorial)
+        {
+            TutorialManager.Instance.StartShake(2, 2, 1);
+            TutorialManager.Instance.SetPortal();
+            gameObject.SetActive(false);
+            return;
+        }
         pState = CharacterInfo.State.DIE;
         // 실행 중인 코루틴이 있으면 코루틴 멈춤
         if (null != knockBackCheck)
@@ -170,11 +177,6 @@ public class Enemy : Character
         ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position, sprite);
         gameObject.SetActive(false);
 
-        if (tutorial)
-        {
-            TutorialManager.Instance.StartShake(2, 2, 1);
-            TutorialManager.Instance.SetPortal();
-        }
         Destroy(this);
     }
 

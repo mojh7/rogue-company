@@ -17,7 +17,7 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour
                 {
                     GameObject obj = new GameObject
                     {
-                        hideFlags = HideFlags.HideAndDontSave
+                        hideFlags = HideFlags.HideInHierarchy
                     };
                     _instance = obj.AddComponent<T>();
                 }

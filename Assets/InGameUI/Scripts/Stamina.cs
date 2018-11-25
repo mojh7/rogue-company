@@ -13,6 +13,8 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     private PlayerData playerData;
     private Player player;
     private Image staminaImage;
+    [SerializeField]
+    private Image delayStaminaImage;
     private int maxStamina;        // 스태미너의 Max치 
     private int playerStamina;       // player 의 스태미너
     private int stamina;
@@ -100,6 +102,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     }
     public void ConsumeStamina(int staminaConsumption)
     {
+        float oldStamina = stamina;
         stamina -= staminaConsumption;
         staminaImage.fillAmount -= staminaConsumption / (float)maxStamina;
 
@@ -110,6 +113,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         }
         playerData.Stamina = stamina;
         steminaText.text = stamina + "/" + maxStamina;
+        StartCoroutine(CoroutineStamina(oldStamina, stamina, maxStamina, delayStaminaImage));
     }
 
     public bool IsFullStamina()
@@ -137,5 +141,22 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     //        player.SetStamina(playerStamina);
     //    return playerStamina;
     //}
+
+    IEnumerator CoroutineStamina(float _src, float _dest, float max, Image _image)
+    {
+        float temp;
+        float t = 0;
+        while (true)
+        {
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+            t += Time.deltaTime / 1f;
+
+            temp = Mathf.Lerp(_src, _dest, t);
+            _image.fillAmount = temp / max;
+            if (temp == _dest)
+                break;
+        }
+    }
+
     #endregion
 }
