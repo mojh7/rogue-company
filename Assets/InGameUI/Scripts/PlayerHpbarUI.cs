@@ -35,8 +35,8 @@ public class PlayerHpbarUI : MonoBehaviour {
         if (_hp < 0) return;
         oldHp = remainHp;
         remainHp = _hp;
-        hpImage.fillAmount = remainHp / hp;
-        hpText.text = remainHp + "/" + maxHp;
+        hpImage.fillAmount = (int)remainHp / hp;
+        hpText.text = (int)remainHp + "/" + maxHp;
         StartCoroutine(CoroutineHP(oldHp, remainHp, hp, delayHPImage));
     }
 

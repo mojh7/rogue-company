@@ -10,6 +10,6 @@ public class SceneDataManager : MonoBehaviour {
 
     private void Start()
     {
-        NextScene = "SelectScene";
+        NextScene = "TitleScene";
     }
 }

@@ -39,6 +39,24 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region getter
+    public bool isFirst
+    {
+        get
+        {
+            if (PlayerPrefs.GetInt("First") == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        set
+        {
+            PlayerPrefs.SetInt("First", 1);
+        }
+    }
     public int GetKey() { return m_key; }
     public int GetCoin() { return m_coin; }
     public int GetFloor() { return m_floor; }

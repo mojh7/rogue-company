@@ -329,7 +329,8 @@ namespace Map
                 }
             }
 
-            TileManager.Instance.wallRuleTile.DeleteNull();
+            TileManager.Instance.wallRuleTile_h.DeleteNull();
+            TileManager.Instance.wallRuleTile_v.DeleteNull();
 
         } // 맵 만들기 
 
@@ -370,7 +371,8 @@ namespace Map
         {
             TileBase floor = TileManager.Instance.GetSpriteTile();
             TileBase shadow = TileManager.Instance.shadowTile;
-            TileBase wallRuleTile = TileManager.Instance.wallRuleTile;
+            TileBase wallRuleTile_h = TileManager.Instance.wallRuleTile_h;
+            TileBase wallRuleTile_v = TileManager.Instance.wallRuleTile_v;
             TileBase fogTile = TileManager.Instance.fogTile;
 
             Rect rect;
@@ -392,8 +394,8 @@ namespace Map
                         {
                             shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
                         }
-                        verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-                        horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
+                        verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_v);
+                        horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_h);
                     }
                 }
             } // 맵 테두리 그리기
@@ -430,10 +432,10 @@ namespace Map
                                 && y == minY)
                             {
                                 fogTileMap.SetTile(new Vector3Int(x, y - 1, 0), fogTile);
-                                verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-                                verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile);
+                                verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_v);
+                                verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile_v);
+                                horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_h);
+                                horizonWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile_h);
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 2, 0), shadow);
                             }
@@ -443,12 +445,12 @@ namespace Map
                                 fogTileMap.SetTile(new Vector3Int(x + 1, y, 0), fogTile);
                                 fogTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), fogTile);
 
-                                verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile);
-                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile);
-                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile);
+                                verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile_v);
+                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile_v);
+                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile_v);
+                                horizonWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile_h);
+                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile_h);
+                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile_h);
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 2, 0), shadow);
                                 shadowTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), shadow);
                                 shadowTileMap.SetTile(new Vector3Int(x + 1, y - 2, 0), shadow);
@@ -458,12 +460,12 @@ namespace Map
                                 fogTileMap.SetTile(new Vector3Int(x + 1, y, 0), fogTile);
                                 fogTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), fogTile);
 
-                                verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile);
-                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile);
+                                verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_v);
+                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile_v);
+                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile_v);
+                                horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_h);
+                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile_h);
+                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), wallRuleTile_h);
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
                                 shadowTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), shadow);
                                 shadowTileMap.SetTile(new Vector3Int(x + 1, y - 2, 0), shadow);
@@ -473,22 +475,22 @@ namespace Map
                             {
                                 fogTileMap.SetTile(new Vector3Int(x, y - 1, 0), fogTile);
 
-                                verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile);
+                                verticalWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile_v);
+                                horizonWallTileMap.SetTile(new Vector3Int(x, y - 1, 0), wallRuleTile_h);
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 2, 0), shadow);
                             }
                             else if (x == maxX)
                             {
                                 fogTileMap.SetTile(new Vector3Int(x + 1, y, 0), fogTile);
 
-                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile);
+                                verticalWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile_v);
+                                horizonWallTileMap.SetTile(new Vector3Int(x + 1, y, 0), wallRuleTile_h);
                                 shadowTileMap.SetTile(new Vector3Int(x + 1, y - 1, 0), shadow);
                             }
                             else
                             {
-                                verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
-                                horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile);
+                                verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_v);
+                                horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_h);
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
                             }
                         }
@@ -784,7 +786,8 @@ namespace Map
 
         void DrawDoorTile(Rect _rectA, Rect _rectB)
         {
-            RuleTile wallRuleTile = TileManager.Instance.wallRuleTile;
+            RuleTile wallRuleTile_v = TileManager.Instance.wallRuleTile_v;
+            RuleTile wallRuleTile_h = TileManager.Instance.wallRuleTile_h;
 
             GameObject obj = null;
             if ((Mathf.Abs(_rectA.midX - _rectB.midX) == (float)(_rectA.width + _rectB.width) / 2) && (Mathf.Abs(_rectA.midY - _rectB.midY) < (float)(_rectA.height + _rectB.height) / 2))
@@ -807,10 +810,11 @@ namespace Map
 
                 if (_rectA.midX > _rectB.midX) // 오른쪽 사각형이 메인
                 {
-                    wallRuleTile.SetNull(new Vector3Int(_rectA.x * size, y, 0));
-                    wallRuleTile.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
-                    wallRuleTile.SetNull(new Vector3Int(_rectA.x * size, y, 0));
-                    wallRuleTile.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(_rectA.x * size, y, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(_rectA.x * size, y, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(_rectA.x * size - 1, y, 0));
+
                     if (_rectB.isRoom) // 왼쪽 방이  방임
                     {
                         obj = CreateDoorObject(_rectA.x * size + 0.344f, y, true);
@@ -823,10 +827,10 @@ namespace Map
                 }
                 else // 왼쪽 사각형이 메인
                 {
-                    wallRuleTile.SetNull(new Vector3Int(_rectB.x * size, y, 0));
-                    wallRuleTile.SetNull(new Vector3Int(_rectB.x * size - 1, y, 0));
-                    wallRuleTile.SetNull(new Vector3Int(_rectB.x * size, y, 0));
-                    wallRuleTile.SetNull(new Vector3Int(_rectB.x * size - 1, y, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(_rectB.x * size, y, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(_rectB.x * size - 1, y, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(_rectB.x * size, y, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(_rectB.x * size - 1, y, 0));
 
                     if (_rectA.isRoom) // 오른쪽 방이 방임
                     {
@@ -859,10 +863,10 @@ namespace Map
 
                 if (_rectA.midY > _rectB.midY) // 위쪽
                 {
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectA.y * size, 0));
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectA.y * size - 1, 0));
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectA.y * size, 0));
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectA.y * size - 1, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(x, _rectA.y * size, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(x, _rectA.y * size - 1, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(x, _rectA.y * size, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(x, _rectA.y * size - 1, 0));
 
                     obj = CreateDoorObject(x + 0.5f, _rectA.y * size - 1f, false);
                     if(intervalResult == 0)
@@ -870,10 +874,10 @@ namespace Map
                 }
                 else // 아래쪽
                 {
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectB.y * size, 0));
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectB.y * size - 1, 0));
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectB.y * size, 0));
-                    wallRuleTile.SetNull(new Vector3Int(x, _rectB.y * size - 1, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(x, _rectB.y * size, 0));
+                    wallRuleTile_v.SetNull(new Vector3Int(x, _rectB.y * size - 1, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(x, _rectB.y * size, 0));
+                    wallRuleTile_h.SetNull(new Vector3Int(x, _rectB.y * size - 1, 0));
 
                     obj = CreateDoorObject(x + 0.5f, _rectB.y * size - 1f, false);
                     if (intervalResult == 0)

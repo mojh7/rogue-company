@@ -240,6 +240,8 @@ public class Player : Character
 
     public override bool Evade()
     {
+        if (!isActiveMove)
+            return false;
         if (isEvade || !canEvade)
             return false;
         controller.AttackJoyStickUp();
@@ -419,6 +421,10 @@ public class Player : Character
         return true;
     }
 
+    private void ChangeHP()
+    {
+        PlayerHPUi.ChangeHp(playerData.Hp);
+    }
     public void RecoverHp(float recoveryHp)
     {
         ParticleManager.Instance.PlayParticle("Hp", this.transform.position);
@@ -568,6 +574,9 @@ public class Player : Character
     {
         if (isEvade)
             return;
+
+        if (!isActiveMove)
+            return;
         if(isBattle)
         {
             totalSpeed = playerData.MoveSpeed + floorSpeed - battleSpeed;
@@ -682,12 +691,18 @@ public class Player : Character
         {
             case AbnormalStatusType.FREEZE:
                 abnormalComponents.FreezeEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
                 break;
             case AbnormalStatusType.STUN:
                 abnormalComponents.StunEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
                 break;
             case AbnormalStatusType.CHARM:
                 abnormalComponents.CharmEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
                 break;
             default:
                 break;
@@ -717,7 +732,7 @@ public class Player : Character
     protected override void AddRetrictsAttackingCount()
     {
         restrictAttackingCount += 1;
-        if (1 == restrictAttackingCount)
+        if (1 >= restrictAttackingCount)
         {
             isActiveAttack = false;
         }
@@ -726,7 +741,7 @@ public class Player : Character
     protected override void SubRetrictsAttackingCount()
     {
         restrictAttackingCount -= 1;
-        if (0 == restrictAttackingCount)
+        if (0 <= restrictAttackingCount)
         {
             isActiveAttack = true;
         }
@@ -738,15 +753,14 @@ public class Player : Character
     {
         isPoisoning = true;
         abnormalComponents.PoisonEffect.SetActive(true);
-        float damage = 1;
+        float damage = .3f;
         while (poisonOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
             ColorChange(poisonColor);
-            damage += 0.1f * (poisonOverlappingCount - 1);
-            damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
-            hp -= damage;
 
+            playerData.Hp -= damage;
+            ChangeHP();
             for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
             {
                 if (poisonCount[i] > 0)
@@ -768,15 +782,14 @@ public class Player : Character
     {
         isBurning = true;
         abnormalComponents.BurnEffect.SetActive(true);
-        float damage = 1;
+        float damage = .3f;
         while (burnOverlappingCount > 0)
         {
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
             ColorChange(burnColor);
 
-            damage += 0.1f * (burnOverlappingCount - 1);
-            damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
-            hp -= damage;
+            playerData.Hp -= damage;
+            ChangeHP();
             for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
             {
                 if (burnCount[i] > 0)
@@ -816,6 +829,8 @@ public class Player : Character
     {
         int type = (int)AbnormalStatusType.FREEZE;
         animationHandler.Idle();
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
         abnormalComponents.FreezeEffect.SetActive(true);
         isAbnormalStatuses[type] = true;
         abnormalStatusTime[type] = 0;
@@ -837,6 +852,8 @@ public class Player : Character
     {
         int type = (int)AbnormalStatusType.STUN;
         abnormalComponents.StunEffect.SetActive(true);
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
         animationHandler.Idle();
         isAbnormalStatuses[type] = true;
         abnormalStatusTime[type] = 0;
@@ -854,6 +871,8 @@ public class Player : Character
     {
         int type = (int)AbnormalStatusType.CHARM;
         abnormalComponents.CharmEffect.SetActive(true);
+        AddRetrictsMovingCount();
+        AddRetrictsAttackingCount();
         isAbnormalStatuses[type] = true;
         abnormalStatusTime[type] = 0;
         abnormalStatusDurationTime[type] = effectiveTime;
@@ -874,6 +893,7 @@ public class Player : Character
         {
             if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
             {
+                SubRetrictsMovingCount();
                 knockBackCheck = null;
                 break;
             }

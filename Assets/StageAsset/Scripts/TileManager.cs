@@ -21,6 +21,8 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
 
     public RuleTile shadowTile;
     public RuleTile wallRuleTile;
+    public RuleTile wallRuleTile_h;
+    public RuleTile wallRuleTile_v;
     public RuleTile fogTile;
 
     public RandomTile GetSpriteTile()

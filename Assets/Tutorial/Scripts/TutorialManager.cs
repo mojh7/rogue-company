@@ -12,6 +12,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
 
     private void Start()
     {
+        GameDataManager.Instance.isFirst = true;
         SpawnPlayer();
         DrawUI();
 

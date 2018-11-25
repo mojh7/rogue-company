@@ -49,7 +49,13 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     #region Func
     public void LoadInGame()
     {
-        if(GameMode.NORMAL == gameMode)
+        if(!GameDataManager.Instance.isFirst)
+        {
+            SceneDataManager.SetNextScene("TutorialScene");
+            SceneManager.LoadScene("LoadingScene");
+            return;
+        }
+        if (GameMode.NORMAL == gameMode)
         {
             SceneDataManager.SetNextScene("InGameScene");
         }
@@ -71,7 +77,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     public void GameOver()
     {
         gameState = GameState.GAMEOVER;
-        //GameDataManager.Instance.ResetData();
+        GameDataManager.Instance.ResetData();
     }
     #endregion
 }
