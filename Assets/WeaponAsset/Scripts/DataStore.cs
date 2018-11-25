@@ -599,12 +599,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                     if (addDirVec == 0)
                         mainWeaponInfos[i].addDirVecMagnitude = 0.3f;
                     break;
-                case WeaponType.PISTOL:
-                //    mainWeaponInfos[i].addDirVecMagnitude = 0.2f;
-                   break;
                 default:
-                    if (addDirVec == 0)
-                        mainWeaponInfos[i].addDirVecMagnitude = 0f;
                     break;
             }
 
