@@ -403,7 +403,7 @@ public class Weapon : Item
                 {
                     if (OwnerType.Enemy == ownerType)
                     {
-                        if (false == enemy.GetIsAcitveAttackAI())
+                        if (false == enemy.GetIsAcitveAttack())
                         {
                             //Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
                             Reload();

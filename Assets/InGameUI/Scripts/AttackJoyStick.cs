@@ -22,8 +22,8 @@ public class AttackJoyStick : Joystick
         while (true)
         {
             if (isTouchDown)
-            {
-                if (!UIManager.Instance.GetActived() || !character.IsEvade())
+            {          
+                if (!UIManager.Instance.GetActived() || !character.IsEvade() || !character.GetIsAcitveAttack())
                 {
                     character.SetAim();
                     character.GetWeaponManager().AttackButtonDown();

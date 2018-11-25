@@ -24,11 +24,6 @@ public class Enemy : Character
     }
     #endregion
 
-    #region abnormalStatusVariables
-    private Coroutine knockBackCheck;
-    private Coroutine delayStateCoroutine;
-    #endregion
-
     #region setter
     public void SetTutorial(bool tutorial)
     {
@@ -108,12 +103,13 @@ public class Enemy : Character
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Enemy;
         damageImmune = CharacterInfo.DamageImmune.NONE;
+        abnormalImmune = CharacterInfo.AbnormalImmune.NONE;
 
         originalautoAimType = CharacterInfo.AutoAimType.AUTO;
         autoAimType = originalautoAimType;
 
-        isActiveAttackAI = true;
-        isActiveMoveAI = true;
+        isActiveAttack = true;
+        isActiveMove = true;
 
         DeactivateAbnormalComponents();
 
@@ -276,220 +272,7 @@ public class Enemy : Character
     #endregion
 
     #region abnormalStatus
-
-    // 여러 상태이상, 단일 상태이상 중첩 시 공격, 이동 제한을 한 곳에서 관리하기 위해서
-    /// <summary> 이동 방해 상태 이상 갯수 증가 및 이동 AI OFF Check </summary>
-    private void AddRetrictsMovingCount()
-    {
-        restrictMovingCount += 1;
-        if (1 <= restrictMovingCount)
-        {
-            isActiveMoveAI = false;
-            aiController.StopMove();
-            //Debug.Log(name + ", 이동 off, " + restrictMovingCount);
-        }
-    }
-    /// <summary> 이동 방해 상태 이상 갯수 감소 및 이동 AI ON Check </summary>
-    private void SubRetrictsMovingCount()
-    {
-        restrictMovingCount -= 1;
-        if (0 >= restrictMovingCount)
-        {
-            restrictMovingCount = 0;
-            isActiveMoveAI = true;
-            aiController.PlayMove();
-            //Debug.Log(name + ", 이동 on, " + restrictMovingCount);
-        }
-    }
-    /// <summary> 공격 방해 상태 이상 갯수 증가 및 공격 AI OFF Check </summary>
-    private void AddRetrictsAttackingCount()
-    {
-        restrictAttackingCount += 1;
-        if (1 == restrictAttackingCount)
-        {
-            isActiveAttackAI = false;
-            aiController.StopAttack();
-        }
-    }
-    /// <summary> 공격 방해 상태 이상 갯수 감소 및 공격 AI ON Check </summary>
-    private void SubRetrictsAttackingCount()
-    {
-        restrictAttackingCount -= 1;
-        if (0 == restrictAttackingCount)
-        {
-            isActiveAttackAI = true;
-            aiController.PlayAttack();
-        }
-    }
-
-    private bool AbnormalChance(float appliedChance)
-    {
-        float chance = Random.Range(0, 1f);
-        if(chance < appliedChance)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    public override void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
-    {
-        if (CharacterInfo.State.ALIVE != pState || null == statusEffectInfo)
-            return;
-
-        if (0 != statusEffectInfo.knockBack)
-            KnockBack(statusEffectInfo.knockBack, statusEffectInfo.BulletDir, statusEffectInfo.BulletPos, statusEffectInfo.positionBasedKnockBack);
-
-        if (isBossEnemy)
-            return;
-
-        if (true == statusEffectInfo.canPoison)
-            Poison(statusEffectInfo.posionChance);
-        if (true == statusEffectInfo.canBurn)
-            Burn(statusEffectInfo.burnChance);
-
-        if (true == statusEffectInfo.canFreeze)
-            Freeze(statusEffectInfo.freezeChance);
-
-        if (0 != statusEffectInfo.stun)
-            Stun(statusEffectInfo.stun, statusEffectInfo.stunChance);
-        if (0 != statusEffectInfo.charm)
-            Charm(statusEffectInfo.charm, statusEffectInfo.charmChance);
-    }
-    private void Poison(float chance)
-    {
-        if (false == AbnormalChance(chance))
-            return;
-
-        if (poisonOverlappingCount >= StatusConstants.Instance.PoisonInfo.overlapCountMax)
-            return;
-        poisonOverlappingCount += 1;
-        for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
-        {
-            if (0 == poisonCount[i])
-            {
-                poisonCount[i] = StatusConstants.Instance.GraduallyDamageCountMax;
-                break;
-            }
-        }
-        if (false == isPoisoning)
-        {
-            poisonCoroutine = StartCoroutine(PoisonCoroutine());
-        }
-    }
-
-    private void Burn(float chance)
-    {
-        if (false == AbnormalChance(chance))
-            return;
-
-        if (burnOverlappingCount >= StatusConstants.Instance.BurnInfo.overlapCountMax)
-            return;
-        burnOverlappingCount += 1;
-        for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
-        {
-            if (0 == burnCount[i])
-            {
-                burnCount[i] = StatusConstants.Instance.GraduallyDamageCountMax;
-                break;
-            }
-        }
-        if (false == isBurning)
-        {
-            burnCoroutine = StartCoroutine(BurnCoroutine());
-        }
-    }
-
-    private void Freeze(float chance)
-    {
-        if (false == AbnormalChance(chance))
-            return;
-
-        int type = (int)AbnormalStatusType.FREEZE;
-        StopAbnormalStatus(AbnormalStatusType.CHARM);
-        // 기존에 걸려있는 빙결이 없을 때
-        if (null == abnormalStatusCoroutines[type])
-        {
-            abnormalStatusCoroutines[type] = StartCoroutine(FreezeCoroutine());
-        }
-        // 걸려있는 스턴이 빙결이 있을 때
-        else
-        {
-            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + StatusConstants.Instance.FreezeInfo.effectiveTime;
-        }
-    }
-
-
-    private void Stun(float effectiveTime, float chance)
-    {
-        if (false == AbnormalChance(chance))
-            return;
-
-        int type = (int)AbnormalStatusType.STUN;
-        StopAbnormalStatus(AbnormalStatusType.CHARM);
-        // 기존에 걸려있는 스턴이 없을 때
-        if (null == abnormalStatusCoroutines[type])
-        {
-            abnormalStatusCoroutines[type] = StartCoroutine(StunCoroutine(effectiveTime));
-        }
-        // 걸려있는 스턴이 있을 때
-        else
-        {
-            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + effectiveTime;
-        }
-    }
-    private void Charm(float effectiveTime, float chance)
-    {
-        if (false == AbnormalChance(chance))
-            return;
-
-        int type = (int)AbnormalStatusType.CHARM;
-        if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE])
-            return;
-        // 기존에 걸려있는 매혹이 없을 때
-        if (null == abnormalStatusCoroutines[type])
-        {
-            abnormalStatusCoroutines[type] = StartCoroutine(CharmCoroutine(effectiveTime));
-        }
-        // 걸려있는 매혹이 있을 때
-        else
-        {
-            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + effectiveTime;
-        }
-    }
-
-
-
-    public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
-    {
-        //Debug.Log(name + ", " + knockBackCheck);
-        // 기본 상태에서 넉백
-        if (null == knockBackCheck)
-        {
-            AddRetrictsMovingCount();
-            knockBackCheck = StartCoroutine(KnockBackCheck());
-        }
-
-        rgbody.velocity = Vector3.zero;
-
-        // bullet과 충돌 Object 위치 차이 기반의 넉백  
-        if (positionBasedKnockBack)
-        {
-            rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
-        }
-        // bullet 방향 기반의 넉백
-        else
-        {
-            rgbody.AddForce(knockBack * bulletDir);
-        }
-    }
-
-
-    private void StopAbnormalStatus(AbnormalStatusType abnormalStatusType)
+    protected override void StopAbnormalStatus(AbnormalStatusType abnormalStatusType)
     {
         int type = (int)abnormalStatusType;
         if (false == isAbnormalStatuses[type])
@@ -520,10 +303,55 @@ public class Enemy : Character
         }
     }
 
+    // 여러 상태이상, 단일 상태이상 중첩 시 공격, 이동 제한을 한 곳에서 관리하기 위해서
+    /// <summary> 이동 방해 상태 이상 갯수 증가 및 이동 AI OFF Check </summary>
+    protected override void AddRetrictsMovingCount()
+    {
+        restrictMovingCount += 1;
+        if (1 <= restrictMovingCount)
+        {
+            isActiveMove = false;
+            aiController.StopMove();
+            //Debug.Log(name + ", 이동 off, " + restrictMovingCount);
+        }
+    }
+    /// <summary> 이동 방해 상태 이상 갯수 감소 및 이동 AI ON Check </summary>
+    protected override void SubRetrictsMovingCount()
+    {
+        restrictMovingCount -= 1;
+        if (0 >= restrictMovingCount)
+        {
+            restrictMovingCount = 0;
+            isActiveMove = true;
+            aiController.PlayMove();
+            //Debug.Log(name + ", 이동 on, " + restrictMovingCount);
+        }
+    }
+    /// <summary> 공격 방해 상태 이상 갯수 증가 및 공격 AI OFF Check </summary>
+    protected override void AddRetrictsAttackingCount()
+    {
+        restrictAttackingCount += 1;
+        if (1 == restrictAttackingCount)
+        {
+            isActiveAttack = false;
+            aiController.StopAttack();
+        }
+    }
+    /// <summary> 공격 방해 상태 이상 갯수 감소 및 공격 AI ON Check </summary>
+    protected override void SubRetrictsAttackingCount()
+    {
+        restrictAttackingCount -= 1;
+        if (0 == restrictAttackingCount)
+        {
+            isActiveAttack = true;
+            aiController.PlayAttack();
+        }
+    }
+
     #endregion
 
     #region coroutine
-    IEnumerator PoisonCoroutine()
+    protected override IEnumerator PoisonCoroutine()
     {
         isPoisoning = true;
         abnormalComponents.PoisonEffect.SetActive(true);
@@ -560,7 +388,7 @@ public class Enemy : Character
         ColorChange(baseColor);
     }
 
-    IEnumerator BurnCoroutine()
+    protected override IEnumerator BurnCoroutine()
     {
         isBurning = true;
         abnormalComponents.BurnEffect.SetActive(true);
@@ -598,7 +426,7 @@ public class Enemy : Character
         ColorChange(baseColor);
     }
 
-    IEnumerator DelayStateCoroutine()
+    protected override IEnumerator DelayStateCoroutine()
     {
         isDelayingState = true;
         while (delayStateOverlappingCount > 0)
@@ -616,7 +444,7 @@ public class Enemy : Character
         isDelayingState = false;
     }
 
-    IEnumerator FreezeCoroutine()
+    protected override IEnumerator FreezeCoroutine()
     {
         int type = (int)AbnormalStatusType.FREEZE;
         AddRetrictsMovingCount();
@@ -639,7 +467,7 @@ public class Enemy : Character
         ColorChange(baseColor);
     }
 
-    IEnumerator StunCoroutine(float effectiveTime)
+    protected override IEnumerator StunCoroutine(float effectiveTime)
     {
         int type = (int)AbnormalStatusType.STUN;
         abnormalComponents.StunEffect.SetActive(true);
@@ -658,7 +486,7 @@ public class Enemy : Character
         StopAbnormalStatus(AbnormalStatusType.STUN);
     }
 
-    IEnumerator CharmCoroutine(float effectiveTime)
+    protected override IEnumerator CharmCoroutine(float effectiveTime)
     {
         int type = (int)AbnormalStatusType.CHARM;
         abnormalComponents.CharmEffect.SetActive(true);
@@ -678,7 +506,7 @@ public class Enemy : Character
         StopAbnormalStatus(AbnormalStatusType.CHARM);
     }
 
-    private IEnumerator KnockBackCheck()
+    protected override IEnumerator KnockBackCheck()
     {
         while (true)
         {
@@ -699,6 +527,7 @@ public class BossEnemy : Enemy
     public override void Init(EnemyData enemyData)
     {
         base.Init(enemyData);
+        abnormalImmune = CharacterInfo.AbnormalImmune.ALL;
         isBossEnemy = true;
     }
     public override float Attacked(TransferBulletInfo transferBulletInfo)

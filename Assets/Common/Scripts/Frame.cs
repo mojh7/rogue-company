@@ -5,6 +5,8 @@ using UnityEngine;
 public class Frame : MonoBehaviour {
     public bool frame;
     public UsableItemInfo itemInfo1, itemInfo2, itemInfo3;
+    public ObjectAbnormalType objectAbnormalType;
+    public Sprite[] sprites;
 #if UNITY_EDITOR
     float deltaTime = 0.0f;
 
@@ -36,9 +38,22 @@ public class Frame : MonoBehaviour {
         {
             ItemManager.Instance.DropKey(PlayerManager.Instance.GetPlayerPosition());
         }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            CreateSkillBox();
+        }
         if (!frame)
             return;
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+    }
+
+    void CreateSkillBox()
+    {
+        GameObject _gameObject = ResourceManager.Instance.objectPool.GetPooledObject();
+        _gameObject.AddComponent<SkillBox>().LoadAwake();
+        _gameObject.GetComponent<SkillBox>().sprites = sprites;
+        _gameObject.GetComponent<SkillBox>().Init(objectAbnormalType);
+        _gameObject.transform.position = PlayerManager.Instance.GetPlayerPosition();
     }
 
     void OnGUI()

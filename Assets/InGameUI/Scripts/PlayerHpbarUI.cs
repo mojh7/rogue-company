@@ -30,7 +30,7 @@ public class PlayerHpbarUI : MonoBehaviour {
         hpText.text = remainHp + "/" + maxHp;
     }
 
-    public void DecreaseHp(float _hp)
+    public void ChangeHp(float _hp)
     {
         if (_hp < 0) return;
         oldHp = remainHp;
@@ -38,20 +38,6 @@ public class PlayerHpbarUI : MonoBehaviour {
         hpImage.fillAmount = remainHp / hp;
         hpText.text = remainHp + "/" + maxHp;
         StartCoroutine(CoroutineHP(oldHp, remainHp, hp, delayHPImage));
-    }
-
-    public void IncreaseHP(float _hp)
-    {
-        if (_hp < 0) return;
-        oldHp = remainHp;
-        remainHp = _hp;
-        hpImage.fillAmount = remainHp / hp;
-        hpText.text = remainHp + "/" + maxHp;
-        if (remainHp > maxHp)
-        {
-            hp = remainHp;
-            maxHp = hp;
-        }
     }
 
     IEnumerator CoroutineHP(float _src, float _dest, float max, Image _image)
@@ -67,21 +53,6 @@ public class PlayerHpbarUI : MonoBehaviour {
             _image.fillAmount = temp / max;
             if (temp == _dest)
                 break;
-        }
-    }
-
-    private void Update()
-    {
-        // 디버그용
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            remainHp--;
-            DecreaseHp(remainHp);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            remainHp++;
-            IncreaseHP(remainHp);
         }
     }
 }
