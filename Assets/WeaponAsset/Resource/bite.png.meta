@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: d015e64a13e90d34ca61abd487e9bad9
-timeCreated: 1543132936
+guid: bf6f53b7e0f088042a44bf4d7bda7ee4
+timeCreated: 1543258191
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: bite_0
+    21300002: bite_1
+    21300004: bite_2
+    21300006: bite_3
+    21300008: bite_4
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -31,7 +36,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -40,7 +45,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -88,7 +93,77 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: bite_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bite_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bite_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bite_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: bite_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 
