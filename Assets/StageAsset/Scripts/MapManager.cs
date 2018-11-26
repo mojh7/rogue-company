@@ -396,6 +396,19 @@ namespace Map
                         }
                         verticalWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_v);
                         horizonWallTileMap.SetTile(new Vector3Int(x, y, 0), wallRuleTile_h);
+                        if(y == -1)
+                        {
+                            if(x == 0)
+                            {
+                                TileManager.Instance.DrawBottomLine(new Vector3(x + .5f, y + 1, 0), 0);
+                            }
+                            else if(x == width* size)
+                            {
+                                TileManager.Instance.DrawBottomLine(new Vector3(x + .5f, y + 1, 0), 2);
+                            }
+                            else
+                                TileManager.Instance.DrawBottomLine(new Vector3(x + .5f,  y + 1, 0), 3);
+                        }
                     }
                 }
             } // 맵 테두리 그리기
@@ -494,11 +507,24 @@ namespace Map
                                 shadowTileMap.SetTile(new Vector3Int(x, y - 1, 0), shadow);
                             }
                         }
+
+                        if (y == 0)
+                        {
+                            if (x == 0 || x == width * size)
+                                continue;
+                            if(x == rect.x * size + 1)
+                            {
+                                TileManager.Instance.DrawBottomLine(new Vector3(x - .5f, y, 0), 1);
+                            }
+                            else if(x == (rect.x + rect.width) * size - 1)
+                            {
+                                TileManager.Instance.DrawBottomLine(new Vector3(x + 1.5f, y, 0), 1);
+                            }
+
+                        }
                     }
                 }
             } // 방그리기
-
-            TileManager.Instance.DrawBottomLine(width * size);
         } // 맵 그리기
 
         protected virtual void RectToBlock()
