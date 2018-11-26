@@ -1,15 +1,21 @@
 fileFormatVersion: 2
-guid: e433c08a7b222414bbc6aa6e766a8ccc
-timeCreated: 1543259583
+guid: 00f1be46b7b7aa44ea3cdc4d53fab639
+timeCreated: 1543260186
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: scratch_0
-    21300002: scratch_1
-    21300004: scratch_2
-    21300006: scratch_3
-    21300008: scratch_4
-    21300010: scratch_5
+    21300000: scratch 1_0
+    21300002: scratch 1_1
+    21300004: scratch 1_2
+    21300006: scratch 1_3
+    21300008: scratch 1_4
+    21300010: scratch 1_5
+    21300012: scratch_0
+    21300014: scratch_1
+    21300016: scratch_2
+    21300018: scratch_3
+    21300020: scratch_4
+    21300022: scratch_5
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
