@@ -61,7 +61,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     public void InitRoomList()
     {
         ammoNum = 2;
-        KeyNum = 1;
+        KeyNum = Random.Range(1,3);
         clearedRoom = 0;
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
         for (int i = 0; i < roomList.Count; i++)

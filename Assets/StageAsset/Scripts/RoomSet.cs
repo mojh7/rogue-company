@@ -56,6 +56,11 @@ public struct ObjectData
     {
         switch (objectType)
         {
+            case ObjectType.NONE:
+                _gameObject.AddComponent<NoneBox>().LoadAwake();
+                _gameObject.GetComponent<NoneBox>().sprites = sprites;
+                _gameObject.GetComponent<NoneBox>().Init();
+                break;
             case ObjectType.UNBREAKABLE:
                 _gameObject.AddComponent<UnbreakableBox>().LoadAwake();
                 _gameObject.GetComponent<UnbreakableBox>().sprites = sprites;

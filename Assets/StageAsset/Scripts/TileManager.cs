@@ -65,7 +65,7 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
         {
             @object.GetComponent<SpriteRenderer>().sprite = horizonTilePrefab;
         }
-        //@object.hideFlags = HideFlags.HideInHierarchy;
+        @object.hideFlags = HideFlags.HideInHierarchy;
         @object.transform.position = pos;
     }
 }

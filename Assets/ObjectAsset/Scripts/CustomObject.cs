@@ -1208,3 +1208,18 @@ public class SkillBox : BreakalbeBox
         base.Destruct();
     }
 }
+
+public class NoneBox : NoneRandomSpriteObject
+{
+    public override void Init()
+    {
+        base.Init();
+        polygonCollider2D.enabled = false;
+        polygonCollider2D.isTrigger = false;
+        isActive = false;
+        isAvailable = false;
+        isAnimate = true;
+        objectType = ObjectType.NONE;
+        textMesh.text = "";
+    }
+}
