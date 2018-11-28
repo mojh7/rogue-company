@@ -41,31 +41,31 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     //    return multiSprite;
     //}
 
-    public GameObject horizonTilePrefab;
-    public GameObject LbwordTilePrefab;
-    public GameObject FwordTilePrefab;
-    public GameObject RbwordTilePrefab;
+    public Sprite horizonTilePrefab;
+    public Sprite LbwordTilePrefab;
+    public Sprite FwordTilePrefab;
+    public Sprite RbwordTilePrefab;
 
     public void DrawBottomLine(Vector3 pos,int op)
     {
-        GameObject @object = null;
+        GameObject @object = @object = Object.Instantiate<GameObject>(ResourceManager.Instance.wallPrefab);
         if (op == 0)
         {
-            @object = Object.Instantiate<GameObject>(LbwordTilePrefab);
+            @object.GetComponent<SpriteRenderer>().sprite = LbwordTilePrefab;
         }
         else if(op == 1)
         {
-            @object = Object.Instantiate<GameObject>(FwordTilePrefab);
+            @object.GetComponent<SpriteRenderer>().sprite = FwordTilePrefab;
         }
         else if (op == 2)
         {
-            @object = Object.Instantiate<GameObject>(RbwordTilePrefab);
+            @object.GetComponent<SpriteRenderer>().sprite = RbwordTilePrefab;
         }
         else
         {
-            @object = Object.Instantiate<GameObject>(horizonTilePrefab);
+            @object.GetComponent<SpriteRenderer>().sprite = horizonTilePrefab;
         }
-        @object.hideFlags = HideFlags.HideInHierarchy;
+        //@object.hideFlags = HideFlags.HideInHierarchy;
         @object.transform.position = pos;
     }
 }
