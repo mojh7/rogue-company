@@ -228,9 +228,9 @@ namespace Map
         void DrawEventTile(Rect rect, TileBase tile)
         {
             Tilemap tilemap = TileManager.Instance.EventFloorTileMap;
-            for (int x = rect.x * size * 2; x < ((rect.x + rect.width) * size) * 2; x++)
+            for (int x = rect.x * size; x < ((rect.x + rect.width) * size); x++)
             {
-                for (int y = rect.y * size * 2; y < ((rect.y + rect.height) * size) * 2; y++)
+                for (int y = rect.y * size ; y < ((rect.y + rect.height) * size); y++)
                 {
                     tilemap.SetTile(new Vector3Int(x, y, 0), tile);
                 }
