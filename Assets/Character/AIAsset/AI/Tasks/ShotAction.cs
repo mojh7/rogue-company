@@ -15,7 +15,7 @@ public class ShotAction : ActionTask {
         }
     }
 
-    public Task Set(int Idx)
+    public Task SetValue(int Idx)
     {
         this.Idx = Idx;
         return this;
@@ -36,7 +36,7 @@ public class ShotAction : ActionTask {
     {
         ShotAction parent = ScriptableObject.CreateInstance<ShotAction>();
         parent.Set(Probability);
-        parent.Set(Idx);
+        parent.SetValue(Idx);
         return parent;
     }
 }

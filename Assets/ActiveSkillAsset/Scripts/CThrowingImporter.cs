@@ -12,6 +12,8 @@ public class CThrowingImporter : SkillData
     float speed, acceleration;
     [SerializeField]
     string skillName;
+    [SerializeField]
+    int animIdx;
 
     public override State Run(Character character, object temporary, int idx)
     {
@@ -52,6 +54,8 @@ public class CThrowingImporter : SkillData
         {
             gameObject.GetComponent<ThrowingSkill>().LapseAnimation();
         }
+        character.isCasting = false;
+
         return BT.State.SUCCESS;
     }
 

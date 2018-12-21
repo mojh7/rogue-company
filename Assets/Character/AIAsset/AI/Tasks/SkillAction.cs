@@ -19,7 +19,7 @@ public class SkillAction : ActionTask
         }
     }
 
-    public Task Set(int Idx)
+    public Task SetValue(int Idx)
     {
         this.Idx = Idx;
         return this;
@@ -61,7 +61,7 @@ public class SkillAction : ActionTask
     {
         SkillAction parent = ScriptableObject.CreateInstance<SkillAction>();
         parent.Set(Probability);
-        parent.Set(Idx);
+        parent.SetValue(Idx);
         return parent;
     }
 }

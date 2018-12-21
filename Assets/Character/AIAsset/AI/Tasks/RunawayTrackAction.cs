@@ -8,7 +8,7 @@ public class RunawayTrackAction : ActionTask
     [SerializeField]
     float doublingValue;
     MovingPattern movingPattern;
-    public Task Set(float doublingValue)
+    public Task SetValue(float doublingValue)
     {
         if (doublingValue <= 1)
             doublingValue = 1;
@@ -43,7 +43,7 @@ public class RunawayTrackAction : ActionTask
     {
         RunawayTrackAction parent = ScriptableObject.CreateInstance<RunawayTrackAction>();
         parent.Set(Probability);
-        parent.Set(doublingValue);
+        parent.SetValue(doublingValue);
         return parent;
     }
 }

@@ -20,7 +20,7 @@ public class Service  : CompositeTask
         }
     }
 
-    public Task Set(float frequency)
+    public Task SetValue(float frequency)
     {
         this.frequency = frequency;
         return this;
@@ -57,7 +57,7 @@ public class Service  : CompositeTask
     {
         Service parent = ScriptableObject.CreateInstance<Service>();
         parent.Set(Probability);
-        parent.Set(frequency);
+        parent.SetValue(frequency);
         if (GetChildren() != null)
             for (int i = 0; i < GetChildren().Count; i++)
             {

@@ -21,7 +21,7 @@ public class TimeDecorate : ConditionDecorate
         }
     }
 
-    public Task Set(BehaviorCondition condition, float time)
+    public Task SetValue(BehaviorCondition condition, float time)
     {
         this.condition = condition;
         this.time = time;
@@ -69,7 +69,7 @@ public class TimeDecorate : ConditionDecorate
     {
         TimeDecorate parent = ScriptableObject.CreateInstance<TimeDecorate>();
         parent.Set(Probability);
-        parent.Set(condition, time);
+        parent.SetValue(condition, time);
         if(GetChildren() != null)
             parent.AddChild(GetChildren().Clone());
 

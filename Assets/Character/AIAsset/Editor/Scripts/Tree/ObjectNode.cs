@@ -19,6 +19,7 @@ namespace BT
         BehaviorCondition behaviorCondition;
         float value1;
         float value2;
+        public float probability;
 
         public TaskType taskType;
         public ECompositeTask compositeTask;
@@ -139,6 +140,8 @@ namespace BT
         {
             TaskNode retVal = null;
 
+            if (retVal == null)
+                return retVal;
             pos.x -= windowRect.x;
             pos.y -= windowRect.y;
 
@@ -200,6 +203,7 @@ namespace BT
             }
             value1 = EditorGUILayout.FloatField("Value1", value1);
             value2 = EditorGUILayout.FloatField("Value2", value2);
+            probability = EditorGUILayout.FloatField("Probability", probability);
 
             if (e.type == EventType.Repaint)
             {
@@ -248,7 +252,7 @@ namespace BT
                     switch (compositeTask)
                     {
                         case ECompositeTask.Service:
-                            return ScriptableObject.CreateInstance<Service>().Set(value1);
+                            return ScriptableObject.CreateInstance<Service>().SetValue(value1);
                         case ECompositeTask.Selector:
                             return ScriptableObject.CreateInstance<Selector>();
                         case ECompositeTask.Sequence:
@@ -268,11 +272,11 @@ namespace BT
                         case EDecorateTask.Bool:
                             return ScriptableObject.CreateInstance<BoolDecorate>();
                         case EDecorateTask.DistanceDecorate:
-                            return ScriptableObject.CreateInstance<DistanceDecorate>().Set(behaviorCondition, value1);
+                            return ScriptableObject.CreateInstance<DistanceDecorate>().SetValue(behaviorCondition, value1);
                         case EDecorateTask.TimeDecorate:
-                            return ScriptableObject.CreateInstance<TimeDecorate>().Set(behaviorCondition, value1);
+                            return ScriptableObject.CreateInstance<TimeDecorate>().SetValue(behaviorCondition, value1);
                         case EDecorateTask.HealthDecorate:
-                            return ScriptableObject.CreateInstance<HealthDecorate>().Set(behaviorCondition, value1);
+                            return ScriptableObject.CreateInstance<HealthDecorate>().SetValue(behaviorCondition, value1);
                     }
                     break;
                 case TaskType.ActionTask:
@@ -281,21 +285,21 @@ namespace BT
                         case EActionTask.CharacterDeadAction:
                             return ScriptableObject.CreateInstance<CharacterDeadAction>();
                         case EActionTask.AStarTrackAtion:
-                            return ScriptableObject.CreateInstance<AStarTrackAtion>().Set(value1);
+                            return ScriptableObject.CreateInstance<AStarTrackAtion>().SetValue(value1);
                         case EActionTask.RoundingTrackAction:
-                            return ScriptableObject.CreateInstance<RoundingTrackAction>().Set(value1,value2);
+                            return ScriptableObject.CreateInstance<RoundingTrackAction>().SetValue(value1,value2);
                         case EActionTask.RushTrackAtion:
-                            return ScriptableObject.CreateInstance<RushTrackAtion>().Set(value1);
+                            return ScriptableObject.CreateInstance<RushTrackAtion>().SetValue(value1);
                         case EActionTask.SkillAction:
-                            return ScriptableObject.CreateInstance<SkillAction>().Set((int)value1);
+                            return ScriptableObject.CreateInstance<SkillAction>().SetValue((int)value1);
                         case EActionTask.StopTrackAction:
                             return ScriptableObject.CreateInstance<StopTrackAction>();
                         case EActionTask.RunawayTrackAction:
-                            return ScriptableObject.CreateInstance<RunawayTrackAction>().Set(value1);
+                            return ScriptableObject.CreateInstance<RunawayTrackAction>().SetValue(value1);
                         case EActionTask.ShotAction:
-                            return ScriptableObject.CreateInstance<ShotAction>().Set((int)value1);
+                            return ScriptableObject.CreateInstance<ShotAction>().SetValue((int)value1);
                         case EActionTask.PositionTrackAction:
-                            return ScriptableObject.CreateInstance<PositionTrackAction>().Set(value1, value2);
+                            return ScriptableObject.CreateInstance<PositionTrackAction>().SetValue(value1, value2);
                     }
                     break;
             }

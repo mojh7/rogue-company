@@ -15,7 +15,7 @@ public class HealthDecorate : ConditionDecorate
             return healthPer;
         }
     }
-    public Task Set(BehaviorCondition condition, float healthPer)
+    public Task SetValue(BehaviorCondition condition, float healthPer)
     {
         this.condition = condition;
         this.healthPer = healthPer;
@@ -41,7 +41,7 @@ public class HealthDecorate : ConditionDecorate
     public override Task Clone()
     {
         HealthDecorate parent = new HealthDecorate();
-        parent.Set(condition, healthPer);
+        parent.SetValue(condition, healthPer);
         parent.Set(Probability);
 
         if (GetChildren() != null)

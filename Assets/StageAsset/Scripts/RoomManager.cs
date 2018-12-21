@@ -66,10 +66,6 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         roomList = MapManager.Instance.GetMap().GetList(out currentRoom);
         for (int i = 0; i < roomList.Count; i++)
         {
-            if(roomList[i].eRoomType != RoomType.HALL)
-            {
-                DisalbeObject(roomList[i]);
-            }
             if(roomList[i].eRoomType == RoomType.MONSTER)
             {
                 clearedRoom++;

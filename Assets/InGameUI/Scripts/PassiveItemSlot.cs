@@ -140,7 +140,7 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     /// <param name="eventData"></param>
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("가방 클릭");
+        AudioManager.Instance.PlaySound(1, SOUNDTYPE.UI);
         UpdatePassiveItemUI();
         passiveItemSlot.SetActive(true);
         //passiveItemInfoView.SetActive(true);

@@ -19,7 +19,7 @@ public class PositionTrackAction : ActionTask
     Vector2 destPosition;
     bool isArrived;
 
-    public Task Set(float doublingValue,float radius)
+    public Task SetValue(float doublingValue,float radius)
     {
         if (doublingValue <= 1)
             doublingValue = 1;
@@ -62,7 +62,7 @@ public class PositionTrackAction : ActionTask
     {
         PositionTrackAction parent = ScriptableObject.CreateInstance<PositionTrackAction>();
         parent.Set(Probability);
-        parent.Set(doublingValue, radius);
+        parent.SetValue(doublingValue, radius);
         return parent;
     }
 }

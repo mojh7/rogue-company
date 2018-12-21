@@ -252,6 +252,7 @@ public class BreakalbeBox : RandomSpriteObject
         polygonCollider2D.enabled = false;
         gameObject.SetActive(false);
         AStar.TileGrid.Instance.Bake(spriteRenderer);
+        Destroy(this);
     }
 
 }

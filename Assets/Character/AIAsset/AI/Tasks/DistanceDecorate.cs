@@ -24,7 +24,7 @@ public class DistanceDecorate : ConditionDecorate
             return distance;
         }
     }
-    public Task Set(BehaviorCondition condition, float distance)
+    public Task SetValue(BehaviorCondition condition, float distance)
     {
         this.condition = condition;
         this.distance = distance;
@@ -77,7 +77,7 @@ public class DistanceDecorate : ConditionDecorate
     public override Task Clone()
     {
         DistanceDecorate parent = ScriptableObject.CreateInstance<DistanceDecorate>();
-        parent.Set(condition, distance);
+        parent.SetValue(condition, distance);
         parent.Set(Probability);
         if (GetChildren() != null)
             parent.AddChild(GetChildren().Clone());

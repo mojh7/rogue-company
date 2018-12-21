@@ -23,7 +23,7 @@ public class RoundingTrackAction : ActionTask
             return radius;
         }
     }
-    public Task Set(float doublingValue, float radius)
+    public Task SetValue(float doublingValue, float radius)
     {
         if (doublingValue <= 1)
             doublingValue = 1;
@@ -59,7 +59,7 @@ public class RoundingTrackAction : ActionTask
     {
         RoundingTrackAction parent = ScriptableObject.CreateInstance<RoundingTrackAction>();
         parent.Set(Probability);
-        parent.Set(radius,doublingValue);
+        parent.SetValue(radius,doublingValue);
         return parent;
     }
 }

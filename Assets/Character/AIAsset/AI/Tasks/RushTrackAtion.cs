@@ -13,7 +13,7 @@ public class RushTrackAtion : ActionTask
     [SerializeField]
     float doublingValue;
     MovingPattern movingPattern;
-    public Task Set(float doublingValue)
+    public Task SetValue(float doublingValue)
     {
         if (doublingValue <= 1)
             doublingValue = 1;
@@ -48,7 +48,7 @@ public class RushTrackAtion : ActionTask
     {
         RushTrackAtion parent = ScriptableObject.CreateInstance<RushTrackAtion>();
         parent.Set(Probability);
-        parent.Set(doublingValue);
+        parent.SetValue(doublingValue);
         return parent;
     }
 }

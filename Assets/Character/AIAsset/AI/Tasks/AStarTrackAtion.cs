@@ -14,7 +14,7 @@ public class AStarTrackAtion : ActionTask
     float doublingValue;
 
     MovingPattern movingPattern;
-    public Task Set(float doublingValue)
+    public Task SetValue(float doublingValue)
     {
         if (doublingValue <= 1)
             doublingValue = 1;
@@ -50,7 +50,7 @@ public class AStarTrackAtion : ActionTask
     {
         AStarTrackAtion parent = ScriptableObject.CreateInstance<AStarTrackAtion>();
         parent.Set(Probability);
-        parent.Set(doublingValue);
+        parent.SetValue(doublingValue);
         return parent;
     }
 }

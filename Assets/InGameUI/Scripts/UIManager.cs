@@ -32,6 +32,10 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     #endregion
 
     #region function
+    public void PlayMenuSound()
+    {
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
+    }
 
     public void OpenWarningUI()
     {
@@ -82,7 +86,8 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
 
     public void ToggleMenu()
     {
-        if(menuObj.activeSelf)
+        PlayMenuSound();
+        if (menuObj.activeSelf)
         {
             TimeController.Instance.StartTime();
         }

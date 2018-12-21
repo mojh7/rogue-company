@@ -185,6 +185,7 @@ namespace BT
                         {
                             TaskNode temp = TaskToObjectNode(compositeTask.GetChildren()[i], x + windowWidth + 100, y + (windowHeight + 30) * i);
                             temp.SetInput(taskNode);
+                            temp.probability = compositeTask.Probability;
                         }
                     }
                     break;
@@ -197,6 +198,7 @@ namespace BT
                         DecorateTask decorateTask = task as DecorateTask;
                         TaskNode temp = TaskToObjectNode(decorateTask.GetChildren(), x + windowWidth + 100, y);
                         temp.SetInput(taskNode);
+                        temp.probability = decorateTask.Probability;
                     }
                     break;
             }
@@ -226,6 +228,8 @@ namespace BT
             {
                 Task child = taskNode.childrens[i].CreateBehaviorNode();
                 child.name = taskNode.childrens[i].windowTitle;
+                child.Set(taskNode.childrens[i].probability);
+
                 AssetDatabase.AddObjectToAsset(child, assetPathAndName);
                 parent.AddChild(child);
                 RecursionNode(taskNode.childrens[i], child);
