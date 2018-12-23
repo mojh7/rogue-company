@@ -24,6 +24,12 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             preSkillData, mainSkillData, postSkillData, 
             frontAnimIdx, backAnimIdx, frontAnimTime, backAnimTime));
     }
+    public void DelaySkill(
+    Vector3 mPos, SkillData skillData,
+  Character caster, Character other, CustomObject customObject,float delay)
+    {
+        StartCoroutine(CoroutineDelay(mPos, skillData, caster, other, customObject, delay));
+    }
     #endregion
     #region coroutine
     IEnumerator CoroutineJump(Character caster, Vector3 src, Vector3 dest)
@@ -136,5 +142,26 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         }
         caster.isCasting = false;
     }
+    IEnumerator CoroutineDelay(
+     Vector3 mPos, SkillData skillData,
+   Character caster, Character other, CustomObject customObject,float delay)
+    {
+        yield return YieldInstructionCache.WaitForSeconds(delay);
+        if (skillData)
+        {
+            if (other)
+            {
+                skillData.Run(caster, other, mPos);
+            }
+            else if (customObject)
+            {
+                skillData.Run(customObject, mPos);
+            }
+            else
+            {
+                skillData.Run(caster, mPos);
+            }
+        }
+    }
     #endregion
-}
+}   

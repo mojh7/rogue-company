@@ -537,6 +537,8 @@ public abstract class Character : MonoBehaviour
             abnormalStatusDurationTime[i] = 0;
         }
     }
+
+    public abstract void SelfDestruction();
 }
 
 

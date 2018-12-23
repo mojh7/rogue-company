@@ -13,8 +13,6 @@ public class Enemy : Character
     #region variables
     float bodyblowTime = 0;
     EnemyData enemyData;
-    // temp Hp Max 나중에 EnemyData로 옮겨야 될듯? 아니면 그대로 hpMax여기서 쓰던가
-    private float hpMax;
     protected bool isBossEnemy;  // 0810 모, 보스 몬스터, 일반 몬스터 구분을 위해 사용
     public bool tutorial;
     public int price
@@ -114,7 +112,6 @@ public class Enemy : Character
         DeactivateAbnormalComponents();
 
         isBossEnemy = false;
-        hpMax = enemyData.HP;
         hp = enemyData.HP;
         maxHP = hp;
         moveSpeed = enemyData.Speed;
@@ -271,6 +268,11 @@ public class Enemy : Character
                 break;
         }
     }
+
+    public override void SelfDestruction()
+    {
+        Attacked(Vector2.zero, transform.position, maxHP * 0.5f, 0);
+    }
     #endregion
 
     #region abnormalStatus
@@ -363,9 +365,9 @@ public class Enemy : Character
             yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
             ColorChange(poisonColor);
             if (1 == poisonOverlappingCount)
-                damage = hpMax * StatusConstants.Instance.PoisonInfo.value;
+                damage = maxHP * StatusConstants.Instance.PoisonInfo.value;
             else
-                damage = hpMax * StatusConstants.Instance.PoisonInfo.value * 1.5f;
+                damage = maxHP * StatusConstants.Instance.PoisonInfo.value * 1.5f;
             damage += 0.1f * (poisonOverlappingCount - 1);
             damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
             hp -= damage;
@@ -401,9 +403,9 @@ public class Enemy : Character
             ColorChange(burnColor);
 
             if (1 == burnOverlappingCount)
-                damage = hpMax * StatusConstants.Instance.BurnInfo.value;
+                damage = maxHP * StatusConstants.Instance.BurnInfo.value;
             else
-                damage = hpMax * StatusConstants.Instance.BurnInfo.value * 1.5f;
+                damage = maxHP * StatusConstants.Instance.BurnInfo.value * 1.5f;
             damage += 0.1f * (burnOverlappingCount - 1);
             damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
             hp -= damage;

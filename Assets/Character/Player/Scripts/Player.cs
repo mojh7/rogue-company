@@ -384,6 +384,11 @@ public class Player : Character
         return bestCollider.GetComponent<CustomObject>();
     }
 
+    public override void SelfDestruction()
+    {
+        Attacked(Vector2.zero, transform.position, hp * 0.5f, 0);
+    }
+
     public bool AttackAble()
     {
         if (pState == CharacterInfo.State.ALIVE && !isEvade)

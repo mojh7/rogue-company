@@ -31,7 +31,7 @@ public class CThrowingImporter : SkillData
 
     private BT.State Run(Vector3 srcPos, Vector3 destPos)
     {
-        if (!(caster || other || customObject) || delay < 0 || amount < 0)
+        if (!(caster || other || customObject) || amount < 0)
         {
             return BT.State.FAILURE;
         }

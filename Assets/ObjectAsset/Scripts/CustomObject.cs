@@ -145,7 +145,7 @@ public class CustomObject : MonoBehaviour
 
     public virtual void DeIndicateInfo() { }
 
-    public virtual void Delete() { }
+    public virtual void Delete() { DestroyAndDeactive(); }
 
     public void LoadAwake()
     {

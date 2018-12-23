@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using BT;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CRangeEffect", menuName = "SkillData/CRangeEffect")]
-public class CRangeEffect : SkillData
+[CreateAssetMenu(fileName = "CSelfDestruction", menuName = "SkillData/CSelfDestruction")]
+public class CSelfDestruction : SkillData
 {
-    public enum EffectType { REMOVE, REFLECT, NONE }
     [SerializeField]
-    EffectType effectType;
+    List<SkillData> skillData;
     [SerializeField]
     string particleName;
 
@@ -32,20 +31,31 @@ public class CRangeEffect : SkillData
 
     private BT.State Run(Vector3 pos)
     {
-        if (!(caster || other || customObject) || delay < 0 || amount < 0)
+        if (!(caster || other || customObject) || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-
         if (mPos != ActiveSkillManager.nullVector)
             pos = mPos;
-        gameObject.transform.position = pos;
-        CollisionSkillObject skillObject = gameObject.AddComponent<CollisionSkillObject>();
-        skillObject.Set(effectType);
-        if (other)
-            skillObject.Init(other);
-        skillObject.Init(ref caster, this, time);
+
+        if(caster)
+        {
+            caster.SelfDestruction();
+        }
+        else if(customObject)
+        {
+            customObject.Delete();
+        }
+
+        foreach (SkillData item in skillData)
+        {
+            if (other)
+                item.Run(caster, other, mPos);
+            else if (caster)
+                item.Run(caster, mPos);
+            if (customObject)
+                item.Run(customObject, mPos);
+        }
         ParticleManager.Instance.PlayParticle(particleName, pos, radius);
 
         return BT.State.SUCCESS;

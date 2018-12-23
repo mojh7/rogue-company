@@ -8,8 +8,6 @@ public abstract class SkillData : ScriptableObject
     [SerializeField]
     protected float radius;
     [SerializeField]
-    protected float delay;
-    [SerializeField]
     protected float amount;
     [SerializeField]
     protected float time;

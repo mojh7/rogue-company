@@ -27,7 +27,7 @@ public class CServant : SkillData
 
     private BT.State Run()
     {
-        if (!(caster || other || customObject) || delay < 0 || amount < 0)
+        if (!(caster || other || customObject) || amount < 0)
         {
             return BT.State.FAILURE;
         }
@@ -38,7 +38,6 @@ public class CServant : SkillData
         }
         for (int i = 0; i < amount; i++)
         {
-            float randDelay = UnityEngine.Random.Range(0, delay + 1);
             SpawnServant(caster, enemyDatas[servantIdx]);
         }
         return BT.State.SUCCESS;
