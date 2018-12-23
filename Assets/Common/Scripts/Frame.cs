@@ -50,10 +50,10 @@ public class Frame : MonoBehaviour {
     void CreateSkillBox()
     {
         GameObject _gameObject = ResourceManager.Instance.objectPool.GetPooledObject();
+        _gameObject.transform.position = PlayerManager.Instance.GetPlayerPosition();
         _gameObject.AddComponent<SkillBox>().LoadAwake();
         _gameObject.GetComponent<SkillBox>().sprites = sprites;
         _gameObject.GetComponent<SkillBox>().Init(objectAbnormalType);
-        _gameObject.transform.position = PlayerManager.Instance.GetPlayerPosition();
     }
 
     void OnGUI()

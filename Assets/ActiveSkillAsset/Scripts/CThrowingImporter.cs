@@ -7,55 +7,42 @@ using UnityEngine;
 public class CThrowingImporter : SkillData
 {
     [SerializeField]
-    SkillData skillData;
+    List<SkillData> skillData;
     [SerializeField]
     float speed, acceleration;
     [SerializeField]
-    string skillName;
-    [SerializeField]
-    int animIdx;
+    string animName;
 
-    public override State Run(Character character, object temporary, int idx)
+    public override State Run(CustomObject customObject, Vector3 pos)
     {
-        base.Run(character, temporary, idx);
-
-        return Run();
+        base.Run(customObject, pos);
+        return Run(customObject.objectPosition, customObject.objectPosition + Random.insideUnitSphere * speed);
+    }
+    public override State Run(Character caster, Vector3 pos)
+    {
+        base.Run(caster, pos);
+        return Run(caster.GetPosition(), caster.GetPosition() + caster.GetDirVector() * speed);
+    }
+    public override State Run(Character caster, Character other, Vector3 pos)
+    {
+        base.Run(caster, other, pos);
+        return Run(caster.GetPosition(), other.GetPosition());
     }
 
-    private BT.State Run()
+    private BT.State Run(Vector3 srcPos, Vector3 destPos)
     {
-        if (!character || delay < 0 || amount < 0)
+        if (delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        character.isCasting = true;
-
-        Character enemy = temporary as Character;
-        Vector3 destPos = Vector2.zero;
-        if (null == enemy)
-        {
-            destPos = character.transform.position + character.GetDirVector() * speed;
-        }
-        else
-        {
-            destPos = enemy.transform.position;
-        }
-
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = new Vector2(character.transform.position.x, character.transform.position.y);
-        gameObject.AddComponent<ThrowingSkill>().Init(character, destPos, radius, idx, skillName, skillData, speed, acceleration);
-        if (null != enemy)
-        {
-            character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<ThrowingSkill>().LapseAnimation);
-            character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<ThrowingSkill>().EndAnimation);
-            character.GetCharacterComponents().AnimationHandler.Skill(idx);
-        }
-        else
-        {
-            gameObject.GetComponent<ThrowingSkill>().LapseAnimation();
-        }
-        character.isCasting = false;
-
+        gameObject.transform.position = srcPos;
+        ProjectileSkillObject skillObject = gameObject.AddComponent<ProjectileSkillObject>();
+        skillObject.SetSkillData(null, skillData);
+        if (other)
+            skillObject.Init(other);
+        skillObject.Init(ref caster, this, time);
+        skillObject.Set(animName, speed, acceleration, destPos - srcPos);
         return BT.State.SUCCESS;
     }
 

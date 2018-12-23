@@ -9,7 +9,7 @@ public class SkillAction : ActionTask
     [SerializeField]
     int Idx;
     bool isRun;
-    object temporary;
+    Character other;
     AttackPattern attackPattern;
     public float Value
     {
@@ -29,7 +29,7 @@ public class SkillAction : ActionTask
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
-        this.temporary = RootTask.BlackBoard["Target"] as Character;
+        this.other = RootTask.BlackBoard["Target"] as Character;
         this.isRun = false;
         attackPattern = character.GetCharacterComponents().AIController.AttackPattern;
     }
@@ -38,7 +38,7 @@ public class SkillAction : ActionTask
         if (!isRun)
         {
             isRun = true;
-            return attackPattern.CastingSKill(character, temporary, Idx);
+            return attackPattern.CastingSKill(character, other, Idx);
         }
         else
         {

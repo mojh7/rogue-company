@@ -9,7 +9,19 @@ public class AnimationHandler : MonoBehaviour {
     Animator headAnim;
     Character character;
     Animator animator;
-    System.Action lapsedAction, endAction;
+    
+    public Animator Animator
+    {
+        get { return animator; }
+    }
+
+    public float ClipLength
+    {
+        get
+        {
+            return animator.GetCurrentAnimatorStateInfo(0).length / animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate;
+        }
+    }
 
     public void Init(Character character, RuntimeAnimatorController animatorController)
     {
@@ -79,17 +91,6 @@ public class AnimationHandler : MonoBehaviour {
     {
         animator.enabled = false;
     }
-
-    public void SetLapsedAction(System.Action action)
-    {
-        this.lapsedAction = action;
-    }
-
-    public void SetEndAction(System.Action action)
-    {
-        this.endAction = action;
-    }
-
     private void ResetAllParameter()
     {
         animator.ResetTrigger("idle");
@@ -109,18 +110,5 @@ public class AnimationHandler : MonoBehaviour {
             headAnim.SetInteger("skill", -1);
         }
 
-    }
-
-    private void LapseAnimation()
-    {
-        if (lapsedAction != null)
-            lapsedAction.Invoke();
-    }
-
-    private void EndAnimation()
-    {
-        if(endAction != null)
-            endAction.Invoke();
-        character.isCasting = false;
     }
 }

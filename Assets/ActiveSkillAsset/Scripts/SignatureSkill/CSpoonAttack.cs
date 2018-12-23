@@ -3,51 +3,48 @@ using System.Collections.Generic;
 using BT;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CAbnormal", menuName = "SkillData/CAbnormal")]
-public class CAbnormal : SkillData
+[CreateAssetMenu(fileName = "CSpoonAttack", menuName = "SkillData/CSpoonAttack")]
+public class CSpoonAttack : SkillData
 {
-    [SerializeField]
-    StatusEffectInfo statusEffectInfo;
-    [SerializeField]
-    string particleName;
-
     public override State Run(CustomObject customObject, Vector3 pos)
     {
         base.Run(customObject, pos);
-        return Run(statusEffectInfo, customObject.objectPosition);
+        return Run(Vector3.zero);
     }
-
     public override State Run(Character caster, Vector3 pos)
     {
         base.Run(caster, pos);
-        return Run(statusEffectInfo, caster.GetPosition());
+        return Run(Vector3.zero);
     }
-
     public override State Run(Character caster, Character other, Vector3 pos)
     {
         base.Run(caster, other, pos);
-
-        return Run(statusEffectInfo, caster.GetPosition());
+        return Run(other.transform.position - caster.transform.position);
     }
 
-    private BT.State Run(StatusEffectInfo statusEffectInfo,Vector3 pos)
+    private BT.State Run(Vector3 dir)
     {
         if (delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
+        caster.isCasting = true;
+        SpoonAttack(caster, dir, amount);
+        caster.isCasting = false;
+        return BT.State.SUCCESS;
+    }
+
+    private void SpoonAttack(Character caster, Vector2 dir, float amount)
+    {
+        dir.Normalize();
+
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        if (mPos != ActiveSkillManager.nullVector)
-            pos = mPos;
-        gameObject.transform.position = pos;
+        gameObject.transform.position = caster.transform.position + new Vector3(dir.x, dir.y, 0);
         CollisionSkillObject skillObject = gameObject.AddComponent<CollisionSkillObject>();
         if (other)
             skillObject.Init(other);
         skillObject.Init(ref caster, this, time);
-        skillObject.Set(statusEffectInfo);
-        ParticleManager.Instance.PlayParticle(particleName, pos, radius);
-
-        return BT.State.SUCCESS;
+        skillObject.Init("spoonAttack");
     }
 
 }

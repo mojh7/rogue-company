@@ -3,9 +3,23 @@ using System.Collections.Generic;
 using BT;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CJump", menuName = "SkillData/CJump")]
-public class CJump : SkillData
+[CreateAssetMenu(fileName = "CSequenceSkill", menuName = "SkillData/CSequenceSkill")]
+public class CSequenceSkill : SkillData
 {
+    [Space]
+
+    [SerializeField]
+    SkillData preSkillData;
+    [SerializeField]
+    SkillData mainSkillData;
+    [SerializeField]
+    SkillData postSkillData;
+
+    [SerializeField]
+    int frontAnimIdx = -1, backAnimIdx = -1;
+    [SerializeField]
+    float frontAnimTime = 0, backAnimTime = 0;
+
     public override State Run(CustomObject customObject, Vector3 pos)
     {
         base.Run(customObject, pos);
@@ -29,14 +43,12 @@ public class CJump : SkillData
             return BT.State.FAILURE;
         }
 
-        Vector2 targetPos = other.GetPosition();
-        if (caster)
-        {
-            caster.GetCharacterComponents().AIController.StopMove();
-            caster.GetCharacterComponents().CircleCollider2D.enabled = false;
-            ActiveSkillManager.Instance.StartJumpCoroutine(caster, caster.transform.position, targetPos);
-        }
+        ActiveSkillManager.Instance.StartSequence(mPos,
+            caster, other, customObject,
+            preSkillData, mainSkillData, postSkillData,
+            frontAnimIdx, backAnimIdx, frontAnimTime, backAnimTime);
         return BT.State.SUCCESS;
     }
+
 
 }

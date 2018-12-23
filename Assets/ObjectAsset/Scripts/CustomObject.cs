@@ -87,6 +87,7 @@ public class CustomObject : MonoBehaviour
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         StopAni();
         tag = "Wall";
+        objectPosition = transform.position;
     }
 
     private void SetNullPolygon()
@@ -792,7 +793,7 @@ public class ItemContainer : RandomSpriteObject
             if (!(innerObject as Ammo).isCanFill())
                 return false;
             innerObject.Active();
-            isAvailable = false;
+            isAvailable = false ;
             DestroyAndDeactive();
             return true;
         }
@@ -1205,7 +1206,7 @@ public class SkillBox : BreakalbeBox
                 break;
         }
         if(skillData != null)
-            skillData.Run(null, this.transform.position, 0);
+            skillData.Run(this, ActiveSkillManager.nullVector);
         base.Destruct();
     }
 }

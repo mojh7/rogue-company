@@ -201,7 +201,6 @@ public class Player : Character
         // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
         weaponManager.Init(this, CharacterInfo.OwnerType.Player);
 
-        animationHandler.SetEndAction(EndEvade);
         TimeController.Instance.PlayStart();
 
         DeactivateAbnormalComponents();
@@ -264,8 +263,6 @@ public class Player : Character
             spriteTransform.localScale = scaleVector;
         }
         ParticleManager.Instance.PlayParticle("WalkSmoke", transform.position, spriteRenderer.transform.localScale);
-        animationHandler.Skill(0);
-        weaponManager.HideWeapon();
         StartCoroutine(Roll(directionVector));
         return true;
     }
@@ -337,9 +334,9 @@ public class Player : Character
     {
         if (100 == playerData.SkillGauge)
         {
-            playerData.SkillData.Run(this, null, 1);
-            playerData.SkillGauge = 0;
-            controller.ActiveSkill(playerData.SkillGauge, 100);
+            playerData.SkillData.Run(this, ActiveSkillManager.nullVector);
+           // playerData.SkillGauge = 0;
+            //controller.ActiveSkill(playerData.SkillGauge, 100);
         }
     }
 
@@ -909,20 +906,31 @@ public class Player : Character
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
     }
+
     private IEnumerator Roll(Vector3 dir)
     {
-        float doubling = 2f;
+        animationHandler.Skill(0);
+        weaponManager.HideWeapon();
         totalSpeed = playerData.MoveSpeed + floorSpeed;
-        while (isEvade)
+
+        float doubling = 2f;
+        float animTime = .63f;
+         while (animTime > 0)
         {
+            animTime -= Time.fixedDeltaTime;
+
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+
             doubling -= Time.fixedDeltaTime * 3;
             if (doubling <= 1f)
                 doubling = 1f;
             rgbody.MovePosition(objTransform.position + dir * (totalSpeed) * Time.fixedDeltaTime * doubling);
-            yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+        animationHandler.Skill(-1);
+        EndEvade();
         yield return YieldInstructionCache.WaitForSeconds(0.05f);
         yield return YieldInstructionCache.WaitForSeconds(evadeCoolTime);
+
         canEvade = true;
     }
 

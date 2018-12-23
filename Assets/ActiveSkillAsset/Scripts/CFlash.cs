@@ -1,36 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BT;
 using UnityEngine;
 [CreateAssetMenu(fileName = "CFlash", menuName = "SkillData/CFlash")]
 public class CFlash : SkillData
 {
-    public override BT.State Run(Character character, object temporary, int idx)
+    public override State Run(CustomObject customObject, Vector3 pos)
     {
-        base.Run(character, temporary, idx);
-
-        return Run(RoomManager.Instance.GetNearestAvailableArea((temporary as Character).transform.position));
+        base.Run(customObject, pos);
+        return Run(RoomManager.Instance.GetCurrentRoomAvailableArea());
     }
 
-    private BT.State Run(object position)
+    public override State Run(Character caster, Vector3 pos)
     {
-        if (!character || delay < 0 || amount < 0)
+        base.Run(caster, pos);
+        return Run(RoomManager.Instance.GetNearestAvailableArea(caster.GetPosition() + caster.GetDirVector()));
+    }
+
+    public override State Run(Character caster, Character other, Vector3 pos)
+    {
+        base.Run(caster, other, pos);
+        return Run(RoomManager.Instance.GetNearestAvailableArea(other.GetPosition()));
+    }
+
+    private BT.State Run(Vector3 destPos)
+    {
+        if (delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        character.isCasting = true;
-        GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
-        gameObject.transform.position = character.transform.position;
-        gameObject.AddComponent<CollisionSkill>().Init(character as Character, position, amount, Flash);
+        if (mPos != ActiveSkillManager.nullVector)
+            destPos = mPos;
 
-        character.GetCharacterComponents().AnimationHandler.SetLapsedAction(gameObject.GetComponent<CollisionSkill>().LapseAnimation);
-        character.GetCharacterComponents().AnimationHandler.SetEndAction(gameObject.GetComponent<CollisionSkill>().EndAnimation);
-        character.GetCharacterComponents().AnimationHandler.Skill(idx);
+        caster.transform.position = destPos;
         return BT.State.SUCCESS;
     }
-
-    private void Flash(Character user, object position, float amount)
-    {
-        user.transform.position = (Vector2)position;
-    }
-
 }

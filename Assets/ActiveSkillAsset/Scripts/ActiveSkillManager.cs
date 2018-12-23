@@ -5,38 +5,35 @@ using UnityEngine;
 
 public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
 {
+    public static Vector3 nullVector = new Vector3(-1000, -1000, -1000);
     Vector3 upVector = Vector3.up;
     #region public
-    public void StartCoroutine(Action<Character, object, float> action, Character user, object parameter, float delay, float amount)
+    public void StartJumpCoroutine(Character caster, Vector3 src, Vector3 dest)
     {
-        StartCoroutine(CoroutineSkill(action, user, parameter, delay, amount));
+        StartCoroutine(CoroutineJump(caster, caster.GetPosition(), dest + upVector));
     }
-
-    public void StartJumpCoroutine(Character user, Vector3 src, Vector3 dest)
+    public void StartSequence(
+        Vector3 mPos,
+      Character caster, Character other, CustomObject customObject,
+      SkillData preSkillData, SkillData mainSkillData, SkillData postSkillData,
+        int frontAnimIdx, int backAnimIdx,
+          float frontAnimTime, float backAnimTime)
     {
-        StartCoroutine(CoroutineJump(user, user.transform.position, dest + upVector));
+        StartCoroutine(CoroutineSequence(mPos, 
+            caster, other, customObject, 
+            preSkillData, mainSkillData, postSkillData, 
+            frontAnimIdx, backAnimIdx, frontAnimTime, backAnimTime));
     }
     #endregion
     #region coroutine
-    IEnumerator CoroutineSkill(Action<Character, object, float> action, Character user, object parameter, float delay, float amount)
+    IEnumerator CoroutineJump(Character caster, Vector3 src, Vector3 dest)
     {
-        float startTime = Time.time;
-        float elapsedTime = 0;
-        while (delay >= elapsedTime)
-        {
-            elapsedTime = Time.time - startTime;
-            yield return YieldInstructionCache.WaitForSeconds(0.1f);
-        }
-        action(user, parameter, amount);
-    }
-    IEnumerator CoroutineJump(Character user, Vector3 src, Vector3 dest)
-    {
-        Transform userTransform = user.transform;
-        user.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Effect";
-        Vector3 shadowScaleSrc = user.GetCharacterComponents().ShadowTransform.localScale;
+        Transform userTransform = caster.transform;
+        caster.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Effect";
+        Vector3 shadowScaleSrc = caster.GetCharacterComponents().ShadowTransform.localScale;
         Vector3 shadowScaleDest = shadowScaleSrc * 0.5f;
-        Vector3 shadowSrc = user.GetCharacterComponents().ShadowTransform.localPosition;
-        Vector3 shadowDest = user.GetCharacterComponents().ShadowTransform.localPosition - upVector;
+        Vector3 shadowSrc = caster.GetCharacterComponents().ShadowTransform.localPosition;
+        Vector3 shadowDest = caster.GetCharacterComponents().ShadowTransform.localPosition - upVector;
         float startTime = Time.time;
         float elapsedTime = 0;
         float durationOfFlight = 0.5f;
@@ -45,8 +42,8 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             elapsedTime = Time.time - startTime;
 
             userTransform.position = Vector2.Lerp(src, dest, elapsedTime / durationOfFlight);
-            user.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowSrc, shadowDest, elapsedTime / durationOfFlight);
-            user.GetCharacterComponents().ShadowTransform.localScale = Vector2.Lerp(shadowScaleSrc, shadowScaleDest, elapsedTime / durationOfFlight);
+            caster.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowSrc, shadowDest, elapsedTime / durationOfFlight);
+            caster.GetCharacterComponents().ShadowTransform.localScale = Vector2.Lerp(shadowScaleSrc, shadowScaleDest, elapsedTime / durationOfFlight);
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
         yield return YieldInstructionCache.WaitForSeconds(0.1f); // delay Flight state;
@@ -59,17 +56,85 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             elapsedTime = Time.time - startTime;
 
             userTransform.position = Vector2.Lerp(dest, newDest, elapsedTime / durationOfFlight);
-            user.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowDest, shadowSrc, elapsedTime / durationOfFlight);
-            user.GetCharacterComponents().ShadowTransform.localScale = Vector2.Lerp(shadowScaleDest, shadowScaleSrc, elapsedTime / durationOfFlight);
+            caster.GetCharacterComponents().ShadowTransform.localPosition = Vector2.Lerp(shadowDest, shadowSrc, elapsedTime / durationOfFlight);
+            caster.GetCharacterComponents().ShadowTransform.localScale = Vector2.Lerp(shadowScaleDest, shadowScaleSrc, elapsedTime / durationOfFlight);
             yield return YieldInstructionCache.WaitForSeconds(0.05f);
         }
-        user.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Default";
-        if (user)
+        caster.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Default";
+        if (caster)
         {
-            user.GetCharacterComponents().CircleCollider2D.enabled = true;
-            user.GetCharacterComponents().AIController.PlayMove();
-            user.GetComponent<Character>().isCasting = false;
+            caster.GetCharacterComponents().CircleCollider2D.enabled = true;
+            caster.GetCharacterComponents().AIController.PlayMove();
+            caster.GetComponent<Character>().isCasting = false;
         }
+    }
+    IEnumerator CoroutineSequence(
+        Vector3 mPos,
+      Character caster, Character other, CustomObject customObject,
+      SkillData preSkillData, SkillData mainSkillData, SkillData postSkillData,
+        int frontAnimIdx, int backAnimIdx,
+          float frontAnimTime, float backAnimTime)
+    {
+        caster.isCasting = true;
+        if (preSkillData)
+        {
+            if (other)
+            {
+                preSkillData.Run(caster, other, mPos);
+            }
+            else if (customObject)
+            {
+                preSkillData.Run(customObject, mPos);
+            }
+            else
+            {
+                preSkillData.Run(caster, mPos);
+            }
+        }
+
+        if (frontAnimIdx > -1)
+        {
+            caster.GetCharacterComponents().AnimationHandler.Skill(frontAnimIdx);
+            yield return YieldInstructionCache.WaitForSeconds(frontAnimTime + 0.1F);
+            caster.GetCharacterComponents().AnimationHandler.Skill(-1);
+        }
+        if (mainSkillData)
+        {
+            if (other)
+            {
+                mainSkillData.Run(caster, other, mPos);
+            }
+            else if (customObject)
+            {
+                mainSkillData.Run(customObject, mPos);
+            }
+            else
+            {
+                mainSkillData.Run(caster, mPos);
+            }
+        }
+        if (backAnimIdx > -1)
+        {
+            caster.GetCharacterComponents().AnimationHandler.Skill(backAnimIdx);
+            yield return YieldInstructionCache.WaitForSeconds(backAnimTime + 0.1F);
+            caster.GetCharacterComponents().AnimationHandler.Skill(-1);
+        }
+        if (postSkillData)
+        {
+            if (other)
+            {
+                postSkillData.Run(caster, other, mPos);
+            }
+            else if (customObject)
+            {
+                postSkillData.Run(customObject, mPos);
+            }
+            else
+            {
+                postSkillData.Run(caster, mPos);
+            }
+        }
+        caster.isCasting = false;
     }
     #endregion
 }

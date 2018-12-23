@@ -1,40 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BT;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CServant", menuName = "SkillData/CServant")]
 public class CServant : SkillData
 {
-    public override BT.State Run(Character character, object temporary, int idx)
-    {
-        base.Run(character, temporary, idx);
+    [SerializeField]
+    int servantIdx;
 
+    public override State Run(CustomObject customObject, Vector3 pos)
+    {
+        base.Run(customObject, pos);
+        return Run();
+    }
+    public override State Run(Character caster, Vector3 pos)
+    {
+        base.Run(caster, pos);
+        return Run();
+    }
+    public override State Run(Character caster, Character other, Vector3 pos)
+    {
+        base.Run(caster, other, pos);
         return Run();
     }
 
     private BT.State Run()
     {
-        if (!character || delay < 0 || amount < 0)
+        if (delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
-        EnemyData[] enemyDatas = (character as Enemy).GetServants();
+        EnemyData[] enemyDatas = (caster as Enemy).GetServants();
         if (enemyDatas.Length <= 0)
         {
             return BT.State.FAILURE;
         }
-        character.isCasting = true;
+        caster.isCasting = true;
         for (int i = 0; i < amount; i++)
         {
             float randDelay = UnityEngine.Random.Range(0, delay + 1);
-            ActiveSkillManager.Instance.StartCoroutine(SpawnServant, character, enemyDatas[idx], randDelay, amount);
+            SpawnServant(caster, enemyDatas[servantIdx]);
         }
-        character.isCasting = false;
+        caster.isCasting = false;
         return BT.State.SUCCESS;
     }
 
-    private void SpawnServant(Character user, object servantData, float amount)
+    private void SpawnServant(Character user, EnemyData servantData)
     {
-        EnemyManager.Instance.Generate(RoomManager.Instance.SpawnedServant(), servantData as EnemyData, user);
+        EnemyManager.Instance.Generate(RoomManager.Instance.SpawnedServant(), servantData, user);
     }
 }

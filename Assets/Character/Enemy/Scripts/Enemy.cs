@@ -540,6 +540,14 @@ public class BossEnemy : Enemy
         return damage;
     }
 
+    public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
+    {
+        base.Attacked(_dir, bulletPos, damage, knockBack, criticalChance, positionBasedKnockBack);
+        UIManager.Instance.bossHPUI.DecreaseHp(damage);
+        AttackedEffect();
+        return damage;
+    }
+
     protected override void Die()
     {
         DeleteServant();
