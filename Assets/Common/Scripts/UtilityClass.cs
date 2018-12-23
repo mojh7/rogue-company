@@ -103,7 +103,15 @@ public static class UtilityClass
     public static LayerMask GetEnemyBulletLayer(Character me)
     {
         LayerMask enemyBulletLayer = 1;
-
+        if (me == null)
+        {
+            enemyBulletLayer = enemyBulletLayer << 17;
+            enemyBulletLayer |= (1 << 20);
+            enemyBulletLayer |= (1 << 21);
+            enemyBulletLayer |= (1 << 18);
+            enemyBulletLayer |= (1 << 19);
+            return enemyBulletLayer;
+        }
         switch (me.GetOwnerType())
         {
             case CharacterInfo.OwnerType.Player:

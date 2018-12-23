@@ -171,6 +171,7 @@ namespace BT
             taskNode.windowRect = new Rect(x, y, windowWidth, windowHeight);
 
             System.Type type = task.GetType();
+            taskNode.probability = task.Probability;
             switch (type.ToString())
             {
                 case "Service":
@@ -185,7 +186,6 @@ namespace BT
                         {
                             TaskNode temp = TaskToObjectNode(compositeTask.GetChildren()[i], x + windowWidth + 100, y + (windowHeight + 30) * i);
                             temp.SetInput(taskNode);
-                            temp.probability = compositeTask.Probability;
                         }
                     }
                     break;
@@ -198,7 +198,6 @@ namespace BT
                         DecorateTask decorateTask = task as DecorateTask;
                         TaskNode temp = TaskToObjectNode(decorateTask.GetChildren(), x + windowWidth + 100, y);
                         temp.SetInput(taskNode);
-                        temp.probability = decorateTask.Probability;
                     }
                     break;
             }

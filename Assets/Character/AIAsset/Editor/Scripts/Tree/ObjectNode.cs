@@ -140,8 +140,6 @@ namespace BT
         {
             TaskNode retVal = null;
 
-            if (retVal == null)
-                return retVal;
             pos.x -= windowRect.x;
             pos.y -= windowRect.y;
 
@@ -149,7 +147,9 @@ namespace BT
             {
                 retVal = input;
                 input = null;
-                if(parents.Contains(retVal))
+                if (retVal == null)
+                    return retVal;
+                if (parents.Contains(retVal))
                 {
                     parents.Remove(retVal);
                 }

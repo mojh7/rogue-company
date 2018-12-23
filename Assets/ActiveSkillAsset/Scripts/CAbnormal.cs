@@ -32,7 +32,7 @@ public class CAbnormal : SkillData
 
     private BT.State Run(StatusEffectInfo statusEffectInfo,Vector3 pos)
     {
-        if (delay < 0 || amount < 0)
+        if (!(caster || other || customObject) || delay < 0 || amount < 0)
         {
             return BT.State.FAILURE;
         }
