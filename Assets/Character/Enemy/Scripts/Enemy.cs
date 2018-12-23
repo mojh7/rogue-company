@@ -60,18 +60,18 @@ public class Enemy : Character
     {
         bodyblowTime -= Time.deltaTime;
         SetAim();
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(bodyTransform.position.y * 100);
         if (-90 <= directionDegree && directionDegree < 90)
         {
             isRightDirection = true;
             scaleVector.x = -Mathf.Abs(scaleVector.x);
-            transform.localScale = scaleVector;
+            bodyTransform.localScale = scaleVector;
         }
         else
         {
             isRightDirection = false;
             scaleVector.x = Mathf.Abs(scaleVector.x);
-            transform.localScale = scaleVector;
+            bodyTransform.localScale = scaleVector;
         }
     }
 
@@ -82,7 +82,7 @@ public class Enemy : Character
         if(UtilityClass.CheckLayer(collision.gameObject.layer,enemyLayer))
         {
             bodyblowTime = 3;
-            collision.GetComponent<Character>().Attacked((collision.transform.position - this.transform.position).normalized, this.transform.position, 1, 1);
+            collision.GetComponent<Character>().Attacked((collision.transform.position - this.bodyTransform.position).normalized, this.bodyTransform.position, 1, 1);
         }
     }
     #endregion
@@ -182,7 +182,7 @@ public class Enemy : Character
         int count = EconomySystem.Instance.DropCoin(this.price);
         for(int i=0;i< count;i++)
         {
-            ItemManager.Instance.CreateItem(ItemManager.Instance.DropCoin(), transform.position, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+            ItemManager.Instance.CreateItem(ItemManager.Instance.DropCoin(), bodyTransform.position, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
         }
     }
 
@@ -251,11 +251,11 @@ public class Enemy : Character
         switch (autoAimType)
         {
             case CharacterInfo.AutoAimType.AUTO:
-                directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - transform.position).normalized;
+                directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - bodyTransform.position).normalized;
                 directionDegree = directionVector.GetDegFromVector();
                 break;
             case CharacterInfo.AutoAimType.REACTANCE:
-                directionVector = (transform.position - PlayerManager.Instance.GetPlayer().GetPosition()).normalized;
+                directionVector = (bodyTransform.position - PlayerManager.Instance.GetPlayer().GetPosition()).normalized;
                 directionDegree = directionVector.GetDegFromVector();
                 break;
             case CharacterInfo.AutoAimType.SEMIAUTO:
@@ -271,7 +271,7 @@ public class Enemy : Character
 
     public override void SelfDestruction()
     {
-        Attacked(Vector2.zero, transform.position, maxHP * 0.5f, 0);
+        Attacked(Vector2.zero, bodyTransform.position, maxHP * 0.5f, 0);
     }
     #endregion
 
@@ -503,7 +503,7 @@ public class Enemy : Character
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
-            transform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - transform.position).normalized * Time.fixedDeltaTime);
+            bodyTransform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - bodyTransform.position).normalized * Time.fixedDeltaTime);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 

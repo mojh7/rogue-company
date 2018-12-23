@@ -138,7 +138,7 @@ public class Player : Character
             ActiveSkill();
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(bodyTransform.position.y * 100);
         headRenderer.sortingOrder = spriteRenderer.sortingOrder + 1;
         if (isEvade)
             return;
@@ -224,11 +224,11 @@ public class Player : Character
     #region function
     private void ScaleChange(float scale)
     {
-        if(scale != this.transform.localScale.x)
+        if(scale != this.bodyTransform.localScale.x)
         {
-            ParticleManager.Instance.PlayParticle("Smoke", this.transform.position);
+            ParticleManager.Instance.PlayParticle("Smoke", this.bodyTransform.position);
         }
-        this.transform.localScale = Vector3.one * scale;
+        this.bodyTransform.localScale = Vector3.one * scale;
         this.GetComponentInChildren<Camera>().transform.localScale = Vector3.one / scale;
     }
     public void UpdateMuzzlePosition(Vector3 pos, bool visible)
@@ -262,7 +262,7 @@ public class Player : Character
             scaleVector.x = -1f;
             spriteTransform.localScale = scaleVector;
         }
-        ParticleManager.Instance.PlayParticle("WalkSmoke", transform.position, spriteRenderer.transform.localScale);
+        ParticleManager.Instance.PlayParticle("WalkSmoke", bodyTransform.position, spriteRenderer.transform.localScale);
         StartCoroutine(Roll(directionVector));
         return true;
     }
@@ -363,13 +363,13 @@ public class Player : Character
         float bestDistance = interactiveCollider2D.radius;
         Collider2D bestCollider = null;
 
-        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, interactiveCollider2D.radius, (1 << 1) | (1 << 9));
+        Collider2D[] collider2D = Physics2D.OverlapCircleAll(bodyTransform.position, interactiveCollider2D.radius, (1 << 1) | (1 << 9));
 
         for (int i = 0; i < collider2D.Length; i++)
         {
             if (!collider2D[i].GetComponent<CustomObject>().GetAvailable())
                 continue;
-            float distance = Vector2.Distance(transform.position, collider2D[i].transform.position);
+            float distance = Vector2.Distance(bodyTransform.position, collider2D[i].transform.position);
 
             if (distance < bestDistance)
             {
@@ -386,7 +386,7 @@ public class Player : Character
 
     public override void SelfDestruction()
     {
-        Attacked(Vector2.zero, transform.position, hp * 0.5f, 0);
+        Attacked(Vector2.zero, bodyTransform.position, hp * 0.5f, 0);
     }
 
     public bool AttackAble()
@@ -429,7 +429,7 @@ public class Player : Character
     }
     public void RecoverHp(float recoveryHp)
     {
-        ParticleManager.Instance.PlayParticle("Hp", this.transform.position);
+        ParticleManager.Instance.PlayParticle("Hp", this.bodyTransform.position);
         playerData.Hp += recoveryHp;
         if(playerData.Hp >= playerData.HpMax)
         {
@@ -601,20 +601,20 @@ public class Player : Character
 #if UNITY_EDITOR
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(Vector2.up * playerData.MoveSpeed * Time.fixedDeltaTime);
+            bodyTransform.Translate(Vector2.up * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector2.down * playerData.MoveSpeed * Time.fixedDeltaTime);
+            bodyTransform.Translate(Vector2.down * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector2.right * playerData.MoveSpeed * Time.fixedDeltaTime);
+            bodyTransform.Translate(Vector2.right * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector2.left * playerData.MoveSpeed * Time.fixedDeltaTime);
+            bodyTransform.Translate(Vector2.left * playerData.MoveSpeed * Time.fixedDeltaTime);
         }
 #endif
     }
@@ -648,11 +648,11 @@ public class Player : Character
         {
             if(playerData.MoveSpeed > originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
             {
-                ParticleManager.Instance.PlayParticle("SpeedDown", this.transform.position  );
+                ParticleManager.Instance.PlayParticle("SpeedDown", this.bodyTransform.position  );
             }
             else
             {
-                ParticleManager.Instance.PlayParticle("SpeedUp", this.transform.position);
+                ParticleManager.Instance.PlayParticle("SpeedUp", this.bodyTransform.position);
             }
         }
         playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
@@ -891,7 +891,7 @@ public class Player : Character
         while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
         {
             abnormalStatusTime[type] += Time.fixedDeltaTime;
-            transform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - transform.position).normalized * Time.fixedDeltaTime);
+            bodyTransform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - bodyTransform.position).normalized * Time.fixedDeltaTime);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 

@@ -71,6 +71,7 @@ public abstract class Character : MonoBehaviour
     protected Rigidbody2D rgbody;
     protected AIController aiController;
     protected Transform shadowTransform;
+    protected Transform bodyTransform;
     #endregion
     #region variables
     public bool isCasting;
@@ -171,7 +172,7 @@ public abstract class Character : MonoBehaviour
     }
     public virtual Vector3 GetPosition()
     {
-        return transform.position;
+        return bodyTransform.position;
     }
     public virtual WeaponManager GetWeaponManager()
     {
@@ -252,6 +253,7 @@ public abstract class Character : MonoBehaviour
         rgbody = Components.Rigidbody2D;
         aiController = Components.AIController;
         shadowTransform = Components.ShadowTransform;
+        bodyTransform = GetComponent<Transform>();
 
         isActiveAI = true;
         isCasting = false;
@@ -437,7 +439,7 @@ public abstract class Character : MonoBehaviour
         // bullet과 충돌 Object 위치 차이 기반의 넉백  
         if (positionBasedKnockBack)
         {
-            rgbody.AddForce(knockBack * ((Vector2)transform.position - bulletPos).normalized);
+            rgbody.AddForce(knockBack * ((Vector2)bodyTransform.position - bulletPos).normalized);
         }
         // bullet 방향 기반의 넉백
         else

@@ -146,7 +146,6 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     public void ClearRoomUI(bool isActive)
     {
         clearObj.GetComponent<ClearRoomUI>().Clear();
-        //clearObj.SetActive(isActive);
     }
     #endregion
 
@@ -154,6 +153,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     private void Start()
     {
         SetCoinText(GameDataManager.Instance.GetCoin());
+        SetKeyText(GameDataManager.Instance.GetKey());
     }
     #endregion
 }
