@@ -249,7 +249,7 @@ public class BreakalbeBox : RandomSpriteObject
 
     protected virtual void Destruct()
     {
-        ParticleManager.Instance.PlayParticle("BrokenParticle", this.transform.position, sprite);
+        ParticleManager.Instance.PlayParticle("BrokenParticle", this.transform.position);
         polygonCollider2D.enabled = false;
         gameObject.SetActive(false);
         AStar.TileGrid.Instance.Bake(spriteRenderer);

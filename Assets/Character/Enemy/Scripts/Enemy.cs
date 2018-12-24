@@ -171,7 +171,7 @@ public class Enemy : Character
         }
         weaponManager.RemoveAllWeapons();
         DropItem();
-        ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position, sprite);
+        ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position);
         gameObject.SetActive(false);
 
         Destroy(this);
@@ -553,7 +553,7 @@ public class BossEnemy : Enemy
     protected override void Die()
     {
         DeleteServant();
-        ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position, sprite);
+        ParticleManager.Instance.PlayParticle("Pixel", spriteTransform.position);
 
         pState = CharacterInfo.State.DIE;
         GameDataManager.Instance.SetKill();

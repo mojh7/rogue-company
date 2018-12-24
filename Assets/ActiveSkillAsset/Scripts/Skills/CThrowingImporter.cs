@@ -9,9 +9,19 @@ public class CThrowingImporter : SkillData
     [SerializeField]
     List<SkillData> skillData;
     [SerializeField]
+    StatusEffectInfo statusEffectInfo;
+    [SerializeField]
     float speed, acceleration;
     [SerializeField]
     string animName;
+    [Header("오브젝트에 붙어서 호출되는 파티클")]
+    [SerializeField]
+    string attachedParticleName;
+    [Header("계속해서 글로벌 호출되는 파티클")]
+    [SerializeField]
+    string particleName;
+    [SerializeField]
+    float particleTerm;
 
     public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
@@ -45,7 +55,10 @@ public class CThrowingImporter : SkillData
         if (other)
             skillObject.Init(other);
         skillObject.Init(ref caster, this, time);
+        skillObject.Set(statusEffectInfo);
         skillObject.Set(animName, speed, acceleration, destPos - srcPos);
+        skillObject.Set(attachedParticleName);
+        skillObject.Set(particleName, particleTerm);
         return BT.State.SUCCESS;
     }
 

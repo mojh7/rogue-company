@@ -6,7 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CRangeEffect", menuName = "SkillData/CRangeEffect")]
 public class CRangeEffect : SkillData
 {
-    public enum EffectType { REMOVE, REFLECT, NONE }
+    public enum EffectType { NONE , REMOVE, REFLECT }
+    [SerializeField]
+    StatusEffectInfo statusEffectInfo;
     [SerializeField]
     EffectType effectType;
     [SerializeField]
@@ -49,6 +51,7 @@ public class CRangeEffect : SkillData
         if (other)
             skillObject.Init(other);
         skillObject.Init(ref caster, this, time);
+        skillObject.Set(statusEffectInfo);
         ParticleManager.Instance.PlayParticle(particleName, pos, radius);
 
         return BT.State.SUCCESS;

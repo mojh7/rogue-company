@@ -46,6 +46,8 @@ public class ParticlePool : MonoBehaviourSingleton<ParticlePool>
         {
             if (!particles[i].gameObject.activeInHierarchy)
             {
+                if (particles[i].isPlaying)
+                    particles[i].Stop();
                 particles[i].gameObject.SetActive(true);
                 return particles[i];
             }
@@ -55,12 +57,13 @@ public class ParticlePool : MonoBehaviourSingleton<ParticlePool>
         {
             ParticleSystem obj = GameObject.Instantiate(particles[0], new Vector3(0, 0, 0), new Quaternion()) as ParticleSystem;
             //obj.hideFlags = HideFlags.HideInHierarchy;
-            obj.gameObject.SetActive(false);
+            obj.gameObject.SetActive(true);
             obj.transform.parent = transform;
+            if (obj.isPlaying)
+                obj.Stop();
             particles.Add(obj);
             return obj;
         }
-
         return null;
     }
 }

@@ -134,6 +134,24 @@ public class ProjectileSkillObject : CollisionSkillObject
 
         StartCoroutine(CoroutineThrow());
     }
+    public void Set(string attachedParticleName)
+    {
+        ParticleManager.Instance.PlayParticle(attachedParticleName, bodyTransform.position, bodyTransform);
+    }
+    public void Set(string particleName, float term)
+    {
+        if (particleName == "")
+            return;
+        StartCoroutine(CoroutineParticle(particleName, term));
+    }
+    IEnumerator CoroutineParticle(string particleName, float term)
+    {
+        while (isActive)
+        {
+            ParticleManager.Instance.PlayParticle(particleName, bodyTransform.position);
+            yield return YieldInstructionCache.WaitForSeconds(term);
+        }
+    }
 
     IEnumerator CoroutineThrow()
     {
@@ -160,6 +178,7 @@ public class ProjectileSkillObject : CollisionSkillObject
                 break;
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
+        isActive = false;
 
         if (postSkillData != null && postSkillData.Count > 0)
         {
