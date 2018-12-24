@@ -7,11 +7,13 @@ public abstract class SkillObject : MonoBehaviour
     protected LayerMask enemyLayer, enemyBulletLayer;
     protected CircleCollider2D circleCollider;
     protected SpriteRenderer spriteRenderer;
+    protected Transform bodyTransform;
     protected Animator animator;
     protected List<SkillData> preSkillData, postSkillData;
 
     protected Character caster, other;
     protected CustomObject customObject;
+    protected Vector3 scaleVector;
 
     protected bool isActive;
     protected bool isAvailable;
@@ -25,6 +27,8 @@ public abstract class SkillObject : MonoBehaviour
     {
         circleCollider = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
+        bodyTransform = GetComponent<Transform>();
+        scaleVector = Vector3.one;
     }
 
     protected void Init(SkillData skillData)
@@ -85,12 +89,12 @@ public class CollisionSkillObject : SkillObject
     {
         this.effectType = effectType;
     }
-    protected void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer))
         {
             Character triggeredCharacter = collision.GetComponent<Character>();
-            triggeredCharacter.Attacked(Vector2.zero, transform.position, amount, 0, 0);
+            triggeredCharacter.Attacked(Vector2.zero, bodyTransform.position, amount, 0, 0);
             triggeredCharacter.ApplyStatusEffect(statusEffectInfo);
         }
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyBulletLayer))
@@ -115,8 +119,9 @@ public class CollisionSkillObject : SkillObject
     }
 }
 
-public class ProjectileSkillObject : SkillObject
+public class ProjectileSkillObject : CollisionSkillObject
 {
+    float directionDegree;
     float speed, acceleration;
     Vector3 direction;
 
@@ -136,7 +141,18 @@ public class ProjectileSkillObject : SkillObject
         float elapsedTime = 0;
         while (speed > 0)
         {
-            transform.localPosition = transform.localPosition + direction * speed * Time.deltaTime;
+            directionDegree = direction.GetDegFromVector();
+            if (-90 <= directionDegree && directionDegree < 90)
+            {
+                scaleVector.x = Mathf.Abs(scaleVector.x);
+                bodyTransform.localScale = scaleVector;
+            }
+            else
+            {
+                scaleVector.x = -Mathf.Abs(scaleVector.x);
+                bodyTransform.localScale = scaleVector;
+            }
+            bodyTransform.localPosition = bodyTransform.localPosition + direction * speed * Time.deltaTime;
             elapsedDist += speed * Time.deltaTime;
             elapsedTime += Time.deltaTime;
             speed += acceleration * elapsedTime * Time.deltaTime;
@@ -152,19 +168,21 @@ public class ProjectileSkillObject : SkillObject
             foreach (SkillData item in postSkillData)
             {
                 if (other)
-                    item.Run(caster, other, transform.position, ref lapsedTime);
+                    item.Run(caster, other, bodyTransform.position, ref lapsedTime);
                 else if (caster)
-                    item.Run(caster, transform.position, ref lapsedTime);
+                    item.Run(caster, bodyTransform.position, ref lapsedTime);
                 if (customObject)
-                    item.Run(customObject, transform.position, ref lapsedTime);
+                    item.Run(customObject, bodyTransform.position, ref lapsedTime);
             }
         }
 
         DestroyAndDeactive();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
+        base.OnTriggerEnter2D(collision);
+
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer) ||
             UtilityClass.CheckLayer(collision.gameObject.layer, 14, 1))
         {
@@ -175,11 +193,11 @@ public class ProjectileSkillObject : SkillObject
             foreach (SkillData item in postSkillData)
             {
                 if (other)
-                    item.Run(caster, other, transform.position, ref lapsedTime);
+                    item.Run(caster, other, bodyTransform.position, ref lapsedTime);
                 else if (caster)
-                    item.Run(caster, transform.position, ref lapsedTime);
+                    item.Run(caster, bodyTransform.position, ref lapsedTime);
                 if (customObject)
-                    item.Run(customObject, transform.position, ref lapsedTime);
+                    item.Run(customObject, bodyTransform.position, ref lapsedTime);
             }
 
             DestroyAndDeactive();

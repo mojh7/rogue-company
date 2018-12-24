@@ -1205,7 +1205,7 @@ public class SkillBox : BreakalbeBox
             default:
                 break;
         }
-        float lapsedTime = -1;
+        float lapsedTime = 9999;
         if(skillData != null)
             skillData.Run(this, ActiveSkillManager.nullVector, ref lapsedTime);
         base.Destruct();
