@@ -196,10 +196,6 @@ namespace BT
                     if (a >= b)
                         return true;
                     break;
-                case BehaviorCondition.COOLTIME:
-                    if (a >= b)
-                        return true;
-                    break;
                 default:
                     break;
             }

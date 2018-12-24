@@ -42,6 +42,11 @@ public class Frame : MonoBehaviour {
         {
             CreateSkillBox();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            ItemManager.Instance.CallItemBox(PlayerManager.Instance.GetPlayerPosition(), RoomType.BOSS);
+
+        }
         if (!frame)
             return;
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
