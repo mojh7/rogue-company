@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using WeaponAsset;
 
 public enum BulletPatternType { MultiDirPattern, RowPattern, LaserPattern }
@@ -27,6 +28,9 @@ public struct BulletPatternEditInfo
 [CreateAssetMenu(fileName = "WeaponInfo", menuName = "WeaponData/OwnerPlayer/WeaponInfo", order = 0)]
 public class WeaponInfo : ScriptableObject
 {
+    [SerializeField]
+    private int inGameId;
+
     [Tooltip("적용하거나 쓰이는 곳, 사용하는 사람, 간단한 설명 등등 이것 저것 메모할 공간")]
     [SerializeField]
     [TextArea(3, 100)] private string memo;
@@ -85,6 +89,9 @@ public class WeaponInfo : ScriptableObject
         soundId = -1;
         cycleRepetitionCount = 1;
     }
+
+    public void SetWeaponId(int id) { inGameId = id; }
+    public int GetWeaponId() { return inGameId; }
 
     public WeaponInfo Clone()
     {

@@ -118,7 +118,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         gameData.SetKill(m_kill);
         gameData.SetTime(TimeController.Instance.GetPlayTime);
 
-         gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());
+        gameData.SetWeaponIds(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponIds());
         gameData.SetWeaponAmmos(PlayerManager.Instance.GetPlayer().GetWeaponManager().GetWeaponAmmos());
  
         gameData.SetHp(PlayerManager.Instance.GetPlayer().PlayerData.Hp);
