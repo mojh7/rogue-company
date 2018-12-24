@@ -48,13 +48,13 @@ public class SkillAction : ActionTask
             }
             else
             {
+                isRun = false;
                 return State.FAILURE;
             }
         }
     }
     public override bool SubRun()
     {
-        isRun = false;
         return true;
     }
     public override Task Clone()

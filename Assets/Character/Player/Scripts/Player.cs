@@ -138,6 +138,7 @@ public class Player : Character
             ActiveSkill();
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
+        ChargeSkill();
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(bodyTransform.position.y * 100);
         headRenderer.sortingOrder = spriteRenderer.sortingOrder + 1;
         if (isEvade)
@@ -286,7 +287,11 @@ public class Player : Character
         // 버프매니저 쪽으로 쉴드 버프 없애는 명령 보내기
         return true;
     }
-
+    private void ChargeSkill()
+    {
+        playerData.SkillGauge += Time.deltaTime;
+        controller.ActiveSkill(playerData.SkillGauge, playerData.SkillData.CoolTime);
+    }
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
         if(damageImmune == CharacterInfo.DamageImmune.ALL)
@@ -332,12 +337,10 @@ public class Player : Character
 
     public override void ActiveSkill()
     {
-        if (100 == playerData.SkillGauge)
-        {
-            playerData.SkillData.Run(this, ActiveSkillManager.nullVector);
-           // playerData.SkillGauge = 0;
-            //controller.ActiveSkill(playerData.SkillGauge, 100);
-        }
+        float lapsedTime = playerData.SkillGauge;
+        playerData.SkillData.Run(this, ActiveSkillManager.nullVector, ref lapsedTime);
+        playerData.SkillGauge = lapsedTime;
+        controller.ActiveSkill(lapsedTime, playerData.SkillData.CoolTime);
     }
 
     public override void SetAim()
@@ -1011,11 +1014,11 @@ public class PlayerController
     }
     #endregion
     #region skill
-    public void ActiveSkill(int sum, int total)
+    public void ActiveSkill(float sum, float total)
     {
         if (!PlayerManager.Instance.GetPlayer().GetIsAcitveAttack())
             return;
-        activeSkillButton.ChargeFill((float)sum / total);
+        activeSkillButton.ChargeFill(sum / total);
     }
     #endregion
 }

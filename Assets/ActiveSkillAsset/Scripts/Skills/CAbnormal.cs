@@ -11,21 +11,21 @@ public class CAbnormal : SkillData
     [SerializeField]
     string particleName;
 
-    public override State Run(CustomObject customObject, Vector3 pos)
+    public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(customObject, pos);
+        base.Run(customObject, pos, ref lapsedTime);
         return Run(statusEffectInfo, customObject.objectPosition);
     }
 
-    public override State Run(Character caster, Vector3 pos)
+    public override State Run(Character caster, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, pos);
+        base.Run(caster, pos, ref lapsedTime);
         return Run(statusEffectInfo, caster.GetPosition());
     }
 
-    public override State Run(Character caster, Character other, Vector3 pos)
+    public override State Run(Character caster, Character other, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, other, pos);
+        base.Run(caster, other, pos, ref lapsedTime);
 
         return Run(statusEffectInfo, caster.GetPosition());
     }

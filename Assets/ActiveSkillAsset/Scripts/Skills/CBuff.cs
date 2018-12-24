@@ -11,20 +11,20 @@ public class CBuff : SkillData
     [SerializeField]
     string particleName;
 
-    public override State Run(CustomObject customObject, Vector3 pos)
+    public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
-        return base.Run(customObject, pos);
+        return base.Run(customObject, pos, ref lapsedTime);
     }
 
-    public override State Run(Character caster, Vector3 pos)
+    public override State Run(Character caster, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, pos);
+        base.Run(caster, pos, ref lapsedTime);
         return Run();
     }
 
-    public override State Run(Character caster, Character other, Vector3 pos)
+    public override State Run(Character caster, Character other, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, other, pos);
+        base.Run(caster, other, pos, ref lapsedTime);
         return Run();
     }
  

@@ -148,15 +148,15 @@ public class ProjectileSkillObject : SkillObject
         if (postSkillData != null && postSkillData.Count > 0)
         {
             animator.SetTrigger("default");
-
+            float lapsedTime = 9999;
             foreach (SkillData item in postSkillData)
             {
                 if (other)
-                    item.Run(caster, other, transform.position);
+                    item.Run(caster, other, transform.position, ref lapsedTime);
                 else if (caster)
-                    item.Run(caster, transform.position);
+                    item.Run(caster, transform.position, ref lapsedTime);
                 if (customObject)
-                    item.Run(customObject, transform.position);
+                    item.Run(customObject, transform.position, ref lapsedTime);
             }
         }
 
@@ -171,14 +171,15 @@ public class ProjectileSkillObject : SkillObject
             StopCoroutine(CoroutineThrow());
             isAvailable = false;
             animator.SetTrigger("default");
+            float lapsedTime = 9999;
             foreach (SkillData item in postSkillData)
             {
                 if (other)
-                    item.Run(caster, other, transform.position);
+                    item.Run(caster, other, transform.position, ref lapsedTime);
                 else if (caster)
-                    item.Run(caster, transform.position);
+                    item.Run(caster, transform.position, ref lapsedTime);
                 if (customObject)
-                    item.Run(customObject, transform.position);
+                    item.Run(customObject, transform.position, ref lapsedTime);
             }
 
             DestroyAndDeactive();

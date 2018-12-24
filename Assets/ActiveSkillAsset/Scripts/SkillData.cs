@@ -11,6 +11,8 @@ public abstract class SkillData : ScriptableObject
     protected float amount;
     [SerializeField]
     protected float time;
+    [SerializeField]
+    protected float coolTime;
 
     public float Radius
     {
@@ -20,6 +22,10 @@ public abstract class SkillData : ScriptableObject
     {
         get { return amount; }
     }
+    public float CoolTime
+    {
+        get { return coolTime; }
+    }
 
     protected Character caster;
     protected Character other;
@@ -27,22 +33,31 @@ public abstract class SkillData : ScriptableObject
     protected CustomObject customObject;
     protected SkillObject skillObject;
 
-    public virtual BT.State Run(CustomObject customObject, Vector3 pos) // Object
+    public virtual BT.State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime) // Object
     {
+        if (lapsedTime < coolTime)
+            return BT.State.FAILURE;
+        lapsedTime = 0;
         this.customObject = customObject;
         this.mPos = pos;
         return BT.State.SUCCESS;
     }
 
-    public virtual BT.State Run(Character caster, Vector3 pos) // Player
+    public virtual BT.State Run(Character caster, Vector3 pos, ref float lapsedTime) // Player
     {
+        if (lapsedTime < coolTime)
+            return BT.State.FAILURE;
+        lapsedTime = 0;
         this.caster = caster;
         this.mPos = pos;
         return BT.State.SUCCESS;
     }
 
-    public virtual BT.State Run(Character caster, Character other, Vector3 pos) // Monster
+    public virtual BT.State Run(Character caster, Character other, Vector3 pos, ref float lapsedTime) // Monster
     {
+        if (lapsedTime < coolTime)
+            return BT.State.FAILURE;
+        lapsedTime = 0;
         this.caster = caster;
         this.other = other;
         this.mPos = pos;

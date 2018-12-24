@@ -20,23 +20,26 @@ public class CSequenceSkill : SkillData
     [SerializeField]
     float frontAnimTime = 0, backAnimTime = 0;
 
-    public override State Run(CustomObject customObject, Vector3 pos)
+    public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(customObject, pos);
-        return Run();
+        if (State.FAILURE == base.Run(customObject, pos, ref lapsedTime))
+            return State.FAILURE;
+        return Run(lapsedTime);
     }
-    public override State Run(Character caster, Vector3 pos)
+    public override State Run(Character caster, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, pos);
-        return Run();
+        if (State.FAILURE == base.Run(caster, pos, ref lapsedTime))
+            return State.FAILURE;
+        return Run(lapsedTime);
     }
-    public override State Run(Character caster, Character other, Vector3 pos)
+    public override State Run(Character caster, Character other, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, other, pos);
-        return Run();
+        if (State.FAILURE == base.Run(caster, other, pos, ref lapsedTime))
+            return State.FAILURE;
+        return Run(lapsedTime);
     }
 
-    private BT.State Run()
+    private BT.State Run(float lapsedTime)
     {
         if (!(caster || other || customObject) || amount < 0)
         {

@@ -84,17 +84,18 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         caster.isCasting = true;
         if (preSkillData)
         {
+            float lapsedTime = 9999;
             if (other)
             {
-                preSkillData.Run(caster, other, mPos);
+                preSkillData.Run(caster, other, mPos, ref lapsedTime);
             }
             else if (customObject)
             {
-                preSkillData.Run(customObject, mPos);
+                preSkillData.Run(customObject, mPos, ref lapsedTime);
             }
             else
             {
-                preSkillData.Run(caster, mPos);
+                preSkillData.Run(caster, mPos, ref lapsedTime);
             }
         }
 
@@ -106,17 +107,19 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         }
         if (mainSkillData)
         {
+            float lapsedTime = 9999;
+
             if (other)
             {
-                mainSkillData.Run(caster, other, mPos);
+                mainSkillData.Run(caster, other, mPos, ref lapsedTime);
             }
             else if (customObject)
             {
-                mainSkillData.Run(customObject, mPos);
+                mainSkillData.Run(customObject, mPos, ref lapsedTime);
             }
             else
             {
-                mainSkillData.Run(caster, mPos);
+                mainSkillData.Run(caster, mPos, ref lapsedTime);
             }
         }
         if (backAnimIdx > -1)
@@ -127,17 +130,19 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         }
         if (postSkillData)
         {
+            float lapsedTime = 9999;
+
             if (other)
             {
-                postSkillData.Run(caster, other, mPos);
+                postSkillData.Run(caster, other, mPos, ref lapsedTime);
             }
             else if (customObject)
             {
-                postSkillData.Run(customObject, mPos);
+                postSkillData.Run(customObject, mPos, ref lapsedTime);
             }
             else
             {
-                postSkillData.Run(caster, mPos);
+                postSkillData.Run(caster, mPos, ref lapsedTime);
             }
         }
         caster.isCasting = false;
@@ -149,17 +154,19 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         yield return YieldInstructionCache.WaitForSeconds(delay);
         if (skillData)
         {
+            float lapsedTime = 9999;
+
             if (other)
             {
-                skillData.Run(caster, other, mPos);
+                skillData.Run(caster, other, mPos,ref lapsedTime);
             }
             else if (customObject)
             {
-                skillData.Run(customObject, mPos);
+                skillData.Run(customObject, mPos,ref lapsedTime);
             }
             else
             {
-                skillData.Run(caster, mPos);
+                skillData.Run(caster, mPos,ref lapsedTime);
             }
         }
     }

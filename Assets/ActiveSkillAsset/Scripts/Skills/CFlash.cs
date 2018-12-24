@@ -5,21 +5,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CFlash", menuName = "SkillData/CFlash")]
 public class CFlash : SkillData
 {
-    public override State Run(CustomObject customObject, Vector3 pos)
+    public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(customObject, pos);
+        if (State.FAILURE == base.Run(customObject, pos, ref lapsedTime))
+            return State.FAILURE;
         return Run(RoomManager.Instance.GetCurrentRoomAvailableArea());
     }
 
-    public override State Run(Character caster, Vector3 pos)
+    public override State Run(Character caster, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, pos);
+        if (State.FAILURE == base.Run(caster, pos, ref lapsedTime))
+            return State.FAILURE;
         return Run(RoomManager.Instance.GetNearestAvailableArea(caster.GetPosition() + caster.GetDirVector()));
     }
 
-    public override State Run(Character caster, Character other, Vector3 pos)
+    public override State Run(Character caster, Character other, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, other, pos);
+        if (State.FAILURE == base.Run(caster, other, pos, ref lapsedTime))
+            return State.FAILURE;
         return Run(RoomManager.Instance.GetNearestAvailableArea(other.GetPosition()));
     }
 

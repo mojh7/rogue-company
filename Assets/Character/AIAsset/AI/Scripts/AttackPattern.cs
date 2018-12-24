@@ -11,13 +11,20 @@ public class AttackPattern : MonoBehaviour
     bool isActive;
     #endregion
     SkillData[] skillDatas;
-
+    float[] lapsedTimes;
+    int skillLength;
     #region Func
     public void Init(SkillData[] skillDatas,WeaponManager weaponManager)
     {
         this.skillDatas = skillDatas;
+        this.skillLength = skillDatas.Length;
+        this.lapsedTimes = new float[skillLength];
         this.weaponManager = weaponManager;
         this.isActive = true;
+        for(int i=0;i< skillLength;i++)
+        {
+            lapsedTimes[i] = 9999;
+        }
     }
     public void Play()
     {
@@ -31,8 +38,16 @@ public class AttackPattern : MonoBehaviour
         }
         isActive = false;
     }
+    private void Update()
+    {
+        for (int i = 0; i < skillLength; i++)
+        {
+            lapsedTimes[i] += Time.deltaTime;
+        }
+
+    }
     #endregion
-  
+
     public bool Shot(Character character, int i)
     {
         weaponManager.AttackWeapon(i);
@@ -43,6 +58,6 @@ public class AttackPattern : MonoBehaviour
     {
         if (i >= skillDatas.Length || !isActive)
             return BT.State.FAILURE;
-        return skillDatas[i].Run(caster, other, ActiveSkillManager.nullVector);
+        return skillDatas[i].Run(caster, other, ActiveSkillManager.nullVector,ref lapsedTimes[i]);
     }
 }

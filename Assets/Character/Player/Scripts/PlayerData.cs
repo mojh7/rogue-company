@@ -36,7 +36,7 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private int staminaMax;
     [SerializeField]
-    private int skillGauge;
+    private float skillGauge;
     [SerializeField]
     private int skillGaugeMax;
     [SerializeField]
@@ -81,7 +81,7 @@ public class PlayerData : ScriptableObject
         set { staminaMax = value; }
     }
 
-    public int SkillGauge
+    public float SkillGauge
     {
         get { return skillGauge; }
         set { skillGauge = value; }
