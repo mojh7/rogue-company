@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ConsumableWithoutPlayer", menuName = "ItemAsset/EffectApplyType/ConsumableWithoutPlayer", order = 3)]
+[CreateAssetMenu(fileName = "ConsumableWithoutPlayer", menuName = "ItemAsset/EffectApplyType/ConsumableWithoutPlayer", order = 4)]
 public class ItemWithoutPlayerType : EffectApplyType
 {
 

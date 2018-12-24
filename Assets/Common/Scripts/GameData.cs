@@ -14,6 +14,7 @@ class GameData
     float m_time;
     int[] weaponIds;
     int[] weaponAmmos;
+    List<int> miscItems;
     Player.PlayerType m_playerType;
 
     public GameData()
@@ -24,6 +25,7 @@ class GameData
         m_kill = 0;
         m_time = 0;
         m_playerType = Player.PlayerType.SOCCER;
+        miscItems = new List<int>();
     }
     #region getter
     public float GetHp() { return hp; }
@@ -35,6 +37,7 @@ class GameData
     public float GetTime() { return m_time; }
     public int[] GetWeaponIds() { return weaponIds; }
     public int[] GetWeaponAmmos() { return weaponAmmos; }
+    public List<int> GetMiscItems() { return miscItems; }
     public Player.PlayerType GetPlayerType() { return m_playerType; }
     #endregion
     #region setter
@@ -47,5 +50,6 @@ class GameData
     public void SetTime(float _time) { m_time += _time; }
     public void SetWeaponIds(int[] _weaponIds) { weaponIds = _weaponIds; }
     public void SetWeaponAmmos(int[] _weaponAmmos) { weaponAmmos = _weaponAmmos; }
+    public void SetMiscItems(List<int> _miscItems) { miscItems = _miscItems; }
     #endregion
 }

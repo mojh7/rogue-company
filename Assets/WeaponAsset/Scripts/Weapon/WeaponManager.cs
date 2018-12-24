@@ -93,7 +93,7 @@ public class WeaponManager : MonoBehaviour {
             //Debug.Log("i : " + i + ", 무기 미 장착");
             weaponIds[i] = -1;
         }
-        Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", savaDataLength : " + saveDataLength);
+        //Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", savaDataLength : " + saveDataLength);
         return weaponIds;
     }
     public int[] GetWeaponAmmos()
@@ -251,18 +251,15 @@ public class WeaponManager : MonoBehaviour {
                     //weapon.ObjTransform.SetParent(registerPoint, false);
                     //weapon.RegisterWeapon(this);
                 }
-                Debug.Log("로드 게임이 아닌 최초의 무기 초기화, weaponCount = " + weaponCount);
+                Debug.Log("새 게임 무기 초기화, weaponCnt, cntMax = " + weaponCount + ", " + weaponCountMax);
             }
             // 저장된 데이터를 로드한 게임 일 때
             else
             {
                 int[] weaponIds = GameDataManager.Instance.GetWeaponIds();
                 int[] weaponAmmos = GameDataManager.Instance.GetWeaponAmmos();
-
                 weaponCountMax = weaponIds.Length;
-                Debug.Log("무기 로드 weaponCountMax : " + weaponCountMax);
                 weaponCount = 0;
-
                 for (int i = 0; i < weaponCountMax; i++)
                 {
                     if (weaponIds[i] >= 0)
@@ -276,7 +273,7 @@ public class WeaponManager : MonoBehaviour {
                         weaponCount += 1;
                     }
                 }
-                Debug.Log("무기 로드 완료 weaponCount : " + weaponCount);
+                Debug.Log("로드 게임 무기 초기화 weaponcnt, cntMax :" + weaponCount + ", " + weaponCountMax);
             }
 
             saveDataLength = weaponCountMax;

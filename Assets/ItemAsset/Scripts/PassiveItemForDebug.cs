@@ -132,15 +132,14 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
     public void ApplyPassiveForDebug()
     {
         Debug.Log(currentIndex + "번 패시브 아이템 사용 for debug");
-        UsableItemInfo passive = DataStore.Instance.GetMiscItemInfo(currentIndex);
+        UsableItemInfo info = DataStore.Instance.GetMiscItemInfo(currentIndex);
 
-        for (int i = 0; i < passive.EffectApplyTypes.Length; i++)
+        for (int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
-            passive.EffectApplyTypes[i].SetItemId(passive.GetId());
-            passive.EffectApplyTypes[i].SetPos(this.transform.position);
-            passive.EffectApplyTypes[i].UseItem();
+            info.EffectApplyTypes[i].SetItemId(info.GetId());
+            info.EffectApplyTypes[i].SetPos(this.transform.position);
+            info.EffectApplyTypes[i].UseItem();
         }
-        // PlayerBuffManager.Instance.BuffManager.RegisterItemEffect(itemUseEffect[i], BuffManager.EffectApplyType.PASSIVE, itemId);
     }
 
     public void UpdatePassiveSelectImage()

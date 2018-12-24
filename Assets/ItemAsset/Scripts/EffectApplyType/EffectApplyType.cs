@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 // 아이템 적용 방법, 사용 방법에 따라서 구분됨.
-
 
 public abstract class EffectApplyType : ScriptableObject
 {
@@ -21,6 +19,7 @@ public abstract class EffectApplyType : ScriptableObject
 
     protected int itemId;
 
+    // 유성이형
     protected Vector2 position;
 
     public abstract void UseItem();

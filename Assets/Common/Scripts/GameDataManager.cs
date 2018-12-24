@@ -6,7 +6,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 {
-
     int m_floor;
     Player.PlayerType m_playerType;
     int m_coin;
@@ -21,22 +20,12 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     int m_kill;
     float m_time;
 
-    // 0531 모장현
     private int[] m_weaponIds;
     private int[] m_weaponAmmos;
-
+    private List<int> miscItems;
 
     [SerializeField]
     private PlayerData[] playerDatas;
-
-    #region setter
-    public void SetKey() { m_key++; ShowUI(); }
-    public void SetCoin() { m_coin++; ShowUI(); }
-    public void SetFloor() { m_floor++; }
-    public void SetKill() { m_kill++; }
-    public void SetTime(float _time) { m_time += _time; }
-    public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
-    #endregion
 
     #region getter
     public bool isFirst
@@ -66,17 +55,26 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public PlayerData GetPlayerData() { return playerData; }
     public PlayerData GetPlayerData(Player.PlayerType playerType)
     {
-        // temp
         if(playerDatas == null)
         {
             playerDatas = PlayerManager.Instance.playerDatas;
         }
-        //temp
         return playerDatas[(int)playerType].Clone();
     }
     // 0531 모장현
     public int[] GetWeaponIds() { return m_weaponIds; }
     public int[] GetWeaponAmmos() { return m_weaponAmmos; }
+    public List<int> GetMiscItems() { return miscItems; }
+    #endregion
+
+    #region setter
+    public void SetKey() { m_key++; ShowUI(); }
+    public void SetCoin() { m_coin++; ShowUI(); }
+    public void SetFloor() { m_floor++; }
+    public void SetKill() { m_kill++; }
+    public void SetTime(float _time) { m_time += _time; }
+    public void SetPlayerType(Player.PlayerType _playerType) { m_playerType = _playerType; }
+    public void SetMiscItems(List<int> _miscItems) { miscItems = _miscItems; }
     #endregion
 
     #region Func
@@ -123,7 +121,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
  
         gameData.SetHp(PlayerManager.Instance.GetPlayer().PlayerData.Hp);
         gameData.SetStamina(PlayerManager.Instance.GetPlayer().PlayerData.Stamina);
-
+        gameData.SetMiscItems(PlayerBuffManager.Instance.BuffManager.PassiveIds);
         BinarySerialize(gameData);
     }
     public bool LoadData()
@@ -153,7 +151,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             playerData = playerDatas[(int)m_playerType].Clone();
             playerData.Hp = gameData.GetHp();
             playerData.Stamina = gameData.GetStamina();
-
+            miscItems = gameData.GetMiscItems();
             return true;
         }
         ResetData();
