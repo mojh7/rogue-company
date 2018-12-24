@@ -98,7 +98,9 @@ public class BuffManager : MonoBehaviour
         InitWeaponTargetEffectTotal();
     }
 
-    // 누구 껀지 구분 필요합니다. Init 이후의 함수 실행해주심 됨.
+    /// <summary>
+    /// owner 설정, owner 누구 껀지 꼭 구분 필요합니다. Init 이후의 함수 실행해주심 됨.
+    /// </summary>
     public void SetOwner(Character owner)
     {
         this.owner = owner;

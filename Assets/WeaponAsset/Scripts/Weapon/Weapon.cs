@@ -75,6 +75,8 @@ public class Weapon : Item
     public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.Player)
     {
         this.ownerType = ownerType;
+        // data save / load를 위한 weapon id 설정
+        this.weaponId = weaponInfo.GetWeaponId();
         // weaponInfo Clone
         info = weaponInfo.Clone();
         originInfo = weaponInfo;
@@ -82,7 +84,7 @@ public class Weapon : Item
     }
 
     /// <summary> DataStore에서 index 참조로 무기 정보 받아오기, weaponView class 초기화 </summary>
-    public void Init(int weaponId, CharacterInfo.OwnerType ownerType = CharacterInfo.OwnerType.Player)
+    public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)
     {
         this.ownerType = ownerType;
         this.weaponId = weaponId;

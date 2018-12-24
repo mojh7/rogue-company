@@ -23,7 +23,7 @@ namespace WeaponAsset
     public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
     /// <summary>
     /// 원거리 : 권총, 산탄총, 기관총, 저격소총, 레이저, 활
-    /// 근거리 : 창, 몽둥이, 스포츠용품, 검, 청소도구, 주먹장착무기
+    /// 근거리 기반 : 창, 몽둥이, 스포츠용품, 검, 청소도구, 주먹장착무기
     /// 함정 : 폭탄, 접근발동무기
     /// 기타, 특수 : 지팡이, 근접 특수, 원거리 특수
     /// 17개
@@ -98,9 +98,6 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     private WeaponInfo[] mainWeaponInfos;
     [SerializeField]
     private WeaponInfo[] temp2WeaponInfos;
-    [SerializeField]
-    //[FormerlySerializedAs("temp2WeaponInfos")]
-    private WeaponInfo[] temp3WeaponInfos;
 
     //[FormerlySerializedAs("밑에 이전 변수명")] 이전 변수명과 밑에 에는 새로운 변수 명 쳐줘야 안의 값 그대로 이동함. 직렬화 되어있어야 했던가?
     [SerializeField]
@@ -348,6 +345,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
                 for (int i = 0; i < mainWeaponInfos.Length; i++)
                 {
                     mainWeaponInfos[i].Init();
+                    mainWeaponInfos[i].SetWeaponId(i);
                     InsertWeaponInfoByRating(mainWeaponInfos[i]);
                 }
                 break;
@@ -384,6 +382,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         //passiveItems   
         InputWeaponData();
 
+        /*
         // 디버깅용
         for(int i = 0; i < ratingLength; i++)
         {
@@ -394,6 +393,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
             }
             Debug.Log("=========================");
         }
+        */
     }
 
     private void InsertWeaponInfoByRating(WeaponInfo weaponInfo)

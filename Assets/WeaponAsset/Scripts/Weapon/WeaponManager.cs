@@ -60,6 +60,8 @@ public class WeaponManager : MonoBehaviour {
 
     // for Debug
     private int saveDataLength;
+    // 공격 테스트용
+    bool isReleaseSpaceBar = false;
 
     [Header("Player 전용 게임 시작시 무기 적용, True : 모든 무기 착용, Max = 모든 무기 갯수" +
         " False : startWeaponId 무기 1개 착용, Max = 3")]
@@ -84,12 +86,14 @@ public class WeaponManager : MonoBehaviour {
         for (int i = 0; i < weaponCount; i++)
         {
             weaponIds[i] = equipWeaponSlot[i].GetWeaponId();
+            //Debug.Log("i : " + i + ", 무기장착 id : " + weaponIds[i]);
         }
         for (int i = weaponCount; i < weaponCountMax; i++)
         {
+            //Debug.Log("i : " + i + ", 무기 미 장착");
             weaponIds[i] = -1;
         }
-        // Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", ");
+        Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponIds[0] + ", " + weaponIds[1] + ", " + weaponIds[2] + ", savaDataLength : " + saveDataLength);
         return weaponIds;
     }
     public int[] GetWeaponAmmos()
@@ -103,6 +107,7 @@ public class WeaponManager : MonoBehaviour {
         return weaponAmmos;
     }
     #endregion
+
     #region setter
     /// <summary> Owner 정보 등록 </summary>
     private void SetOwnerInfo(Character owner, CharacterInfo.OwnerType ownerType)
@@ -127,6 +132,7 @@ public class WeaponManager : MonoBehaviour {
         }
     }
     #endregion
+
     #region UnityFunction
     void Awake()
     {
@@ -136,13 +142,8 @@ public class WeaponManager : MonoBehaviour {
         posVector = objTransform.localPosition;   // weaponManager 초기 local Position 값, 좌 우 바뀔 때 x값만 -, + 부호로 바꿔줘서 사용
         rightDirectionPosX = posVector.x;
         equipWeaponSlot = new List<Weapon>();
-        // Debug.Log(gameObject);
     }
 
-    // 공격 테스트용
-    bool isReleaseSpaceBar = false;
-
-    // Update is called once per frame
     void Update()
     {
         if (stopsUpdate) return;
@@ -250,6 +251,7 @@ public class WeaponManager : MonoBehaviour {
                     //weapon.ObjTransform.SetParent(registerPoint, false);
                     //weapon.RegisterWeapon(this);
                 }
+                Debug.Log("로드 게임이 아닌 최초의 무기 초기화, weaponCount = " + weaponCount);
             }
             // 저장된 데이터를 로드한 게임 일 때
             else
@@ -265,15 +267,13 @@ public class WeaponManager : MonoBehaviour {
                 {
                     if (weaponIds[i] >= 0)
                     {
-                        // Debug.Log("i : " + i + ", id : " + weaponIds[i] + ", ammo : " + weaponAmmos[i]);
                         weapon = ObjectPoolManager.Instance.CreateWeapon(weaponIds[i]) as Weapon;
-                        // Debug.Log("weapon obj Name : " + weapon.name + ", " + weapon.transform.parent.name);
+                        //Debug.Log("i : " + i + ", id : " + weaponIds[i] + ", ammo : " + weaponAmmos[i] + ", Name : " + weapon.GetName());
                         equipWeaponSlot.Add(weapon);
                         weapon.ObjTransform.SetParent(registerPoint, false);
                         weapon.RegisterWeapon(this);
                         weapon.info.ammo = weaponAmmos[i];
                         weaponCount += 1;
-                        // Debug.Log("weapon count : " + weaponCount + " Load : " + weaponIds[i]);
                     }
                 }
                 Debug.Log("무기 로드 완료 weaponCount : " + weaponCount);
@@ -493,7 +493,7 @@ public class WeaponManager : MonoBehaviour {
             GameObject obj = ItemManager.Instance.CreateItem(dropedWeapon, transform.position);
             dropedWeapon.ObjTransform.SetParent(obj.transform, false);
         }
-        StartCoroutine("PickAndDropWeaponDelay");
+        StartCoroutine(PickAndDropWeaponDelay());
         weapon.ObjTransform.localRotation = Quaternion.identity;
         weapon.ObjTransform.localScale = new Vector3(Mathf.Abs(weapon.ObjTransform.localScale.x), weapon.ObjTransform.localScale.y, weapon.ObjTransform.localScale.z);
         return true;
@@ -511,7 +511,7 @@ public class WeaponManager : MonoBehaviour {
         weapon.RegisterWeapon(this);
     }
 
-    // Enemy용, 장착 된 무기 회수하여 오브젝트 풀로 되돌림
+    /// <summary> Enemy용, 장착 된 무기 회수하여 오브젝트 풀로 되돌림 </summary>
     public void RemoveAllWeapons()
     {
         weaponCountMax = 0;
@@ -521,10 +521,9 @@ public class WeaponManager : MonoBehaviour {
         equipWeaponSlot = new List<Weapon>();
     }
 
-
     #endregion
 
-    IEnumerable PickAndDropWeaponDelay()
+    IEnumerator PickAndDropWeaponDelay()
     {
         canPickAndDropWeapon = false;
         yield return YieldInstructionCache.WaitForSeconds(2.0f);

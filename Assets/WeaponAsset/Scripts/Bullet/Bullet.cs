@@ -571,7 +571,7 @@ public class Bullet : MonoBehaviour
 
     public void RotateSpriteEulerAngle(float rotationAngle)
     {
-        eulerAngleZ += rotationAngle;
+        //eulerAngleZ += rotationAngle;
     }
 
     #region setVelocityAndDirection
