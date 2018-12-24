@@ -96,19 +96,16 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return createdObj.GetComponent<Weapon>();
     }
 
+    /// <summary>
+    /// weaponId 정보로 weapon item 생성
+    /// </summary>
+    /// <param name="weaponId"></param>
+    /// <returns></returns>
     public Item CreateWeapon(int weaponId)
     {
         GameObject createdObj = weaponPool.NewItem();
         createdObj.GetComponent<Weapon>().Init(weaponId);
         return createdObj.GetComponent<Item>();
-    }
-    /// <summary> 해당 weapon Id의 정보를 가진 weapon 생성 </summary>
-    public GameObject CreateWeapon(int weaponId, Vector3 pos)
-    {
-        GameObject createdObj = weaponPool.NewItem();
-        createdObj.GetComponent<Transform>().position = pos;
-        createdObj.GetComponent<Weapon>().Init(weaponId);
-        return createdObj;
     }
 
     /// <summary> 해당 weapon Id의 정보를 가진 weapon 생성 및 parent 설정 </summary>
@@ -127,14 +124,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return bulletPool.NewItem();
     }
 
-    // <summary> effect 생성 </summary>
-    //public void CreateEffect(int id, Vector3 pos)
-    //{
-    //    if (id < 0) return;
-    //    pos.z = 0;
-    //    GameObject createdObj = effectPool.NewItem();
-    //    createdObj.GetComponent<Effect>().Init(id, pos);
-    //}
+   
 
     /// <summary>
     /// UsableItem 생성
@@ -262,19 +252,11 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         bulletPool.RemoveItem(obj);
     }
 
-    // <summary> effect object 삭제(회수) </summary>
-    //public void DeleteEffect(GameObject obj)
-    //{
-    //    effectPool.RemoveItem(obj);
-    //}
-
     /// <summary> UsableItem object 삭제(회수) </summary>
     public void DeleteUsableItem(GameObject obj)
     {
         itemPool.RemoveItem(obj);
     }
-
-
 
     public void ClearWeapon()
     {
@@ -284,10 +266,6 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     {
         bulletPool.ClearItem();
     }
-    //public void ClearEffect()
-    //{
-    //    effectPool.ClearItem();
-    //}
     public void ClearUsableItem()
     {
         itemPool.ClearItem();
@@ -296,12 +274,11 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     #endregion
 
 
-    private void OnApplicationQuit()
+    /*private void OnApplicationQuit()
     {
         //weaponPool.Dispose();
         //bulletPool.Dispose();
         //effectPool.Dispose();
-
-    }
+    }*/
     #endregion 
 }

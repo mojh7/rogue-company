@@ -29,12 +29,9 @@ public class BuffManager : MonoBehaviour
     private int buffEffectsLength;
 
     // 소모형 버프 종류 늘어남에 따라 힙 따로 써야 됨. 현재는 캐릭터 쉴드 한 개만 있음 0816 모
+    // TODO : 소모형 버프 안 넣을 수도 있어서 삭제 될 수도 있음.
     private Heap<ConsumableCharacterBuff> consumableBuffs;
 
-    //private List<CharacterTargetEffect> characterTargetEffects;
-    //private int characterTargetEffectsLength;
-    //private List<WeaponTargetEffect> weaponTargetEffects;
-    //private int weaponTargetEffectsLength;
     private Character owner;
 
     private CharacterTargetEffect characterTargetEffectTotal;
@@ -49,6 +46,7 @@ public class BuffManager : MonoBehaviour
     {
         get { return passiveEffects; }
     }
+    //public int[] PassiveIds { get; private set; }
     public List<int> PassiveIds { get; private set; }
     public int PassiveEffectsLength
     {
@@ -83,6 +81,7 @@ public class BuffManager : MonoBehaviour
         passiveEffects = new List<ItemUseEffect>();
         buffEffects = new List<ItemUseEffect>();
         PassiveIds = new List<int>();
+        //PassiveIds = new int[ItemConstants.INVENTORY_MAX];
         consumableBuffs = new Heap<ConsumableCharacterBuff>(100);
         //characterTargetEffects = new List<CharacterTargetEffect>();
         //weaponTargetEffects = new List<WeaponTargetEffect>();
@@ -91,8 +90,6 @@ public class BuffManager : MonoBehaviour
 
         passiveEffectsLength = 0;
         buffEffectsLength = 0;
-        //characterTargetEffectsLength = 0;
-        //weaponTargetEffectsLength = 0;
         InitCharacterTargetEffectTotal();
         InitInGameTargetEffectTotal();
         InitWeaponTargetEffectTotal();
@@ -152,7 +149,6 @@ public class BuffManager : MonoBehaviour
             buffAstrologer = false
         };
     }
-
 
     /// <summary> 무기 대상 효과 종합 초기화 </summary>
     public void InitWeaponTargetEffectTotal()
@@ -262,7 +258,7 @@ public class BuffManager : MonoBehaviour
                 break;
             case EffectApplyType.PASSIVE:
                 passiveEffects.Add(itemUseEffect);
-                Debug.Log("passive id : " + passiveId);
+                // Debug.Log("passive 등록 id : " + passiveId);
                 PassiveIds.Add(passiveId);
                 passiveEffectsLength += 1;
                 PassiveItemSlot.Instance.UpdatePassiveItemUI();

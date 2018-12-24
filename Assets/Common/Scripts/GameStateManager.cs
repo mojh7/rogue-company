@@ -10,7 +10,8 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     GameState gameState = GameState.NOTSTARTED;
     [SerializeField]
     GameMode gameMode = GameMode.NORMAL;
-    // 0531
+    
+    // 새 게임, 로드 게임 구분
     private bool loadsGameData = false;
     public bool GetLoadsGameData() { return loadsGameData; }
     public void SetLoadsGameData(bool _loadsGameData) { loadsGameData = _loadsGameData; }

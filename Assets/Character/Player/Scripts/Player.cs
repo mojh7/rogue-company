@@ -196,6 +196,11 @@ public class Player : Character
         PlayerHPUi = GameObject.Find("HPbar").GetComponent<PlayerHpbarUI>();
         buffManager = PlayerBuffManager.Instance.BuffManager;
         buffManager.SetOwner(this);
+
+        Debug.Log("loadsGameData : " + GameStateManager.Instance.GetLoadsGameData());
+        if (GameStateManager.Instance.GetLoadsGameData())
+            PlayerBuffManager.Instance.LoadMiscItemDatas();
+
         stamina = Stamina.Instance;
         stamina.SetPlayer(this);
 
