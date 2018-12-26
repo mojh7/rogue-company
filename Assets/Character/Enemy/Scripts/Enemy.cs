@@ -204,7 +204,8 @@ public class Enemy : Character
         // 크리티컬 공격
         if (criticalCheck < transferredInfo.criticalChance)
         {
-            damage *= 2f;
+            damage *= BulletConstants.CRITICAL_DAMAGE + transferredInfo.criticalDamageIncrement;
+            //Debug.Log("crt dmg inc : " + (BulletConstants.CRITICAL_DAMAGE + transferredInfo.criticalDamageIncrement));
         }
 
         ReduceHp(damage);

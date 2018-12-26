@@ -8,7 +8,7 @@ TextureImporter:
     21300002: items_1
     21300004: items_2
     21300006: items_3
-    21300008: items_4
+    21300008: items_16
     21300010: items_5
     21300012: items_6
     21300014: items_7
@@ -159,7 +159,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_4
+      name: items_16
       rect:
         serializedVersion: 2
         x: 9

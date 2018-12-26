@@ -474,7 +474,7 @@ public class Bullet : MonoBehaviour
     }
     #endregion
 
-    #region function
+    #region func
     /// <summary>
     /// 적용할 bulletPresetInfo 있으면 설정
     /// </summary>
@@ -880,6 +880,9 @@ public class Bullet : MonoBehaviour
         // 1.모든 무기 치명타 확률 n% 증가, 합 옵션
         info.criticalChance = info.criticalChance + totalInfo.criticalChanceIncrement + effectInfo.damageIncrement;
 
+        // 크리티컬 데미지 상승, 합 옵션
+        transferBulletInfo.criticalDamageIncrement = totalInfo.criticalDamageIncrement + effectInfo.criticalDamageIncrement;
+
         //Debug.Log("버프 전 : " + info.speed);
         info.speed = info.speed * (totalInfo.bulletSpeedIncrement + effectInfo.bulletSpeedIncrement);    // 총알 이동속도 변화
         //Debug.Log("버프 후 : " + info.speed + ", " + effectInfo.bulletSpeedIncrement);
@@ -1048,10 +1051,3 @@ public class Bullet : MonoBehaviour
     #endregion
 
 }
-
-/*
-// 기본 총알
-public class BaseBullet : Bullet
-{
-
-}*/

@@ -160,6 +160,7 @@ public class BuffManager : MonoBehaviour
         {
             bulletCountIncrement = 0,
             criticalChanceIncrement = 0,
+            criticalDamageIncrement = 0,
 
             // 곱 옵션 - 합 연산
             damageIncrement = 1f,
@@ -486,7 +487,8 @@ public class BuffManager : MonoBehaviour
             // 합 옵션
             WeaponTargetEffectTotal[index].bulletCountIncrement += targetEffect.bulletCountIncrement * sign;
             WeaponTargetEffectTotal[index].criticalChanceIncrement += targetEffect.criticalChanceIncrement * sign;
-            // WeaponTargetEffectTotal[index] += targetEffect * sign;        
+            WeaponTargetEffectTotal[index].criticalDamageIncrement += targetEffect.criticalDamageIncrement * sign;
+            // WeaponTargetEffectTotal[index] += targetEffect * sign;
 
             // 곱 옵션 - 합 연산
             WeaponTargetEffectTotal[index].damageIncrement += targetEffect.damageIncrement * sign;

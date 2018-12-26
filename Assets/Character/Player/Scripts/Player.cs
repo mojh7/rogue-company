@@ -237,6 +237,7 @@ public class Player : Character
         this.bodyTransform.localScale = Vector3.one * scale;
         this.GetComponentInChildren<Camera>().transform.localScale = Vector3.one / scale;
     }
+
     public void UpdateMuzzlePosition(Vector3 pos, bool visible)
     {
         muzzlePosObj.SetActive(visible);

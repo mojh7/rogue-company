@@ -18,6 +18,7 @@ public class TransferBulletInfo
     public float damage;
     public float criticalChance;
     public float chargedDamageIncrement;
+    public float criticalDamageIncrement;
 
     public TransferBulletInfo()
     {
@@ -31,6 +32,7 @@ public class TransferBulletInfo
         damage = info.damage;
         criticalChance = info.criticalChance;
         chargedDamageIncrement = info.chargedDamageIncrement;
+        criticalDamageIncrement = info.criticalDamageIncrement;
     }
 }
 

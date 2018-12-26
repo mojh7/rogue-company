@@ -190,7 +190,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             "Weapon\n" +
             "1.bulletCountIncrement\n" +
             "2.criticalChanceIncrement\n" +
-
+            "3.criticalDamageIncrement\n" +
             "1.damageIncrement\n" +
             "2.knockBackIncrement\n" +
             "3.chargingSpeedIncrement\n" +
@@ -244,6 +244,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             "Weapon\n" +
             weaponTotal.bulletCountIncrement + "\n" +
             weaponTotal.criticalChanceIncrement + "\n" +
+            weaponTotal.criticalDamageIncrement + "\n" +
 
             weaponTotal.damageIncrement + "\n" +
             weaponTotal.knockBackIncrement + "\n" +
