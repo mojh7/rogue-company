@@ -394,9 +394,9 @@ public class Enemy : Character
             }
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.TIME_PER_APPLIED_UNIT);
         }
-        abnormalComponents.PoisonEffect.SetActive(false);
-        isAttackTypeAbnormalStatuses[type] = false;
+        
         ColorChange(baseColor);
+        StopAttackTypeAbnormalStatus(AttackTypeAbnormalStatusType.POISON);
     }
 
     protected override IEnumerator BurnCoroutine()
@@ -417,9 +417,9 @@ public class Enemy : Character
             }
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.TIME_PER_APPLIED_UNIT);
         }
-        abnormalComponents.BurnEffect.SetActive(false);
-        isAttackTypeAbnormalStatuses[type] = false;
+
         ColorChange(baseColor);
+        StopAttackTypeAbnormalStatus(AttackTypeAbnormalStatusType.BURN);
     }
 
     protected override IEnumerator FreezeCoroutine(float effectiveTime)

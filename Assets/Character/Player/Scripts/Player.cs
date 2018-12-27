@@ -322,7 +322,6 @@ public class Player : Character
             return 0;
         ReduceHp(transferredBulletInfo.damage);
         AttackedAction(1);
-        PlayerHPUi.ChangeHp(hp);
         AttackedEffect();
         return transferredBulletInfo.damage;
     }
@@ -344,7 +343,6 @@ public class Player : Character
         if (knockBack > 0)
             KnockBack(knockBack, _dir, bulletPos, positionBasedKnockBack);
 
-        PlayerHPUi.ChangeHp(hp);
         AttackedEffect();
         return damage;
     }
@@ -440,10 +438,14 @@ public class Player : Character
         return true;
     }
 
-    private void ChangeHP()
+    protected override void ReduceHp(float damage)
     {
+        hp -= damage;
         PlayerHPUi.ChangeHp(hp);
+        if (hp <= 0)
+            Die();
     }
+
     public void RecoverHp(float recoveryHp)
     {
         ParticleManager.Instance.PlayParticle("Hp", this.bodyTransform.position);
@@ -715,37 +717,7 @@ public class Player : Character
         return isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.STUN] || isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.FREEZE] ||
             isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.CHARM];
     }
-    /*
-    protected override void StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType controlTypeAbnormalStatusType)
-    {
-        int type = (int)controlTypeAbnormalStatusType;
-        if (false == isControlTypeAbnormalStatuses[type])
-            return;
-        isControlTypeAbnormalStatuses[type] = false;
-        if (null != controlTypeAbnormalStatusCoroutines[type])
-            StopCoroutine(controlTypeAbnormalStatusCoroutines[type]);
-        controlTypeAbnormalStatusCoroutines[type] = null;
-        switch (controlTypeAbnormalStatusType)
-        {
-            case ControlTypeAbnormalStatusType.FREEZE:
-                abnormalComponents.FreezeEffect.SetActive(false);
-                SubRetrictsMovingCount();
-                SubRetrictsAttackingCount();
-                break;
-            case ControlTypeAbnormalStatusType.STUN:
-                abnormalComponents.StunEffect.SetActive(false);
-                SubRetrictsMovingCount();
-                SubRetrictsAttackingCount();
-                break;
-            case ControlTypeAbnormalStatusType.CHARM:
-                abnormalComponents.CharmEffect.SetActive(false);
-                SubRetrictsMovingCount();
-                SubRetrictsAttackingCount();
-                break;
-            default:
-                break;
-        }
-    }*/
+
     // 여러 상태이상, 단일 상태이상 중첩 시 공격, 이동 제한을 한 곳에서 관리하기 위해서
     /// <summary> 이동 방해 상태 이상 갯수 증가 및 이동 AI OFF Check </summary>
     protected override void AddRetrictsMovingCount()
@@ -796,16 +768,16 @@ public class Player : Character
         effectAppliedCount[type] = AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.EFFECT_APPLIED_COUNT_MAX;
         while (effectAppliedCount[type] > 0)
         {
+            effectAppliedCount[type] -= 1;
             ColorChange(POISON_COLOR);
             headRenderer.color = POISON_COLOR;
-            ChangeHP();
-            //ReduceHp(poisonDamagePerUnit);
+            ReduceHp(poisonDamagePerUnit);
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.TIME_PER_APPLIED_UNIT);
         }
-        isAttackTypeAbnormalStatuses[type] = false;
-        abnormalComponents.PoisonEffect.SetActive(false);
+
         ColorChange(baseColor);
         headRenderer.color = baseColor;
+        StopAttackTypeAbnormalStatus(AttackTypeAbnormalStatusType.POISON);
     }
 
     protected override IEnumerator BurnCoroutine()
@@ -819,15 +791,13 @@ public class Player : Character
             effectAppliedCount[type] -= 1;
             ColorChange(BURN_COLOR);
             headRenderer.color = BURN_COLOR;
-            ChangeHP();
-            //ReduceHp(poisonDamagePerUnit);
+            ReduceHp(burnDamagePerUnit);
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.PLAYER_TARGET_BURN_INFO.TIME_PER_APPLIED_UNIT);
         }
      
-        isAttackTypeAbnormalStatuses[type] = false;
-        abnormalComponents.BurnEffect.SetActive(false);
         ColorChange(baseColor);
         headRenderer.color = baseColor;
+        StopAttackTypeAbnormalStatus(AttackTypeAbnormalStatusType.BURN);
     }
 
     protected override IEnumerator FreezeCoroutine(float effectiveTime)

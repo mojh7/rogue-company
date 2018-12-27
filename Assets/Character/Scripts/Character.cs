@@ -234,7 +234,7 @@ public abstract class Character : MonoBehaviour
         spriteRenderer.color = color;
     }
 
-    protected void ReduceHp(float damage)
+    protected virtual void ReduceHp(float damage)
     {
         hp -= damage;
         if (hp <= 0)
@@ -303,6 +303,30 @@ public abstract class Character : MonoBehaviour
     protected abstract void AddRetrictsAttackingCount();
     /// <summary> 공격 방해 상태 이상 갯수 감소 및 공격 AI ON Check </summary>
     protected abstract void SubRetrictsAttackingCount();
+
+    protected void StopAttackTypeAbnormalStatus(AttackTypeAbnormalStatusType attackTypeAbnormalStatusType)
+    {
+        int type = (int)attackTypeAbnormalStatusType;
+        if (false == isAttackTypeAbnormalStatuses[type])
+            return;
+        isAttackTypeAbnormalStatuses[type] = false;
+
+        if (null != attackTypeAbnormalStatusCoroutines[type])
+            StopCoroutine(attackTypeAbnormalStatusCoroutines[type]);
+        attackTypeAbnormalStatusCoroutines[type] = null;
+
+        switch (attackTypeAbnormalStatusType)
+        {
+            case AttackTypeAbnormalStatusType.POISON:
+                abnormalComponents.PoisonEffect.SetActive(false);
+                break;
+            case AttackTypeAbnormalStatusType.BURN:
+                abnormalComponents.BurnEffect.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
 
     protected void StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType controlTypeAbnormalStatusType)
     {
@@ -379,6 +403,11 @@ public abstract class Character : MonoBehaviour
 
     private void Burn(float chance)
     {
+        if(IsDie())
+        {
+            Debug.Log("죽음");
+            return;
+        }
         int type = (int)AttackTypeAbnormalStatusType.BURN;
         if (false == AbnormalChance(chance))
             return;
