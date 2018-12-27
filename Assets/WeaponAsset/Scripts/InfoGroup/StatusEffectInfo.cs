@@ -18,15 +18,18 @@ public class StatusEffectInfo
     public bool positionBasedKnockBack;
 
     [Header("빙결 (= 아재 개그)")]
+    [Range(0, 10)]
     public float freeze;
     [Range(0, 1)]
     public float freezeChance;
 
     [Header("기절 시간")]
+    [Range(0, 10)]
     public float stun;
     [Range(0, 1)]
     public float stunChance;
     [Header("매혹 시간")]
+    [Range(0, 10)]
     public float charm;
     [Range(0, 1)]
     public float charmChance;
