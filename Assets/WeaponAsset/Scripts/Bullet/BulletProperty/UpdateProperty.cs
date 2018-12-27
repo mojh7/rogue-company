@@ -259,9 +259,9 @@ public class LaserUpdateProperty : UpdateProperty
             lineRenderer.SetPosition(0, pos);
             lineRenderer.SetPosition(1, hit.point);
             bullet.LaserEndPoint.position = hit.point;
-            if(timeForCollision > BulletConstants.LASER_COLLISION_PERIOD)
+            if(timeForCollision > Bullet.LASER_COLLISION_PERIOD)
             {
-                timeForCollision -= BulletConstants.LASER_COLLISION_PERIOD;
+                timeForCollision -= Bullet.LASER_COLLISION_PERIOD;
                 delCollisionBullet(hit.collider);
             }
         }

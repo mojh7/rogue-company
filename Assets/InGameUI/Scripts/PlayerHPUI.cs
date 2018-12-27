@@ -74,6 +74,7 @@ public class PlayerHPUI : MonoBehaviour
         overHpText = overHpTextObj.GetComponent<Text>();
     }
 
+    /*
     void Update()
     {
         // 아직 디버그용으로 player hp랑 연결 안 시켜 놓음
@@ -90,7 +91,7 @@ public class PlayerHPUI : MonoBehaviour
             PlayerManager.Instance.GetPlayer().hp -= 0.5f;
             UpdateHPUI(PlayerManager.Instance.GetPlayer().hp);
         }
-    }
+    }*/
 
 
     // hp ui 갱신

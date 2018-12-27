@@ -13,7 +13,7 @@ public class PlayerHpbarUI : MonoBehaviour {
     float hp;
     float oldHp;
     float remainHp;
-    float maxHp;
+    float hpMax;
 
     public void Toggle()
     {
@@ -23,11 +23,11 @@ public class PlayerHpbarUI : MonoBehaviour {
     public void SetHpBar(float _hp)
     {
         hp = _hp;
-        maxHp = hp;
+        hpMax = hp;
         oldHp = hp;
         remainHp = hp;
         hpImage.fillAmount = remainHp / hp;
-        hpText.text = remainHp + "/" + maxHp;
+        hpText.text = remainHp + "/" + hpMax;
     }
 
     public void ChangeHp(float _hp)
@@ -36,7 +36,7 @@ public class PlayerHpbarUI : MonoBehaviour {
         oldHp = remainHp;
         remainHp = _hp;
         hpImage.fillAmount = (int)remainHp / hp;
-        hpText.text = (int)remainHp + "/" + maxHp;
+        hpText.text = (int)remainHp + "/" + hpMax;
         StartCoroutine(CoroutineHP(oldHp, remainHp, hp, delayHPImage));
     }
 

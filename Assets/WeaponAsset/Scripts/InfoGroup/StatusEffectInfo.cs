@@ -18,11 +18,11 @@ public class StatusEffectInfo
     public bool positionBasedKnockBack;
 
     [Header("빙결 (= 아재 개그)")]
-    public bool canFreeze;
+    public float freeze;
     [Range(0, 1)]
     public float freezeChance;
 
-    [Header("스턴 시간")]
+    [Header("기절 시간")]
     public float stun;
     [Range(0, 1)]
     public float stunChance;
@@ -50,8 +50,7 @@ public class StatusEffectInfo
         knockBack = info.knockBack;
         positionBasedKnockBack = info.positionBasedKnockBack;
 
-        canFreeze = info.canFreeze;
-
+        freeze = info.freeze;
         stun = info.stun;
         charm = info.charm;
 
@@ -59,7 +58,6 @@ public class StatusEffectInfo
         burnChance = info.burnChance;
 
         freezeChance = info.freezeChance;
-
         stunChance = info.stunChance;
         charmChance = info.charmChance;
     }

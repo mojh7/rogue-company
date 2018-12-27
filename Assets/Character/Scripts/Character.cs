@@ -45,12 +45,18 @@ struct RaycasthitEnemy
 
 public abstract class Character : MonoBehaviour
 {
+    #region constants
+    protected static readonly Color RED_COLOR = Color.red;
+    protected static readonly Color BURN_COLOR = new Color(1, 0, 0);
+    protected static readonly Color FREEZE_COLOR = new Color(.7f, .7f, 1);
+    protected static readonly Color POISON_COLOR = new Color(.7f, 1, .7f);
+    #endregion
     #region Status
     protected float totalSpeed;
     protected float battleSpeed;
     public float moveSpeed;     // Character move Speed
-    public float hp; // protected인데 debug용으로 어디서든 접근되게 public으로 했고 현재 hpUI에서 접근
-    protected float maxHP;
+    protected float hp;
+    protected float hpMax;
     protected CharacterInfo.DamageImmune damageImmune;
     protected CharacterInfo.AbnormalImmune abnormalImmune;
     protected CharacterInfo.AutoAimType autoAimType;
@@ -89,12 +95,8 @@ public abstract class Character : MonoBehaviour
     protected bool isAutoAiming;    // 오토에임 적용 유무
     protected Vector3 directionVector;
     protected float directionDegree;  // 바라보는 각도(총구 방향)
-
     protected bool isRightDirection;    // character 방향이 우측이냐(true) 아니냐(flase = 좌측)
-    protected Color redColor = Color.red;
-    protected Color burnColor = new Color(1, 0, 0);
-    protected Color freezeColor = new Color(.7f, .7f, 1);
-    protected Color poisonColor = new Color(.7f, 1, .7f);
+    
     protected Color baseColor;
 
     protected LayerMask enemyLayer;
@@ -106,45 +108,37 @@ public abstract class Character : MonoBehaviour
     protected int restrictMovingCount;
     protected int restrictAttackingCount;
 
-    protected bool isPoisoning;
-    protected int poisonOverlappingCount;
-    protected int[] poisonCount;
-    protected bool isBurning;
-    protected int burnOverlappingCount;
-    protected int[] burnCount;
-    protected bool isDelayingState;
-    protected int delayStateOverlappingCount;
-    protected int delayStateCount;
+    protected float poisonDamagePerUnit;
+    protected float burnDamagePerUnit;
 
-    protected float[] climbingTime;
-    protected bool[] isAbnormalStatuses;
-    protected int[] abnormalStatusCounts;
-    protected int[] overlappingCounts;
-    protected float[] abnormalStatusTime;
-    protected float[] abnormalStatusDurationTime;
-    protected Coroutine[] abnormalStatusCoroutines;
+    protected bool[] isAttackTypeAbnormalStatuses;
+    protected int[] effectAppliedCount;
+    protected Coroutine[] attackTypeAbnormalStatusCoroutines;
 
-    protected Coroutine poisonCoroutine;
-    protected Coroutine burnCoroutine;
+    protected bool[] isControlTypeAbnormalStatuses;
+    protected float[] controlTypeAbnormalStatusTime;
+    protected float[] controlTypeAbnormalStatusesDurationMax;
+    protected Coroutine[] controlTypeAbnormalStatusCoroutines;
 
     protected Coroutine knockBackCheck;
-    protected Coroutine delayStateCoroutine;
     #endregion
+
     #region dataStruct
     protected List<Character> servants;
     #endregion
+
     #region getter
     public float GetHP()
     {
         return hp;
     }
-    public float GetMaxHP()
+    public float GetHpMax()
     {
-        return maxHP;
+        return hpMax;
     }
     public float GetPercentHP()
     {
-        return (hp / maxHP) * 100;
+        return (hp / hpMax) * 100;
     }
     public CharacterComponents GetCharacterComponents()
     {
@@ -196,7 +190,8 @@ public abstract class Character : MonoBehaviour
         return isActiveMove;
     }
     #endregion
-    #region Func
+
+    #region func
     public void SpawnServant(Character character)
     {
         character.SetSpawnType(CharacterInfo.SpawnType.SERVANT);
@@ -224,7 +219,7 @@ public abstract class Character : MonoBehaviour
     protected void AttackedEffect()
     {
         if(gameObject.activeSelf)
-            StartCoroutine(CoroutineColorChange(redColor, 0.1f));
+            StartCoroutine(CoroutineColorChange(RED_COLOR, 0.1f));
     }
 
     protected IEnumerator CoroutineColorChange(Color color,float seconds)
@@ -238,7 +233,16 @@ public abstract class Character : MonoBehaviour
     {
         spriteRenderer.color = color;
     }
+
+    protected void ReduceHp(float damage)
+    {
+        hp -= damage;
+        if (hp <= 0)
+            Die();
+    }
+
     #endregion
+
     public virtual void Init()
     {
         Components = GetComponent<CharacterComponents>();
@@ -259,6 +263,7 @@ public abstract class Character : MonoBehaviour
         isCasting = false;
         spawnType = CharacterInfo.SpawnType.NORMAL;
     }
+
     public virtual void ActiveSkill()
     {
         //TODO : 만약에 Enemy를 조종하게 될 경우 Enemy Class에 재정의 필요
@@ -299,8 +304,40 @@ public abstract class Character : MonoBehaviour
     /// <summary> 공격 방해 상태 이상 갯수 감소 및 공격 AI ON Check </summary>
     protected abstract void SubRetrictsAttackingCount();
 
+    protected void StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType controlTypeAbnormalStatusType)
+    {
+        int type = (int)controlTypeAbnormalStatusType;
+        if (false == isControlTypeAbnormalStatuses[type])
+            return;
+        isControlTypeAbnormalStatuses[type] = false;
 
-    protected abstract void StopAbnormalStatus(AbnormalStatusType abnormalStatusType);
+        if (null != controlTypeAbnormalStatusCoroutines[type])
+            StopCoroutine(controlTypeAbnormalStatusCoroutines[type]);
+        controlTypeAbnormalStatusCoroutines[type] = null;
+
+        switch (controlTypeAbnormalStatusType)
+        {
+            case ControlTypeAbnormalStatusType.FREEZE:
+                abnormalComponents.FreezeEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            case ControlTypeAbnormalStatusType.STUN:
+                abnormalComponents.StunEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            case ControlTypeAbnormalStatusType.CHARM:
+                abnormalComponents.CharmEffect.SetActive(false);
+                SubRetrictsMovingCount();
+                SubRetrictsAttackingCount();
+                break;
+            default:
+                break;
+        }
+    }
+
+    //protected abstract void StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType controlTypeAbnormalStatusType);
 
     public void ApplyStatusEffect(StatusEffectInfo statusEffectInfo)
     {
@@ -314,74 +351,64 @@ public abstract class Character : MonoBehaviour
             Poison(statusEffectInfo.posionChance);
         if (true == statusEffectInfo.canBurn)
             Burn(statusEffectInfo.burnChance);
-        if (true == statusEffectInfo.canFreeze)
-            Freeze(statusEffectInfo.freezeChance);
-        if (0 != statusEffectInfo.stun)
+        if (0 < statusEffectInfo.freeze)
+            Freeze(statusEffectInfo.freeze, statusEffectInfo.freezeChance);
+        if (0 < statusEffectInfo.stun)
             Stun(statusEffectInfo.stun, statusEffectInfo.stunChance);
-        if (0 != statusEffectInfo.charm)
+        if (0 < statusEffectInfo.charm)
             Charm(statusEffectInfo.charm, statusEffectInfo.charmChance);
     }
 
+    protected abstract void UpdateEffectAppliedCount(AttackTypeAbnormalStatusType attackTypeAbnormalStatusType);
+
     private void Poison(float chance)
     {
+        int type = (int)AttackTypeAbnormalStatusType.POISON;
         if (false == AbnormalChance(chance))
             return;
 
-        if (poisonOverlappingCount >= StatusConstants.Instance.PoisonInfo.overlapCountMax)
-            return;
-        poisonOverlappingCount += 1;
-        for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
+        if (false == isAttackTypeAbnormalStatuses[type])
         {
-            if (0 == poisonCount[i])
-            {
-                poisonCount[i] = StatusConstants.Instance.GraduallyDamageCountMax;
-                break;
-            }
+            attackTypeAbnormalStatusCoroutines[type] = StartCoroutine(PoisonCoroutine());
         }
-        if (false == isPoisoning)
+        else
         {
-            poisonCoroutine = StartCoroutine(PoisonCoroutine());
+            UpdateEffectAppliedCount(AttackTypeAbnormalStatusType.POISON);
         }
     }
 
     private void Burn(float chance)
     {
+        int type = (int)AttackTypeAbnormalStatusType.BURN;
         if (false == AbnormalChance(chance))
             return;
 
-        if (burnOverlappingCount >= StatusConstants.Instance.BurnInfo.overlapCountMax)
-            return;
-        burnOverlappingCount += 1;
-        for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
+        if (false == isAttackTypeAbnormalStatuses[type])
         {
-            if (0 == burnCount[i])
-            {
-                burnCount[i] = StatusConstants.Instance.GraduallyDamageCountMax;
-                break;
-            }
+            attackTypeAbnormalStatusCoroutines[type] = StartCoroutine(BurnCoroutine());
         }
-        if (false == isBurning)
+        else
         {
-            burnCoroutine = StartCoroutine(BurnCoroutine());
+            UpdateEffectAppliedCount(AttackTypeAbnormalStatusType.BURN);
         }
     }
 
-    private void Freeze(float chance)
+    private void Freeze(float effectiveTime, float chance)
     {
         if (false == AbnormalChance(chance))
             return;
 
-        int type = (int)AbnormalStatusType.FREEZE;
-        StopAbnormalStatus(AbnormalStatusType.CHARM);
+        int type = (int)ControlTypeAbnormalStatusType.FREEZE;
+        StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.CHARM);
         // 기존에 걸려있는 빙결이 없을 때
-        if (null == abnormalStatusCoroutines[type])
+        if (null == controlTypeAbnormalStatusCoroutines[type])
         {
-            abnormalStatusCoroutines[type] = StartCoroutine(FreezeCoroutine());
+            controlTypeAbnormalStatusCoroutines[type] = StartCoroutine(FreezeCoroutine(effectiveTime));
         }
         // 걸려있는 스턴이 빙결이 있을 때
         else
         {
-            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + StatusConstants.Instance.FreezeInfo.effectiveTime;
+            controlTypeAbnormalStatusesDurationMax[type] = controlTypeAbnormalStatusTime[type] + effectiveTime;
         }
     }
 
@@ -390,17 +417,17 @@ public abstract class Character : MonoBehaviour
         if (false == AbnormalChance(chance))
             return;
 
-        int type = (int)AbnormalStatusType.STUN;
-        StopAbnormalStatus(AbnormalStatusType.CHARM);
-        // 기존에 걸려있는 스턴이 없을 때
-        if (null == abnormalStatusCoroutines[type])
+        int type = (int)ControlTypeAbnormalStatusType.STUN;
+        StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.CHARM);
+        // 기존에 걸려있는 기절이 없을 때
+        if (null == controlTypeAbnormalStatusCoroutines[type])
         {
-            abnormalStatusCoroutines[type] = StartCoroutine(StunCoroutine(effectiveTime));
+            controlTypeAbnormalStatusCoroutines[type] = StartCoroutine(StunCoroutine(effectiveTime));
         }
-        // 걸려있는 스턴이 있을 때
+        // 걸려있는 기절이 있을 때
         else
         {
-            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + effectiveTime;
+            controlTypeAbnormalStatusesDurationMax[type] = controlTypeAbnormalStatusTime[type] + effectiveTime;
         }
     }
 
@@ -409,18 +436,18 @@ public abstract class Character : MonoBehaviour
         if (false == AbnormalChance(chance))
             return;
 
-        int type = (int)AbnormalStatusType.CHARM;
-        if (isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE])
+        int type = (int)ControlTypeAbnormalStatusType.CHARM;
+        if (isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.STUN] || isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.FREEZE])
             return;
         // 기존에 걸려있는 매혹이 없을 때
-        if (null == abnormalStatusCoroutines[type])
+        if (null == controlTypeAbnormalStatusCoroutines[type])
         {
-            abnormalStatusCoroutines[type] = StartCoroutine(CharmCoroutine(effectiveTime));
+            controlTypeAbnormalStatusCoroutines[type] = StartCoroutine(CharmCoroutine(effectiveTime));
         }
         // 걸려있는 매혹이 있을 때
         else
         {
-            abnormalStatusDurationTime[type] = abnormalStatusTime[type] + effectiveTime;
+            controlTypeAbnormalStatusesDurationMax[type] = controlTypeAbnormalStatusTime[type] + effectiveTime;
         }
     }
 
@@ -448,10 +475,11 @@ public abstract class Character : MonoBehaviour
         }
     }
     #endregion
-    #region AbnormalCo
+
+    #region AbnormalCoroutine
     protected abstract IEnumerator PoisonCoroutine();
     protected abstract IEnumerator BurnCoroutine();
-    protected abstract IEnumerator FreezeCoroutine();
+    protected abstract IEnumerator FreezeCoroutine(float effectiveTime);
     protected abstract IEnumerator StunCoroutine(float effectiveTime);
     protected abstract IEnumerator CharmCoroutine(float effectiveTime);
     protected abstract IEnumerator KnockBackCheck();
@@ -463,7 +491,7 @@ public abstract class Character : MonoBehaviour
 
     public void SetAutoAim()
     {
-        if (!IsAbnormal())
+        if (!IsControlTypeAbnormal())
         {
             autoAimType = CharacterInfo.AutoAimType.AUTO;
         }
@@ -472,7 +500,7 @@ public abstract class Character : MonoBehaviour
 
     public void SetSemiAutoAim()
     {
-        if (!IsAbnormal())
+        if (!IsControlTypeAbnormal())
         {
             autoAimType = CharacterInfo.AutoAimType.SEMIAUTO;
         }
@@ -481,7 +509,7 @@ public abstract class Character : MonoBehaviour
 
     public void SetManualAim()
     {
-        if(!IsAbnormal())
+        if(!IsControlTypeAbnormal())
         {
             autoAimType = CharacterInfo.AutoAimType.MANUAL;
         }
@@ -493,7 +521,7 @@ public abstract class Character : MonoBehaviour
         this.spawnType = spawnType;
     }
 
-    protected abstract bool IsAbnormal();
+    protected abstract bool IsControlTypeAbnormal();
 
     public abstract bool Evade();
 
@@ -508,34 +536,27 @@ public abstract class Character : MonoBehaviour
         abnormalComponents.PoisonEffect.SetActive(false);
 
         abnormalComponents.FreezeEffect.SetActive(false);
-
         abnormalComponents.StunEffect.SetActive(false);
         abnormalComponents.CharmEffect.SetActive(false);
     }
 
     protected void InitStatusEffects()
     {
-        isPoisoning = false;
-        poisonOverlappingCount = 0;
-        poisonCount = new int[StatusConstants.Instance.PoisonInfo.overlapCountMax];
-        isBurning = false;
-        burnOverlappingCount = 0;
-        burnCount = new int[StatusConstants.Instance.BurnInfo.overlapCountMax];
-        isDelayingState = false;
-        delayStateCount = 0;
-
-        climbingTime = new float[StatusConstants.Instance.ClimbingInfo.overlapCountMax];
-
         restrictMovingCount = 0;
         restrictAttackingCount = 0;
-        for (int i = 0; i < (int)AbnormalStatusType.END; i++)
+        for (int i = 0; i < (int)AttackTypeAbnormalStatusType.END; i++)
         {
-            isAbnormalStatuses[i] = false;
-            abnormalStatusCounts[i] = 0;
-            overlappingCounts[i] = 0;
-            abnormalStatusCoroutines[i] = null;
-            abnormalStatusTime[i] = 0;
-            abnormalStatusDurationTime[i] = 0;
+            isAttackTypeAbnormalStatuses[i] = false;
+            attackTypeAbnormalStatusCoroutines[i] = null;
+            controlTypeAbnormalStatusesDurationMax[i] = 0;
+        }
+
+        for (int i = 0; i < (int)ControlTypeAbnormalStatusType.END; i++)
+        {
+            isControlTypeAbnormalStatuses[i] = false;
+            controlTypeAbnormalStatusCoroutines[i] = null;
+            controlTypeAbnormalStatusTime[i] = 0;
+            controlTypeAbnormalStatusesDurationMax[i] = 0;
         }
     }
 

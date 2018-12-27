@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary> 
-/// 기존의 상태이상이 적용되고 있을 때 추가 상태이상 적용시
-/// 기존 것이 없어지는 종류의 상태 이상들
-/// </summary>
-public enum AbnormalStatusType {FREEZE, STUN, CHARM, END }
 
 public class Enemy : Character
 {
@@ -47,12 +42,16 @@ public class Enemy : Character
     #region UnityFunc
     private void Awake()
     {
-        isAbnormalStatuses = new bool[(int)AbnormalStatusType.END];
-        abnormalStatusCounts = new int[(int)AbnormalStatusType.END];
-        overlappingCounts = new int[(int)AbnormalStatusType.END];
-        abnormalStatusCoroutines = new Coroutine[(int)AbnormalStatusType.END];
-        abnormalStatusTime = new float[(int)AbnormalStatusType.END];
-        abnormalStatusDurationTime = new float[(int)AbnormalStatusType.END];
+        int attackTypeAbnormalStatusTypeLength = (int)AttackTypeAbnormalStatusType.END;
+        isAttackTypeAbnormalStatuses = new bool[attackTypeAbnormalStatusTypeLength];
+        effectAppliedCount = new int[attackTypeAbnormalStatusTypeLength];
+        attackTypeAbnormalStatusCoroutines = new Coroutine[attackTypeAbnormalStatusTypeLength];
+
+        int controlTypeAbnormalStatusTypeLength = (int)ControlTypeAbnormalStatusType.END;
+        isControlTypeAbnormalStatuses = new bool[controlTypeAbnormalStatusTypeLength];
+        controlTypeAbnormalStatusCoroutines = new Coroutine[controlTypeAbnormalStatusTypeLength];
+        controlTypeAbnormalStatusTime = new float[controlTypeAbnormalStatusTypeLength];
+        controlTypeAbnormalStatusesDurationMax = new float[controlTypeAbnormalStatusTypeLength];
         servants = new List<Character>();
     }
 
@@ -88,7 +87,7 @@ public class Enemy : Character
     #endregion
 
     #region initalization
-    //0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
+    // 0603 이유성 적 데이터로 적만들기 (애니메이션 아직 보류)
     // 독, 화상 데미지 표시를 위해 보스 몬스터와 일반 몬스터 구분위해 init virtual 함. 0810 모
     public virtual void Init(EnemyData enemyData)
     {
@@ -113,7 +112,13 @@ public class Enemy : Character
 
         isBossEnemy = false;
         hp = enemyData.HP;
-        maxHP = hp;
+        hpMax = hp;
+        poisonDamagePerUnit = AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.FIXED_DAMAGE_PER_UNIT + 
+            hpMax * AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.PERCENT_DAMAGE_PER_UNIT;
+        burnDamagePerUnit = AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.FIXED_DAMAGE_PER_UNIT +
+            hpMax * AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.PERCENT_DAMAGE_PER_UNIT;
+        //Debug.Log("pd, bd : " + poisonDamagePerUnit + ", " + burnDamagePerUnit);
+
         moveSpeed = enemyData.Speed;
         scaleVector = Vector3.one * enemyData.Size;
         sprite = enemyData.Sprite;
@@ -145,20 +150,18 @@ public class Enemy : Character
             return;
         }
         pState = CharacterInfo.State.DIE;
-        // 실행 중인 코루틴이 있으면 코루틴 멈춤
         if (null != knockBackCheck)
             StopCoroutine(KnockBackCheck());
-        if (null != poisonCoroutine)
-            StopCoroutine(poisonCoroutine);
-        if (null != burnCoroutine)
-            StopCoroutine(burnCoroutine);
-        if (null != delayStateCoroutine)
-            StopCoroutine(delayStateCoroutine);
-
-        for (int i = 0; i < (int)AbnormalStatusType.END; i++)
+        // 실행 중인 상태이상 관련 코루틴이 있으면 코루틴 멈춤
+        for (int i = 0; i < (int)AttackTypeAbnormalStatusType.END; i++)
         {
-            if (null != abnormalStatusCoroutines[i])
-                StopCoroutine(abnormalStatusCoroutines[i]);
+            if (null != attackTypeAbnormalStatusCoroutines[i])
+                StopCoroutine(attackTypeAbnormalStatusCoroutines[i]);
+        }
+        for (int i = 0; i < (int)ControlTypeAbnormalStatusType.END; i++)
+        {
+            if (null != controlTypeAbnormalStatusCoroutines[i])
+                StopCoroutine(controlTypeAbnormalStatusCoroutines[i]);
         }
 
         if (spawnType == CharacterInfo.SpawnType.NORMAL)
@@ -186,13 +189,14 @@ public class Enemy : Character
         }
     }
 
+    /*
     // 0813 모, 체력이 깎이는 다양한 경우에서 hp감소를 공통된 방식으로 처리하기 위해 함수화하여 처리
     private void ReduceHp(float damage)
     {
         hp -= damage;
         if (hp <= 0)
             Die();
-    }
+    }*/
 
     /// <summary>총알에서 전달된 정보로 공격 처리</summary>
     public override float Attacked(TransferBulletInfo transferredInfo)
@@ -204,7 +208,7 @@ public class Enemy : Character
         // 크리티컬 공격
         if (criticalCheck < transferredInfo.criticalChance)
         {
-            damage *= BulletConstants.CRITICAL_DAMAGE + transferredInfo.criticalDamageIncrement;
+            damage *= Bullet.CRITICAL_DAMAGE + transferredInfo.criticalDamageIncrement;
             //Debug.Log("crt dmg inc : " + (BulletConstants.CRITICAL_DAMAGE + transferredInfo.criticalDamageIncrement));
         }
 
@@ -222,7 +226,7 @@ public class Enemy : Character
         // 크리티컬 공격
         if (criticalCheck < criticalChance)
         {
-            damage *= 2f;
+            damage *= Bullet.CRITICAL_DAMAGE;
         }
 
         if (knockBack > 0)
@@ -238,10 +242,10 @@ public class Enemy : Character
         // 개발 중
     }
 
-    protected override bool IsAbnormal()
+    protected override bool IsControlTypeAbnormal()
     {
-        return isAbnormalStatuses[(int)AbnormalStatusType.STUN] || isAbnormalStatuses[(int)AbnormalStatusType.FREEZE] ||
-            isAbnormalStatuses[(int)AbnormalStatusType.CHARM];
+        return isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.STUN] || isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.FREEZE] ||
+            isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.CHARM];
     }
 
     // TODO : 0802 모장현, enemy aim 조절 타입에 따라서 알고리즘 변경
@@ -272,36 +276,56 @@ public class Enemy : Character
 
     public override void SelfDestruction()
     {
-        Attacked(Vector2.zero, bodyTransform.position, maxHP * 0.5f, 0);
+        Attacked(Vector2.zero, bodyTransform.position, hpMax * 0.5f, 0);
     }
     #endregion
 
-    #region abnormalStatus
-    protected override void StopAbnormalStatus(AbnormalStatusType abnormalStatusType)
+    #region abnormalStatusFunc
+
+    /*
+    protected override void StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType controlTypeAbnormalStatusType)
     {
-        int type = (int)abnormalStatusType;
-        if (false == isAbnormalStatuses[type])
+        int type = (int)controlTypeAbnormalStatusType;
+        if (false == isControlTypeAbnormalStatuses[type])
             return;
-        isAbnormalStatuses[type] = false;
-        if (null != abnormalStatusCoroutines[type])
-            StopCoroutine(abnormalStatusCoroutines[type]);
-        abnormalStatusCoroutines[type] = null;
-        switch (abnormalStatusType)
+        isControlTypeAbnormalStatuses[type] = false;
+
+        if (null != controlTypeAbnormalStatusCoroutines[type])
+            StopCoroutine(controlTypeAbnormalStatusCoroutines[type]);
+        controlTypeAbnormalStatusCoroutines[type] = null;
+
+        switch (controlTypeAbnormalStatusType)
         {
-            case AbnormalStatusType.FREEZE:
+            case ControlTypeAbnormalStatusType.FREEZE:
                 abnormalComponents.FreezeEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
                 break;
-            case AbnormalStatusType.STUN:
+            case ControlTypeAbnormalStatusType.STUN:
                 abnormalComponents.StunEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
                 break;
-            case AbnormalStatusType.CHARM:
+            case ControlTypeAbnormalStatusType.CHARM:
                 abnormalComponents.CharmEffect.SetActive(false);
                 SubRetrictsMovingCount();
                 SubRetrictsAttackingCount();
+                break;
+            default:
+                break;
+        }
+    }*/
+
+    protected override void UpdateEffectAppliedCount(AttackTypeAbnormalStatusType attackTypeAbnormalStatusType)
+    {
+        int type = (int)attackTypeAbnormalStatusType;
+        switch (attackTypeAbnormalStatusType)
+        {
+            case AttackTypeAbnormalStatusType.POISON:
+                effectAppliedCount[type] = AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.EFFECT_APPLIED_COUNT_MAX;
+                break;
+            case AttackTypeAbnormalStatusType.BURN:
+                effectAppliedCount[type] = AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.EFFECT_APPLIED_COUNT_MAX;
                 break;
             default:
                 break;
@@ -317,7 +341,6 @@ public class Enemy : Character
         {
             isActiveMove = false;
             aiController.StopMove();
-            //Debug.Log(name + ", 이동 off, " + restrictMovingCount);
         }
     }
     /// <summary> 이동 방해 상태 이상 갯수 감소 및 이동 AI ON Check </summary>
@@ -329,7 +352,6 @@ public class Enemy : Character
             restrictMovingCount = 0;
             isActiveMove = true;
             aiController.PlayMove();
-            //Debug.Log(name + ", 이동 on, " + restrictMovingCount);
         }
     }
     /// <summary> 공격 방해 상태 이상 갯수 증가 및 공격 AI OFF Check </summary>
@@ -352,145 +374,113 @@ public class Enemy : Character
             aiController.PlayAttack();
         }
     }
-
     #endregion
 
     #region coroutine
     protected override IEnumerator PoisonCoroutine()
     {
-        isPoisoning = true;
+        int type = (int)AttackTypeAbnormalStatusType.POISON;
+        isAttackTypeAbnormalStatuses[type] = true;
         abnormalComponents.PoisonEffect.SetActive(true);
-        float damage = 0;
-        while (poisonOverlappingCount > 0)
+        effectAppliedCount[type] = AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.EFFECT_APPLIED_COUNT_MAX;
+        while (effectAppliedCount[type] > 0)
         {
-            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
-            ColorChange(poisonColor);
-            if (1 == poisonOverlappingCount)
-                damage = maxHP * StatusConstants.Instance.PoisonInfo.value;
-            else
-                damage = maxHP * StatusConstants.Instance.PoisonInfo.value * 1.5f;
-            damage += 0.1f * (poisonOverlappingCount - 1);
-            damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
-            hp -= damage;
+            effectAppliedCount[type] -= 1;
+            ColorChange(POISON_COLOR);
+            ReduceHp(poisonDamagePerUnit);
             if(isBossEnemy)
             {
-                UIManager.Instance.bossHPUI.DecreaseHp(damage);
+                UIManager.Instance.bossHPUI.DecreaseHp(poisonDamagePerUnit);
             }
-            for (int i = 0; i < StatusConstants.Instance.PoisonInfo.overlapCountMax; i++)
-            {
-                if (poisonCount[i] > 0)
-                {
-                    poisonCount[i] -= 1;
-                    if (0 == poisonCount[i])
-                    {
-                        poisonOverlappingCount -= 1;
-                    }
-                }
-            }
+            yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.TIME_PER_APPLIED_UNIT);
         }
         abnormalComponents.PoisonEffect.SetActive(false);
-        isPoisoning = false;
+        isAttackTypeAbnormalStatuses[type] = false;
         ColorChange(baseColor);
     }
 
     protected override IEnumerator BurnCoroutine()
     {
-        isBurning = true;
+        int type = (int)AttackTypeAbnormalStatusType.BURN;
+        isAttackTypeAbnormalStatuses[type] = true;
         abnormalComponents.BurnEffect.SetActive(true);
-        float damage = 0;
-        while (burnOverlappingCount > 0)
-        {
-            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.GraduallyDamageCycle);
-            ColorChange(burnColor);
 
-            if (1 == burnOverlappingCount)
-                damage = maxHP * StatusConstants.Instance.BurnInfo.value;
-            else
-                damage = maxHP * StatusConstants.Instance.BurnInfo.value * 1.5f;
-            damage += 0.1f * (burnOverlappingCount - 1);
-            damage *= StatusConstants.Instance.GraduallyDamagePerUnit;
-            hp -= damage;
+        effectAppliedCount[type] = AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.EFFECT_APPLIED_COUNT_MAX;
+        while (effectAppliedCount[type] > 0)
+        {
+            effectAppliedCount[type] -= 1;
+            ColorChange(BURN_COLOR);
+            ReduceHp(burnDamagePerUnit);
             if (isBossEnemy)
             {
-                UIManager.Instance.bossHPUI.DecreaseHp(damage);
+                UIManager.Instance.bossHPUI.DecreaseHp(burnDamagePerUnit);
             }
-            for (int i = 0; i < StatusConstants.Instance.BurnInfo.overlapCountMax; i++)
-            {
-                if (burnCount[i] > 0)
-                {
-                    burnCount[i] -= 1;
-                    if (0 == burnCount[i])
-                    {
-                        burnOverlappingCount -= 1;
-                    }
-                }
-            }
+            yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.TIME_PER_APPLIED_UNIT);
         }
         abnormalComponents.BurnEffect.SetActive(false);
-        isBurning = false;
+        isAttackTypeAbnormalStatuses[type] = false;
         ColorChange(baseColor);
     }
 
-    protected override IEnumerator FreezeCoroutine()
+    protected override IEnumerator FreezeCoroutine(float effectiveTime)
     {
-        int type = (int)AbnormalStatusType.FREEZE;
+        int type = (int)ControlTypeAbnormalStatusType.FREEZE;
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         animationHandler.Idle();
         abnormalComponents.FreezeEffect.SetActive(true);
-        isAbnormalStatuses[type] = true;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = StatusConstants.Instance.FreezeInfo.effectiveTime;
+        isControlTypeAbnormalStatuses[type] = true;
+        controlTypeAbnormalStatusTime[type] = 0;
+        controlTypeAbnormalStatusesDurationMax[type] = effectiveTime;
 
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        while (controlTypeAbnormalStatusTime[type] <= controlTypeAbnormalStatusesDurationMax[type])
         {
-            ColorChange(freezeColor);
-
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            ColorChange(FREEZE_COLOR);
+            controlTypeAbnormalStatusTime[type] += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
-        StopAbnormalStatus(AbnormalStatusType.FREEZE);
         ColorChange(baseColor);
+        StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.FREEZE);
     }
 
     protected override IEnumerator StunCoroutine(float effectiveTime)
     {
-        int type = (int)AbnormalStatusType.STUN;
+        int type = (int)ControlTypeAbnormalStatusType.STUN;
         abnormalComponents.StunEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
         animationHandler.Idle();
-        isAbnormalStatuses[type] = true;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = effectiveTime;
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        isControlTypeAbnormalStatuses[type] = true;
+        controlTypeAbnormalStatusTime[type] = 0;
+        controlTypeAbnormalStatusesDurationMax[type] = effectiveTime;
+        while (controlTypeAbnormalStatusTime[type] <= controlTypeAbnormalStatusesDurationMax[type])
         {
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
+            controlTypeAbnormalStatusTime[type] += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
-        StopAbnormalStatus(AbnormalStatusType.STUN);
+        StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.STUN);
     }
 
     protected override IEnumerator CharmCoroutine(float effectiveTime)
     {
-        int type = (int)AbnormalStatusType.CHARM;
+        int type = (int)ControlTypeAbnormalStatusType.CHARM;
         abnormalComponents.CharmEffect.SetActive(true);
         AddRetrictsMovingCount();
         AddRetrictsAttackingCount();
-        isAbnormalStatuses[type] = true;
-        abnormalStatusTime[type] = 0;
-        abnormalStatusDurationTime[type] = effectiveTime;
+        isControlTypeAbnormalStatuses[type] = true;
+        controlTypeAbnormalStatusTime[type] = 0;
+        controlTypeAbnormalStatusesDurationMax[type] = effectiveTime;
 
-        while (abnormalStatusTime[type] <= abnormalStatusDurationTime[type])
+        while (controlTypeAbnormalStatusTime[type] <= controlTypeAbnormalStatusesDurationMax[type])
         {
-            abnormalStatusTime[type] += Time.fixedDeltaTime;
-            bodyTransform.Translate(moveSpeed * 0.5f * (PlayerManager.Instance.GetPlayerPosition() - bodyTransform.position).normalized * Time.fixedDeltaTime);
+            controlTypeAbnormalStatusTime[type] += Time.fixedDeltaTime;
+            bodyTransform.Translate(moveSpeed * AbnormalStatusConstants.CHARM_MOVE_SPEED_RATE * (PlayerManager.Instance.GetPlayerPosition() - bodyTransform.position).normalized * Time.fixedDeltaTime);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
-        StopAbnormalStatus(AbnormalStatusType.CHARM);
+        StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.CHARM);
     }
 
     protected override IEnumerator KnockBackCheck()

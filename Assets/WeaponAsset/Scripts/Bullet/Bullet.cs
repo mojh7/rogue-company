@@ -12,8 +12,9 @@ using CharacterInfo;
 
 public class Bullet : MonoBehaviour
 {
-    #region static variables
-    public static int[] test1 = new int[3] { 1, 2, 3 };
+    #region constants
+    public const float LASER_COLLISION_PERIOD = 0.1f;
+    public const float CRITICAL_DAMAGE = 1.5f;
     #endregion
 
     #region variables
