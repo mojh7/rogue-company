@@ -824,24 +824,6 @@ public class Player : Character
 
     }
 
-    protected override IEnumerator DelayStateCoroutine()
-    {
-        isDelayingState = true;
-        while (delayStateOverlappingCount > 0)
-        {
-            CharacterTargetEffect characterTargetEffect = new CharacterTargetEffect();
-            WeaponTargetEffect weaponTargetEffect = new WeaponTargetEffect();
-            characterTargetEffect.moveSpeedIncrement = -StatusConstants.Instance.DelayStateInfo.value;
-            weaponTargetEffect.bulletSpeedIncrement = -StatusConstants.Instance.DelayStateInfo.value;
-            buffManager.RegisterItemEffect(characterTargetEffect, BuffManager.EffectApplyType.BUFF, -1, StatusConstants.Instance.DelayStateInfo.effectiveTime);
-            buffManager.RegisterItemEffect(weaponTargetEffect, BuffManager.EffectApplyType.BUFF, -1, StatusConstants.Instance.DelayStateInfo.effectiveTime);
-            yield return YieldInstructionCache.WaitForSeconds(StatusConstants.Instance.DelayStateInfo.effectiveTime);
-            delayStateOverlappingCount -= 1;
-        }
-        delayStateCount = 0;
-        isDelayingState = false;
-    }
-
     protected override IEnumerator FreezeCoroutine()
     {
         int type = (int)AbnormalStatusType.FREEZE;

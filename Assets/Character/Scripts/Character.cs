@@ -451,7 +451,6 @@ public abstract class Character : MonoBehaviour
     #region AbnormalCo
     protected abstract IEnumerator PoisonCoroutine();
     protected abstract IEnumerator BurnCoroutine();
-    protected abstract IEnumerator DelayStateCoroutine();
     protected abstract IEnumerator FreezeCoroutine();
     protected abstract IEnumerator StunCoroutine(float effectiveTime);
     protected abstract IEnumerator CharmCoroutine(float effectiveTime);

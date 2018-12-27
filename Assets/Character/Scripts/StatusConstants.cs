@@ -18,20 +18,9 @@ public struct StatusConstant
 
 public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
 {
-    /*
-    private StatusConstant poisonInfo;
-    private StatusConstant burnInfo;
-    //private StatusConstant nagInfo;
-    private StatusConstant delayStateInfo;
-    private float graduallyDamageCycle;
-    private int graduallyDamageCountMax;
-    private Vector2[] nagDirVector;
-    */
-
     #region property
     public StatusConstant PoisonInfo { get; private set; }
     public StatusConstant BurnInfo { get; private set; }
-    public StatusConstant DelayStateInfo { get; private set; }
     public StatusConstant NagInfo { get; private set; }
     public StatusConstant ClimbingInfo { get; private set; }
     public StatusConstant GraveyardShiftInfo { get; private set; }
@@ -81,10 +70,32 @@ public class StatusConstants : MonoBehaviourSingleton<StatusConstants>
  * 제어계 (스턴, 빙결)
  *  - n초 적용
  *  - 새로운 것이 들어왔을 때 기존 상태이상에 상관없이 초기화 되어 새로운 상태이상으로 적용 
- */ 
+ */
 
-static class StatusConstantTest
+
+public struct AttackTypeAbnormalStatusConstants
 {
-    public const float STATUS_ATTACKING_TERM = 0.5f;
-    public const int STATUS_ATTACKING_COUNT_MAX = 6;
+    public float EFFECT_DURATION_MAX;       // 효과 총 유지 시간
+    public float TIME_PER_APPLIED_UNIT;     // 적용 단위당 시간
+    public float EFFECT_APPLIED_COUNT_MAX;  // 효과 적용 최대 횟수 = 효과 총 유지 시간 / 적용 단위당 시간 
+    public float FIXED_DAMAGE_PER_UNIT;     // 단위 당 고정 데미지 = 초당 고정 데미지 * 적용 단위당 시간
+    public float PERCENT_DAMAGE_PER_UNIT;   // 단위 당 (최대 체력의) 퍼센트 데미지 = 초당 퍼센트 데미지 * 적용 단위당 시간
+    public AttackTypeAbnormalStatusConstants(float EFFECT_DURATION_MAX, float TIME_PER_APPLIED_UNIT, float fixedDamagePerSecond, float percentDamagePerSecond)
+    {
+        this.EFFECT_DURATION_MAX = EFFECT_DURATION_MAX;
+        this.TIME_PER_APPLIED_UNIT = TIME_PER_APPLIED_UNIT;
+        this.EFFECT_APPLIED_COUNT_MAX = EFFECT_DURATION_MAX / TIME_PER_APPLIED_UNIT;
+        this.FIXED_DAMAGE_PER_UNIT = fixedDamagePerSecond * TIME_PER_APPLIED_UNIT;
+        this.PERCENT_DAMAGE_PER_UNIT = percentDamagePerSecond * TIME_PER_APPLIED_UNIT;
+    }
+}
+
+static class AbnormalStatusConstants
+{
+    public static readonly AttackTypeAbnormalStatusConstants ENEMY_TARGET_POISON_INFO = new AttackTypeAbnormalStatusConstants(3, 0.5f, 3f, 0.01f);
+    public static readonly AttackTypeAbnormalStatusConstants ENEMY_TARGET_BURN_INFO = new AttackTypeAbnormalStatusConstants(3, 0.5f, 1f, 0.03f);
+    public static readonly AttackTypeAbnormalStatusConstants PLAYER_TARGET_POISON_INFO = new AttackTypeAbnormalStatusConstants(2, 1f, 1f, 0);
+    public static readonly AttackTypeAbnormalStatusConstants PLAYER_TARGET_BURN_INFO = new AttackTypeAbnormalStatusConstants(3, 1f, 1f, 0);
+    //public int[] POSION_DAMAGE_PER_SECOND = new int[3] { 1, 2, 3};
+    //int[] myArray = new int[5] { 1, 2, 3, 4, 5 };
 }

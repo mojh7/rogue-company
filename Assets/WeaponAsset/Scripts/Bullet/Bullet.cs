@@ -12,6 +12,10 @@ using CharacterInfo;
 
 public class Bullet : MonoBehaviour
 {
+    #region static variables
+    public static int[] test1 = new int[3] { 1, 2, 3 };
+    #endregion
+
     #region variables
     public BulletInfo info;
     public Transform objTransform;

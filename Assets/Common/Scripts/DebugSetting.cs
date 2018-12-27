@@ -13,26 +13,21 @@ public enum WeaponModeForDebug { Test, Main, Temp2, ShapeSample, A1, TestBoss, O
 public class DebugSetting : MonoBehaviourSingleton<DebugSetting>
 {
     [Header("튜토리얼 씬 true, 아닐 때 false값으로 설정 해주세요")]
-    public bool isTutorialScene; 
-
-    [Header("Enemy Data로 무기 설정")]
-    public bool equipsEnemyDataWeapon = true;
-    [Header("몬스터 테스트용으로 장착할 무기 id")]
-    public int enemyEquipWeaponId;
+    public bool isTutorialScene;
 
     [Header("Player 무기 설정")]
     public WeaponModeForDebug weaponModeForDebug;
+
     [Header("Player 무기 모두 착용 ")]
     public bool equipsPlayerAllWeapons = true;
-    [Header("Player 착용 특정 index, 0이상 일 때 적용 ")]
-    public int playerEquipWepaonId = -1;
-
-    [Header("temp Player 무기 테스트 범위")]
-    [Range(0, 45)]
-    public int startWeaponIndex;
-    [Range(1, 45)]
-    public int endWeaponIndex;
+    //[Header("Player 착용 특정 index, 0이상 일 때 적용 ")]
+    //public int playerEquipWepaonId = -1;
 
     [Header("총구 pos 표시 for Debug")]
     public bool showsMuzzlePos;
+
+    [Header("Enemy Data로 무기 설정")]
+    public bool equipsEnemyDataWeapon = true;
+    [Header("equipsEnemyDataWeapon false 일 때 몬스터 테스트용으로 장착할 무기 id 1개")]
+    public int enemyEquipWeaponId;
 }
