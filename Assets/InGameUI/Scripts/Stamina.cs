@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Stamina : MonoBehaviourSingleton<Stamina>
 {
     [SerializeField]
-    private Text steminaText;
+    private Text staminaText;
     private PlayerData playerData;
     private Player player;
     private Image staminaImage;
@@ -64,7 +64,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         stamina = _stamina;
         maxStamina = _stamina;
         staminaImage.fillAmount = stamina / (float)maxStamina;
-        steminaText.text = stamina + "/" + maxStamina;
+        staminaText.text = stamina + "/" + maxStamina;
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     {
         ParticleManager.Instance.PlayParticle("Stamina", player.GetPosition());
         recoveryAmount += PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaIncrement;
-        stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.steminaGage);
+        stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.staminaGage);
         staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
 
         if (stamina >= maxStamina)
@@ -83,7 +83,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             staminaImage.fillAmount = 1;
         }
         playerData.Stamina = stamina;
-        steminaText.text = stamina + "/" + maxStamina;
+        staminaText.text = stamina + "/" + maxStamina;
     }
 
     public void RecoverFullStamina()
@@ -98,7 +98,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             staminaImage.fillAmount = maxStamina;
         }
         playerData.Stamina = stamina;
-        steminaText.text = stamina + "/" + maxStamina;
+        staminaText.text = stamina + "/" + maxStamina;
     }
     public void ConsumeStamina(int staminaConsumption)
     {
@@ -112,7 +112,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             staminaImage.fillAmount = 0;
         }
         playerData.Stamina = stamina;
-        steminaText.text = stamina + "/" + maxStamina;
+        staminaText.text = stamina + "/" + maxStamina;
         StartCoroutine(CoroutineStamina(oldStamina, stamina, maxStamina, delayStaminaImage));
     }
 

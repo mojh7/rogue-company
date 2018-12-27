@@ -116,18 +116,13 @@ public class BuffManager : MonoBehaviour
 
             // 곱 옵션 - 합 연산
             moveSpeedIncrement = 1f,
-            rewardOfEndGameIncrement = 1f,
-            hpMaxRatio = 1,
-            hpRatio = 1,
+            hpMaxRatio = 1f,
+            hpRatio = 1f,
             charScale = 1f,
+            skillGage = 1f,
+            staminaGage = 1f,
 
             // 곱 옵션 - 곱 연산
-            discountRateOfVendingMachineItems = 1f,
-            discountRateOfCafeteriaItems = 1f,
-            discountRateAllItems = 1f,
-
-            skillGage = 1,
-            steminaGage = 1,
 
             staminaMaxIncrement = 0f,
 
@@ -360,46 +355,30 @@ public class BuffManager : MonoBehaviour
             sign = -1;
             boolSign = false;
         }
-
-        // CharacterTargetEffectTotal.recoveryHp += TargetEffect.recoveryHp;
-        // CharacterTargetEffectTotal.recoveryStamina += TargetEffect.recoveryStamina;
-
         // 합 연산
         CharacterTargetEffectTotal.armorIncrement += targetEffect.armorIncrement * sign;
         CharacterTargetEffectTotal.gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
 
         // 곱 옵션 - 합 연산
         CharacterTargetEffectTotal.moveSpeedIncrement += targetEffect.moveSpeedIncrement * sign;
-        CharacterTargetEffectTotal.rewardOfEndGameIncrement += targetEffect.rewardOfEndGameIncrement * sign;
 
         CharacterTargetEffectTotal.hpRatio += targetEffect.hpRatio * sign;
         CharacterTargetEffectTotal.hpMaxRatio += targetEffect.hpMaxRatio * sign;
         CharacterTargetEffectTotal.charScale += targetEffect.charScale * sign;
+        CharacterTargetEffectTotal.skillGage += targetEffect.skillGage * sign;
+        CharacterTargetEffectTotal.staminaGage += targetEffect.staminaGage * sign;
 
         // 곱 옵션 - 곱 연산
         if (1 == sign)
         {
-            CharacterTargetEffectTotal.discountRateOfVendingMachineItems *= (1f - targetEffect.discountRateOfVendingMachineItems);
-            CharacterTargetEffectTotal.discountRateOfCafeteriaItems *= (1f - targetEffect.discountRateOfCafeteriaItems);
-            CharacterTargetEffectTotal.discountRateAllItems *= (1f - targetEffect.discountRateAllItems);
-            CharacterTargetEffectTotal.skillGage *= targetEffect.skillGage;
-            CharacterTargetEffectTotal.steminaGage *= targetEffect.steminaGage;
             CharacterTargetEffectTotal.staminaMaxIncrement *= targetEffect.staminaMaxIncrement;
-
             //CharacterTargetEffectTotal *= (1.0f - targetEffect);
         }
         else
         {
-            CharacterTargetEffectTotal.discountRateOfVendingMachineItems /= (1f - targetEffect.discountRateOfVendingMachineItems);
-            CharacterTargetEffectTotal.discountRateOfCafeteriaItems /= (1f - targetEffect.discountRateOfCafeteriaItems);
-            CharacterTargetEffectTotal.discountRateAllItems /= (1f - targetEffect.discountRateAllItems);
-            CharacterTargetEffectTotal.skillGage /= targetEffect.skillGage;
-            CharacterTargetEffectTotal.steminaGage /= targetEffect.steminaGage;
             CharacterTargetEffectTotal.staminaMaxIncrement /= targetEffect.staminaMaxIncrement;
-
             //CharacterTargetEffectTotal /= (1.0f - targetEffect);
         }
-
 
         // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함.
         if (targetEffect.canDrainHp)

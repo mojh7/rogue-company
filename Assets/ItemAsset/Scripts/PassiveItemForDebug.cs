@@ -180,12 +180,8 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         variableNames = 
             "1.gettingStaminaIncrement\n" +
             "2.moveSpeedIncrement\n" +
-            "3.rewardOfEndGameIncrement\n" +
-            "4.discountRateOfVendingMachineItems\n" +
-            "5.discountRateOfCafeteriaItems\n" +
-            "6.discountRateAllItems\n" +
-            "7.canDrainHp\n" +
-            "8.increaseStaminaWhenkillingEnemies\n" +
+            "3.canDrainHp\n" +
+            "4.increaseStaminaWhenkillingEnemies\n" +
             "-----\n" +
             "Weapon\n" +
             "1.bulletCountIncrement\n" +
@@ -234,10 +230,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         string variableValues =
             characterTotal.gettingStaminaIncrement + "\n" +
             characterTotal.moveSpeedIncrement + "\n" +
-            characterTotal.rewardOfEndGameIncrement + "\n" +
-            characterTotal.discountRateOfVendingMachineItems + "\n" +
-            characterTotal.discountRateOfCafeteriaItems + "\n" +
-            characterTotal.discountRateAllItems + "\n" +
+
             characterTotal.canDrainHp + "\n" +
             characterTotal.increaseStaminaWhenkillingEnemies + "\n" +
             "---\n" +

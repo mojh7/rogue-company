@@ -29,7 +29,7 @@ public class Player : Character
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
     private float skillGageMultiple;
-    private float steminaGageMultiple;
+    private float staminaGageMultiple;
 
     // 윤아 0802
     private Stamina stamina;
@@ -64,10 +64,15 @@ public class Player : Character
             return killedEnemyCount;
         }
     }
+    public float CharScale
+    {
+        get;
+        private set;
+    }
     public int ShieldCount
     {
-        private set { shieldCount = value; }
         get { return shieldCount; }
+        private set { shieldCount = value; }
     }
 
     public bool IsNotConsumeStamina
@@ -226,7 +231,7 @@ public class Player : Character
     public void InitPlayerData(PlayerData playerData)
     {
         skillGageMultiple = 1;
-        steminaGageMultiple = 1;
+        staminaGageMultiple = 1;
         hp = playerData.Hp;
         hpMax = playerData.HpMax;
         Debug.Log("InitPlayerData hp, hpmax : " + playerData.Hp +", " + playerData.HpMax);
@@ -239,10 +244,11 @@ public class Player : Character
     }
     #endregion
 
-    #region function
+    #region func
     private void ScaleChange(float scale)
     {
-        if(scale != this.bodyTransform.localScale.x)
+        CharScale = scale;
+        if (scale != this.bodyTransform.localScale.x)
         {
             ParticleManager.Instance.PlayParticle("Smoke", this.bodyTransform.position);
         }
@@ -412,18 +418,19 @@ public class Player : Character
     }
 
     public void AddKilledEnemyCount()
-    {
-        
+    {   
         playerData.SkillGauge += (int)(10 * skillGageMultiple);
         if (playerData.SkillGauge >= 100)
             playerData.SkillGauge = 100;
         controller.ActiveSkill(playerData.SkillGauge, 100);
-        if (false == buffManager.CharacterTargetEffectTotal.canDrainHp) return;
-        killedEnemyCount += 1;
-        if (killedEnemyCount == 7)
+        if (buffManager.CharacterTargetEffectTotal.canDrainHp)
         {
-            RecoverHp(1f);
-            killedEnemyCount = 0;
+            killedEnemyCount += 1;
+            if (killedEnemyCount == 7)
+            {
+                RecoverHp(1f);
+                killedEnemyCount = 0;
+            }
         }
     }
 
@@ -663,12 +670,12 @@ public class Player : Character
     public override void ApplyItemEffect()
     {
         CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
-        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.steminaGage);
+        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaGage);
         if(playerData.MoveSpeed != originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
         {
             if(playerData.MoveSpeed > originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
             {
-                ParticleManager.Instance.PlayParticle("SpeedDown", this.bodyTransform.position  );
+                ParticleManager.Instance.PlayParticle("SpeedDown", this.bodyTransform.position);
             }
             else
             {
@@ -687,11 +694,17 @@ public class Player : Character
             hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
         if (itemUseEffect.skillGage > 0)
             skillGageMultiple = itemUseEffect.skillGage;
-        if (itemUseEffect.steminaGage > 0)
-            steminaGageMultiple = itemUseEffect.steminaGage;
+        if (itemUseEffect.staminaGage > 0)
+            staminaGageMultiple = itemUseEffect.staminaGage;
 
         if (itemUseEffect.charScale > 0 && itemUseEffect.charScale <= 2f)
             ScaleChange(itemUseEffect.charScale);
+
+        Debug.Log(itemUseEffect.hpRatio);
+        PlayerHPUi.SetHpMax(hpMax);
+        PlayerHPUi.ChangeHp(hp);
+        //Debug.Log(skillGageMultiple);
+        //Debug.Log(staminaGageMultiple);
     }
     #endregion
 
@@ -758,8 +771,8 @@ public class Player : Character
     }
 
     #endregion
-    #region coroutine
 
+    #region coroutine
     protected override IEnumerator PoisonCoroutine()
     {
         int type = (int)AttackTypeAbnormalStatusType.POISON;

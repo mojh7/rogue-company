@@ -7,15 +7,15 @@ TextureImporter:
     21300000: items_0
     21300002: items_1
     21300004: items_2
-    21300006: items_3
+    21300006: items_17
     21300008: items_16
-    21300010: items_5
+    21300010: items_19
     21300012: items_6
     21300014: items_7
     21300016: items_8
     21300018: items_9
-    21300020: items_10
-    21300022: items_11
+    21300020: items_20
+    21300022: items_18
     21300024: items_12
   externalObjects: {}
   serializedVersion: 4
@@ -145,7 +145,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_3
+      name: items_17
       rect:
         serializedVersion: 2
         x: 105
@@ -173,7 +173,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_5
+      name: items_19
       rect:
         serializedVersion: 2
         x: 38
@@ -243,7 +243,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_10
+      name: items_20
       rect:
         serializedVersion: 2
         x: 69
@@ -257,7 +257,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_11
+      name: items_18
       rect:
         serializedVersion: 2
         x: 101

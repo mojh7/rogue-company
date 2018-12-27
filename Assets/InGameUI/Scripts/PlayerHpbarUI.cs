@@ -30,6 +30,11 @@ public class PlayerHpbarUI : MonoBehaviour {
         hpText.text = remainHp + "/" + hpMax;
     }
 
+    public void SetHpMax(float hpMax)
+    {
+        this.hpMax = hpMax;
+    }
+
     public void ChangeHp(float _hp)
     {
         if (_hp < 0) return;
