@@ -10,6 +10,9 @@ using UnityEngine;
 // StartCoroutine 함수 monobehaviour 상속 받아야 됨.
 // 버프, 패시브효과 관리
 
+// 기존 : itemUseEffect를 등록하다 보니 아이템 내의 여러 효과가 있을 경우 패시브 리스트에 중첩되어 포함되어 인벤토리에 2개씩 보임.
+// 변경 : usableItem에서 use를 하는게아닌 usableItem 자체를 등록하여 한 개만 패시브 리스트에 포함되고 효과는 여러 개 사용.
+
 public class BuffManager : MonoBehaviour
 {
     public enum TargetEffectTotalUpdateType { REGISTER, REMOVE }
@@ -23,6 +26,8 @@ public class BuffManager : MonoBehaviour
     public enum WeaponBoolPropertyType { NONE, END }
 
     #region variables
+    private List<UsableItemInfo> usableItemInfoList;
+
     private List<ItemUseEffect> passiveEffects;
     private int passiveEffectsLength;
     private List<ItemUseEffect> buffEffects;
@@ -199,6 +204,13 @@ public class BuffManager : MonoBehaviour
     #endregion
 
     #region function
+
+    public void RegisterUsableItemInfo(UsableItemInfo info)
+    {
+
+    }
+
+
     /// <summary> 효과 등록 </summary>
     /// <param name="itemUseEffect">효과 내용</param>
     /// <param name="effectiveTime">효과 적용 시간, default = -1, 0초과된 값 => 일정 시간 동안 효과 적용되는 버프 아이템</param>
