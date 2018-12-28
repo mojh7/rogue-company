@@ -207,7 +207,12 @@ public class BuffManager : MonoBehaviour
 
     public void RegisterUsableItemInfo(UsableItemInfo info)
     {
-
+        for (int i = 0; i < info.EffectApplyTypes.Length; i++)
+        {
+            info.EffectApplyTypes[i].SetItemId(info.GetId());
+            info.EffectApplyTypes[i].SetPos(this.transform.position);
+            info.EffectApplyTypes[i].UseItem();
+        }
     }
 
 

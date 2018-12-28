@@ -16,7 +16,7 @@ TextureImporter:
     21300018: items_9
     21300020: items_20
     21300022: items_18
-    21300024: items_12
+    21300024: items_21
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -271,7 +271,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: items_12
+      name: items_21
       rect:
         serializedVersion: 2
         x: 3

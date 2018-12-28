@@ -36,13 +36,14 @@ public class UsableItem : Item
     {
         Debug.Log("UsableItem use");
 
-
-        for(int i = 0; i < info.EffectApplyTypes.Length; i++)
+        PlayerBuffManager.Instance.BuffManager.RegisterUsableItemInfo(info);
+        /*
+        for (int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
             info.EffectApplyTypes[i].SetItemId(info.GetId());
             info.EffectApplyTypes[i].SetPos(this.transform.position);
             info.EffectApplyTypes[i].UseItem();
-        }
+        }*/
         ObjectPoolManager.Instance.DeleteUsableItem(gameObject);
     }
 }

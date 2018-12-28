@@ -207,10 +207,6 @@ public class Player : Character
         buffManager = PlayerBuffManager.Instance.BuffManager;
         buffManager.SetOwner(this);
 
-        //Debug.Log("loadsGameData : " + GameStateManager.Instance.GetLoadsGameData());
-        if (GameStateManager.Instance.GetLoadsGameData())
-            PlayerBuffManager.Instance.LoadMiscItemDatas();
-
         stamina = Stamina.Instance;
         stamina.SetPlayer(this);
 
@@ -220,10 +216,8 @@ public class Player : Character
         TimeController.Instance.PlayStart();
 
         DeactivateAbnormalComponents();
-        poisonDamagePerUnit = AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.FIXED_DAMAGE_PER_UNIT +
-            hpMax * AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.PERCENT_DAMAGE_PER_UNIT;
-        burnDamagePerUnit = AbnormalStatusConstants.PLAYER_TARGET_BURN_INFO.FIXED_DAMAGE_PER_UNIT +
-            hpMax * AbnormalStatusConstants.PLAYER_TARGET_BURN_INFO.PERCENT_DAMAGE_PER_UNIT;
+        poisonDamagePerUnit = AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.FIXED_DAMAGE_PER_UNIT;
+        burnDamagePerUnit = AbnormalStatusConstants.PLAYER_TARGET_BURN_INFO.FIXED_DAMAGE_PER_UNIT;
         InitStatusEffects();
         //Debug.Log("hpMax : " + hpMax);
     }
@@ -241,6 +235,9 @@ public class Player : Character
         PlayerHPUi.SetHpBar(playerData.Hp);
         stamina.SetStaminaBar(playerData.StaminaMax);
         playerData.SkillGauge = 100;
+        //Debug.Log("loadsGameData : " + GameStateManager.Instance.GetLoadsGameData());
+        if (GameStateManager.Instance.GetLoadsGameData())
+            PlayerBuffManager.Instance.LoadMiscItemDatas();
     }
     #endregion
 
@@ -700,7 +697,7 @@ public class Player : Character
         if (itemUseEffect.charScale > 0 && itemUseEffect.charScale <= 2f)
             ScaleChange(itemUseEffect.charScale);
 
-        Debug.Log(itemUseEffect.hpRatio);
+        //Debug.Log(itemUseEffect.hpRatio);
         PlayerHPUi.SetHpMax(hpMax);
         PlayerHPUi.ChangeHp(hp);
         //Debug.Log(skillGageMultiple);
