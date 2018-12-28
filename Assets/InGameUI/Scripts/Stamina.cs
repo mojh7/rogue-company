@@ -67,14 +67,18 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         staminaText.text = stamina + "/" + maxStamina;
     }
 
+    public void SetStaminaMax(int staminaMax)
+    {
+        maxStamina = staminaMax;
+    }
+
     /// <summary>
     /// 스테미너 회복 : 자연 회복, 몬스터 처치시 회복
     /// </summary>
     public void RecoverStamina(int recoveryAmount = 3)
     {
         ParticleManager.Instance.PlayParticle("Stamina", player.GetPosition());
-        recoveryAmount += PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaIncrement;
-        stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.staminaGage);
+        stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaMultiple);
         staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
 
         if (stamina >= maxStamina)

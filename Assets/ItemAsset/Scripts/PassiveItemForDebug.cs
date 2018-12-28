@@ -171,11 +171,17 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
     #region viewEffectInfo
     public void UpdateEffectTotalNameText()
     {
-        variableNames = 
-            "1.gettingStaminaIncrement\n" +
-            "2.moveSpeedIncrement\n" +
-            "3.canDrainHp\n" +
-            "4.increaseStaminaWhenkillingEnemies\n" +
+        variableNames =
+            "1.moveSpeedIncrement\n" +
+            "2.hpMaxRatio\n" +
+            "3.hpRatio\n" +
+            "4.charScale\n" +
+            "5.skillGage\n" +
+            "6.gettingStaminaMultiple\n" +
+            "7.staminaMaxRatio\n" +
+            "8.canDrainHp\n" +
+            "9.isNotConsumeStamina\n" +
+            "10.isNotConsumeAmmo\n" +
             "-----\n" +
             "Weapon\n" +
             "1.bulletCountIncrement\n" +
@@ -186,11 +192,9 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             "3.chargingSpeedIncrement\n" +
             "4.chargingDamageIncrement\n" +
             "5.gettingSkillGaugeIncrement\n" +
-            //"6.gettingStaminaIncrement\n" +
-            "6.skillPowerIncrement\n" +
-            "7.bulletScaleIncrement\n" +
-            "8.bulletRangeIncrement\n" +
-            "9.bulletSpeedIncrement\n" +
+            "6.bulletScaleIncrement\n" +
+            "7.bulletRangeIncrement\n" +
+            "8.bulletSpeedIncrement\n" +
             
             "1.decreaseDamageAfterPierceReduction\n" +
             "2.cooldownReduction\n" +
@@ -222,11 +226,17 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         CharacterTargetEffect characterTotal = PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal;
         WeaponTargetEffect weaponTotal = PlayerBuffManager.Instance.BuffManager.WeaponTargetEffectTotal[infoCurrentIndex];
         string variableValues =
-            characterTotal.gettingStaminaIncrement + "\n" +
             characterTotal.moveSpeedIncrement + "\n" +
+            characterTotal.hpMaxRatio + "\n" +
+            characterTotal.hpRatio + "\n" +
+            characterTotal.charScale + "\n" +
+            characterTotal.skillGage + "\n" +
+            characterTotal.gettingStaminaMultiple + "\n" +
+            characterTotal.staminaMaxRatio + "\n" +
 
             characterTotal.canDrainHp + "\n" +
-            characterTotal.increaseStaminaWhenkillingEnemies + "\n" +
+            characterTotal.isNotConsumeStamina + "\n" +
+            characterTotal.isNotConsumeAmmo + "\n" +
             "---\n" +
             "Weapon\n" +
             weaponTotal.bulletCountIncrement + "\n" +
@@ -238,8 +248,6 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             weaponTotal.chargingSpeedIncrement + "\n" +
             weaponTotal.chargingDamageIncrement + "\n" +
             weaponTotal.gettingSkillGaugeIncrement + "\n" +
-            //weaponTotal.gettingStaminaIncrement + "\n" +
-            weaponTotal.skillPowerIncrement + "\n" +
             weaponTotal.bulletScaleIncrement + "\n" +
             weaponTotal.bulletRangeIncrement + "\n" +
             weaponTotal.bulletSpeedIncrement + "\n" +

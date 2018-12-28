@@ -24,12 +24,11 @@ public class Player : Character
     private int layerMask;  // autoAim을 위한 layerMask
     private int killedEnemyCount;
 
-    [SerializeField] private PlayerHpbarUI PlayerHPUi;
+    [SerializeField] private PlayerHpbarUI playerHPUi;
     private PlayerData playerData;
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
     private float skillGageMultiple;
-    private float staminaGageMultiple;
 
     // 윤아 0802
     private Stamina stamina;
@@ -203,7 +202,7 @@ public class Player : Character
         battleSpeed = 0.5f;
         InitilizeController();
 
-        PlayerHPUi = GameObject.Find("HPbar").GetComponent<PlayerHpbarUI>();
+        playerHPUi = GameObject.Find("HPbar").GetComponent<PlayerHpbarUI>();
         buffManager = PlayerBuffManager.Instance.BuffManager;
         buffManager.SetOwner(this);
 
@@ -225,14 +224,13 @@ public class Player : Character
     public void InitPlayerData(PlayerData playerData)
     {
         skillGageMultiple = 1;
-        staminaGageMultiple = 1;
         hp = playerData.Hp;
         hpMax = playerData.HpMax;
         Debug.Log("InitPlayerData hp, hpmax : " + playerData.Hp +", " + playerData.HpMax);
         this.playerData = playerData;
         originPlayerData = playerData.Clone();
         ApplyItemEffect();
-        PlayerHPUi.SetHpBar(playerData.Hp);
+        playerHPUi.SetHpBar(playerData.Hp);
         stamina.SetStaminaBar(playerData.StaminaMax);
         playerData.SkillGauge = 100;
         //Debug.Log("loadsGameData : " + GameStateManager.Instance.GetLoadsGameData());
@@ -445,7 +443,7 @@ public class Player : Character
     protected override void ReduceHp(float damage)
     {
         hp -= damage;
-        PlayerHPUi.ChangeHp(hp);
+        playerHPUi.ChangeHp(hp);
         if (hp <= 0)
             Die();
     }
@@ -458,7 +456,7 @@ public class Player : Character
         {
             hp = hpMax;
         }
-        PlayerHPUi.ChangeHp(hp);
+        playerHPUi.ChangeHp(hp);
     }
 
     // TODO : power기준으로 흔들리게 하려고 했던 것 같음. 물어보기
@@ -667,7 +665,7 @@ public class Player : Character
     public override void ApplyItemEffect()
     {
         CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
-        playerData.StaminaMax = (int)(originPlayerData.StaminaMax * itemUseEffect.staminaGage);
+        playerData.StaminaMax = Mathf.RoundToInt(originPlayerData.StaminaMax * itemUseEffect.staminaMaxRatio);
         if(playerData.MoveSpeed != originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
         {
             if(playerData.MoveSpeed > originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
@@ -691,15 +689,15 @@ public class Player : Character
             hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
         if (itemUseEffect.skillGage > 0)
             skillGageMultiple = itemUseEffect.skillGage;
-        if (itemUseEffect.staminaGage > 0)
-            staminaGageMultiple = itemUseEffect.staminaGage;
 
         if (itemUseEffect.charScale > 0 && itemUseEffect.charScale <= 2f)
             ScaleChange(itemUseEffect.charScale);
 
         //Debug.Log(itemUseEffect.hpRatio);
-        PlayerHPUi.SetHpMax(hpMax);
-        PlayerHPUi.ChangeHp(hp);
+        stamina.SetStaminaMax(playerData.StaminaMax);
+        stamina.RecoverStamina(0);
+        playerHPUi.SetHpMax(hpMax);
+        playerHPUi.ChangeHp(hp);
         //Debug.Log(skillGageMultiple);
         //Debug.Log(staminaGageMultiple);
     }

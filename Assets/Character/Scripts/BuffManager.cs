@@ -117,7 +117,6 @@ public class BuffManager : MonoBehaviour
             recoveryHp = 0,
             recoveryStamina = 0,
             armorIncrement = 0,
-            gettingStaminaIncrement = 0,
 
             // 곱 옵션 - 합 연산
             moveSpeedIncrement = 1f,
@@ -125,14 +124,13 @@ public class BuffManager : MonoBehaviour
             hpRatio = 1f,
             charScale = 1f,
             skillGage = 1f,
-            staminaGage = 1f,
+            gettingStaminaMultiple = 1f,
+            staminaMaxRatio = 1f,
 
             // 곱 옵션 - 곱 연산
 
-            staminaMaxIncrement = 0f,
-
+            // on / off 속성
             canDrainHp = false,
-            increaseStaminaWhenkillingEnemies = false,
             isNotConsumeStamina = false,
             isNotConsumeAmmo = false
         };
@@ -168,8 +166,6 @@ public class BuffManager : MonoBehaviour
             chargingSpeedIncrement = 1f,
             chargingDamageIncrement = 1f,
             gettingSkillGaugeIncrement = 1f,
-            //gettingStaminaIncrement = 1f,
-            skillPowerIncrement = 1f,
             bulletScaleIncrement = 1f,
             bulletRangeIncrement = 1f,
             bulletSpeedIncrement = 1f,
@@ -382,7 +378,6 @@ public class BuffManager : MonoBehaviour
         }
         // 합 연산
         CharacterTargetEffectTotal.armorIncrement += targetEffect.armorIncrement * sign;
-        CharacterTargetEffectTotal.gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
 
         // 곱 옵션 - 합 연산
         CharacterTargetEffectTotal.moveSpeedIncrement += targetEffect.moveSpeedIncrement * sign;
@@ -391,25 +386,23 @@ public class BuffManager : MonoBehaviour
         CharacterTargetEffectTotal.hpMaxRatio += targetEffect.hpMaxRatio * sign;
         CharacterTargetEffectTotal.charScale += targetEffect.charScale * sign;
         CharacterTargetEffectTotal.skillGage += targetEffect.skillGage * sign;
-        CharacterTargetEffectTotal.staminaGage += targetEffect.staminaGage * sign;
+        characterTargetEffectTotal.gettingStaminaMultiple += targetEffect.gettingStaminaMultiple * sign;
+        characterTargetEffectTotal.staminaMaxRatio += targetEffect.staminaMaxRatio * sign;
 
         // 곱 옵션 - 곱 연산
+        /*
         if (1 == sign)
         {
-            CharacterTargetEffectTotal.staminaMaxIncrement *= targetEffect.staminaMaxIncrement;
             //CharacterTargetEffectTotal *= (1.0f - targetEffect);
         }
         else
         {
-            CharacterTargetEffectTotal.staminaMaxIncrement /= targetEffect.staminaMaxIncrement;
             //CharacterTargetEffectTotal /= (1.0f - targetEffect);
-        }
+        }*/
 
         // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함.
         if (targetEffect.canDrainHp)
             CharacterTargetEffectTotal.canDrainHp = boolSign;
-        if (targetEffect.increaseStaminaWhenkillingEnemies)
-            CharacterTargetEffectTotal.increaseStaminaWhenkillingEnemies = boolSign;
         if (targetEffect.isNotConsumeStamina)
             UpdateCharacterBoolProperty(CharacterBoolPropertyType.IS_NOT_CONSUME_STAMINA, sign);
         if (targetEffect.isNotConsumeAmmo)
@@ -500,8 +493,7 @@ public class BuffManager : MonoBehaviour
             WeaponTargetEffectTotal[index].chargingSpeedIncrement += targetEffect.chargingSpeedIncrement * sign;
             WeaponTargetEffectTotal[index].chargingDamageIncrement += targetEffect.chargingDamageIncrement * sign;
             WeaponTargetEffectTotal[index].gettingSkillGaugeIncrement += targetEffect.gettingSkillGaugeIncrement * sign;
-            //WeaponTargetEffectTotal[index].gettingStaminaIncrement += targetEffect.gettingStaminaIncrement * sign;
-            WeaponTargetEffectTotal[index].skillPowerIncrement += targetEffect.skillPowerIncrement * sign;
+
             WeaponTargetEffectTotal[index].bulletScaleIncrement += targetEffect.bulletScaleIncrement * sign;
             WeaponTargetEffectTotal[index].bulletRangeIncrement += targetEffect.bulletRangeIncrement * sign;
             WeaponTargetEffectTotal[index].bulletSpeedIncrement += targetEffect.bulletSpeedIncrement * sign;
