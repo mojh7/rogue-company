@@ -241,6 +241,7 @@ public abstract class BulletPattern
                     {
                         initVector.magnitude = childBulletPos.magnitude;
                         initVector.dirDegree = MathCalculator.GetDegFromVector(childBulletPos);
+                        childBulletObj = ObjectPoolManager.Instance.CreateBullet();
                         childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                         childBulletCommonProperty, transferBulletInfo, initVector);
                     }
@@ -264,6 +265,7 @@ public abstract class BulletPattern
                     childBulletPos = centerOfCircle + (childBulletInfoList[i].circleShapeInfoList[j].radius * MathCalculator.VectorRotate(Vector3.right, currentAngle));
                     initVector.magnitude = childBulletPos.magnitude;
                     initVector.dirDegree = MathCalculator.GetDegFromVector(childBulletPos);
+                    childBulletObj = ObjectPoolManager.Instance.CreateBullet();
                     childBulletObj.GetComponent<Bullet>().Init(childBulletInfoList[i].bulletInfo.Clone(), ownerBuff, ownerType, parentBulletTransform,
                     childBulletCommonProperty, transferBulletInfo, initVector);
                     currentAngle += deltaAngle;
