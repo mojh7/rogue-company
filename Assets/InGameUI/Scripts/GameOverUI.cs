@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
 
-    private delegate void ActiveOffAllPassiveSlot();
-
     #region components
     [SerializeField]
     Text timeT;
@@ -34,9 +32,7 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     private Transform contentsParent;
     [SerializeField]
     private GameObject itemPrefab;
-    private List<PassiveSlot> itemSlots;
-
-    private ActiveOffAllPassiveSlot activeOffAllPassiveSlot;
+    //private List<PassiveSlot> itemSlots;
 
     #endregion
     #region function
@@ -103,26 +99,24 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     {
         GameObject createdObj;
         Vector3 currentPos = Vector3.zero;
-        int itemCount = PlayerBuffManager.Instance.BuffManager.PassiveIds.Count;
-        itemSlots = new List<PassiveSlot>(itemCount);
+        int passiveItemCount = PlayerBuffManager.Instance.BuffManager.PassiveIds.Count;
+        //itemSlots = new List<PassiveSlot>(passiveItemCount);
         itemPrefab.GetComponent<Image>().color = Color.clear;
-        if (itemCount == 0)
+        if (passiveItemCount == 0)
             return;
-        for (int i = 0; i < PlayerBuffManager.Instance.BuffManager.PassiveIds.Count; i++)
+        for (int i = 0; i < passiveItemCount; i++)
         {
             createdObj = Instantiate(itemPrefab);
-            createdObj.name = "패시브 슬룻 ";
+            createdObj.name = "결과창 패시브 아이템_" + i;
             createdObj.transform.position = currentPos;
             createdObj.transform.SetParent(contentsParent);
-            activeOffAllPassiveSlot += createdObj.GetComponent<PassiveSlot>().ActiveOffPassiveSlot;
             createdObj.transform.localScale = new Vector3(1, 1, 1);
-            itemSlots.Add(createdObj.GetComponent<PassiveSlot>());
+            createdObj.GetComponent<PassiveSlot>().UpdatePassiveSlot(PlayerBuffManager.Instance.BuffManager.PassiveIds[i]);
         }
-        activeOffAllPassiveSlot();
 
         for (int i = 0; i < PlayerBuffManager.Instance.BuffManager.PassiveIds.Count; i++)
         {
-            itemSlots[i].UpdatePassiveSlot(PlayerBuffManager.Instance.BuffManager.PassiveIds[i]);
+            
         }
     }
     #endregion

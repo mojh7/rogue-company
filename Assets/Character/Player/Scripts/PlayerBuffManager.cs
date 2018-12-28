@@ -29,16 +29,9 @@ public class PlayerBuffManager : MonoBehaviourSingleton<PlayerBuffManager>
     public void LoadMiscItemDatas()
     {
         List<int> miscItems = GameDataManager.Instance.GetMiscItems();
-        UsableItemInfo info;
         for (int i = 0; i < miscItems.Count; i++)
         {
-            info = DataStore.Instance.GetMiscItemInfo(miscItems[i]);
-            //Debug.Log(i + ", " + miscItems[i] + ", " + info.ItemName + ", effect len = " + info.EffectApplyTypes.Length);
-            for (int j = 0; j < info.EffectApplyTypes.Length; j++)
-            {
-                info.EffectApplyTypes[j].SetItemId(info.GetId());
-                info.EffectApplyTypes[j].UseItem();
-            }
+            buffManager.RegisterUsableItemInfo(DataStore.Instance.GetMiscItemInfo(miscItems[i]));
         }
     }
     #endregion

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointerDownHandler
 {
-    private delegate void ActiveOffAllPassiveSlot();
+    public delegate void ActiveOffAllPassiveSlot();
 
     #region variables
     [SerializeField]
@@ -29,14 +29,8 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     [SerializeField]
     private Transform passiveSlotsParent;
     [SerializeField]
-    private int slotRow;
-    [SerializeField]
-    private int slotColumn;
     private int slotCountMax;
-    [SerializeField]
-    private Vector2 intervalPos;
     private PassiveSlot[] passiveSlots;
-
     private List<int> passiveSlotIds;
     private int passiveSlotIdsLength;
 
@@ -50,7 +44,6 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     // Use this for initialization
     void Start()
     {
-        slotCountMax = slotRow * slotColumn;
         CreatePassiveSlots(contentsParent);
     }
     #endregion
@@ -72,18 +65,15 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
         passiveSlots = new PassiveSlot[slotCountMax];
         GameObject createdObj;
         Vector3 currentPos = new Vector3();
-        for (int y = 0; y < slotRow; y++)
+        for (int i = 0; i < slotCountMax; i++)
         {
-            for (int x = 0; x < slotColumn; x++)
-            {
-                createdObj = Instantiate(passiveSlotPrefab);
-                createdObj.name = "패시브 슬룻 " + (y * slotRow + x);
-                createdObj.transform.position = currentPos;
-                createdObj.transform.SetParent(contentParent);
-                passiveSlots[y * slotColumn + x] = createdObj.GetComponent<PassiveSlot>();
-                activeOffAllPassiveSlot += passiveSlots[y * slotColumn + x].ActiveOffPassiveSlot;
-                createdObj.transform.localScale = new Vector3(1, 1, 1);
-            }
+            createdObj = Instantiate(passiveSlotPrefab);
+            createdObj.name = "패시브 슬룻_" + i;
+            createdObj.transform.position = currentPos;
+            createdObj.transform.SetParent(contentParent);
+            passiveSlots[i] = createdObj.GetComponent<PassiveSlot>();
+            activeOffAllPassiveSlot += passiveSlots[i].ActiveOffPassiveSlot;
+            createdObj.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 
@@ -101,6 +91,10 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
         }
     }
 
+    /// <summary>
+    /// 패시브 아이템 정보 보기
+    /// </summary>
+    /// <param name="id"></param>
     public void ShowPassiveInfoView(int id)
     {
         passiveItemInfoView.SetActive(true);

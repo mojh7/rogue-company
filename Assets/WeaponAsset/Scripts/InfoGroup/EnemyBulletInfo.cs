@@ -8,6 +8,5 @@ public class EnemyBulletInfo : BulletInfo
     public EnemyBulletInfo()
     {
         ownerType = CharacterInfo.OwnerType.Enemy;
-        colliderSizeRate = 0.3f;
     }
 }

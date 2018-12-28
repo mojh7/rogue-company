@@ -11,7 +11,7 @@ public class PassiveSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField]
     private Sprite emptySprite;
     private int passiveId;
-
+    private int slotId;
     private bool isTouchDown;
 
     private void Awake()
@@ -27,7 +27,7 @@ public class PassiveSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             PassiveItemSlot.Instance.ShowPassiveInfoView(passiveId);
         }
     }
-
+    
     public void UpdatePassiveSlot(int passiveId)
     {
         this.passiveId = passiveId;

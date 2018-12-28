@@ -16,7 +16,7 @@ using UnityEngine;
 public class BuffManager : MonoBehaviour
 {
     public enum TargetEffectTotalUpdateType { REGISTER, REMOVE }
-    public enum EffectApplyType { BUFF, PASSIVE, CONSUMABLEBUFF }
+    public enum EffectApplyType { BUFF, PASSIVE, CONSUMABLE_BUFF }
 
     // 소모형 버프 종류 늘어날 때 마다 따로 처리해야 되서, 0816 모
     public enum ConsumableBuffType { SHIELD }
@@ -207,15 +207,26 @@ public class BuffManager : MonoBehaviour
 
     public void RegisterUsableItemInfo(UsableItemInfo info)
     {
+        if(typeof(MiscItemInfo) == info.GetType())
+        {
+            AddPassiveItme(info);
+        }
+
         for (int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
             info.EffectApplyTypes[i].SetItemId(info.GetId());
-            info.EffectApplyTypes[i].SetPos(this.transform.position);
+            //info.EffectApplyTypes[i].SetPos(pos);
             info.EffectApplyTypes[i].UseItem();
         }
     }
 
-
+    public void AddPassiveItme(UsableItemInfo info)
+    {
+        // Debug.Log("passive 등록 id : " + passiveId);
+        PassiveIds.Add(info.GetId());
+        PassiveItemSlot.Instance.UpdatePassiveItemUI();
+        PassiveItemForDebug.Instance.UpdatePassiveItemUI();
+    }
     /// <summary> 효과 등록 </summary>
     /// <param name="itemUseEffect">효과 내용</param>
     /// <param name="effectiveTime">효과 적용 시간, default = -1, 0초과된 값 => 일정 시간 동안 효과 적용되는 버프 아이템</param>
@@ -231,7 +242,7 @@ public class BuffManager : MonoBehaviour
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
             if (effectiveTime > 0)
             {
-                if(EffectApplyType.CONSUMABLEBUFF == effectApplyType)
+                if(EffectApplyType.CONSUMABLE_BUFF == effectApplyType)
                 {
                     removeCoroutine = StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
                 }
@@ -245,7 +256,7 @@ public class BuffManager : MonoBehaviour
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
             if (effectiveTime > 0)
             {
-                if (EffectApplyType.CONSUMABLEBUFF == effectApplyType)
+                if (EffectApplyType.CONSUMABLE_BUFF == effectApplyType)
                 {
                     removeCoroutine = StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
                 }
@@ -271,13 +282,10 @@ public class BuffManager : MonoBehaviour
                 break;
             case EffectApplyType.PASSIVE:
                 passiveEffects.Add(itemUseEffect);
-                // Debug.Log("passive 등록 id : " + passiveId);
-                PassiveIds.Add(passiveId);
+
                 passiveEffectsLength += 1;
-                PassiveItemSlot.Instance.UpdatePassiveItemUI();
-                PassiveItemForDebug.Instance.UpdatePassiveItemUI();
                 break;
-            case EffectApplyType.CONSUMABLEBUFF:
+            case EffectApplyType.CONSUMABLE_BUFF:
                 ConsumableCharacterBuff consumableCharacterBuff
                     = new ConsumableCharacterBuff(itemUseEffect as CharacterTargetEffect, effectiveTime, removeCoroutine);
                 consumableBuffs.Add(consumableCharacterBuff);
@@ -300,7 +308,7 @@ public class BuffManager : MonoBehaviour
                 passiveEffects.Remove(targetEffect);
                 passiveEffectsLength -= 1;
                 break;
-            case EffectApplyType.CONSUMABLEBUFF:
+            case EffectApplyType.CONSUMABLE_BUFF:
                 
                 break;
             default:
@@ -321,7 +329,7 @@ public class BuffManager : MonoBehaviour
                 passiveEffects.Remove(targetEffect);
                 passiveEffectsLength -= 1;
                 break;
-            case EffectApplyType.CONSUMABLEBUFF:
+            case EffectApplyType.CONSUMABLE_BUFF:
                 break;
             default:
                 break;
@@ -421,7 +429,7 @@ public class BuffManager : MonoBehaviour
                 CharacterTargetEffectTotal.isImmuneAbnormal = CharacterInfo.AbnormalImmune.NONE;
         }
         owner.ApplyItemEffect();
-        PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
+        PassiveItemForDebug.Instance.UpdateEffectTotalValueText();
     }
 
     public void UpdateTargetEffectTotal(InGameTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
@@ -458,7 +466,7 @@ public class BuffManager : MonoBehaviour
             }
         }
         owner.ApplyItemEffect();
-        PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
+        PassiveItemForDebug.Instance.UpdateEffectTotalValueText();
     }
 
     public void UpdateTargetEffectTotal(WeaponTargetEffect targetEffect, TargetEffectTotalUpdateType updateType)
@@ -535,7 +543,7 @@ public class BuffManager : MonoBehaviour
                 WeaponTargetEffectTotal[index].meleeWeaponsCanReflectBullet = boolSign;
         }
 
-        PassiveItemForDebug.Instance.UpdateEffectTotalNameText();
+        PassiveItemForDebug.Instance.UpdateEffectTotalValueText();
     }
 
     private void UpdateCharacterBoolProperty(CharacterBoolPropertyType property, int sign)
