@@ -797,13 +797,13 @@ public class Bullet : MonoBehaviour
         WeaponTargetEffect totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         WeaponTargetEffect effectInfo = ownerBuff.WeaponTargetEffectTotal[type];
 
-        // 1. 원거리 무기 관통 횟수 +2 증가
+        // 원거리 무기 관통 횟수 +2 증가
         if (effectInfo.increasePierceCount)
         {
             info.pierceCount += 2;
         }
 
-        // 5. 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
+        // 샷건 총알 비유도 총알 방식에서 발사 n초 후 유도총알로 바뀌기
         if (CheckEqualWeaponType(WeaponType.SHOTGUN) && effectInfo.shotgunBulletCanHoming)
         {
             info.homingStartTime = 0.1f;
