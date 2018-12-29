@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7a7837d0c3c6a0f49973fb6e6cfdb556
-timeCreated: 1533197550
+guid: ce3cd2bd1d6c3184fafd14792be7f6f1
+timeCreated: 1541942788
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,7 +13,6 @@ TextureImporter:
     21300012: wallDecoration_6
     21300014: wallDecoration_7
     21300016: wallDecoration_8
-    21300018: wallDecoration_9
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -41,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -56,7 +55,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -103,10 +102,10 @@ TextureImporter:
       name: wallDecoration_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 110
-        width: 5
-        height: 5
+        x: 24
+        y: 154
+        width: 14
+        height: 14
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,10 +116,10 @@ TextureImporter:
       name: wallDecoration_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 109
-        width: 7
-        height: 7
+        x: 86
+        y: 152
+        width: 18
+        height: 18
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,10 +130,10 @@ TextureImporter:
       name: wallDecoration_2
       rect:
         serializedVersion: 2
-        x: 73
-        y: 108
-        width: 14
-        height: 8
+        x: 146
+        y: 152
+        width: 28
+        height: 16
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,10 +144,10 @@ TextureImporter:
       name: wallDecoration_3
       rect:
         serializedVersion: 2
-        x: 12
-        y: 72
-        width: 8
-        height: 18
+        x: 22
+        y: 78
+        width: 20
+        height: 42
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,10 +158,10 @@ TextureImporter:
       name: wallDecoration_4
       rect:
         serializedVersion: 2
-        x: 43
-        y: 77
-        width: 10
-        height: 7
+        x: 86
+        y: 90
+        width: 20
+        height: 14
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,10 +172,10 @@ TextureImporter:
       name: wallDecoration_5
       rect:
         serializedVersion: 2
-        x: 75
-        y: 77
-        width: 10
-        height: 7
+        x: 150
+        y: 90
+        width: 20
+        height: 14
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,10 +186,10 @@ TextureImporter:
       name: wallDecoration_6
       rect:
         serializedVersion: 2
-        x: 10
-        y: 45
-        width: 12
-        height: 7
+        x: 20
+        y: 26
+        width: 24
+        height: 14
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -201,10 +200,10 @@ TextureImporter:
       name: wallDecoration_7
       rect:
         serializedVersion: 2
-        x: 43
-        y: 45
-        width: 10
-        height: 7
+        x: 84
+        y: 24
+        width: 24
+        height: 18
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,24 +214,10 @@ TextureImporter:
       name: wallDecoration_8
       rect:
         serializedVersion: 2
-        x: 75
-        y: 45
-        width: 10
-        height: 7
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: wallDecoration_9
-      rect:
-        serializedVersion: 2
-        x: 13
-        y: 13
-        width: 6
-        height: 6
+        x: 150
+        y: 26
+        width: 20
+        height: 14
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

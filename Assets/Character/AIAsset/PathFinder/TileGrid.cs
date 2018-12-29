@@ -76,6 +76,8 @@ namespace AStar
         {
             Node node = NodeFromWorldPoint(spriteRenderer.transform.position);
             Sprite sprite = spriteRenderer.sprite;
+            if (sprite == null)
+                return;
             float x = node.worldPos.x;
             float y = node.worldPos.y;
 

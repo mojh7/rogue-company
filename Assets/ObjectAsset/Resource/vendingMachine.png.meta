@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 091fb02af57dd244fb9bf6513ca70b03
-timeCreated: 1533197457
+guid: ad8b6e3aa12d43d4dbd2ee41c44782c0
+timeCreated: 1541926309
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -95,10 +95,10 @@ TextureImporter:
       name: vendingMachine_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 75
-        width: 35
-        height: 43
+        x: 28
+        y: 150
+        width: 70
+        height: 86
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -109,10 +109,10 @@ TextureImporter:
       name: vendingMachine_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 11
-        width: 31
-        height: 43
+        x: 32
+        y: 22
+        width: 62
+        height: 86
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -1,15 +1,15 @@
 fileFormatVersion: 2
-guid: d198daf22a576aa418d5690cf19cc8ba
-timeCreated: 1534062925
+guid: 47590daf2e6da1740ab6185c38a3f665
+timeCreated: 1546093549
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hallFloor_0
-    21300002: hallFloor_1
-    21300004: hallFloor_2
-    21300006: hallFloor_3
-    21300008: hallFloor_4
-    21300010: hallFloor_5
+    21300000: shadow-Sheet_0
+    21300002: shadow-Sheet_1
+    21300004: shadow-Sheet_2
+    21300006: shadow-Sheet_3
+    21300008: shadow-Sheet_4
+    21300010: shadow-Sheet_5
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 32
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -96,7 +96,35 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hallFloor_0
+      name: shadow-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shadow-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shadow-Sheet_2
       rect:
         serializedVersion: 2
         x: 0
@@ -110,7 +138,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: hallFloor_1
+      name: shadow-Sheet_3
       rect:
         serializedVersion: 2
         x: 32
@@ -124,21 +152,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: hallFloor_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: hallFloor_3
+      name: shadow-Sheet_4
       rect:
         serializedVersion: 2
         x: 0
@@ -152,24 +166,10 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: hallFloor_4
+      name: shadow-Sheet_5
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: hallFloor_5
-      rect:
-        serializedVersion: 2
-        x: 64
         y: 0
         width: 32
         height: 32

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7fdafabc46f0b144c8096577faecc07d
-timeCreated: 1533198069
+guid: 1e86c3f1d53804c46874964792e66278
+timeCreated: 1541942784
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -95,13 +95,13 @@ TextureImporter:
       name: chair_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 35
-        width: 15
-        height: 27
+        x: 16
+        y: 70
+        width: 30
+        height: 54
       alignment: 7
       pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 39}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -109,13 +109,13 @@ TextureImporter:
       name: chair_1
       rect:
         serializedVersion: 2
-        x: 8
-        y: 3
-        width: 15
-        height: 27
+        x: 16
+        y: 6
+        width: 30
+        height: 54
       alignment: 7
       pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 40}
       outline: []
       physicsShape: []
       tessellationDetail: 0

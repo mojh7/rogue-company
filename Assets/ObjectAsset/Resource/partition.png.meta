@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e83c09c849234b34d9336954cb042d53
-timeCreated: 1533197544
+guid: ea4048e8cf4b2334a90adeb13b0f59d3
+timeCreated: 1541942790
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -35,7 +35,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -50,7 +50,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -97,57 +97,73 @@ TextureImporter:
       name: partition_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 79
-        width: 44
-        height: 34
+        x: 20
+        y: 158
+        width: 88
+        height: 68
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -44, y: -22.888885}
+        - {x: -44, y: -34}
+        - {x: 44, y: -34}
+        - {x: 44, y: -22.8889}
       tessellationDetail: 0
     - serializedVersion: 2
       name: partition_1
       rect:
         serializedVersion: 2
-        x: 74
-        y: 79
-        width: 44
-        height: 34
+        x: 148
+        y: 158
+        width: 88
+        height: 68
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -44, y: -23.26564}
+        - {x: -44, y: -34}
+        - {x: 44, y: -34}
+        - {x: 44, y: -23.265625}
       tessellationDetail: 0
     - serializedVersion: 2
       name: partition_2
       rect:
         serializedVersion: 2
-        x: 20
-        y: 15
-        width: 24
-        height: 34
+        x: 40
+        y: 30
+        width: 48
+        height: 68
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -24, y: -24}
+        - {x: -24, y: -34}
+        - {x: 24, y: -34}
+        - {x: 24, y: -24}
       tessellationDetail: 0
     - serializedVersion: 2
       name: partition_3
       rect:
         serializedVersion: 2
-        x: 94
-        y: 16
-        width: 4
-        height: 33
+        x: 188
+        y: 32
+        width: 8
+        height: 66
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -4, y: -22}
+        - {x: -4, y: -33}
+        - {x: 4, y: -33}
+        - {x: 4, y: -22}
       tessellationDetail: 0
     outline: []
     physicsShape: []

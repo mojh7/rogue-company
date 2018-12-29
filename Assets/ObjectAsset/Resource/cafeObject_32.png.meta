@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c3ad310f7cbe5d540a8c8085b338787f
-timeCreated: 1533734543
+guid: ca143a9b7092925468ee3ba957a7a707
+timeCreated: 1541944038
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,7 +12,6 @@ TextureImporter:
     21300010: cafeObject_32_5
     21300012: cafeObject_32_6
     21300014: cafeObject_32_7
-    21300016: cafeObject_32_8
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -40,7 +39,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -55,7 +54,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 128
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -102,163 +101,145 @@ TextureImporter:
       name: cafeObject_32_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 69
-        width: 18
-        height: 15
+        x: 28
+        y: 276
+        width: 72
+        height: 60
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -8, y: -7.5}
-        - {x: 8, y: -7.5}
-        - {x: 8, y: -3.5}
-        - {x: -8, y: -3.5}
+      - - {x: -29, y: -30}
+        - {x: 30, y: -30}
+        - {x: 33, y: -14}
+        - {x: -30, y: -13}
       tessellationDetail: 0
     - serializedVersion: 2
       name: cafeObject_32_1
       rect:
         serializedVersion: 2
-        x: 39
-        y: 65
-        width: 18
-        height: 30
+        x: 156
+        y: 260
+        width: 72
+        height: 120
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -6, y: -9}
-        - {x: -6, y: -15}
-        - {x: 7, y: -15}
-        - {x: 7, y: -9}
+      - - {x: -21, y: -34}
+        - {x: -19, y: -60}
+        - {x: 24, y: -60}
+        - {x: 28, y: -37}
       tessellationDetail: 0
     - serializedVersion: 2
       name: cafeObject_32_2
       rect:
         serializedVersion: 2
-        x: 71
-        y: 66
-        width: 16
-        height: 20
+        x: 284
+        y: 264
+        width: 64
+        height: 80
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -6, y: -4}
-        - {x: -6, y: -10}
-        - {x: 7, y: -10}
-        - {x: 7, y: -4}
+      - - {x: -24, y: -14}
+        - {x: -21, y: -40}
+        - {x: 25, y: -40}
+        - {x: 26, y: -13}
       tessellationDetail: 0
     - serializedVersion: 2
       name: cafeObject_32_3
       rect:
         serializedVersion: 2
-        x: 7
-        y: 34
-        width: 17
-        height: 25
+        x: 28
+        y: 136
+        width: 68
+        height: 100
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -3.5, y: -4.5}
-        - {x: -3.5, y: -12.5}
-        - {x: 4.5, y: -12.5}
-        - {x: 4.5, y: -4.5}
+      - - {x: -14, y: -14}
+        - {x: -15, y: -50}
+        - {x: 18, y: -50}
+        - {x: 18, y: -14}
       tessellationDetail: 0
     - serializedVersion: 2
       name: cafeObject_32_4
       rect:
         serializedVersion: 2
-        x: 42
-        y: 32
-        width: 17
-        height: 29
+        x: 156
+        y: 128
+        width: 68
+        height: 116
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: 6.5, y: -2.5}
-        - {x: -8.5, y: -2.5}
-        - {x: -8.5, y: -14.5}
-        - {x: 6.5, y: -14.5}
-      tessellationDetail: 0
+      - - {x: -26, y: -10}
+        - {x: -26, y: -58}
+        - {x: 34, y: -58}
+        - {x: 34, y: -9}
+      tessellationDetail: 0.86
     - serializedVersion: 2
       name: cafeObject_32_5
       rect:
         serializedVersion: 2
-        x: 71
-        y: 32
-        width: 17
-        height: 29
+        x: 268
+        y: 136
+        width: 108
+        height: 92
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -6.5, y: -2.5}
-        - {x: -6.5, y: -14.5}
-        - {x: 8.5, y: -14.5}
-        - {x: 8.5, y: -2.5}
+      - - {x: 54, y: 32}
+        - {x: -51, y: 30}
+        - {x: -22, y: -41}
+        - {x: 24, y: -41}
       tessellationDetail: 0
     - serializedVersion: 2
       name: cafeObject_32_6
       rect:
         serializedVersion: 2
-        x: 3
-        y: 2
-        width: 27
-        height: 23
+        x: 12
+        y: 8
+        width: 108
+        height: 92
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -6.5, y: 9.5}
-        - {x: -6.5, y: -11.5}
-        - {x: 6.5, y: -11.5}
-        - {x: 6.5, y: 9.5}
+      - - {x: 54, y: 12}
+        - {x: -54, y: 12}
+        - {x: -9, y: -46}
+        - {x: 11, y: -46}
       tessellationDetail: 0
     - serializedVersion: 2
       name: cafeObject_32_7
       rect:
         serializedVersion: 2
-        x: 35
-        y: 2
-        width: 27
-        height: 23
+        x: 136
+        y: 20
+        width: 108
+        height: 92
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -6.5, y: 9.5}
-        - {x: -6.5, y: -11.5}
-        - {x: 6.5, y: -11.5}
-        - {x: 5.5, y: 9.5}
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: cafeObject_32_8
-      rect:
-        serializedVersion: 2
-        x: 68
-        y: 0
-        width: 27
-        height: 23
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: 6.5, y: -11.5}
-        - {x: 6.5, y: 9.5}
-        - {x: -6.5, y: 9.5}
-        - {x: -6.5, y: -11.5}
+      - - {x: 17, y: -46}
+        - {x: 54, y: 22}
+        - {x: -52, y: 21}
+        - {x: -14, y: -46}
       tessellationDetail: 0
     outline: []
     physicsShape: []

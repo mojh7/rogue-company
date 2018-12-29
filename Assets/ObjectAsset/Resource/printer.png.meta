@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9a481658c1d40704597576bb38d00755
-timeCreated: 1533197465
+guid: ef8b65441f970d547a60106436fd378d
+timeCreated: 1541942790
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -95,29 +95,37 @@ TextureImporter:
       name: printer_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 36
-        width: 26
-        height: 22
+        x: 10
+        y: 72
+        width: 52
+        height: 44
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -26, y: -15.674759}
+        - {x: 17.945206, y: -15.106148}
+        - {x: 10.544521, y: -22}
+        - {x: -26, y: -22}
       tessellationDetail: 0
     - serializedVersion: 2
       name: printer_1
       rect:
         serializedVersion: 2
-        x: 5
-        y: 4
-        width: 22
-        height: 23
+        x: 10
+        y: 8
+        width: 44
+        height: 46
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -22, y: -13.921268}
+        - {x: -22, y: -23}
+        - {x: 17.10228, y: -23}
+        - {x: 22, y: -13.921265}
       tessellationDetail: 0
     outline: []
     physicsShape: []

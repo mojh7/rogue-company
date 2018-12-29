@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c33b0dbe228f5754c8f8748d721270e8
-timeCreated: 1533197553
+guid: 749c787e7b9e18647baae6743fd7dd20
+timeCreated: 1541942787
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -38,7 +38,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -53,7 +53,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -100,99 +100,128 @@ TextureImporter:
       name: decoration_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 65
-        width: 9
-        height: 10
+        x: 22
+        y: 130
+        width: 18
+        height: 20
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6.7395153, y: 4.066223}
+        - {x: -5.8918324, y: -10}
+        - {x: 5.0441513, y: -10}
+        - {x: 7.022072, y: 4.3487854}
       tessellationDetail: 0
     - serializedVersion: 2
       name: decoration_1
       rect:
         serializedVersion: 2
-        x: 43
-        y: 65
-        width: 9
-        height: 10
+        x: 86
+        y: 130
+        width: 18
+        height: 20
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6.456955, y: 4.3487854}
+        - {x: -6.456955, y: -9.717438}
+        - {x: 5.8918304, y: -10}
+        - {x: 7.5871964, y: 5.196472}
       tessellationDetail: 0
     - serializedVersion: 2
       name: decoration_2
       rect:
         serializedVersion: 2
-        x: 75
-        y: 65
-        width: 9
-        height: 10
+        x: 150
+        y: 130
+        width: 18
+        height: 20
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -5.6092834, y: 5.7615967}
+        - {x: -6.1743927, y: -10}
+        - {x: 5.8918304, y: -10}
+        - {x: 7.3046265, y: 4.6313324}
       tessellationDetail: 0
     - serializedVersion: 2
       name: decoration_3
       rect:
         serializedVersion: 2
-        x: 11
-        y: 33
-        width: 10
-        height: 14
+        x: 22
+        y: 66
+        width: 20
+        height: 28
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -7.304636, y: 9.196465}
+        - {x: -10, y: 13}
+        - {x: -6.0220737, y: -14}
+        - {x: 6.5871964, y: -14}
+        - {x: 7.456955, y: 9.479027}
       tessellationDetail: 0
     - serializedVersion: 2
       name: decoration_4
       rect:
         serializedVersion: 2
-        x: 40
-        y: 33
-        width: 14
-        height: 30
+        x: 80
+        y: 66
+        width: 28
+        height: 60
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -5.8057327, y: -7.580574}
+        - {x: -4.066223, y: -30}
+        - {x: 7.5010986, y: -30}
+        - {x: 11.456947, y: -8.145699}
       tessellationDetail: 0
     - serializedVersion: 2
       name: decoration_5
       rect:
         serializedVersion: 2
-        x: 73
-        y: 33
-        width: 13
-        height: 31
+        x: 146
+        y: 66
+        width: 26
+        height: 62
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6.501114, y: -8.275932}
+        - {x: -6.1743927, y: -31}
+        - {x: 7.739517, y: -31}
+        - {x: 8.761581, y: -9.123619}
       tessellationDetail: 0
     - serializedVersion: 2
       name: decoration_6
       rect:
         serializedVersion: 2
-        x: 11
-        y: 1
-        width: 10
-        height: 18
+        x: 22
+        y: 2
+        width: 20
+        height: 36
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -8.304634, y: 4.7196484}
+        - {x: -6.60927, y: -18}
+        - {x: 6.0220757, y: -18}
+        - {x: 10, y: 5.0022087}
       tessellationDetail: 0
     outline: []
     physicsShape: []
