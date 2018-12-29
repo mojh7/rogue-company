@@ -116,6 +116,12 @@ public class BulletInfo : ScriptableObject
     public float homingStartTime;
     public float homingEndTime;
 
+    [Header("Trigonometric 속성 start~end Time, end = -1 사라질 때 까지")]
+    public float trigonometricStartTime;
+    public float trigonometricEndTime;
+    public float amplitude;
+    public float trigonometricPeriodMultiple;
+
     [Header("Spiral Property, start~end time, end Time의 -1값 : 끝나는 시간 제한 없음")]
     public bool routineSprial;
     public int spiralRoutineCount;
@@ -192,6 +198,7 @@ public class BulletInfo : ScriptableObject
         becomeSpiderMine = false;
 
         homingEndTime = -1;
+        trigonometricEndTime = -1;
 
         routineSprial = false;
         spiralRoutineCount = -1;
@@ -258,6 +265,10 @@ public class BulletInfo : ScriptableObject
         clonedInfo.becomeSpiderMine = becomeSpiderMine;
         clonedInfo.homingStartTime = homingStartTime;
         clonedInfo.homingEndTime = homingEndTime;
+        clonedInfo.trigonometricStartTime = trigonometricStartTime;
+        clonedInfo.trigonometricEndTime = trigonometricEndTime;
+        clonedInfo.amplitude = amplitude;
+        clonedInfo.trigonometricPeriodMultiple = trigonometricPeriodMultiple;
 
         clonedInfo.routineSprial = routineSprial;
         clonedInfo.spiralRoutineCount = spiralRoutineCount;
@@ -376,6 +387,9 @@ public class BulletInfo : ScriptableObject
                     break;
                 case UpdatePropertyType.Child:
                     updateProperties.Add(new ChildUpdateProperty());
+                    break;
+                case UpdatePropertyType.TRIGONOMETRIC:
+                    updateProperties.Add(new TrigonometricProperty());
                     break;
                 default:
                     break;

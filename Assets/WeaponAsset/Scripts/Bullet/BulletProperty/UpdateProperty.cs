@@ -701,20 +701,31 @@ public class RotationProperty : UpdateProperty
 public class TrigonometricProperty : UpdateProperty
 {
     private float verticalDistance;
-    private float period;
+    //private float period;
 
+    private float amplitude;
     private float startTime;
     private float endTime;
+    private float trigonometricPeriodMultiple;
+    private float magnitude;
+    private float oldSine;
+    private float newSine;
+    private float cosTime;
 
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
 
-        lifeTime = bullet.info.lifeTime;
         timeCount = 0;
-
-        //homingStartTime = bullet.info.homingStartTime;
-        //homingEndTime = bullet.info.homingEndTime;
+        lifeTime = bullet.info.lifeTime;
+        amplitude = bullet.info.amplitude;
+        startTime = bullet.info.trigonometricStartTime;
+        endTime = bullet.info.trigonometricEndTime;
+        trigonometricPeriodMultiple = bullet.info.trigonometricPeriodMultiple;
+        magnitude = 0;
+        oldSine = 0;
+        newSine = 0;
+        cosTime = 0;
     }
 
     public override UpdateProperty Clone()
@@ -724,14 +735,17 @@ public class TrigonometricProperty : UpdateProperty
 
     public override void Update()
     {
+        if(startTime < timeCount && (timeCount <= endTime || endTime == -1))
+        {
+            newSine = Mathf.Sin(trigonometricPeriodMultiple * cosTime);
+            magnitude = newSine - oldSine;
+            oldSine = newSine;
+            cosTime += Time.fixedDeltaTime;
+            bullet.TranslatePerpendicular(magnitude);
+        }
         timeCount += Time.fixedDeltaTime;
     }
 }
-
-// 네모, 세모 등등 따로 그려진 모양의 패턴 class 전용 업데이트 속성
-// PaintParentProperty
-// PaintChildProperty
-
 
 
 // 좌표 변화 : parent 중심 -> parent 좌표를 원점으로 각각의 위치로 -> parentBullet 움직임에 따라 평행이동.

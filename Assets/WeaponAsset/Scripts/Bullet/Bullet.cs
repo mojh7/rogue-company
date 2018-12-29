@@ -65,6 +65,9 @@ public class Bullet : MonoBehaviour
     private float timeCount;
     private float updateDelayTime;
 
+    // 오브젝트 충돌 후 delete, lifeTime이 다 되서 delete 되었는지 구분을 위한 변수
+    private bool isCollisionObject;
+    
     // shapePattern 관련
     private Transform parentBulletTransform;
     private ChildBulletCommonProperty childBulletCommonProperty;
@@ -74,6 +77,8 @@ public class Bullet : MonoBehaviour
     private BulletPresetInfo bulletPresetInfo;
 
     private float eulerAngleZ;
+
+    private Vector3 perpendicularVec;
     #endregion
 
     #region getter / setter
@@ -93,7 +98,7 @@ public class Bullet : MonoBehaviour
     public Transform GetParentBulletTransform() { return parentBulletTransform; }
     public InitVector GetInitVector() { return initVector; }
 
-    // 현재 바라보는 방향의 euler z 각도 반환
+
     public Vector3 GetPosition() { return objTransform.position; }
     public float GetAddDirVecMagnitude() { return addDirVecMagnitude; }
     public float GetAdditionalVerticalPos() { return additionalVerticalPos; }
@@ -214,6 +219,7 @@ public class Bullet : MonoBehaviour
 
         dirDegree = 0f;
         dirVector = Vector3.right;
+        Debug.Log("dir : " + direction);
         SetDirection(direction);
         if (0 < updateDelayTime)
         {
@@ -480,6 +486,18 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region func
+
+    private void UpdatePerpendicularVec()
+    {
+        perpendicularVec = MathCalculator.VectorRotate(dirVector, 90);
+    }
+
+    public void TranslatePerpendicular(float magnitude)
+    {
+        Vector3 translation = info.amplitude * magnitude * perpendicularVec;
+        objTransform.Translate(translation, Space.World);
+    }
+
     /// <summary>
     /// 적용할 bulletPresetInfo 있으면 설정
     /// </summary>
@@ -590,6 +608,7 @@ public class Bullet : MonoBehaviour
             objTransform.rotation = Quaternion.Euler(0, 0, this.dirDegree);
         }
         objRigidbody.velocity = info.speed * dirVector;
+        UpdatePerpendicularVec();
     }
 
     /// <summary> 해당 각도로 rotation.z 값을 설정하고 속도를 지정한다. </summary>
@@ -602,6 +621,7 @@ public class Bullet : MonoBehaviour
             objTransform.rotation = Quaternion.Euler(0, 0, this.dirDegree);
         }
         objRigidbody.velocity = info.speed * dirVector;
+        UpdatePerpendicularVec();
     }
 
     /// <summary> 현재 방향의 각도와 방향벡터에서 매개변수로 받은 각도만큼 회전 및 속도를 지정한다. </summary>
@@ -615,6 +635,7 @@ public class Bullet : MonoBehaviour
             objTransform.rotation = Quaternion.Euler(0, 0, this.dirDegree);
         }
         objRigidbody.velocity = info.speed * dirVector;
+        UpdatePerpendicularVec();
     }
 
     // velocity 바꾸는 함수는 계속 구조 개선 및 수정될 예정. 
@@ -818,6 +839,7 @@ public class Bullet : MonoBehaviour
             }
         }
 
+        // 투사체 유도 기능
         if(effectInfo.canHoming)
         {
             info.homingEndTime = 1.5f;
