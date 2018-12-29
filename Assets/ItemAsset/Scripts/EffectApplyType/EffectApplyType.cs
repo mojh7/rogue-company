@@ -19,11 +19,7 @@ public abstract class EffectApplyType : ScriptableObject
 
     protected int itemId;
 
-    // 유성이형
-    protected Vector2 position;
-
     public abstract void UseItem();
     public int GetItemId() { return itemId; }
     public void SetItemId(int id) { itemId = id; }
-    public void SetPos(Vector2 pos) { position = pos; }
 }

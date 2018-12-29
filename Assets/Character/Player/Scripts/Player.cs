@@ -693,13 +693,10 @@ public class Player : Character
         if (itemUseEffect.charScale > 0 && itemUseEffect.charScale <= 2f)
             ScaleChange(itemUseEffect.charScale);
 
-        //Debug.Log(itemUseEffect.hpRatio);
         stamina.SetStaminaMax(playerData.StaminaMax);
         stamina.RecoverStamina(0);
         playerHPUi.SetHpMax(hpMax);
         playerHPUi.ChangeHp(hp);
-        //Debug.Log(skillGageMultiple);
-        //Debug.Log(staminaGageMultiple);
     }
     #endregion
 

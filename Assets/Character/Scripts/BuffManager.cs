@@ -211,7 +211,6 @@ public class BuffManager : MonoBehaviour
         for (int i = 0; i < info.EffectApplyTypes.Length; i++)
         {
             info.EffectApplyTypes[i].SetItemId(info.GetId());
-            //info.EffectApplyTypes[i].SetPos(pos);
             info.EffectApplyTypes[i].UseItem();
         }
     }

@@ -29,12 +29,12 @@ public class ItemWithoutPlayerType : EffectApplyType
         {
             for(int i=0;i<inGameTargetEffect.megaCoin;i++)
             {
-                ItemManager.Instance.CreateItem(ItemManager.Instance.DropCoin(), position, new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
+                ItemManager.Instance.CreateItem(ItemManager.Instance.DropCoin(), PlayerManager.Instance.GetPlayerPosition(), new Vector2(Random.Range(-1f, 1f), Random.Range(3, 8)));
             }
         }
         if(inGameTargetEffect.buffAstrologer)
         {
-            ParticleManager.Instance.PlayParticle("Twinkle", position);
+            ParticleManager.Instance.PlayParticle("Twinkle", PlayerManager.Instance.GetPlayerPosition());
             PlayerBuffManager.Instance.ApplyAstrologerBuff();
         }
     }

@@ -41,7 +41,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     }
     void Update()
     {
-        if (Stamina.Instance.IsFullStamina())
+        if (maxStamina > stamina)
         {
             currentTime += Time.deltaTime;
             if (currentTime > 3)
@@ -70,7 +70,11 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     public void SetStaminaMax(int staminaMax)
     {
         maxStamina = staminaMax;
+        staminaImage.fillAmount = stamina / (float)maxStamina;
+        staminaText.text = stamina + "/" + maxStamina;
+        delayStaminaImage.fillAmount = staminaImage.fillAmount;
     }
+
 
     /// <summary>
     /// 스테미너 회복 : 자연 회복, 몬스터 처치시 회복
@@ -87,6 +91,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
             staminaImage.fillAmount = 1;
         }
         playerData.Stamina = stamina;
+        staminaImage.fillAmount = stamina / (float)maxStamina;
         staminaText.text = stamina + "/" + maxStamina;
     }
 
@@ -135,16 +140,6 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         else
             return false;
     }
-
-    //// 리턴 시키는 함수
-    //public int StaminaAmout(float amount, int totalStamina)
-    //{
-    //    float temp = amount * totalStamina;
-    //    playerStamina = (int)temp;
-    //    if(player != null)
-    //        player.SetStamina(playerStamina);
-    //    return playerStamina;
-    //}
 
     IEnumerator CoroutineStamina(float _src, float _dest, float max, Image _image)
     {

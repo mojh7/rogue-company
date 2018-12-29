@@ -27,7 +27,7 @@ public class PlayerHpbarUI : MonoBehaviour {
         oldHp = hp;
         remainHp = hp;
         hpImage.fillAmount = remainHp / hp;
-        hpText.text = remainHp + "/" + hpMax;
+        hpText.text = remainHp + "/" + (int)hpMax;
     }
 
     public void SetHpMax(float hpMax)
@@ -41,7 +41,7 @@ public class PlayerHpbarUI : MonoBehaviour {
         oldHp = remainHp;
         remainHp = _hp;
         hpImage.fillAmount = (int)remainHp / hp;
-        hpText.text = (int)remainHp + "/" + hpMax;
+        hpText.text = (int)remainHp + "/" + (int)hpMax;
         StartCoroutine(CoroutineHP(oldHp, remainHp, hp, delayHPImage));
     }
 
