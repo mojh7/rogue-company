@@ -76,6 +76,7 @@ TextureImporter:
     21300138: Bullet_69
     21300140: Bullet_70
     21300142: Bullet_71
+    21300144: empty_sprite
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -1165,6 +1166,20 @@ TextureImporter:
         height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: empty_sprite
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

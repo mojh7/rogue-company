@@ -219,7 +219,6 @@ public class Bullet : MonoBehaviour
 
         dirDegree = 0f;
         dirVector = Vector3.right;
-        Debug.Log("dir : " + direction);
         SetDirection(direction);
         if (0 < updateDelayTime)
         {
