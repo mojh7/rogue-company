@@ -1,14 +1,15 @@
 fileFormatVersion: 2
-guid: 27127c6fde90b2e46b9b7549af755762
-timeCreated: 1546174821
+guid: 6e220eed326334b46b484a8b06d54754
+timeCreated: 1546173931
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: pillar_0
-    21300002: pillar_1
-    21300004: pillar_2
-    21300006: pillar_3
-    21300008: pillar_4
+    21300000: pillar2_0
+    21300002: pillar2_1
+    21300004: pillar2_2
+    21300006: pillar2_3
+    21300008: pillar2_4
+    21300010: pillar2_5
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -95,7 +96,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pillar_0
+      name: pillar2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -108,18 +109,11 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: -32, y: -64}
-        - {x: -26, y: -64}
-        - {x: -26, y: 32}
-        - {x: -28, y: 34}
-        - {x: -32, y: 34}
-      - - {x: 26, y: 32}
-        - {x: 26, y: -64}
-        - {x: 32, y: -64}
-        - {x: 32, y: 34}
-        - {x: 28, y: 34}
+        - {x: 1, y: -64}
+        - {x: -32, y: -64}
       tessellationDetail: 0
     - serializedVersion: 2
-      name: pillar_1
+      name: pillar2_1
       rect:
         serializedVersion: 2
         x: 64
@@ -131,14 +125,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -32, y: -64}
-        - {x: -26, y: -64}
-        - {x: -26, y: 32}
-        - {x: -28, y: 34}
-        - {x: -32, y: 34}
+      - - {x: 0, y: -64}
+        - {x: 32, y: -64}
+        - {x: 32, y: -64}
       tessellationDetail: 0
     - serializedVersion: 2
-      name: pillar_2
+      name: pillar2_2
       rect:
         serializedVersion: 2
         x: 128
@@ -150,14 +142,13 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: 26, y: 32}
-        - {x: 26, y: -64}
-        - {x: 32, y: -64}
-        - {x: 32, y: 34}
-        - {x: 28, y: 34}
+      - - {x: 0, y: -64}
+        - {x: 0, y: 64}
+        - {x: -32, y: 64}
+        - {x: -32, y: -64}
       tessellationDetail: 0
     - serializedVersion: 2
-      name: pillar_3
+      name: pillar2_3
       rect:
         serializedVersion: 2
         x: 0
@@ -169,13 +160,13 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: 12, y: -64}
-        - {x: 12, y: 64}
-        - {x: -12, y: 64}
-        - {x: -12, y: -64}
+      - - {x: 0, y: 64}
+        - {x: 0, y: -64}
+        - {x: 32, y: -64}
+        - {x: 32, y: 64}
       tessellationDetail: 0
     - serializedVersion: 2
-      name: pillar_4
+      name: pillar2_4
       rect:
         serializedVersion: 2
         x: 64
@@ -187,12 +178,28 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -12, y: -60}
-        - {x: -12, y: -64}
-        - {x: 12, y: -64}
-        - {x: 12, y: -60}
-        - {x: 10, y: -58}
-        - {x: -10, y: -58}
+      - - {x: -32, y: 64}
+        - {x: -32, y: -64}
+        - {x: 32, y: -64}
+        - {x: 32, y: 64}
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pillar2_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -32, y: 64}
+        - {x: -32, y: -64}
+        - {x: 32, y: -64}
+        - {x: 32, y: 64}
       tessellationDetail: 0
     outline: []
     physicsShape: []
