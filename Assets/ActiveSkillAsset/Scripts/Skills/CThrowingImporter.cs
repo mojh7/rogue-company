@@ -22,6 +22,8 @@ public class CThrowingImporter : SkillData
     string particleName;
     [SerializeField]
     float particleTerm;
+    [SerializeField]
+    bool isDestroy;
 
     public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
@@ -59,6 +61,7 @@ public class CThrowingImporter : SkillData
         skillObject.Set(animName, speed, acceleration, destPos - srcPos);
         skillObject.Set(attachedParticleName);
         skillObject.Set(particleName, particleTerm);
+        skillObject.Set(isDestroy);
         return BT.State.SUCCESS;
     }
 

@@ -124,6 +124,7 @@ public class ProjectileSkillObject : CollisionSkillObject
     float directionDegree;
     float speed, acceleration;
     Vector3 direction;
+    bool isDestroy = true;
 
     public void Set(string animName, float speed, float acceleration, Vector3 direction)
     {
@@ -143,6 +144,10 @@ public class ProjectileSkillObject : CollisionSkillObject
         if (particleName == "")
             return;
         StartCoroutine(CoroutineParticle(particleName, term));
+    }
+    public void Set(bool isDestroy)
+    {
+        this.isDestroy = isDestroy;
     }
     IEnumerator CoroutineParticle(string particleName, float term)
     {
@@ -218,8 +223,8 @@ public class ProjectileSkillObject : CollisionSkillObject
                 if (customObject)
                     item.Run(customObject, bodyTransform.position, ref lapsedTime);
             }
-
-            DestroyAndDeactive();
+            if(isDestroy)
+                DestroyAndDeactive();
         }
     }
 }
