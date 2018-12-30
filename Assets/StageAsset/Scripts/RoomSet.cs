@@ -134,6 +134,11 @@ public struct ObjectData
                 _gameObject.GetComponent<SkillBox>().sprites = sprites;
                 _gameObject.GetComponent<SkillBox>().Init(objectAbnormalType);
                 break;
+            case ObjectType.PARTITION:
+                _gameObject.AddComponent<Partition>().LoadAwake();
+                _gameObject.GetComponent<Partition>().sprites = sprites;
+                _gameObject.GetComponent<Partition>().Init();
+                break;
         }
 
         return _gameObject;

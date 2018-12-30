@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: ee9e977d88220554ba82d7e3ac098e4f
-timeCreated: 1542781530
+guid: d294d6651e160ed478e1b1cb52b792bc
+timeCreated: 1546155473
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: pillar_0
     21300002: pillar_1
+    21300004: pillar_2
+    21300006: pillar_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -33,7 +35,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -96,7 +98,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 128
         width: 64
         height: 128
       alignment: 7
@@ -107,6 +109,34 @@ TextureImporter:
       tessellationDetail: 0
     - serializedVersion: 2
       name: pillar_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 64
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pillar_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pillar_3
       rect:
         serializedVersion: 2
         x: 64

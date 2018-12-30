@@ -8,7 +8,7 @@ public enum ObjectType
 {
     NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX,
     VENDINMACHINE, TRAPBOX, PORTAL, SNACKBOX, MEDKITBOX,
-    SUBSTATION, STOREITEM, NPC, STATUE, SKILLBOX
+    SUBSTATION, STOREITEM, NPC, STATUE, SKILLBOX, PARTITION
 }
 
 public enum ObjectAbnormalType
@@ -83,6 +83,7 @@ public class CustomObject : MonoBehaviour
         gameObject.layer = 1;
         SetNullPolygon();
         polygonCollider2D.enabled = true;
+        spriteRenderer.sortingLayerName = "Default";
         spriteRenderer.color = Color.white;
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
         StopAni();
@@ -1226,3 +1227,14 @@ public class NoneBox : NoneRandomSpriteObject
         textMesh.text = "";
     }
 }
+
+public class Partition : UnbreakableBox
+{
+    public override void Init()
+    {
+        base.Init();
+        spriteRenderer.sortingLayerName = "Background";
+        spriteRenderer.sortingOrder = 3;
+    }
+}
+    
