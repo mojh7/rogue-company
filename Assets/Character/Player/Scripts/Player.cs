@@ -287,7 +287,6 @@ public class Player : Character
         return true;
     }
 
-
     protected override void Die()
     {
         GameDataManager.Instance.SetTime(TimeController.Instance.GetPlayTime);

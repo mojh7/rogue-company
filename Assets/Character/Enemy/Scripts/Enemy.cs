@@ -189,15 +189,6 @@ public class Enemy : Character
         }
     }
 
-    /*
-    // 0813 모, 체력이 깎이는 다양한 경우에서 hp감소를 공통된 방식으로 처리하기 위해 함수화하여 처리
-    private void ReduceHp(float damage)
-    {
-        hp -= damage;
-        if (hp <= 0)
-            Die();
-    }*/
-
     /// <summary>총알에서 전달된 정보로 공격 처리</summary>
     public override float Attacked(TransferBulletInfo transferredInfo)
     {
@@ -209,7 +200,6 @@ public class Enemy : Character
         if (criticalCheck < transferredInfo.criticalChance)
         {
             damage *= Bullet.CRITICAL_DAMAGE + transferredInfo.criticalDamageIncrement;
-            //Debug.Log("crt dmg inc : " + (BulletConstants.CRITICAL_DAMAGE + transferredInfo.criticalDamageIncrement));
         }
 
         ReduceHp(damage);

@@ -135,7 +135,8 @@ public class MapEditor : EditorWindow
 
         ObjectSet objectSet = new ObjectSet();
         objectSet.Add(currentData);
-        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        string path = "";
+
         if (path == "")
         {
             path = "Assets/ObjectAsset/GameData/";
@@ -215,7 +216,7 @@ public class MapEditor : EditorWindow
         string path = AssetDatabase.GetAssetPath(Selection.activeObject);
         if (path == "")
         {
-            path = "Assets/StageAsset/GameData/CommonRoomSet/";
+            path = "Assets/StageAsset/GameData/";
         }
         else if (Path.GetExtension(path) != "")
         {
