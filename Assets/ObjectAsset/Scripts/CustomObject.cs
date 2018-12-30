@@ -1235,6 +1235,7 @@ public class Partition : UnbreakableBox
         base.Init();
         spriteRenderer.sortingLayerName = "Background";
         spriteRenderer.sortingOrder = 3;
+        objectType = ObjectType.PARTITION;
     }
 }
     

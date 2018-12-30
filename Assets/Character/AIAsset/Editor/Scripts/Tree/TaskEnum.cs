@@ -35,6 +35,7 @@
         StopTrackAction,
         RunawayTrackAction,
         ShotAction,
-        PositionTrackAction
+        PositionTrackAction,
+        MidTrackAction
     }
 }

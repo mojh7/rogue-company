@@ -25,6 +25,15 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
             mask = GetComponentInChildren<SpriteMask>(true).transform;
         }
     }
+
+    public Vector3 MidPosition
+    {
+        get
+        {
+            return (currentRoom.areaLeftDown + currentRoom.areaRightTop) * .5f;
+        }
+    }
+
     public void Trap()
     {
         MiniMap.Instance.HideMiniMap();

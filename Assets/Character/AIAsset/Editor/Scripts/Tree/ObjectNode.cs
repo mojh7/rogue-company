@@ -126,6 +126,11 @@ namespace BT
                     actionTask = EActionTask.PositionTrackAction;
                     value1 = (task as ShotAction).Value;
                     break;
+                case "MidTrackAction":
+                    taskType = TaskType.ActionTask;
+                    actionTask = EActionTask.MidTrackAction;
+                    value1 = (task as ShotAction).Value;
+                    break;
             }
         }
 
@@ -300,6 +305,8 @@ namespace BT
                             return ScriptableObject.CreateInstance<ShotAction>().SetValue((int)value1);
                         case EActionTask.PositionTrackAction:
                             return ScriptableObject.CreateInstance<PositionTrackAction>().SetValue(value1, value2);
+                        case EActionTask.MidTrackAction:
+                            return ScriptableObject.CreateInstance<MidTrackAction>().SetValue(value1);
                     }
                     break;
             }
