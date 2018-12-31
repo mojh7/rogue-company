@@ -16,7 +16,7 @@ item의 자식 클래스로 말 그대로 사용가능한 아이템으로 아이
 UsableItem 종류
  - 음식 FoodItem
  - 의류 ClothingItem
- - 잡화 MiscItem
+ - 잡화 MiscItem(패시브 전용)
  - 의료 MedicalItem
  - 펫 PetItem
 

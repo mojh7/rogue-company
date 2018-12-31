@@ -873,7 +873,7 @@ public class Player : Character
     {
         while (true)
         {
-            if (Vector2.zero != rgbody.velocity && rgbody.velocity.magnitude < 1f)
+            if (rgbody.velocity.magnitude < 0.2f)
             {
                 SubRetrictsMovingCount();
                 knockBackCheck = null;
