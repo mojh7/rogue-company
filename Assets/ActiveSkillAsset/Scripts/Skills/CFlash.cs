@@ -23,7 +23,7 @@ public class CFlash : SkillData
     {
         if (State.FAILURE == base.Run(caster, other, pos, ref lapsedTime))
             return State.FAILURE;
-        return Run(RoomManager.Instance.GetNearestAvailableArea(other.GetPosition()));
+        return Run(RoomManager.Instance.GetNearestAvailableArea(other.GetPosition() + Random.insideUnitSphere * 1));
     }
 
     private BT.State Run(Vector3 destPos)

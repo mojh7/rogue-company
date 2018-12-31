@@ -17,12 +17,12 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
       Character caster, Character other, CustomObject customObject,
       SkillData preSkillData, SkillData mainSkillData, SkillData postSkillData,
         int frontAnimIdx, int backAnimIdx,
-          float frontAnimTime, float backAnimTime)
+          string frontAnimName, string backAnimName)
     {
         StartCoroutine(CoroutineSequence(mPos, 
             caster, other, customObject, 
             preSkillData, mainSkillData, postSkillData, 
-            frontAnimIdx, backAnimIdx, frontAnimTime, backAnimTime));
+            frontAnimIdx, backAnimIdx, frontAnimName, backAnimName));
     }
     public void DelaySkill(
     Vector3 mPos, SkillData skillData,
@@ -32,6 +32,18 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     }
     #endregion
     #region coroutine
+    private IEnumerator WaitForAnimation(Animator animator, string name)
+    {
+        do
+        {
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName(name));
+            yield return null;
+        } while (!animator.GetCurrentAnimatorStateInfo(0).IsName(name));
+        do
+        {
+            yield return null;
+        } while (animator.GetCurrentAnimatorStateInfo(0).IsName(name));
+    }
     IEnumerator CoroutineJump(Character caster, Vector3 src, Vector3 dest)
     {
         Transform userTransform = caster.transform;
@@ -79,7 +91,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
       Character caster, Character other, CustomObject customObject,
       SkillData preSkillData, SkillData mainSkillData, SkillData postSkillData,
         int frontAnimIdx, int backAnimIdx,
-          float frontAnimTime, float backAnimTime)
+           string frontAnimName, string backAnimName)
     {
         caster.isCasting = true;
         if (preSkillData)
@@ -102,9 +114,10 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         if (frontAnimIdx > -1)
         {
             caster.GetCharacterComponents().AnimationHandler.Skill(frontAnimIdx);
-            yield return YieldInstructionCache.WaitForSeconds(frontAnimTime + 0.1F);
+            yield return WaitForAnimation(caster.GetCharacterComponents().AnimationHandler.Animator, frontAnimName);
             caster.GetCharacterComponents().AnimationHandler.Skill(-1);
         }
+
         if (mainSkillData)
         {
             float lapsedTime = 9999;
@@ -125,7 +138,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         if (backAnimIdx > -1)
         {
             caster.GetCharacterComponents().AnimationHandler.Skill(backAnimIdx);
-            yield return YieldInstructionCache.WaitForSeconds(backAnimTime + 0.1F);
+            yield return WaitForAnimation(caster.GetCharacterComponents().AnimationHandler.Animator, backAnimName);
             caster.GetCharacterComponents().AnimationHandler.Skill(-1);
         }
         if (postSkillData)

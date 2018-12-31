@@ -18,7 +18,9 @@ public class CSequenceSkill : SkillData
     [SerializeField]
     int frontAnimIdx = -1, backAnimIdx = -1;
     [SerializeField]
-    float frontAnimTime = 0, backAnimTime = 0;
+    string frontAnimName;
+    [SerializeField]
+    string backAnimName;
 
     public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
@@ -49,7 +51,7 @@ public class CSequenceSkill : SkillData
         ActiveSkillManager.Instance.StartSequence(mPos,
             caster, other, customObject,
             preSkillData, mainSkillData, postSkillData,
-            frontAnimIdx, backAnimIdx, frontAnimTime, backAnimTime);
+            frontAnimIdx, backAnimIdx, frontAnimName, backAnimName);
         return BT.State.SUCCESS;
     }
 
