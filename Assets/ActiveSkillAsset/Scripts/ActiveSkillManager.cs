@@ -43,6 +43,14 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
             yield return null;
         } while (animator.GetCurrentAnimatorStateInfo(0).IsName(name));
     }
+    private IEnumerator WaitForCasting(Character caster)
+    {
+        do
+        {
+            yield return null;
+        } while (caster.isCasting);
+    }
+
     IEnumerator CoroutineJump(Character caster, Vector3 src, Vector3 dest)
     {
         caster.GetComponent<Character>().isCasting = true;
@@ -94,7 +102,9 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         int frontAnimIdx, int backAnimIdx,
            string frontAnimName, string backAnimName)
     {
+        yield return WaitForCasting(caster);
         caster.isCasting = true;
+        Debug.Log("Casting");
         if (preSkillData)
         {
             float lapsedTime = 9999;
@@ -159,6 +169,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
                 postSkillData.Run(caster, mPos, ref lapsedTime);
             }
         }
+        Debug.Log("Casting End");
         caster.isCasting = false;
     }
     IEnumerator CoroutineDelay(
