@@ -248,6 +248,7 @@ public abstract class Character : MonoBehaviour
         Components = GetComponent<CharacterComponents>();
         abnormalComponents = GetComponent<AbnormalComponents>();
         Components.Init();
+
         weaponManager = Components.WeaponManager;
         spriteRenderer = Components.SpriteRenderer;
         spriteTransform = Components.SpriteTransform;

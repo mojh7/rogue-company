@@ -98,16 +98,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     public void RecoverFullStamina()
     {
         int recoveryAmount = maxStamina;
-        stamina += recoveryAmount;
-        staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
-
-        if (staminaImage.fillAmount >= maxStamina)
-        {
-            stamina = maxStamina;
-            staminaImage.fillAmount = maxStamina;
-        }
-        playerData.Stamina = stamina;
-        staminaText.text = stamina + "/" + maxStamina;
+        RecoverStamina(recoveryAmount);
     }
     public void ConsumeStamina(int staminaConsumption)
     {

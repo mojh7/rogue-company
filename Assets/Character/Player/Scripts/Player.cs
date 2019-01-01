@@ -608,7 +608,8 @@ public class Player : Character
         {
             totalSpeed = playerData.MoveSpeed + floorSpeed;
         }
-        rgbody.MovePosition(objTransform.position 
+        if(rgbody)
+            rgbody.MovePosition(objTransform.position 
             + controller.GetMoveInputVector() * (totalSpeed) * Time.fixedDeltaTime);
 
         if (controller.GetMoveInputVector().sqrMagnitude > 0.1f)
@@ -682,8 +683,6 @@ public class Player : Character
         damageImmune = itemUseEffect.isImmuneDamage;
         abnormalImmune = itemUseEffect.isImmuneAbnormal;
 
-        if (itemUseEffect.hpRatio > 0)
-            hp = originPlayerData.Hp * itemUseEffect.hpRatio;
         if (itemUseEffect.hpMaxRatio > 0)
             hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
         if (itemUseEffect.skillGage > 0)
@@ -772,6 +771,11 @@ public class Player : Character
         effectAppliedCount[type] = AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.EFFECT_APPLIED_COUNT_MAX;
         while (effectAppliedCount[type] > 0)
         {
+            if (abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
+            {
+                effectAppliedCount[type] = 0;
+                break;
+            }
             effectAppliedCount[type] -= 1;
             ColorChange(POISON_COLOR);
             headRenderer.color = POISON_COLOR;
@@ -792,6 +796,11 @@ public class Player : Character
         effectAppliedCount[type] = AbnormalStatusConstants.PLAYER_TARGET_BURN_INFO.EFFECT_APPLIED_COUNT_MAX;
         while (effectAppliedCount[type] > 0)
         {
+            if (abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
+            {
+                effectAppliedCount[type] = 0;
+                break;
+            }
             effectAppliedCount[type] -= 1;
             ColorChange(BURN_COLOR);
             headRenderer.color = BURN_COLOR;
@@ -817,6 +826,11 @@ public class Player : Character
 
         while (controlTypeAbnormalStatusTime[type] <= controlTypeAbnormalStatusesDurationMax[type])
         {
+            if (abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
+            {
+                controlTypeAbnormalStatusesDurationMax[type] = 0;
+                break;
+            }
             ColorChange(FREEZE_COLOR);
             headRenderer.color = FREEZE_COLOR;
 
@@ -842,6 +856,11 @@ public class Player : Character
         controlTypeAbnormalStatusesDurationMax[type] = effectiveTime;
         while (controlTypeAbnormalStatusTime[type] <= controlTypeAbnormalStatusesDurationMax[type])
         {
+            if (abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
+            {
+                controlTypeAbnormalStatusesDurationMax[type] = 0;
+                break;
+            }
             controlTypeAbnormalStatusTime[type] += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
@@ -861,6 +880,11 @@ public class Player : Character
 
         while (controlTypeAbnormalStatusTime[type] <= controlTypeAbnormalStatusesDurationMax[type])
         {
+            if (abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
+            {
+                controlTypeAbnormalStatusesDurationMax[type] = 0;
+                break;
+            }
             controlTypeAbnormalStatusTime[type] += Time.fixedDeltaTime;
             bodyTransform.Translate(moveSpeed * AbnormalStatusConstants.CHARM_MOVE_SPEED_RATE * (PlayerManager.Instance.GetPlayerPosition() - bodyTransform.position).normalized * Time.fixedDeltaTime);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
@@ -873,6 +897,10 @@ public class Player : Character
     {
         while (true)
         {
+            if (abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
+            {
+                break;
+            }
             if (rgbody.velocity.magnitude < 0.2f)
             {
                 SubRetrictsMovingCount();

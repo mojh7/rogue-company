@@ -14,7 +14,7 @@ public class CharacterTargetEffect : ItemUseEffect
     [Header("곱 옵션 - 합 연산")]
     public float moveSpeedIncrement;
     public float hpMaxRatio;
-    public float hpRatio;
+    //public float hpRatio;
     public float charScale;
     public float skillGage;
     public float gettingStaminaMultiple;

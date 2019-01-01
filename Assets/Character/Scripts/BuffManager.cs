@@ -121,7 +121,7 @@ public class BuffManager : MonoBehaviour
             // 곱 옵션 - 합 연산
             moveSpeedIncrement = 1f,
             hpMaxRatio = 1f,
-            hpRatio = 1f,
+            //hpRatio = 1f,
             charScale = 1f,
             skillGage = 1f,
             gettingStaminaMultiple = 1f,
@@ -381,7 +381,7 @@ public class BuffManager : MonoBehaviour
         // 곱 옵션 - 합 연산
         CharacterTargetEffectTotal.moveSpeedIncrement += targetEffect.moveSpeedIncrement * sign;
 
-        CharacterTargetEffectTotal.hpRatio += targetEffect.hpRatio * sign;
+        //CharacterTargetEffectTotal.hpRatio += targetEffect.hpRatio * sign;
         CharacterTargetEffectTotal.hpMaxRatio += targetEffect.hpMaxRatio * sign;
         CharacterTargetEffectTotal.charScale += targetEffect.charScale * sign;
         CharacterTargetEffectTotal.skillGage += targetEffect.skillGage * sign;

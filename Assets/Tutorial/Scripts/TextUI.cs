@@ -152,7 +152,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         break;
                     case 6:
                         count = 0;
-                        tm.StartAstar();
+                        //tm.StartAstar();
                         tu.count++;
                         tu.HoldAll(false);
                         this.gameObject.SetActive(false);

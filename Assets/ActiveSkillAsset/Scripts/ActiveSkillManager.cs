@@ -36,7 +36,6 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     {
         do
         {
-            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName(name));
             yield return null;
         } while (!animator.GetCurrentAnimatorStateInfo(0).IsName(name));
         do
@@ -46,6 +45,8 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     }
     IEnumerator CoroutineJump(Character caster, Vector3 src, Vector3 dest)
     {
+        caster.GetComponent<Character>().isCasting = true;
+
         Transform userTransform = caster.transform;
         caster.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Effect";
         Vector3 shadowScaleSrc = caster.GetCharacterComponents().ShadowTransform.localScale;

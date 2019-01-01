@@ -229,7 +229,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         string variableValues =
             characterTotal.moveSpeedIncrement + "\n" +
             characterTotal.hpMaxRatio + "\n" +
-            characterTotal.hpRatio + "\n" +
+            //characterTotal.hpRatio + "\n" +
             characterTotal.charScale + "\n" +
             characterTotal.skillGage + "\n" +
             characterTotal.gettingStaminaMultiple + "\n" +

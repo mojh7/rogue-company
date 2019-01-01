@@ -42,7 +42,7 @@ public class SkillAction : ActionTask
         }
         else
         {
-            if(this.character.isCasting)
+            if(character.isCasting)
             {
                 return State.CONTINUE;
             }

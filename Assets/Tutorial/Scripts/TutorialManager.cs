@@ -15,7 +15,7 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         GameDataManager.Instance.isFirst = true;
         SpawnPlayer();
         DrawUI();
-
+        StartAstar();
         CallWeapon();
 
         TutorialUIManager.Instance.HoldAll(true);
