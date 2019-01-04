@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 // 화면 터치하면 화면 깜빡거리면서 셀렉트이미지로 변경
 
-public class TitleTouch : MonoBehaviour {
+public class TitleTouch : MonoBehaviour
+{
 
     public GameObject RestartButton;
     public GameObject StartNew;
@@ -17,9 +18,58 @@ public class TitleTouch : MonoBehaviour {
     [SerializeField] private Image fadeImage;
     [SerializeField] private Image modeButton;
     [SerializeField] private Sprite[] modeImages;
+    [SerializeField] private GameObject creditUI;
 
     int index = 2;
     int mode = 0; //0 = normal, 1 = rush
+
+    #region unityFunc
+    private void Awake()
+    {
+        AudioManager.Instance.PlayMusic(0);
+        InitTitle();
+    }
+
+    private void Update()
+    {
+        if (isHide)
+        {
+            Color color = touch.color;
+            color.a = color.a - Time.deltaTime;
+
+            if (color.a < 0)
+            {
+                color.a = 0.0f;
+                isHide = false;
+            }
+
+            touch.color = color;
+        }
+        else
+        {
+            Color color = touch.color;
+            color.a = color.a + Time.deltaTime;
+
+            if (color.a > 1)
+            {
+                color.a = 1.0f;
+                isHide = true;
+            }
+            touch.color = color;
+        }
+    }
+    #endregion
+
+    #region func
+    public void OpenCreditUI()
+    {
+        creditUI.SetActive(true);
+    }
+
+    public void CloseCreditUI()
+    {
+        creditUI.SetActive(false);
+    }
 
     public void ChangeMode()
     {
@@ -72,6 +122,25 @@ public class TitleTouch : MonoBehaviour {
             RestartButton.SetActive(false);
     }
 
+    public void QuitApp()
+    {
+        Application.Quit();
+    }
+
+    public void LoadSelect()
+    {
+        GameStateManager.Instance.SetLoadsGameData(false);
+        GameDataManager.Instance.ResetData();
+        GameStateManager.Instance.LoadSelect();
+    }
+
+    public void LoadInGame()
+    {
+        GameStateManager.Instance.SetLoadsGameData(true);
+        GameStateManager.Instance.LoadInGame();
+    }
+    #endregion
+
     IEnumerator CoroutineFadeIn(Image _img, int _interval)
     {
         for (int i = _interval; i >= 0; i--)
@@ -90,59 +159,6 @@ public class TitleTouch : MonoBehaviour {
         {
             FadeIn(fadeImage, 20 * index);
             index--;
-        }
-    }
-
-    public void QuitApp()
-    {
-        Application.Quit();
-    }
-
-    public void LoadSelect()
-    {
-        GameStateManager.Instance.SetLoadsGameData(false);
-        GameDataManager.Instance.ResetData();
-        GameStateManager.Instance.LoadSelect();
-    }
-
-    public void LoadInGame()
-    {
-        GameStateManager.Instance.SetLoadsGameData(true);
-        GameStateManager.Instance.LoadInGame();
-    }
-
-    private void Awake()
-    {
-        AudioManager.Instance.PlayMusic(0);
-        InitTitle();
-    }
-
-    private void Update()
-    {
-        if (isHide)
-        {
-            Color color = touch.color;
-            color.a = color.a - Time.deltaTime;
-
-            if (color.a < 0)
-            {
-                color.a = 0.0f;
-                isHide = false;
-            }
-
-            touch.color = color;
-        }
-        else
-        {
-            Color color = touch.color;
-            color.a = color.a + Time.deltaTime;
-
-            if (color.a > 1)
-            {
-                color.a = 1.0f;
-                isHide = true;
-            }
-            touch.color = color;
         }
     }
 }
