@@ -8,11 +8,10 @@ public class PlayerHpbarUI : MonoBehaviour {
     [SerializeField] private Image hpImage;
     [SerializeField] private Image delayHPImage;
     [SerializeField] private Text hpText;
+    Character Owner;
 
-    
     float hp;
     float oldHp;
-    float remainHp;
     float hpMax;
 
     public void Toggle()
@@ -20,29 +19,29 @@ public class PlayerHpbarUI : MonoBehaviour {
         obj.SetActive(!obj.activeSelf);
     }
 
-    public void SetHpBar(float _hp)
+    public void Init(Character Owner)
     {
-        hp = _hp;
+        this.Owner = Owner;
+        hp = Owner.HP;
         hpMax = hp;
         oldHp = hp;
-        remainHp = hp;
-        hpImage.fillAmount = remainHp / hp;
-        hpText.text = remainHp + "/" + (int)hpMax;
+        hpImage.fillAmount = hp / hpMax;
+        hpText.text = hp + "/" + (int)hpMax;
     }
 
-    public void SetHpMax(float hpMax)
+    public void SetHpMax()
     {
-        this.hpMax = hpMax;
+        this.hpMax = Owner.HPMax;
     }
 
-    public void ChangeHp(float _hp)
+    public void Notify()
     {
-        if (_hp < 0) return;
-        oldHp = remainHp;
-        remainHp = _hp;
-        hpImage.fillAmount = (int)remainHp / hp;
-        hpText.text = (int)remainHp + "/" + (int)hpMax;
-        StartCoroutine(CoroutineHP(oldHp, remainHp, hp, delayHPImage));
+        hp = Owner.HP;
+        if (hp < 0) return;
+        oldHp = hp;
+        hpImage.fillAmount = (int)hp / hpMax;
+        hpText.text = (int)hp + "/" + (int)hpMax;
+        StartCoroutine(CoroutineHP(oldHp, hp, hpMax, delayHPImage));
     }
 
     IEnumerator CoroutineHP(float _src, float _dest, float max, Image _image)

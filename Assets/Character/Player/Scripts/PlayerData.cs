@@ -15,7 +15,7 @@ using UnityEngine;
  // 데미지 - 방어력으로 하고 저런 아이템 먹으면 방어력 수치 잠깐 올렸다가 내릴려고 함.
 
 [System.Serializable]
-[CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData")]
+[CreateAssetMenu(fileName = "PlayerData", menuName = "CharData/PlayerData")]
 public class PlayerData : ScriptableObject
 {
     #region variables

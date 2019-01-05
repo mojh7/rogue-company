@@ -29,7 +29,7 @@ public class HealthDecorate : ConditionDecorate
     }
     public override State Run()
     {
-        if (Check(character.GetPercentHP(), healthPer))
+        if (Check(character.PercentHP, healthPer))
         {
             return GetChildren().Run();
         }

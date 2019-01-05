@@ -5,40 +5,33 @@ using UnityEngine.UI;
 
 public class BossHPUI : MonoBehaviour {
 
+    Character Owner;
     [SerializeField] private GameObject obj;
     [SerializeField] private Image hpImage;
     [SerializeField] private Image delayHPImage;
 
-    [SerializeField] private float hp;
-    float oldHp;
-    float remainHp;
+    private float hpMax;
+    private float oldHp;
+    private float hp;
 
     public void Toggle()
     {
         obj.SetActive(!obj.activeSelf);
     }
 
-    public void SetHpBar(float _hp)
+    public void Init(Character Owner)
     {
-        hp = _hp;
+        this.Owner = Owner;
+    }
+
+    public void Notify()
+    {
+        hpMax = Owner.HPMax;
         oldHp = hp;
-        remainHp = hp;
-        hpImage.fillAmount = remainHp / hp;
-    }
-
-    public void DecreaseHp(float _hp)
-    {
-        oldHp = remainHp;
-        remainHp -= _hp;
-        hpImage.fillAmount = remainHp / hp;
-        StartCoroutine(CoroutineHP(oldHp, remainHp, hp, delayHPImage));
-    }
-
-    public void IncreaseHP(float _hp)
-    {
-        oldHp = remainHp;
-        remainHp += Mathf.Clamp(remainHp + _hp, 0, hp);
-        hpImage.fillAmount = remainHp / hp;
+        hp = Owner.HP;
+        hpImage.fillAmount = hp / hpMax;
+        Debug.Log(oldHp + "," + hp + "," + hpMax);
+        StartCoroutine(CoroutineHP(oldHp, hp, hpMax, delayHPImage));
     }
 
     IEnumerator CoroutineHP(float _src, float _dest, float max, Image _image)

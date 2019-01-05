@@ -200,7 +200,6 @@ public class BuffManager : MonoBehaviour
     #endregion
 
     #region function
-
     public void RegisterUsableItemInfo(UsableItemInfo info)
     {
         if(typeof(MiscItemInfo) == info.GetType())

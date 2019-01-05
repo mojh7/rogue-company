@@ -101,12 +101,14 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         GameObject obj = SpawnEnemy(position);
         EnemyData bossData = GetEnemy(true);
         enemy = obj.AddComponent<BossEnemy>();
+
+        UIManager.Instance.bossHPUI.Toggle();
+        UIManager.Instance.bossHPUI.Init(enemy);
+        UIManager.Instance.bossHPUI.Init(enemy);
+
         enemy.Init(bossData);
         enemyList.Add(enemy);
         enemyColliderList.Add(enemy.GetHitBox());
-
-        UIManager.Instance.bossHPUI.Toggle();
-        UIManager.Instance.bossHPUI.SetHpBar(enemy.GetHP());
     }
 
     void CallBack(Vector3 position, object temporary, float amount, Character owner)

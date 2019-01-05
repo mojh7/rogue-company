@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyData", menuName = "Enemy/EnemyData")]
+[CreateAssetMenu(fileName = "EnemyData", menuName = "CharData/EnemyData")]
 public class EnemyData : ScriptableObject
 {
     #region serializeFiled

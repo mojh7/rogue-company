@@ -7,24 +7,28 @@ using UnityEngine;
 public class CBuff : SkillData
 {
     [SerializeField]
-    ItemUseEffect buffEffectInfo;
+    EffectApplyType effectApplyType;
     [SerializeField]
     string particleName;
 
     public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
+        if (State.FAILURE == base.Run(customObject, pos, ref lapsedTime))
+            return State.FAILURE;
         return base.Run(customObject, pos, ref lapsedTime);
     }
 
     public override State Run(Character caster, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, pos, ref lapsedTime);
+        if (State.FAILURE == base.Run(caster, pos, ref lapsedTime))
+            return State.FAILURE;
         return Run();
     }
 
     public override State Run(Character caster, Character other, Vector3 pos, ref float lapsedTime)
     {
-        base.Run(caster, other, pos, ref lapsedTime);
+        if (State.FAILURE == base.Run(caster, other, pos, ref lapsedTime))
+            return State.FAILURE;
         return Run();
     }
  
@@ -34,7 +38,9 @@ public class CBuff : SkillData
         {
             return BT.State.FAILURE;
         }
-        caster.GetBuffManager().RegisterItemEffect(buffEffectInfo, BuffManager.EffectApplyType.BUFF, -1, time);
+        effectApplyType.SetCaster(caster);
+        effectApplyType.UseItem();
+
         ParticleManager.Instance.PlayParticle(particleName, caster.transform.position);
         return BT.State.SUCCESS;
     }

@@ -8,7 +8,6 @@ public class Enemy : Character
     #region variables
     float bodyblowTime = 0;
     EnemyData enemyData;
-    protected bool isBossEnemy;  // 0810 모, 보스 몬스터, 일반 몬스터 구분을 위해 사용
     public bool tutorial;
     public int price
     {
@@ -110,14 +109,12 @@ public class Enemy : Character
 
         DeactivateAbnormalComponents();
 
-        isBossEnemy = false;
         hp = enemyData.HP;
         hpMax = hp;
         poisonDamagePerUnit = AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.FIXED_DAMAGE_PER_UNIT + 
             hpMax * AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.PERCENT_DAMAGE_PER_UNIT;
         burnDamagePerUnit = AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.FIXED_DAMAGE_PER_UNIT +
             hpMax * AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.PERCENT_DAMAGE_PER_UNIT;
-        //Debug.Log("pd, bd : " + poisonDamagePerUnit + ", " + burnDamagePerUnit);
 
         moveSpeed = enemyData.Speed;
         scaleVector = Vector3.one * enemyData.Size;
@@ -126,7 +123,6 @@ public class Enemy : Character
         buffManager.SetOwner(this);
         Components.CircleCollider2D.enabled = true;
         enemyLayer = UtilityClass.GetEnemyLayer(this);
-        // weaponManager.init이 buff init 보다 뒤에 와야됨.
         weaponManager.Init(this, enemyData);
         animationHandler.Init(this, enemyData.AnimatorController);
         aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
@@ -135,6 +131,7 @@ public class Enemy : Character
     #endregion
 
     #region Func
+
     public override bool Evade()
     {
         return false;
@@ -189,6 +186,11 @@ public class Enemy : Character
         }
     }
 
+    public void Heal(float hp)
+    {
+        RecoveryHp(hp);
+    }
+
     /// <summary>총알에서 전달된 정보로 공격 처리</summary>
     public override float Attacked(TransferBulletInfo transferredInfo)
     {
@@ -227,11 +229,6 @@ public class Enemy : Character
         return damage;
     }
 
-    public override void ApplyItemEffect()
-    {
-        // 개발 중
-    }
-
     protected override bool IsControlTypeAbnormal()
     {
         return isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.STUN] || isControlTypeAbnormalStatuses[(int)ControlTypeAbnormalStatusType.FREEZE] ||
@@ -268,6 +265,55 @@ public class Enemy : Character
     {
         Attacked(Vector2.zero, bodyTransform.position, hpMax * 0.5f, 0);
     }
+    #endregion
+
+    #region itemEffect
+    public override void ApplyItemEffect()
+    {
+        CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
+        //playerData.StaminaMax = Mathf.RoundToInt(originPlayerData.StaminaMax * itemUseEffect.staminaMaxRatio);
+        //if (playerData.MoveSpeed != originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
+        //{
+        //    if (playerData.MoveSpeed > originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement)
+        //    {
+        //        ParticleManager.Instance.PlayParticle("SpeedDown", this.bodyTransform.position);
+        //    }
+        //    else
+        //    {
+        //        ParticleManager.Instance.PlayParticle("SpeedUp", this.bodyTransform.position);
+        //    }
+        //}
+        //playerData.MoveSpeed = originPlayerData.MoveSpeed * itemUseEffect.moveSpeedIncrement;
+        //IsNotConsumeStamina = itemUseEffect.isNotConsumeStamina;
+        //IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
+        //damageImmune = itemUseEffect.isImmuneDamage;
+        //abnormalImmune = itemUseEffect.isImmuneAbnormal;
+
+        //if (itemUseEffect.hpMaxRatio > 0)
+        //    hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
+        //if (itemUseEffect.skillGage > 0)
+        //    skillGageMultiple = itemUseEffect.skillGage;
+
+        //if (itemUseEffect.charScale > 0 && itemUseEffect.charScale <= 2f)
+        //    ScaleChange(itemUseEffect.charScale);
+
+        //stamina.SetStaminaMax(playerData.StaminaMax);
+        //stamina.RecoverStamina(0);
+        //playerHPUi.SetHpMax(hpMax);
+        //playerHPUi.ChangeHp(hp);
+    }
+    public override void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
+    {
+        if (0 != itemUseEffect.recoveryHp)
+        {
+            RecoveryHp(itemUseEffect.recoveryHp);
+        }
+        //if (0 != itemUseEffect.recoveryStamina)
+        //{
+
+        //}
+    }
+
     #endregion
 
     #region abnormalStatusFunc
@@ -378,10 +424,6 @@ public class Enemy : Character
             effectAppliedCount[type] -= 1;
             ColorChange(POISON_COLOR);
             ReduceHp(poisonDamagePerUnit);
-            if(isBossEnemy)
-            {
-                UIManager.Instance.bossHPUI.DecreaseHp(poisonDamagePerUnit);
-            }
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.ENEMY_TARGET_POISON_INFO.TIME_PER_APPLIED_UNIT);
         }
         
@@ -401,10 +443,6 @@ public class Enemy : Character
             effectAppliedCount[type] -= 1;
             ColorChange(BURN_COLOR);
             ReduceHp(burnDamagePerUnit);
-            if (isBossEnemy)
-            {
-                UIManager.Instance.bossHPUI.DecreaseHp(burnDamagePerUnit);
-            }
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.ENEMY_TARGET_BURN_INFO.TIME_PER_APPLIED_UNIT);
         }
 
@@ -495,20 +533,17 @@ public class BossEnemy : Enemy
     {
         base.Init(enemyData);
         abnormalImmune = CharacterInfo.AbnormalImmune.ALL;
-        isBossEnemy = true;
+        UIManager.Instance.bossHPUI.Notify();
     }
     public override float Attacked(TransferBulletInfo transferBulletInfo)
     {
         float damage = base.Attacked(transferBulletInfo);
-        UIManager.Instance.bossHPUI.DecreaseHp(damage);
         AttackedEffect();
         return damage;
     }
-
     public override float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false)
     {
         base.Attacked(_dir, bulletPos, damage, knockBack, criticalChance, positionBasedKnockBack);
-        UIManager.Instance.bossHPUI.DecreaseHp(damage);
         AttackedEffect();
         return damage;
     }
@@ -526,5 +561,28 @@ public class BossEnemy : Enemy
         gameObject.SetActive(false);
         DropItem();
         Destroy(this);
+    }
+
+    public override void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
+    {
+        base.ApplyConsumableItem(itemUseEffect);
+        UIManager.Instance.bossHPUI.Notify();
+    }
+    public override void ApplyItemEffect()
+    {
+        base.ApplyItemEffect();
+        UIManager.Instance.bossHPUI.Notify();
+    }
+
+    protected override void RecoveryHp(float amount)
+    {
+        base.RecoveryHp(amount);
+        UIManager.Instance.bossHPUI.Notify();
+    }
+
+    protected override void ReduceHp(float amount)
+    {
+        base.ReduceHp(amount);
+        UIManager.Instance.bossHPUI.Notify();
     }
 }

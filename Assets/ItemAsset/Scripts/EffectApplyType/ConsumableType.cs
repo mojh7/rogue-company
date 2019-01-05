@@ -9,6 +9,15 @@ public class ConsumableType : EffectApplyType
 
     public override void UseItem()
     {
+        if(caster)
+        {
+            for (int i = 0; i < itemUseEffect.Length; i++)
+            {
+                // Player 정보에 효과 적용 하고 아이템 바로 삭제
+                caster.ApplyConsumableItem(itemUseEffect[i] as CharacterTargetEffect);
+            }
+            return;
+        }
         for (int i = 0; i < itemUseEffect.Length; i++)
         {
             // Player 정보에 효과 적용 하고 아이템 바로 삭제

@@ -6,6 +6,8 @@ using UnityEngine;
 
 public abstract class EffectApplyType : ScriptableObject
 {
+    protected Character caster;
+
     [Tooltip("개발용 메모장")]
     [SerializeField]
     [TextArea(3, 100)] private string memo;
@@ -13,7 +15,6 @@ public abstract class EffectApplyType : ScriptableObject
     [Header("ConsumableType은 현재 PlayerTargetEffect만 적용")]
     [SerializeField]
     protected ItemUseEffect[] itemUseEffect;
-    // protected int itemUseEffectsLength;
 
     protected bool removable;
 
@@ -22,4 +23,5 @@ public abstract class EffectApplyType : ScriptableObject
     public abstract void UseItem();
     public int GetItemId() { return itemId; }
     public void SetItemId(int id) { itemId = id; }
+    public void SetCaster(Character caster) { this.caster = caster; }
 }

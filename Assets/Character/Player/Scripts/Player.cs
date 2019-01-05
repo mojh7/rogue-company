@@ -222,11 +222,12 @@ public class Player : Character
         skillGageMultiple = 1;
         hp = playerData.Hp;
         hpMax = playerData.HpMax;
+        playerHPUi.Init(this);
+
         Debug.Log("InitPlayerData hp, hpmax : " + playerData.Hp +", " + playerData.HpMax);
         this.playerData = playerData;
         originPlayerData = playerData.Clone();
         ApplyItemEffect();
-        playerHPUi.SetHpBar(playerData.Hp);
         stamina.SetStaminaBar(playerData.StaminaMax);
         playerData.SkillGauge = 100;
         //Debug.Log("loadsGameData : " + GameStateManager.Instance.GetLoadsGameData());
@@ -290,23 +291,24 @@ public class Player : Character
         GameStateManager.Instance.GameOver();
     }
 
-    /// <summary>
-    /// 쉴드가 있을시 데미지 상관 없이 공격(공격 타입 상관 X) 방어, 아직 미사용
-    /// </summary>
-    public bool DefendAttack()
-    {
-        if (0 >= shieldCount)
-            return false;
+    ///// <summary>
+    ///// 쉴드가 있을시 데미지 상관 없이 공격(공격 타입 상관 X) 방어, 아직 미사용
+    ///// </summary>
+    //public bool DefendAttack()
+    //{
+    //    if (0 >= shieldCount)
+    //        return false;
 
-        shieldCount -= 1;
-        // 버프매니저 쪽으로 쉴드 버프 없애는 명령 보내기
-        return true;
-    }
+    //    shieldCount -= 1;
+    //    // 버프매니저 쪽으로 쉴드 버프 없애는 명령 보내기
+    //    return true;
+    //}
     private void ChargeSkill()
     {
         playerData.SkillGauge += Time.deltaTime;
         controller.ActiveSkill(playerData.SkillGauge, playerData.SkillData.CoolTime);
     }
+
     public override float Attacked(TransferBulletInfo transferredBulletInfo)
     {
         if(damageImmune == CharacterInfo.DamageImmune.ALL)
@@ -418,7 +420,7 @@ public class Player : Character
             killedEnemyCount += 1;
             if (killedEnemyCount == 7)
             {
-                RecoverHp(1f);
+                RecoveryHp(1f);
                 killedEnemyCount = 0;
             }
         }
@@ -435,26 +437,21 @@ public class Player : Character
         return true;
     }
 
+    protected override void RecoveryHp(float damage)
+    {
+        base.RecoveryHp(damage);
+        ParticleManager.Instance.PlayParticle("Hp", this.bodyTransform.position);
+        playerHPUi.Notify();
+    }
+
     protected override void ReduceHp(float damage)
     {
         hp -= damage;
-        playerHPUi.ChangeHp(hp);
+        playerHPUi.Notify();
         if (hp <= 0)
             Die();
     }
 
-    public void RecoverHp(float recoveryHp)
-    {
-        ParticleManager.Instance.PlayParticle("Hp", this.bodyTransform.position);
-        hp += recoveryHp;
-        if(hp >= hpMax)
-        {
-            hp = hpMax;
-        }
-        playerHPUi.ChangeHp(hp);
-    }
-
-    // TODO : power기준으로 흔들리게 하려고 했던 것 같음. 물어보기
     private void AttackedAction(float power)
     {
         CameraController.Instance.Shake(0.2f, 0.2f);
@@ -642,22 +639,9 @@ public class Player : Character
         gameObject.layer = 16;
         weaponManager.RevealWeapon();
     }
-
+    #endregion
+    #region itemEffect
     // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
-
-    public void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
-    {
-        Debug.Log("소모품 아이템 플레이어 대상 효과 적용");
-        if (0 != itemUseEffect.recoveryHp)
-        {
-            RecoverHp(itemUseEffect.recoveryHp);
-        }
-        if (0 != itemUseEffect.recoveryStamina)
-        {
-            stamina.RecoverStamina(playerData.Stamina);
-        }
-    }
-
     public override void ApplyItemEffect()
     {
         CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
@@ -689,8 +673,19 @@ public class Player : Character
 
         stamina.SetStaminaMax(playerData.StaminaMax);
         stamina.RecoverStamina(0);
-        playerHPUi.SetHpMax(hpMax);
-        playerHPUi.ChangeHp(hp);
+        playerHPUi.SetHpMax();
+        playerHPUi.Notify();
+    }
+    public override void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
+    {
+        if (0 != itemUseEffect.recoveryHp)
+        {
+            RecoveryHp(itemUseEffect.recoveryHp);
+        }
+        if (0 != itemUseEffect.recoveryStamina)
+        {
+            stamina.RecoverStamina(playerData.Stamina);
+        }
     }
     #endregion
 

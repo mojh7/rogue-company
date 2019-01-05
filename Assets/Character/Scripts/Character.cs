@@ -128,17 +128,26 @@ public abstract class Character : MonoBehaviour
     #endregion
 
     #region getter
-    public float GetHP()
+    public float HP
     {
-        return hp;
+        get
+        {
+            return hp;
+        }
     }
-    public float GetHpMax()
+    public float HPMax
     {
-        return hpMax;
+        get
+        {
+            return hpMax;
+        }
     }
-    public float GetPercentHP()
+    public float PercentHP
     {
-        return (hp / hpMax) * 100;
+        get
+        {
+            return (hp / hpMax) * 100;
+        }
     }
     public CharacterComponents GetCharacterComponents()
     {
@@ -234,9 +243,20 @@ public abstract class Character : MonoBehaviour
         spriteRenderer.color = color;
     }
 
-    protected virtual void ReduceHp(float damage)
+    protected virtual void RecoveryHp(float amount)
     {
-        hp -= damage;
+        if (amount <= 0)
+            return;
+        hp += amount;
+        if (hp >= hpMax)
+            hp = hpMax;
+    }
+
+    protected virtual void ReduceHp(float amount)
+    {
+        if (amount <= 0)
+            return;
+        hp -= amount;
         if (hp <= 0)
             Die();
     }
@@ -281,7 +301,7 @@ public abstract class Character : MonoBehaviour
 
     // item Character 대상 효과 적용
     public abstract void ApplyItemEffect();
-
+    public abstract void ApplyConsumableItem(CharacterTargetEffect itemUseEffect);
     #region Abnormal
     /// <summary> 상태 이상 효과 적용 </summary>
     protected bool AbnormalChance(float appliedChance)
@@ -514,7 +534,6 @@ public abstract class Character : MonoBehaviour
     protected abstract IEnumerator CharmCoroutine(float effectiveTime);
     protected abstract IEnumerator KnockBackCheck();
     #endregion
-
 
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
