@@ -31,7 +31,6 @@ public class RunawayTrackAction : ActionTask
         bool success = movingPattern.RunawayTracking();
         if (success)
         {
-            animationHandler.Walk();
             return State.SUCCESS;
         }
         else

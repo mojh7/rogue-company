@@ -43,6 +43,8 @@ public class PositionTrackAction : ActionTask
         character.SetManualAim();
         if(isArrived)
         {
+            UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+
             destPosition = RoomManager.Instance.GetNearestAvailableArea(character.transform.position + UnityEngine.Random.onUnitSphere * radius);
         }
 
@@ -50,7 +52,6 @@ public class PositionTrackAction : ActionTask
 
         if (success)
         {
-            animationHandler.Walk();
             return State.SUCCESS;
         }
         else

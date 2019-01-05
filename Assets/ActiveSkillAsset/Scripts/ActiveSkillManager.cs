@@ -54,6 +54,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     IEnumerator CoroutineJump(Character caster, Vector3 src, Vector3 dest)
     {
         caster.GetComponent<Character>().isCasting = true;
+        caster.GetCharacterComponents().CircleCollider2D.enabled = false;
 
         Transform userTransform = caster.transform;
         caster.GetCharacterComponents().SpriteRenderer.sortingLayerName = "Effect";

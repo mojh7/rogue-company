@@ -47,7 +47,6 @@ public class RoundingTrackAction : ActionTask
         bool success = movingPattern.RoundingTracking();
         if (success)
         {
-            animationHandler.Walk();
             return State.SUCCESS;
         }
         else

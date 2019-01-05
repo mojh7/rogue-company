@@ -19,11 +19,6 @@ public class AIController : MonoBehaviour {
         get;
         private set;
     }
-    public AnimationHandler AnimationHandler
-    {
-        get;
-        private set;
-    }
     #endregion
     private void Awake()
     {
@@ -35,14 +30,12 @@ public class AIController : MonoBehaviour {
     public void Init(float speed, AnimationHandler animationHandler,WeaponManager weaponManager, BT.Task task, SkillData[] skillDatas)
     {
         //Components
-        MovingPattern.Init(speed);
-        this.AnimationHandler = animationHandler;
+        MovingPattern.Init(speed, animationHandler);
         this.AttackPattern.Init(skillDatas, weaponManager);
         //BehaviorTree
         if (privateBlackBoard == null)
             privateBlackBoard = new BT.BlackBoard();
         privateBlackBoard["Character"] = this.GetComponent<Character>();
-        privateBlackBoard["Animation"] = this.AnimationHandler;
         privateBlackBoard["Target"] = PlayerManager.Instance.GetPlayer();
         behaviorTree = new BT.BehaviorTree(privateBlackBoard, task.Clone());
 

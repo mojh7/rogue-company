@@ -36,7 +36,6 @@ public class RushTrackAtion : ActionTask
         bool success = movingPattern.RushTracking();
         if (success)
         {
-            animationHandler.Walk();
             return State.SUCCESS;
         }
         else

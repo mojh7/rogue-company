@@ -16,12 +16,14 @@ public class MovingPattern : MonoBehaviour
     #endregion
     #region components
     Rigidbody2D rb2d;
+    AnimationHandler animationHandler;
     #endregion
     #region variables
     bool isActive;
     float speed = 1;
     float baseSpeed = 1;
     float doublingValue = 1;
+    const float runhreshold = 3f;
     Vector2[] path;
     #endregion
     private void Awake()
@@ -30,10 +32,11 @@ public class MovingPattern : MonoBehaviour
     }
 
     #region Func
-    public void Init(float speed)
+    public void Init(float speed, AnimationHandler animationHandler)
     {
-        baseSpeed = speed;
-        isActive = true;
+        this.animationHandler = animationHandler;
+        this.baseSpeed = speed;
+        this.isActive = true;
     }
     public void Play()
     {
@@ -48,6 +51,23 @@ public class MovingPattern : MonoBehaviour
         StopCoroutine("FollowPath");
         //TODO : zero하는 거 없애는 것 얘기 더 해보기. 넉백이 적용이 안되서 임시로 주석
         isActive = false;
+    }
+    bool SwitchAni()
+    {
+        if(runhreshold < speed)
+        {
+            animationHandler.Run();
+        }
+        else if(runhreshold >= speed)
+        {
+            animationHandler.Walk();
+        }
+        else
+        {
+            animationHandler.Idle();
+        }
+
+        return true;
     }
     #endregion
 
@@ -108,8 +128,8 @@ public class MovingPattern : MonoBehaviour
             rushTracker.isRun = false;
         }
         speed = baseSpeed;
-
-        return aStarTracker.Update();
+        SwitchAni();
+        return aStarTracker.Update() ? SwitchAni() : false;
     }
     /// <summary>
     /// 회전 추적 행동.
@@ -123,8 +143,8 @@ public class MovingPattern : MonoBehaviour
             rushTracker.isRun = false;
         }
         speed = baseSpeed;
-
-        return roundingTracker.Update();
+        SwitchAni();
+        return roundingTracker.Update() ? SwitchAni() : false;
     }
     /// <summary>
     /// 돌진 추적 행동 (기본 속도가 5배로 증가).
@@ -134,8 +154,8 @@ public class MovingPattern : MonoBehaviour
         if (rushTracker == null)
             return false;
         speed = baseSpeed * 2;
-
-        return rushTracker.Update();
+        SwitchAni();
+        return rushTracker.Update() ? SwitchAni() : false;
     }
     /// <summary>
     /// 역추적 행동.
@@ -149,8 +169,8 @@ public class MovingPattern : MonoBehaviour
             rushTracker.isRun = false;
         }
         speed = baseSpeed;
-
-        return runawayTracker.Update();
+        SwitchAni();
+        return runawayTracker.Update() ? SwitchAni() : false;
     }
     /// <summary>
     /// 정지 행동
@@ -165,8 +185,8 @@ public class MovingPattern : MonoBehaviour
             rushTracker.isRun = false;
         }
         speed = 0;
-
-        return stopTracker.Update();
+        SwitchAni();
+        return stopTracker.Update() ? SwitchAni() : false;
     }
 
     public bool PositionTracking(Vector2 position, ref bool arrived)
@@ -194,7 +214,9 @@ public class MovingPattern : MonoBehaviour
         {
             arrived = true;
         }
-        return positionTracker.Update(position);
+
+        return positionTracker.Update(position) ? SwitchAni() : false;
+       
     }
     #endregion
 

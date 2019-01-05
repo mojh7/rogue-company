@@ -38,7 +38,6 @@ public class AStarTrackAtion : ActionTask
 
         if (success)
         {
-            animationHandler.Walk();
             return State.SUCCESS;
         }
         else

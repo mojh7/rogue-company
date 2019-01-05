@@ -139,11 +139,9 @@ namespace BT
     {
         protected State state;
         protected Character target;
-        protected AnimationHandler animationHandler;
         public override void Init(Task task)
         {
             base.Init(task);
-            animationHandler = RootTask.BlackBoard["Animation"] as AnimationHandler;
         }
         public override State Run()
         {

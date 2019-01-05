@@ -30,7 +30,6 @@ public class StopTrackAction : ActionTask
         bool success = movingPattern.StopTracking();
         if (success)
         {
-            animationHandler.Idle();
             return State.SUCCESS;
         }
         else
