@@ -30,6 +30,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         break;
                     case 2:
                         text.text = "앞에 총이 떨어져 있네요!";
+                        tm.CallWeapon();
                         break;
                     case 3:
                         text.text = "총의 위치까지 이동하여\n총이나 오른쪽 조이스틱 터치!";
@@ -145,14 +146,14 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         this.gameObject.SetActive(false);
                         break;
                     case 4:
-                        text.text = "아앗! 해골몬스터가\n잠에서 깨어나고 말았어요!";
+                        text.text = "아앗! 좀비 사원이\n잠에서 깨어나고 말았어요!";
                         break;
                     case 5:
-                        text.text = "해골 몬스터를 향해\n공격!";
+                        text.text = "좀비 사원을 향해\n공격!";
                         break;
                     case 6:
                         count = 0;
-                        //tm.StartAstar();
+                        tm.AwakeEnemy();
                         tu.count++;
                         tu.HoldAll(false);
                         this.gameObject.SetActive(false);
@@ -175,7 +176,7 @@ public class TextUI : MonoBehaviourSingleton<TextUI>
                         text.text = "튜토리얼은 아쉽지만\n여기까지 입니다!";
                         break;
                     case 2:
-                        text.text = "포탈을 누르시면\n다음 스테이지로 이동할 수 있습니다";
+                        text.text = "오른쪽 위 엘레베이터를 누르시면\n다음 스테이지로 이동할 수 있습니다";
                         break;
                     case 3:
                         text.text = "메뉴에서 다시 튜토리얼을\n하실 수 있습니다.";

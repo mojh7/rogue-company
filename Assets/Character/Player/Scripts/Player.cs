@@ -8,30 +8,25 @@ public class Player : Character
     #region components
     [SerializeField]
     protected SpriteRenderer headRenderer;
+    [SerializeField]
+    private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
+    [SerializeField]
+    private PlayerHpbarUI playerHPUi;
+    private Stamina stamina;
     #endregion
 
     #region variables
     public enum PlayerType { SOCCER, MUSIC, FISH, ARMY }
-
-    [SerializeField]
-    private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
-
     private Transform objTransform;
-
     private RaycastHit2D hit;
     private List<RaycasthitEnemy> raycastHitEnemies;
     private RaycasthitEnemy raycasthitEnemyInfo;
     private int layerMask;  // autoAim을 위한 layerMask
     private int killedEnemyCount;
-
-    [SerializeField] private PlayerHpbarUI playerHPUi;
     private PlayerData playerData;
     private PlayerData originPlayerData;    // 아이템 효과 적용시 기준이 되는 정보
 
     private float skillGageMultiple;
-
-    // 윤아 0802
-    private Stamina stamina;
 
     private float floorSpeed;
     private int shieldCount;
@@ -182,6 +177,7 @@ public class Player : Character
     public override void Init()
     {
         base.Init();
+        CameraController.Instance.AttachObject(this.transform); // get Camera
         baseColor = Color.white;
         pState = CharacterInfo.State.ALIVE;
         ownerType = CharacterInfo.OwnerType.Player;
@@ -248,7 +244,7 @@ public class Player : Character
             ParticleManager.Instance.PlayParticle("Smoke", this.bodyTransform.position);
         }
         this.bodyTransform.localScale = Vector3.one * scale;
-        this.GetComponentInChildren<Camera>().transform.localScale = Vector3.one / scale;
+        CameraController.Instance.transform.localScale = Vector3.one / scale;
     }
 
     public void UpdateMuzzlePosition(Vector3 pos, bool visible)

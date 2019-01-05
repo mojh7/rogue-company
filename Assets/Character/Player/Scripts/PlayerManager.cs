@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
 
     public void FindPlayer()
     {
-        playerObj = Instantiate(playerPrefab, new Vector3(0, -0.5f, 0), Quaternion.identity);
+        playerObj = Instantiate(playerPrefab, new Vector3(7, 4, 0), Quaternion.identity);
         player = playerObj.GetComponent<Player>();
         player.Init();
         // 저장된 데이터 없이 새로운 게임을 시작할 때

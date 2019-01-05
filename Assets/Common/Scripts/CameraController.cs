@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     Vector3 zeroPos;
     private bool isShaking;
 
-    private void Start()
+    private void Awake()
     {
         cameraTransform = this.transform;
         zeroPos = new Vector3(0, 0, m_cameraDepth);
@@ -52,12 +52,19 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     }
 
     #region func
-    void FindOther(Vector2 _targetPos)
+    public void ComeBackPosition()
     {
-        Vector2 temp = Vector2.SmoothDamp(cameraTransform.position, _targetPos, ref m_velocity, 5, 0.5f, .45f);
-        cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
+        cameraTransform.localPosition = zeroPos;
     }
-
+    public void AttachObject(Transform targetTransform)
+    {
+        cameraTransform.parent = targetTransform;
+        cameraTransform.localPosition = zeroPos;
+    }
+    public void FindOther(Vector2 dest)
+    {
+        cameraTransform.position = new Vector3(dest.x,dest.y,m_cameraDepth);
+    }
     public void Shake(float amount, float time, IncreaseType increaseType = IncreaseType.NORMAL)
     {
         if (isShaking)
@@ -65,6 +72,10 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
         isShaking = true;
         StartCoroutine(CoroutineShaking(time, amount, increaseType));
     }
-
+    void SlideOther(Vector2 _targetPos)
+    {
+        Vector2 temp = Vector2.SmoothDamp(cameraTransform.position, _targetPos, ref m_velocity, 5, 0.5f, .45f);
+        cameraTransform.position = new Vector3(temp.x, temp.y, m_cameraDepth);
+    }
     #endregion
 }

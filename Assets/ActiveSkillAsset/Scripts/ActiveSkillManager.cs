@@ -105,7 +105,6 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
     {
         yield return WaitForCasting(caster);
         caster.isCasting = true;
-        Debug.Log("Casting");
         if (preSkillData)
         {
             float lapsedTime = 9999;
@@ -170,7 +169,6 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
                 postSkillData.Run(caster, mPos, ref lapsedTime);
             }
         }
-        Debug.Log("Casting End");
         caster.isCasting = false;
     }
     IEnumerator CoroutineDelay(

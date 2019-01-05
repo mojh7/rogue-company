@@ -16,7 +16,6 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         SpawnPlayer();
         DrawUI();
         StartAstar();
-        CallWeapon();
 
         TutorialUIManager.Instance.HoldAll(true);
         TutorialUIManager.Instance.SetFocus(TutorialUIManager.Instance.layers[0]);
@@ -37,20 +36,45 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
     {
         portal.SetActive(true);
         portal.AddComponent<PortalTutorial>().LoadAwake();
+        portal.GetComponent<PortalTutorial>().sprites = new Sprite[1] { spritePortal };
         portal.GetComponent<PortalTutorial>().Init();
-
-        portal.GetComponent<SpriteRenderer>().sprite = spritePortal;
     }
 
     public void CallEnemy()
     {
-        EnemyData skeleton = EnemyManager.Instance.GetEnemyToTutorial(5);
-        obj = EnemyManager.Instance.GenerateObj(new Vector3(0, 3.5f, 0), skeleton, true);
+        EnemyData skeleton = EnemyManager.Instance.GetEnemyToTutorial(0);
+        obj = EnemyManager.Instance.GenerateObj(new Vector3(7, 12, 0), skeleton, true);
 
         StartShake(2, 2, 1);
 
-        //obj.GetComponent<Enemy>().GetCharacterComponents().AIController.StopMove();
-        //obj.GetComponent<Enemy>().GetCharacterComponents().AIController.StopAttack();
+        StartCoroutine(DelayStop());
+    }
+
+    public void AwakeEnemy()
+    {
+        StartCoroutine(DelayPlay());
+    }
+    private IEnumerator WaitForSpawn()
+    {
+        do
+        {
+            yield return null;
+        } while (EnemyManager.Instance.GetEnemyList.Count == 0);
+    }
+    IEnumerator DelayStop()
+    {
+        yield return WaitForSpawn();
+
+        Enemy enemy = EnemyManager.Instance.GetEnemyList[0];
+        CameraController.Instance.FindOther(enemy.GetPosition());
+        enemy.GetCharacterComponents().AIController.StopMove();
+    }
+    IEnumerator DelayPlay()
+    {
+        Enemy enemy = EnemyManager.Instance.GetEnemyList[0];
+        enemy.GetCharacterComponents().AIController.PlayMove();
+        yield return YieldInstructionCache.WaitForSeconds(.1f);
+        CameraController.Instance.ComeBackPosition();
     }
 
     public void StartAstar()
@@ -59,10 +83,10 @@ public class TutorialManager : MonoBehaviourSingleton<TutorialManager>
         AStar.Pathfinder.Instance.Bake();
     }
 
-    void CallWeapon()
+    public void CallWeapon()
     {
         Weapon weapon = ObjectPoolManager.Instance.CreateWeapon(weapon1) as Weapon;
-        ItemManager.Instance.CreateItem(weapon, new Vector3(0, 1.5f, 0));
+        ItemManager.Instance.CreateItem(weapon, new Vector3(7, 8, 0));
     }
 
     public void CallSwapWeapon()

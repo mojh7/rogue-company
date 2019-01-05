@@ -48,6 +48,7 @@ public static class UtilityClass
             return false;
         }
     }
+
     public static bool CheckLayer(int layer, LayerMask comparedLayer)
     {
         LayerMask mainLayer = 1 << layer;
