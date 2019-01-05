@@ -7,7 +7,7 @@ public class EnemyData : ScriptableObject
 {
     #region serializeFiled
     [SerializeField]
-    private Color color;
+    private Color color = Color.white;
     [SerializeField]
     private int price;
     [SerializeField]
@@ -30,6 +30,9 @@ public class EnemyData : ScriptableObject
     private SkillData[] skillDatas;
     [SerializeField]
     private EnemyData[] servantDatas;
+    [Header("소환 몹 전용, 보스 타겟")]
+    [SerializeField]
+    private bool followBoss;
     #endregion
 
     #region property
@@ -115,6 +118,13 @@ public class EnemyData : ScriptableObject
         get
         {
             return servantDatas;
+        }
+    }
+    public bool FollowBoss
+    {
+        get
+        {
+            return followBoss;
         }
     }
     #endregion

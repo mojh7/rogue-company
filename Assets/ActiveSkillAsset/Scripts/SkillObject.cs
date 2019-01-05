@@ -108,7 +108,7 @@ public class CollisionSkillObject : SkillObject
                     bullet.DestroyBullet();
                     break;
                 case CRangeEffect.EffectType.REFLECT:
-                    bullet.SetOwnerType(UtilityClass.GetOnwerTypeLayer(caster));
+                    bullet.SetOwnerType(UtilityClass.GetMainOnwerType(caster));
                     bullet.RotateDirection(180);
                     break;
                 case CRangeEffect.EffectType.NONE:
@@ -121,10 +121,10 @@ public class CollisionSkillObject : SkillObject
 
 public class ProjectileSkillObject : CollisionSkillObject
 {
-    float directionDegree;
-    float speed, acceleration;
-    Vector3 direction;
-    bool isDestroy = true;
+    protected float directionDegree;
+    protected float speed, acceleration;
+    protected Vector3 direction;
+    protected bool isDestroy = true;
 
     public void Set(string animName, float speed, float acceleration, Vector3 direction)
     {
@@ -149,7 +149,7 @@ public class ProjectileSkillObject : CollisionSkillObject
     {
         this.isDestroy = isDestroy;
     }
-    IEnumerator CoroutineParticle(string particleName, float term)
+    protected IEnumerator CoroutineParticle(string particleName, float term)
     {
         while (isActive)
         {
@@ -158,7 +158,7 @@ public class ProjectileSkillObject : CollisionSkillObject
         }
     }
 
-    IEnumerator CoroutineThrow()
+    protected IEnumerator CoroutineThrow()
     {
         float elapsedDist = 0;
         float elapsedTime = 0;
@@ -224,6 +224,59 @@ public class ProjectileSkillObject : CollisionSkillObject
                     item.Run(customObject, bodyTransform.position, ref lapsedTime);
             }
             if(isDestroy)
+                DestroyAndDeactive();
+        }
+    }
+}
+
+public class PassSkillObject : ProjectileSkillObject
+{
+    CharacterInfo.OwnerType target;
+
+    public void Set(CharacterInfo.OwnerType target)
+    {
+        this.target = target;
+        enemyLayer = UtilityClass.GetOwnerLayer(target);
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer) ||
+            UtilityClass.CheckLayer(collision.gameObject.layer, 14, 1))
+        {
+            Character collisionCaster = collision.GetComponent<Character>();
+            CustomObject collisionObject = collision.GetComponent<CustomObject>();
+
+            if (collisionCaster == caster)
+                return;
+
+            StopCoroutine(CoroutineThrow());
+            isAvailable = false;
+            animator.SetTrigger("default");
+            float lapsedTime = 9999;
+            foreach (SkillData item in postSkillData)
+            {
+                if (other)
+                {
+                    if (collisionCaster)
+                    {
+                        if(collisionCaster.GetOwnerType() == target)
+                            item.Run(collisionCaster, other, bodyTransform.position, ref lapsedTime);
+                    }
+                }
+                else
+                {
+                    if (collisionCaster)
+                    {
+                        if (collisionCaster.GetOwnerType() == target)
+                            item.Run(collisionCaster, bodyTransform.position, ref lapsedTime);
+                    }
+                    if (collisionObject)
+                        if (CharacterInfo.OwnerType.OBJECT == target)
+                            item.Run(collisionObject, bodyTransform.position, ref lapsedTime);
+                }
+            }
+            if (isDestroy)
                 DestroyAndDeactive();
         }
     }

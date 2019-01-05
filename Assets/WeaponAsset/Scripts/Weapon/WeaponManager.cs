@@ -121,10 +121,10 @@ public class WeaponManager : MonoBehaviour {
 
         switch(ownerType)
         {
-            case CharacterInfo.OwnerType.Player:
+            case CharacterInfo.OwnerType.PLAYER:
                 player = owner as Player;
                 break;
-            case CharacterInfo.OwnerType.Enemy:
+            case CharacterInfo.OwnerType.ENEMY:
                 enemy = owner as Enemy;
                 break;
             default:
@@ -149,7 +149,7 @@ public class WeaponManager : MonoBehaviour {
         if (stopsUpdate) return;
 
         //-------------------- Player 공격 테스트 용
-        if(OwnerType.Player == ownerType)
+        if(OwnerType.PLAYER == ownerType)
         {
             if (Input.GetKey(KeyCode.Space))
             {
@@ -189,7 +189,7 @@ public class WeaponManager : MonoBehaviour {
     public void Init(Character owner, OwnerType ownerType)
     {
         SetOwnerInfo(owner, ownerType);
-        if (OwnerType.Player == ownerType)
+        if (OwnerType.PLAYER == ownerType)
         {
             Weapon weapon;
             equipWeaponSlot = new List<Weapon>();
@@ -288,7 +288,7 @@ public class WeaponManager : MonoBehaviour {
             stopsUpdate = true;
             return;
         }
-        SetOwnerInfo(owner, OwnerType.Enemy);
+        SetOwnerInfo(owner, OwnerType.ENEMY);
         currentWeaponIndex = 0;
         if (DebugSetting.Instance.equipsEnemyDataWeapon)
         {
@@ -297,8 +297,8 @@ public class WeaponManager : MonoBehaviour {
         }
         else
         {
-            EquipWeapon(DataStore.Instance.GetWeaponInfo(DebugSetting.Instance.enemyEquipWeaponId, OwnerType.Enemy));
-            // EquipWeapon(DataStore.Instance.GetWeaponInfo(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), OwnerType.Enemy));
+            EquipWeapon(DataStore.Instance.GetWeaponInfo(DebugSetting.Instance.enemyEquipWeaponId, OwnerType.ENEMY));
+            // EquipWeapon(DataStore.Instance.GetWeaponInfo(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), OwnerType.ENEMY));
         }
         UpdateCurrentWeapon();
     }
@@ -378,7 +378,7 @@ public class WeaponManager : MonoBehaviour {
             equipWeaponSlot[i].gameObject.SetActive(false);
         }
         equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
-        if(OwnerType.Player == ownerType)
+        if(OwnerType.PLAYER == ownerType)
         {
             ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
             // 0827 윤아 추가
@@ -409,7 +409,7 @@ public class WeaponManager : MonoBehaviour {
 
     public void UpdateAmmoView(WeaponInfo info)
     {
-        if(OwnerType.Player == ownerType)
+        if(OwnerType.PLAYER == ownerType)
         {
             ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(info);
         }

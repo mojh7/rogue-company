@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CSelfDestruction", menuName = "SkillData/CSelfDestruction")]
 public class CSelfDestruction : SkillData
 {
+    [Space(30)]
+
     [SerializeField]
     List<SkillData> skillData;
     [SerializeField]

@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CBuff", menuName = "SkillData/CBuff")]
 public class CBuff : SkillData
 {
+    [Space(30)]
+
     [SerializeField]
     EffectApplyType effectApplyType;
     [SerializeField]

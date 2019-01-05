@@ -34,7 +34,6 @@ public class DistanceDecorate : ConditionDecorate
     {
         base.Init(task);
         this.character = RootTask.BlackBoard["Character"] as Character;
-        this.target = RootTask.BlackBoard["Target"] as Character;
         this.obeserveTime = 1f;
         this.elapsedTime = obeserveTime;
         layer = 1 << LayerMask.NameToLayer("TransparentFX");
@@ -42,6 +41,8 @@ public class DistanceDecorate : ConditionDecorate
     }
     public override State Run()
     {
+        this.target = RootTask.BlackBoard["Target"] as Character;
+
         if (Check(Vector2.Distance(character.transform.position, target.transform.position), distance))
         {
             hit = Physics2D.Raycast(character.transform.position, target.transform.position - character.transform.position, distance, layer);

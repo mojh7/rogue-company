@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,9 +10,9 @@ namespace CharacterInfo
     }
     public enum OwnerType
     {
-        Player, Enemy, Pet, Object
+        PLAYER, ENEMY, OBJECT, PET
     }
-        
+
     public enum State
     {
         DIE, ALIVE
@@ -63,7 +63,7 @@ public abstract class Character : MonoBehaviour
     protected CharacterInfo.AutoAimType originalautoAimType;
     protected CharacterInfo.State pState;
     protected CharacterInfo.OwnerType ownerType;
-    protected CharacterInfo.SpawnType spawnType;    
+    protected CharacterInfo.SpawnType spawnType;
     #endregion
     #region componets
     protected CharacterComponents Components;
@@ -96,7 +96,7 @@ public abstract class Character : MonoBehaviour
     protected Vector3 directionVector;
     protected float directionDegree;  // 바라보는 각도(총구 방향)
     protected bool isRightDirection;    // character 방향이 우측이냐(true) 아니냐(flase = 좌측)
-    
+
     protected Color baseColor;
 
     protected LayerMask enemyLayer;
@@ -206,12 +206,12 @@ public abstract class Character : MonoBehaviour
         character.SetSpawnType(CharacterInfo.SpawnType.SERVANT);
         servants.Add(character);
     }
-    
+
     public void DeleteServant()
     {
-        for(int i=0;i< servants.Count;i++)
+        for (int i = 0; i < servants.Count; i++)
         {
-            if(servants[i] != null)
+            if (servants[i] != null)
                 servants[i].Die();
         }
     }
@@ -227,11 +227,11 @@ public abstract class Character : MonoBehaviour
 
     protected void AttackedEffect()
     {
-        if(gameObject.activeSelf)
+        if (gameObject.activeSelf)
             StartCoroutine(CoroutineColorChange(RED_COLOR, 0.1f));
     }
 
-    protected IEnumerator CoroutineColorChange(Color color,float seconds)
+    protected IEnumerator CoroutineColorChange(Color color, float seconds)
     {
         spriteRenderer.color = color;
         yield return YieldInstructionCache.WaitForSeconds(seconds);
@@ -290,7 +290,7 @@ public abstract class Character : MonoBehaviour
         //TODO : 만약에 Enemy를 조종하게 될 경우 Enemy Class에 재정의 필요
     }
     public virtual CustomObject Interact()
-    {   
+    {
         //TODO : 만약에 Enemy를 조종하게 될 경우 Enemy Class에 재정의 필요
         return null;
     }
@@ -424,7 +424,7 @@ public abstract class Character : MonoBehaviour
 
     private void Burn(float chance)
     {
-        if(IsDie())
+        if (IsDie())
         {
             Debug.Log("죽음");
             return;
@@ -558,7 +558,7 @@ public abstract class Character : MonoBehaviour
 
     public void SetManualAim()
     {
-        if(!IsControlTypeAbnormal())
+        if (!IsControlTypeAbnormal())
         {
             autoAimType = CharacterInfo.AutoAimType.MANUAL;
         }

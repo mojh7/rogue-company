@@ -97,7 +97,7 @@ public class Enemy : Character
         spriteRenderer.color = baseColor;
         this.price = enemyData.Price;
         pState = CharacterInfo.State.ALIVE;
-        ownerType = CharacterInfo.OwnerType.Enemy;
+        ownerType = CharacterInfo.OwnerType.ENEMY;
         damageImmune = CharacterInfo.DamageImmune.NONE;
         abnormalImmune = CharacterInfo.AbnormalImmune.NONE;
 
@@ -125,7 +125,7 @@ public class Enemy : Character
         enemyLayer = UtilityClass.GetEnemyLayer(this);
         weaponManager.Init(this, enemyData);
         animationHandler.Init(this, enemyData.AnimatorController);
-        aiController.Init(moveSpeed, animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
+        aiController.Init(moveSpeed, PlayerManager.Instance.GetPlayer(), animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
     }
     #endregion

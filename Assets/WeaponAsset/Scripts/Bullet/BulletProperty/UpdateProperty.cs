@@ -383,7 +383,7 @@ public class HomingProperty : UpdateProperty
         }
 
         // owner 별로 유도 대상이 다름.
-        if(CharacterInfo.OwnerType.Player == bullet.GetOwnerType())
+        if(CharacterInfo.OwnerType.PLAYER == bullet.GetOwnerType())
         {
             enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
 
@@ -434,7 +434,7 @@ public class HomingProperty : UpdateProperty
                 }
             }
         }
-        else if (CharacterInfo.OwnerType.Enemy == bullet.GetOwnerType())
+        else if (CharacterInfo.OwnerType.ENEMY == bullet.GetOwnerType())
         {
             differenceVector = PlayerManager.Instance.GetPlayer().GetPosition() - bulletTransform.position;
             // (Bx-Ax)*(Py-Ay) - (By-Ay)*(Px-Ax)

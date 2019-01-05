@@ -87,12 +87,12 @@ public static class UtilityClass
         }
         switch (me.GetOwnerType())
         {
-            case CharacterInfo.OwnerType.Player:
-            case CharacterInfo.OwnerType.Pet:
+            case CharacterInfo.OwnerType.PLAYER:
+            case CharacterInfo.OwnerType.PET:
                 enemyLayer = 1 << 13;
                 break;
-            case CharacterInfo.OwnerType.Enemy:
-            case CharacterInfo.OwnerType.Object:
+            case CharacterInfo.OwnerType.ENEMY:
+            case CharacterInfo.OwnerType.OBJECT:
                 enemyLayer = 1 << 16;
                 break;
             default:
@@ -115,14 +115,14 @@ public static class UtilityClass
         }
         switch (me.GetOwnerType())
         {
-            case CharacterInfo.OwnerType.Player:
-            case CharacterInfo.OwnerType.Pet:
+            case CharacterInfo.OwnerType.PLAYER:
+            case CharacterInfo.OwnerType.PET:
                 enemyBulletLayer = enemyBulletLayer << 17;
                 enemyBulletLayer |= (1 << 20);
                 enemyBulletLayer |= (1 << 21);
                 break;
-            case CharacterInfo.OwnerType.Enemy:
-            case CharacterInfo.OwnerType.Object:
+            case CharacterInfo.OwnerType.ENEMY:
+            case CharacterInfo.OwnerType.OBJECT:
                 enemyBulletLayer = enemyBulletLayer << 15;
                 enemyBulletLayer |= (1 << 18);
                 enemyBulletLayer |= (1 << 19);
@@ -133,20 +133,41 @@ public static class UtilityClass
         return enemyBulletLayer;
     }
 
-    public static CharacterInfo.OwnerType GetOnwerTypeLayer(Character me)
+    public static LayerMask GetOwnerLayer(CharacterInfo.OwnerType ownerType)
+    {
+        LayerMask myLayer = 1;
+
+        switch (ownerType)
+        {
+            case CharacterInfo.OwnerType.PLAYER:
+            case CharacterInfo.OwnerType.PET:
+                myLayer = 1 << 16;
+                break;
+            case CharacterInfo.OwnerType.ENEMY:
+            case CharacterInfo.OwnerType.OBJECT:
+                myLayer = 1 << 13;
+                break;
+            default:
+                break;
+        }
+        return myLayer;
+    }
+
+    public static CharacterInfo.OwnerType GetMainOnwerType(Character me)
     {
         switch (me.GetOwnerType())
         {
-            case CharacterInfo.OwnerType.Player:
-            case CharacterInfo.OwnerType.Pet:
-                return CharacterInfo.OwnerType.Player;
-            case CharacterInfo.OwnerType.Enemy:
-            case CharacterInfo.OwnerType.Object:
-                return CharacterInfo.OwnerType.Enemy;
+            case CharacterInfo.OwnerType.PLAYER:
+            case CharacterInfo.OwnerType.PET:
+                return CharacterInfo.OwnerType.PLAYER;
+            case CharacterInfo.OwnerType.ENEMY:
+            case CharacterInfo.OwnerType.OBJECT:
+                return CharacterInfo.OwnerType.ENEMY;
             default:
-                return CharacterInfo.OwnerType.Player;
+                return CharacterInfo.OwnerType.PLAYER;
         }
     }
+
     public static void Invoke(this MonoBehaviour me, Action theDelegate, float time)
     {
         me.StartCoroutine(ExecuteAfterTime(theDelegate, time));

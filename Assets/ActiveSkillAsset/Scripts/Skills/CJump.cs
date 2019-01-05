@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CJump", menuName = "SkillData/CJump")]
 public class CJump : SkillData
 {
+
     public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
         if (State.FAILURE == base.Run(customObject, pos, ref lapsedTime))

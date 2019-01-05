@@ -358,10 +358,10 @@ public class Bullet : MonoBehaviour
         // Enemy 13, Wall 14, Bullet 15, Player 16번
         switch (ownerType)
         {
-            case OwnerType.Enemy:
+            case OwnerType.ENEMY:
                 colliderObj.layer = LayerMask.NameToLayer("EnemyBullet");
                 break;
-            case OwnerType.Player:
+            case OwnerType.PLAYER:
                 colliderObj.layer = LayerMask.NameToLayer("PlayerBullet");
                 break;
             default:
@@ -449,16 +449,16 @@ public class Bullet : MonoBehaviour
 
         if (true == info.canBlockBullet)
         {
-            if (OwnerType.Player == ownerType)
+            if (OwnerType.PLAYER == ownerType)
                 colliderObj.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
-            if (OwnerType.Enemy == ownerType)
+            if (OwnerType.ENEMY == ownerType)
                 colliderObj.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
         }
         if (true == info.canReflectBullet)
         {
-            if (OwnerType.Player == ownerType)
+            if (OwnerType.PLAYER == ownerType)
                 colliderObj.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
-            if (OwnerType.Enemy == ownerType)
+            if (OwnerType.ENEMY == ownerType)
                 colliderObj.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
         }
     }
@@ -584,7 +584,7 @@ public class Bullet : MonoBehaviour
             default:
                 break;
         }
-        if(OwnerType.Enemy == ownerType)
+        if(OwnerType.ENEMY == ownerType)
         {
             //boxCollider.size = boxCollider.size / objTransform.localScale.x;
             //circleCollider.radius = circleCollider.radius / objTransform.localScale.x;
@@ -672,7 +672,7 @@ public class Bullet : MonoBehaviour
     public void CollisionBullet(Collision2D coll)
     {
         int length = info.collisionPropertiesLength;
-        if (OwnerType.Player == ownerType)
+        if (OwnerType.PLAYER == ownerType)
         {
             // TransparentFx 1, enemy 13, wall 14, EnemyCanBlockBullet 20, EnemyCanReflectBullet 21
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 13, 14, 20, 21))
@@ -683,7 +683,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        else if(OwnerType.Enemy == ownerType)
+        else if(OwnerType.ENEMY == ownerType)
         {
             // TransparentFx 1, wall 14, player 16, PlayerCanBlockBullet 18, PlayerCanReflectBullet 19
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14, 16, 18, 19))
@@ -700,7 +700,7 @@ public class Bullet : MonoBehaviour
     public void CollisionBullet(Collider2D coll)
     {
         int length = info.collisionPropertiesLength;
-        if (OwnerType.Player == ownerType)
+        if (OwnerType.PLAYER == ownerType)
         {
             // TransparentFx 1, enemy 13, wall 14, EnemyCanBlockBullet 20, EnemyCanReflectBullet 21
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 13, 14, 20, 21))
@@ -711,7 +711,7 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        else if (OwnerType.Enemy == ownerType)
+        else if (OwnerType.ENEMY == ownerType)
         {
             // TransparentFx 1, wall 14, player 16, PlayerCanBlockBullet 18, PlayerCanReflectBullet 19
             if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14, 16, 18, 19))
@@ -854,11 +854,11 @@ public class Bullet : MonoBehaviour
         if (effectInfo.meleeWeaponsCanBlockBullet)
         {
             info.canBlockBullet = true;
-            if (OwnerType.Player == ownerType)
+            if (OwnerType.PLAYER == ownerType)
             {
                 colliderObj.layer = LayerMask.NameToLayer("PlayerCanBlockBullet");
             }
-            if (OwnerType.Enemy == ownerType)
+            if (OwnerType.ENEMY == ownerType)
             {
                 colliderObj.layer = LayerMask.NameToLayer("EnemyCanBlockBullet");
             }
@@ -868,11 +868,11 @@ public class Bullet : MonoBehaviour
         if (effectInfo.meleeWeaponsCanReflectBullet)
         {
             info.canReflectBullet = true;
-            if (OwnerType.Player == ownerType)
+            if (OwnerType.PLAYER == ownerType)
             {
                 colliderObj.layer = LayerMask.NameToLayer("PlayerCanReflectBullet");
             }
-            if (OwnerType.Enemy == ownerType)
+            if (OwnerType.ENEMY == ownerType)
             {
                 colliderObj.layer = LayerMask.NameToLayer("EnmeyCanReflectBullet");
             }
@@ -913,7 +913,7 @@ public class Bullet : MonoBehaviour
         info.speed = info.speed * (totalInfo.bulletSpeedIncrement + effectInfo.bulletSpeedIncrement);    // 총알 이동속도 변화
         //Debug.Log("버프 후 : " + info.speed + ", " + effectInfo.bulletSpeedIncrement);
 
-        if (OwnerType.Player == ownerType)
+        if (OwnerType.PLAYER == ownerType)
         {
             DecreaseDamageAfterPierce = 0.3f * (totalInfo.decreaseDamageAfterPierceReduction * effectInfo.decreaseDamageAfterPierceReduction);
         }

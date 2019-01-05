@@ -7,6 +7,7 @@ using UnityEngine;
 public class CRangeEffect : SkillData
 {
     public enum EffectType { NONE , REMOVE, REFLECT }
+    [Space(30)]
     [SerializeField]
     StatusEffectInfo statusEffectInfo;
     [SerializeField]

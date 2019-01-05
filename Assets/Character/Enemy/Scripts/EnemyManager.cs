@@ -33,7 +33,6 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         aliveEnemyTotal = 0;
     }
 
-    #region 바꿔야되는것들
     public void Generate(Vector2 position, EnemyData enemyData, Character owner)
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
@@ -130,10 +129,13 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
             enemyList.Add(enemy);
         }
         else
+        {
             owner.SpawnServant(enemy);
+            if((temporary as EnemyData).FollowBoss)
+                enemy.GetCharacterComponents().AIController.ChangeTarget(owner);
+        }
         enemyColliderList.Add(enemy.GetHitBox());
     }
-    #endregion
 
     public EnemyData GetEnemy(bool isBoss)
     {

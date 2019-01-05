@@ -7,6 +7,6 @@ public class EnemyBulletInfo : BulletInfo
 {
     public EnemyBulletInfo()
     {
-        ownerType = CharacterInfo.OwnerType.Enemy;
+        ownerType = CharacterInfo.OwnerType.ENEMY;
     }
 }

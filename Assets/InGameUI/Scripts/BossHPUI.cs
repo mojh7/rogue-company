@@ -30,7 +30,6 @@ public class BossHPUI : MonoBehaviour {
         oldHp = hp;
         hp = Owner.HP;
         hpImage.fillAmount = hp / hpMax;
-        Debug.Log(oldHp + "," + hp + "," + hpMax);
         StartCoroutine(CoroutineHP(oldHp, hp, hpMax, delayHPImage));
     }
 

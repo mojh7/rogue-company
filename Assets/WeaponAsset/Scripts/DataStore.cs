@@ -229,7 +229,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
     public WeaponInfo GetWeaponInfo(int id, CharacterInfo.OwnerType ownerType)
     {
         // player용 switch 안에 switch 못해서 따로 떼어놓음.
-        if (CharacterInfo.OwnerType.Player == ownerType)
+        if (CharacterInfo.OwnerType.PLAYER == ownerType)
         {
             switch (DebugSetting.Instance.weaponModeForDebug)
             {
@@ -251,9 +251,9 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         }
         switch(ownerType)
         {
-            case CharacterInfo.OwnerType.Enemy:
+            case CharacterInfo.OwnerType.ENEMY:
                 return enemyWeaponInfos[id];
-            case CharacterInfo.OwnerType.Object:
+            case CharacterInfo.OwnerType.OBJECT:
             default:
                 break;
         }

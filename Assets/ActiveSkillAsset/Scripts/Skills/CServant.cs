@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CServant", menuName = "SkillData/CServant")]
 public class CServant : SkillData
 {
+    [Space(30)]
+
     [SerializeField]
     int servantIdx;
 

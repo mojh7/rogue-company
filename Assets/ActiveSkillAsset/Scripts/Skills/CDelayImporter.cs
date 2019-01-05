@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CDelayImporter", menuName = "SkillData/CDelayImporter")]
 public class CDelayImporter : SkillData
 {
+    [Space(30)]
+
     [SerializeField]
     List<SkillData> skillData;
 

@@ -72,7 +72,7 @@ public class Weapon : Item
 
     #region initialization
     //6.02 이유성
-    public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.Player)
+    public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.PLAYER)
     {
         this.ownerType = ownerType;
         // data save / load를 위한 weapon id 설정
@@ -84,7 +84,7 @@ public class Weapon : Item
     }
 
     /// <summary> DataStore에서 index 참조로 무기 정보 받아오기, weaponView class 초기화 </summary>
-    public void Init(int weaponId, OwnerType ownerType = OwnerType.Player)
+    public void Init(int weaponId, OwnerType ownerType = OwnerType.PLAYER)
     {
         this.ownerType = ownerType;
         this.weaponId = weaponId;
@@ -103,7 +103,7 @@ public class Weapon : Item
         sprite = info.sprite;
         weaponState = WeaponState.Idle;
         name = info.weaponName;
-        if (OwnerType.Enemy == ownerType)
+        if (OwnerType.ENEMY == ownerType)
         {
             //enemy
         }
@@ -166,10 +166,10 @@ WeaponType.TRAP == info.weaponType)
         ownerType = weaponManager.GetOwnerType();
         switch (ownerType)
         {
-            case CharacterInfo.OwnerType.Player:
+            case CharacterInfo.OwnerType.PLAYER:
                 player = PlayerManager.Instance.GetPlayer();
                 break;
-            case CharacterInfo.OwnerType.Enemy:
+            case CharacterInfo.OwnerType.ENEMY:
                 enemy = weaponManager.GetEnemy();
                 break;
             default:
@@ -204,7 +204,7 @@ WeaponType.TRAP == info.weaponType)
     {
         if (AttackType.MELEE == attackType)
         {
-            if (OwnerType.Player == ownerType && false == Stamina.Instance.IsConsumableStamina() && 0 < info.staminaConsumption
+            if (OwnerType.PLAYER == ownerType && false == Stamina.Instance.IsConsumableStamina() && 0 < info.staminaConsumption
                 && false == PlayerManager.Instance.GetPlayer().IsNotConsumeStamina)
                 return false;
         }
@@ -383,7 +383,7 @@ WeaponType.TRAP == info.weaponType)
     private IEnumerator PatternCycle(float damageIncreaseRate)
     {
         // 총구 위치 보기용 for Debug
-        if(OwnerType.Player == ownerType)
+        if(OwnerType.PLAYER == ownerType)
         {
             if(DebugSetting.Instance.showsMuzzlePos)
                 PlayerManager.Instance.GetPlayer().UpdateMuzzlePosition(GetMuzzlePos(), true);
@@ -404,7 +404,7 @@ WeaponType.TRAP == info.weaponType)
             {
                 for (int k = 0; k < info.bulletPatterns[j].GetExeuctionCount(); k++)
                 {
-                    if (OwnerType.Enemy == ownerType)
+                    if (OwnerType.ENEMY == ownerType)
                     {
                         if (false == enemy.GetIsAcitveAttack())
                         {

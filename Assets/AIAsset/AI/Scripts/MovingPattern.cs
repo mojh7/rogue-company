@@ -53,6 +53,21 @@ public class MovingPattern : MonoBehaviour
         SwitchAni();
         isActive = false;
     }
+    public void SwitchTarget(Transform target)
+    {
+        if (aStarTracker != null)
+            aStarTracker.SetTarget(target);
+        if (roundingTracker != null)
+            roundingTracker.SetTarget(target);
+        if (rushTracker != null)
+            rushTracker.SetTarget(target);
+        if (runawayTracker != null)
+            runawayTracker.SetTarget(target);
+        if (stopTracker != null)
+            stopTracker.SetTarget(target);
+        if (positionTracker != null)
+            positionTracker.SetTarget(target);
+    }
     bool SwitchAni()
     {
         if(runhreshold < speed)

@@ -169,7 +169,7 @@ public class BulletInfo : ScriptableObject
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
     public BulletInfo()
     {
-        ownerType = CharacterInfo.OwnerType.Player;
+        ownerType = CharacterInfo.OwnerType.PLAYER;
 
         scaleX = -1;
         scaleY = -1;

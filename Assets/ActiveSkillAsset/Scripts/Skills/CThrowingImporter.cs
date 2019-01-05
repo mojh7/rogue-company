@@ -6,14 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CThrowingImporter", menuName = "SkillData/CThrowingImporter")]
 public class CThrowingImporter : SkillData
 {
-    [SerializeField]
-    List<SkillData> skillData;
-    [SerializeField]
-    StatusEffectInfo statusEffectInfo;
+    [Space(30)]
+
     [SerializeField]
     float speed, acceleration;
     [SerializeField]
     string animName;
+    [SerializeField]
+    StatusEffectInfo statusEffectInfo;
+    [SerializeField]
+    List<SkillData> skillData;
     [Header("오브젝트에 붙어서 호출되는 파티클")]
     [SerializeField]
     string attachedParticleName;

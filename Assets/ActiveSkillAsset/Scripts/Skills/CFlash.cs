@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CFlash", menuName = "SkillData/CFlash")]
 public class CFlash : SkillData
 {
+
     public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
         if (State.FAILURE == base.Run(customObject, pos, ref lapsedTime))
