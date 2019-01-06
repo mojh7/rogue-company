@@ -124,12 +124,10 @@ namespace BT
                 case "PositionAction":
                     taskType = TaskType.ActionTask;
                     actionTask = EActionTask.PositionTrackAction;
-                    value1 = (task as ShotAction).Value;
                     break;
                 case "MidTrackAction":
                     taskType = TaskType.ActionTask;
                     actionTask = EActionTask.MidTrackAction;
-                    value1 = (task as ShotAction).Value;
                     break;
             }
         }

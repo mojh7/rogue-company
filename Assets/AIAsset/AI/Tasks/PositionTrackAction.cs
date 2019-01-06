@@ -19,7 +19,7 @@ public class PositionTrackAction : ActionTask
     Vector2 destPosition;
     bool isArrived;
 
-    public Task SetValue(float doublingValue,float radius)
+    public Task SetValue(float doublingValue, float radius)
     {
         if (doublingValue <= 1)
             doublingValue = 1;

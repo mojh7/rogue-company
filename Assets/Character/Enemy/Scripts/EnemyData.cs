@@ -33,6 +33,10 @@ public class EnemyData : ScriptableObject
     [Header("소환 몹 전용, 보스 타겟")]
     [SerializeField]
     private bool followBoss;
+    [SerializeField]
+    private GameObject deadEffect;
+    [SerializeField]
+    private string spawnAnim;
     #endregion
 
     #region property
@@ -127,6 +131,20 @@ public class EnemyData : ScriptableObject
             return followBoss;
         }
     }
-    #endregion
+    public GameObject DeadEffect
+    {
+        get
+        {
+            return deadEffect;
+        }
+    }
+    public string SpawnAnim
+    {
+        get
+        {
+            return spawnAnim;
+        }
+    }
 
+    #endregion
 }

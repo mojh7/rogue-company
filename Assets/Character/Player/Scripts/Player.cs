@@ -7,8 +7,6 @@ public class Player : Character
 {
     #region components
     [SerializeField]
-    protected SpriteRenderer headRenderer;
-    [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
     [SerializeField]
     private PlayerHpbarUI playerHPUi;
@@ -144,7 +142,6 @@ public class Player : Character
             Evade();
         ChargeSkill();
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(bodyTransform.position.y * 100);
-        headRenderer.sortingOrder = spriteRenderer.sortingOrder + 1;
         if (isEvade)
             return;
         if (-90 <= directionDegree && directionDegree < 90)
@@ -662,6 +659,14 @@ public class Player : Character
         IsNotConsumeAmmo = itemUseEffect.isNotConsumeAmmo;
         damageImmune = itemUseEffect.isImmuneDamage;
         abnormalImmune = itemUseEffect.isImmuneAbnormal;
+        if(damageImmune == CharacterInfo.DamageImmune.ALL)
+            ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.EFFECTAMOUNT, 1);
+        else
+            ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.EFFECTAMOUNT, 0);
+        if(abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
+            ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.CONTRAST, 3);
+        else
+            ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.CONTRAST, 2);
 
         if (itemUseEffect.hpMaxRatio > 0)
             hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
@@ -769,13 +774,11 @@ public class Player : Character
             }
             effectAppliedCount[type] -= 1;
             ColorChange(POISON_COLOR);
-            headRenderer.color = POISON_COLOR;
             ReduceHp(poisonDamagePerUnit);
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.TIME_PER_APPLIED_UNIT);
         }
 
         ColorChange(baseColor);
-        headRenderer.color = baseColor;
         StopAttackTypeAbnormalStatus(AttackTypeAbnormalStatusType.POISON);
     }
 
@@ -794,13 +797,11 @@ public class Player : Character
             }
             effectAppliedCount[type] -= 1;
             ColorChange(BURN_COLOR);
-            headRenderer.color = BURN_COLOR;
             ReduceHp(burnDamagePerUnit);
             yield return YieldInstructionCache.WaitForSeconds(AbnormalStatusConstants.PLAYER_TARGET_BURN_INFO.TIME_PER_APPLIED_UNIT);
         }
      
         ColorChange(baseColor);
-        headRenderer.color = baseColor;
         StopAttackTypeAbnormalStatus(AttackTypeAbnormalStatusType.BURN);
     }
 
@@ -823,14 +824,12 @@ public class Player : Character
                 break;
             }
             ColorChange(FREEZE_COLOR);
-            headRenderer.color = FREEZE_COLOR;
 
             controlTypeAbnormalStatusTime[type] += Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
         ColorChange(baseColor);
-        headRenderer.color = baseColor;
         StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.FREEZE);
 
     }

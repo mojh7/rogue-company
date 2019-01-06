@@ -78,6 +78,14 @@ public abstract class Character : MonoBehaviour
     protected AIController aiController;
     protected Transform shadowTransform;
     protected Transform bodyTransform;
+
+    public SpriteRenderer SpriteRenderer
+    {
+        get
+        {
+            return spriteRenderer;
+        }
+    }
     #endregion
     #region variables
     public bool isCasting;

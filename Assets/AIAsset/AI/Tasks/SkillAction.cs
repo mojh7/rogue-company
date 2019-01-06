@@ -9,7 +9,6 @@ public class SkillAction : ActionTask
     [SerializeField]
     int Idx;
     bool isRun;
-    Character target;
     AttackPattern attackPattern;
     public float Value
     {
