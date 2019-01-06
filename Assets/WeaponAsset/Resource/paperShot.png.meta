@@ -1,13 +1,14 @@
 fileFormatVersion: 2
-guid: 4b90a464042884d49a64cc4eb1756aee
-timeCreated: 1546762345
+guid: abafb5f7705220748a4f47bcf87582f1
+timeCreated: 1546764176
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: approveDoc_0
-    21300002: approveDoc_1
-    21300004: approveDoc_2
-    21300006: approveDoc_3
+    21300000: paperShot_0
+    21300002: paperShot_1
+    21300004: paperShot_2
+    21300006: paperShot_3
+    21300008: paperShot_4
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -94,57 +95,71 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: approveDoc_0
+      name: paperShot_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.5, y: 0.22}
+        x: 17
+        y: 141
+        width: 38
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: approveDoc_1
+      name: paperShot_1
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.5, y: 0.22}
+        x: 87
+        y: 145
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: approveDoc_2
+      name: paperShot_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.5, y: 0.22}
+        x: 24
+        y: 83
+        width: 31
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: approveDoc_3
+      name: paperShot_3
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
-      alignment: 9
-      pivot: {x: 0.5, y: 0.22}
+        x: 82
+        y: 88
+        width: 37
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: paperShot_4
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 15
+        width: 38
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -664,7 +664,7 @@ public class Player : Character
         else
             ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.EFFECTAMOUNT, 0);
         if(abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
-            ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.CONTRAST, .25f);
+            ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.CONTRAST, .5f);
         else
             ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.CONTRAST, 2);
 

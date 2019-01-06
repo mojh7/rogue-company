@@ -72,7 +72,8 @@ namespace WeaponAsset
         BashSkyBlue,
         BashBlue,
         BashRed,
-        BashOrange
+        BashOrange,
+        PaperShot
     }
 
     /*---*/
