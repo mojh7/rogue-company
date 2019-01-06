@@ -48,15 +48,8 @@ namespace GoogleMobileAds.Api
 #else
         string adUnitId = "unexpected_platform";
 #endif
-
+            Debug.Log(adUnitId);
             AdRequest request = new AdRequest.Builder()
-            .AddTestDevice(AdRequest.TestDeviceSimulator)
-            .AddTestDevice("0123456789ABCDEF0123456789ABCDEF")
-            .AddKeyword("game")
-            .SetGender(Gender.Male)
-            .SetBirthday(new DateTime(1985, 1, 1))
-            .TagForChildDirectedTreatment(false)
-            .AddExtra("color_bg", "9B30FF")
             .Build();
             this.rewardBasedVideo.LoadAd(request, adUnitId);
         }
@@ -107,11 +100,12 @@ namespace GoogleMobileAds.Api
         {
             if (this.rewardBasedVideo.IsLoaded())
             {
+                Debug.Log("Show");
                 this.rewardBasedVideo.Show();
             }
             else
             {
-                MonoBehaviour.print("Reward based video ad is not ready yet");
+                Debug.Log("Reward based video ad is not ready yet");
             }
         }
 
