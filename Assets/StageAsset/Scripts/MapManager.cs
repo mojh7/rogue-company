@@ -305,7 +305,10 @@ namespace Map
 
         void CreateMap()
         {
-            zeroRoomset = new RoomSet(0, 0, size, 0, RoomType.NONE);
+            zeroRoomset = ScriptableObject.CreateInstance<RoomSet>();
+
+            zeroRoomset.Init(0, 0, size, 0, RoomType.NONE);
+
             int count = 0;
 
             while (count < 5000)

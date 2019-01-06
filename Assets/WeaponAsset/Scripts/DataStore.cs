@@ -426,7 +426,7 @@ public class DataStore : MonoBehaviourSingleton<DataStore>
         if (false == canInputWeaponData)
             return;
         csvWeaponData = WeaponDataCSVParser.Read("weaponData");
-        Debug.Log("CSV 데이터 파싱 후 weapon data 입력");
+        //Debug.Log("CSV 데이터 파싱 후 weapon data 입력");
 
         #region variables
         WeaponType weaponType;

@@ -187,8 +187,9 @@ public class MapEditor : EditorWindow
     {
         if (obj == null || roomObj == null || size == 0 || width == 0 || height == 0)
             return;
-        RoomSet roomSet = new RoomSet(width, height, size, gage, roomType);
+        RoomSet roomSet = ScriptableObject.CreateInstance<RoomSet>();
 
+        roomSet.Init(width, height, size, gage, roomType);
         foreach (Transform child in roomObj.GetComponentsInChildren<Transform>())
         {
             if (child.GetComponent<CustomObject>() != null)

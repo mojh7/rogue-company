@@ -21,8 +21,9 @@ public class RoomSetManager : MonoBehaviourSingleton<RoomSetManager> {
     }
     public void Init()
     {
-        zeroRoomset = new RoomSet(0, 0, 3, 0, RoomType.NONE);
+        zeroRoomset = ScriptableObject.CreateInstance<RoomSet>();
 
+        zeroRoomset.Init(0, 0, 3, 0, RoomType.NONE);
         roomSetGroup = new List<RoomSetGroup>();
         bool isExist;
         for (int i = 0; i < commonFloorSet.RoomSets.Length; i++)

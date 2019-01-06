@@ -251,7 +251,7 @@ public class WeaponManager : MonoBehaviour {
                     //weapon.ObjTransform.SetParent(registerPoint, false);
                     //weapon.RegisterWeapon(this);
                 }
-                Debug.Log("새 게임 무기 초기화, weaponCnt, cntMax = " + weaponCount + ", " + weaponCountMax);
+                //Debug.Log("새 게임 무기 초기화, weaponCnt, cntMax = " + weaponCount + ", " + weaponCountMax);
             }
             // 저장된 데이터를 로드한 게임 일 때
             else

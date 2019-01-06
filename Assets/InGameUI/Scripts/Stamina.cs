@@ -37,7 +37,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
         currentTime = 0;
         staminaImage = GetComponent<Image>();
         if (playerData == null)
-            playerData = new PlayerData();
+            playerData = ScriptableObject.CreateInstance<PlayerData>();
     }
     void Update()
     {

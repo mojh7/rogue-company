@@ -221,7 +221,7 @@ public class Player : Character
         hpMax = playerData.HpMax;
         playerHPUi.Init(this);
 
-        Debug.Log("InitPlayerData hp, hpmax : " + playerData.Hp +", " + playerData.HpMax);
+        //Debug.Log("InitPlayerData hp, hpmax : " + playerData.Hp +", " + playerData.HpMax);
         this.playerData = playerData;
         originPlayerData = playerData.Clone();
         ApplyItemEffect();
