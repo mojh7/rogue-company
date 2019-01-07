@@ -1,4 +1,4 @@
-Pixel Miners font — Created in 2017 by heaven castro
+Pixel Miners font ?Created in 2017 by heaven castro
 
 Licensed as: Public Domain
 Personal Use and Commercial Use

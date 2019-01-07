@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 
-/// <summary> 
-/// 기존의 상태이상이 적용되고 있을 때 추가 상태이상 적용시
-/// 기존 것이 없어지는 종류의 상태 이상들
-/// </summary>
-//public enum AbnormalStatusType { FREEZE, STUN, CHARM, END }
+
 public enum ControlTypeAbnormalStatusType { FREEZE, STUN, CHARM, END }
 public enum AttackTypeAbnormalStatusType { POISON, BURN, END }
 
@@ -14,8 +10,6 @@ public enum AttackTypeAbnormalStatusType { POISON, BURN, END }
  * 공격계 (독, 화상)
  *  - 상태이상 공격 텀 A초 고정(현재 A = 0.5)
  *  - 한 틱당 공격력 D, 총 N회 적용(N = 6 고정, 총 3초 걸리는 꼴)
- *  - 중첩 되려고 할 때 처리, (기존 상태이상 공격력 * 남은 적용 횟수) 와 (새로운 상태이상 공격력 * 적용 횟수)의 합 중에서
- *  - 높은 걸 적용????
  * 
  * 제어계 (스턴, 빙결)
  *  - n초 적용
