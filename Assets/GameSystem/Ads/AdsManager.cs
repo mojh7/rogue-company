@@ -12,29 +12,29 @@ namespace GoogleMobileAds.Api
         #region base
         public void Start()
         {
-#if UNITY_ANDROID
-            string appId = ads_App_Id;
-#elif UNITY_IPHONE
-            string appId = "ca-app-pub-3940256099942544~1458002511";
-#else
-            string appId = "unexpected_platform";
-#endif
+//#if UNITY_ANDROID
+//            string appId = ads_App_Id;
+//#elif UNITY_IPHONE
+//            string appId = "ca-app-pub-3940256099942544~1458002511";
+//#else
+//            string appId = "unexpected_platform";
+//#endif
 
-            MobileAds.Initialize(appId);
+//            MobileAds.Initialize(appId);
 
-            // Get singleton reward based video ad reference.
-            this.rewardBasedVideo = RewardBasedVideoAd.Instance;
+//            // Get singleton reward based video ad reference.
+//            this.rewardBasedVideo = RewardBasedVideoAd.Instance;
 
-            // RewardBasedVideoAd is a singleton, so handlers should only be registered once.
-            this.rewardBasedVideo.OnAdLoaded += this.HandleRewardBasedVideoLoaded;
-            this.rewardBasedVideo.OnAdFailedToLoad += this.HandleRewardBasedVideoFailedToLoad;
-            this.rewardBasedVideo.OnAdOpening += this.HandleRewardBasedVideoOpened;
-            this.rewardBasedVideo.OnAdStarted += this.HandleRewardBasedVideoStarted;
-            this.rewardBasedVideo.OnAdRewarded += this.HandleRewardBasedVideoRewarded;
-            this.rewardBasedVideo.OnAdClosed += this.HandleRewardBasedVideoClosed;
-            this.rewardBasedVideo.OnAdLeavingApplication += this.HandleRewardBasedVideoLeftApplication;
+//            // RewardBasedVideoAd is a singleton, so handlers should only be registered once.
+//            this.rewardBasedVideo.OnAdLoaded += this.HandleRewardBasedVideoLoaded;
+//            this.rewardBasedVideo.OnAdFailedToLoad += this.HandleRewardBasedVideoFailedToLoad;
+//            this.rewardBasedVideo.OnAdOpening += this.HandleRewardBasedVideoOpened;
+//            this.rewardBasedVideo.OnAdStarted += this.HandleRewardBasedVideoStarted;
+//            this.rewardBasedVideo.OnAdRewarded += this.HandleRewardBasedVideoRewarded;
+//            this.rewardBasedVideo.OnAdClosed += this.HandleRewardBasedVideoClosed;
+//            this.rewardBasedVideo.OnAdLeavingApplication += this.HandleRewardBasedVideoLeftApplication;
 
-            this.RequestRewardBasedVideo();
+//            this.RequestRewardBasedVideo();
         }
 
         private void RequestRewardBasedVideo()
@@ -105,13 +105,13 @@ namespace GoogleMobileAds.Api
             }
             else
             {
-                Debug.Log("Reward based video ad is not ready yet");
+                Debug.Log   ("Reward based video ad is not ready yet");
             }
         }
 
         public void Show()
         {
-            ShowRewardBasedVideo();
+            //ShowRewardBasedVideo();
         }
     }
 
