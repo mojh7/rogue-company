@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 /*
  * ui manager 한개에서 ingame ui랑 기타 시작화면, 설정화면 ? 등등 다른 ui도 관리 할지
@@ -146,6 +146,11 @@ public class UIManager : MonoBehaviourSingleton<UIManager> {
     public void ClearRoomUI(bool isActive)
     {
         clearObj.GetComponent<ClearRoomUI>().Clear();
+    }
+
+    public void BackToTutorial()
+    {
+        SceneManager.LoadScene("TutorialScene");
     }
     #endregion
 

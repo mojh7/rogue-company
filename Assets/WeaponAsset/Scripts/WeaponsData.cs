@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponsData : MonoBehaviour {
+public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
+{
 
 	// Use this for initialization
 	void Start () {
