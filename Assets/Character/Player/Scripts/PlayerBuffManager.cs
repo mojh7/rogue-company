@@ -31,7 +31,7 @@ public class PlayerBuffManager : MonoBehaviourSingleton<PlayerBuffManager>
         List<int> miscItems = GameDataManager.Instance.GetMiscItems();
         for (int i = 0; i < miscItems.Count; i++)
         {
-            buffManager.RegisterUsableItemInfo(DataStore.Instance.GetMiscItemInfo(miscItems[i]));
+            buffManager.RegisterUsableItemInfo(ItemsData.Instance.GetMiscItemInfo(miscItems[i]));
         }
     }
     #endregion

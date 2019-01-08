@@ -76,7 +76,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     public Weapon CreateWeapon()
     {
         GameObject createdObj = weaponPool.NewItem();
-        createdObj.GetComponent<Weapon>().Init(Random.Range(0, DataStore.Instance.GetWeaponInfosLength()));
+        createdObj.GetComponent<Weapon>().Init(Random.Range(0, WeaponsData.Instance.GetWeaponInfosLength()));
         return createdObj.GetComponent<Weapon>();
     }
 
@@ -92,7 +92,7 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         if (Rating.NORATING == rating)
             return null;
         GameObject createdObj = weaponPool.NewItem();
-        createdObj.GetComponent<Weapon>().Init(DataStore.Instance.GetWeaponInfo(rating));
+        createdObj.GetComponent<Weapon>().Init(WeaponsData.Instance.GetWeaponInfo(rating));
         return createdObj.GetComponent<Weapon>();
     }
 
@@ -139,22 +139,22 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         switch (type)
         {
             case UsableItemType.CLOTHING:
-                usableItem.Init(DataStore.Instance.GetClothingItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetClothingItemInfo(usableItemId));
                 break;
             case UsableItemType.ETC:
-                usableItem.Init(DataStore.Instance.GetEtcItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetEtcItemInfo(usableItemId));
                 break;
             case UsableItemType.FOOD:
-                usableItem.Init(DataStore.Instance.GetFoodItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetFoodItemInfo(usableItemId));
                 break;
             case UsableItemType.MEDICAL:
-                usableItem.Init(DataStore.Instance.GetMedicalItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetMedicalItemInfo(usableItemId));
                 break;
             case UsableItemType.MISC:
-                usableItem.Init(DataStore.Instance.GetMiscItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetMiscItemInfo(usableItemId));
                 break;
             case UsableItemType.PET:
-                usableItem.Init(DataStore.Instance.GetPetItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetPetItemInfo(usableItemId));
                 break;
             default:
                 break;
@@ -175,22 +175,22 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         switch (type)
         {
             case UsableItemType.CLOTHING:
-                usableItem.Init(DataStore.Instance.GetClothingItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetClothingItemInfo(usableItemId));
                 break;
             case UsableItemType.ETC:
-                usableItem.Init(DataStore.Instance.GetEtcItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetEtcItemInfo(usableItemId));
                 break;
             case UsableItemType.FOOD:
-                usableItem.Init(DataStore.Instance.GetFoodItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetFoodItemInfo(usableItemId));
                 break;
             case UsableItemType.MEDICAL:
-                usableItem.Init(DataStore.Instance.GetMedicalItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetMedicalItemInfo(usableItemId));
                 break;
             case UsableItemType.MISC:
-                usableItem.Init(DataStore.Instance.GetMiscItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetMiscItemInfo(usableItemId));
                 break;
             case UsableItemType.PET:
-                usableItem.Init(DataStore.Instance.GetPetItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetPetItemInfo(usableItemId));
                 break;
             default:
                 break;
@@ -211,22 +211,22 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         switch (type)
         {
             case UsableItemType.CLOTHING:
-                usableItem.Init(DataStore.Instance.GetClothingItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetClothingItemInfo(usableItemId));
                 break;
             case UsableItemType.ETC:
-                usableItem.Init(DataStore.Instance.GetEtcItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetEtcItemInfo(usableItemId));
                 break;
             case UsableItemType.FOOD:
-                usableItem.Init(DataStore.Instance.GetFoodItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetFoodItemInfo(usableItemId));
                 break;
             case UsableItemType.MEDICAL:
-                usableItem.Init(DataStore.Instance.GetMedicalItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetMedicalItemInfo(usableItemId));
                 break;
             case UsableItemType.MISC:
-                usableItem.Init(DataStore.Instance.GetMiscItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetMiscItemInfo(usableItemId));
                 break;
             case UsableItemType.PET:
-                usableItem.Init(DataStore.Instance.GetPetItemInfo(usableItemId));
+                usableItem.Init(ItemsData.Instance.GetPetItemInfo(usableItemId));
                 break;
             default:
                 break;

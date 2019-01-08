@@ -98,7 +98,7 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
     public void ShowPassiveInfoView(int id)
     {
         passiveItemInfoView.SetActive(true);
-        UsableItemInfo usableItemInfo = DataStore.Instance.GetMiscItemInfo(id);
+        UsableItemInfo usableItemInfo = ItemsData.Instance.GetMiscItemInfo(id);
         //passiveItemInfoViewImage.sprite = usableItemInfo.Sprite;
         passiveItemInfoViewName.text = usableItemInfo.ItemName;
         passiveItemInfoViewNote.text = usableItemInfo.Notes;

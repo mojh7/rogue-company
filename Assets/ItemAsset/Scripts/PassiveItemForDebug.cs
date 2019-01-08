@@ -68,7 +68,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         infoCurrentIndex = 0;
         totalInfoIndexMax = (int)WeaponType.END;
 
-        passiveItemIndexMax = DataStore.Instance.GetMiscItemInfosLength();
+        passiveItemIndexMax = ItemsData.Instance.GetMiscItemInfosLength();
         slotCountMax = slotRow * slotColumn;
         
         CreatePassiveSlots(standardPos.position);
@@ -132,15 +132,15 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
     public void ApplyPassiveForDebug()
     {
         Debug.Log(currentIndex + "번 패시브 아이템 사용 for debug");
-        UsableItemInfo info = DataStore.Instance.GetMiscItemInfo(currentIndex);
+        UsableItemInfo info = ItemsData.Instance.GetMiscItemInfo(currentIndex);
         PlayerBuffManager.Instance.BuffManager.RegisterUsableItemInfo(info);
     }
 
     public void UpdatePassiveSelectImage()
     {
         SelectPassiveIdText.text = "Id : " + currentIndex;
-        SelectPassiveMemoText.text = DataStore.Instance.GetMiscItemInfo(currentIndex).Notes;
-        passiveSelectImage.sprite = DataStore.Instance.GetMiscItemInfo(currentIndex).Sprite;
+        SelectPassiveMemoText.text = ItemsData.Instance.GetMiscItemInfo(currentIndex).Notes;
+        passiveSelectImage.sprite = ItemsData.Instance.GetMiscItemInfo(currentIndex).Sprite;
     }
 
     public void SelectPassiveUp()

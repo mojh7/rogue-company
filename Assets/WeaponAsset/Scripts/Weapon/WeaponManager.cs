@@ -207,7 +207,7 @@ public class WeaponManager : MonoBehaviour {
             {
                 if (DebugSetting.Instance.equipsPlayerAllWeapons)
                 {
-                    weaponCountMax = DataStore.Instance.GetWeaponInfosLength();
+                    weaponCountMax = WeaponsData.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
                     Debug.Log("weaponCountMax : " + weaponCountMax);
 
@@ -297,7 +297,7 @@ public class WeaponManager : MonoBehaviour {
         }
         else
         {
-            EquipWeapon(DataStore.Instance.GetWeaponInfo(DebugSetting.Instance.enemyEquipWeaponId, OwnerType.ENEMY));
+            EquipWeapon(WeaponsData.Instance.GetWeaponInfo(DebugSetting.Instance.enemyEquipWeaponId, OwnerType.ENEMY));
             // EquipWeapon(DataStore.Instance.GetWeaponInfo(Random.Range(0, DataStore.Instance.GetEnemyWeaponInfosLength()), OwnerType.ENEMY));
         }
         UpdateCurrentWeapon();

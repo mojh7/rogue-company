@@ -5,31 +5,92 @@ using WeaponAsset;
 
 // TODO : 나중에 DataStore에서 분리할 예정
 
+namespace WeaponAsset
+{
+    public delegate float DelGetDirDegree();    // 총구 방향 각도
+    public delegate Vector3 DelGetPosition();   // owner position이지만 일단 player position 용도로만 사용.
+
+    public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
+    /// <summary>
+    /// 원거리 : 권총, 산탄총, 기관총, 저격소총, 레이저, 활, 지팡이, 원거리 특수
+    /// 근거리 기반 : 창, 몽둥이, 스포츠용품, 검, 청소도구, 주먹장착무기, 근거리 특수
+    /// 폭발형? : 폭탄, 접근발동무기
+    /// 17개
+    /// </summary>
+    // END 는 WeaponType 총 갯수를 알리기 위해서 enum 맨 끝에 기입 했음.
+    public enum WeaponType
+    {
+        NULL, PISTOL, SHOTGUN, MACHINEGUN, SNIPER_RIFLE, LASER, BOW,
+        SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE,
+        BOMB, TRAP,
+        WAND, MELEE_SPECIAL, RANGED_SPECIAL, END
+    }
+
+    // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW
+    public enum AttackAniType { None, Blow, Strike, Swing, Punch, Shot }
+    public enum AttackType { MELEE, RANGED, TRAP }
+    public enum TouchMode { Normal, Charge }
+    public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION }
+    public enum BulletPresetType
+    {
+        None, YELLOW_CIRCLE, RED_CIRCLE, SKYBLUE_BASH, BLUE_BASH, RED_BASH, ORANGE_BASH,
+        BLUE_CIRCLE, SKYBLUECIRCLE, PINK_CIRCLE, VIOLET_CIRCLE, EMPTY,
+        YELLOW_BULLET, BLUE_BULLET, PINK_BULLET, VIOLET_BULLET, RED_BULLET, GREEN_BULLET,
+        YELLOW_BEAM, BLUE_BEAM, PINK_BEAM, VIOLET_BEAM, RED_BEAM, GREEN_BEAM, GREEN_CIRCLE,
+        YELLOW_BULLET2, SKYBLUE_BULLET2, BLUE_BULLET2, PINK_BULLET2, VIOLET_BULLET2, RED_BULLET2, GREEN_BULLET2
+    };
+    /*---*/
+
+    public enum BulletPropertyType { Collision, Update, Delete }
+    public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
+    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing, MineBomb, FixedOwner, Spiral, Rotation, Child, TRIGONOMETRIC }
+    public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
+    public enum BehaviorPropertyType { SpeedControl, Rotate }
+
+    /*---*/
+
+    public enum ColliderType { None, Beam, Box, Circle }
+
+    public enum BulletAnimationType
+    {
+        NotPlaySpriteAnimation,
+        BashAfterImage,
+        PowerBullet,
+        Wind,
+        BashAfterImage2,
+        Explosion0,
+        BashSkyBlue,
+        BashBlue,
+        BashRed,
+        BashOrange,
+        PaperShot
+    }
+
+    /*---*/
+
+
+    // 총알 삭제 함수 델리게이트
+    public delegate void DelDestroyBullet();
+    // 총알 충돌 함수 델리게이트
+    public delegate void DelCollisionBullet(Collider2D coll);
+}
+
 public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 {
     #region variables
     [SerializeField]
-    private WeaponInfo[] weaponInfos;
+    private WeaponInfo[] testWeaponInfos;
     [SerializeField]
     //[FormerlySerializedAs("tempWeaponInfos")]
     //이거 선언, 이전 이름, 새로운 변수 명 한 번에 해야됨.
     private WeaponInfo[] mainWeaponInfos;
-    [SerializeField]
-    private WeaponInfo[] temp2WeaponInfos;
-
     //[FormerlySerializedAs("밑에 이전 변수명")] 이전 변수명과 밑에 에는 새로운 변수 명 쳐줘야 안의 값 그대로 이동함. 직렬화 되어있어야 했던가?
     [SerializeField]
     private WeaponInfo[] shapeSampleWeaponInfos;
-
-    /// <summary> 기획자 무기 테스트용 </summary>
-    [SerializeField]
-    private WeaponInfo[] A1WeaponInfos;
     [SerializeField]
     private WeaponInfo[] testBossWeaponInfos;
-
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
-
     private int ratingLength;
 
     [SerializeField]
@@ -48,15 +109,11 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         switch (DebugSetting.Instance.weaponModeForDebug)
         {
             case WeaponModeForDebug.Test:
-                return weaponInfos.Length;
+                return testWeaponInfos.Length;
             case WeaponModeForDebug.Main:
                 return mainWeaponInfos.Length;
-            case WeaponModeForDebug.Temp2:
-                return temp2WeaponInfos.Length;
             case WeaponModeForDebug.ShapeSample:
                 return shapeSampleWeaponInfos.Length;
-            case WeaponModeForDebug.A1:
-                return A1WeaponInfos.Length;
             case WeaponModeForDebug.TestBoss:
                 return testBossWeaponInfos.Length;
             default:
@@ -100,15 +157,11 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
             switch (DebugSetting.Instance.weaponModeForDebug)
             {
                 case WeaponModeForDebug.Test:
-                    return weaponInfos[id];
+                    return testWeaponInfos[id];
                 case WeaponModeForDebug.Main:
                     return mainWeaponInfos[id];
-                case WeaponModeForDebug.Temp2:
-                    return temp2WeaponInfos[id];
                 case WeaponModeForDebug.ShapeSample:
                     return shapeSampleWeaponInfos[id];
-                case WeaponModeForDebug.A1:
-                    return A1WeaponInfos[id];
                 case WeaponModeForDebug.TestBoss:
                     return testBossWeaponInfos[id];
                 default:
@@ -130,7 +183,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     #region unityFunc
     void Awake()
     {
-        //InitWepaonInfo();
+        InitWepaonInfo();
     }
     #endregion
 
@@ -143,14 +196,13 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         for (int i = 0; i < weaponInfoByRating.Length; i++)
         {
             weaponInfoByRating[i] = new List<WeaponInfo>();
-            //Debug.Log(i + " 초기화");
         }
 
         switch (DebugSetting.Instance.weaponModeForDebug)
         {
             case WeaponModeForDebug.Test:
-                for (int i = 0; i < weaponInfos.Length; i++)
-                    weaponInfos[i].Init();
+                for (int i = 0; i < testWeaponInfos.Length; i++)
+                    testWeaponInfos[i].Init();
                 break;
             case WeaponModeForDebug.Main:
                 for (int i = 0; i < mainWeaponInfos.Length; i++)
@@ -160,20 +212,9 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                     InsertWeaponInfoByRating(mainWeaponInfos[i]);
                 }
                 break;
-            case WeaponModeForDebug.Temp2:
-                for (int i = 0; i < temp2WeaponInfos.Length; i++)
-                {
-                    temp2WeaponInfos[i].Init();
-                    InsertWeaponInfoByRating(temp2WeaponInfos[i]);
-                }
-                break;
             case WeaponModeForDebug.ShapeSample:
                 for (int i = 0; i < shapeSampleWeaponInfos.Length; i++)
                     shapeSampleWeaponInfos[i].Init();
-                break;
-            case WeaponModeForDebug.A1:
-                for (int i = 0; i < A1WeaponInfos.Length; i++)
-                    A1WeaponInfos[i].Init();
                 break;
             case WeaponModeForDebug.TestBoss:
                 for (int i = 0; i < testBossWeaponInfos.Length; i++)
@@ -204,9 +245,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     public void InputWeaponData()
     {
         if (WeaponModeForDebug.Test == DebugSetting.Instance.weaponModeForDebug
-            || WeaponModeForDebug.Temp2 == DebugSetting.Instance.weaponModeForDebug
-            || WeaponModeForDebug.ShapeSample == DebugSetting.Instance.weaponModeForDebug
-            || WeaponModeForDebug.A1 == DebugSetting.Instance.weaponModeForDebug)
+            || WeaponModeForDebug.ShapeSample == DebugSetting.Instance.weaponModeForDebug)
             return;
 
         if (false == canInputWeaponData)

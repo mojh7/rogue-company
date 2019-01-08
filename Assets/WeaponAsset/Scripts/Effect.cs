@@ -54,7 +54,7 @@ public class Effect : MonoBehaviour {
 
     public void Init(int id, Vector3 pos)
     {
-        info = DataStore.Instance.GetEffectInfo(id);
+        //info = WeaponsData.Instance.GetEffectInfo(id);
         //info = DataStore.Instance.GetEffectInfo(Random.Range(0, 7));
         scaleVector.x = info.scaleX;
         scaleVector.y = info.scaleY;

@@ -83,13 +83,13 @@ public class Weapon : Item
         BaseInit();
     }
 
-    /// <summary> DataStore에서 index 참조로 무기 정보 받아오기, weaponView class 초기화 </summary>
+    /// <summary> WeaponsData에서 index 참조로 무기 정보 받아오기, weaponView class 초기화 </summary>
     public void Init(int weaponId, OwnerType ownerType = OwnerType.PLAYER)
     {
         this.ownerType = ownerType;
         this.weaponId = weaponId;
         // id에 따른 무기 정보 받아오기
-        originInfo = DataStore.Instance.GetWeaponInfo(weaponId, ownerType);
+        originInfo = WeaponsData.Instance.GetWeaponInfo(weaponId, ownerType);
         info = originInfo.Clone();
         BaseInit();
     }

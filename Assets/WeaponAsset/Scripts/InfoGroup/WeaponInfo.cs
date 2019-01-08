@@ -153,7 +153,6 @@ public class WeaponInfo : ScriptableObject
         bulletPatterns = new List<BulletPattern>();
         for(int i = 0; i < bulletPatternsLength; i++)
         {
-            Debug.Log(name + ", " + i);
             bulletPatterns.Add(BulletPatternInfo.CreatePatternInfo(bulletPatternEditInfos[i], ownerType).Clone());
         }
     }

@@ -31,7 +31,7 @@ public class PassiveSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void UpdatePassiveSlot(int passiveId)
     {
         this.passiveId = passiveId;
-        passiveImage.sprite = DataStore.Instance.GetMiscItemInfo(passiveId).Sprite;
+        passiveImage.sprite = ItemsData.Instance.GetMiscItemInfo(passiveId).Sprite;
     }
 
     public void ActiveOffPassiveSlot()

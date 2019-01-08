@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemsData : MonoBehaviour {
+public class ItemsData : MonoBehaviourSingleton<ItemsData>
+{
 
     #region variables
     [SerializeField]
@@ -90,13 +91,17 @@ public class ItemsData : MonoBehaviour {
     #endregion
 
     #region unityFunc
-    void Start ()
+    void Awake()
     {
-		
-	}
+        InitMiscItems();
+    }
+
     #endregion
-
     #region func
-
-    #endregion	
+    private void InitMiscItems()
+    {
+        for (int i = 0; i < miscItemInfos.Length; i++)
+            miscItemInfos[i].SetId(i);
+    }
+    #endregion
 }
