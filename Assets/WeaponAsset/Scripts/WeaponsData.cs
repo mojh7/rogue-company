@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
 
+// TODO : 나중에 DataStore에서 분리할 예정
 
 public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 {
