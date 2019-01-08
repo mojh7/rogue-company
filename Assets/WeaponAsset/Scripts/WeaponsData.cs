@@ -7,7 +7,6 @@ using WeaponAsset;
 
 public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 {
-
     #region variables
     [SerializeField]
     private WeaponInfo[] weaponInfos;
@@ -28,7 +27,6 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     [SerializeField]
     private WeaponInfo[] testBossWeaponInfos;
 
-
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
 
@@ -42,16 +40,9 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     [SerializeField]
     private bool canInputWeaponData;
     public List<Dictionary<string, object>> csvWeaponData;
-
-
-    // private List<BulletInfo> initializedBulletInfosAtRuntime;
-    // private int initializedBulletInfosLength;
-
     #endregion
 
     #region getter
-
-
     public int GetWeaponInfosLength()
     {
         switch (DebugSetting.Instance.weaponModeForDebug)
@@ -134,21 +125,16 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         }
         return null;
     }
-
     #endregion
 
-    #region setter
-    #endregion
-
-    #region UnityFunction
+    #region unityFunc
     void Awake()
     {
-        InitWepaonInfo();
+        //InitWepaonInfo();
     }
-
     #endregion
-    #region func
 
+    #region func
     /// <summary> 무기 정보 관련 초기화 </summary>
     public void InitWepaonInfo()
     {

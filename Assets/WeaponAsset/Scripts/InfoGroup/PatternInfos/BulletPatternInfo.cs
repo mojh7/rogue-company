@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /// <summary>
 /// parentBullet 좌표를 원점으로 멀어지는 길이(크기)와 방향(Vector 비슷)
 /// </summary>

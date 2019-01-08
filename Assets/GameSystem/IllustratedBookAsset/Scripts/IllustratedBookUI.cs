@@ -8,23 +8,26 @@ public enum IllustratedBookType { WEAPON, ITEM }
 public class IllustratedBookUI : MonoBehaviour
 {
     #region variables
+    [SerializeField]
+    private GameObject bookUI;
+
     #endregion
 
     #region unityfunc
-    void Start()
+    void Awake()
     {
-
-    }
-
-    void Update()
-    {
-
+        bookUI.SetActive(false);
     }
     #endregion
 
     #region func
-    public void ChangeBookType(int type)
+    public void OpenBook()
     {
+        bookUI.SetActive(true);
+    }
+    public void CloseBook()
+    {
+        bookUI.SetActive(false);
     }
     #endregion
 }
