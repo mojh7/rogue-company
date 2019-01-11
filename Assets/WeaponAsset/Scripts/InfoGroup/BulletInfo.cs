@@ -39,12 +39,12 @@ public class BulletInfo : ScriptableObject
     [SerializeField]
     public BulletType bulletType;
 
-    public string bulletParticleName;
-    public string impactParticleName;
 
-    [Header("아직 미 적용")]
+    [Header("이미 셋팅된 정보 사용")]
     [SerializeField]
     public BulletPresetType bulletPresetType;
+    public string bulletParticleName;
+    public string impactParticleName;
 
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
@@ -171,8 +171,8 @@ public class BulletInfo : ScriptableObject
     public BulletInfo()
     {
         ownerType = CharacterInfo.OwnerType.PLAYER;
-        bulletParticleName = null;
-        impactParticleName = null;
+        bulletParticleName = "";
+        impactParticleName = "";
 
         scaleX = -1;
         scaleY = -1;

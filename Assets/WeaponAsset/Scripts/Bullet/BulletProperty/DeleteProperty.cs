@@ -32,7 +32,10 @@ using UnityEngine;
 public abstract class DeleteProperty : BulletProperty
 {
     public abstract DeleteProperty Clone();
-    public abstract void DestroyBullet();
+    public virtual void DestroyBullet()
+    {
+        RemoveBulletParticle();
+    }
     // TODO : 고쳐야 됨
     protected void CreateEffect(int id, Vector3 pos)
     {
@@ -40,6 +43,19 @@ public abstract class DeleteProperty : BulletProperty
         if (id == 0)
         {
             ParticleManager.Instance.PlayParticle("BulletEffect1", new Vector2(pos.x, pos.y));
+        }
+    }
+
+    protected void RemoveBulletParticle()
+    {
+        ParticleSystem bulletParticle = bullet.GetBulletParticle();
+        if ("" != bullet.info.impactParticleName)
+            ParticleManager.Instance.PlayParticle(bullet.info.impactParticleName, bullet.objTransform.position, 0.2f);
+        if(null != bulletParticle)
+        {
+            bulletParticle.transform.parent = ParticleManager.Instance.GetBodyTransform();
+            UtilityClass.Invoke(ParticleManager.Instance, () => bulletParticle.gameObject.SetActive(false), 0.5f);
+            bullet.SetBulletParticle(null);
         }
     }
 }
@@ -54,6 +70,7 @@ public class BaseDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
+        base.DestroyBullet();
         CreateEffect(bullet.info.effectId, bulletTransform.position);
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
@@ -76,6 +93,7 @@ public class LaserDeleteProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
+        base.DestroyBullet();
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
@@ -98,6 +116,7 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
 
     public override void DestroyBullet()
     {
+        base.DestroyBullet();
         CreateEffect(bullet.info.effectId, bulletTransform.position);
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo.Clone(), ownerBuff, transferBulletInfo, bullet.GetOwnerType(), bulletTransform.position);
@@ -126,6 +145,7 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
     }
     public override void DestroyBullet()
     {
+        base.DestroyBullet();
         CreateEffect(bullet.info.effectId, bulletTransform.position);
         dirDegree = bullet.GetDirDegree();
         dirVec = bullet.GetDirVector();

@@ -78,6 +78,7 @@ public class Bullet : MonoBehaviour
 
     private float eulerAngleZ;
 
+    private ParticleSystem bulletParticle;
     private Vector3 perpendicularVec;
     #endregion
 
@@ -102,6 +103,7 @@ public class Bullet : MonoBehaviour
     public Vector3 GetPosition() { return objTransform.position; }
     public float GetAddDirVecMagnitude() { return addDirVecMagnitude; }
     public float GetAdditionalVerticalPos() { return additionalVerticalPos; }
+    public ParticleSystem GetBulletParticle() { return bulletParticle; }
 
     public float GetDirDegree() { return dirDegree; }
     // 현재 바라보는 방향의 vector 반환
@@ -111,6 +113,7 @@ public class Bullet : MonoBehaviour
     {
         this.ownerType = ownerType;
     }
+    public void SetBulletParticle(ParticleSystem bulletParticle) { this.bulletParticle = bulletParticle; }
 
     public float DecreaseDamageAfterPierce { get; private set; }
     #endregion
@@ -380,7 +383,10 @@ public class Bullet : MonoBehaviour
         laserViewObj.SetActive(false);
 
         if(null != info.bulletParticleName)
-            ParticleManager.Instance.PlayParticle(info.bulletParticleName, objTransform.position, objTransform);
+        {
+            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleName, objTransform.position, objTransform);
+        }
+            
 
         ActivateColiider();
         // sprite 애니메이션 적용
@@ -536,9 +542,9 @@ public class Bullet : MonoBehaviour
             if (-1 == info.effectId)
                 info.effectId = bulletPresetInfo.effectId;
 
-            if (null == info.bulletParticleName)
+            if ("" == info.bulletParticleName)
                 info.bulletParticleName = bulletPresetInfo.bulletParticleName;
-            if (null == info.impactParticleName)
+            if ("" == info.impactParticleName)
                 info.impactParticleName = bulletPresetInfo.impactParticleName;
         }
     }

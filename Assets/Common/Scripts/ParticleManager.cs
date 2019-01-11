@@ -7,6 +7,11 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
     Vector3 one;
     Transform bodyTransform;
 
+    public Transform GetBodyTransform()
+    {
+        return bodyTransform;
+    }
+
     private void Awake()
     {
         one = Vector3.one;
@@ -80,5 +85,15 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
     }
 
-
+    public ParticleSystem PlayBulletParticle(string str, Vector2 pos, Transform parent)
+    {
+        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        if (particle == null)
+            return null;
+        particle.gameObject.transform.position = pos;
+        particle.gameObject.transform.localScale = one;
+        particle.gameObject.transform.parent = parent;
+        particle.Play();
+        return particle;   
+    }
 }

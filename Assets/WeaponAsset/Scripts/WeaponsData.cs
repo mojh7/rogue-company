@@ -53,7 +53,7 @@ namespace WeaponAsset
 
     /*---*/
 
-    public enum ColliderType { None, Beam, Box, Circle }
+    public enum ColliderType { None, Beam, Box, Circle, SPECIFIC_BOX, SPECIFIC_CIRCLE }
 
     public enum BulletAnimationType
     {
