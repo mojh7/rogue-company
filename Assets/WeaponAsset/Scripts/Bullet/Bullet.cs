@@ -379,6 +379,9 @@ public class Bullet : MonoBehaviour
         lineRenderer.enabled = false;
         laserViewObj.SetActive(false);
 
+        if(null != info.bulletParticleName)
+            ParticleManager.Instance.PlayParticle(info.bulletParticleName, objTransform.position, objTransform);
+
         ActivateColiider();
         // sprite 애니메이션 적용
         if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
@@ -404,7 +407,7 @@ public class Bullet : MonoBehaviour
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
-            SetColliderSize(spriteRenderer, info.colliderSizeRate);
+            SetColliderSize(spriteRenderer, info.colliderSizeRatio);
             //boxCollider.size = spriteRenderer.sprite.bounds.size;
             //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
         }
@@ -523,13 +526,20 @@ public class Bullet : MonoBehaviour
                 info.bulletSprite = bulletPresetInfo.sprite;
             if(ColliderType.None == info.colliderType)
                 info.colliderType = bulletPresetInfo.colliderType;
+            if (1 == info.colliderSizeRatio && 1 != bulletPresetInfo.colliderSizeRatio)
+                info.colliderSizeRatio = bulletPresetInfo.colliderSizeRatio;
             if (BulletAnimationType.NotPlaySpriteAnimation == info.spriteAnimation)
                 info.spriteAnimation = bulletPresetInfo.spriteAnimation;
 
-            if(info.lifeTime == -1)
+            if (-1 == info.lifeTime)
                 info.lifeTime = bulletPresetInfo.lifeTime;
-            if (info.effectId == -1)
+            if (-1 == info.effectId)
                 info.effectId = bulletPresetInfo.effectId;
+
+            if (null == info.bulletParticleName)
+                info.bulletParticleName = bulletPresetInfo.bulletParticleName;
+            if (null == info.impactParticleName)
+                info.impactParticleName = bulletPresetInfo.impactParticleName;
         }
     }
 
@@ -850,7 +860,7 @@ public class Bullet : MonoBehaviour
             }
         }
         
-        // 6. 모든 근거리 무기 상대 총알 막기
+        // 모든 근거리 무기 상대 총알 막기
         if (effectInfo.meleeWeaponsCanBlockBullet)
         {
             info.canBlockBullet = true;
@@ -864,7 +874,7 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        // 7. 모든 근거리 무기 상대 총알 반사
+        // 모든 근거리 무기 상대 총알 반사
         if (effectInfo.meleeWeaponsCanReflectBullet)
         {
             info.canReflectBullet = true;
@@ -878,14 +888,14 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        // 8. 총알이 벽에 1회 튕겨집니다. 
+        // 총알이 벽에 1회 튕겨집니다. 
         if (effectInfo.bounceAble)
         {
             info.bounceAble = true;
             info.bounceCount = 1;
         }
 
-        // 10. 폭탄 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
+        // 폭탄 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
         if (effectInfo.becomesSpiderMine && BulletType.MINE == info.bulletType)
         {
             info.becomeSpiderMine = true;
@@ -900,18 +910,16 @@ public class Bullet : MonoBehaviour
 
         // bulletInfo 수치들 공식 최종 적용
         
-        // 0.모든 무기 공격력 n % 증가, n 미정
+        // 모든 무기 공격력 n % 증가, n 미정
         info.damage = info.damage * (totalInfo.damageIncrement + effectInfo.damageIncrement + transferBulletInfo.chargedDamageIncrement);
         
-        // 1.모든 무기 치명타 확률 n% 증가, 합 옵션
+        // 모든 무기 치명타 확률 n% 증가, 합 옵션
         info.criticalChance = info.criticalChance + totalInfo.criticalChanceIncrement + effectInfo.damageIncrement;
 
         // 크리티컬 데미지 상승, 합 옵션
         transferBulletInfo.criticalDamageIncrement = totalInfo.criticalDamageIncrement + effectInfo.criticalDamageIncrement;
 
-        //Debug.Log("버프 전 : " + info.speed);
         info.speed = info.speed * (totalInfo.bulletSpeedIncrement + effectInfo.bulletSpeedIncrement);    // 총알 이동속도 변화
-        //Debug.Log("버프 후 : " + info.speed + ", " + effectInfo.bulletSpeedIncrement);
 
         if (OwnerType.PLAYER == ownerType)
         {
@@ -960,21 +968,6 @@ public class Bullet : MonoBehaviour
 
     #region coroutine
 
-    // 안쓸 듯
-    // 총알 Update 코루틴
-    private IEnumerator BulletUpdate()
-    {
-        while (true)
-        {
-            // 총알 update 속성 실행
-            for (int i = 0; i < info.updatePropertiesLength; i++)
-            {
-                info.updateProperties[i].Update();
-            }
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);  // 일단은 약 60 fps 정도로 실행
-        }
-    }
-
     // 애니메이션 트리거 작동 특성 상 setTrigger 이후 한 프레임 뒤에 바뀌나봄. 그래서 코루틴으로 함. 
     /// <summary> Animation Sprite용 collider size 설정</summary>
     private IEnumerator SetColliderSizeOfAniSprite()
@@ -1000,7 +993,7 @@ public class Bullet : MonoBehaviour
                 break;
             case ColliderType.Box:
                 colliderObj.transform.localScale = new Vector3(1, 1, 1f);
-                boxCollider.size = spriteAniRenderer.sprite.bounds.size * info.colliderSizeRate;
+                boxCollider.size = spriteAniRenderer.sprite.bounds.size * info.colliderSizeRatio;
                 boxCollider.offset = spriteAniRenderer.sprite.bounds.center;
                 break;
             case ColliderType.Circle:
@@ -1008,7 +1001,7 @@ public class Bullet : MonoBehaviour
                 sizeX = spriteAniRenderer.sprite.bounds.size.x;
                 sizeY = spriteAniRenderer.sprite.bounds.size.y;
                 size = (sizeX > sizeY) ? sizeY : sizeX;
-                circleCollider.radius = size * info.colliderSizeRate * 0.5f;
+                circleCollider.radius = size * info.colliderSizeRatio * 0.5f;
                 circleCollider.offset = spriteAniRenderer.sprite.bounds.center;
                 break;
             default:

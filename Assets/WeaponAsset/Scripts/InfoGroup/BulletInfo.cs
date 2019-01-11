@@ -28,7 +28,6 @@ public class PropertyTimeline
     public float value;
 }
 
-// player bullet
 [CreateAssetMenu(fileName = "BulletInfo", menuName = "WeaponData/OwnerPlayer/BulletInfo", order = 1)]
 public class BulletInfo : ScriptableObject
 {
@@ -39,6 +38,9 @@ public class BulletInfo : ScriptableObject
     protected CharacterInfo.OwnerType ownerType;
     [SerializeField]
     public BulletType bulletType;
+
+    public string bulletParticleName;
+    public string impactParticleName;
 
     [Header("아직 미 적용")]
     [SerializeField]
@@ -72,8 +74,7 @@ public class BulletInfo : ScriptableObject
     public int soundId;
 
     public ColliderType colliderType;
-    [Tooltip("beam 0.3f")]
-    public float colliderSizeRate;
+    public float colliderSizeRatio;
 
     [Header("Not Play Animation이 아니면 해당 애니메이션 적용")]
     public BulletAnimationType spriteAnimation;
@@ -170,6 +171,8 @@ public class BulletInfo : ScriptableObject
     public BulletInfo()
     {
         ownerType = CharacterInfo.OwnerType.PLAYER;
+        bulletParticleName = null;
+        impactParticleName = null;
 
         scaleX = -1;
         scaleY = -1;
@@ -182,7 +185,7 @@ public class BulletInfo : ScriptableObject
         effectId = -1;
         soundId = -1;
 
-        colliderSizeRate = 1f;
+        colliderSizeRatio = 1f;
         bulletSprite = null;
 
         showsScaleAnimation = false;
@@ -223,6 +226,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.ownerType = ownerType;
         clonedInfo.bulletType = bulletType;
         clonedInfo.bulletPresetType = bulletPresetType;
+        clonedInfo.bulletParticleName = bulletParticleName;
+        clonedInfo.impactParticleName = impactParticleName;
 
         clonedInfo.bulletName = bulletName;
         clonedInfo.statusEffectInfo = new StatusEffectInfo(statusEffectInfo);
@@ -245,7 +250,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.soundId = soundId;
 
         clonedInfo.colliderType = colliderType;
-        clonedInfo.colliderSizeRate = colliderSizeRate;
+        clonedInfo.colliderSizeRatio = colliderSizeRatio;
         clonedInfo.spriteAnimation = spriteAnimation;
         clonedInfo.bulletSprite = bulletSprite;
 

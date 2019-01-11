@@ -37,9 +37,13 @@ namespace WeaponAsset
         BLUE_CIRCLE, SKYBLUECIRCLE, PINK_CIRCLE, VIOLET_CIRCLE, EMPTY,
         YELLOW_BULLET, BLUE_BULLET, PINK_BULLET, VIOLET_BULLET, RED_BULLET, GREEN_BULLET,
         YELLOW_BEAM, BLUE_BEAM, PINK_BEAM, VIOLET_BEAM, RED_BEAM, GREEN_BEAM, GREEN_CIRCLE,
-        YELLOW_BULLET2, SKYBLUE_BULLET2, BLUE_BULLET2, PINK_BULLET2, VIOLET_BULLET2, RED_BULLET2, GREEN_BULLET2
+        YELLOW_BULLET2, SKYBLUE_BULLET2, BLUE_BULLET2, PINK_BULLET2, VIOLET_BULLET2, RED_BULLET2, GREEN_BULLET2,
+        TEST, TEST2, TEST3, TEST4
     };
     /*---*/
+    public enum MuzzleParticelType { NONE, BASIC }
+    public enum ImpactParticleType { NONE, BASIC }
+    public enum TrailParticleType { NONE, BASIC }
 
     public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }

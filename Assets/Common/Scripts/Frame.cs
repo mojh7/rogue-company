@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Frame : MonoBehaviour {
+public class Frame : MonoBehaviourSingleton<Frame>
+{
     public bool frame;
     public UsableItemInfo itemInfo1, itemInfo2, itemInfo3;
     public ObjectAbnormalType objectAbnormalType;

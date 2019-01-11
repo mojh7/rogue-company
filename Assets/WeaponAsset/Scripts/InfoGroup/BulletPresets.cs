@@ -12,12 +12,20 @@ public class BulletPresetInfo
     public float scaleX = 0;
     public float scaleY = 0;
     public ColliderType colliderType;
+    public float colliderSizeRatio = 1f;
     public BulletAnimationType spriteAnimation;
     public float lifeTime = -1;
     public int effectId = -1;
+    public string bulletParticleName;
+    public string impactParticleName;
 }
 
 public class BulletPresets : MonoBehaviourSingleton<BulletPresets>
 {
     public BulletPresetInfo[] bulletPresetInfoList;
+    private void Awake()
+    {
+        for (int i = 0; i < bulletPresetInfoList.Length; i++)
+            bulletPresetInfoList[i].colliderSizeRatio = 1f;
+    }
 }
