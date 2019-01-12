@@ -14,7 +14,10 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     private Sprite sprite;
     [SerializeField]
     private FloorData[] floorDatas;
-    public ObjectPool objectPool;
+    [SerializeField]
+    private ObjectPool enemyPool;
+    [SerializeField]
+    private ObjectPool indicatorPool;
     private List<Enemy> enemyList;
     private List<BoxCollider2D> enemyColliderList;
 
@@ -85,7 +88,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
     GameObject SpawnEnemy(Vector3 position)
     {
-        GameObject obj = objectPool.GetPooledObject();
+        GameObject obj = enemyPool.GetPooledObject();
         obj.transform.position = position;
         obj.transform.localScale = new Vector3(1, 1, 0);
 
@@ -107,6 +110,8 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
 
         enemy.Init(bossData);
         enemyList.Add(enemy);
+        CharacterIndicator indicator = indicatorPool.GetPooledObject().GetComponent<CharacterIndicator>();
+        indicator.SetTarget(enemy);
         enemyColliderList.Add(enemy.GetHitBox());
     }
 
@@ -116,12 +121,10 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         GameObject obj = SpawnEnemy(position);
 
         enemy = obj.AddComponent<Enemy>();
-        // 1123 윤아
         if (this.tutorial)
         {
             enemy.SetTutorial(tutorial);
         }
-
         enemy.Init(temporary as EnemyData);
         if (owner == null)
         {
@@ -134,6 +137,8 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
             if((temporary as EnemyData).FollowBoss)
                 enemy.GetCharacterComponents().AIController.ChangeTarget(owner);
         }
+        CharacterIndicator indicator = indicatorPool.GetPooledObject().GetComponent<CharacterIndicator>();
+        indicator.SetTarget(enemy);
         enemyColliderList.Add(enemy.GetHitBox());
     }
 

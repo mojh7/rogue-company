@@ -16,11 +16,13 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
     float m_cameraDepth = -1;
     Vector3 zeroPos;
     private bool isShaking;
-
+    new Camera camera;
     private void Awake()
     {
         cameraTransform = this.transform;
         zeroPos = new Vector3(0, 0, m_cameraDepth);
+        camera = GetComponent<Camera>();
+
     }
     IEnumerator CoroutineShaking(float duration, float magnitude, IncreaseType increaseType)
     {
@@ -50,8 +52,11 @@ public class CameraController : MonoBehaviourSingleton<CameraController> {
         cameraTransform.localPosition = zeroPos;
         isShaking = false;
     }
-
     #region func
+    public Vector3 worldToScreen(Vector3 worldPos)
+    {
+        return camera.WorldToScreenPoint(worldPos);
+    }
     public void ComeBackPosition()
     {
         cameraTransform.localPosition = zeroPos;
