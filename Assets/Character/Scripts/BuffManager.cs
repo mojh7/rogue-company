@@ -383,6 +383,7 @@ public class BuffManager : MonoBehaviour
         //CharacterTargetEffectTotal.hpRatio += targetEffect.hpRatio * sign;
         CharacterTargetEffectTotal.hpMaxRatio += targetEffect.hpMaxRatio * sign;
         CharacterTargetEffectTotal.charScale += targetEffect.charScale * sign;
+        CharacterTargetEffectTotal.charScale = Mathf.Clamp(CharacterTargetEffectTotal.charScale, .5f, 1.5f);
         CharacterTargetEffectTotal.skillGage += targetEffect.skillGage * sign;
         characterTargetEffectTotal.gettingStaminaMultiple += targetEffect.gettingStaminaMultiple * sign;
         characterTargetEffectTotal.staminaMaxRatio += targetEffect.staminaMaxRatio * sign;

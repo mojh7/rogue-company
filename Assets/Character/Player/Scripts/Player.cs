@@ -673,8 +673,8 @@ public class Player : Character
         if (itemUseEffect.skillGage > 0)
             skillGageMultiple = itemUseEffect.skillGage;
 
-        if (itemUseEffect.charScale > 0 && itemUseEffect.charScale <= 2f)
-            ScaleChange(itemUseEffect.charScale);
+        ScaleChange(itemUseEffect.charScale);
+
 
         stamina.SetStaminaMax(playerData.StaminaMax);
         stamina.RecoverStamina(0);
