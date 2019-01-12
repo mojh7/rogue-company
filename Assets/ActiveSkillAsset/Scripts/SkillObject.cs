@@ -191,6 +191,8 @@ public class ProjectileSkillObject : CollisionSkillObject
             float lapsedTime = 9999;
             foreach (SkillData item in postSkillData)
             {
+                if (null == item)
+                    continue;
                 if (other)
                     item.Run(caster, other, bodyTransform.position, ref lapsedTime);
                 else if (caster)
@@ -216,6 +218,8 @@ public class ProjectileSkillObject : CollisionSkillObject
             float lapsedTime = 9999;
             foreach (SkillData item in postSkillData)
             {
+                if (null == item)
+                    continue;
                 if (other)
                     item.Run(caster, other, bodyTransform.position, ref lapsedTime);
                 else if (caster)
@@ -256,6 +260,8 @@ public class PassSkillObject : ProjectileSkillObject
             float lapsedTime = 9999;
             foreach (SkillData item in postSkillData)
             {
+                if (null == item)
+                    continue;
                 if (other)
                 {
                     if (collisionCaster)
