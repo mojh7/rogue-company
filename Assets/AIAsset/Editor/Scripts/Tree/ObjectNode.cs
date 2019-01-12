@@ -121,7 +121,7 @@ namespace BT
                     actionTask = EActionTask.ShotAction;
                     value1 = (task as ShotAction).Value;
                     break;
-                case "PositionAction":
+                case "PositionTrackAction":
                     taskType = TaskType.ActionTask;
                     actionTask = EActionTask.PositionTrackAction;
                     break;
