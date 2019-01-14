@@ -104,6 +104,8 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
         musicController.Play(musicIndex, ignoresame);
     }
 
+    // TODO : 파티클 매니저 처럼 <string, value> 딕셔너리로 바꿀까 함 
+
     /// <summary>
     /// 사운드(효과음) 실행
     /// </summary>

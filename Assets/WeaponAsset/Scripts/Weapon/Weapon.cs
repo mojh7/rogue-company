@@ -472,7 +472,6 @@ WeaponType.TRAP == info.weaponType)
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
             chargedTime += Time.fixedDeltaTime * chargingSpeed;
             weaponManager.UpdateChargingUI(chargedTime / info.chargeTimeMax);
-            //Debug.Log(chargedTime + ", " + (chargedTime / info.chargeTimeMax));
         }
         chargedTime = info.chargeTimeMax;
         weaponManager.UpdateChargingUI(chargedTime / info.chargeTimeMax);

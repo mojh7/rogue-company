@@ -12,6 +12,8 @@ public class ChargeGauge : MonoBehaviour {
     private GameObject backGround;  // 흰색 배경
     [SerializeField]
     private GameObject gaugeSpriteObj; // 차징 게이지 sprite
+    [SerializeField]
+    private GameObject fullChargedUI; // 풀 차징 표시 ui
     private Transform gaugeSpriteTrasnform;
 
     private Vector3 scaleVec;
@@ -23,11 +25,17 @@ public class ChargeGauge : MonoBehaviour {
         scaleVec = new Vector3(0.0f, 0.2f, 1f);
         gaugeSpriteTrasnform = gaugeSpriteObj.GetComponent<Transform>();
         fullChargedScaleX = 1.8f;
-        frame.SetActive(false);
-        backGround.SetActive(false);
-        gaugeSpriteObj.SetActive(false);
+        SetActiveChargeUI(false);
     }
 	
+    private void SetActiveChargeUI(bool boolean)
+    {
+        frame.SetActive(boolean);
+        backGround.SetActive(boolean);
+        gaugeSpriteObj.SetActive(boolean);
+        fullChargedUI.SetActive(boolean);
+    }
+
     /// <summary>
     /// 매개변수에 따른 차징 게이지 UI 업데이트
     /// </summary>
@@ -37,16 +45,19 @@ public class ChargeGauge : MonoBehaviour {
         // 연속으로 터치시 바로 차징 게이지 안뜨게 하기 위함
         if (chargedVaule <= 0.03f)
         {
-            frame.SetActive(false);
-            backGround.SetActive(false);
-            gaugeSpriteObj.SetActive(false);
+            SetActiveChargeUI(false);
             return;
         }
-        frame.SetActive(true);
-        backGround.SetActive(true); 
-        gaugeSpriteObj.SetActive(true);
+        SetActiveChargeUI(true);
+        fullChargedUI.SetActive(false);
 
-        if (chargedVaule > 1.0f) chargedVaule = 1.0f;
+        // 풀 차징
+        if (chargedVaule >= 1.0f)
+        {
+            chargedVaule = 1.0f;
+            fullChargedUI.SetActive(true);
+            AudioManager.Instance.PlaySound(2, SOUNDTYPE.UI);
+        }
         scaleVec.x = fullChargedScaleX * chargedVaule;
         gaugeSpriteTrasnform.localScale = scaleVec; 
     }
