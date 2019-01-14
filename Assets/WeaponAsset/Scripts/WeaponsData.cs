@@ -44,6 +44,7 @@ namespace WeaponAsset
     public enum MuzzleParticelType { NONE, BASIC }
     public enum ImpactParticleType { NONE, BASIC }
     public enum TrailParticleType { NONE, BASIC }
+    public enum MuzzleFlashType { NONE, FROST }
 
     public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }

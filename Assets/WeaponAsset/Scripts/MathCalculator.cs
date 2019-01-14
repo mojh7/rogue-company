@@ -4,9 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 각종 수학적 계산 모음 class
-/// 안 쓸 수도 있는데 따로 클래스내에 모아놓고 사용할 확률이 더 높음
 /// </summary>
-
 public static class MathCalculator  {
 
     private const float DegToRad = Mathf.PI / 180;
