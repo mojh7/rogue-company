@@ -49,7 +49,6 @@ namespace WeaponAsset
         NONE, BASIC, MUZZLE_FLASH_FROST, MUZZLE_FLASH_FIRE_BALL_BLUE, MUZZLE_FLASH_FIRE_BALL_GREEN, MUZZLE_FLASH_FIRE_BALL_PURPLE , MUZZLE_FLASH_FIRE_BALL_RED, MUZZLE_FLASH_FIRE_BALL_YELLOW,
         MUZZLE_FLASH_SPIKY_YELLOW
     }
-    public enum WeaponSoundType { NONE, WPN_SWORD }
 
     public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
@@ -263,7 +262,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         csvWeaponData = WeaponDataCSVParser.Read("weaponData");
         //Debug.Log("CSV 데이터 파싱 후 weapon data 입력");
 
-        #region variables
+        #region parsing variables
         WeaponType weaponType;
         AttackAniType attackAniType;
         Rating rating;
@@ -275,7 +274,6 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         int ammoCapacity;
         float range;
         float bulletSpeed;
-        int soundId;
         float scaleX;
         float scaleY;
         float castingTime;
@@ -283,7 +281,6 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         float addVerticalVec;
         #endregion
 
-        //TODO: soundID, showsMuzzleFalsh, ScaleX, ScaleY, CastingTime, AddDirVec, AddVerticalVec
 
         int size = csvWeaponData.Count;
         for (int i = 0; i < size; i++)
@@ -339,10 +336,9 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
             mainWeaponInfos[i].bulletMoveSpeed = bulletSpeed;
             //Debug.Log(bulletSpeed);
 
-            int.TryParse(csvWeaponData[i]["soundId"].ToString(), out soundId);
-            mainWeaponInfos[i].soundId = soundId;
+            mainWeaponInfos[i].soundName = csvWeaponData[i]["soundName"].ToString();
 
-            if ("TRUE" == csvWeaponData[i]["soundId"].ToString())
+            if ("TRUE" == csvWeaponData[i]["showsMuzzleFlash"].ToString())
                 mainWeaponInfos[i].showsMuzzleFlash = true;
             else
                 mainWeaponInfos[i].showsMuzzleFlash = false;
@@ -443,36 +439,15 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
             switch (mainWeaponInfos[i].attackAniType)
             {
                 case AttackAniType.Strike:
-                    mainWeaponInfos[i].soundId = 0;
                     mainWeaponInfos[i].castingTime = 0.3f;
                     break;
                 case AttackAniType.Blow:
                     mainWeaponInfos[i].castingTime = 0.2f;
-                    mainWeaponInfos[i].soundId = 3;
                     break;
                 case AttackAniType.Swing:
                     mainWeaponInfos[i].castingTime = 0.3f;
-                    mainWeaponInfos[i].soundId = 3;
                     break;
                 case AttackAniType.Shot:
-                    mainWeaponInfos[i].soundId = 0;
-                    break;
-                default:
-                    break;
-            }
-
-            //sound
-            switch (weaponType)
-            {
-                case WeaponType.BOMB:
-                case WeaponType.TRAP:
-                    mainWeaponInfos[i].soundId = 3;
-                    break;
-                case WeaponType.SHOTGUN:
-                    mainWeaponInfos[i].soundId = 2;
-                    break;
-                case WeaponType.LASER:
-                    mainWeaponInfos[i].soundId = -1;
                     break;
                 default:
                     break;

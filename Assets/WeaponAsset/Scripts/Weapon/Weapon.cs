@@ -425,8 +425,15 @@ WeaponType.TRAP == info.weaponType)
                     }
 
                     ShowMuzzleFlash();
-                    // 공격 사운드 실행
-                    AudioManager.Instance.PlaySound(info.soundId, SOUNDTYPE.WEAPON);
+                    //공격 사운드 실행
+                    if (-1 != info.soundId)
+                    {
+                        AudioManager.Instance.PlaySound(info.soundId, SOUNDTYPE.WEAPON);
+                    }
+                    else if ("NONE" != info.soundName && "" != info.soundName)
+                    {
+                        AudioManager.Instance.PlaySound(info.soundName, SOUNDTYPE.WEAPON);
+                    }
                     CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime);
                     info.bulletPatterns[j].StartAttack(damageIncreaseRate, ownerType);
                     info.bulletPatterns[j].IncreaseAdditionalAngle();

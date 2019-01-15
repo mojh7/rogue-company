@@ -26,11 +26,31 @@ public class SoundController : MonoBehaviourSingleton<SoundController>
     [SerializeField]
     private AudioClip[] weaponSoundList;
 
+    private Dictionary<string, AudioClip> uiSoundDictionary;
+    private Dictionary<string, AudioClip> weaponSoundDictionary;
+
     private AudioSource audioSource;
 
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+
+        uiSoundDictionary = new Dictionary<string, AudioClip>();
+        for (int i = 0; i < uiSoundList.Length; i++)
+        {
+            if (!uiSoundDictionary.ContainsKey(uiSoundList[i].name))
+            {
+                uiSoundDictionary[uiSoundList[i].name] = uiSoundList[i];
+            }
+        }
+        weaponSoundDictionary = new Dictionary<string, AudioClip>();
+        for (int i = 0; i < weaponSoundList.Length; i++)
+        {
+            if (!weaponSoundDictionary.ContainsKey(weaponSoundList[i].name))
+            {
+                weaponSoundDictionary.Add(weaponSoundList[i].name, weaponSoundList[i]);
+            }
+        }
     }
 
     // 사운드 On/Off 여부 확인, 임시로 true
@@ -56,11 +76,12 @@ public class SoundController : MonoBehaviourSingleton<SoundController>
 
 
     /// <summary>
-    /// 사운드 재생
+    /// 사운드 재생, index 기반
     /// </summary>
     public void Play(int soundIndex, SOUNDTYPE soundType)
     {
-        if (soundIndex < 0) return;
+        if (soundIndex < 0)
+            return;
 
         AudioClip _clip = null;
 
@@ -76,6 +97,32 @@ public class SoundController : MonoBehaviourSingleton<SoundController>
                 break;
         }
 
+        if (_clip == null)
+            return;
+
+        audioSource.PlayOneShot(_clip);
+    }
+
+    /// <summary>
+    /// 사운드 재생, string key
+    /// </summary>
+    public void Play(string soundName, SOUNDTYPE soundType)
+    {
+        if ("" == soundName || "NONE" == soundName)
+            return;
+
+        AudioClip _clip = null;
+        switch (soundType)
+        {
+            case SOUNDTYPE.WEAPON:
+                _clip = weaponSoundDictionary[soundName];
+                break;
+            case SOUNDTYPE.UI:
+                _clip = uiSoundDictionary[soundName];
+                break;
+            default:
+                break;
+        }
         if (_clip == null)
             return;
 

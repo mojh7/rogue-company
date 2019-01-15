@@ -64,8 +64,10 @@ public class WeaponInfo : ScriptableObject
     public MuzzleFlashType muzzleFlashType;
     [HideInInspector]
     public string muzzleFlashName;
-    public int soundId;                 // 공격시 효과음 id
-    public int SoundPlayCountMax;       // 효과음
+    [Tooltip("soundId : 테스트용, soundName : 실제 사용 sound Name(soundId -1 값이어야 soundName 사용")]
+    public int soundId;                 // 공격시 효과음 id, 테스트용
+    public string soundName;            // 공격시 효과음 name
+    public int SoundPlayCountMax;       // 효과음 재생 횟수
     public float cameraShakeAmount;     // 카메라 흔들림 양
     public float cameraShakeTime;       // 카메라 흔들림 시간
 
@@ -127,6 +129,7 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.muzzleFlashType = muzzleFlashType;
         clonedInfo.muzzleFlashName = muzzleFlashName;
         clonedInfo.soundId = soundId;
+        clonedInfo.soundName = soundName;
         clonedInfo.cameraShakeAmount = cameraShakeAmount;
         clonedInfo.cameraShakeTime = cameraShakeTime;
         clonedInfo.addDirVecMagnitude = addDirVecMagnitude;

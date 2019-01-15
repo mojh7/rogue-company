@@ -19,7 +19,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
     }
     public void PlayParticle(string str,Vector2 pos)
     {
-        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return;
         particle.gameObject.transform.position = pos;
@@ -29,7 +29,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
     }
     public void PlayParticle(string str, Vector2 pos, float scale)
     {
-        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return;
         particle.gameObject.transform.position = pos;
@@ -39,7 +39,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
     }
     public void PlayParticle(string str, Vector2 pos,Vector3 scale)
     {
-        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return;
         particle.gameObject.transform.position = pos;
@@ -50,7 +50,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
 
     public void PlayParticle(string str, Vector2 pos, Transform parent)
     {
-        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return;
         particle.gameObject.transform.position = pos;
@@ -62,7 +62,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
     }
     public void PlayParticle(string str, Vector2 pos, float scale, Transform parent)
     {
-        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return;
         particle.gameObject.transform.position = pos;
@@ -74,7 +74,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
     }
     public void PlayParticle(string str, Vector2 pos, Vector3 scale, Transform parent)
     {
-        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return;
         particle.gameObject.transform.position = pos;
@@ -87,7 +87,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
 
     public ParticleSystem PlayBulletParticle(string str, Vector2 pos, Transform parent)
     {
-        ParticleSystem particle = ParticlePool.Instance.getAvailabeParticle(str);
+        ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return null;
         particle.gameObject.transform.position = pos;

@@ -72,7 +72,7 @@ public class BulletInfo : ScriptableObject
     [Header("-1이면 effect 적용X, 0이상 만 적용")]
     public int effectId;    // 충돌 후 삭제시 생성될 effect
 
-    [Tooltip("총알 생성 시 발생 소리, 0이상 이면 적용, ex: 폭발 총알")]
+    [Tooltip("총알 생성 시 발생 소리, 0이상 이면 적용")]
     public int soundId;
 
     public ColliderType colliderType;

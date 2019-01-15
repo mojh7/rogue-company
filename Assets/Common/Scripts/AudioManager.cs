@@ -115,4 +115,9 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     {
         soundController.Play(soundIndex, soundtype);
     }
+
+    public void PlaySound(string soundName, SOUNDTYPE soundtype)
+    {
+        soundController.Play(soundName, soundtype);
+    }
 }
