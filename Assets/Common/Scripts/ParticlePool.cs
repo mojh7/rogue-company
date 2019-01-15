@@ -29,7 +29,6 @@ public class ParticlePool : MonoBehaviourSingleton<ParticlePool>
                     particle.transform.parent = this.transform;
                     particle.gameObject.SetActive(false);
                     poolsDictionary[particles[i].name].Add(particle);
-
                 }
             }
         }

@@ -198,6 +198,10 @@ WeaponType.TRAP == info.weaponType)
             StopCoroutine(MuzzleFlash());
             StartCoroutine(MuzzleFlash());
         }
+        if(MuzzleFlashType.NONE != info.muzzleFlashType && MuzzleFlashType.BASIC != info.muzzleFlashType)
+        {
+            ParticleManager.Instance.PlayParticle(info.muzzleFlashName, GetMuzzlePos());
+        }
     }
 
     public bool HasCostForAttack()

@@ -61,7 +61,11 @@ public class WeaponInfo : ScriptableObject
     public int staminaConsumption;    // 근접 무기 1회 공격시 스테미너 소모량
 
     public bool showsMuzzleFlash;       // 총구 화염 show on / off
+    public MuzzleFlashType muzzleFlashType;
+    [HideInInspector]
+    public string muzzleFlashName;
     public int soundId;                 // 공격시 효과음 id
+    public int SoundPlayCountMax;       // 효과음
     public float cameraShakeAmount;     // 카메라 흔들림 양
     public float cameraShakeTime;       // 카메라 흔들림 시간
 
@@ -120,6 +124,8 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.staminaConsumption = staminaConsumption;
 
         clonedInfo.showsMuzzleFlash = showsMuzzleFlash;
+        clonedInfo.muzzleFlashType = muzzleFlashType;
+        clonedInfo.muzzleFlashName = muzzleFlashName;
         clonedInfo.soundId = soundId;
         clonedInfo.cameraShakeAmount = cameraShakeAmount;
         clonedInfo.cameraShakeTime = cameraShakeTime;
@@ -149,6 +155,8 @@ public class WeaponInfo : ScriptableObject
         }
         */
         // bulletPatternEditInfo를 토대로 실제 원래의 bulletPatterns 만들기, 각각 info마다 다운캐스팅으로 매개변수 넣어줌
+        muzzleFlashName = muzzleFlashType.ToString();
+
         bulletPatternsLength = bulletPatternEditInfos.Length;
         bulletPatterns = new List<BulletPattern>();
         for(int i = 0; i < bulletPatternsLength; i++)

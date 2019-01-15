@@ -41,10 +41,15 @@ namespace WeaponAsset
         TEST, TEST2, TEST3, TEST4
     };
     /*---*/
-    public enum MuzzleParticelType { NONE, BASIC }
+    public enum BulletParticleType { NONE, BASIC }
     public enum ImpactParticleType { NONE, BASIC }
     public enum TrailParticleType { NONE, BASIC }
-    public enum MuzzleFlashType { NONE, FROST }
+    public enum MuzzleFlashType
+    {
+        NONE, BASIC, MUZZLE_FLASH_FROST, MUZZLE_FLASH_FIRE_BALL_BLUE, MUZZLE_FLASH_FIRE_BALL_GREEN, MUZZLE_FLASH_FIRE_BALL_PURPLE , MUZZLE_FLASH_FIRE_BALL_RED, MUZZLE_FLASH_FIRE_BALL_YELLOW,
+        MUZZLE_FLASH_SPIKY_YELLOW
+    }
+    public enum WeaponSoundType { NONE, WPN_SWORD }
 
     public enum BulletPropertyType { Collision, Update, Delete }
     public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }

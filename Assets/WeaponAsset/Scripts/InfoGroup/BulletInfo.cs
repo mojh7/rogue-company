@@ -43,6 +43,8 @@ public class BulletInfo : ScriptableObject
     [Header("이미 셋팅된 정보 사용")]
     [SerializeField]
     public BulletPresetType bulletPresetType;
+    public BulletParticleType bulletParticleType;
+    public ImpactParticleType impactParticleType;
     public string bulletParticleName;
     public string impactParticleName;
 

@@ -23,7 +23,7 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         if (particle == null)
             return;
         particle.gameObject.transform.position = pos;
-        particle.gameObject.transform.localScale = one;
+        //particle.gameObject.transform.localScale = one;
         particle.Play();
         UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
     }
