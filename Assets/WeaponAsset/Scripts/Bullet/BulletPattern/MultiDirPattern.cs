@@ -24,11 +24,13 @@ public class MultiDirPattern : BulletPattern
     {
         base.Init(weapon);
 
-        if (null != info.randomBulletInfoList && info.randomBulletInfoList.Length > 0)
+        if (null != info.diffProbsBulletInfoList && info.diffProbsBulletInfoList.Length > 0)
         {
-            for (int i = 0; i < info.randomBulletInfoList.Length; i++)
+            randomSelectProbTotal = 0;
+            for (int i = 0; i < info.diffProbsBulletInfoList.Length; i++)
             {
-                info.randomBulletInfoList[i].Init();
+                info.diffProbsBulletInfoList[i].bulletInfo.Init();
+                randomSelectProbTotal += info.diffProbsBulletInfoList[i].probRatio;
             }
         }
         else
@@ -87,7 +89,7 @@ public class MultiDirPattern : BulletPattern
                 dirDegree = ownerDirDegree();
             }
 
-            AutoSelectBulletInfo(info.bulletInfo, info.randomBulletInfoList);
+            AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
 
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(bulletInfo, ownerBuff, ownerType,

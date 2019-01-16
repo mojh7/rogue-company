@@ -64,6 +64,16 @@ public struct ChildBulletCommonProperty
     public float movingAwaySpeed;
 }
 
+/// <summary>
+/// 서로 다른 확률을 가진 bulletInfo
+/// </summary>
+[System.Serializable]
+public class DiffProbsBulletInfo
+{
+    public BulletInfo bulletInfo;
+    public float probRatio;
+}
+
 // TODO: pattern clone 해주는 함수 필요 없으나 필요하다고 생각 하면 넣을 예정.
 
 public class BulletPatternInfo : ScriptableObject
@@ -79,9 +89,8 @@ public class BulletPatternInfo : ScriptableObject
     [Tooltip("총알 Info, laser 무기는 꼭 laserUpdate와 laserDelete 속성을 가진 총알 만 쓰기")]
     public BulletInfo bulletInfo;
 
-    public BulletInfo[] randomBulletInfoList;
-    [Header("여러 개의 총알 중 랜덤하게 bulletInfo 사용하고 싶을 때 사용")]
-    public BulletInfo[] _pRoot;
+    [Header("여러 개의 총알 중 각각의 확률에 의해 bulletInfo 사용하고 싶을 때")]
+    public DiffProbsBulletInfo[] diffProbsBulletInfoList;
 
     [Header("BulletPattern 공통 속성")]
     public float addDirVecMagnitude;

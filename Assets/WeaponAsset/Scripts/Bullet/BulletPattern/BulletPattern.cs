@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using CharacterInfo;
 
 // 패턴 추가시 InfoGroup 에서 해당 pattern info도 만들고
 // BulletPatternInfo 클래스에서 CreatePatternInfo함수에 내용 추가 해야됨.
@@ -52,7 +53,7 @@ public abstract class BulletPattern
     protected float accuracyIncrement;
 
     protected float additionalAngle;
-    protected CharacterInfo.OwnerType ownerType;
+    protected OwnerType ownerType;
     protected DelGetDirDegree ownerDirDegree;
     protected DelGetPosition ownerDirVec;
     protected DelGetPosition ownerPos;
@@ -66,6 +67,7 @@ public abstract class BulletPattern
 
     protected Vector3 muzzlePos;
     protected BulletInfo bulletInfo;
+    protected float randomSelectProbTotal;
 
     protected PatternCallType patternCallType;
     public float GetDelay()
@@ -274,12 +276,23 @@ public abstract class BulletPattern
         }
     }
     
-    protected void AutoSelectBulletInfo(BulletInfo bulletInfo, BulletInfo[] randomBulletInfoList)
+    protected void AutoSelectBulletInfo(BulletInfo bulletInfo, DiffProbsBulletInfo[] diffProbsBulletInfoList)
     {
-        if (null != randomBulletInfoList && randomBulletInfoList.Length > 0)
+        if (null != diffProbsBulletInfoList && diffProbsBulletInfoList.Length > 0)
         {
-            int index = Random.Range(0, randomBulletInfoList.Length);
-            this.bulletInfo = randomBulletInfoList[index].Clone();
+            float randomPoint = Random.Range(0, randomSelectProbTotal);
+            for (int i = 0; i < diffProbsBulletInfoList.Length; i++)
+            {
+                if (randomPoint <= diffProbsBulletInfoList[i].probRatio)
+                {
+                    this.bulletInfo = diffProbsBulletInfoList[i].bulletInfo.Clone();
+                    return;
+                }
+                else
+                {
+                    randomPoint -= diffProbsBulletInfoList[i].probRatio;
+                }
+            }            
         }
         else
         {
