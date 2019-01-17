@@ -536,7 +536,7 @@ public class Bullet : MonoBehaviour
             }
             if(null == info.bulletSprite)
                 info.bulletSprite = bulletPresetInfo.sprite;
-            if(ColliderType.None == info.colliderType)
+            if(ColliderType.NONE == info.colliderType)
                 info.colliderType = bulletPresetInfo.colliderType;
             if (1 == info.autoSizeRatio && 1 != bulletPresetInfo.autoSizeRatio)
                 info.autoSizeRatio = bulletPresetInfo.autoSizeRatio;
