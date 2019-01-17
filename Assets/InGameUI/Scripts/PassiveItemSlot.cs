@@ -52,13 +52,16 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
 
     public void ClosePassiveItemSlot()
     {
+        Debug.Log("z");
         passiveItemSlot.SetActive(false);
         passiveItemInfoView.SetActive(false);
         Time.timeScale = 1;
+#if !UNITY_EDITOR
         UIManager.Instance.TogglePreventObj();
+#endif
     }
 
-    private void CreatePassiveSlots(Transform contentParent)
+    private void CreatePassiveSlots(Transform contentsParent)
     {
         passiveSlotIds = new List<int>();
         passiveSlotIdsLength = 0;
@@ -70,7 +73,7 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
             createdObj = Instantiate(passiveSlotPrefab);
             createdObj.name = "패시브 슬룻_" + i;
             createdObj.transform.position = currentPos;
-            createdObj.transform.SetParent(contentParent);
+            createdObj.transform.SetParent(contentsParent);
             passiveSlots[i] = createdObj.GetComponent<PassiveSlot>();
             activeOffAllPassiveSlot += passiveSlots[i].ActiveOffPassiveSlot;
             createdObj.transform.localScale = new Vector3(1, 1, 1);
@@ -139,7 +142,10 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
         passiveItemSlot.SetActive(true);
         //passiveItemInfoView.SetActive(true);
         Time.timeScale = 0;
+        // unity pc에서 아래꺼 하고 아이템창에서 아이템 정보 보는 것이랑 닫기 버튼이 작동이 안됨.
+#if !UNITY_EDITOR
         UIManager.Instance.TogglePreventObj();
+#endif
     }
 
     #endregion

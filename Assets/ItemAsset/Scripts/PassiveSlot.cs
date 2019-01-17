@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PassiveSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class PassiveSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Image passiveImage;
@@ -22,10 +22,10 @@ public class PassiveSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
-        if (isTouchDown)
-        {
-            PassiveItemSlot.Instance.ShowPassiveInfoView(passiveId);
-        }
+        //if (isTouchDown)
+        //{
+        //    PassiveItemSlot.Instance.ShowPassiveInfoView(passiveId);
+        //}
     }
     
     public void UpdatePassiveSlot(int passiveId)
@@ -39,20 +39,18 @@ public class PassiveSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         passiveImage.sprite = emptySprite;
     }
 
-    /// <param name="eventData"></param>
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        //Debug.Log(name + ", " + passiveId);
-        if(-1 != passiveId)
+        if (-1 != passiveId)
         {
-            // PassiveItemSlot.Instance.ShowPassiveInfoView(passiveId);
+            PassiveItemSlot.Instance.ShowPassiveInfoView(passiveId);
             isTouchDown = true;
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData)
     {
-        if(isTouchDown)
+        if (isTouchDown)
         {
             PassiveItemSlot.Instance.ClosePassiveInfoView();
             isTouchDown = false;
