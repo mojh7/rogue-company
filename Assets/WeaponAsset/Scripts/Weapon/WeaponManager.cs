@@ -17,6 +17,10 @@ using CharacterInfo;
 /// </summary>
 public class WeaponManager : MonoBehaviour {
 
+    #region constants
+    private const int PLAYER_WEAPON_COUNT_MAX = 3;
+    #endregion
+
     #region variables
 
     [SerializeField]
@@ -186,7 +190,7 @@ public class WeaponManager : MonoBehaviour {
     #endregion
 
     #region Initialization
-    public void Init(Character owner, OwnerType ownerType)
+    public void Init(Character owner, OwnerType ownerType, int[] startingWeaponInfos)
     {
         SetOwnerInfo(owner, ownerType);
         if (OwnerType.PLAYER == ownerType)
@@ -194,22 +198,22 @@ public class WeaponManager : MonoBehaviour {
             Weapon weapon;
             equipWeaponSlot = new List<Weapon>();
             currentWeaponIndex = 0;
-
-            // 튜토리얼 씬 임시
-            if(true == DebugSetting.Instance.isTutorialScene)
+            weaponCount = 0;
+            // 튜토리얼 씬
+            if (true == DebugSetting.Instance.isTutorialScene)
             {
-                weaponCountMax = 3;
-                weaponCount = 0;
+                weaponCountMax = PLAYER_WEAPON_COUNT_MAX;
             }
 
-            // 튜토리얼씬이 아니고 로드 게임이 아닐 때 디버그용 무기 셋팅
+            // 튜토리얼씬이 아니고 로드 게임이 아닐 때 무기 셋팅
             else if (false == GameStateManager.Instance.GetLoadsGameData())
             {
-                if (DebugSetting.Instance.equipsPlayerAllWeapons)
+                // list내 모든 무기 착용
+                if(WeaponEquipType.ALL == DebugSetting.Instance.weaponEquipType)
                 {
                     weaponCountMax = WeaponsData.Instance.GetWeaponInfosLength();
                     weaponCount = weaponCountMax;
-                    Debug.Log("weaponCountMax : " + weaponCountMax);
+                    Debug.Log("모든 무기 착용, CountMax : " + weaponCountMax);
 
                     for (int i = 0; i < weaponCountMax; i++)
                     {
@@ -219,37 +223,35 @@ public class WeaponManager : MonoBehaviour {
                         weapon.RegisterWeapon(this);
                     }
                 }
-                else
+                //DebugSetting에 기입된 id 무기만 생성
+                else if(WeaponEquipType.DEBUG == DebugSetting.Instance.weaponEquipType)
                 {
-                    weaponCountMax = 3;
-                    weaponCount = 2;
-
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(0) as Weapon;
-                    equipWeaponSlot.Add(weapon);
-                    weapon.ObjTransform.SetParent(registerPoint, false);
-                    weapon.RegisterWeapon(this);
-
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(2) as Weapon;
-                    equipWeaponSlot.Add(weapon);
-                    weapon.ObjTransform.SetParent(registerPoint, false);
-                    weapon.RegisterWeapon(this);
-
-                    //weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(16, 25)) as Weapon;
-                    //equipWeaponSlot.Add(weapon);
-                    //weapon.ObjTransform.SetParent(registerPoint, false);
-                    //weapon.RegisterWeapon(this);
-
-                    /*if(-1 == DebugSetting.Instance.playerEquipWepaonId)
+                    weaponCountMax = DebugSetting.Instance.startingWeaponInfos.Length;
+                    for (int i = 0; i < DebugSetting.Instance.startingWeaponInfos.Length; i++)
                     {
-                        weapon = ObjectPoolManager.Instance.CreateWeapon() as Weapon;
+                        if (-1 == DebugSetting.Instance.startingWeaponInfos[i])
+                            continue;
+                        weapon = ObjectPoolManager.Instance.CreateWeapon(DebugSetting.Instance.startingWeaponInfos[i]) as Weapon;
+                        equipWeaponSlot.Add(weapon);
+                        weapon.ObjTransform.SetParent(registerPoint, false);
+                        weapon.RegisterWeapon(this);
+                        weaponCount += 1;
                     }
-                    else
+                }
+
+                else if(WeaponEquipType.PLAYER_INFO == DebugSetting.Instance.weaponEquipType)
+                {
+                    weaponCountMax = PLAYER_WEAPON_COUNT_MAX;
+                    for (int i = 0; i < startingWeaponInfos.Length; i++)
                     {
-                        weapon = ObjectPoolManager.Instance.CreateWeapon(DebugSetting.Instance.playerEquipWepaonId) as Weapon;
-                    }*/
-                    //equipWeaponSlot.Add(weapon);
-                    //weapon.ObjTransform.SetParent(registerPoint, false);
-                    //weapon.RegisterWeapon(this);
+                        weapon = ObjectPoolManager.Instance.CreateWeapon(startingWeaponInfos[i]) as Weapon;
+                        equipWeaponSlot.Add(weapon);
+                        weapon.ObjTransform.SetParent(registerPoint, false);
+                        weapon.RegisterWeapon(this);
+                        weaponCount += 1;
+                        if (weaponCount == 3)
+                            return;
+                    }
                 }
                 //Debug.Log("새 게임 무기 초기화, weaponCnt, cntMax = " + weaponCount + ", " + weaponCountMax);
             }

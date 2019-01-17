@@ -2,14 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * 0630 0100 - 강의헌
- * 모든 캐릭터 최대 체력 15개 통일, hpMax = 15로 일단 통일
- * 허나 시작할 때 체력 모두 다름.(= 시작 시 초반에 주워지는 현재 체력 캐릭터 마다 각각 다름)
- * 현재는 패시브로 최대 체력 늘어나는 패시브 아예 안 만듬.
- * 최대 체력이 15라는걸 알리려는게 따로 없는 것 같음.
- * 체력 최대체력일 때 회복 물약 안 먹어지게 처리
- */ 
 
  // armor 쉴드 개념 있는 아이템들 있어서 아예 player 데미지 입는 공식
  // 데미지 - 방어력으로 하고 저런 아이템 먹으면 방어력 수치 잠깐 올렸다가 내릴려고 함.
@@ -42,7 +34,7 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private float criticalChance;
     [SerializeField]
-    private WeaponInfo[] startingWeaponInfos;
+    private int[] startingWeaponInfos = new int[3];
     [SerializeField]
     private SkillData skillData;
 
@@ -102,7 +94,7 @@ public class PlayerData : ScriptableObject
         get { return criticalChance; }
         set { criticalChance = value; }
     }
-    public WeaponInfo[] StartingWeaponInfos
+    public int[] StartingWeaponInfos
     {
         get { return startingWeaponInfos; }
     }

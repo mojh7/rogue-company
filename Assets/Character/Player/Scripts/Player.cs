@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using CharacterInfo;
 
 public class Player : Character
 {
@@ -34,7 +35,8 @@ public class Player : Character
     [SerializeField]
     private Transform muzzlePosTransform;
 
-    private SkillData skillData; 
+    private SkillData skillData;
+    private int[] startingWeaponInfos;
     #endregion
 
     #region property
@@ -201,9 +203,6 @@ public class Player : Character
 
         stamina = Stamina.Instance;
         stamina.SetPlayer(this);
-
-        // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
-        weaponManager.Init(this, CharacterInfo.OwnerType.PLAYER);
         
         TimeController.Instance.PlayStart();
 
@@ -214,7 +213,7 @@ public class Player : Character
         //Debug.Log("hpMax : " + hpMax);
     }
 
-    public void InitPlayerData(PlayerData playerData)
+    public void InitWithPlayerData(PlayerData playerData)
     {
         skillGageMultiple = 1;
         hp = playerData.Hp;
@@ -230,6 +229,9 @@ public class Player : Character
         //Debug.Log("loadsGameData : " + GameStateManager.Instance.GetLoadsGameData());
         if (GameStateManager.Instance.GetLoadsGameData())
             PlayerBuffManager.Instance.LoadMiscItemDatas();
+
+        // weaponManager 초기화, 바라보는 방향 각도, 방향 벡터함수 넘기기 위해서 해줘야됨
+        weaponManager.Init(this, OwnerType.PLAYER, PlayerData.StartingWeaponInfos);
     }
     #endregion
 

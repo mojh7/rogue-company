@@ -34,7 +34,7 @@ namespace WeaponAsset
     public enum BulletPresetType
     {
         None, YELLOW_CIRCLE, RED_CIRCLE, SKYBLUE_BASH, BLUE_BASH, RED_BASH, ORANGE_BASH,
-        BLUE_CIRCLE, SKYBLUECIRCLE, PINK_CIRCLE, VIOLET_CIRCLE, EMPTY,
+        BLUE_CIRCLE, SKYBLUE_CIRCLE, PINK_CIRCLE, VIOLET_CIRCLE, EMPTY,
         YELLOW_BULLET, BLUE_BULLET, PINK_BULLET, VIOLET_BULLET, RED_BULLET, GREEN_BULLET,
         YELLOW_BEAM, BLUE_BEAM, PINK_BEAM, VIOLET_BEAM, RED_BEAM, GREEN_BEAM, GREEN_CIRCLE,
         YELLOW_BULLET2, SKYBLUE_BULLET2, BLUE_BULLET2, PINK_BULLET2, VIOLET_BULLET2, RED_BULLET2, GREEN_BULLET2,
@@ -117,13 +117,13 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     {
         switch (DebugSetting.Instance.weaponModeForDebug)
         {
-            case WeaponModeForDebug.Test:
+            case WeaponModeForDebug.TEST:
                 return testWeaponInfos.Length;
-            case WeaponModeForDebug.Main:
+            case WeaponModeForDebug.MAIN:
                 return mainWeaponInfos.Length;
-            case WeaponModeForDebug.ShapeSample:
+            case WeaponModeForDebug.SHAPE_SAMPLE:
                 return shapeSampleWeaponInfos.Length;
-            case WeaponModeForDebug.TestBoss:
+            case WeaponModeForDebug.TEST_BOSS:
                 return testBossWeaponInfos.Length;
             default:
                 break;
@@ -165,13 +165,13 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         {
             switch (DebugSetting.Instance.weaponModeForDebug)
             {
-                case WeaponModeForDebug.Test:
+                case WeaponModeForDebug.TEST:
                     return testWeaponInfos[id];
-                case WeaponModeForDebug.Main:
+                case WeaponModeForDebug.MAIN:
                     return mainWeaponInfos[id];
-                case WeaponModeForDebug.ShapeSample:
+                case WeaponModeForDebug.SHAPE_SAMPLE:
                     return shapeSampleWeaponInfos[id];
-                case WeaponModeForDebug.TestBoss:
+                case WeaponModeForDebug.TEST_BOSS:
                     return testBossWeaponInfos[id];
                 default:
                     break;
@@ -209,11 +209,11 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 
         switch (DebugSetting.Instance.weaponModeForDebug)
         {
-            case WeaponModeForDebug.Test:
+            case WeaponModeForDebug.TEST:
                 for (int i = 0; i < testWeaponInfos.Length; i++)
                     testWeaponInfos[i].Init();
                 break;
-            case WeaponModeForDebug.Main:
+            case WeaponModeForDebug.MAIN:
                 for (int i = 0; i < mainWeaponInfos.Length; i++)
                 {
                     mainWeaponInfos[i].Init();
@@ -221,11 +221,11 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                     InsertWeaponInfoByRating(mainWeaponInfos[i]);
                 }
                 break;
-            case WeaponModeForDebug.ShapeSample:
+            case WeaponModeForDebug.SHAPE_SAMPLE:
                 for (int i = 0; i < shapeSampleWeaponInfos.Length; i++)
                     shapeSampleWeaponInfos[i].Init();
                 break;
-            case WeaponModeForDebug.TestBoss:
+            case WeaponModeForDebug.TEST_BOSS:
                 for (int i = 0; i < testBossWeaponInfos.Length; i++)
                     testBossWeaponInfos[i].Init();
                 break;
@@ -253,8 +253,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 
     public void InputWeaponData()
     {
-        if (WeaponModeForDebug.Test == DebugSetting.Instance.weaponModeForDebug
-            || WeaponModeForDebug.ShapeSample == DebugSetting.Instance.weaponModeForDebug)
+        if (WeaponModeForDebug.MAIN != DebugSetting.Instance.weaponModeForDebug)
             return;
 
         if (false == canInputWeaponData)
