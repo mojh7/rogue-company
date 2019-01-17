@@ -268,7 +268,14 @@ class BaseNormalCollisionProperty : CollisionProperty
         // bounce 가능 횟수가 남아있으면 총알을 반사각으로 튕겨내고 없으면 delete 처리
         if (bullet.info.bounceAble && bounceCount > 0)
         {
-            reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
+            if (null == coll.contacts[0].normal)
+            {
+                Debug.Log("contatcs[0].normal null");
+                return;
+            }
+            //reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
+            reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bullet.GetDirDegree()), coll.contacts[0].normal);
+            ///Debug.Log(bulletTransform.rotation.eulerAngles.z + ", " + bullet.GetDirDegree() + ", " + coll.contacts[0].normal + ", " + reflectVector + ", " + bounceCount);
             bullet.SetDirection(reflectVector);
             bounceCount -= 1;
             ///TestScript.Instance.CreateContactObj(coll.contacts[0].point); // 디버그용 contact 위치 표시

@@ -58,7 +58,7 @@ namespace WeaponAsset
 
     /*---*/
 
-    public enum ColliderType { None, Beam, Box, Circle, SPECIFIC_BOX, SPECIFIC_CIRCLE }
+    public enum ColliderType { None, Beam, AUTO_SIZE_BOX, AUTO_SIZE_CIRCLE, MANUAL_SIZE_BOX, MANUAL_SIZE_CIRCLE }
 
     public enum BulletAnimationType
     {

@@ -76,7 +76,9 @@ public class BulletInfo : ScriptableObject
     public int soundId;
 
     public ColliderType colliderType;
-    public float colliderSizeRatio;
+    public float autoSizeRatio;
+    public Vector2 boxManualSize;
+    public float circleManualRadius;
 
     [Header("Not Play Animation이 아니면 해당 애니메이션 적용")]
     public BulletAnimationType spriteAnimation;
@@ -187,7 +189,9 @@ public class BulletInfo : ScriptableObject
         effectId = -1;
         soundId = -1;
 
-        colliderSizeRatio = 1f;
+        autoSizeRatio = 1f;
+        boxManualSize = new Vector2(-1, -1);
+        circleManualRadius = -1;
         bulletSprite = null;
 
         showsScaleAnimation = false;
@@ -252,7 +256,9 @@ public class BulletInfo : ScriptableObject
         clonedInfo.soundId = soundId;
 
         clonedInfo.colliderType = colliderType;
-        clonedInfo.colliderSizeRatio = colliderSizeRatio;
+        clonedInfo.autoSizeRatio = autoSizeRatio;
+        clonedInfo.boxManualSize = boxManualSize;
+        clonedInfo.circleManualRadius = circleManualRadius;
         clonedInfo.spriteAnimation = spriteAnimation;
         clonedInfo.bulletSprite = bulletSprite;
 

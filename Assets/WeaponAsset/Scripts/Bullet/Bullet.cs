@@ -397,25 +397,31 @@ public class Bullet : MonoBehaviour
             spriteRenderer.sprite = null;
             switch (info.colliderType)
             {
-                case ColliderType.Box:
+                case ColliderType.AUTO_SIZE_BOX:
                     boxCollider.size = new Vector2(0.1f, 0.1f);
                     break;
-                case ColliderType.Circle:
+                case ColliderType.AUTO_SIZE_CIRCLE:
                     circleCollider.radius = 0.1f;
+                    break;
+                case ColliderType.MANUAL_SIZE_BOX:
+                    colliderObj.transform.localScale = new Vector3(1, 1, 1f);
+                    boxCollider.size = info.boxManualSize * info.autoSizeRatio;
+                    break;
+                case ColliderType.MANUAL_SIZE_CIRCLE:
+                    colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
+                    circleCollider.radius = info.circleManualRadius * info.autoSizeRatio * 0.5f;
                     break;
                 default:
                     break;
             }
-            setColliderSizeOfAniSprite = StartCoroutine("SetColliderSizeOfAniSprite");
+            setColliderSizeOfAniSprite = StartCoroutine(SetColliderSizeOfAniSprite());
         }
         // sprite 애니메이션 미 적용
         else
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
-            SetColliderSize(spriteRenderer, info.colliderSizeRatio);
-            //boxCollider.size = spriteRenderer.sprite.bounds.size;
-            //Debug.Log("spriteRenderer : " + spriteRenderer.sprite.bounds.size);
+            SetColliderSize(spriteRenderer, info.autoSizeRatio);
         }
 
         // rotate 360도 계속 회전하는 애니메이션 적용
@@ -532,8 +538,8 @@ public class Bullet : MonoBehaviour
                 info.bulletSprite = bulletPresetInfo.sprite;
             if(ColliderType.None == info.colliderType)
                 info.colliderType = bulletPresetInfo.colliderType;
-            if (1 == info.colliderSizeRatio && 1 != bulletPresetInfo.colliderSizeRatio)
-                info.colliderSizeRatio = bulletPresetInfo.colliderSizeRatio;
+            if (1 == info.autoSizeRatio && 1 != bulletPresetInfo.autoSizeRatio)
+                info.autoSizeRatio = bulletPresetInfo.autoSizeRatio;
             if (BulletAnimationType.NotPlaySpriteAnimation == info.spriteAnimation)
                 info.spriteAnimation = bulletPresetInfo.spriteAnimation;
 
@@ -546,6 +552,12 @@ public class Bullet : MonoBehaviour
                 info.bulletParticleName = bulletPresetInfo.bulletParticleName;
             if ("" == info.impactParticleName)
                 info.impactParticleName = bulletPresetInfo.impactParticleName;
+
+            if (-1 == info.boxManualSize.x && -1 == info.boxManualSize.y)
+                info.boxManualSize = bulletPresetInfo.boxManualSize;
+
+            if (-1 == info.circleManualRadius)
+                info.circleManualRadius = bulletPresetInfo.circleManualRadius;
         }
     }
 
@@ -555,11 +567,11 @@ public class Bullet : MonoBehaviour
         circleCollider.enabled = false;
         switch (info.colliderType)
         {
-            case ColliderType.Box:
+            case ColliderType.AUTO_SIZE_BOX:
                 boxCollider.enabled = true;
                 break;
             case ColliderType.Beam:
-            case ColliderType.Circle:
+            case ColliderType.AUTO_SIZE_CIRCLE:
                 circleCollider.enabled = true;
                 break;
             default:
@@ -567,7 +579,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public void SetColliderSize(SpriteRenderer renderer, float sizeRate = 0.3f)
+    public void SetColliderSize(SpriteRenderer renderer, float sizeRate)
     {
         float sizeX, sizeY, size;
         switch (info.colliderType)
@@ -580,12 +592,12 @@ public class Bullet : MonoBehaviour
                 circleCollider.radius = size * 0.3f;
                 circleCollider.offset = Vector2.zero;
                 break;
-            case ColliderType.Box:
+            case ColliderType.AUTO_SIZE_BOX:
                 colliderObj.transform.localScale = new Vector3(1, 1, 1f);
                 boxCollider.size = renderer.sprite.bounds.size * sizeRate;
                 boxCollider.offset = renderer.sprite.bounds.center;
                 break;
-            case ColliderType.Circle:
+            case ColliderType.AUTO_SIZE_CIRCLE:
                 colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
                 sizeX = renderer.sprite.bounds.size.x;
                 sizeY = renderer.sprite.bounds.size.y;
@@ -596,6 +608,14 @@ public class Bullet : MonoBehaviour
                 circleCollider.offset = renderer.sprite.bounds.center;
                 //Debug.Log("bs.center : " + renderer.sprite.bounds.center);
                 //Debug.Log("size : " + size + ", sizeRate : " + sizeRate);
+                break;
+            case ColliderType.MANUAL_SIZE_BOX:
+                colliderObj.transform.localScale = new Vector3(1, 1, 1f);
+                boxCollider.size = info.boxManualSize * sizeRate;
+                break;
+            case ColliderType.MANUAL_SIZE_CIRCLE:
+                colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
+                circleCollider.radius = info.circleManualRadius * sizeRate * 0.5f;
                 break;
             default:
                 break;
@@ -609,7 +629,7 @@ public class Bullet : MonoBehaviour
 
     public void RotateSpriteEulerAngle(float rotationAngle)
     {
-        //eulerAngleZ += rotationAngle;
+        eulerAngleZ += rotationAngle;
     }
 
     #region setVelocityAndDirection
@@ -997,17 +1017,17 @@ public class Bullet : MonoBehaviour
                 circleCollider.radius = size * 0.3f;
                 circleCollider.offset = Vector2.zero;
                 break;
-            case ColliderType.Box:
+            case ColliderType.AUTO_SIZE_BOX:
                 colliderObj.transform.localScale = new Vector3(1, 1, 1f);
-                boxCollider.size = spriteAniRenderer.sprite.bounds.size * info.colliderSizeRatio;
+                boxCollider.size = spriteAniRenderer.sprite.bounds.size * info.autoSizeRatio;
                 boxCollider.offset = spriteAniRenderer.sprite.bounds.center;
                 break;
-            case ColliderType.Circle:
+            case ColliderType.AUTO_SIZE_CIRCLE:
                 colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
                 sizeX = spriteAniRenderer.sprite.bounds.size.x;
                 sizeY = spriteAniRenderer.sprite.bounds.size.y;
                 size = (sizeX > sizeY) ? sizeY : sizeX;
-                circleCollider.radius = size * info.colliderSizeRatio * 0.5f;
+                circleCollider.radius = size * info.autoSizeRatio * 0.5f;
                 circleCollider.offset = spriteAniRenderer.sprite.bounds.center;
                 break;
             default:
