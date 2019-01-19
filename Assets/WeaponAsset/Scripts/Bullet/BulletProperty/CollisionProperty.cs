@@ -273,8 +273,15 @@ class BaseNormalCollisionProperty : CollisionProperty
                 Debug.Log("contatcs[0].normal null");
                 return;
             }
-            //reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
-            reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bullet.GetDirDegree()), coll.contacts[0].normal);
+            try
+            {
+                //reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bulletTransform.rotation.eulerAngles.z), coll.contacts[0].normal);
+                reflectVector = Vector3.Reflect(MathCalculator.VectorRotate(Vector3.right, bullet.GetDirDegree()), coll.contacts[0].normal);
+            }
+            catch
+            {
+                Debug.Log("null error, " + coll.transform.name);
+            }
             ///Debug.Log(bulletTransform.rotation.eulerAngles.z + ", " + bullet.GetDirDegree() + ", " + coll.contacts[0].normal + ", " + reflectVector + ", " + bounceCount);
             bullet.SetDirection(reflectVector);
             bounceCount -= 1;

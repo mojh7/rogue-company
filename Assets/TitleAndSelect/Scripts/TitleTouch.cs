@@ -12,13 +12,22 @@ public class TitleTouch : MonoBehaviour
     public GameObject RestartButton;
     public GameObject StartNew;
     private bool isRestart = false;
-    [SerializeField] private Text touch;
-    [SerializeField] private Image image;
+    [SerializeField]
+    private Text touch;
+    [SerializeField]
+    private Image image;
     private bool isHide = true;
-    [SerializeField] private Image fadeImage;
-    [SerializeField] private Image modeButton;
-    [SerializeField] private Sprite[] modeImages;
-    [SerializeField] private GameObject creditUI;
+    [SerializeField]
+    private Image fadeImage;
+    [SerializeField]
+    private Image modeButton;
+    [SerializeField]
+    private Sprite[] modeImages;
+    [SerializeField]
+    private GameObject creditUI;
+    [SerializeField]
+    private RectTransform titleTransform;
+    private Vector3 titleScale;
 
     int index = 2;
     int mode = 0; //0 = normal, 1 = rush
@@ -120,6 +129,9 @@ public class TitleTouch : MonoBehaviour
             RestartButton.SetActive(true);
         else
             RestartButton.SetActive(false);
+
+        titleScale = titleTransform.localScale;
+        StartCoroutine(RepeatTitleScaleLargerAndSmaller());
     }
 
     public void QuitApp()
@@ -140,6 +152,17 @@ public class TitleTouch : MonoBehaviour
         GameStateManager.Instance.LoadInGame();
     }
     #endregion
+
+    IEnumerator RepeatTitleScaleLargerAndSmaller()
+    {
+        float time = 0;
+        while(true)
+        {
+            titleTransform.localScale = titleScale * (1f + 0.05f * Mathf.Sin(time));
+            time += Time.fixedDeltaTime * 4.5f;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+    }
 
     IEnumerator CoroutineFadeIn(Image _img, int _interval)
     {

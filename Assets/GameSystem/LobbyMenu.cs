@@ -36,7 +36,6 @@ public class LobbyMenu : MonoBehaviour {
 
     public void ChangeMenuBar()
     {
-        Debug.Log("click menu, " + isAutoScrolling + ", " + menuBarState);
         if (isAutoScrolling)
             return;
         StartCoroutine(AutoScrollMenuBarCoroutine());
@@ -66,7 +65,7 @@ public class LobbyMenu : MonoBehaviour {
         {
             menuBarTransform.localPosition = Vector2.Lerp(startPos, endPos, time);
             time += Time.fixedDeltaTime * autoScrollSpeed;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            yield return YieldInstructionCache.WaitForSeconds(0.01f);
         }
         menuBarTransform.localPosition = Vector2.Lerp(startPos, endPos, 1);
         isAutoScrolling = false;
