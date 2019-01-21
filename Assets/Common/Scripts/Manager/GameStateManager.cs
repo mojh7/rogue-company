@@ -68,8 +68,9 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     }
     public void LoadTitle()
     {
-        SceneDataManager.SetNextScene("TitleScene");
-        SceneManager.LoadScene("LoadingScene");
+        SceneManager.LoadScene("TitleScene");
+        //SceneDataManager.SetNextScene("TitleScene");
+        //SceneManager.LoadScene("LoadingScene");
     }
     public void LoadSelect()
     {

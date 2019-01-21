@@ -10,9 +10,9 @@ TextureImporter:
     21300006: logo2_3
     21300008: logo2_4
     21300010: logo2_5
-    21300012: logo2_6
-    21300014: logo2_7
-    21300016: logo2_8
+    21300012: logo2_5
+    21300014: logo2_6
+    21300016: logo2_7
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -172,8 +172,8 @@ TextureImporter:
       name: logo2_5
       rect:
         serializedVersion: 2
-        x: 512
-        y: 256
+        x: 0
+        y: 0
         width: 256
         height: 256
       alignment: 0
@@ -186,7 +186,7 @@ TextureImporter:
       name: logo2_6
       rect:
         serializedVersion: 2
-        x: 0
+        x: 255
         y: 0
         width: 256
         height: 256
@@ -198,20 +198,6 @@ TextureImporter:
       tessellationDetail: 0
     - serializedVersion: 2
       name: logo2_7
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: logo2_8
       rect:
         serializedVersion: 2
         x: 512
