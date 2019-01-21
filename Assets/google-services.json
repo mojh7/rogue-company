@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_number": "213455927464",
+    "firebase_url": "https://rogue-company-test.firebaseio.com",
+    "project_id": "rogue-company-test",
+    "storage_bucket": "rogue-company-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213455927464:android:7eb1351b96d5fcd2",
+        "android_client_info": {
+          "package_name": "com.ShootingStar.RogueCompany"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213455927464-3g9cpvaj9m5orjm799sbtfil2a2dhhpd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIl7y6YmtFZcsmnRLL01jd6viaDUyJHuQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      },
+      "admob_app_id": "ca-app-pub-1798048662997653~6961684352"
+    }
+  ],
+  "configuration_version": "1"
+}
