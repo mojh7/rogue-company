@@ -28,7 +28,7 @@ namespace CharacterInfo
         NONE, ALL
     }
 
-    public enum AutoAimType
+    public enum AimType
     {
         AUTO, SEMIAUTO, REACTANCE, MANUAL
     }
@@ -59,8 +59,7 @@ public abstract class Character : MonoBehaviour
     protected float hpMax;
     protected CharacterInfo.DamageImmune damageImmune;
     protected CharacterInfo.AbnormalImmune abnormalImmune;
-    protected CharacterInfo.AutoAimType autoAimType;
-    protected CharacterInfo.AutoAimType originalautoAimType;
+    protected CharacterInfo.AimType aimType;
     protected CharacterInfo.State pState;
     protected CharacterInfo.OwnerType ownerType;
     protected CharacterInfo.SpawnType spawnType;
@@ -546,31 +545,9 @@ public abstract class Character : MonoBehaviour
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
     public abstract float Attacked(Vector2 _dir, Vector2 bulletPos, float damage, float knockBack, float criticalChance = 0, bool positionBasedKnockBack = false);
 
-    public void SetAutoAim()
+    public void SetAimType(CharacterInfo.AimType aimType)
     {
-        if (!IsControlTypeAbnormal())
-        {
-            autoAimType = CharacterInfo.AutoAimType.AUTO;
-        }
-        originalautoAimType = CharacterInfo.AutoAimType.AUTO;
-    }
-
-    public void SetSemiAutoAim()
-    {
-        if (!IsControlTypeAbnormal())
-        {
-            autoAimType = CharacterInfo.AutoAimType.SEMIAUTO;
-        }
-        originalautoAimType = CharacterInfo.AutoAimType.SEMIAUTO;
-    }
-
-    public void SetManualAim()
-    {
-        if (!IsControlTypeAbnormal())
-        {
-            autoAimType = CharacterInfo.AutoAimType.MANUAL;
-        }
-        originalautoAimType = CharacterInfo.AutoAimType.MANUAL;
+        this.aimType = aimType;
     }
 
     public void SetSpawnType(CharacterInfo.SpawnType spawnType)

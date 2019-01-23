@@ -37,7 +37,7 @@ public class MidTrackAction : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
-        character.SetManualAim();
+        character.SetAimType(CharacterInfo.AimType.MANUAL);
         if (isArrived)
         {
             destPosition = RoomManager.Instance.MidPosition;

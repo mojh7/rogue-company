@@ -40,7 +40,7 @@ public class PositionTrackAction : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
-        character.SetManualAim();
+        character.SetAimType(CharacterInfo.AimType.MANUAL);
         if(isArrived)
         {
             UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
