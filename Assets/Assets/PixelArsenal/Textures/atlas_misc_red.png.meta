@@ -4,11 +4,12 @@ timeCreated: 1477011339
 licenseType: Store
 TextureImporter:
   fileIDToRecycleName:
-    21300000: atlas_misc_red_17
-    21300002: atlas_misc_red_18
-    21300004: atlas_misc_red_19
-    21300006: atlas_misc_red_20
-    21300008: atlas_misc_red_21
+    21300000: atlas_misc_red_2
+    21300002: atlas_misc_red_5
+    21300004: atlas_misc_red_1
+    21300006: atlas_misc_red_4
+    21300008: atlas_misc_red_3
+    21300010: atlas_misc_red_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -95,7 +96,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: atlas_misc_red_17
+      name: atlas_misc_red_2
       rect:
         serializedVersion: 2
         x: 416
@@ -103,13 +104,13 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: atlas_misc_red_18
+      name: atlas_misc_red_5
       rect:
         serializedVersion: 2
         x: 544
@@ -117,13 +118,13 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: atlas_misc_red_19
+      name: atlas_misc_red_1
       rect:
         serializedVersion: 2
         x: 672
@@ -131,13 +132,13 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: atlas_misc_red_20
+      name: atlas_misc_red_4
       rect:
         serializedVersion: 2
         x: 792
@@ -145,19 +146,33 @@ TextureImporter:
         width: 76
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: atlas_misc_red_21
+      name: atlas_misc_red_3
       rect:
         serializedVersion: 2
         x: 924
         y: 664
         width: 76
         height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: atlas_misc_red_0
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 900
+        width: 120
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

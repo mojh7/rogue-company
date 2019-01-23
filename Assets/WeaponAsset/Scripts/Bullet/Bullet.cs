@@ -636,7 +636,6 @@ public class Bullet : MonoBehaviour
                 triangleColliderPoints[0] *= info.manualSize.y * sizeRate;
                 triangleColliderPoints[1] *= info.manualSize.x * sizeRate;
                 triangleColliderPoints[2] *= info.manualSize.x * sizeRate;
-                Debug.Log(triangleColliderPoints[0] + ", " + triangleColliderPoints[1]);
                 polygonCollider.points = triangleColliderPoints;
                 polygonCollider.offset = info.colliderOffset;
                 break;

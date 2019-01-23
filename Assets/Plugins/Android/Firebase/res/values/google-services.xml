@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
+  <string name="firebase_database_url" translatable="false">https://rogue-company-test.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">213455927464</string>
+  <string name="google_storage_bucket" translatable="false">rogue-company-test.appspot.com</string>
+  <string name="project_id" translatable="false">rogue-company-test</string>
+  <string name="google_api_key" translatable="false">AIzaSyDIl7y6YmtFZcsmnRLL01jd6viaDUyJHuQ</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDIl7y6YmtFZcsmnRLL01jd6viaDUyJHuQ</string>
+  <string name="google_app_id" translatable="false">1:213455927464:android:7eb1351b96d5fcd2</string>
+  <string name="default_web_client_id" translatable="false">213455927464-3g9cpvaj9m5orjm799sbtfil2a2dhhpd.apps.googleusercontent.com</string>
+</resources>

@@ -26,10 +26,25 @@ public class BulletPresetInfo
 
 public class BulletPresets : MonoBehaviourSingleton<BulletPresets>
 {
+    //[ContextMenuItem("AutoEdit", "AutoEdit")]
     public BulletPresetInfo[] bulletPresetInfoList;
-    //private void Awake()
+
+    //private void AutoEdit()
     //{
-    //    for (int i = 0; i < bulletPresetInfoList.Length; i++)
-    //        bulletPresetInfoList[i].autoSizeRatio = 1f;
+    //    for (int i = 37; i < bulletPresetInfoList.Length; i++)
+    //    {
+    //        int refIndex = 31 + ((i - 37) % 6);
+    //        bulletPresetInfoList[i].scaleX = bulletPresetInfoList[refIndex].scaleX;
+    //        bulletPresetInfoList[i].scaleY = bulletPresetInfoList[refIndex].scaleY;
+    //        bulletPresetInfoList[i].colliderType = bulletPresetInfoList[refIndex].colliderType;
+    //        bulletPresetInfoList[i].autoSizeRatio = bulletPresetInfoList[refIndex].autoSizeRatio;
+    //        bulletPresetInfoList[i].spriteAnimation = bulletPresetInfoList[refIndex].spriteAnimation;
+    //        bulletPresetInfoList[i].lifeTime = bulletPresetInfoList[refIndex].lifeTime;
+    //        bulletPresetInfoList[i].effectId = 0;
+    //        bulletPresetInfoList[i].manualSize = bulletPresetInfoList[refIndex].manualSize;
+    //        bulletPresetInfoList[i].colliderOffset = bulletPresetInfoList[refIndex].colliderOffset;
+    //        bulletPresetInfoList[i].circleManualRadius = bulletPresetInfoList[refIndex].circleManualRadius;
+    //        bulletPresetInfoList[i].isFixedAngle = bulletPresetInfoList[refIndex].isFixedAngle;
+    //    }  
     //}
 }
