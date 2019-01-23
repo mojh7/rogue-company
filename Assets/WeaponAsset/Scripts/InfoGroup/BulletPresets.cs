@@ -18,8 +18,10 @@ public class BulletPresetInfo
     public int effectId = -1;
     public string bulletParticleName;
     public string impactParticleName;
-    public Vector2 boxManualSize;
+    public Vector2 manualSize;
+    public Vector2 colliderOffset;
     public float circleManualRadius;
+    public bool isFixedAngle;
 }
 
 public class BulletPresets : MonoBehaviourSingleton<BulletPresets>

@@ -9,7 +9,6 @@ using CharacterInfo;
 /// bullet 하나에 몰아서 만들고 if문으로 총알을 나눌 수도 있고 아니면 나중에 총알 종류마다 클래스 나누어서
 /// bullet 상속받고 나뉠수도 있음, 일반 총알, 레이저 총알 따로 만드는 식으로
 /// </summary>
-
 public class Bullet : MonoBehaviour
 {
     #region constants
@@ -22,6 +21,7 @@ public class Bullet : MonoBehaviour
     public Transform objTransform;
     public BoxCollider2D boxCollider;
     public CircleCollider2D circleCollider;
+    public PolygonCollider2D polygonCollider;
     [SerializeField]
     private GameObject colliderObj;
     public Rigidbody2D objRigidbody;
@@ -118,7 +118,7 @@ public class Bullet : MonoBehaviour
     public float DecreaseDamageAfterPierce { get; private set; }
     #endregion
 
-    #region unityFunction
+    #region unityFunc
     void Awake()
     {
         active = false;
@@ -162,7 +162,7 @@ public class Bullet : MonoBehaviour
     }
     #endregion
 
-    #region initialization
+    #region init
     /// <summary>일반(투사체) 총알 초기화 - position이랑 direction만 받음, DeleteAfterSummonBulletProperty 전용 초기화</summary>
     public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, OwnerType ownerType, Vector3 pos, float direction = 0)
     {
@@ -240,8 +240,7 @@ public class Bullet : MonoBehaviour
         UpdateTransferBulletInfo();
 
         // component on/off
-        boxCollider.enabled = false;
-        circleCollider.enabled = false;
+        SetColliderActive(false);
         lineRenderer.enabled = true;
 
         paticleObj.SetActive(false);
@@ -405,11 +404,13 @@ public class Bullet : MonoBehaviour
                     break;
                 case ColliderType.MANUAL_SIZE_BOX:
                     colliderObj.transform.localScale = new Vector3(1, 1, 1f);
-                    boxCollider.size = info.boxManualSize * info.autoSizeRatio;
+                    boxCollider.size = info.manualSize * info.autoSizeRatio;
+                    boxCollider.offset = Vector2.zero;
                     break;
                 case ColliderType.MANUAL_SIZE_CIRCLE:
                     colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
                     circleCollider.radius = info.circleManualRadius * info.autoSizeRatio * 0.5f;
+                    circleCollider.offset = Vector2.zero;
                     break;
                 default:
                     break;
@@ -455,11 +456,13 @@ public class Bullet : MonoBehaviour
         {
             boxCollider.isTrigger = false;
             circleCollider.isTrigger = false;
+            polygonCollider.isTrigger = false;
         }
         else
         {
             boxCollider.isTrigger = true;
             circleCollider.isTrigger = true;
+            polygonCollider.isTrigger = true;
         }
 
         if (true == info.canBlockBullet)
@@ -497,20 +500,6 @@ public class Bullet : MonoBehaviour
             info.deleteProperties[i].Init(this);
         }
     }
-    #endregion
-
-    #region func
-
-    private void UpdatePerpendicularVec()
-    {
-        perpendicularVec = MathCalculator.VectorRotate(dirVector, 90);
-    }
-
-    public void TranslatePerpendicular(float magnitude)
-    {
-        Vector3 translation = info.amplitude * magnitude * perpendicularVec;
-        objTransform.Translate(translation, Space.World);
-    }
 
     /// <summary>
     /// 적용할 bulletPresetInfo 있으면 설정
@@ -530,13 +519,13 @@ public class Bullet : MonoBehaviour
     {
         if (BulletPresetType.None != info.bulletPresetType)
         {
-            if(-1 == info.scaleX && -1 == info.scaleY)
+            if (-1 == info.scaleX && -1 == info.scaleY)
             {
                 objTransform.localScale = new Vector3(bulletPresetInfo.scaleX, bulletPresetInfo.scaleY, 1f);
             }
-            if(null == info.bulletSprite)
+            if (null == info.bulletSprite)
                 info.bulletSprite = bulletPresetInfo.sprite;
-            if(ColliderType.NONE == info.colliderType)
+            if (ColliderType.NONE == info.colliderType)
                 info.colliderType = bulletPresetInfo.colliderType;
             if (1 == info.autoSizeRatio && 1 != bulletPresetInfo.autoSizeRatio)
                 info.autoSizeRatio = bulletPresetInfo.autoSizeRatio;
@@ -553,26 +542,42 @@ public class Bullet : MonoBehaviour
             if ("" == info.impactParticleName)
                 info.impactParticleName = bulletPresetInfo.impactParticleName;
 
-            if (-1 == info.boxManualSize.x && -1 == info.boxManualSize.y)
-                info.boxManualSize = bulletPresetInfo.boxManualSize;
-
+            if (-1 == info.manualSize.x && -1 == info.manualSize.y)
+                info.manualSize = bulletPresetInfo.manualSize;
             if (-1 == info.circleManualRadius)
                 info.circleManualRadius = bulletPresetInfo.circleManualRadius;
+            if (-1 == info.colliderOffset.x && -1 == info.colliderOffset.y)
+                info.colliderOffset = bulletPresetInfo.colliderOffset;
+
+            if (bulletPresetInfo.isFixedAngle)
+                info.isFixedAngle = true;
         }
+    }
+
+    private void SetColliderActive(bool enable)
+    {
+        boxCollider.enabled = enable;
+        circleCollider.enabled = enable;
+        polygonCollider.enabled = enable;
     }
 
     public void ActivateColiider()
     {
-        boxCollider.enabled = false;
-        circleCollider.enabled = false;
+        SetColliderActive(false);
         switch (info.colliderType)
         {
             case ColliderType.AUTO_SIZE_BOX:
+            case ColliderType.MANUAL_SIZE_BOX:
                 boxCollider.enabled = true;
                 break;
             case ColliderType.Beam:
             case ColliderType.AUTO_SIZE_CIRCLE:
+            case ColliderType.MANUAL_SIZE_CIRCLE:
                 circleCollider.enabled = true;
+                break;
+            case ColliderType.MANUAL_SIZE_RHOMBUS:
+            case ColliderType.MANUAL_SIZE_TRIANGLE:
+                polygonCollider.enabled = true;
                 break;
             default:
                 break;
@@ -602,37 +607,56 @@ public class Bullet : MonoBehaviour
                 sizeX = renderer.sprite.bounds.size.x;
                 sizeY = renderer.sprite.bounds.size.y;
                 size = (sizeX > sizeY) ? sizeY : sizeX;
-
-                //Debug.Log(sizeX + ", " + sizeY + ", " + renderer.sprite.bounds.size);
                 circleCollider.radius = size * sizeRate * 0.5f;
                 circleCollider.offset = renderer.sprite.bounds.center;
-                //Debug.Log("bs.center : " + renderer.sprite.bounds.center);
-                //Debug.Log("size : " + size + ", sizeRate : " + sizeRate);
                 break;
             case ColliderType.MANUAL_SIZE_BOX:
                 colliderObj.transform.localScale = new Vector3(1, 1, 1f);
-                boxCollider.size = info.boxManualSize * sizeRate;
+                boxCollider.size = info.manualSize * sizeRate;
+                boxCollider.offset = info.colliderOffset;
                 break;
             case ColliderType.MANUAL_SIZE_CIRCLE:
                 colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
                 circleCollider.radius = info.circleManualRadius * sizeRate * 0.5f;
+                circleCollider.offset = info.colliderOffset;
+                break;
+            case ColliderType.MANUAL_SIZE_RHOMBUS:
+                colliderObj.transform.localScale = new Vector3(1, 1, 1f);
+                Vector2[] rhombusColliderPoints = new Vector2[] { Vector2.up, Vector2.left, Vector2.down, Vector2.right };
+                rhombusColliderPoints[0] *= info.manualSize.y * sizeRate;
+                rhombusColliderPoints[1] *= info.manualSize.x * sizeRate;
+                rhombusColliderPoints[2] *= info.manualSize.y * sizeRate;
+                rhombusColliderPoints[3] *= info.manualSize.x * sizeRate;
+                polygonCollider.points = rhombusColliderPoints;
+                polygonCollider.offset = info.colliderOffset;
+                break;
+            case ColliderType.MANUAL_SIZE_TRIANGLE:
+                colliderObj.transform.localScale = new Vector3(1, 1, 1f);
+                Vector2[] triangleColliderPoints = new Vector2[] { Vector2.up, Vector2.left, Vector2.right };
+                triangleColliderPoints[0] *= info.manualSize.y * sizeRate;
+                triangleColliderPoints[1] *= info.manualSize.x * sizeRate;
+                triangleColliderPoints[2] *= info.manualSize.x * sizeRate;
+                Debug.Log(triangleColliderPoints[0] + ", " + triangleColliderPoints[1]);
+                polygonCollider.points = triangleColliderPoints;
+                polygonCollider.offset = info.colliderOffset;
                 break;
             default:
                 break;
         }
-        if(OwnerType.ENEMY == ownerType)
+        if (OwnerType.ENEMY == ownerType)
         {
             //boxCollider.size = boxCollider.size / objTransform.localScale.x;
             //circleCollider.radius = circleCollider.radius / objTransform.localScale.x;
         }
     }
+    #endregion
 
+    #region velocity, dir Func
     public void RotateSpriteEulerAngle(float rotationAngle)
     {
         eulerAngleZ += rotationAngle;
     }
 
-    #region setVelocityAndDirection
     /// <summary> 해당 Vector 방향으로 총알을 회전하고 속도를 설정한다. </summary>
     public void SetDirection(Vector3 dirVector)
     {
@@ -687,6 +711,17 @@ public class Bullet : MonoBehaviour
         {
             info.speed = -speed;
         }
+    }
+
+    private void UpdatePerpendicularVec()
+    {
+        perpendicularVec = MathCalculator.VectorRotate(dirVector, 90);
+    }
+
+    public void TranslatePerpendicular(float magnitude)
+    {
+        Vector3 translation = info.amplitude * magnitude * perpendicularVec;
+        objTransform.Translate(translation, Space.World);
     }
     #endregion
 
@@ -813,6 +848,7 @@ public class Bullet : MonoBehaviour
     }
     #endregion
 
+    #region func
     /// <summary> weapon -> bulletPattern으로 넘어온 정보 최신화, 이후 enemy에 정보 넘김. </summary>
     private void UpdateTransferBulletInfo()
     {
@@ -993,7 +1029,6 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region coroutine
-
     // 애니메이션 트리거 작동 특성 상 setTrigger 이후 한 프레임 뒤에 바뀌나봄. 그래서 코루틴으로 함. 
     /// <summary> Animation Sprite용 collider size 설정</summary>
     private IEnumerator SetColliderSizeOfAniSprite()
@@ -1003,9 +1038,7 @@ public class Bullet : MonoBehaviour
             if (null != spriteAniRenderer.sprite)
                 break;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-        //SetColliderSize(spriteAniRenderer);
-        
+        }        
         float sizeX, sizeY, size;
         switch (info.colliderType)
         {

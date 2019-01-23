@@ -72,7 +72,24 @@ public abstract class CollisionProperty : BulletProperty
         base.Init(bullet);
         transferBulletInfo.damage = bullet.info.damage;
         transferBulletInfo.criticalChance = bullet.info.criticalChance;
-        bulletCollider2D = bullet.boxCollider;
+        switch(bullet.info.colliderType)
+        {
+            case WeaponAsset.ColliderType.AUTO_SIZE_BOX:
+            case WeaponAsset.ColliderType.MANUAL_SIZE_BOX:
+                bulletCollider2D = bullet.boxCollider;
+                break;
+            case WeaponAsset.ColliderType.Beam:
+            case WeaponAsset.ColliderType.AUTO_SIZE_CIRCLE:
+            case WeaponAsset.ColliderType.MANUAL_SIZE_CIRCLE:
+                bulletCollider2D = bullet.circleCollider;
+                break;
+            case WeaponAsset.ColliderType.MANUAL_SIZE_RHOMBUS:
+            case WeaponAsset.ColliderType.MANUAL_SIZE_TRIANGLE:
+                bulletCollider2D = bullet.polygonCollider;
+                break;
+            default:
+                break;
+        }
     }
 }
 
