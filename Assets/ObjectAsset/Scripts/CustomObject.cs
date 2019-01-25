@@ -400,8 +400,8 @@ public class Spawner : RandomSpriteObject
     {
         EnemyData enemyData = EnemyManager.Instance.GetEnemy(false);
         count -= enemyData.Price;
-        Vector2 tempPosition = RoomManager.Instance.SpawndWithGage(enemyData.Price);
-        EnemyManager.Instance.Generate(tempPosition, enemyData);
+        RoomManager.Instance.SpawndWithGage(enemyData.Price);
+        EnemyManager.Instance.Generate(enemyData);
     }
 }
 

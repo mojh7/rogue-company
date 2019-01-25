@@ -17,6 +17,42 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     int KeyNum;
     int ammoNum;
 
+    public Vector2 LeftPos
+    {
+        get
+        {
+            return new Vector2(currentRoom.areaLeftDown.x, (currentRoom.areaLeftDown.y + currentRoom.areaRightTop.y) * .5f);
+        }
+    }
+    public Vector2 RightPos
+    {
+        get
+        {
+            return new Vector2(currentRoom.areaRightTop.x, (currentRoom.areaLeftDown.y + currentRoom.areaRightTop.y) * .5f);
+        }
+    }
+    public Vector2 MidPos
+    {
+        get
+        {
+            return (currentRoom.areaLeftDown + currentRoom.areaRightTop) * .5f;
+        }
+    }
+    public Vector2 TopPos
+    {
+        get
+        {
+            return new Vector2((currentRoom.areaLeftDown.x + currentRoom.areaRightTop.x) * .5f, currentRoom.areaRightTop.y);
+        }
+    }
+    public Vector2 BottomPos
+    {
+        get
+        {
+            return new Vector2((currentRoom.areaLeftDown.x + currentRoom.areaRightTop.x) * .5f, currentRoom.areaLeftDown.y);
+        }
+    }
+
     protected Coroutine roomCoroutine;
     private void Awake()
     {
@@ -260,22 +296,10 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         SpawnManager.Instance.Spawn();
     } // 몬스터 소환
 
-    public Vector3 SpawnedServant()
-    {
-        return currentRoom.GetAvailableArea();
-    }
-
-    public Vector3 Spawned()
-    {
-        monsterNum++;
-        return currentRoom.GetAvailableArea();
-    }
-
-    public Vector3 SpawndWithGage(int gage)
+    public void SpawndWithGage(int gage)
     {
         currentRoom.gage -= gage;
         monsterNum++;
-        return currentRoom.GetAvailableArea();
     }
 
     public void DieMonster()
@@ -419,7 +443,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         UIManager.Instance.TogglePreventObj();
         CutSceneUI.Instance.Hide();
-        EnemyManager.Instance.SpawnBoss(GameDataManager.Instance.GetFloor(), (currentRoom.areaLeftDown + currentRoom.areaRightTop) / 2);
+        EnemyManager.Instance.SpawnBoss(GameDataManager.Instance.GetFloor());
         monsterNum++;
         currentRoom.gage--;
         SpawnMonster();

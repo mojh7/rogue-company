@@ -20,6 +20,7 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
     private ObjectPool indicatorPool;
     private List<Enemy> enemyList;
     private List<BoxCollider2D> enemyColliderList;
+    Vector3 zero = Vector3.zero;
 
     private int bossIdx;
     private int floor;
@@ -36,19 +37,68 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         aliveEnemyTotal = 0;
     }
 
-    public void Generate(Vector2 position, EnemyData enemyData, Character owner)
+    public void Generate(EnemyData enemyData, Character owner)
     {
+        Vector3 pos = zero;
+
+        switch (enemyData.SpawnPos)
+        {
+            default:
+            case EnemyData.SpawnPosition.RANDOM:
+                pos = RoomManager.Instance.GetCurrentRoomAvailableArea();
+                break;
+            case EnemyData.SpawnPosition.MID:
+                pos = RoomManager.Instance.MidPos;
+                break;
+            case EnemyData.SpawnPosition.TOP:
+                pos = RoomManager.Instance.TopPos;
+                break;
+            case EnemyData.SpawnPosition.BOTTOM:
+                pos = RoomManager.Instance.BottomPos;
+                break;
+            case EnemyData.SpawnPosition.LEFT:
+                pos = RoomManager.Instance.LeftPos;
+                break;
+            case EnemyData.SpawnPosition.RIGHT:
+                pos = RoomManager.Instance.RightPos;
+                break;
+        }
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-        obj.transform.position = position;
+        obj.transform.position = pos;
         obj.AddComponent<Alert>();
         obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0, owner);
         obj.GetComponent<Alert>().Active();
     }
 
-    public void Generate(Vector3 _position, EnemyData enemyData)
+    public void Generate(EnemyData enemyData)
     {
+        Vector3 pos = zero;
+
+        switch (enemyData.SpawnPos)
+        {
+            default:
+            case EnemyData.SpawnPosition.RANDOM:
+                pos = RoomManager.Instance.GetCurrentRoomAvailableArea();
+                break;
+            case EnemyData.SpawnPosition.MID:
+                pos = RoomManager.Instance.MidPos;
+                break;
+            case EnemyData.SpawnPosition.TOP:
+                pos = RoomManager.Instance.TopPos;
+                break;
+            case EnemyData.SpawnPosition.BOTTOM:
+                pos = RoomManager.Instance.BottomPos;
+                break;
+            case EnemyData.SpawnPosition.LEFT:
+                pos = RoomManager.Instance.LeftPos;
+                break;
+            case EnemyData.SpawnPosition.RIGHT:
+                pos = RoomManager.Instance.RightPos;
+                break;
+        }
+
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
-        obj.transform.position = _position;
+        obj.transform.position = pos;
         obj.AddComponent<Alert>();
         obj.GetComponent<Alert>().Init(CallBack, enemyData, 0, 0, null);
         obj.GetComponent<Alert>().Active();
@@ -95,13 +145,37 @@ public class EnemyManager : MonoBehaviourSingleton<EnemyManager>
         return obj;
     }
 
-    public void SpawnBoss(int _floor, Vector2 position)
+    public void SpawnBoss(int _floor)
     {
         aliveEnemyTotal += 1;
-
         BossEnemy enemy;
-        GameObject obj = SpawnEnemy(position);
         EnemyData bossData = GetEnemy(true);
+        Vector3 pos = zero;
+
+        switch (bossData.SpawnPos)
+        {
+            default:
+            case EnemyData.SpawnPosition.RANDOM:
+                pos = RoomManager.Instance.GetCurrentRoomAvailableArea();
+                break;
+            case EnemyData.SpawnPosition.MID:
+                pos = RoomManager.Instance.MidPos;
+                break;
+            case EnemyData.SpawnPosition.TOP:
+                pos = RoomManager.Instance.TopPos;
+                break;
+            case EnemyData.SpawnPosition.BOTTOM:
+                pos = RoomManager.Instance.BottomPos;
+                break;
+            case EnemyData.SpawnPosition.LEFT:
+                pos = RoomManager.Instance.LeftPos;
+                break;
+            case EnemyData.SpawnPosition.RIGHT:
+                pos = RoomManager.Instance.RightPos;
+                break;
+        }
+
+        GameObject obj = SpawnEnemy(pos);
         enemy = obj.AddComponent<BossEnemy>();
 
         UIManager.Instance.bossHPUI.Toggle();

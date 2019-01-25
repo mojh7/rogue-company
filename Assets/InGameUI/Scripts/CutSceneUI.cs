@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
 
-    [SerializeField] private GameObject panel;
+    [SerializeField] private GameObject bossPanel;
     [SerializeField] private Image bgImage;
     [SerializeField] private Image chImage;
     [SerializeField] private Text text;
+    [Space]
+    [SerializeField] private GameObject storyPanel;
 
     /// <summary>
     /// Show cutscene
@@ -22,7 +24,7 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
         Vector2 bgDest = bgImage.rectTransform.localPosition;
         Vector2 chDest = chImage.rectTransform.localPosition;
         Vector2 textDest = text.rectTransform.localPosition;
-        panel.SetActive(true);
+        bossPanel.SetActive(true);
         _bgDir.Normalize();
         _chDir.Normalize();
         _textDir.Normalize();
@@ -35,7 +37,7 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
         MoveToTarget(chImage.transform, chDest, 0.6f);
         MoveToTarget(text.transform, textDest, 0.7f);
     }
-    public void Hide() { panel.SetActive(false); UIManager.Instance.SetActivedBool(false); }
+    public void Hide() { bossPanel.SetActive(false); UIManager.Instance.SetActivedBool(false); }
     public void SetCharacter(Sprite _sprite)
     {
         chImage.sprite = _sprite;

@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyData", menuName = "CharData/EnemyData")]
 public class EnemyData : ScriptableObject
 {
+    public enum SpawnPosition { RANDOM, MID, TOP, BOTTOM, LEFT, RIGHT }
+
     #region serializeFiled
     [SerializeField]
     private Color color = Color.white;
@@ -37,6 +39,8 @@ public class EnemyData : ScriptableObject
     private GameObject deadEffect;
     [SerializeField]
     private string spawnAnim;
+    [SerializeField]
+    SpawnPosition spawnPosition;
     #endregion
 
     #region property
@@ -145,6 +149,9 @@ public class EnemyData : ScriptableObject
             return spawnAnim;
         }
     }
-
+    public SpawnPosition SpawnPos
+    {
+        get { return spawnPosition; }
+    }
     #endregion
 }

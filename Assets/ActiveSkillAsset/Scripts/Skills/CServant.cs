@@ -50,6 +50,6 @@ public class CServant : SkillData
 
     private void SpawnServant(Character user, EnemyData servantData)
     {
-        EnemyManager.Instance.Generate(RoomManager.Instance.SpawnedServant(), servantData, user);
+        EnemyManager.Instance.Generate(servantData, user);
     }
 }
