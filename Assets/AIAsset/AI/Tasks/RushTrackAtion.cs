@@ -32,7 +32,7 @@ public class RushTrackAtion : ActionTask
     {
         if (character.isCasting)
             return State.FAILURE;
-        character.SetAutoAim();
+        character.SetAimType(CharacterInfo.AimType.AUTO);
         bool success = movingPattern.RushTracking();
         if (success)
         {

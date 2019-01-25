@@ -354,17 +354,17 @@ public class Player : Character
 
     public override void SetAim()
     {
-        switch (autoAimType)
+        switch (aimType)
         {
             default:
-            case CharacterInfo.AutoAimType.REACTANCE:
-            case CharacterInfo.AutoAimType.AUTO:
+            //case CharacterInfo.AutoAimType.REACTANCE:
+            case CharacterInfo.AimType.AUTO:
                 AutoAim();
                 break;
-            case CharacterInfo.AutoAimType.SEMIAUTO:
+            case CharacterInfo.AimType.SEMIAUTO:
                 SemiAutoAim();
                 break;
-            case CharacterInfo.AutoAimType.MANUAL:
+            case CharacterInfo.AimType.MANUAL:
                 ManualAim();
                 break;
         }

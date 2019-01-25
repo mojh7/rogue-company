@@ -101,8 +101,7 @@ public class Enemy : Character
         damageImmune = CharacterInfo.DamageImmune.NONE;
         abnormalImmune = CharacterInfo.AbnormalImmune.NONE;
 
-        originalautoAimType = CharacterInfo.AutoAimType.AUTO;
-        autoAimType = originalautoAimType;
+        aimType = CharacterInfo.AimType.AUTO;
 
         isActiveAttack = true;
         isActiveMove = true;
@@ -240,19 +239,19 @@ public class Enemy : Character
     // 0526 땜빵
     public override void SetAim()
     {
-        switch (autoAimType)
+        switch (aimType)
         {
-            case CharacterInfo.AutoAimType.AUTO:
+            case CharacterInfo.AimType.AUTO:
                 directionVector = (PlayerManager.Instance.GetPlayer().GetPosition() - bodyTransform.position).normalized;
                 directionDegree = directionVector.GetDegFromVector();
                 break;
-            case CharacterInfo.AutoAimType.REACTANCE:
-                directionVector = (bodyTransform.position - PlayerManager.Instance.GetPlayer().GetPosition()).normalized;
-                directionDegree = directionVector.GetDegFromVector();
+            //case CharacterInfo.aimType.REACTANCE:
+            //    directionVector = (bodyTransform.position - PlayerManager.Instance.GetPlayer().GetPosition()).normalized;
+            //    directionDegree = directionVector.GetDegFromVector();
+            //    break;
+            case CharacterInfo.AimType.SEMIAUTO:
                 break;
-            case CharacterInfo.AutoAimType.SEMIAUTO:
-                break;
-            case CharacterInfo.AutoAimType.MANUAL:
+            case CharacterInfo.AimType.MANUAL:
                 directionVector = rgbody.velocity;
                 directionDegree = directionVector.GetDegFromVector();
                 break;
