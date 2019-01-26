@@ -81,6 +81,12 @@ public class Player : Character
     #endregion
 
     #region getter
+    public float GetPlayerScaleRatio()
+    {
+        return objTransform.localScale.x;
+    }
+
+
     public PlayerController PlayerController
     {
         get
@@ -640,7 +646,6 @@ public class Player : Character
     }
     #endregion
     #region itemEffect
-    // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
     public override void ApplyItemEffect()
     {
         CharacterTargetEffect itemUseEffect = buffManager.CharacterTargetEffectTotal;
@@ -683,6 +688,7 @@ public class Player : Character
         playerHPUi.SetHpMax();
         playerHPUi.Notify();
     }
+    // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
     public override void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
     {
         if (0 != itemUseEffect.recoveryHp)

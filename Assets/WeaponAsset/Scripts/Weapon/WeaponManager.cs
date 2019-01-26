@@ -491,10 +491,12 @@ public class WeaponManager : MonoBehaviour {
             UpdateCurrentWeapon();
             GameObject obj = ItemManager.Instance.CreateItem(dropedWeapon, transform.position);
             dropedWeapon.ObjTransform.SetParent(obj.transform, false);
+            dropedWeapon.ObjTransform.localScale = Vector3.one;
         }
         StartCoroutine(PickAndDropWeaponDelay());
         weapon.ObjTransform.localRotation = Quaternion.identity;
-        weapon.ObjTransform.localScale = new Vector3(Mathf.Abs(weapon.ObjTransform.localScale.x), weapon.ObjTransform.localScale.y, weapon.ObjTransform.localScale.z);
+        //weapon.ObjTransform.localScale = new Vector3(Mathf.Abs(weapon.ObjTransform.localScale.x), weapon.ObjTransform.localScale.y, weapon.ObjTransform.localScale.z);
+        weapon.ObjTransform.localScale = Vector3.one;       
         return true;
     }
 
