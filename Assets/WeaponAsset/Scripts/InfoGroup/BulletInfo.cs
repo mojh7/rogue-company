@@ -55,9 +55,13 @@ public class BulletInfo : ScriptableObject
     public float damage;
     public float criticalChance;
 
-    public float speed;         // 속력
-    public float acceleration;  // 가속도
+    public float speed;             // 속력
+    public float acceleration;      // 가속도
     public float deltaSpeedTotalLimit;    // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
+    [Header("min~max 배수 비율로 speed 랜덤 설정")]
+    public bool isRandomSpeed;
+    public float speedRandomMinRatio;    //
+    public float speedRandomMaxRatio;    //
     public float range;         // 사정거리
     public float scaleX;
     public float scaleY;
@@ -179,6 +183,8 @@ public class BulletInfo : ScriptableObject
         bulletParticleName = "";
         impactParticleName = "";
 
+        speedRandomMinRatio = 1f;
+        speedRandomMaxRatio = 1f;
         scaleX = -1;
         scaleY = -1;
         laserSize = 1.0f;
@@ -245,6 +251,9 @@ public class BulletInfo : ScriptableObject
         clonedInfo.speed = speed;
         clonedInfo.acceleration = acceleration;
         clonedInfo.deltaSpeedTotalLimit = deltaSpeedTotalLimit;
+        clonedInfo.isRandomSpeed = isRandomSpeed;
+        clonedInfo.speedRandomMinRatio = speedRandomMinRatio;
+        clonedInfo.speedRandomMaxRatio = speedRandomMaxRatio;
         clonedInfo.range = range;
         clonedInfo.scaleX = scaleX;
         clonedInfo.scaleY = scaleY;

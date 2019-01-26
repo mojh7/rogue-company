@@ -425,13 +425,16 @@ public class Bullet : MonoBehaviour
             SetColliderSize(spriteRenderer, info.autoSizeRatio);
         }
 
+        if (info.isRandomSpeed)
+            info.speed = info.speed * Random.Range(info.speedRandomMinRatio, info.speedRandomMaxRatio - info.speedRandomMinRatio);
+
         // rotate 360도 계속 회전하는 애니메이션 적용
-        if (true == info.showsRotationAnimation)
+        if (info.showsRotationAnimation)
         {
             rotationAnimation = StartCoroutine(RotationAnimation());
         }
         // scale이 커지고 작아지는 애니메이션 적용
-        if (true == info.showsScaleAnimation)
+        if (info.showsScaleAnimation)
         {
             scaleAnimation = StartCoroutine(ScaleAnimation());
         }
