@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Mono 상속, Unity.Object 상속(GameObject, Sprite) 안됨.
+ * null 안됨.
+ * 
+ */ 
+
 [System.Serializable]
 class GameData
 {

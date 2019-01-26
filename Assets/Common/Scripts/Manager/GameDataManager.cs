@@ -4,6 +4,33 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+// TODO : 데이터 어느정도 구분 해놓기, 하는 중
+
+/* UserSettingData : 셋팅 정보
+ * 배경음악 볼륨
+ * 효과음 볼륨
+ * Aim type
+ * 
+ * ----------------
+ * UserGlobalData : 유저 전역 정보
+ * 골드
+ * 캐릭터 해금(보유) 여부
+ * 도감 코텐츠 해금 여부(콘텐츠 처음 접하면 열리게 or 아무런 조건 없이 모든 정보 오픈)
+ * 업적 관련
+ * 
+ * UserInDungeonData : 던전 내에서의 정보
+ * 던전 코인
+ * 던전 키
+ * 무기 정보(id, 탄약)
+ * 패시브 아이템 
+ * 자동 저장 가능 여부 (ex : 소울나이트 처럼 스테이지 별 1회 까지만 자동 저장)
+ * Hp
+ * Stamina
+ * 몇 스테이지
+ * 
+ */
+
+
 public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 {
     int m_floor;
