@@ -21,14 +21,14 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         get
         {
-            return new Vector2(currentRoom.areaLeftDown.x, (currentRoom.areaLeftDown.y + currentRoom.areaRightTop.y) * .5f);
+            return new Vector2(currentRoom.areaLeftDown.x + 2.5f, (currentRoom.areaLeftDown.y + currentRoom.areaRightTop.y) * .5f);
         }
     }
     public Vector2 RightPos
     {
         get
         {
-            return new Vector2(currentRoom.areaRightTop.x, (currentRoom.areaLeftDown.y + currentRoom.areaRightTop.y) * .5f);
+            return new Vector2(currentRoom.areaRightTop.x - 2.5f, (currentRoom.areaLeftDown.y + currentRoom.areaRightTop.y) * .5f);
         }
     }
     public Vector2 MidPos
@@ -42,14 +42,14 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         get
         {
-            return new Vector2((currentRoom.areaLeftDown.x + currentRoom.areaRightTop.x) * .5f, currentRoom.areaRightTop.y);
+            return new Vector2((currentRoom.areaLeftDown.x + currentRoom.areaRightTop.x) * .5f, currentRoom.areaRightTop.y - 2.5f);
         }
     }
     public Vector2 BottomPos
     {
         get
         {
-            return new Vector2((currentRoom.areaLeftDown.x + currentRoom.areaRightTop.x) * .5f, currentRoom.areaLeftDown.y);
+            return new Vector2((currentRoom.areaLeftDown.x + currentRoom.areaRightTop.x) * .5f, currentRoom.areaLeftDown.y + 2.5f);
         }
     }
 
