@@ -222,7 +222,7 @@ public class UnbreakableBox : RandomSpriteObject
 public class BreakalbeBox : RandomSpriteObject
 {
     int duration;
-
+    const int durationMax = 5;
     public override void SetAvailable()
     {
     }
@@ -233,7 +233,7 @@ public class BreakalbeBox : RandomSpriteObject
         isActive = false;
         isAvailable = false;
         objectType = ObjectType.BREAKABLE;
-        duration = 2;
+        duration = durationMax;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -241,6 +241,7 @@ public class BreakalbeBox : RandomSpriteObject
         if (UtilityClass.CheckLayer(collision.gameObject.layer, 15, 17) && duration > 0)
         {
             duration--;
+            spriteRenderer.color = new Color(1, (float)duration / durationMax, (float)duration / durationMax);
             if (duration == 0)
             {
                 Destruct();

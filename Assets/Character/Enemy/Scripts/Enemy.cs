@@ -126,6 +126,15 @@ public class Enemy : Character
         animationHandler.Init(this, enemyData.AnimatorController);
         aiController.Init(moveSpeed, PlayerManager.Instance.GetPlayer(), animationHandler, weaponManager, enemyData.Task, enemyData.SkillDatas);
         InitStatusEffects();
+
+        if(enemyData.StaticType)
+        {
+            rgbody.bodyType = RigidbodyType2D.Static;
+        }
+        else
+        {
+            rgbody.bodyType = RigidbodyType2D.Dynamic;
+        }
     }
     #endregion
 

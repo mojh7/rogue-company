@@ -41,6 +41,8 @@ public class EnemyData : ScriptableObject
     private string spawnAnim;
     [SerializeField]
     SpawnPosition spawnPosition;
+    [SerializeField]
+    bool staticType;
     #endregion
 
     #region property
@@ -152,6 +154,13 @@ public class EnemyData : ScriptableObject
     public SpawnPosition SpawnPos
     {
         get { return spawnPosition; }
+    }
+    public bool StaticType
+    {
+        get
+        {
+            return staticType;
+        }
     }
     #endregion
 }
