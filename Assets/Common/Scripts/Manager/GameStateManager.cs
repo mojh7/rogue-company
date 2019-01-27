@@ -7,13 +7,18 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
 
     enum GameState { NOTSTARTED, GAMEOVER, PLAYING, CLEAR, ENDING }
     public enum GameMode { NORMAL, RUSH }
+    public enum GameScene { BRIDGE_LOGO, TEAM_LOGO, TITLE, LOBBY, CHARACTER_SELECT, IN_GAME, BOSS_RUSH }
+
     GameState gameState = GameState.NOTSTARTED;
     [SerializeField]
     GameMode gameMode = GameMode.NORMAL;
+    [SerializeField]
+    GameScene gameScene = GameScene.BRIDGE_LOGO;
     
     // 새 게임, 로드 게임 구분
     private bool loadsGameData = false;
     public bool GetLoadsGameData() { return loadsGameData; }
+    public GameScene GetGameScene() { return gameScene; }
     public void SetLoadsGameData(bool _loadsGameData) { loadsGameData = _loadsGameData; }
 
     public GameMode GetMode()
@@ -58,28 +63,32 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
         }
         if (GameMode.NORMAL == gameMode)
         {
+            gameScene = GameScene.IN_GAME;
             SceneDataManager.SetNextScene("InGameScene");
         }
         else if(GameMode.RUSH == gameMode)
         {
+            gameScene = GameScene.BOSS_RUSH;
             SceneDataManager.SetNextScene("BossRushScene");
         }
         SceneManager.LoadScene("LoadingScene");
     }
     public void LoadTitle()
     {
+        gameScene = GameScene.TITLE;
         SceneManager.LoadScene("TitleScene");
         //SceneDataManager.SetNextScene("TitleScene");
         //SceneManager.LoadScene("LoadingScene");
     }
     public void LoadSelect()
     {
+        gameScene = GameScene.LOBBY;
         SceneManager.LoadScene("SelectScene");
     }
     public void GameOver()
     {
         gameState = GameState.GAMEOVER;
-        GameDataManager.Instance.ResetData();
+        GameDataManager.Instance.ResetData(GameDataManager.UserDataType.INGAME);
     }
     #endregion
 }

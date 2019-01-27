@@ -125,7 +125,7 @@ public class TitleTouch : MonoBehaviour
     {
         modeButton.sprite = modeImages[(int)GameStateManager.Instance.GetMode()];
 
-        if (GameDataManager.Instance.LoadData())
+        if (GameDataManager.Instance.LoadData(GameDataManager.UserDataType.INGAME))
             RestartButton.SetActive(true);
         else
             RestartButton.SetActive(false);
@@ -142,7 +142,7 @@ public class TitleTouch : MonoBehaviour
     public void LoadSelect()
     {
         GameStateManager.Instance.SetLoadsGameData(false);
-        GameDataManager.Instance.ResetData();
+        GameDataManager.Instance.ResetData(GameDataManager.UserDataType.INGAME);
         GameStateManager.Instance.LoadSelect();
     }
 

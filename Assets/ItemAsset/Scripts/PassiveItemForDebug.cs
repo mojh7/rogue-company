@@ -174,14 +174,13 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         variableNames =
             "1.moveSpeedIncrement\n" +
             "2.hpMaxRatio\n" +
-            "3.hpRatio\n" +
-            "4.charScale\n" +
-            "5.skillGage\n" +
-            "6.gettingStaminaMultiple\n" +
-            "7.staminaMaxRatio\n" +
-            "8.canDrainHp\n" +
-            "9.isNotConsumeStamina\n" +
-            "10.isNotConsumeAmmo\n" +
+            "3.charScale\n" +
+            "4.skillGage\n" +
+            "5.gettingStaminaMultiple\n" +
+            "6.staminaMaxRatio\n" +
+            "7.canDrainHp\n" +
+            "8.isNotConsumeStamina\n" +
+            "9.isNotConsumeAmmo\n" +
             "-----\n" +
             "Weapon\n" +
             "1.bulletCountIncrement\n" +
@@ -229,7 +228,6 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
         string variableValues =
             characterTotal.moveSpeedIncrement + "\n" +
             characterTotal.hpMaxRatio + "\n" +
-            //characterTotal.hpRatio + "\n" +
             characterTotal.charScale + "\n" +
             characterTotal.skillGage + "\n" +
             characterTotal.gettingStaminaMultiple + "\n" +

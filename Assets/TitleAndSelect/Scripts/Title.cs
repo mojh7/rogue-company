@@ -9,7 +9,7 @@ public class Title : MonoBehaviour {
     private void Start()
     {
         AudioManager.Instance.PlayMusic(0);
-        if (GameDataManager.Instance.LoadData())
+        if (GameDataManager.Instance.LoadData(GameDataManager.UserDataType.INGAME))
             RestartButton.SetActive(true);
     }
 
@@ -17,7 +17,7 @@ public class Title : MonoBehaviour {
     public void LoadSelect()
     {
         GameStateManager.Instance.SetLoadsGameData(false);
-        GameDataManager.Instance.ResetData();
+        GameDataManager.Instance.ResetData(GameDataManager.UserDataType.INGAME);
         GameStateManager.Instance.LoadSelect();
     }
 

@@ -35,6 +35,9 @@ public class SoundController : MonoBehaviourSingleton<SoundController>
     {
         audioSource = GetComponent<AudioSource>();
 
+        if (null == uiSoundList)
+            return;
+
         uiSoundDictionary = new Dictionary<string, AudioClip>();
         for (int i = 0; i < uiSoundList.Length; i++)
         {

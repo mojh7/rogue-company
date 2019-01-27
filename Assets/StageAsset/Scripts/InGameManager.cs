@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InGameManager : MonoBehaviourSingleton<InGameManager> {
+public class InGameManager : MonoBehaviourSingleton<InGameManager>
+{
 
     #region UnityFunc
     private void Awake()
@@ -31,9 +32,9 @@ public class InGameManager : MonoBehaviourSingleton<InGameManager> {
     public void GoUpFloor()
     {
         GameDataManager.Instance.SetFloor();
-        GameDataManager.Instance.Savedata();
+        GameDataManager.Instance.Savedata(GameDataManager.UserDataType.INGAME);
 
-        GameDataManager.Instance.LoadData();
+        GameDataManager.Instance.LoadData(GameDataManager.UserDataType.INGAME);
         GameStateManager.Instance.SetLoadsGameData(true);
         GameStateManager.Instance.LoadInGame();
         System.GC.Collect();

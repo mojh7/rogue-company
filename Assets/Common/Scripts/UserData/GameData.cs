@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /* Mono 상속, Unity.Object 상속(GameObject, Sprite) 안됨.
  * null 안됨.
  * 
- */ 
+ */
+
+// [FormerlySerializedAs("이전 변수명")] //이전 변수명과 밑에 에는 새로운 변수 명, 직렬화 되어있어야 쓸 수 있었던 것 같다
+// 새로운 변수명
+// 클래스는 안되고 필드명에만 적용 됨.
+//
 
 [System.Serializable]
 class GameData
 {
+
     float hp;
     int stamina;
     int m_floor;

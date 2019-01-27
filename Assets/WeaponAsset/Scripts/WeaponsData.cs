@@ -9,7 +9,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     [SerializeField]
     private WeaponInfo[] testWeaponInfos;
     [SerializeField]
-    //[FormerlySerializedAs("tempWeaponInfos")]
+    //[FormerlySerializedAs("tempWeaponInfos")], UnityEngine.Serialization에 있음.
     //이거 선언, 이전 이름, 새로운 변수 명 한 번에 해야됨.
     private WeaponInfo[] mainWeaponInfos;
     //[FormerlySerializedAs("밑에 이전 변수명")] 이전 변수명과 밑에 에는 새로운 변수 명 쳐줘야 안의 값 그대로 이동함. 직렬화 되어있어야 했던가?

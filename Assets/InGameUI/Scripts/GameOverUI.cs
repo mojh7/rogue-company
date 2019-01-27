@@ -126,7 +126,7 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
     {
         Init();
         LoadData();
-        GameDataManager.Instance.ResetData();
+        GameDataManager.Instance.ResetData(GameDataManager.UserDataType.INGAME);
         Time.timeScale = 0;
     }
     #endregion
