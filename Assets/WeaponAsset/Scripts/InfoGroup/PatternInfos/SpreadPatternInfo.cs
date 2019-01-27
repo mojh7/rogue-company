@@ -9,7 +9,8 @@ public class SpreadPatternInfo : ProjectilesPatternInfo
     [Header("전방으로 발사하는 부채꼴 전체 각도")]
     public float sectorAngle;   // 부채꼴 각도
     public float randomAngle;   // 각 총알에서 random값으로 보정이 필요할 때.
-
+    [Header("각도 전체 축")]
+    public float angleAxis;     // 각도 전체 축
     public SpreadPatternInfo()
     {
     }

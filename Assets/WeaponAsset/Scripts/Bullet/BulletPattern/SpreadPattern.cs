@@ -42,13 +42,21 @@ public class SpreadPattern : BulletPattern
                     else break;
                 }
             }
+            if (info.ignoreOwnerDir)
+            {
+                dirDegree = 0;
+            }
+            else
+            {
+                dirDegree = ownerDirDegree();
+            }
 
             AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
 
             createdObj = ObjectPoolManager.Instance.CreateBullet();
             createdObj.GetComponent<Bullet>().Init(bulletInfo, ownerBuff, ownerType,
                 weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos),
-                ownerDirDegree() - initAngle + deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
+                info.angleAxis + dirDegree - initAngle + deltaAngle * i + Random.Range(-info.randomAngle, info.randomAngle) * accuracyIncrement,
                 transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
             CreateChildBullets(info.childBulletInfoList, info.childBulletCommonProperty);
         }

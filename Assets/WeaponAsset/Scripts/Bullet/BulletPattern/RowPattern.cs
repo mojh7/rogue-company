@@ -68,9 +68,19 @@ public class RowPattern : BulletPattern
 
         for (int i = 0; i < info.rotatingCount; i++)
         {
+            if (info.ignoreOwnerDir)
+            {
+                dirDegree = 0;
+                dirVec = Vector2.right;
+            }
+            else
+            {
+                dirDegree = ownerDirDegree();
+                dirVec = ownerDirVec();
+            }
             randomAngle = Random.Range(-info.randomAngle, info.randomAngle);
             currentAngle = -info.initAngle + info.deltaAngle * i + randomAngle * accuracyIncrement;
-            angleVector = MathCalculator.VectorRotate(ownerDirVec(), currentAngle);
+            angleVector = MathCalculator.VectorRotate(dirVec, currentAngle);
             // 해당 angled에서 반시계방향 수직 벡터
             perpendicularVector = MathCalculator.VectorRotate(angleVector, -90);
             for (int j = 0; j < info.bulletCount; j++)
@@ -84,21 +94,14 @@ public class RowPattern : BulletPattern
                         else break;
                     }
                 }
-                if (info.ignoreOwnerDir)
-                {
-                    dirDegree = 0;
-                }
-                else
-                {
-                    dirDegree = ownerDirDegree();
-                }
+                
                 
                 AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
 
                 createdObj = ObjectPoolManager.Instance.CreateBullet();
                 createdObj.GetComponent<Bullet>().Init(bulletInfo, ownerBuff, ownerType,
                     weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos) + perpendicularVector * (info.initPos - info.deltaPos * j),
-                    ownerDirDegree() + currentAngle + additionalAngle, transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
+                    dirDegree + currentAngle + additionalAngle, transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
                 CreateChildBullets(info.childBulletInfoList, info.childBulletCommonProperty);
             }
         }

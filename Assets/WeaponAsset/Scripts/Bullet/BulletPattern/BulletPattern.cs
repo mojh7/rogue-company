@@ -58,6 +58,7 @@ public abstract class BulletPattern
     protected DelGetPosition ownerDirVec;
     protected DelGetPosition ownerPos;
     protected float dirDegree;
+    protected Vector2 dirVec;
 
     protected BuffManager ownerBuff;
     protected TransferBulletInfo transferBulletInfo;
