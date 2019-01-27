@@ -8,7 +8,8 @@ public enum ObjectType
 {
     NONE, UNBREAKABLE, BREAKABLE, PUSHBOX, ITEMBOX,
     VENDINMACHINE, TRAPBOX, PORTAL, SNACKBOX, MEDKITBOX,
-    SUBSTATION, STOREITEM, NPC, STATUE, SKILLBOX, PARTITION
+    SUBSTATION, STOREITEM, NPC, STATUE, SKILLBOX, PARTITION,
+    DESTROYTRAPOBJ
 }
 
 public enum ObjectAbnormalType
@@ -902,5 +903,3 @@ public class NoneBox : NoneRandomSpriteObject
         textMesh.text = "";
     }
 }
-
-    

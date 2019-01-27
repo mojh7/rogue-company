@@ -139,6 +139,11 @@ public struct ObjectData
                 _gameObject.GetComponent<Partition>().sprites = sprites;
                 _gameObject.GetComponent<Partition>().Init();
                 break;
+            case ObjectType.DESTROYTRAPOBJ:
+                _gameObject.AddComponent<DestoyTrapObj>().LoadAwake();
+                _gameObject.GetComponent<DestoyTrapObj>().sprites = sprites;
+                _gameObject.GetComponent<DestoyTrapObj>().Init();
+                break;
         }
 
         return _gameObject;
