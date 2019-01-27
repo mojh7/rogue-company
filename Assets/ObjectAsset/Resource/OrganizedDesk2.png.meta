@@ -112,10 +112,14 @@ TextureImporter:
         width: 82
         height: 65
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -41, y: 15.5}
+        - {x: -41, y: -32.5}
+        - {x: 41, y: -32.5}
+        - {x: 41, y: 15.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_1
@@ -126,10 +130,16 @@ TextureImporter:
         width: 82
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -39, y: 33}
+        - {x: -41, y: 20}
+        - {x: -41, y: -33}
+        - {x: 41, y: -33}
+        - {x: 41, y: 32}
+        - {x: 40, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_2
@@ -140,10 +150,14 @@ TextureImporter:
         width: 82
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -41, y: 16}
+        - {x: -41, y: -33}
+        - {x: 41, y: -33}
+        - {x: 41, y: 15}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_3
@@ -154,10 +168,17 @@ TextureImporter:
         width: 82
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -10, y: 33}
+        - {x: -33, y: 32}
+        - {x: -41, y: 19}
+        - {x: -41, y: -33}
+        - {x: 41, y: -33}
+        - {x: 41, y: 21}
+        - {x: 36, y: 33}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_4
@@ -168,10 +189,14 @@ TextureImporter:
         width: 82
         height: 67
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -41, y: 14.5}
+        - {x: -41, y: -33.5}
+        - {x: 41, y: -33.5}
+        - {x: 41, y: 14.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_5
@@ -182,10 +207,15 @@ TextureImporter:
         width: 82
         height: 68
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -35, y: 34}
+        - {x: -41, y: 30}
+        - {x: -41, y: -34}
+        - {x: 41, y: -34}
+        - {x: 41, y: 34}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_6
@@ -196,10 +226,14 @@ TextureImporter:
         width: 82
         height: 58
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 41, y: -29}
+        - {x: 41, y: 18}
+        - {x: -41, y: 19}
+        - {x: -41, y: -29}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_7
@@ -210,10 +244,14 @@ TextureImporter:
         width: 82
         height: 58
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -41, y: 29}
+        - {x: -41, y: -29}
+        - {x: 41, y: -29}
+        - {x: 41, y: 29}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_8
@@ -224,10 +262,14 @@ TextureImporter:
         width: 82
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -41, y: 16}
+        - {x: -41, y: -32}
+        - {x: 41, y: -32}
+        - {x: 41, y: 16}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_9
@@ -238,10 +280,16 @@ TextureImporter:
         width: 82
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -37, y: 32}
+        - {x: -41, y: 17}
+        - {x: -41, y: -32}
+        - {x: 41, y: -32}
+        - {x: 41, y: 20}
+        - {x: 23, y: 32}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_10
@@ -252,10 +300,14 @@ TextureImporter:
         width: 30
         height: 61
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -15, y: 15.5}
+        - {x: -15, y: -30.5}
+        - {x: 15, y: -30.5}
+        - {x: 15, y: 15.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_11
@@ -266,10 +318,14 @@ TextureImporter:
         width: 30
         height: 63
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -15, y: -31.5}
+        - {x: 15, y: -31.5}
+        - {x: 15, y: 16.5}
+        - {x: -15, y: 16.5}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_12
@@ -280,10 +336,14 @@ TextureImporter:
         width: 82
         height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -41, y: 18}
+        - {x: -41, y: -31}
+        - {x: 41, y: -31}
+        - {x: 41, y: 18}
       tessellationDetail: 0
     - serializedVersion: 2
       name: OrganizedDesk2_13
@@ -294,10 +354,16 @@ TextureImporter:
         width: 82
         height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -27, y: 31}
+        - {x: -41, y: 15}
+        - {x: -41, y: -31}
+        - {x: 41, y: -31}
+        - {x: 41, y: 21}
+        - {x: 31, y: 31}
       tessellationDetail: 0
     outline: []
     physicsShape: []

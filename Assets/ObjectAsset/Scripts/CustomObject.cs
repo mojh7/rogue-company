@@ -205,91 +205,6 @@ public class RandomSpriteObject : CustomObject
 
 }
 
-public class UnbreakableBox : RandomSpriteObject
-{
-    public override void Init()
-    {
-        base.Init();
-        isActive = false;
-        isAvailable = false;
-        objectType = ObjectType.UNBREAKABLE;
-    }
-    public override void SetAvailable()
-    {
-    }
-}
-
-public class BreakalbeBox : RandomSpriteObject
-{
-    int duration;
-    const int durationMax = 5;
-    public override void SetAvailable()
-    {
-    }
-
-    public override void Init()
-    {
-        base.Init();
-        isActive = false;
-        isAvailable = false;
-        objectType = ObjectType.BREAKABLE;
-        duration = durationMax;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (UtilityClass.CheckLayer(collision.gameObject.layer, 15, 17) && duration > 0)
-        {
-            duration--;
-            spriteRenderer.color = new Color(1, (float)duration / durationMax, (float)duration / durationMax);
-            if (duration == 0)
-            {
-                Destruct();
-            }
-        }
-    }
-
-    protected virtual void Destruct()
-    {
-        ParticleManager.Instance.PlayParticle("BrokenParticle", this.transform.position);
-        polygonCollider2D.enabled = false;
-        gameObject.SetActive(false);
-        AStar.TileGrid.Instance.Bake(spriteRenderer);
-        Destroy(this);
-    }
-
-}
-
-public class VendingMachine : RandomSpriteObject
-{
-    int value;
-    public override void Init()
-    {
-        base.Init();
-        isActive = false;
-        isAvailable = true;
-        isAnimate = true;
-        objectType = ObjectType.VENDINMACHINE;
-        value = 5;
-    }
-
-    public override bool Active()
-    {
-        if (base.Active())
-        {
-            if (GameDataManager.Instance.GetCoin() >= value)
-            {
-                GameDataManager.Instance.ReduceCoin(value);
-                Item item = ObjectPoolManager.Instance.CreateUsableItem(UsableItemType.FOOD);
-                Vector2 pos = new Vector2(transform.position.x, transform.position.y);
-                ItemManager.Instance.CreateItem(item, pos);
-            }
-            return true;
-        }
-        return base.Active();
-    }
-}
-
 public class PushBox : RandomSpriteObject
 {
     Vector2 oldPosition;
@@ -583,36 +498,6 @@ public class Alert : RandomSpriteObject
     }
 }
 
-public class Portal : RandomSpriteObject
-{
-    public override void Init()
-    {
-        base.Init();
-        isActive = false;
-        isAvailable = false;
-        objectType = ObjectType.PORTAL;
-        gameObject.layer = 9;
-    }
-
-    public override void SetAvailable()
-    {
-    }
-    public void Possible()
-    {
-        isAvailable = true;
-    }
-    public override bool Active()
-    {
-        if (!isAvailable)
-            return false;
-        base.Active();
-        isAvailable = false;
-        InGameManager.Instance.GoUpFloor();
-
-        return true;
-    }
-}
-
 public class PortalTutorial : RandomSpriteObject
 {
     GameObject obj;
@@ -871,175 +756,11 @@ public class ItemContainer : RandomSpriteObject
     }
 }
 
-public class SnackBox : NoneRandomSpriteObject
-{
-
-    public override void Init()
-    {
-        base.Init();
-        isActive = false;
-        isAvailable = true;
-        isAnimate = false;
-        objectType = ObjectType.SNACKBOX;
-    }
-
-    public override void SetAvailable()
-    {
-        return;
-    }
-
-    public override bool Active()
-    {
-        if (base.Active())
-        {
-            //stamina recovery
-            isAvailable = false;
-            sprite = sprites[1];
-            spriteRenderer.sprite = sprite;
-            Stamina.Instance.RecoverFullStamina();
-            return true;
-        }
-        return false;
-    }
-
-    public override void IndicateInfo()
-    {
-        textMesh.text = "간식을 드시겠습니까?";
-        childTextMesh.text = textMesh.text;
-    }
-
-    public override void DeIndicateInfo()
-    {
-        textMesh.text = "";
-        childTextMesh.text = textMesh.text;
-    }
-}
-
-public class MedkitBox : NoneRandomSpriteObject
-{
-    public override void Init()
-    {
-        base.Init();
-        isActive = false;
-        isAvailable = true;
-        isAnimate = false;
-        objectType = ObjectType.MEDKITBOX;
-    }
-
-    public override void SetAvailable()
-    {
-        return;
-    }
-
-    public override bool Active()
-    {
-        if (base.Active())
-        {
-            //Item Drop
-            isAvailable = false;
-            sprite = sprites[1];
-            spriteRenderer.sprite = sprite;
-            return true;
-        }
-        return false;
-    }
-
-    public override void IndicateInfo()
-    {
-        textMesh.text = "약이 들어있습니다.";
-        childTextMesh.text = textMesh.text;
-    }
-
-    public override void DeIndicateInfo()
-    {
-        textMesh.text = "";
-        childTextMesh.text = textMesh.text;
-    }
-}
-
 public class SubStation : NoneRandomSpriteObject
 {
     public override bool Active()
     {
         return base.Active();
-    }
-}
-
-public class StoreItem : CustomObject
-{
-    Item innerObject;
-    Rating itemRating;
-    int price;
-    public override void Init()
-    {
-        base.Init();
-        polygonCollider2D.isTrigger = true;
-        isActive = false;
-        isAvailable = true;
-        isAnimate = true;
-        objectType = ObjectType.STOREITEM;
-        polygonCollider2D.SetPath(0, clickableBoxPolygon);
-        SetAvailable();
-        ShadowDrawing();
-    }
-
-    public override void SetAvailable()
-    {
-        if(isAvailable)
-        {
-            Rating rating = ItemManager.Instance.GetStoreItemRating();
-            innerObject = ObjectPoolManager.Instance.CreateUsableItem(rating);
-            if (innerObject == null)
-                return;
-            itemRating = innerObject.GetRating();
-            price = (int)(EconomySystem.Instance.GetPrice(itemRating) * (100 - PlayerBuffManager.Instance.BuffManager.InGameTargetEffectTotal.bargain) / 100);
-            sprite = innerObject.GetComponent<SpriteRenderer>().sprite;
-            ReAlign();
-        }
-    }
-
-    void ReAlign()
-    {
-        innerObject.transform.parent = this.transform;
-        innerObject.transform.localPosition = Vector3.zero;
-    }
-
-    public override bool Active()
-    {
-        if(base.Active())
-        {
-            if(GameDataManager.Instance.GetCoin() >= price)
-            {
-                isAvailable = false;
-                GameDataManager.Instance.ReduceCoin(price);
-                ItemManager.Instance.CreateItem(innerObject, transform.position, new Vector2(Random.Range(-1, 2), 3));
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public override void IndicateInfo()
-    {
-        if (!isAvailable)
-            return;
-        textMesh.text = innerObject.GetName() + " " + price;
-        childTextMesh.text = textMesh.text;
-    }
-
-    public override void DeIndicateInfo()
-    {
-        textMesh.text = "";
-        childTextMesh.text = textMesh.text;
-    }
-
-    public override void Delete()
-    {
-        base.Delete();
-        if (innerObject == null)
-            return;
-        innerObject.transform.parent = null;
-        innerObject.gameObject.SetActive(false);
     }
 }
 
@@ -1167,53 +888,6 @@ public class TrapBox : RandomSpriteObject
     }
 }
 
-public class SkillBox : BreakalbeBox
-{
-    [SerializeField]
-    ObjectAbnormalType objectAbnormalType;
-
-    public override void Init()
-    {
-        base.Init();
-        objectType = ObjectType.SKILLBOX;
-    }
-
-    public void Init(ObjectAbnormalType objectAbnormal)
-    {
-        Init();
-        objectAbnormalType = objectAbnormal;
-    }
-
-    protected override void Destruct()
-    {
-        SkillData skillData = null;
-        switch (objectAbnormalType)
-        {
-            case ObjectAbnormalType.FREEZE:
-                skillData = ObjectSkillManager.Instance.GetSkillData("Freeze");
-                break;
-            case ObjectAbnormalType.POISON:
-                skillData = ObjectSkillManager.Instance.GetSkillData("Poison");
-                break;
-            case ObjectAbnormalType.BURN:
-                skillData = ObjectSkillManager.Instance.GetSkillData("Burn");
-                break;
-            case ObjectAbnormalType.STUN:
-                skillData = ObjectSkillManager.Instance.GetSkillData("Stun");
-                break;
-            case ObjectAbnormalType.CHARM:
-                skillData = ObjectSkillManager.Instance.GetSkillData("Charm");
-                break;
-            default:
-                break;
-        }
-        float lapsedTime = 9999;
-        if(skillData != null)
-            skillData.Run(this, ActiveSkillManager.nullVector, ref lapsedTime);
-        base.Destruct();
-    }
-}
-
 public class NoneBox : NoneRandomSpriteObject
 {
     public override void Init()
@@ -1229,14 +903,4 @@ public class NoneBox : NoneRandomSpriteObject
     }
 }
 
-public class Partition : UnbreakableBox
-{
-    public override void Init()
-    {
-        base.Init();
-        spriteRenderer.sortingLayerName = "Background";
-        spriteRenderer.sortingOrder = 3;
-        objectType = ObjectType.PARTITION;
-    }
-}
     

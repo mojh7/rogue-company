@@ -106,10 +106,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -44, y: -22.888885}
+      - - {x: -44, y: -7.566147}
         - {x: -44, y: -34}
         - {x: 44, y: -34}
-        - {x: 44, y: -22.8889}
+        - {x: 44, y: -7.4462585}
       tessellationDetail: 0
     - serializedVersion: 2
       name: partition_1
@@ -124,10 +124,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -44, y: -23.26564}
+      - - {x: -44, y: -7.1799164}
         - {x: -44, y: -34}
         - {x: 44, y: -34}
-        - {x: 44, y: -23.265625}
+        - {x: 44, y: -6.8874207}
       tessellationDetail: 0
     - serializedVersion: 2
       name: partition_2
@@ -142,10 +142,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -24, y: -24}
+      - - {x: -24, y: -2.411007}
         - {x: -24, y: -34}
         - {x: 24, y: -34}
-        - {x: 24, y: -24}
+        - {x: 24, y: -2.411003}
       tessellationDetail: 0
     - serializedVersion: 2
       name: partition_3
@@ -160,10 +160,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -4, y: -22}
+      - - {x: -4, y: -5.713566}
         - {x: -4, y: -33}
         - {x: 4, y: -33}
-        - {x: 4, y: -22}
+        - {x: 4, y: -5.713566}
       tessellationDetail: 0
     outline: []
     physicsShape: []
