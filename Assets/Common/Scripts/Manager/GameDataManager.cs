@@ -241,7 +241,7 @@ public bool isFirst
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(dataPath[(int)UserDataType.INGAME], FileMode.Open);
-            InGameData gamedata = (InGameData)binaryFormatter.Deserialize(fileStream);
+            InGameData inGameData = (InGameData)binaryFormatter.Deserialize(fileStream);
             fileStream.Close();
             return inGameData;
         }
