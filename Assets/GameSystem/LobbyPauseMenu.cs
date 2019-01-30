@@ -25,6 +25,7 @@ public class LobbyPauseMenu : MonoBehaviourSingleton<LobbyPauseMenu> {
     #region func
     public void PlayMenuSound()
     {
+            return;
         AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
     }
 

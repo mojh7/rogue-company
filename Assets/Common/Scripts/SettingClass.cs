@@ -15,17 +15,22 @@ public class SettingClass : MonoBehaviour
     private Slider soundVolumeSlider;
     [SerializeField]
     private GameObject creditUI;
-
+    private bool canLoadData = true;
     private CharacterInfo.AimType aimType;
 
     private void Awake()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         // 인게임씬에서 바로 테스트할 때 적용할 디버깅용
-        if("InGameScene" == UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+        if ("InGameScene" == UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
         {
             GameStateManager.Instance.SetGameScene(GameStateManager.GameScene.IN_GAME);
         }
-        else if("SelectScene" == UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+        else if ("SelectScene" == UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
         {
             GameStateManager.Instance.SetGameScene(GameStateManager.GameScene.LOBBY);
         }
@@ -34,14 +39,18 @@ public class SettingClass : MonoBehaviour
         if (GameDataManager.Instance.LoadData(GameDataManager.UserDataType.SETTING))
         {
             aimType = GameDataManager.Instance.GetAimType();
+            if (CharacterInfo.AimType.AUTO != aimType)
+            {
+                aimToggles[0].isOn = false;
+                aimToggles[(int)aimType].isOn = true;
+            }
             musicVolumeSlider.value = GameDataManager.Instance.GetMusicVolume();
             soundVolumeSlider.value = GameDataManager.Instance.GetSoundVolume();
-            SettingPlayerAim((int)aimType);
             SettingMusicVolume();
             SettingSoundVolume();
         }
-        //aimType = GameDataManager.Instance.GetAimType();
-        //aimToggles[(int)aimType].isOn = true;
+        canLoadData = false;
+        SettingPlayerAim((int)aimType);
     }
     /// <summary>
     /// Aim 설정 및 설정 값 세이브
@@ -49,10 +58,12 @@ public class SettingClass : MonoBehaviour
     /// <param name="i"></param>
     public void SettingPlayerAim(int i)
     {
+        // data load 전에 toggle false 되면서 실행되며 꼬이는 것 방지
+        if (canLoadData || false == aimToggles[i].isOn)
+            return;
         aimType = (CharacterInfo.AimType)i;
         if (GameStateManager.Instance.IsInGame())
         {
-            Debug.Log("player aim 설정 : " + aimType);
             PlayerManager.Instance.GetPlayer().SetAimType(aimType);
         }
         GameDataManager.Instance.SetAimType(aimType);

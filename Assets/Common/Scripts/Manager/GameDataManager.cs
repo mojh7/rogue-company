@@ -49,7 +49,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region gameSettingData variables
-    private CharacterInfo.AimType aimType = CharacterInfo.AimType.AUTO;
+    private CharacterInfo.AimType aimType;
     private float musicVolume = 1f;
     private float soundVolume = 1f;
     #endregion
@@ -82,12 +82,20 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 #endif
         // enum 순서대로
         dataPath = new string[] { basePath + "/UserData.bin", basePath + "/InGameData.bin", basePath + "/GameSettingData.bin" };
-    #endregion
-}
+        #endregion
+
+        if (LoadData(GameDataManager.UserDataType.SETTING))
+        {
+            Debug.Log("셋팅 데이터 초기 로드");
+            aimType = GameDataManager.Instance.GetAimType();
+            AudioManager.Instance.SetMusicVolume(musicVolume);
+            AudioManager.Instance.SetSoundVolume(soundVolume);
+        }
+    }
 #endregion
 
 
-#region getter
+    #region getter
     public bool isFirst
     {
         get
@@ -140,7 +148,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public void SetPlayerType(Player.PlayerType _playerType) { playerType = _playerType; }
     public void SetMiscItems(List<int> _miscItems) { miscItems = _miscItems; }
 
-    public void SetAimType(CharacterInfo.AimType aimType) { Debug.Log(aimType);  this.aimType = aimType; }
+    public void SetAimType(CharacterInfo.AimType aimType) { this.aimType = aimType; }
     public void SetMusicVolume(float musicVolume) { this.musicVolume = musicVolume; }
     public void SetSoundVolume(float soundVolume) { this.soundVolume = soundVolume; }
     #endregion
@@ -288,7 +296,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
                 gameSettingData.SetAimType(aimType);
                 gameSettingData.SetMusicVolume(musicVolume);
                 gameSettingData.SetSoundVolume(soundVolume);
-                Debug.Log("setting data save : " + aimType + ", " + musicVolume + ", " + soundVolume);
                 BinarySerialize(gameSettingData);
                 break;
             case UserDataType.INGAME:

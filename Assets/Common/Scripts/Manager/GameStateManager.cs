@@ -41,6 +41,7 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     {
         DontDestroyOnLoad(this);
         Logo.Instance.LoadLogo();
+        AudioManager.Instance.PlaySound("BRIDGE_OPENING_SOUND", SOUNDTYPE.UI);
     }
     private void Update()
     {
