@@ -45,9 +45,10 @@ public class Loading : MonoBehaviour {
         if (Tips.Length <= 0)
             return;
         int loc = Random.Range(0, Tips.Length); //배열내에서 무작위로 인덱스를 얻는다.
-        StringBuilder sb = new StringBuilder("팁 : ");
+        /*StringBuilder sb = new StringBuilder("팁 : ");
         sb.Append(Tips[loc]); //배열 내 무작위 요소를 출력한다.
-        Tip.text = sb.ToString();
+        Tip.text = sb.ToString();*/
+        Tip.text = Tips[loc];
         totalGage = minTime + 1; 
         Time.timeScale = 1;
     }

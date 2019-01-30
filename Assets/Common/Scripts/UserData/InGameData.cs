@@ -5,17 +5,17 @@ using UnityEngine;
 [System.Serializable]
 class InGameData
 {
-    float hp;
-    int stamina;
-    int floor;
-    int coin;
-    int key;
-    int kill;
-    float time;
-    int[] weaponIds;
-    int[] weaponAmmos;
-    List<int> miscItems;
-    Player.PlayerType m_playerType;
+    private float hp;
+    private int stamina;
+    private int floor;
+    private int coin;
+    private int key;
+    private int kill;
+    private float time;
+    private int[] weaponIds;
+    private int[] weaponAmmos;
+    private List<int> miscItems;
+    private Player.PlayerType m_playerType;
 
     public InGameData()
     {

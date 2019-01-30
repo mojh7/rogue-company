@@ -30,7 +30,7 @@ namespace CharacterInfo
 
     public enum AimType
     {
-        AUTO, SEMIAUTO, REACTANCE, MANUAL
+        AUTO, SEMIAUTO, MANUAL
     }
 }
 

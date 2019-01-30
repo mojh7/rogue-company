@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: d999266de63ce4b4bb19ffe54a277913
-timeCreated: 1548240515
+guid: 7c60bd14f7595b14ab32e2fb58c2bf26
+timeCreated: 1548826415
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: black_round_outline_bkg_0
-    21300002: black_round_outline_bkg_1
-    21300004: black_round_outline_bkg_2
-    21300006: MO_UI_0
-    21300008: mo_UI_0
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -36,7 +31,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -45,7 +40,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -93,63 +88,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: black_round_outline_bkg_0
-      rect:
-        serializedVersion: 2
-        x: 19
-        y: 143
-        width: 15
-        height: 40
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: black_round_outline_bkg_1
-      rect:
-        serializedVersion: 2
-        x: 34
-        y: 143
-        width: 72
-        height: 40
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: black_round_outline_bkg_2
-      rect:
-        serializedVersion: 2
-        x: 106
-        y: 143
-        width: 15
-        height: 40
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: mo_UI_0
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 70
-        width: 100
-        height: 36
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
+    sprites: []
     outline: []
     physicsShape: []
   spritePackingTag: 

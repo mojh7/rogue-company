@@ -1,18 +1,11 @@
 fileFormatVersion: 2
-guid: 5e15c6aab3fdf474785d71d29cd12ec0
-timeCreated: 1525495985
+guid: 7f401d6343d6d1e42a3ff5888a207e3c
+timeCreated: 1548819414
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: effect_0_0
-    21300002: effect_0_1
-    21300004: effect_0_2
-    21300006: effect_0_3
-    21300008: effect_0_4
-    21300010: effect_0_5
-    21300012: LaserPoint_0
-    21300014: LaserPoint0_0
-    21300016: LaserPoint0_1
+    21300000: gradation_line_0
+    21300002: gradation_line_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -40,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -99,13 +92,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: effect_0_0
+      name: gradation_line_0
       rect:
         serializedVersion: 2
-        x: 639
-        y: 411
-        width: 18
-        height: 18
+        x: 0
+        y: 2
+        width: 5
+        height: 2
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -113,99 +106,15 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: effect_0_1
+      name: gradation_line_1
       rect:
         serializedVersion: 2
-        x: 659
-        y: 411
-        width: 18
-        height: 18
+        x: 0
+        y: 0
+        width: 5
+        height: 2
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: effect_0_2
-      rect:
-        serializedVersion: 2
-        x: 679
-        y: 411
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: effect_0_3
-      rect:
-        serializedVersion: 2
-        x: 699
-        y: 411
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: effect_0_4
-      rect:
-        serializedVersion: 2
-        x: 719
-        y: 411
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: effect_0_5
-      rect:
-        serializedVersion: 2
-        x: 739
-        y: 411
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LaserPoint0_0
-      rect:
-        serializedVersion: 2
-        x: 376
-        y: 259
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LaserPoint0_1
-      rect:
-        serializedVersion: 2
-        x: 410
-        y: 259
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

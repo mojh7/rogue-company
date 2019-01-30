@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 class UserData
 {
-    int gold;
+    private int gold;
 
     #region getter
     public int GetGold() { return gold; }

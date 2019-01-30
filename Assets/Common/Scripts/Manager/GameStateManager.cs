@@ -19,12 +19,14 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     private bool loadsGameData = false;
     public bool GetLoadsGameData() { return loadsGameData; }
     public GameScene GetGameScene() { return gameScene; }
-    public void SetLoadsGameData(bool _loadsGameData) { loadsGameData = _loadsGameData; }
-
     public GameMode GetMode()
     {
         return gameMode;
     }
+
+    // 인게임씬에서 바로 시작할 때 설정해줄 디버깅 용
+    public void SetGameScene(GameScene gameScene) { this.gameScene = gameScene; }
+    public void SetLoadsGameData(bool _loadsGameData) { loadsGameData = _loadsGameData; }
     public void SetMode(GameMode gameMode)
     {
         this.gameMode = gameMode;
@@ -53,6 +55,12 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
     #endregion
 
     #region Func
+    public bool IsInGame()
+    {
+        return gameScene == GameScene.IN_GAME || gameScene == GameScene.BOSS_RUSH;
+    }
+
+
     public void LoadInGame()
     {
         if(!GameDataManager.Instance.isFirst)

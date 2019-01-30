@@ -706,7 +706,7 @@ public class TrigonometricProperty : UpdateProperty
     private float amplitude;
     private float startTime;
     private float endTime;
-    private float trigonometricPeriodMultiple;
+    private float frequency;
     private float magnitude;
     private float oldSine;
     private float newSine;
@@ -721,7 +721,7 @@ public class TrigonometricProperty : UpdateProperty
         amplitude = bullet.info.amplitude;
         startTime = bullet.info.trigonometricStartTime;
         endTime = bullet.info.trigonometricEndTime;
-        trigonometricPeriodMultiple = bullet.info.trigonometricPeriodMultiple;
+        frequency = bullet.info.frequency;
         magnitude = 0;
         oldSine = 0;
         newSine = 0;
@@ -737,7 +737,7 @@ public class TrigonometricProperty : UpdateProperty
     {
         if(startTime < timeCount && (timeCount <= endTime || endTime == -1))
         {
-            newSine = Mathf.Sin(trigonometricPeriodMultiple * cosTime);
+            newSine = Mathf.Sin(frequency * cosTime);
             magnitude = newSine - oldSine;
             oldSine = newSine;
             cosTime += Time.fixedDeltaTime;

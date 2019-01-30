@@ -130,7 +130,9 @@ public class BulletInfo : ScriptableObject
     public float trigonometricStartTime;
     public float trigonometricEndTime;
     public float amplitude;
-    public float trigonometricPeriodMultiple;
+    //[UnityEngine.Serialization.FormerlySerializedAs("trigonometricPeriodMultiple")]
+    //[SerializeField]
+    public float frequency;
 
     [Header("Spiral Property, start~end time, end Time의 -1값 : 끝나는 시간 제한 없음")]
     public bool routineSprial;
@@ -293,7 +295,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.trigonometricStartTime = trigonometricStartTime;
         clonedInfo.trigonometricEndTime = trigonometricEndTime;
         clonedInfo.amplitude = amplitude;
-        clonedInfo.trigonometricPeriodMultiple = trigonometricPeriodMultiple;
+        clonedInfo.frequency = frequency;
 
         clonedInfo.routineSprial = routineSprial;
         clonedInfo.spiralRoutineCount = spiralRoutineCount;

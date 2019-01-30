@@ -33,27 +33,33 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 {
-    
-
 
     #region variables
-    #endregion
-
     public enum UserDataType { USER, INGAME, SETTING }
     private string[] dataPath;
+    private UserData userData;
+    private GameSettingData gameSettingData;
+    private InGameData inGameData;
+    [SerializeField]
+    private PlayerData[] playerDatas;
+    #endregion
 
+    #region userData variables
+    private int gold;
+    #endregion
+
+    #region gameSettingData variables
+    private CharacterInfo.AimType aimType = CharacterInfo.AimType.AUTO;
+    private float musicVolume = 1f;
+    private float soundVolume = 1f;
+    #endregion
+
+    #region inGameData variables
     private int floor;
     private Player.PlayerType playerType;
     private int coin;
     private int key;
-
-    private UserData userData;
-    private GameSettingData gameSettingData;
-    private InGameData inGameData;
-
-    private string dataName;
     private PlayerData playerData;
-
     // 0810 주윤아 플레이 타임
     private int kill;
     private float time;
@@ -61,9 +67,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     private int[] weaponIds;
     private int[] weaponAmmos;
     private List<int> miscItems;
-
-    [SerializeField]
-    private PlayerData[] playerDatas;
+    #endregion
 
     #region unityFunc
     private void Awake()
@@ -84,7 +88,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 
 
 #region getter
-public bool isFirst
+    public bool isFirst
     {
         get
         {
@@ -121,6 +125,10 @@ public bool isFirst
     public int[] GetWeaponIds() { return weaponIds; }
     public int[] GetWeaponAmmos() { return weaponAmmos; }
     public List<int> GetMiscItems() { return miscItems; }
+
+    public CharacterInfo.AimType GetAimType() { return aimType; }
+    public float GetMusicVolume() { return musicVolume; }
+    public float GetSoundVolume() { return soundVolume; }
     #endregion
 
     #region setter
@@ -131,6 +139,10 @@ public bool isFirst
     public void SetTime(float _time) { time += _time; }
     public void SetPlayerType(Player.PlayerType _playerType) { playerType = _playerType; }
     public void SetMiscItems(List<int> _miscItems) { miscItems = _miscItems; }
+
+    public void SetAimType(CharacterInfo.AimType aimType) { Debug.Log(aimType);  this.aimType = aimType; }
+    public void SetMusicVolume(float musicVolume) { this.musicVolume = musicVolume; }
+    public void SetSoundVolume(float soundVolume) { this.soundVolume = soundVolume; }
     #endregion
 
     #region Func
@@ -164,8 +176,6 @@ public bool isFirst
         }
     }
   
-    
-    
     public void ResetData(UserDataType userDataType)
     {
         switch(userDataType)
@@ -264,8 +274,6 @@ public bool isFirst
     }
     #endregion
 
-
-
     #region save / load Data
 
     public void Savedata(UserDataType userDataType)
@@ -275,6 +283,13 @@ public bool isFirst
             case UserDataType.USER:
                 break;
             case UserDataType.SETTING:
+                if (gameSettingData == null)
+                    gameSettingData = new GameSettingData();
+                gameSettingData.SetAimType(aimType);
+                gameSettingData.SetMusicVolume(musicVolume);
+                gameSettingData.SetSoundVolume(soundVolume);
+                Debug.Log("setting data save : " + aimType + ", " + musicVolume + ", " + soundVolume);
+                BinarySerialize(gameSettingData);
                 break;
             case UserDataType.INGAME:
                 if (inGameData == null)
@@ -294,7 +309,6 @@ public bool isFirst
                 BinarySerialize(inGameData);
                 break;
         }
-
     }
 
     public bool LoadData(UserDataType userDataType)
@@ -302,8 +316,6 @@ public bool isFirst
         switch (userDataType)
         {
             case UserDataType.USER:
-                break;
-            case UserDataType.SETTING:
                 break;
             case UserDataType.INGAME:
                 if (inGameData != null)
@@ -323,6 +335,19 @@ public bool isFirst
                     playerData.Hp = inGameData.GetHp();
                     playerData.Stamina = inGameData.GetStamina();
                     miscItems = inGameData.GetMiscItems();
+                    return true;
+                }
+                ResetData(UserDataType.INGAME);
+                break;
+            case UserDataType.SETTING:
+                if (gameSettingData != null)
+                    gameSettingData = null;
+                if (File.Exists(dataPath[(int)userDataType]))
+                {
+                    gameSettingData = GameSettingDataDeserialize();
+                    aimType = gameSettingData.GetAimType();
+                    musicVolume = gameSettingData.GetMusicVolume();
+                    soundVolume = gameSettingData.GetSoundVolume();
                     return true;
                 }
                 ResetData(UserDataType.INGAME);

@@ -244,8 +244,8 @@ public class Bullet : MonoBehaviour
         lineRenderer.enabled = true;
 
         paticleObj.SetActive(false);
-        //lineRenderer.startColor = Color.blue;
-        //lineRenderer.endColor = Color.cyan;
+        lineRenderer.startColor = Color.blue;
+        lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = info.laserSize;
         lineRenderer.endWidth = info.laserSize;
         lineRenderer.positionCount = 2;
@@ -262,8 +262,8 @@ public class Bullet : MonoBehaviour
         laserViewObj.SetActive(true);
 
         // 0529 레이저 임시, 파란색 레이저
-        laserStartPointAnimator.SetTrigger("BlueLaser");
-        laserEndPointAnimator.SetTrigger("BlueLaser");
+        laserStartPointAnimator.SetTrigger("BLUE_CIRCLE");
+        laserEndPointAnimator.SetTrigger("BLUE_CIRCLE");
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
         this.ownerPos = ownerPos;
         this.ownerDirVec = ownerDirVec;

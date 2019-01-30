@@ -74,7 +74,7 @@ public class IllustratedBook : MonoBehaviour
         
         GameObject createdobj;
         // weapon contents 생성
-        for (int i = 0; i < WeaponsData.Instance.GetWeaponInfosLength(); i++)
+        for (int i = WeaponsData.Instance.GetWeaponInfosLength()-1; i >= 0; i--)
         {
             createdobj = Instantiate(contentsPrefab);
             createdobj.name = "weaponContents_" + i;

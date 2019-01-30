@@ -12,6 +12,7 @@ public class MusicController : MonoBehaviourSingleton<MusicController>
     [SerializeField] private AudioClip[] clips;
 
     AudioSource audioSource;
+    private float volume;
 
     void Awake()
     {
@@ -19,6 +20,12 @@ public class MusicController : MonoBehaviourSingleton<MusicController>
     }
 
     private int currentClipIndex = -1;
+
+    public void SetVolume(float volume)
+    {
+        this.volume = volume;
+        audioSource.volume = volume;
+    }
 
     // 음악 On/Off 여부 확인
     public bool IsEnableMusic()
@@ -86,10 +93,10 @@ public class MusicController : MonoBehaviourSingleton<MusicController>
     IEnumerator PlayNewMusic(int clipindex)
     {
         // 재생중인 소스의 볼륨을 단계적으로 줄인다.
-        while (audioSource.volume >= 0.1f)
+        while (audioSource.volume >= this.volume * 0.1f)
         {
-            audioSource.volume -= 0.2f;
-            yield return new WaitForSeconds(0.1f);
+            audioSource.volume -= this.volume * 0.1f;
+            yield return new WaitForSeconds(0.05f);
         }
 
         // 볼륨이 기준치에 도달하면 오디오소스를 정지하고 세로운 클립을 세팅한다.
@@ -100,7 +107,7 @@ public class MusicController : MonoBehaviourSingleton<MusicController>
         if (IsEnableMusic())
             audioSource.Play();
 
-        audioSource.volume = 1.0f;
+        audioSource.volume = this.volume;
     }
 
 

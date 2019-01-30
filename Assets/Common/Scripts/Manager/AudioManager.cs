@@ -92,6 +92,16 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
         musicController.Play();
     }
 
+    public void SetMusicVolume(float volume)
+    {
+        musicController.SetVolume(volume);
+    }
+
+    public void SetSoundVolume(float volume)
+    {
+        soundController.SetVolume(volume);
+    }
+
     /// <summary>
     /// 배경음악 실행
     /// </summary>

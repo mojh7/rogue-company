@@ -30,6 +30,7 @@ public class SoundController : MonoBehaviourSingleton<SoundController>
     private Dictionary<string, AudioClip> weaponSoundDictionary;
 
     private AudioSource audioSource;
+    private float volume;
 
     void Awake()
     {
@@ -54,6 +55,12 @@ public class SoundController : MonoBehaviourSingleton<SoundController>
                 weaponSoundDictionary.Add(weaponSoundList[i].name, weaponSoundList[i]);
             }
         }
+    }
+
+    public void SetVolume(float volume)
+    {
+        this.volume = volume;
+        audioSource.volume = volume;
     }
 
     // 사운드 On/Off 여부 확인, 임시로 true
