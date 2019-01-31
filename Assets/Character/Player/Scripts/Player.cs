@@ -6,6 +6,11 @@ using CharacterInfo;
 
 public class Player : Character
 {
+    #region constants
+    // playerType enum 순서 대로 한글 이름, 190131 기준 SOCCER, MUSIC, FISH, ARMY 
+    public static readonly string[] PLAYER_TYPE_NAME = new string[] { "축구", "음악", "낚시", "군인" };
+    #endregion
+
     #region components
     [SerializeField]
     private PlayerController controller;    // 플레이어 컨트롤 관련 클래스
@@ -15,7 +20,8 @@ public class Player : Character
     #endregion
 
     #region variables
-    public enum PlayerType { SOCCER, MUSIC, FISH, ARMY }
+    // END 끝 지점 알려고 만든 것
+    public enum PlayerType { SOCCER, MUSIC, FISH, ARMY, END }
     private Transform objTransform;
     private RaycastHit2D hit;
     private List<RaycasthitEnemy> raycastHitEnemies;
