@@ -143,7 +143,7 @@ public class TitleTouch : MonoBehaviour
     {
         GameStateManager.Instance.SetLoadsGameData(false);
         GameDataManager.Instance.ResetData(GameDataManager.UserDataType.INGAME);
-        GameStateManager.Instance.LoadSelect();
+        GameStateManager.Instance.LoadLobby();
     }
 
     public void LoadInGame()

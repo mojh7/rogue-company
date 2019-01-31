@@ -47,9 +47,9 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
         reward = 0;
     }
 
-    public void LoadSelect()
+    public void LoadLobby()
     {
-        GameStateManager.Instance.LoadSelect();
+        GameStateManager.Instance.LoadLobby();
     }
 
     public void LoadTitle()

@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
+/*
+ * bridge logo -> team logo -> title -> lobby -> character select -> ingame
+ * 
+ */ 
+
+public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
+{
 
     enum GameState { NOTSTARTED, GAMEOVER, PLAYING, CLEAR, ENDING }
     public enum GameMode { NORMAL, RUSH }
@@ -89,10 +95,16 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager> {
         //SceneDataManager.SetNextScene("TitleScene");
         //SceneManager.LoadScene("LoadingScene");
     }
-    public void LoadSelect()
+    public void LoadLobby()
     {
         gameScene = GameScene.LOBBY;
-        SceneManager.LoadScene("SelectScene");
+        SceneManager.LoadScene("LobbyScene");
+    }
+
+    public void LoadSelect()
+    {
+        gameScene = GameScene.CHARACTER_SELECT;
+        SceneManager.LoadScene("characterSelectScene");
     }
     public void GameOver()
     {
