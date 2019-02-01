@@ -39,7 +39,7 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
     public void OpenCharacterSelectWindow()
     {
         selectWindowUI.SetActive(true);
-        characterSelectBtnList[0].SelectCharcter();
+        unSelectAllCharacterBtn();
         AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
     }
 

@@ -34,6 +34,7 @@ public class CharacterSelectButtton : MonoBehaviour
 
     public void SelectCharcter()
     {
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
         CharacterSelect.Instance.unSelectAllCharacterBtn();
         characterTextBkg.SetActive(true);
         characterNameText.color = Color.white;

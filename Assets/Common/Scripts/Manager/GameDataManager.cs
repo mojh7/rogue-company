@@ -72,7 +72,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #region unityFunc
     private void Awake()
     {
-        DontDestroyOnLoad(this);
 
         #region constants
 #if (UNITY_EDITOR)
@@ -84,6 +83,13 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         dataPath = new string[] { basePath + "/UserData.bin", basePath + "/InGameData.bin", basePath + "/GameSettingData.bin" };
         #endregion
 
+        DontDestroyOnLoad(this);
+
+        
+    }
+
+    private void Start()
+    {
         if (LoadData(GameDataManager.UserDataType.SETTING))
         {
             Debug.Log("셋팅 데이터 초기 로드");
@@ -92,10 +98,11 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             AudioManager.Instance.SetSoundVolume(soundVolume);
         }
     }
-#endregion
+    #endregion
 
 
     #region getter
+    public PlayerData GetOriginalPlayerData(Player.PlayerType type) { return playerDatas[(int)type]; }
     public bool isFirst
     {
         get
