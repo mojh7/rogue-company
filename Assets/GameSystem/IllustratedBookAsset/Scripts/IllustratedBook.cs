@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using UnityEngine.UI;
 
 // https://www.google.com/search?q=%EB%A1%9C%EB%93%9C%EC%98%A4%EB%B8%8C%EB%8D%98%EC%A0%84&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiGu_ea5PbfAhVMZt4KHSxzBPIQ_AUIDigB&biw=767&bih=744&dpr=1.25#imgrc=-i46cM91R3lJUM:
 // 선택 할 수 있는 공간 55~65%, 보여주는 쪽 30~35% 정도 크기
@@ -42,7 +43,18 @@ public class IllustratedBook : MonoBehaviour
     private List<int>[] weaponIndexbyRating;
     private IllustratedBookContents[] itemContentsList;
 
+    [Header("category tab 변수들")]
+    [SerializeField]
+    private Image[] tabImages;
+    [SerializeField]
+    private Text[] tabTexts;
 
+    private int tabLength;
+
+    [SerializeField]
+    private Sprite selectedImage;
+    [SerializeField]
+    private Sprite unselectedImage;
     #endregion
 
     #region unityfunc
@@ -85,8 +97,29 @@ public class IllustratedBook : MonoBehaviour
             weaponContentsList[i].Init(WeaponsData.Instance.GetWeaponInfo(i, CharacterInfo.OwnerType.PLAYER));
             createdobj.transform.localScale = new Vector3(1, 1, 1);
         }
-
         bookUI.SetActive(false);
+
+        // category tab 초기화
+
+        tabLength = tabImages.Length;
+        ShowSelectedTab(0);
+    }
+
+    public void ShowSelectedTab(int type)
+    {
+        tabImages[type].sprite = selectedImage;
+        tabTexts[type].color = Color.black;
+        for (int i = 0; i < tabLength; i++)
+        {
+            if(i != type)
+            {
+                tabImages[i].sprite = unselectedImage;
+                tabTexts[i].color = Color.white;
+            }
+        }
+
+        illustratedBookType = (IllustratedBookType)type;
+        Debug.Log("select category : " + illustratedBookType);
     }
 
     private void ChangeCategory(int type)
