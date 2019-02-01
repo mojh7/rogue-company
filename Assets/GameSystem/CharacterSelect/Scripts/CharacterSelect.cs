@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
 {
+    public delegate void UnSelectAllCharacterBtn();
+    public UnSelectAllCharacterBtn unSelectAllCharacterBtn;
+
 
     [SerializeField]
     private GameObject selectWindowUI;
@@ -15,6 +18,13 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
 
     private CharacterSelectButtton[] characterSelectBtnList;
 
+    [Header("character button 생성을 위한 변수")]
+    [SerializeField]
+    private Sprite[] folderSprites;
+    [SerializeField]
+    private Sprite[] characterSprites;
+
+
     #region unityFunc
     void Awake()
     {
@@ -23,6 +33,8 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
     #endregion
 
     #region func
+
+    
 
     public void OpenCharacterSelectWindow()
     {
@@ -43,13 +55,14 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
         characterSelectBtnList = new CharacterSelectButtton[length];
         GameObject createdobj;
         // weapon contents 생성
-        for (int i = length - 1; i >= 0; i--)
+        for (int i = 0; i < length; i++)
         {
             createdobj = Instantiate(characterSelectBtnPrefab);
             createdobj.name = "characterSelect_" + i;
             createdobj.transform.SetParent(contentsParentObj);
             characterSelectBtnList[i] = createdobj.GetComponent<CharacterSelectButtton>();
-            characterSelectBtnList[i].Init((Player.PlayerType)i);
+            characterSelectBtnList[i].Init((Player.PlayerType)i, folderSprites[i], characterSprites[i]);
+            unSelectAllCharacterBtn += characterSelectBtnList[i].UnSelectCharacterBtn;
             createdobj.transform.localScale = new Vector3(1, 1, 1);
         }
         selectWindowUI.SetActive(false);
