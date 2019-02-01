@@ -56,10 +56,12 @@ public class IllustratedBook : MonoBehaviour
     public void OpenBook()
     {
         bookUI.SetActive(true);
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
     }
     public void CloseBook()
     {
         bookUI.SetActive(false);
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
     }
 
     private void InitBook()

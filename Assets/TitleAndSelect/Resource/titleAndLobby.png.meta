@@ -4,8 +4,10 @@ timeCreated: 1530965337
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: KakaoTalk_20180705_154351865_0
-    21300002: KakaoTalk_20180705_154351865_1
+    21300000: title_img
+    21300002: lobby_img
+    21300004: lobby_select
+    21300006: lobby_book
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -92,7 +94,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KakaoTalk_20180705_154351865_0
+      name: title_img
       rect:
         serializedVersion: 2
         x: 33
@@ -100,19 +102,47 @@ TextureImporter:
         width: 528
         height: 301
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KakaoTalk_20180705_154351865_1
+      name: lobby_img
       rect:
         serializedVersion: 2
         x: 560
         y: 268
         width: 526
         height: 301
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: lobby_select
+      rect:
+        serializedVersion: 2
+        x: 807
+        y: 443
+        width: 136
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: lobby_book
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 154
+        width: 57
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
