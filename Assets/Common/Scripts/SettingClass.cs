@@ -18,23 +18,14 @@ public class SettingClass : MonoBehaviour
     private bool canLoadData = true;
     private CharacterInfo.AimType aimType;
 
-    private void Awake()
+    private void Start()
     {
         Init();
     }
 
     public void Init()
     {
-        // 인게임씬에서 바로 테스트할 때 적용할 디버깅용
-        if ("InGameScene" == UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
-        {
-            GameStateManager.Instance.SetGameScene(GameStateManager.GameScene.IN_GAME);
-        }
-        else if ("SelectScene" == UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
-        {
-            GameStateManager.Instance.SetGameScene(GameStateManager.GameScene.LOBBY);
-        }
-
+        settingObj.SetActive(false);
         creditUI.SetActive(false);
         if (GameDataManager.Instance.LoadData(GameDataManager.UserDataType.SETTING))
         {
@@ -46,26 +37,90 @@ public class SettingClass : MonoBehaviour
             }
             musicVolumeSlider.value = GameDataManager.Instance.GetMusicVolume();
             soundVolumeSlider.value = GameDataManager.Instance.GetSoundVolume();
-            SettingMusicVolume();
-            SettingSoundVolume();
+            SetMusicVolume();
+            SetSoundVolume();
         }
         canLoadData = false;
-        SettingPlayerAim((int)aimType);
+        SetPlayerAim(aimType);
     }
+
+    public void OpenCredit()
+    {
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
+        creditUI.SetActive(true);
+    }
+
+    public void ExitCredit()
+    {
+        creditUI.SetActive(false);
+        ExitSetting();
+    }
+
+    public void PrevCreadit()
+    {
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
+        creditUI.SetActive(false);
+    }
+
+    public void OpenSetting()
+    {
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
+        settingObj.SetActive(true);
+    }
+
+    public void ExitSetting()
+    {
+        settingObj.SetActive(false);
+        ToggleMenu();
+    }
+
+    public void PrevSetting()
+    {
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
+        settingObj.SetActive(false);
+    }
+
+    private void ToggleMenu()
+    {
+        switch (GameStateManager.Instance.GetGameScene())
+        {
+            case GameStateManager.GameScene.LOBBY:
+                LobbyPauseMenu.Instance.ToggleMenu();
+                break;
+            case GameStateManager.GameScene.IN_GAME:
+            case GameStateManager.GameScene.BOSS_RUSH:
+                UIManager.Instance.ToggleMenu();
+                break;
+            default:
+                break;
+        }
+    }
+
     /// <summary>
     /// Aim 설정 및 설정 값 세이브
     /// </summary>
     /// <param name="i"></param>
-    public void SettingPlayerAim(int i)
+    public void SettingPlayerAim(int type)
     {
         // data load 전에 toggle false 되면서 실행되며 꼬이는 것 방지
-        if (canLoadData || false == aimToggles[i].isOn)
+        if (canLoadData || false == aimToggles[type].isOn)
             return;
-        aimType = (CharacterInfo.AimType)i;
+        SetPlayerAim((CharacterInfo.AimType)type);
+        SavePlayerAim();
+    }
+
+    private void SetPlayerAim(CharacterInfo.AimType type)
+    {
+        aimType = type;
         if (GameStateManager.Instance.IsInGame())
         {
+            Debug.Log("z : " + PlayerManager.Instance.GetPlayer());
             PlayerManager.Instance.GetPlayer().SetAimType(aimType);
         }
+    }
+
+    private void SavePlayerAim()
+    {
         GameDataManager.Instance.SetAimType(aimType);
         GameDataManager.Instance.Savedata(GameDataManager.UserDataType.SETTING);
     }
@@ -74,7 +129,17 @@ public class SettingClass : MonoBehaviour
     {
         if (null == AudioManager.Instance)
             return;
+        SetMusicVolume();
+        SaveMusicVolume();
+    }
+
+    private void SetMusicVolume()
+    {
         AudioManager.Instance.SetMusicVolume(musicVolumeSlider.value);
+    }
+
+    private void SaveMusicVolume()
+    {
         GameDataManager.Instance.SetMusicVolume(musicVolumeSlider.value);
         GameDataManager.Instance.Savedata(GameDataManager.UserDataType.SETTING);
     }
@@ -83,33 +148,18 @@ public class SettingClass : MonoBehaviour
     {
         if (null == AudioManager.Instance)
             return;
+        SetSoundVolume();
+        SaveSoundVolume();
+    }
+
+    private void SetSoundVolume()
+    {
         AudioManager.Instance.SetSoundVolume(soundVolumeSlider.value);
+    }
+
+    private void SaveSoundVolume()
+    {
         GameDataManager.Instance.SetSoundVolume(soundVolumeSlider.value);
         GameDataManager.Instance.Savedata(GameDataManager.UserDataType.SETTING);
     }
-
-    //GameObject obBG;
-    //GameObject obEf;
-    //[HideInInspector] public AudioSource adBG;
-    //[HideInInspector] public AudioSource adEf;
-    //[SerializeField] private Slider[] sl;
-
-    //private void Awake()
-    //{
-    //    obBG = GameObject.Find("MusicController");
-    //    adBG = obBG.gameObject.GetComponent<AudioSource>();
-
-    //    obEf = GameObject.Find("SoundController");
-    //    adEf = obEf.gameObject.GetComponent<AudioSource>();
-    //}
-
-    //public void SetMusicControll()
-    //{
-    //    adBG.volume = sl[0].value;
-    //}
-
-    //public void SetSoundControll()
-    //{
-    //    adEf.volume = sl[1].value;
-    //}
 }

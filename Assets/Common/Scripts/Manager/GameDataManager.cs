@@ -89,7 +89,6 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 
 
     #region getter
-    public PlayerData GetOriginalPlayerData(Player.PlayerType type) { return playerDatas[(int)type]; }
     public bool isFirst
     {
         get

@@ -31,7 +31,7 @@ public class CharacterSelectInfoView : MonoBehaviourSingleton<CharacterSelectInf
         infoViewUI.SetActive(true);
         this.playerType = playerType;
         int type = (int)playerType;
-        playerData = GameDataManager.Instance.GetOriginalPlayerData(playerType);
+        playerData = GameDataManager.Instance.GetPlayerData(playerType);
         characterTypeName.text = Player.PLAYER_TYPE_NAME[type];
         statsText.text = "HP       : " + playerData.HpMax + "\nSTAMINA  : " + playerData.StaminaMax + "\nCRITICAL : " + (playerData.CriticalChance*100) + "%";
         descriptionText.text = CHARACTER_DESCRIPTION[type];

@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class LobbyPauseMenu : MonoBehaviourSingleton<LobbyPauseMenu> {
 
     #region variables
-    [SerializeField] private GameObject preventObj;
-    [SerializeField] private GameObject menuObj;
-    [SerializeField] private Text coinText;
-    [SerializeField] private Text KeyText;
+    [SerializeField]
+    private GameObject preventObj;
+    [SerializeField]
+    private GameObject menuObj;
+    [SerializeField]
+    private Text coinText;
+    [SerializeField]
+    private Text KeyText;
 
     bool actived = false;
     bool isHide = true;
@@ -19,23 +23,21 @@ public class LobbyPauseMenu : MonoBehaviourSingleton<LobbyPauseMenu> {
     private void Awake()
     {
         preventObj.SetActive(false);
+        menuObj.SetActive(false);
     }
+
+    //private void Start()
+    //{
+    //    SetCoinText(GameDataManager.Instance.GetCoin());
+    //    SetKeyText(GameDataManager.Instance.GetKey());
+    //}
     #endregion
+
 
     #region func
     public void PlayMenuSound()
     {
         AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
-    }
-
-    public void SetActivedBool(bool _actived)
-    {
-        actived = _actived;
-    }
-
-    public bool GetActived()
-    {
-        return actived;
     }
 
     //public void SetCoinText(int _num)
@@ -85,11 +87,5 @@ public class LobbyPauseMenu : MonoBehaviourSingleton<LobbyPauseMenu> {
     }
     #endregion
 
-    #region UnityFunc
-    //private void Start()
-    //{
-    //    SetCoinText(GameDataManager.Instance.GetCoin());
-    //    SetKeyText(GameDataManager.Instance.GetKey());
-    //}
-    #endregion
+    
 }

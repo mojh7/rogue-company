@@ -13,13 +13,13 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
 
     enum GameState { NOTSTARTED, GAMEOVER, PLAYING, CLEAR, ENDING }
     public enum GameMode { NORMAL, RUSH }
-    public enum GameScene { BRIDGE_LOGO, TEAM_LOGO, TITLE, LOBBY, CHARACTER_SELECT, IN_GAME, BOSS_RUSH }
+    public enum GameScene { LOGO = 0, TITLE = 1, LOBBY = 2, IN_GAME = 3, BOSS_RUSH = 4}
 
     GameState gameState = GameState.NOTSTARTED;
     [SerializeField]
     GameMode gameMode = GameMode.NORMAL;
     [SerializeField]
-    GameScene gameScene = GameScene.BRIDGE_LOGO;
+    GameScene gameScene = GameScene.LOGO;
     
     // 새 게임, 로드 게임 구분
     private bool loadsGameData = false;
@@ -46,8 +46,6 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
     private void Start()
     {
         DontDestroyOnLoad(this);
-        Logo.Instance.LoadLogo();
-        AudioManager.Instance.PlaySound("BRIDGE_OPENING_SOUND", SOUNDTYPE.UI);
     }
     private void Update()
     {
@@ -101,11 +99,6 @@ public class GameStateManager : MonoBehaviourSingleton<GameStateManager>
         SceneManager.LoadScene("LobbyScene");
     }
 
-    public void LoadSelect()
-    {
-        gameScene = GameScene.CHARACTER_SELECT;
-        SceneManager.LoadScene("characterSelectScene");
-    }
     public void GameOver()
     {
         gameState = GameState.GAMEOVER;

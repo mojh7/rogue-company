@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
         // 저장된 데이터 없이 새로운 게임을 시작할 때
         if (false == GameStateManager.Instance.GetLoadsGameData())
         {
-            player.InitWithPlayerData(GameDataManager.Instance.GetPlayerData(Player.PlayerType.SOCCER));
+            player.InitWithPlayerData(GameDataManager.Instance.GetPlayerData(GameDataManager.Instance.GetPlayerType()));
         }
         // 저장된 데이터를 로드한 상태일 때
         else
@@ -61,7 +61,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
         // 저장된 데이터 없이 새로운 게임을 시작할 때
         if (false == GameStateManager.Instance.GetLoadsGameData())
         {
-            player.InitWithPlayerData(GameDataManager.Instance.GetPlayerData(Player.PlayerType.SOCCER));
+            player.InitWithPlayerData(GameDataManager.Instance.GetPlayerData(GameDataManager.Instance.GetPlayerType()));
         }
         // 저장된 데이터를 로드한 상태일 때
         else
