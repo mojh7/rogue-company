@@ -33,10 +33,8 @@ public class TitleTouch : MonoBehaviour
     #region unityFunc
     private void Awake()
     {
-        AudioManager.Instance.PlayMusic(0);
         InitTitle();
     }
-
     private void Update()
     {
         if (isHide)

@@ -19,6 +19,8 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     private WeaponInfo[] testBossWeaponInfos;
     [SerializeField]
     private WeaponInfo[] enemyWeaponInfos;
+    [SerializeField]
+    private WeaponInfo[] testBasicWeaponInfos;
     private int ratingLength;
 
     [SerializeField]
@@ -44,6 +46,8 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                 return shapeSampleWeaponInfos.Length;
             case WeaponModeForDebug.TEST_BOSS:
                 return testBossWeaponInfos.Length;
+            case WeaponModeForDebug.TEST_BASIC_ENEMY:
+                return testBasicWeaponInfos.Length;
             default:
                 break;
         }
@@ -97,6 +101,8 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                     return shapeSampleWeaponInfos[id];
                 case WeaponModeForDebug.TEST_BOSS:
                     return testBossWeaponInfos[id];
+                case WeaponModeForDebug.TEST_BASIC_ENEMY:
+                    return testBasicWeaponInfos[id];
                 default:
                     break;
             }
@@ -152,6 +158,10 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
             case WeaponModeForDebug.TEST_BOSS:
                 for (int i = 0; i < testBossWeaponInfos.Length; i++)
                     testBossWeaponInfos[i].Init();
+                break;
+            case WeaponModeForDebug.TEST_BASIC_ENEMY:
+                for (int i = 0; i < testBasicWeaponInfos.Length; i++)
+                    testBasicWeaponInfos[i].Init();
                 break;
             default:
                 break;

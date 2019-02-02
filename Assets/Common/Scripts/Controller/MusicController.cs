@@ -12,7 +12,7 @@ public class MusicController : MonoBehaviourSingleton<MusicController>
     [SerializeField] private AudioClip[] clips;
 
     AudioSource audioSource;
-    private float volume;
+    private float volume = 1f;
 
     void Awake()
     {

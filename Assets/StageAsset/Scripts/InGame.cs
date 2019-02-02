@@ -8,5 +8,6 @@ public class InGame : MonoBehaviour
     void Awake()
     {
         GameStateManager.Instance.SetGameScene(GameStateManager.GameScene.IN_GAME);
+        AudioManager.Instance.PlayMusic(4);
     }
 }

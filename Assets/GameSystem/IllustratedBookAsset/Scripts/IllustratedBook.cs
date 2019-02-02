@@ -117,9 +117,7 @@ public class IllustratedBook : MonoBehaviour
                 tabTexts[i].color = Color.white;
             }
         }
-
         illustratedBookType = (IllustratedBookType)type;
-        Debug.Log("select category : " + illustratedBookType);
     }
 
     private void ChangeCategory(int type)

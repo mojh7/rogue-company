@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class Lobby : MonoBehaviour
 {
-
-	// Use this for initialization
-	void Start () {
+	void Awake () {
         GameStateManager.Instance.SetGameScene(GameStateManager.GameScene.LOBBY);
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

@@ -58,10 +58,12 @@ public class BulletInfo : ScriptableObject
     public float speed;             // 속력
     public float acceleration;      // 가속도
     public float deltaSpeedTotalLimit;    // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
+    public bool isLimitablePositiveSpeed;
+    public float limitedPositiveSpeed;
     [Header("min~max 배수 비율로 speed 랜덤 설정")]
     public bool isRandomSpeed;
-    public float speedRandomMinRatio;    //
-    public float speedRandomMaxRatio;    //
+    public float speedRandomMinRatio;
+    public float speedRandomMaxRatio;
     public float range;         // 사정거리
     public float scaleX;
     public float scaleY;
@@ -73,6 +75,10 @@ public class BulletInfo : ScriptableObject
 
     [Header("-1이면 적용 X, 0 초과 값이면 lifeTime 만큼 시간 지나고 Delete속성 실행 ")]
     public float lifeTime;
+    [Header("min~max 배수 비율로 lifeTime 랜덤 설정")]
+    public bool isRandomLifeTime;
+    public float lifeTimeRandomMinRatio;
+    public float lifeTimeRandomMaxRatio;
     [Header("-1이면 effect 적용X, 0이상 만 적용")]
     public int effectId;    // 충돌 후 삭제시 생성될 effect
 
@@ -195,6 +201,8 @@ public class BulletInfo : ScriptableObject
         bounceCount = 0;
 
         lifeTime = -1;
+        lifeTimeRandomMinRatio = 1f;
+        lifeTimeRandomMaxRatio = 1f;
         effectId = -1;
         soundId = -1;
 
@@ -253,6 +261,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.speed = speed;
         clonedInfo.acceleration = acceleration;
         clonedInfo.deltaSpeedTotalLimit = deltaSpeedTotalLimit;
+        clonedInfo.isLimitablePositiveSpeed = isLimitablePositiveSpeed;
+        clonedInfo.limitedPositiveSpeed = limitedPositiveSpeed;
         clonedInfo.isRandomSpeed = isRandomSpeed;
         clonedInfo.speedRandomMinRatio = speedRandomMinRatio;
         clonedInfo.speedRandomMaxRatio = speedRandomMaxRatio;
@@ -265,6 +275,9 @@ public class BulletInfo : ScriptableObject
         clonedInfo.bounceCount = bounceCount;
 
         clonedInfo.lifeTime = lifeTime;
+        clonedInfo.isRandomLifeTime = isRandomLifeTime;
+        clonedInfo.lifeTimeRandomMinRatio = lifeTimeRandomMinRatio;
+        clonedInfo.lifeTimeRandomMaxRatio = lifeTimeRandomMaxRatio;
         clonedInfo.effectId = effectId;
         clonedInfo.soundId = soundId;
 

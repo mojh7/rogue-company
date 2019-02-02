@@ -85,6 +85,7 @@ public class StraightMoveProperty : UpdateProperty
         }
         if (timeCount >= lifeTime)
         {
+            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
         timeCount += Time.fixedDeltaTime;
@@ -101,6 +102,8 @@ public class AccelerationMotionProperty : UpdateProperty
     // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
     private float deltaSpeedTotal;
     private float deltaSpeedTotalLimit;
+    public bool isLimitablePositiveSpeed;
+    public float limitedPositiveSpeed;
 
     private bool acceleratesBullet;     // 가속도를 적용 할 것인가 말 것인가.
 
@@ -133,7 +136,10 @@ public class AccelerationMotionProperty : UpdateProperty
             range = bullet.info.range;
         }
         acceleratesBullet = true;
-    }
+
+        isLimitablePositiveSpeed = bullet.info.isLimitablePositiveSpeed;
+        limitedPositiveSpeed = bullet.info.limitedPositiveSpeed;
+}
 
     public override void Update()
     {
@@ -147,8 +153,16 @@ public class AccelerationMotionProperty : UpdateProperty
             moveSpeed += deltaSpeed;
             deltaSpeedTotal += Mathf.Abs(deltaSpeed);
 
+            if(isLimitablePositiveSpeed)
+            {
+                if(moveSpeed <= limitedPositiveSpeed)
+                {
+                    acceleratesBullet = false;
+                    moveSpeed = limitedPositiveSpeed;
+                }
+            }
             // 속력 변한 총량이 limit 보다 커지면 가속도 적용 멈춤.
-            if (deltaSpeedTotal >= deltaSpeedTotalLimit)
+            else if (deltaSpeedTotal >= deltaSpeedTotalLimit)
             {
                 acceleratesBullet = false;
                 if (acceleration > 0)
@@ -177,8 +191,7 @@ public class AccelerationMotionProperty : UpdateProperty
             }
         }
 
-        distance += moveSpeed * Time.fixedDeltaTime;
-
+        //distance += moveSpeed * Time.fixedDeltaTime;
         // 사정거리 넘어가면 delete 속성 실행
         /*if (distance >= range)
         {
@@ -187,6 +200,7 @@ public class AccelerationMotionProperty : UpdateProperty
         timeCount += Time.fixedDeltaTime;
         if (timeCount >= lifeTime)
         {
+            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
     }
@@ -379,6 +393,7 @@ public class HomingProperty : UpdateProperty
         }
         if (timeCount >= lifeTime)
         {
+            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
 
@@ -627,6 +642,7 @@ public class SpiralProperty : UpdateProperty
         
         if (timeCount >= lifeTime)
         {
+            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
     }
@@ -690,13 +706,12 @@ public class RotationProperty : UpdateProperty
         
         if (timeCount >= lifeTime)
         {
+            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
     }
 }
 
-// 현재는 미 사용
-// TODO : 삼각함수 속성 만들기
 /// <summary> 삼각함수 속성 </summary>
 public class TrigonometricProperty : UpdateProperty
 {
@@ -800,6 +815,7 @@ public class ChildUpdateProperty : UpdateProperty
         timeCount += Time.fixedDeltaTime;
         if (timeCount >= lifeTime - Time.fixedDeltaTime)
         {
+            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
     }

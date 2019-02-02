@@ -114,7 +114,6 @@ public class SettingClass : MonoBehaviour
         aimType = type;
         if (GameStateManager.Instance.IsInGame())
         {
-            Debug.Log("z : " + PlayerManager.Instance.GetPlayer());
             PlayerManager.Instance.GetPlayer().SetAimType(aimType);
         }
     }

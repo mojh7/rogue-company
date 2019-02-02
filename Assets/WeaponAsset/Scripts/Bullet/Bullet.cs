@@ -454,7 +454,10 @@ public class Bullet : MonoBehaviour
         // lifeTime이 0 초과되는 값을 가지면 시간이 lifeTime이 지나면 delete 속성 실행
         if (info.lifeTime > 0)
         {
-            //Debug.Log(name + ", lifeTime : " + info.lifeTime);
+            if (info.isRandomLifeTime)
+            {
+                info.lifeTime = info.lifeTime * Random.Range(info.lifeTimeRandomMinRatio, info.lifeTimeRandomMaxRatio);
+            }
             deleteOnlifeTime = StartCoroutine(DeleteOnLifeTime());
         }
 
