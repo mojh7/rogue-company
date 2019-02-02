@@ -24,8 +24,6 @@ public class TitleTouch : MonoBehaviour
     [SerializeField]
     private Sprite[] modeImages;
     [SerializeField]
-    private GameObject creditUI;
-    [SerializeField]
     private RectTransform titleTransform;
     private Vector3 titleScale;
 
@@ -70,16 +68,6 @@ public class TitleTouch : MonoBehaviour
     #endregion
 
     #region func
-    public void OpenCreditUI()
-    {
-        creditUI.SetActive(true);
-    }
-
-    public void CloseCreditUI()
-    {
-        creditUI.SetActive(false);
-    }
-
     public void ChangeMode()
     {
         if(mode>=1)
@@ -139,7 +127,7 @@ public class TitleTouch : MonoBehaviour
         Application.Quit();
     }
 
-    public void LoadSelect()
+    public void LoadLobby()
     {
         GameStateManager.Instance.SetLoadsGameData(false);
         GameDataManager.Instance.ResetData(GameDataManager.UserDataType.INGAME);
@@ -174,7 +162,7 @@ public class TitleTouch : MonoBehaviour
         if (index == 0)
         {
             if (!isRestart)
-                LoadSelect();
+                LoadLobby();
             else
                 LoadInGame();
         }

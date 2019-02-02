@@ -4,12 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Logo : MonoBehaviourSingleton<Logo> {
+public class Logo : MonoBehaviourSingleton<Logo>
+{
 
     public Image bridgeLogoImage;
     public Image backGround;
     public Image teamLogoImage;
     [SerializeField] private Sprite[] logoSprite;
+
+    private void Start()
+    {
+        GameDataManager.Instance.LoadInitialSettingData();
+    }
 
     void Update()
     {

@@ -77,26 +77,13 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 #if (UNITY_EDITOR)
         string basePath = Application.dataPath;
 #else
-        string basePath = Application.persistentDataPath + dataName;
+        string basePath = Application.persistentDataPath;
 #endif
         // enum 순서대로
         dataPath = new string[] { basePath + "/UserData.bin", basePath + "/InGameData.bin", basePath + "/GameSettingData.bin" };
         #endregion
 
         DontDestroyOnLoad(this);
-
-        
-    }
-
-    private void Start()
-    {
-        if (LoadData(GameDataManager.UserDataType.SETTING))
-        {
-            Debug.Log("셋팅 데이터 초기 로드");
-            aimType = GameDataManager.Instance.GetAimType();
-            AudioManager.Instance.SetMusicVolume(musicVolume);
-            AudioManager.Instance.SetSoundVolume(soundVolume);
-        }
     }
     #endregion
 
@@ -219,6 +206,18 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         }
     }
 
+    public bool LoadInitialSettingData()
+    {
+        if (GameDataManager.Instance.LoadData(GameDataManager.UserDataType.SETTING))
+        {
+            Debug.Log("셋팅 데이터 초기 로드");
+            aimType = GameDataManager.Instance.GetAimType();
+            AudioManager.Instance.SetMusicVolume(musicVolume);
+            AudioManager.Instance.SetSoundVolume(soundVolume);
+            return true;
+        }
+        return false;
+    }
 
     #endregion
 

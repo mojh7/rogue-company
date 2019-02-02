@@ -17,6 +17,8 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region variables
+    public enum DeletedCondition { ALIVE, TIME_LIMIT, COLLISION_OBJECT, COLLISION_TARGET }
+
     public BulletInfo info;
     public Transform objTransform;
     public BoxCollider2D boxCollider;
@@ -36,7 +38,6 @@ public class Bullet : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     private Animator animator;
     [SerializeField] private GameObject paticleObj;
-
 
     [SerializeField] private GameObject laserViewObj;
     [SerializeField] private Transform laserStartPoint;
@@ -80,6 +81,9 @@ public class Bullet : MonoBehaviour
 
     private ParticleSystem bulletParticle;
     private Vector3 perpendicularVec;
+
+
+    private DeletedCondition deletedCondition;
     #endregion
 
     #region getter / setter
@@ -108,6 +112,9 @@ public class Bullet : MonoBehaviour
     public float GetDirDegree() { return dirDegree; }
     // 현재 바라보는 방향의 vector 반환
     public Vector3 GetDirVector() { return dirVector; }
+
+    public DeletedCondition GetDeletedCondition() { return deletedCondition; }
+    public void SetDeletedCondition(DeletedCondition deletedCondition) { this.deletedCondition = deletedCondition; }
 
     public void SetOwnerType(OwnerType ownerType)
     {
@@ -211,6 +218,9 @@ public class Bullet : MonoBehaviour
         SetBulletPresetInfo();
 
         UpdateTransferBulletInfo();
+
+        //Debug.Log(name + " , " + info.damage);
+
         // Owner 정보 초기화
         InitOwnerInfo(ownerType);
         // Owner buff 적용

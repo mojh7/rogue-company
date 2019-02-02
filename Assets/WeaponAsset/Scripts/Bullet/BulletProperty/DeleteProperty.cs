@@ -46,6 +46,11 @@ public abstract class DeleteProperty : BulletProperty
         }
     }
 
+    protected void ResetDeletedCondition()
+    {
+        bullet.SetDeletedCondition(Bullet.DeletedCondition.ALIVE);
+    }
+
     protected void RemoveBulletParticle()
     {
         ParticleSystem bulletParticle = bullet.GetBulletParticle();
@@ -72,6 +77,7 @@ public class BaseDeleteProperty : DeleteProperty
     {
         base.DestroyBullet();
         CreateEffect(bullet.info.effectId, bulletTransform.position);
+        ResetDeletedCondition();
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
@@ -94,6 +100,7 @@ public class LaserDeleteProperty : DeleteProperty
     public override void DestroyBullet()
     {
         base.DestroyBullet();
+        ResetDeletedCondition();
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
@@ -120,6 +127,7 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
         CreateEffect(bullet.info.effectId, bulletTransform.position);
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo.Clone(), ownerBuff, transferBulletInfo, bullet.GetOwnerType(), bulletTransform.position);
+        ResetDeletedCondition();
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
 
@@ -147,10 +155,14 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
     {
         base.DestroyBullet();
         CreateEffect(bullet.info.effectId, bulletTransform.position);
-        dirDegree = bullet.GetDirDegree();
-        dirVec = bullet.GetDirVector();
-        summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetTransferBulletInfo(), () => dirDegree, () => dirVec, ()=>bulletTransform.transform.position, bullet.info.deleteAfterSummonPatternInfo.addDirVecMagnitude);
-        summonBulletPattern.StartAttack(1.0f, bullet.GetOwnerType());
+        if(Bullet.DeletedCondition.COLLISION_TARGET != bullet.GetDeletedCondition())
+        {
+            dirDegree = bullet.GetDirDegree();
+            dirVec = bullet.GetDirVector();
+            summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetTransferBulletInfo(), () => dirDegree, () => dirVec, () => bulletTransform.transform.position, bullet.info.deleteAfterSummonPatternInfo.addDirVecMagnitude);
+            summonBulletPattern.StartAttack(1.0f, bullet.GetOwnerType());
+        }
+        ResetDeletedCondition();
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
     public override void Init(Bullet bullet)
