@@ -112,9 +112,9 @@ public class BulletInfo : ScriptableObject
     public bool positionBasedKnockBack;
 
 
-    [Header("DeleteAfterSummonBulletProperty 에서 생성할 bullet id")]
+    [Header("DeleteAfterSummonBulletProperty 에서 생성할 bullet")]
     public BulletInfo deleteAfterSummonBulletInfo;
-    [Header("DeleteAfterSummonPatternProperty에서 생성할 pattern id")]
+    [Header("DeleteAfterSummonPatternProperty에서 생성할 pattern")]
     public BulletPatternInfo deleteAfterSummonPatternInfo;
 
 
@@ -172,8 +172,8 @@ public class BulletInfo : ScriptableObject
     public BulletPatternInfo summonBulletPatternInfo;
     [Header("SummonUpdate 속성 전용 매개 변수, 생성 주기")]
     public float creationCycle;
-
-
+    public float summonStartTime;
+    public float summonEndTime;
 
     /*
     // 여러 곳에서 사용할 때 중복 초기화를 막기위한 함수. 처음에 무조건 true
@@ -230,6 +230,9 @@ public class BulletInfo : ScriptableObject
         routineSprial = false;
         spiralRoutineCount = -1;
         rotationRoutineCount = -1;
+
+        summonStartTime = 0;
+        summonEndTime = -1;
 
         // isInitializable = true;
 
