@@ -18,7 +18,7 @@ public class LaserPattern : BulletPattern
 
     private Bullet createdBullet;
 
-    private const float periodOfUsingLaserAmmo = 0.1f;
+    private const float PERIOD_OF_USING_LASER_AMMO = 0.1f;
 
     // 기존에 저장된 정보 이외의 내용으로 변수 초기화
     public LaserPattern(LaserPatternInfo patternInfo, CharacterInfo.OwnerType ownerType)
@@ -46,9 +46,9 @@ public class LaserPattern : BulletPattern
     public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)
     {
         this.ownerType = ownerType;
-        if(timeForUseAmmo > periodOfUsingLaserAmmo)
+        if(timeForUseAmmo > PERIOD_OF_USING_LASER_AMMO)
         {
-            timeForUseAmmo -= periodOfUsingLaserAmmo;
+            timeForUseAmmo -= PERIOD_OF_USING_LASER_AMMO;
             weapon.UseAmmo();
         }
         if (false == weapon.HasCostForAttack())
@@ -78,8 +78,16 @@ public class LaserPattern : BulletPattern
         AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdBullet = createdObj.GetComponent<Bullet>();
-        createdBullet.Init(bulletInfo, ownerBuff, ownerType, addDirVecMagnitude, additionalVerticalPos,
-            ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo);
+        if(info.ignoreOwnerDir)
+        {
+            createdBullet.Init(bulletInfo, ownerBuff, ownerType, addDirVecMagnitude + info.addDirVecMagnitude, additionalVerticalPos + info.additionalVerticalPos,
+                ownerPos, () => { return Vector2.right; }, () => { return 0; }, transferBulletInfo, info.additionalDirDegree);
+        }
+        else
+        {
+            createdBullet.Init(bulletInfo, ownerBuff, ownerType, addDirVecMagnitude + info.addDirVecMagnitude, additionalVerticalPos + info.additionalVerticalPos,
+                ownerPos, ownerDirVec, ownerDirDegree, transferBulletInfo, info.additionalDirDegree);
+        }
         destroyBullet = createdObj.GetComponent<Bullet>().DestroyBullet;
     }
 

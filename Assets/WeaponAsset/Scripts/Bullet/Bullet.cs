@@ -82,7 +82,7 @@ public class Bullet : MonoBehaviour
     private ParticleSystem bulletParticle;
     private Vector3 perpendicularVec;
 
-
+    public float laserAdditionalDegree;
     private DeletedCondition deletedCondition;
     #endregion
 
@@ -240,8 +240,9 @@ public class Bullet : MonoBehaviour
     }
 
     // 레이저 총알 초기화
-    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, float addDirVecMagnitude, float additionalVerticalPos, DelGetPosition ownerPos, DelGetPosition ownerDirVec, DelGetDirDegree ownerDirDegree,TransferBulletInfo transferBulletInfo)
+    public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, float addDirVecMagnitude, float additionalVerticalPos, DelGetPosition ownerPos, DelGetPosition ownerDirVec, DelGetDirDegree ownerDirDegree, TransferBulletInfo transferBulletInfo, float additionalDirDegree)
     {
+        laserAdditionalDegree = additionalDirDegree;
         active = true;
         info = bulletInfo;
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);

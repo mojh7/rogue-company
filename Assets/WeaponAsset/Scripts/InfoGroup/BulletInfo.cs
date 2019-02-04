@@ -69,6 +69,7 @@ public class BulletInfo : ScriptableObject
     public float scaleY;
 
     public float laserSize;
+    public float laserRotationAnglePerSecond;
 
     public int pierceCount;
     public int bounceCount;
@@ -117,6 +118,8 @@ public class BulletInfo : ScriptableObject
     [Header("DeleteAfterSummonPatternProperty에서 생성할 pattern")]
     public BulletPatternInfo deleteAfterSummonPatternInfo;
 
+    [Header("타겟 당 연속 재 충돌 방지 차원의 딜레이")]
+    public float targetRecollisionDelay;
 
     // 튕기는 총알 테스트용, 반사 o / x
     public bool bounceAble;
@@ -276,6 +279,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.scaleX = scaleX;
         clonedInfo.scaleY = scaleY;
         clonedInfo.laserSize = laserSize;
+        clonedInfo.laserRotationAnglePerSecond = laserRotationAnglePerSecond;
 
         clonedInfo.pierceCount = pierceCount;
         clonedInfo.bounceCount = bounceCount;
@@ -305,6 +309,7 @@ public class BulletInfo : ScriptableObject
 
         clonedInfo.deleteAfterSummonBulletInfo = deleteAfterSummonBulletInfo;
         clonedInfo.deleteAfterSummonPatternInfo = deleteAfterSummonPatternInfo;
+        clonedInfo.targetRecollisionDelay = targetRecollisionDelay;
         clonedInfo.bounceAble = bounceAble;
         clonedInfo.canBlockBullet = canBlockBullet;
         clonedInfo.canReflectBullet = canReflectBullet;

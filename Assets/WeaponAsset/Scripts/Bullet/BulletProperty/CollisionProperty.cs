@@ -30,7 +30,6 @@ public abstract class CollisionProperty : BulletProperty
     protected int pierceCount = 1;    // default 1
     // 바운스 가능한 오브젝트에 대해서 총알이 반사각으로 튕겨나올 수 있는 횟수
     protected int bounceCount = 0;    // default 0
-
     protected Collider2D bulletCollider2D;
     public abstract CollisionProperty Clone();
     public abstract void Collision(ref Collision2D coll);
@@ -40,11 +39,22 @@ public abstract class CollisionProperty : BulletProperty
     protected virtual void Bounce(ref Collision2D coll) { }
     protected void Ignore(ref Collision2D coll)
     {
-        Physics2D.IgnoreCollision(coll.gameObject.GetComponent<Collider2D>(), bulletCollider2D);
+        Collider2D target = coll.gameObject.GetComponent<Collider2D>();
+        if(false == Physics2D.GetIgnoreCollision(target, bulletCollider2D))
+        {
+            Physics2D.IgnoreCollision(target, bulletCollider2D);
+            if(bullet.info.targetRecollisionDelay > 0)
+                BulletReCollisionManager.Instance.StartCoroutine(BulletReCollisionManager.Instance.BecomesPossibleToCollide(target, bulletCollider2D, bullet.info.targetRecollisionDelay));
+        }
     }
     protected void Ignore(ref Collider2D coll)
     {
-        Physics2D.IgnoreCollision(coll, bulletCollider2D);
+        if (false == Physics2D.GetIgnoreCollision(coll, bulletCollider2D))
+        {
+            Physics2D.IgnoreCollision(coll, bulletCollider2D);
+            if (bullet.info.targetRecollisionDelay > 0)
+                BulletReCollisionManager.Instance.StartCoroutine(BulletReCollisionManager.Instance.BecomesPossibleToCollide(coll, bulletCollider2D, bullet.info.targetRecollisionDelay));
+        }
     }
     protected virtual void Attack(ref Collision2D coll)
     {
