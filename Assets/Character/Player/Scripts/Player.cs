@@ -43,6 +43,7 @@ public class Player : Character
 
     private SkillData skillData;
     private int[] startingWeaponInfos;
+    private float prevHpMaxRatio;
     #endregion
 
     #region property
@@ -207,6 +208,7 @@ public class Player : Character
         shieldCount = 0;
         evadeCoolTime = 0.05f;
         battleSpeed = 0.5f;
+        prevHpMaxRatio = 1f;
         InitilizeController();
 
         playerHPUi = GameObject.Find("HPbar").GetComponent<PlayerHpbarUI>();
@@ -682,12 +684,32 @@ public class Player : Character
             ShaderController.ChangeBoundary(spriteRenderer.material, ShaderController.ShaderData.CONTRAST, 2);
 
         if (itemUseEffect.hpMaxRatio > 0)
-            hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
+        {
+            // hpMax 상승
+            if(prevHpMaxRatio < itemUseEffect.hpMaxRatio)
+            {
+                // 5 / 10 => 6 / 12, 10 / 10 => 12 / 12 비율 따라가면서 회복
+                float hpPersent = hp / hpMax;
+                hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
+                hp = (int)(hpMax * hpPersent);
+                prevHpMaxRatio = itemUseEffect.hpMaxRatio;
+            }
+            // hpMax 감소
+            else if (prevHpMaxRatio > itemUseEffect.hpMaxRatio)
+            {
+                // 20 / 20 => 16 / 16, 12 / 20 => 12 / 16
+                hpMax = originPlayerData.HpMax * itemUseEffect.hpMaxRatio;
+                if(hp >= hpMax)
+                {
+                    hp = hpMax;
+                }
+                prevHpMaxRatio = itemUseEffect.hpMaxRatio;
+            }
+        }
         if (itemUseEffect.skillGage > 0)
             skillGageMultiple = itemUseEffect.skillGage;
 
         ScaleChange(itemUseEffect.charScale);
-
 
         stamina.SetStaminaMax(playerData.StaminaMax);
         stamina.RecoverStamina(0);

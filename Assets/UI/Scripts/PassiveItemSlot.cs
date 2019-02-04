@@ -52,7 +52,6 @@ public class PassiveItemSlot : MonoBehaviourSingleton<PassiveItemSlot>, IPointer
 
     public void ClosePassiveItemSlot()
     {
-        Debug.Log("z");
         passiveItemSlot.SetActive(false);
         passiveItemInfoView.SetActive(false);
         Time.timeScale = 1;
