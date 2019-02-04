@@ -1,12 +1,17 @@
 fileFormatVersion: 2
-guid: 690aa5124a353e64795ce0545a1ae287
-timeCreated: 1549005301
+guid: b4776bd9958cfb64f94944a439e18caf
+timeCreated: 1549261869
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ppt_save_img
-    21300002: ppt_ui_1
-    21300004: ppt_unSelected
+    21300000: mac_style_folder_0
+    21300002: mac_style_folder_1
+    21300004: mac_style_folder_2
+    21300006: mac_style_folder_3
+    21300008: mac_style_folder_4
+    21300010: mac_style_folder_5
+    21300012: mac_style_folder_6
+    21300014: mac_style_folder_7
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -39,7 +44,7 @@ TextureImporter:
     mipBias: -1
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -93,27 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ppt_ui_1
+      name: mac_style_folder_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 83
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ppt_save_img
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 33
-        width: 15
-        height: 15
+        x: 2
+        y: 43
+        width: 36
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,13 +112,97 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ppt_unSelected
+      name: mac_style_folder_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 43
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mac_style_folder_2
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 43
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mac_style_folder_3
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 43
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mac_style_folder_4
       rect:
         serializedVersion: 2
         x: 2
-        y: 4
-        width: 95
-        height: 25
+        y: 2
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mac_style_folder_5
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 2
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mac_style_folder_6
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 2
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: mac_style_folder_7
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 2
+        width: 36
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

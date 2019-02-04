@@ -4,6 +4,9 @@
 [CreateAssetMenu(fileName = "RowPatternInfo", menuName = "WeaponData/BulletPattern/RowPatternInfo", order = 1)]
 public class RowPatternInfo : ProjectilesPatternInfo
 {
+    [Header("실행 당 initPos 변화 량")]
+    public float initPosPerExecution = 0;
+
     [Header("몇 번 deltaAngle 만큼 회전하는지에 대한 값")]
     public int rotatingCount;
     [Header("초기 위치, 반시계 방향")]

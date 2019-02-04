@@ -12,6 +12,7 @@ public class RowPattern : BulletPattern
     private Vector3 angleVector;
     private float randomAngle;
     private float currentAngle;
+    private float additionalInitPos;
 
     // 기존 정보를 참조하는 방식으로 변수 초기화
     public RowPattern(RowPatternInfo patternInfo, int executionCount, float delay, bool isFixedOwnerDir, bool isFixedOwnerPos, CharacterInfo.OwnerType ownerType)
@@ -47,6 +48,7 @@ public class RowPattern : BulletPattern
     public override void Init(BuffManager ownerBuff, OwnerType ownerType, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
         DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
     {
+        Debug.Log(info.name + ", " + info.bulletInfo.name);
         info.bulletInfo.Init();
         base.Init(ownerBuff, ownerType, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
     }
@@ -66,7 +68,6 @@ public class RowPattern : BulletPattern
     public override void CreateBullet(float damageIncreaseRate)
     {
         ApplyWeaponBuff();
-
         for (int i = 0; i < info.rotatingCount; i++)
         {
             if (info.ignoreOwnerDir)
@@ -94,14 +95,18 @@ public class RowPattern : BulletPattern
                             weapon.UseAmmo();
                         else break;
                     }
+                    muzzlePos = weapon.GetMuzzlePos();
                 }
-                
-                
+                else
+                {
+                    muzzlePos = ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), 90) * info.additionalVerticalPos;
+                }
+
                 AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
 
                 createdObj = ObjectPoolManager.Instance.CreateBullet();
                 createdObj.GetComponent<Bullet>().Init(bulletInfo, ownerBuff, ownerType,
-                    weapon.GetMuzzlePos() + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos) + perpendicularVector * (info.initPos - info.deltaPos * j),
+                    muzzlePos + GetadditionalPos(info.ignoreOwnerDir, info.addDirVecMagnitude, info.additionalVerticalPos) + perpendicularVector * (additionalInitPos + info.initPos - info.deltaPos * j),
                     dirDegree + currentAngle + additionalAngle, transferBulletInfo, info.childBulletCommonProperty.timeForOriginalShape);
                 CreateChildBullets(info.childBulletInfoList, info.childBulletCommonProperty);
             }
@@ -113,8 +118,19 @@ public class RowPattern : BulletPattern
         base.ApplyWeaponBuff();
     }
 
-    public override void IncreaseAdditionalAngle()
+    protected override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
+    }
+
+    public override void InitAdditionalVariables()
+    {
+        base.InitAdditionalVariables();
+        additionalInitPos = 0;
+    }
+    public override void CalcAdditionalValuePerExecution()
+    {
+        base.CalcAdditionalValuePerExecution();
+        additionalInitPos += info.initPosPerExecution;
     }
 }

@@ -436,7 +436,8 @@ WeaponType.TRAP == info.weaponType)
                     }
                     CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime);
                     info.bulletPatterns[j].StartAttack(damageIncreaseRate, ownerType);
-                    info.bulletPatterns[j].IncreaseAdditionalAngle();
+                    //info.bulletPatterns[j].IncreaseAdditionalAngle();
+                    info.bulletPatterns[j].CalcAdditionalValuePerExecution();
                     if (0 < info.bulletPatterns[j].GetDelay())
                     {
                         yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[j].GetDelay());
@@ -446,7 +447,8 @@ WeaponType.TRAP == info.weaponType)
         }
         for (int i = 0; i < info.bulletPatternsLength; i++)
         {
-            info.bulletPatterns[i].InitAdditionalAngle();
+            //info.bulletPatterns[i].InitAdditionalAngle();
+            info.bulletPatterns[i].InitAdditionalVariables();
         }
 
         if (WeaponType.LASER != info.weaponType)

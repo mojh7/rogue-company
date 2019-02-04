@@ -289,6 +289,7 @@ public class SummonProperty : UpdateProperty
     private BulletPattern bulletPattern; // 생성할 총알 패턴
     private float creationCycle; // 생성 주기
     private float nextSummonTime;
+    private int summonCount;
     private DelGetDirDegree bulletDirDegree;
     private DelGetPosition bulletDirVec;
     private DelGetPosition bulletPos;
@@ -302,10 +303,11 @@ public class SummonProperty : UpdateProperty
     {
         base.Init(bullet);
         bulletDirDegree = bullet.GetDirDegree;
-        bulletDirVec = () => { return Vector3.zero; };
+        bulletDirVec = () => { return MathCalculator.VectorRotate(Vector2.right, bullet.GetDirDegree()); };
         bulletPos = bullet.GetPosition;
         bulletPattern.Init(ownerBuff, bullet.GetOwnerType(), transferBulletInfo, bulletDirDegree, bulletDirVec, bulletPos);
         nextSummonTime = bullet.info.summonStartTime;
+        summonCount = 0;
     }
     public override UpdateProperty Clone()
     {
@@ -315,9 +317,12 @@ public class SummonProperty : UpdateProperty
     // 생성 주기마다 bulletPattern 실행
     public override void Update()
     {
+        if (summonCount >= bullet.info.summonCountMax && -1 != bullet.info.summonCountMax)
+            return;
         if(bullet.info.summonStartTime <= timeCount && (-1 == bullet.info.summonEndTime || timeCount <= bullet.info.summonEndTime)
             && nextSummonTime <= timeCount)
         {
+            summonCount += 1;
             nextSummonTime += creationCycle;
             bulletPattern.CreateBullet(1.0f);
         }

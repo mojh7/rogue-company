@@ -169,11 +169,17 @@ public abstract class BulletPattern
         accuracyIncrement = totalInfo.accuracyIncrement * effectInfo.accuracyIncrement;
     }
 
-    public virtual void InitAdditionalAngle()
+    protected abstract void IncreaseAdditionalAngle();
+
+    public virtual void InitAdditionalVariables()
     {
         additionalAngle = 0;
     }
-    public abstract void IncreaseAdditionalAngle();
+
+    public virtual void CalcAdditionalValuePerExecution()
+    {
+        IncreaseAdditionalAngle();
+    }
 
     protected Vector3 GetVerticalVector()
     {
@@ -300,7 +306,7 @@ public abstract class BulletPattern
                 {
                     randomPoint -= diffProbsBulletInfoList[i].probRatio;
                 }
-            }            
+            }
         }
         else
         {
