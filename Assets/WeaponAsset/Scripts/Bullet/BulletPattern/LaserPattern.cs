@@ -88,7 +88,7 @@ public class LaserPattern : BulletPattern
         base.ApplyWeaponBuff();
     }
 
-    public override void IncreaseAdditionalAngle()
+    protected override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
     }

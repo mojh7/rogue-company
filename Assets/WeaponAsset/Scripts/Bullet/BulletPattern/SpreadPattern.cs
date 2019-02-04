@@ -109,7 +109,7 @@ public class SpreadPattern : BulletPattern
         bulletCount = info.bulletCount + effectInfo.bulletCountIncrement;
     }
 
-    public override void IncreaseAdditionalAngle()
+    protected override void IncreaseAdditionalAngle()
     {
         additionalAngle += info.rotatedAnglePerExecution;
     }

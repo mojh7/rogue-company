@@ -303,7 +303,7 @@ public class SummonProperty : UpdateProperty
     {
         base.Init(bullet);
         bulletDirDegree = bullet.GetDirDegree;
-        bulletDirVec = () => { return Vector3.zero; };
+        bulletDirVec = () => { return MathCalculator.VectorRotate(Vector2.right, bullet.GetDirDegree()); };
         bulletPos = bullet.GetPosition;
         bulletPattern.Init(ownerBuff, bullet.GetOwnerType(), transferBulletInfo, bulletDirDegree, bulletDirVec, bulletPos);
         nextSummonTime = bullet.info.summonStartTime;
