@@ -42,11 +42,11 @@ public class MultiDirPattern : BulletPattern
         }
     }
 
-    public override void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
+    public override void Init(BuffManager ownerBuff, OwnerType ownerType, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
         DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
     {
         info.bulletInfo.Init();
-        base.Init(ownerBuff, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
+        base.Init(ownerBuff, ownerType, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
     }
 
     public override BulletPattern Clone()

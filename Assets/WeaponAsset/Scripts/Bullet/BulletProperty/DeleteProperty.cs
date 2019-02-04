@@ -159,7 +159,7 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
         {
             dirDegree = bullet.GetDirDegree();
             dirVec = bullet.GetDirVector();
-            summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetTransferBulletInfo(), () => dirDegree, () => dirVec, () => bulletTransform.transform.position, bullet.info.deleteAfterSummonPatternInfo.addDirVecMagnitude);
+            summonBulletPattern.Init(bullet.GetOwnerBuff(), bullet.GetOwnerType(),bullet.GetTransferBulletInfo(), () => dirDegree, () => dirVec, () => bulletTransform.transform.position, bullet.info.deleteAfterSummonPatternInfo.addDirVecMagnitude);
             summonBulletPattern.StartAttack(1.0f, bullet.GetOwnerType());
         }
         ResetDeletedCondition();

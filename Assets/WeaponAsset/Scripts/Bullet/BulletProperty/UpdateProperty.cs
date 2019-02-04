@@ -301,11 +301,10 @@ public class SummonProperty : UpdateProperty
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
-
         bulletDirDegree = bullet.GetDirDegree;
         bulletDirVec = () => { return Vector3.zero; };
         bulletPos = bullet.GetPosition;
-        bulletPattern.Init(ownerBuff, transferBulletInfo, bulletDirDegree, bulletDirVec, bulletPos);
+        bulletPattern.Init(ownerBuff, bullet.GetOwnerType(), transferBulletInfo, bulletDirDegree, bulletDirVec, bulletPos);
         nextSummonTime = bullet.info.summonStartTime;
     }
     public override UpdateProperty Clone()

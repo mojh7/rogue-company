@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WeaponAsset;
+using CharacterInfo;
 
 // 일정 부채꼴 범위로 퍼져나가는 총알로 따로 각도 계산 없이 퍼질 부채꼴 범위, 총알 갯수만 있으면 되고
 // 패시브 아이템 중 샷건류 퍼져나가는 총알 수 늘리는거 적용 하려고 따로 만듬(multi pattern 으로 해도 되는데 그냥 따로 만듬)
@@ -82,11 +83,11 @@ public class SpreadPattern : BulletPattern
         }
     }
 
-    public override void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
+    public override void Init(BuffManager ownerBuff, OwnerType ownerType, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
         DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
     {
         info.bulletInfo.Init();
-        base.Init(ownerBuff, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
+        base.Init(ownerBuff, ownerType, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
     }
 
     public override void StartAttack(float damageIncreaseRate, CharacterInfo.OwnerType ownerType)

@@ -101,13 +101,14 @@ public abstract class BulletPattern
         effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)transferBulletInfo.weaponType];
     }
     /// <summary> updateProperty - SummonProperty용 초기화 </summary>
-    public virtual void Init(BuffManager ownerBuff, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
+    public virtual void Init(BuffManager ownerBuff, OwnerType ownerType, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
         DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
     {
         patternCallType = PatternCallType.BULLET;
         ownerDirDegree = dirDegree;
         ownerDirVec = dirVec;
         ownerPos = pos;
+        this.ownerType = ownerType;
         this.ownerBuff = ownerBuff;
         this.addDirVecMagnitude = addDirVecMagnitude;
         this.transferBulletInfo = new TransferBulletInfo
@@ -276,7 +277,13 @@ public abstract class BulletPattern
             }
         }
     }
-    
+
+    /// <summary>
+    /// diffProbsBulletInfoList 목록에 있는 bullet Info 각각 정의된 비율 기준으로 랜덤 생성
+    /// 없으면 bulletInfo로 생성
+    /// </summary>
+    /// <param name="bulletInfo"></param>
+    /// <param name="diffProbsBulletInfoList"></param>
     protected void AutoSelectBulletInfo(BulletInfo bulletInfo, DiffProbsBulletInfo[] diffProbsBulletInfoList)
     {
         if (null != diffProbsBulletInfoList && diffProbsBulletInfoList.Length > 0)
