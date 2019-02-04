@@ -205,6 +205,7 @@ public class Bullet : MonoBehaviour
     public void Init(BulletInfo bulletInfo, BuffManager ownerBuff, OwnerType ownerType, Vector3 pos, float direction, TransferBulletInfo transferBulletInfo, float updateDelayTime)
     {
         active = true;
+        Debug.Log("z : " + bulletInfo.name + ", " + bulletInfo.bulletPresetType);
         info = bulletInfo;
         this.transferBulletInfo = new TransferBulletInfo(transferBulletInfo);
         this.ownerBuff = ownerBuff;

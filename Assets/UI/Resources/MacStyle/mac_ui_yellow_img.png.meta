@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7cbb4c2b1258f2445b127b9512f7a066
+guid: 6cbde30e67f1a0346973e20034b1175d
 timeCreated: 1548674318
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: mac_ui_button3_0
+    21300000: mac_ui_yellow_img
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -91,15 +91,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mac_ui_button3_0
+      name: mac_ui_yellow_img
       rect:
         serializedVersion: 2
         x: 1
-        y: 1
+        y: 2
         width: 10
         height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

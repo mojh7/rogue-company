@@ -300,7 +300,7 @@ public abstract class BulletPattern
                 {
                     randomPoint -= diffProbsBulletInfoList[i].probRatio;
                 }
-            }            
+            }
         }
         else
         {

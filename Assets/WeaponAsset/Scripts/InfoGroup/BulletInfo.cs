@@ -174,6 +174,8 @@ public class BulletInfo : ScriptableObject
     public float creationCycle;
     public float summonStartTime;
     public float summonEndTime;
+    [Header("소환 최대 횟수 -1 : 무한")]
+    public int summonCountMax;
 
     /*
     // 여러 곳에서 사용할 때 중복 초기화를 막기위한 함수. 처음에 무조건 true
@@ -233,6 +235,7 @@ public class BulletInfo : ScriptableObject
 
         summonStartTime = 0;
         summonEndTime = -1;
+        summonCountMax = -1;
 
         // isInitializable = true;
 
@@ -319,6 +322,11 @@ public class BulletInfo : ScriptableObject
         clonedInfo.routineRotation = routineRotation;
         clonedInfo.rotationRoutineCount = rotationRoutineCount;
         clonedInfo.rotationTimeline = rotationTimeline;
+
+        clonedInfo.summonStartTime = summonStartTime;
+        clonedInfo.summonEndTime = summonEndTime;
+        clonedInfo.summonCountMax = summonCountMax;
+
         //clonedInfo = ; 
 
         /*---*/
