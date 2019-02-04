@@ -48,7 +48,6 @@ public class RowPattern : BulletPattern
     public override void Init(BuffManager ownerBuff, OwnerType ownerType, TransferBulletInfo transferBulletInfo, DelGetDirDegree dirDegree,
         DelGetPosition dirVec, DelGetPosition pos, float addDirVecMagnitude = 0)
     {
-        Debug.Log(info.name + ", " + info.bulletInfo.name);
         info.bulletInfo.Init();
         base.Init(ownerBuff, ownerType, transferBulletInfo, dirDegree, dirVec, pos, addDirVecMagnitude);
     }
