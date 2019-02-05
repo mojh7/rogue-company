@@ -283,7 +283,6 @@ public class LaserUpdateProperty : UpdateProperty
         }
         timeForCollision += Time.fixedDeltaTime;
         additionalDir += bullet.info.laserRotationAnglePerSecond * Time.fixedDeltaTime;
-        Debug.Log(Time.time + ", " + dir + ", " + additionalDir + ", " +( ownerDirDegree() + bullet.laserAdditionalDegree + additionalDir) + ", " + bullet.laserAdditionalDegree);
     }
 }
 
