@@ -69,7 +69,8 @@ public class BulletInfo : ScriptableObject
     public float scaleY;
 
     public float laserSize;
-    public float laserRotationAnglePerSecond;
+    public bool canUseLaserDirCurve;
+    public AnimationCurve laserDirCurve;
 
     public int pierceCount;
     public int bounceCount;
@@ -201,6 +202,8 @@ public class BulletInfo : ScriptableObject
         scaleX = -1;
         scaleY = -1;
         laserSize = 1.0f;
+        laserDirCurve = AnimationCurve.Linear(0, -360, 5, 360);
+
 
         pierceCount = 1;
         bounceCount = 0;
@@ -279,7 +282,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.scaleX = scaleX;
         clonedInfo.scaleY = scaleY;
         clonedInfo.laserSize = laserSize;
-        clonedInfo.laserRotationAnglePerSecond = laserRotationAnglePerSecond;
+        clonedInfo.canUseLaserDirCurve = canUseLaserDirCurve;
+        clonedInfo.laserDirCurve = laserDirCurve;
 
         clonedInfo.pierceCount = pierceCount;
         clonedInfo.bounceCount = bounceCount;
@@ -478,4 +482,12 @@ public class BulletInfo : ScriptableObject
         // DataStore.Instance.AddInitialedbulletInfo(this);
     }
 
+
+    // for test
+
+    public void EditorTest()
+    {
+        Debug.Log("테스트");
+        Debug.Log(speed);
+    }
 }

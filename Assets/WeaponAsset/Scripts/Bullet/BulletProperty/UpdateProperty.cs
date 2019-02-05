@@ -222,14 +222,18 @@ public class LaserUpdateProperty : UpdateProperty
     private Vector3 pos;
     private Vector2 laserSize;
     private bool AttackAble;
-    private float additionalDir;
+
     private float timeForCollision;
+
+    private float rotationEndTime;
 
     public override void Init(Bullet bullet)
     {
         base.Init(bullet);
 
         delCollisionBullet = bullet.CollisionBullet;
+
+        timeCount = 0;
 
         ownerPos = bullet.GetOwnerPos();
         ownerDirVec = bullet.GetOwnerDirVec();
@@ -242,8 +246,15 @@ public class LaserUpdateProperty : UpdateProperty
         laserSize = new Vector2(0.1f, bullet.info.laserSize);
         // 일단 Player 레이저가 Enemy에게 적용 하는 것만
         layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Enemy") | 1 << LayerMask.NameToLayer("TransparentFX"));
-        additionalDir = 0;
         timeForCollision = 0;
+
+        if(bullet.info.canUseLaserDirCurve)
+        {
+            rotationEndTime = bullet.info.laserDirCurve.keys[bullet.info.laserDirCurve.length - 1].time;
+            Debug.Log(bullet.name + rotationEndTime);
+            Debug.Log(bullet.info.laserDirCurve.keys[0].value);
+            Debug.Log(bullet.info.laserDirCurve.keys[1].value);
+        }
     }
 
     public override UpdateProperty Clone()
@@ -265,10 +276,16 @@ public class LaserUpdateProperty : UpdateProperty
         pos.z = 0;
         bullet.LaserStartPoint.position = pos;
 
-        Vector2 dir = MathCalculator.VectorRotate(Vector2.right, ownerDirDegree() + bullet.laserAdditionalDegree + additionalDir);
+        float angle;
+        if(bullet.info.canUseLaserDirCurve)
+            angle = ownerDirDegree() + bullet.laserAdditionalDegree + bullet.info.laserDirCurve.Evaluate(timeCount);
+        else
+            angle = ownerDirDegree() + bullet.laserAdditionalDegree;
+        Debug.Log(bullet.name + ", " + bullet.info.laserDirCurve.Evaluate(timeCount));
+        Vector2 dir = MathCalculator.VectorRotate(Vector2.right, angle);
         // 100f => 레이저에도 사정거리 개념을 넣게 된다면 이 부분 값을 변수로 처리할 예정이고 현재는 일단 raycast 체크 범위를 100f까지 함
-        hit = Physics2D.BoxCast(pos, laserSize, ownerDirDegree() + bullet.laserAdditionalDegree + additionalDir, dir, 100f, layerMask);
-        //hit = Physics2D.Raycast(pos, ownerDirVec(), 100f, layerMask);
+        //hit = Physics2D.BoxCast(pos, laserSize, angle, dir, 100f, layerMask);
+        hit = Physics2D.Raycast(pos, dir, 100f, layerMask);
         // && (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Enemy")
         if (null != hit.collider)
         {
@@ -282,7 +299,7 @@ public class LaserUpdateProperty : UpdateProperty
             }
         }
         timeForCollision += Time.fixedDeltaTime;
-        additionalDir += bullet.info.laserRotationAnglePerSecond * Time.fixedDeltaTime;
+        timeCount += Time.fixedDeltaTime;
     }
 }
 
