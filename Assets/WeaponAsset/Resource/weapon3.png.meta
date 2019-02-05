@@ -8,9 +8,11 @@ TextureImporter:
     21300002: weapon_10
     21300004: weapon_4
     21300006: weapon3_37
-    21300008: weapon3_-2
+    21300008: weapon3_26
     21300010: weapon_11
-    21300012: weapon3_-1
+    21300012: weapon3_25
+    21300014: weapon_25
+    21300016: weapon_26
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -139,7 +141,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon3_-1
+      name: weapon_25
       rect:
         serializedVersion: 2
         x: 218
@@ -153,7 +155,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon3_-2
+      name: weapon_26
       rect:
         serializedVersion: 2
         x: 282

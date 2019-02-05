@@ -9,18 +9,23 @@ namespace WeaponAsset
 
     public enum WeaponState { Idle, Attack, Reload, Charge, Switch, PickAndDrop }
     /// <summary>
+    /// 190206 이전 17개
     /// 원거리 : 권총, 산탄총, 기관총, 저격소총, 레이저, 활, 지팡이, 원거리 특수
     /// 근거리 기반 : 창, 몽둥이, 스포츠용품, 검, 청소도구, 주먹장착무기, 근거리 특수
     /// 폭발형? : 폭탄, 접근발동무기
-    /// 17개
+    /// 
+    /// 190206 이후 16개
+    /// 권총, 산탄총, 기관총, 저격 소총, 레이저, 활, 지팡이, 원거리 특수
+    /// 창, 몽둥이, 스포츠용품, 검, 청소도구, 주먹장착무기, 근거리 특수
+    /// 폭발형 무기
     /// </summary>
     // END 는 WeaponType 총 갯수를 알리기 위해서 enum 맨 끝에 기입 했음.
     public enum WeaponType
     {
-        NULL, PISTOL, SHOTGUN, MACHINEGUN, SNIPER_RIFLE, LASER, BOW,
+        NULL = 0, PISTOL, SHOTGUN, MACHINEGUN, SNIPER_RIFLE, LASER, BOW,
         SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE,
-        BOMB, TRAP,
-        WAND, MELEE_SPECIAL, RANGED_SPECIAL, END
+        BOMB = 13,
+        WAND = 15, MELEE_SPECIAL, RANGED_SPECIAL, END
     }
 
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW

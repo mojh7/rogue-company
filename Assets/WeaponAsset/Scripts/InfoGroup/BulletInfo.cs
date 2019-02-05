@@ -84,6 +84,9 @@ public class BulletInfo : ScriptableObject
     [Header("-1이면 effect 적용X, 0이상 만 적용")]
     public int effectId;    // 충돌 후 삭제시 생성될 effect
 
+    [Header("Trail Renderer 정보")]
+    public bool canActivateTrailRenderer;
+
     [Tooltip("총알 생성 시 발생 소리, 0이상 이면 적용")]
     public int soundId;
 
@@ -293,6 +296,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.lifeTimeRandomMinRatio = lifeTimeRandomMinRatio;
         clonedInfo.lifeTimeRandomMaxRatio = lifeTimeRandomMaxRatio;
         clonedInfo.effectId = effectId;
+        clonedInfo.canActivateTrailRenderer = canActivateTrailRenderer;
         clonedInfo.soundId = soundId;
 
         clonedInfo.colliderType = colliderType;

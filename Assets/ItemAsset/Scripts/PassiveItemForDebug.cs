@@ -200,12 +200,11 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             "3.accuracyIncrement\n" +
 
             "1.increasePierceCount\n" +
-            "2.becomesSpiderMine\n" +
-            "3.bounceAble\n" +
-            "4.shotgunBulletCanHoming\n" +
-            "5.canHoming\n" +
-            "6.meleeWeaponsCanBlockBullet\n" +
-            "7.meleeWeaponsCanReflectBullet\n" +
+            "2.bounceAble\n" +
+            "3.shotgunBulletCanHoming\n" +
+            "4.canHoming\n" +
+            "5.meleeWeaponsCanBlockBullet\n" +
+            "6.meleeWeaponsCanReflectBullet\n" +
             "\n" +
             "\n";
         EffectTotalNameText.text = variableNames;
@@ -256,7 +255,6 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             weaponTotal.accuracyIncrement + "\n" +
 
             weaponTotal.increasePierceCount + "\n" +
-            weaponTotal.becomesSpiderMine + "\n" +
             weaponTotal.bounceAble + "\n" +
             weaponTotal.shotgunBulletCanHoming + "\n" +
             weaponTotal.canHoming + "\n" +

@@ -332,7 +332,6 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                     mainWeaponInfos[i].cameraShakeTime = 0.04f;
                     break;
                 case WeaponType.BOMB:
-                case WeaponType.TRAP:
                     mainWeaponInfos[i].cameraShakeAmount = 0f;
                     mainWeaponInfos[i].cameraShakeTime = 0f;
                     break;

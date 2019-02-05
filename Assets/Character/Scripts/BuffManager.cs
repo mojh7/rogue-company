@@ -178,7 +178,6 @@ public class BuffManager : MonoBehaviour
             ammoCapacityIncrement = 0,
 
             increasePierceCount = false,
-            becomesSpiderMine = false,
             bounceAble = false,
             shotgunBulletCanHoming = false,
             canHoming = false,
@@ -520,8 +519,6 @@ public class BuffManager : MonoBehaviour
             // bool형 on / off 종류, 해당 되는 항목들은 아이템 등록시 true, 제거시 false로 total 정보를 설정 함. 
             if (targetEffect.increasePierceCount)
                 WeaponTargetEffectTotal[index].increasePierceCount = boolSign;
-            if (targetEffect.becomesSpiderMine)
-                WeaponTargetEffectTotal[index].becomesSpiderMine = boolSign;
             if (targetEffect.bounceAble)
                 WeaponTargetEffectTotal[index].bounceAble = boolSign;
             if (targetEffect.shotgunBulletCanHoming)

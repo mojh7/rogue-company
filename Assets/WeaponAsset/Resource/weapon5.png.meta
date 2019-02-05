@@ -13,7 +13,7 @@ TextureImporter:
     21300012: weapon_43
     21300014: weapon_44
     21300016: weapon_45
-    21300018: weapon5_-1
+    21300018: weapon_27
     21300020: weapon_46
     21300022: weapon_47
     21300024: weapon_48
@@ -230,7 +230,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: weapon5_-1
+      name: weapon_27
       rect:
         serializedVersion: 2
         x: 249

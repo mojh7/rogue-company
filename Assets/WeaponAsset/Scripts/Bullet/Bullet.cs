@@ -30,6 +30,8 @@ public class Bullet : MonoBehaviour
 
     // 레이저용 lineRenderer
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private TrailRenderer trailRenderer;
+    [SerializeField] private GameObject trailRendererObj;
 
     // spirte, 애니메이션 용 sprite 포함 object
     [SerializeField] private Transform viewTransform;
@@ -91,6 +93,7 @@ public class Bullet : MonoBehaviour
     public Transform LaserEndPoint { get { return laserEndPoint; } set { laserEndPoint = value; } }
 
     public LineRenderer GetLineRenderer() { return lineRenderer; }
+    public TrailRenderer GetTrailRenderer() { return trailRenderer; }
     public OwnerType GetOwnerType() { return ownerType; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
@@ -130,11 +133,6 @@ public class Bullet : MonoBehaviour
     {
         active = false;
         //gameObject.hideFlags = HideFlags.HideInHierarchy;
-        objTransform = GetComponent<Transform>();
-        //boxCollider = GetComponentInChildre<BoxCollider2D>();
-        //circleCollider = GetComponentInChildre<CircleCollider2D>();
-        objRigidbody = GetComponent<Rigidbody2D>();
-        lineRenderer = GetComponent<LineRenderer>();
         animator = GetComponentInChildren<Animator>();
         timeCount = 0;
         updateDelayTime = 0;
@@ -518,6 +516,15 @@ public class Bullet : MonoBehaviour
         {
             info.deleteProperties[i].Init(this);
         }
+    }
+
+    /// <summary>
+    /// Trail Renderer
+    /// </summary>
+    /// <param name="active"></param>
+    private void SetActiveTrailRenderer(bool active)
+    {
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -973,19 +980,6 @@ public class Bullet : MonoBehaviour
         {
             info.bounceAble = true;
             info.bounceCount = 1;
-        }
-
-        // 폭탄 무기 마인화, 일정 거리 근접 시 자동 추적 후 폭발
-        if (effectInfo.becomesSpiderMine && BulletType.MINE == info.bulletType)
-        {
-            info.becomeSpiderMine = true;
-            info.lifeTime += 3f;
-            //MineBombProperty 중복 생성 방지
-            if (false == HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(MineBombProperty)))
-            {
-                info.updateProperties.Add(new MineBombProperty());
-                info.updatePropertiesLength += 1;
-            }
         }
 
         // bulletInfo 수치들 공식 최종 적용
