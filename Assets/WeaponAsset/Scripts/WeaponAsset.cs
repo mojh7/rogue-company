@@ -47,9 +47,24 @@ namespace WeaponAsset
         YELLOW_THICK_DONUT, YELLOW_THIN_DONUT, YELLOW_SQUARE, YELLOW_RHOMBUS, YELLOW_TRIANGLE, YELLOW_X_SHAPE,
     };
     /*---*/
-    public enum BulletParticleType { NONE, BASIC }
+    public enum BulletParticleType
+    {
+        NONE, BigFireballRed, BigFireballYellow, BigFireballGreen, BigFireballBlue, BigFireballPurple, BigFireballModular,
+        PoisonMissileRed, PoisonMissileYellow, PoisonMissileGreen, PoisonMissileBlue, PoisonMissilePurple,
+        FatMissileRed, FatMissileYellow, FatMissileGreen, FatMissileBlue, FatMissilePurple, FatMissileModular,
+        AcidMissileRed, AcidMissileYellow, AcidMissileGreen, AcidMissileBlue, AcidMissilePurple, AcidMissileModular,
+    }
     public enum ImpactParticleType { NONE, BASIC }
     public enum TrailParticleType { NONE, BASIC }
+    public enum BulletImpactType
+    {
+        NONE, BasicImpactRed, BasicImpactYellow, BasicImpactGreen, BasicImpactBlue, BasicImpactPurple, BasicImpactPink,
+        BigFireballImpactRed, BigFireballImpactYellow, BigFireballImpactGreen, BigFireballImpactBlue, BigFireballImpactPurple, BigFireballImpactModular,
+        PoisonImpactRed, PoisonImpactYellow, PoisonImpactGreen, PoisonImpactBlue, PoisonImpactPurple,
+        FatExplosionRed, FatExplosionYellow, FatExplosionGreen, FatExplosionBlue, FatExplosionPurple, FatExplosionModular,
+        AcidImpactRed, AcidImpactYellow, AcidImpactGreen, AcidImpactBlue, AcidImpactPurple, AcidImpactModular
+    }
+
     public enum MuzzleFlashType
     {
         NONE, BASIC, MUZZLE_FLASH_FROST, MUZZLE_FLASH_FIRE_BALL_BLUE, MUZZLE_FLASH_FIRE_BALL_GREEN, MUZZLE_FLASH_FIRE_BALL_PURPLE, MUZZLE_FLASH_FIRE_BALL_RED, MUZZLE_FLASH_FIRE_BALL_YELLOW,
@@ -79,11 +94,6 @@ namespace WeaponAsset
         BashRed,
         BashOrange,
         PaperShot
-    }
-
-    public enum BulletImpactType
-    {
-        NONE, BasicImpactRed, BasicImpactYellow, BasicImpactGreen, BasicImpactBlue, BasicImpactPurple, BasicImpactPink
     }
 
     /*---*/

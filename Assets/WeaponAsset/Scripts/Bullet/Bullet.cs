@@ -78,6 +78,7 @@ public class Bullet : MonoBehaviour
 
     private bool active;
     private BulletPresetInfo bulletPresetInfo;
+    private BulletParticlePresetInfo bulletParticlePresetInfo;
 
     private float eulerAngleZ;
 
@@ -390,9 +391,9 @@ public class Bullet : MonoBehaviour
         lineRenderer.enabled = false;
         laserViewObj.SetActive(false);
 
-        if(null != info.bulletParticleName)
+        if(BulletParticleType.NONE != info.bulletParticleType)
         {
-            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleName, objTransform.position, objTransform);
+            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform);
         }
             
 
@@ -536,6 +537,10 @@ public class Bullet : MonoBehaviour
         {
             this.bulletPresetInfo = BulletPresets.Instance.bulletPresetInfoList[(int)info.bulletPresetType - 1];
         }
+        if (BulletParticleType.NONE != info.bulletParticleType)
+        {
+            this.bulletParticlePresetInfo = BulletPresets.Instance.bulletParticlePresetInfoList[(int)info.bulletParticleType - 1];
+        }
     }
 
     /// <summary>
@@ -560,13 +565,6 @@ public class Bullet : MonoBehaviour
 
             if (-1 == info.lifeTime)
                 info.lifeTime = bulletPresetInfo.lifeTime;
-            if (-1 == info.effectId)
-                info.effectId = bulletPresetInfo.effectId;
-
-            if ("" == info.bulletParticleName)
-                info.bulletParticleName = bulletPresetInfo.bulletParticleName;
-            if ("" == info.impactParticleName)
-                info.impactParticleName = bulletPresetInfo.impactParticleName;
 
             if (-1 == info.manualSize.x && -1 == info.manualSize.y)
                 info.manualSize = bulletPresetInfo.manualSize;
@@ -579,6 +577,25 @@ public class Bullet : MonoBehaviour
 
             if (bulletPresetInfo.isFixedAngle)
                 info.isFixedAngle = true;
+        }
+
+        if(BulletParticleType.NONE != info.bulletParticleType)
+        {
+            if(info.appliesCollisionByParticlePresets)
+            {
+                info.bulletImpactType = bulletParticlePresetInfo.bulletImpactType;
+
+                if (ColliderType.NONE == info.colliderType)
+                    info.colliderType = bulletParticlePresetInfo.colliderType;
+                if (1 == info.autoSizeRatio && 1 != bulletParticlePresetInfo.autoSizeRatio)
+                    info.autoSizeRatio = bulletParticlePresetInfo.autoSizeRatio;
+                if (-1 == info.manualSize.x && -1 == info.manualSize.y)
+                    info.manualSize = bulletParticlePresetInfo.manualSize;
+                if (-1 == info.circleManualRadius)
+                    info.circleManualRadius = bulletParticlePresetInfo.circleManualRadius;
+                if (-1 == info.colliderOffset.x && -1 == info.colliderOffset.y)
+                    info.colliderOffset = bulletParticlePresetInfo.colliderOffset;
+            }
         }
     }
 

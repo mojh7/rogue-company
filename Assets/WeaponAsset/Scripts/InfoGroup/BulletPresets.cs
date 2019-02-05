@@ -15,7 +15,6 @@ public class BulletPresetInfo
     public float autoSizeRatio = 1f;
     public BulletAnimationType spriteAnimation;
     public float lifeTime = -1;
-    public int effectId = -1;
     public BulletImpactType bulletImpactType;
     public string bulletParticleName;
     public string impactParticleName;
@@ -25,25 +24,51 @@ public class BulletPresetInfo
     public bool isFixedAngle;
 }
 
+[System.Serializable]
+public class BulletParticlePresetInfo
+{
+    public BulletParticleType presetType;
+    public BulletImpactType bulletImpactType;
+    public ColliderType colliderType;
+    public float autoSizeRatio = 1f;
+    public Vector2 manualSize;
+    public Vector2 colliderOffset;
+    public float circleManualRadius;
+}
+
 public class BulletPresets : MonoBehaviourSingleton<BulletPresets>
 {
     public BulletPresetInfo[] bulletPresetInfoList;
+    public BulletParticlePresetInfo[] bulletParticlePresetInfoList;
 
-    [ContextMenu("AutoEdit")]
-    public void Autoedit()
+    [ContextMenu("AutoParticlePresetEdit")]
+    public void AutoParticlePresetEdit()
     {
-        for(int i = 0; i < bulletPresetInfoList.Length; i++)
+        for (int i = 0; i < bulletParticlePresetInfoList.Length; i++)
         {
-            if(0 == bulletPresetInfoList[i].effectId)
-            {
-                bulletPresetInfoList[i].bulletImpactType = BulletImpactType.BasicImpactRed;
-                Debug.Log(i + " : " + bulletPresetInfoList[i].effectId + ", red");
-            }
-            else
-            {
-                Debug.Log(i + " : " + bulletPresetInfoList[i].effectId + ", effectId 없음");
-            }
+            bulletParticlePresetInfoList[i].presetType = (BulletParticleType)(i + 1);
+            bulletParticlePresetInfoList[i].bulletImpactType = (BulletImpactType)(i + 7);
+            bulletParticlePresetInfoList[i].autoSizeRatio = 1f;
+            bulletParticlePresetInfoList[i].colliderType = ColliderType.MANUAL_SIZE_CIRCLE;
+            bulletParticlePresetInfoList[i].circleManualRadius = 0.4f;
         }
+    }
+
+    [ContextMenu("AutoPresetEdit")]
+    public void AutoPresetEdit()
+    {
+        //for(int i = 0; i < bulletPresetInfoList.Length; i++)
+        //{
+        //    if(0 == bulletPresetInfoList[i].effectId)
+        //    {
+        //        bulletPresetInfoList[i].bulletImpactType = BulletImpactType.BasicImpactRed;
+        //        Debug.Log(i + " : " + bulletPresetInfoList[i].effectId + ", red");
+        //    }
+        //    else
+        //    {
+        //        Debug.Log(i + " : " + bulletPresetInfoList[i].effectId + ", effectId 없음");
+        //    }
+        //}
 
         //for (int i = 37; i < bulletpresetinfolist.length; i++)
         //{

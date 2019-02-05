@@ -39,8 +39,10 @@ public abstract class DeleteProperty : BulletProperty
 
     protected void CreateImpact()
     {
-        if (WeaponAsset.BulletImpactType.NONE == bullet.info.bulletImpactType) return;
-        ParticleManager.Instance.PlayParticle(bullet.info.bulletImpactType.ToString(), new Vector2(bulletTransform.position.x, bulletTransform.position.y));
+        if (WeaponAsset.BulletImpactType.NONE != bullet.info.bulletImpactType)
+        {
+            ParticleManager.Instance.PlayParticle(bullet.info.bulletImpactType.ToString(), bulletTransform.position);
+        }
     }
 
     protected void ResetDeletedCondition()
@@ -51,8 +53,10 @@ public abstract class DeleteProperty : BulletProperty
     protected void RemoveBulletParticle()
     {
         ParticleSystem bulletParticle = bullet.GetBulletParticle();
-        if ("" != bullet.info.impactParticleName)
-            ParticleManager.Instance.PlayParticle(bullet.info.impactParticleName, bullet.objTransform.position, 0.2f);
+        //if (WeaponAsset.BulletImpactType.NONE != bullet.info.bulletImpactType)
+        //{
+        //    ParticleManager.Instance.PlayParticle(bullet.info.bulletImpactType.ToString(), bullet.objTransform.position);
+        //}
         if(null != bulletParticle)
         {
             bulletParticle.transform.parent = ParticleManager.Instance.GetBodyTransform();

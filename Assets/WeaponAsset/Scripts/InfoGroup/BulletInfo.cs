@@ -44,9 +44,9 @@ public class BulletInfo : ScriptableObject
     [SerializeField]
     public BulletPresetType bulletPresetType;
     public BulletParticleType bulletParticleType;
-    public ImpactParticleType impactParticleType;
-    public string bulletParticleName;
-    public string impactParticleName;
+    public BulletImpactType bulletImpactType;
+
+    public bool appliesCollisionByParticlePresets;
 
     [SerializeField]
     private string bulletName;  // 총알 이름, (메모 용)
@@ -81,10 +81,7 @@ public class BulletInfo : ScriptableObject
     public bool isRandomLifeTime;
     public float lifeTimeRandomMinRatio;
     public float lifeTimeRandomMaxRatio;
-    [Header("-1이면 effect 적용X, 0이상 만 적용")]
-    public int effectId;    // 충돌 후 삭제시 생성될 effect
 
-    public BulletImpactType bulletImpactType;
 
     [Header("Trail Renderer 정보")]
     public bool canActivateTrailRenderer;
@@ -211,8 +208,6 @@ public class BulletInfo : ScriptableObject
     public void InitFieldValue()
     {
         ownerType = CharacterInfo.OwnerType.PLAYER;
-        bulletParticleName = "";
-        impactParticleName = "";
 
         speedRandomMinRatio = 1f;
         speedRandomMaxRatio = 1f;
@@ -228,7 +223,6 @@ public class BulletInfo : ScriptableObject
         lifeTime = -1;
         lifeTimeRandomMinRatio = 1f;
         lifeTimeRandomMaxRatio = 1f;
-        effectId = -1;
         soundId = -1;
 
         autoSizeRatio = 1f;
@@ -272,8 +266,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.ownerType = ownerType;
         clonedInfo.bulletType = bulletType;
         clonedInfo.bulletPresetType = bulletPresetType;
-        clonedInfo.bulletParticleName = bulletParticleName;
-        clonedInfo.impactParticleName = impactParticleName;
+        clonedInfo.bulletParticleType = bulletParticleType;
+        clonedInfo.appliesCollisionByParticlePresets = appliesCollisionByParticlePresets;
 
         clonedInfo.bulletName = bulletName;
         clonedInfo.statusEffectInfo = new StatusEffectInfo(statusEffectInfo);
@@ -302,7 +296,6 @@ public class BulletInfo : ScriptableObject
         clonedInfo.isRandomLifeTime = isRandomLifeTime;
         clonedInfo.lifeTimeRandomMinRatio = lifeTimeRandomMinRatio;
         clonedInfo.lifeTimeRandomMaxRatio = lifeTimeRandomMaxRatio;
-        clonedInfo.effectId = effectId;
         clonedInfo.bulletImpactType = bulletImpactType;
         clonedInfo.canActivateTrailRenderer = canActivateTrailRenderer;
         clonedInfo.soundId = soundId;
