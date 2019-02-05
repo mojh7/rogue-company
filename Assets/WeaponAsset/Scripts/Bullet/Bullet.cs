@@ -575,6 +575,8 @@ public class Bullet : MonoBehaviour
             if (-1 == info.colliderOffset.x && -1 == info.colliderOffset.y)
                 info.colliderOffset = bulletPresetInfo.colliderOffset;
 
+            info.bulletImpactType = bulletPresetInfo.bulletImpactType;
+
             if (bulletPresetInfo.isFixedAngle)
                 info.isFixedAngle = true;
         }

@@ -81,6 +81,11 @@ namespace WeaponAsset
         PaperShot
     }
 
+    public enum BulletImpactType
+    {
+        NONE, BasicImpactRed, BasicImpactYellow, BasicImpactGreen, BasicImpactBlue, BasicImpactPurple, BasicImpactPink
+    }
+
     /*---*/
 
 

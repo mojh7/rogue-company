@@ -84,6 +84,8 @@ public class BulletInfo : ScriptableObject
     [Header("-1이면 effect 적용X, 0이상 만 적용")]
     public int effectId;    // 충돌 후 삭제시 생성될 effect
 
+    public BulletImpactType bulletImpactType;
+
     [Header("Trail Renderer 정보")]
     public bool canActivateTrailRenderer;
 
@@ -196,6 +198,18 @@ public class BulletInfo : ScriptableObject
     // 새로운 속성 만들면 clone 추가 무조건 해줘야 됨.
     public BulletInfo()
     {
+        InitFieldValue();
+
+        // isInitializable = true;
+
+        // Debug.Log(name + ", 생성자 : " + isInitializable);
+        // 직렬화 중에 get_name을 호출 할 수 없음, 대신 OnEnable에서 호출할 것
+        // get_name is not allowed to be called during serialization, call it from OnEnable instead. Called from ScriptableObject 'MultiDirPatternInfo'.
+        // See "Script Serialization" page in the Unity Manual for further details.
+    }
+
+    public void InitFieldValue()
+    {
         ownerType = CharacterInfo.OwnerType.PLAYER;
         bulletParticleName = "";
         impactParticleName = "";
@@ -245,13 +259,6 @@ public class BulletInfo : ScriptableObject
         summonStartTime = 0;
         summonEndTime = -1;
         summonCountMax = -1;
-
-        // isInitializable = true;
-
-        // Debug.Log(name + ", 생성자 : " + isInitializable);
-        // 직렬화 중에 get_name을 호출 할 수 없음, 대신 OnEnable에서 호출할 것
-        // get_name is not allowed to be called during serialization, call it from OnEnable instead. Called from ScriptableObject 'MultiDirPatternInfo'.
-        // See "Script Serialization" page in the Unity Manual for further details.
     }
 
     // 복사 생성자 쓸랬다가 로그 보는 곳에 BulletInfo must be 
@@ -296,6 +303,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.lifeTimeRandomMinRatio = lifeTimeRandomMinRatio;
         clonedInfo.lifeTimeRandomMaxRatio = lifeTimeRandomMaxRatio;
         clonedInfo.effectId = effectId;
+        clonedInfo.bulletImpactType = bulletImpactType;
         clonedInfo.canActivateTrailRenderer = canActivateTrailRenderer;
         clonedInfo.soundId = soundId;
 

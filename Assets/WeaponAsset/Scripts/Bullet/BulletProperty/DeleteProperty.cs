@@ -36,14 +36,11 @@ public abstract class DeleteProperty : BulletProperty
     {
         RemoveBulletParticle();
     }
-    // TODO : 고쳐야 됨
-    protected void CreateEffect(int id, Vector3 pos)
+
+    protected void CreateImpact()
     {
-        if (id < 0) return;
-        if (id == 0)
-        {
-            ParticleManager.Instance.PlayParticle("BulletEffect1", new Vector2(pos.x, pos.y));
-        }
+        if (WeaponAsset.BulletImpactType.NONE == bullet.info.bulletImpactType) return;
+        ParticleManager.Instance.PlayParticle(bullet.info.bulletImpactType.ToString(), new Vector2(bulletTransform.position.x, bulletTransform.position.y));
     }
 
     protected void ResetDeletedCondition()
@@ -76,7 +73,7 @@ public class BaseDeleteProperty : DeleteProperty
     public override void DestroyBullet()
     {
         base.DestroyBullet();
-        CreateEffect(bullet.info.effectId, bulletTransform.position);
+        CreateImpact();
         ResetDeletedCondition();
         ObjectPoolManager.Instance.DeleteBullet(bulletObj);
     }
@@ -124,7 +121,7 @@ public class DeleteAfterSummonBulletProperty : DeleteProperty
     public override void DestroyBullet()
     {
         base.DestroyBullet();
-        CreateEffect(bullet.info.effectId, bulletTransform.position);
+        CreateImpact();
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdObj.GetComponent<Bullet>().Init(bullet.info.deleteAfterSummonBulletInfo.Clone(), ownerBuff, transferBulletInfo, bullet.GetOwnerType(), bulletTransform.position);
         ResetDeletedCondition();
@@ -154,8 +151,8 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
     public override void DestroyBullet()
     {
         base.DestroyBullet();
-        CreateEffect(bullet.info.effectId, bulletTransform.position);
-        if(Bullet.DeletedCondition.COLLISION_TARGET != bullet.GetDeletedCondition())
+        CreateImpact();
+        if (Bullet.DeletedCondition.COLLISION_TARGET != bullet.GetDeletedCondition())
         {
             dirDegree = bullet.GetDirDegree();
             dirVec = bullet.GetDirVector();

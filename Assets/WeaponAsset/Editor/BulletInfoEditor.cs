@@ -13,10 +13,10 @@ public class BulletInfoEditor : Editor
 
         EditorGUILayout.CurveField("a on angle", a);
 
-        if(GUILayout.Button("TestBtn"))
+        if(GUILayout.Button("EditorTestBtn_init_func"))
         {
-            Debug.Log("12122");
-            bulletInfo.EditorTest();
+            Debug.Log("Editor 테스트, init 함수 실행");
+            bulletInfo.InitFieldValue();
         }
         
     }
