@@ -18,6 +18,7 @@ public class StoreItem : CustomObject
         polygonCollider2D.SetPath(0, clickableBoxPolygon);
         SetAvailable();
         ShadowDrawing();
+        gameObject.layer = 9;
     }
 
     public override void SetAvailable()
