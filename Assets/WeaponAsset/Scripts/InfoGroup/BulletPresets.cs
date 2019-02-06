@@ -41,6 +41,28 @@ public class BulletPresets : MonoBehaviourSingleton<BulletPresets>
     public BulletPresetInfo[] bulletPresetInfoList;
     public BulletParticlePresetInfo[] bulletParticlePresetInfoList;
 
+    [Header("파티클 프리팹 이름 반자동으로 생성 해주기")]
+    public string originalName;
+    public string missileName;
+    public string impactName;
+    public string[] colorName;
+    public int[] colorOrder;
+
+    [ContextMenu("Output Particle Name")]
+    public void PrintParticleNames()
+    {
+        string missileStrTotal = "";
+        string impactStrTotal = "";
+        for (int i = 0; i < colorOrder.Length; i++)
+        {
+            missileStrTotal += originalName + missileName + colorName[colorOrder[i]] + ", ";
+            impactStrTotal += originalName + impactName + colorName[colorOrder[i]] + ", ";
+        }
+
+        Debug.Log(missileStrTotal + "\n" + impactStrTotal);
+    }
+
+
     [ContextMenu("AutoParticlePresetEdit")]
     public void AutoParticlePresetEdit()
     {

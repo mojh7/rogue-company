@@ -53,6 +53,11 @@ namespace WeaponAsset
         PoisonMissileRed, PoisonMissileYellow, PoisonMissileGreen, PoisonMissileBlue, PoisonMissilePurple,
         FatMissileRed, FatMissileYellow, FatMissileGreen, FatMissileBlue, FatMissilePurple, FatMissileModular,
         AcidMissileRed, AcidMissileYellow, AcidMissileGreen, AcidMissileBlue, AcidMissilePurple, AcidMissileModular,
+        RocketRed, RocketYellow, RocketGreen, RocketBlue, RocketPurple, RocketModular,
+        BulletRed, BulletYellow, BulletGreen, BulletBlue, BulletPurple, BulletModular,
+        SparkleMissileRed, SparkleMissileYellow, SparkleMissileGreen, SparkleMissileBlue, SparkleMissilePurple, SparkleMissileModular,
+        SymbolMissileRed, SymbolMissileYellow, SymbolMissileGreen, SymbolMissileBlue, SymbolMissilePurple, SymbolMissileModular,
+        LaserRed, LaserYellow, LaserGreen, LaserBlue, LaserPurple, LaserModular,
     }
     public enum ImpactParticleType { NONE, BASIC }
     public enum TrailParticleType { NONE, BASIC }
@@ -62,7 +67,12 @@ namespace WeaponAsset
         BigFireballImpactRed, BigFireballImpactYellow, BigFireballImpactGreen, BigFireballImpactBlue, BigFireballImpactPurple, BigFireballImpactModular,
         PoisonImpactRed, PoisonImpactYellow, PoisonImpactGreen, PoisonImpactBlue, PoisonImpactPurple,
         FatExplosionRed, FatExplosionYellow, FatExplosionGreen, FatExplosionBlue, FatExplosionPurple, FatExplosionModular,
-        AcidImpactRed, AcidImpactYellow, AcidImpactGreen, AcidImpactBlue, AcidImpactPurple, AcidImpactModular
+        AcidImpactRed, AcidImpactYellow, AcidImpactGreen, AcidImpactBlue, AcidImpactPurple, AcidImpactModular,
+        RocketExplosionRed, RocketExplosionYellow, RocketExplosionGreen, RocketExplosionBlue, RocketExplosionPurple, RocketExplosionModular,
+        BulletImpactRed, BulletImpactYellow, BulletImpactGreen, BulletImpactBlue, BulletImpactPurple, BulletImpactModular,
+        SparkleExplosionRed, SparkleExplosionYellow, SparkleExplosionGreen, SparkleExplosionBlue, SparkleExplosionPurple, SparkleExplosionModular,
+        SymbolExplosionRed, SymbolExplosionYellow, SymbolExplosionGreen, SymbolExplosionBlue, SymbolExplosionPurple, SymbolExplosionModular,
+        LaserImpactRed, LaserImpactYellow, LaserImpactGreen, LaserImpactBlue, LaserImpactPurple, LaserImpactModular,
     }
 
     public enum MuzzleFlashType
