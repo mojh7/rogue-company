@@ -66,6 +66,7 @@ public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
         // 저장된 데이터를 로드한 상태일 때
         else
         {
+            Debug.Log("b");
             player.InitWithPlayerData(GameDataManager.Instance.GetPlayerData());
         }
         GameStateManager.Instance.SetLoadsGameData(false);
