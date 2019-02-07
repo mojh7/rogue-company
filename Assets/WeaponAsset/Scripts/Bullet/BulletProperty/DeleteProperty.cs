@@ -60,7 +60,7 @@ public abstract class DeleteProperty : BulletProperty
         if(null != bulletParticle)
         {
             bulletParticle.transform.parent = ParticleManager.Instance.GetBodyTransform();
-            UtilityClass.Invoke(ParticleManager.Instance, () => bulletParticle.gameObject.SetActive(false), 0.2f);
+            UtilityClass.Invoke(ParticleManager.Instance, () => bulletParticle.gameObject.SetActive(false), 0.3f);
             bullet.SetBulletParticle(null);
         }
     }

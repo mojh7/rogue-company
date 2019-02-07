@@ -469,20 +469,6 @@ public class Bullet : MonoBehaviour
         // 파티클이 포함되어있는 오브젝트 on/ off
         paticleObj.SetActive(info.showsParticle);
 
-        // 튕기는 총알 테스트 용, 일단 컬라이더 임시로 박스만 쓰는 중
-        if (true == info.bounceAble)
-        {
-            boxCollider.isTrigger = false;
-            circleCollider.isTrigger = false;
-            polygonCollider.isTrigger = false;
-        }
-        else
-        {
-            boxCollider.isTrigger = true;
-            circleCollider.isTrigger = true;
-            polygonCollider.isTrigger = true;
-        }
-
         if (true == info.canBlockBullet)
         {
             if (OwnerType.PLAYER == ownerType)
@@ -773,43 +759,28 @@ public class Bullet : MonoBehaviour
         CollisionBullet(coll);
     }
 
-    // TODO : collisionPropery안에서도 또 layer 체크하는데 봐서 간소화 시킬 수 있으면 간소화 시킬 예정
-    /// <summary> 충돌 속성 실행 Collision </summary>
+    /// <summary> Collision </summary>
     public void CollisionBullet(Collision2D coll)
     {
         int length = info.collisionPropertiesLength;
-        if (OwnerType.PLAYER == ownerType)
+        // TransparentFx 1, wall 14
+        if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
         {
-            // TransparentFx 1, enemy 13, wall 14, EnemyCanBlockBullet 20, EnemyCanReflectBullet 21
-            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 13, 14, 20, 21))
+            for (int i = 0; i < length; i++)
             {
-                for (int i = 0; i < length; i++)
-                {
-                    info.collisionProperties[i].Collision(ref coll);
-                }
-            }
-        }
-        else if(OwnerType.ENEMY == ownerType)
-        {
-            // TransparentFx 1, wall 14, player 16, PlayerCanBlockBullet 18, PlayerCanReflectBullet 19
-            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14, 16, 18, 19))
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    info.collisionProperties[i].Collision(ref coll);
-                }
+                info.collisionProperties[i].Collision(ref coll);
             }
         }
     }
     
-    /// <summary> 충돌 속성 실행 Trigger </summary>
+    /// <summary> Trigger </summary>
     public void CollisionBullet(Collider2D coll)
     {
         int length = info.collisionPropertiesLength;
         if (OwnerType.PLAYER == ownerType)
         {
-            // TransparentFx 1, enemy 13, wall 14, EnemyCanBlockBullet 20, EnemyCanReflectBullet 21
-            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 13, 14, 20, 21))
+            // enemy 13, EnemyCanBlockBullet 20, EnemyCanReflectBullet 21
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 13, 20, 21))
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -819,8 +790,8 @@ public class Bullet : MonoBehaviour
         }
         else if (OwnerType.ENEMY == ownerType)
         {
-            // TransparentFx 1, wall 14, player 16, PlayerCanBlockBullet 18, PlayerCanReflectBullet 19
-            if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14, 16, 18, 19))
+            // player 16, PlayerCanBlockBullet 18, PlayerCanReflectBullet 19
+            if (UtilityClass.CheckLayer(coll.gameObject.layer, 16, 18, 19))
             {
                 for (int i = 0; i < length; i++)
                 {

@@ -139,68 +139,6 @@ class BaseNormalCollisionProperty : CollisionProperty
     // collision
     public override void Collision(ref Collision2D coll)
     {
-        if (OwnerType.ENEMY == bullet.GetOwnerType())
-        {
-            // PlayerCanReflectBullet = 19, PlayerCanBlockBullet = 18
-            // owenr = player bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
-            if (UtilityClass.CheckLayer(coll.gameObject.layer, 19))
-            {
-                colliderObj.layer = LayerMask.NameToLayer("PlayerBullet");
-                bullet.SetOwnerType(OwnerType.PLAYER);
-                bullet.RotateDirection(180);
-            }
-            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 18))
-            {
-                delDestroyBullet();
-            }
-            
-            // Enemy가 Player(16) 공격 : 관통 처리 o, 공격 o
-            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 16))
-            {
-                if (pierceCount > 0)
-                {
-                    AffectStatusEffect(ref coll);
-                    Attack(ref coll);
-                    Ignore(ref coll);
-                    pierceCount -= 1;
-                    if (pierceCount == 0)
-                        delDestroyBullet();
-                    DecreaseDamageAfterPierce();
-                }
-                return;
-            }
-        }
-        else if (OwnerType.PLAYER == bullet.GetOwnerType())
-        {
-            // EnemyCanReflectBullet = 21, EnemyCanBlockBullet = 20
-            // owenr = enemy bullet되고 왔던 방향과 반대 방향(원점 대칭)으로 반사
-            if (UtilityClass.CheckLayer(coll.gameObject.layer, 21))
-            {
-                colliderObj.layer = LayerMask.NameToLayer("EnemyBullet");
-                bullet.SetOwnerType(OwnerType.ENEMY);
-                bullet.RotateDirection(180);
-            }
-            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 20))
-            {
-                delDestroyBullet();
-            }
-            // Player(16)가 Enemy(13) 공격 : 관통 처리 o, 공격 o
-            else if (UtilityClass.CheckLayer(coll.gameObject.layer, 13))
-            {
-                if (pierceCount > 0)
-                {
-                    AffectStatusEffect(ref coll);
-                    Attack(ref coll);
-                    Ignore(ref coll);
-                    pierceCount -= 1;
-                    if (pierceCount == 0)
-                        delDestroyBullet();
-                    DecreaseDamageAfterPierce();
-                }
-                return;
-            }
-        }
-        
         // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (ex : 벽 14, TransparentFX 1)
         if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
         {
@@ -272,11 +210,13 @@ class BaseNormalCollisionProperty : CollisionProperty
             }
         }
         
+        /*
         // owner 상관 없는 처리이고 바운스 처리 o, 공격 x (TransparentFx 1, wall 14)
         if (UtilityClass.CheckLayer(coll.gameObject.layer, 1, 14))
         {
             delDestroyBullet();
         }
+        */
     }
 
     public override void Init(Bullet bullet)

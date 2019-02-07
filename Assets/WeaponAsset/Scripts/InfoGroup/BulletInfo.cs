@@ -88,6 +88,7 @@ public class BulletInfo : ScriptableObject
     public TrailRendererInfo trailRendererInfo;
 
     public int pierceCount;
+    public bool bounceAble;
     public int bounceCount;
 
     [Header("-1이면 적용 X, 0 초과 값이면 lifeTime 만큼 시간 지나고 Delete속성 실행 ")]
@@ -137,8 +138,6 @@ public class BulletInfo : ScriptableObject
     [Header("타겟 당 연속 재 충돌 방지 차원의 딜레이")]
     public float targetRecollisionDelay;
 
-    // 튕기는 총알 테스트용, 반사 o / x
-    public bool bounceAble;
     [Header("다른 owner 총알 막기 on / off")]
     public bool canBlockBullet;
     [Header("다른 owner 총알 튕겨내기 on / off")]
@@ -305,6 +304,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.canActivateTrailRenderer = canActivateTrailRenderer;
         clonedInfo.trailRendererInfo = trailRendererInfo;
         clonedInfo.pierceCount = pierceCount;
+        clonedInfo.bounceAble = bounceAble;
         clonedInfo.bounceCount = bounceCount;
 
         clonedInfo.lifeTime = lifeTime;
@@ -333,7 +333,6 @@ public class BulletInfo : ScriptableObject
         clonedInfo.deleteAfterSummonBulletInfo = deleteAfterSummonBulletInfo;
         clonedInfo.deleteAfterSummonPatternInfo = deleteAfterSummonPatternInfo;
         clonedInfo.targetRecollisionDelay = targetRecollisionDelay;
-        clonedInfo.bounceAble = bounceAble;
         clonedInfo.canBlockBullet = canBlockBullet;
         clonedInfo.canReflectBullet = canReflectBullet;
         clonedInfo.becomeSpiderMine = becomeSpiderMine;
