@@ -870,7 +870,6 @@ public class Bullet : MonoBehaviour
         if (info.canActivateTrailRenderer)
         {
             TrailRendererManager.Instance.RemoveTrailRenderer(trailRenderer.gameObject, trailRenderer, info.trailRendererInfo.remainTime);
-            trailRenderer = null;
         }
     }
 
