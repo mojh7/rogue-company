@@ -14,6 +14,7 @@ public class TrailRendererInfo
     public float startWidth = -1;
     public float endWidth = -1;
     public float time = -1;
+    public float remainTime = 0f;
 }
 
 

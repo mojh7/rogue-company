@@ -85,6 +85,8 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         UtilityClass.Invoke(this, () => particle.gameObject.SetActive(false), particle.main.duration + 0.5f);
     }
 
+
+    // func for mo
     public ParticleSystem PlayBulletParticle(string str, Vector2 pos, Transform parent)
     {
         ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);

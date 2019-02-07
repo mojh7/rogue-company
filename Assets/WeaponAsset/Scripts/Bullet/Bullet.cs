@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
     public BoxCollider2D boxCollider;
     public CircleCollider2D circleCollider;
     public PolygonCollider2D polygonCollider;
+    public BoxCollider2D objectOnlyCollider;
     [SerializeField]
     private GameObject colliderObj;
     public Rigidbody2D objRigidbody;
@@ -31,7 +32,6 @@ public class Bullet : MonoBehaviour
     // 레이저용 lineRenderer
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private TrailRenderer trailRenderer;
-    [SerializeField] private GameObject trailRendererObj;
 
     // spirte, 애니메이션 용 sprite 포함 object
     [SerializeField] private Transform viewTransform;
@@ -248,7 +248,7 @@ public class Bullet : MonoBehaviour
         this.ownerBuff = ownerBuff;
 
         UpdateTransferBulletInfo();
-        ResetTrailRenderer();
+        
         // component on/off
         SetColliderActive(false);
         lineRenderer.enabled = true;
@@ -396,9 +396,7 @@ public class Bullet : MonoBehaviour
             bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform);
         }
 
-        ResetTrailRenderer();
-        ApplyTrailRendererInfo();
-
+        ActivateTrailRenderer();
         ActivateColiider();
         // sprite 애니메이션 적용
         if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
@@ -519,15 +517,6 @@ public class Bullet : MonoBehaviour
         {
             info.deleteProperties[i].Init(this);
         }
-    }
-
-    /// <summary>
-    /// Trail Renderer
-    /// </summary>
-    /// <param name="active"></param>
-    private void SetActiveTrailRenderer(bool active)
-    {
-        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -861,6 +850,8 @@ public class Bullet : MonoBehaviour
         timeCount = 0;
         updateDelayTime = 0;
 
+        RemoveTrailRenderer();
+
         // 실행 중인 코루틴이 있으면 코루틴 멈춤
         if (null != bulletUpdate)
         {
@@ -896,23 +887,19 @@ public class Bullet : MonoBehaviour
 
     #region func
 
-    public void ResetTrailRenderer()
+    public void ActivateTrailRenderer()
     {
-        trailRenderer.enabled = false;
-        trailRenderer.time = 0;
-    }
-
-    public void ApplyTrailRendererInfo()
-    {
-        if(info.canActivateTrailRenderer)
+        if (info.canActivateTrailRenderer)
         {
-            trailRenderer.enabled = true;
-            trailRenderer.material = info.trailRendererInfo.material;
-            trailRenderer.time = info.trailRendererInfo.time;
-            trailRenderer.startWidth = info.trailRendererInfo.startWidth;
-            trailRenderer.endWidth = info.trailRendererInfo.endWidth;
-            //trailRenderer.widthCurve.keys[0].value = info.trailRendererInfo.startWidthRatio;
-            //trailRenderer.widthCurve.keys[1].value = info.trailRendererInfo.endWidthRatio;
+            trailRenderer = TrailRendererManager.Instance.ActivateTrailRenderer(info.trailRendererInfo, transform);
+        }
+    }
+    public void RemoveTrailRenderer()
+    {
+        if (info.canActivateTrailRenderer)
+        {
+            TrailRendererManager.Instance.RemoveTrailRenderer(trailRenderer.gameObject, trailRenderer, info.trailRendererInfo.remainTime);
+            trailRenderer = null;
         }
     }
 

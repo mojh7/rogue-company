@@ -24,48 +24,42 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     [SerializeField]
     private MemoryPool bulletPool;
 
-    // effect 아직 안 옮김
-    public GameObject effectPrefab;
-    [SerializeField]
-    private int initEffectNumMax;
-    [SerializeField]
-    private MemoryPool effectPool;
-
-    // effect 아직 안 옮김
     public GameObject itemPrefab;
     [SerializeField]
     private int initItemNumMax;
     [SerializeField]
     private MemoryPool itemPool;
 
+    public GameObject trailRendererPrefab;
+    [SerializeField]
+    private int initTrailRendererNumMax;
+    [SerializeField]
+    private MemoryPool trailRendererPool;
+
 
     [SerializeField] private Transform weaponsTrasnform;
     [SerializeField] private Transform bulletsTrasnform;
-    [SerializeField] private Transform effectsTrasnform;
     [SerializeField] private Transform itemsTrasnform;
+    [SerializeField] private Transform trailRendererTrasnform;
     #endregion
 
     #region getter
     public MemoryPool WeaponPool { get { return weaponPool; } }
     public MemoryPool BulletPool { get { return bulletPool; } }
-    public MemoryPool EffectPool { get { return effectPool; } }
     public Transform GetWeaponsTrasnform() { return weaponsTrasnform; }
     public Transform GetBulletsTrasnform() { return bulletsTrasnform; }
+
+    public Transform GetTrailRendererTransform() { return trailRendererTrasnform; }
     #endregion
 
 
     private void Awake()
     {
         // 오브젝트 풀 초기화
-
-        // weapon 오브젝트풀 초기화
         weaponPool = new MemoryPool(weaponPrefab, initWeaponNumMax, weaponsTrasnform, "Weapon_");
-        // bullet 오브젝트풀 초기화
         bulletPool = new MemoryPool(bulletPrefab, initBulletNumMax, bulletsTrasnform, "Bullet_");
-        // effect 오브젝트풀 초기화
-        //effectPool = new MemoryPool(effectPrefab, initEffectNumMax);
-        // item 오브젝트풀 초기화
         itemPool = new MemoryPool(itemPrefab, initItemNumMax, itemsTrasnform, "item_");
+        trailRendererPool = new MemoryPool(trailRendererPrefab, initTrailRendererNumMax, trailRendererTrasnform, "trail_");
     }
 
     #region function
@@ -108,23 +102,11 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return createdObj.GetComponent<Item>();
     }
 
-    /// <summary> 해당 weapon Id의 정보를 가진 weapon 생성 및 parent 설정 </summary>
-    public GameObject CreateWeapon(int weaponId, Vector3 pos, Transform parent, bool worldPositionStays = true)
-    {
-        GameObject createdObj = weaponPool.NewItem();
-        createdObj.GetComponent<Weapon>().Init(weaponId, CharacterInfo.OwnerType.PLAYER);
-        createdObj.GetComponent<Transform>().position = pos;
-        createdObj.GetComponent<Transform>().SetParent(parent, worldPositionStays);
-        return createdObj;
-    }
-
     /// <summary> bullet 생성 후 반환 </summary>
     public GameObject CreateBullet()
     {
         return bulletPool.NewItem();
     }
-
-   
 
     /// <summary>
     /// UsableItem 생성
@@ -235,6 +217,11 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         return usableItem;
     }
 
+    public TrailRenderer CreateTrailRenderer()
+    {
+        GameObject createdObj = trailRendererPool.NewItem();
+        return createdObj.GetComponent<TrailRenderer>();
+    }
     #endregion
 
 
@@ -258,6 +245,12 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
         itemPool.RemoveItem(obj);
     }
 
+    /// <summary> UsableItem object 삭제(회수) </summary>
+    public void DeleteTrailRenderer(GameObject obj)
+    {
+        trailRendererPool.RemoveItem(obj, true, false);
+    }
+
     public void ClearWeapon()
     {
         weaponPool.ClearItem();
@@ -278,7 +271,6 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     {
         //weaponPool.Dispose();
         //bulletPool.Dispose();
-        //effectPool.Dispose();
     }*/
     #endregion 
 }

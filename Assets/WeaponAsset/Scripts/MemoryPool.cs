@@ -116,7 +116,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
     // 아이템 사용종료 - 사용하던 객체를 쉬게한다.
     // gameOBject : NewItem으로 얻었던 객체
     //--------------------------------------------------------------------------------------
-    public void RemoveItem(GameObject gameObject)
+    public void RemoveItem(GameObject gameObject, bool setOriginalTransform = true, bool setOriginalParent = true)
     {
         if (table == null || gameObject == null)
             return;
@@ -126,7 +126,16 @@ public class MemoryPool : IEnumerable, System.IDisposable
             Item item = table[i];
             if (item.gameObject == gameObject)
             {
-                SetOriginalParent(item.gameObject);
+                if(setOriginalTransform)
+                {
+                    item.gameObject.transform.position = Vector3.zero;
+                    item.gameObject.transform.localScale = Vector3.one;
+                    item.gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+                }
+                if(setOriginalParent)
+                {
+                    item.gameObject.transform.SetParent(parent);
+                }
                 item.active = false;
                 item.gameObject.SetActive(false);
                 //Debug.Log(item.gameObject + ", " + item.gameObject.activeSelf +", RemoveItem");
@@ -147,7 +156,7 @@ public class MemoryPool : IEnumerable, System.IDisposable
             Item item = table[i];
             if (item != null && item.active)
             {
-                SetOriginalParent(item.gameObject);
+                //SetOriginalParent(item.gameObject);
                 item.active = false;
                 item.gameObject.SetActive(false);
             }
@@ -156,12 +165,12 @@ public class MemoryPool : IEnumerable, System.IDisposable
     //--------------------------------------------------------------------------------------
     // 
     //--------------------------------------------------------------------------------------
-    private void SetOriginalParent(GameObject obj)
-    {
-        obj.transform.position = Vector3.zero;
-        obj.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        obj.transform.SetParent(parent);
-    }
+    //private void SetOriginalParent(GameObject obj)
+    //{
+    //    obj.transform.position = Vector3.zero;
+    //    obj.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+    //    obj.transform.SetParent(parent);
+    //}
     //--------------------------------------------------------------------------------------
     // 메모리 풀 삭제
     //--------------------------------------------------------------------------------------
