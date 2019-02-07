@@ -281,7 +281,7 @@ public class LaserUpdateProperty : UpdateProperty
             angle = ownerDirDegree() + bullet.laserAdditionalDegree + bullet.info.laserDirCurve.Evaluate(timeCount);
         else
             angle = ownerDirDegree() + bullet.laserAdditionalDegree;
-        Debug.Log(bullet.name + ", " + bullet.info.laserDirCurve.Evaluate(timeCount));
+        //Debug.Log(bullet.name + ", " + bullet.info.laserDirCurve.Evaluate(timeCount));
         Vector2 dir = MathCalculator.VectorRotate(Vector2.right, angle);
         // 100f => 레이저에도 사정거리 개념을 넣게 된다면 이 부분 값을 변수로 처리할 예정이고 현재는 일단 raycast 체크 범위를 100f까지 함
         //hit = Physics2D.BoxCast(pos, laserSize, angle, dir, 100f, layerMask);

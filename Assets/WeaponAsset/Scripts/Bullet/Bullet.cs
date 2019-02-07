@@ -248,7 +248,7 @@ public class Bullet : MonoBehaviour
         this.ownerBuff = ownerBuff;
 
         UpdateTransferBulletInfo();
-
+        ResetTrailRenderer();
         // component on/off
         SetColliderActive(false);
         lineRenderer.enabled = true;
@@ -395,7 +395,9 @@ public class Bullet : MonoBehaviour
         {
             bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform);
         }
-            
+
+        ResetTrailRenderer();
+        ApplyTrailRendererInfo();
 
         ActivateColiider();
         // sprite 애니메이션 적용
@@ -893,6 +895,27 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region func
+
+    public void ResetTrailRenderer()
+    {
+        trailRenderer.enabled = false;
+        trailRenderer.time = 0;
+    }
+
+    public void ApplyTrailRendererInfo()
+    {
+        if(info.canActivateTrailRenderer)
+        {
+            trailRenderer.enabled = true;
+            trailRenderer.material = info.trailRendererInfo.material;
+            trailRenderer.time = info.trailRendererInfo.time;
+            trailRenderer.startWidth = info.trailRendererInfo.startWidth;
+            trailRenderer.endWidth = info.trailRendererInfo.endWidth;
+            //trailRenderer.widthCurve.keys[0].value = info.trailRendererInfo.startWidthRatio;
+            //trailRenderer.widthCurve.keys[1].value = info.trailRendererInfo.endWidthRatio;
+        }
+    }
+
     /// <summary> weapon -> bulletPattern으로 넘어온 정보 최신화, 이후 enemy에 정보 넘김. </summary>
     private void UpdateTransferBulletInfo()
     {

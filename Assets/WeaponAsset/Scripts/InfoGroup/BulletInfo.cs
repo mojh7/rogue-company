@@ -8,6 +8,16 @@ using WeaponAsset;
  */
 
 [System.Serializable]
+public class TrailRendererInfo
+{
+    public Material material;
+    public float startWidth = -1;
+    public float endWidth = -1;
+    public float time = -1;
+}
+
+
+[System.Serializable]
 public class DurationTime
 {
     public float startTime;
@@ -55,6 +65,7 @@ public class BulletInfo : ScriptableObject
     public float damage;
     public float criticalChance;
 
+    public AnimationCurve speedCurve;
     public float speed;             // 속력
     public float acceleration;      // 가속도
     public float deltaSpeedTotalLimit;    // 속력이 변화하는 총 값 제한, ex) a = -1, limit = 10, 속력 v = 3-> -7까지만 영향받음. a = +2 limit 8, v = -2 => +6까지만
@@ -72,6 +83,9 @@ public class BulletInfo : ScriptableObject
     public bool canUseLaserDirCurve;
     public AnimationCurve laserDirCurve;
 
+    public bool canActivateTrailRenderer;
+    public TrailRendererInfo trailRendererInfo;
+
     public int pierceCount;
     public int bounceCount;
 
@@ -83,8 +97,6 @@ public class BulletInfo : ScriptableObject
     public float lifeTimeRandomMaxRatio;
 
 
-    [Header("Trail Renderer 정보")]
-    public bool canActivateTrailRenderer;
 
     [Tooltip("총알 생성 시 발생 소리, 0이상 이면 적용")]
     public int soundId;
@@ -216,7 +228,6 @@ public class BulletInfo : ScriptableObject
         laserSize = 1.0f;
         laserDirCurve = AnimationCurve.Linear(0, -360, 5, 360);
 
-
         pierceCount = 1;
         bounceCount = 0;
 
@@ -274,6 +285,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.damage = damage;
         clonedInfo.criticalChance = criticalChance;
 
+        clonedInfo.speedCurve = speedCurve;
         clonedInfo.speed = speed;
         clonedInfo.acceleration = acceleration;
         clonedInfo.deltaSpeedTotalLimit = deltaSpeedTotalLimit;
@@ -289,6 +301,8 @@ public class BulletInfo : ScriptableObject
         clonedInfo.canUseLaserDirCurve = canUseLaserDirCurve;
         clonedInfo.laserDirCurve = laserDirCurve;
 
+        clonedInfo.canActivateTrailRenderer = canActivateTrailRenderer;
+        clonedInfo.trailRendererInfo = trailRendererInfo;
         clonedInfo.pierceCount = pierceCount;
         clonedInfo.bounceCount = bounceCount;
 
@@ -297,7 +311,6 @@ public class BulletInfo : ScriptableObject
         clonedInfo.lifeTimeRandomMinRatio = lifeTimeRandomMinRatio;
         clonedInfo.lifeTimeRandomMaxRatio = lifeTimeRandomMaxRatio;
         clonedInfo.bulletImpactType = bulletImpactType;
-        clonedInfo.canActivateTrailRenderer = canActivateTrailRenderer;
         clonedInfo.soundId = soundId;
 
         clonedInfo.colliderType = colliderType;
