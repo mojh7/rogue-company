@@ -224,11 +224,11 @@ public class Weapon : Item
     {
         if (weaponState == WeaponState.Idle)
         {
-            if (info.touchMode == TouchMode.Normal)
+            if (info.touchMode == TouchMode.NORMAL)
             {
                 Attack(0f);
             }
-            else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Idle)
+            else if (info.touchMode == TouchMode.CHARGE && weaponState == WeaponState.Idle)
             {
                 if (false == HasCostForAttack())
                 {
@@ -273,14 +273,14 @@ public class Weapon : Item
     //          레이저 같은 경우 공격 중지
     public void StopAttack()
     {
-        if (info.touchMode == TouchMode.Normal)
+        if (info.touchMode == TouchMode.NORMAL)
         {
             for (int i = 0; i < info.bulletPatternsLength; i++)
             {
                 info.bulletPatterns[i].StopAttack();
             }
         }
-        else if (info.touchMode == TouchMode.Charge && weaponState == WeaponState.Charge)
+        else if (info.touchMode == TouchMode.CHARGE && weaponState == WeaponState.Charge)
         {
             chargedDamageIncreaseRate = chargingDamageIncrement * chargedTime;
             // Debug.Log("차징 데미지 뻥튀기율 : " + chargedDamageIncreaseRate);

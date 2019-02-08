@@ -236,9 +236,9 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
             mainWeaponInfos[i].chargeTimeMax = chargeTimeMax;
             //Debug.Log(chargeTimeMax);
             if (0 == chargeTimeMax)
-                mainWeaponInfos[i].touchMode = TouchMode.Normal;
+                mainWeaponInfos[i].touchMode = TouchMode.NORMAL;
             else
-                mainWeaponInfos[i].touchMode = TouchMode.Charge;
+                mainWeaponInfos[i].touchMode = TouchMode.CHARGE;
 
             float.TryParse(csvWeaponData[i]["criticalChance"].ToString(), out criticalChance);
             mainWeaponInfos[i].criticalChance = criticalChance;

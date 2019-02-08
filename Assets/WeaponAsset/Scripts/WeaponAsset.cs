@@ -31,7 +31,7 @@ namespace WeaponAsset
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW
     public enum AttackAniType { None, Blow, Strike, Swing, Punch, Shot }
     public enum AttackType { MELEE, RANGED, TRAP }
-    public enum TouchMode { Normal, Charge }
+    public enum TouchMode { NORMAL, CHARGE }
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION }
     public enum BulletPresetType
     {
@@ -63,7 +63,7 @@ namespace WeaponAsset
     public enum TrailParticleType { NONE, BASIC }
     public enum BulletImpactType
     {
-        NONE, BasicImpactRed, BasicImpactYellow, BasicImpactGreen, BasicImpactBlue, BasicImpactPurple, BasicImpactPink,
+        NONE, BasicImpactRed=1, BasicImpactYellow, BasicImpactGreen, BasicImpactBlue, BasicImpactPurple, BasicImpactPink,
         BigFireballImpactRed, BigFireballImpactYellow, BigFireballImpactGreen, BigFireballImpactBlue, BigFireballImpactPurple, BigFireballImpactModular,
         PoisonImpactRed, PoisonImpactYellow, PoisonImpactGreen, PoisonImpactBlue, PoisonImpactPurple,
         FatExplosionRed, FatExplosionYellow, FatExplosionGreen, FatExplosionBlue, FatExplosionPurple, FatExplosionModular,
@@ -81,15 +81,15 @@ namespace WeaponAsset
         MUZZLE_FLASH_SPIKY_YELLOW
     }
 
-    public enum BulletPropertyType { Collision, Update, Delete }
-    public enum CollisionPropertyType { BaseNormal, Laser, Undeleted }
-    public enum UpdatePropertyType { StraightMove, AccelerationMotion, Laser, Summon, Homing, MineBomb, FixedOwner, Spiral, Rotation, Child, TRIGONOMETRIC }
-    public enum DeletePropertyType { BaseDelete, Laser, SummonBullet, SummonPattern }
-    public enum BehaviorPropertyType { SpeedControl, Rotate }
+    public enum BulletPropertyType { COLLISION, UPDATE, DELETE }
+    public enum CollisionPropertyType { BASE_NORMAL, LASER, UNDELETED }
+    public enum UpdatePropertyType { STRAIGHT_MOVE, ACCELERATION_MOTION, LASER, SUMMON, HOMING, MINEBOMB, FIXED_OWNER, SPIRAL, ROTATION, CHILD, TRIGONOMETRIC, SPEED_CURVE }
+    public enum DeletePropertyType { BASE_DELETE, LASER, SUMMON_BULLET, SUMMON_PATTERN }
+    //public enum BehaviorPropertyType { SpeedControl, Rotate }
 
     /*---*/
 
-    public enum ColliderType { NONE, Beam, AUTO_SIZE_BOX, AUTO_SIZE_CIRCLE, MANUAL_SIZE_BOX, MANUAL_SIZE_CIRCLE, MANUAL_SIZE_RHOMBUS, MANUAL_SIZE_TRIANGLE }
+    public enum ColliderType { NONE, BEAM, AUTO_SIZE_BOX, AUTO_SIZE_CIRCLE, MANUAL_SIZE_BOX, MANUAL_SIZE_CIRCLE, MANUAL_SIZE_RHOMBUS, MANUAL_SIZE_TRIANGLE }
 
     public enum BulletAnimationType
     {

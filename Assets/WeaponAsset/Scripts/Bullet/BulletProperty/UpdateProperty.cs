@@ -846,3 +846,30 @@ public class ChildUpdateProperty : UpdateProperty
         }
     }
 }
+
+/// <summary> 속도 곡선 따라서 이동, 삭제 조건 life time </summary>
+public class SpeedCurveProperty : UpdateProperty
+{
+    public override UpdateProperty Clone()
+    {
+        return new SpeedCurveProperty();
+    }
+
+    public override void Init(Bullet bullet)
+    {
+        base.Init(bullet);
+        timeCount = 0;
+        lifeTime = bullet.info.lifeTime;
+    }
+
+    public override void Update()
+    {
+        bullet.SetVelocity(bullet.info.speedCurve.Evaluate(timeCount));
+        timeCount += Time.fixedDeltaTime;
+        if (timeCount >= lifeTime)
+        {
+            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
+            delDestroyBullet();
+        }
+    }
+}

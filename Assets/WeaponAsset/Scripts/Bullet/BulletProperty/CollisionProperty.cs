@@ -88,7 +88,7 @@ public abstract class CollisionProperty : BulletProperty
             case WeaponAsset.ColliderType.MANUAL_SIZE_BOX:
                 bulletCollider2D = bullet.boxCollider;
                 break;
-            case WeaponAsset.ColliderType.Beam:
+            case WeaponAsset.ColliderType.BEAM:
             case WeaponAsset.ColliderType.AUTO_SIZE_CIRCLE:
             case WeaponAsset.ColliderType.MANUAL_SIZE_CIRCLE:
                 bulletCollider2D = bullet.circleCollider;

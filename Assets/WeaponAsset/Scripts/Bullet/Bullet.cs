@@ -592,7 +592,7 @@ public class Bullet : MonoBehaviour
             case ColliderType.MANUAL_SIZE_BOX:
                 boxCollider.enabled = true;
                 break;
-            case ColliderType.Beam:
+            case ColliderType.BEAM:
             case ColliderType.AUTO_SIZE_CIRCLE:
             case ColliderType.MANUAL_SIZE_CIRCLE:
                 circleCollider.enabled = true;
@@ -611,7 +611,7 @@ public class Bullet : MonoBehaviour
         float sizeX, sizeY, size;
         switch (info.colliderType)
         {
-            case ColliderType.Beam:
+            case ColliderType.BEAM:
                 colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
                 sizeX = renderer.sprite.bounds.size.x;
                 sizeY = renderer.sprite.bounds.size.y;
@@ -806,6 +806,7 @@ public class Bullet : MonoBehaviour
     /// <summary> 삭제 속성 실행 </summary>
     public void DestroyBullet()
     {
+        RemoveTrailRenderer();
         CommonDelete();
         // 삭제 속성 모두 실행
         for (int i = 0; i < info.deletePropertiesLength; i++)
@@ -820,8 +821,6 @@ public class Bullet : MonoBehaviour
         active = false;
         timeCount = 0;
         updateDelayTime = 0;
-
-        RemoveTrailRenderer();
 
         // 실행 중인 코루틴이 있으면 코루틴 멈춤
         if (null != bulletUpdate)
@@ -927,7 +926,7 @@ public class Bullet : MonoBehaviour
             info.range += 15f;      // 기존의 샷건이 사정거리가 짧은데 유도 총알로 바뀌면서 사거리 증가 시켜야 될 것 같음. 수치는 봐서 조절
 
             //HomingProperty 중복 생성 방지
-            if (false == HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(HomingProperty)))
+            if (false == HasIncludedUpdateProperty(BulletPropertyType.UPDATE, typeof(HomingProperty)))
             {
                 info.updateProperties.Add(new HomingProperty());
                 info.updatePropertiesLength += 1;
@@ -939,7 +938,7 @@ public class Bullet : MonoBehaviour
         {
             info.homingEndTime = 1.5f;
             //HomingProperty 중복 생성 방지
-            if (false == HasIncludedUpdateProperty(BulletPropertyType.Update, typeof(HomingProperty)))
+            if (false == HasIncludedUpdateProperty(BulletPropertyType.UPDATE, typeof(HomingProperty)))
             {
                 info.updateProperties.Add(new HomingProperty());
                 info.updatePropertiesLength += 1;
@@ -1005,7 +1004,7 @@ public class Bullet : MonoBehaviour
     {
         switch(bulletPropertyType)
         {
-            case BulletPropertyType.Collision:
+            case BulletPropertyType.COLLISION:
                 for (int i = 0; i < info.collisionPropertiesLength; i++)
                 {
                     if (type == info.collisionProperties[i].GetType())
@@ -1014,7 +1013,7 @@ public class Bullet : MonoBehaviour
                     }
                 }
                 break;
-            case BulletPropertyType.Update:
+            case BulletPropertyType.UPDATE:
                 for (int i = 0; i < info.updatePropertiesLength; i++)
                 {
                     if (type == info.updateProperties[i].GetType())
@@ -1023,7 +1022,7 @@ public class Bullet : MonoBehaviour
                     }
                 }
                 break;
-            case BulletPropertyType.Delete:
+            case BulletPropertyType.DELETE:
                 for (int i = 0; i < info.deletePropertiesLength; i++)
                 {
                     if (type == info.deleteProperties[i].GetType())
@@ -1053,7 +1052,7 @@ public class Bullet : MonoBehaviour
         float sizeX, sizeY, size;
         switch (info.colliderType)
         {
-            case ColliderType.Beam:
+            case ColliderType.BEAM:
                 colliderObj.transform.localScale = new Vector3(1 / info.scaleX, 1 / info.scaleY, 1f);
                 sizeX = spriteAniRenderer.sprite.bounds.size.x;
                 sizeY = spriteAniRenderer.sprite.bounds.size.y;

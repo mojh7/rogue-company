@@ -82,14 +82,19 @@ public class BulletPresets : MonoBehaviourSingleton<BulletPresets>
         for (int i = 0; i < bulletPresetInfoList.Length; i++)
         {
             string str = bulletPresetInfoList[i].presetType.ToString();
-            if(str.Contains("RED"))
+            if (str.Contains("BASH"))
+            {
+                Debug.Log("bash pass");
+                continue;
+            }
+            if (str.Contains("RED"))
             {
                 bulletPresetInfoList[i].bulletImpactType = BulletImpactType.BasicImpactRed;
                 Debug.Log(i + ", " + str + " : RED");
             }
             else if (str.Contains("YELLOW"))
             {
-                bulletPresetInfoList[i].bulletImpactType = BulletImpactType.BasicImpactYellow;
+                bulletPresetInfoList[i].bulletImpactType = BulletImpactType.BasicImpactRed;
                 Debug.Log(i + ", " + str + " : YELLOW");
             }
             else if (str.Contains("GREEN"))

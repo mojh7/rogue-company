@@ -418,13 +418,13 @@ public class BulletInfo : ScriptableObject
         {
             switch (collisionPropertiesEdit[i])
             {
-                case CollisionPropertyType.BaseNormal:
+                case CollisionPropertyType.BASE_NORMAL:
                     collisionProperties.Add(new BaseNormalCollisionProperty());
                     break;
-                case CollisionPropertyType.Laser:
+                case CollisionPropertyType.LASER:
                     collisionProperties.Add(new LaserCollisionProperty());
                     break;
-                case CollisionPropertyType.Undeleted:
+                case CollisionPropertyType.UNDELETED:
                     collisionProperties.Add(new UndeletedCollisionProperty());
                     break;
                 default:
@@ -436,38 +436,41 @@ public class BulletInfo : ScriptableObject
         {
             switch (updatePropertiesEdit[i])
             {
-                case UpdatePropertyType.StraightMove:
+                case UpdatePropertyType.STRAIGHT_MOVE:
                     updateProperties.Add(new StraightMoveProperty());
                     break;
-                case UpdatePropertyType.AccelerationMotion:
+                case UpdatePropertyType.ACCELERATION_MOTION:
                     updateProperties.Add(new AccelerationMotionProperty());
                     break;
-                case UpdatePropertyType.Laser:
+                case UpdatePropertyType.LASER:
                     updateProperties.Add(new LaserUpdateProperty());
                     break;
-                case UpdatePropertyType.Summon:
+                case UpdatePropertyType.SUMMON:
                     updateProperties.Add(new SummonProperty(BulletPatternInfo.CreatePatternInfo(summonBulletPatternInfo, ownerType), creationCycle));
                     break;
-                case UpdatePropertyType.Homing:
+                case UpdatePropertyType.HOMING:
                     updateProperties.Add(new HomingProperty());
                     break;
-                case UpdatePropertyType.MineBomb:
+                case UpdatePropertyType.MINEBOMB:
                     updateProperties.Add(new MineBombProperty());
                     break;
-                case UpdatePropertyType.FixedOwner:
+                case UpdatePropertyType.FIXED_OWNER:
                     updateProperties.Add(new FixedOwnerProperty());
                     break;
-                case UpdatePropertyType.Spiral:
+                case UpdatePropertyType.SPIRAL:
                     updateProperties.Add(new SpiralProperty());
                     break;
-                case UpdatePropertyType.Rotation:
+                case UpdatePropertyType.ROTATION:
                     updateProperties.Add(new RotationProperty());
                     break;
-                case UpdatePropertyType.Child:
+                case UpdatePropertyType.CHILD:
                     updateProperties.Add(new ChildUpdateProperty());
                     break;
                 case UpdatePropertyType.TRIGONOMETRIC:
                     updateProperties.Add(new TrigonometricProperty());
+                    break;
+                case UpdatePropertyType.SPEED_CURVE:
+                    updateProperties.Add(new SpeedCurveProperty());
                     break;
                 default:
                     break;
@@ -478,16 +481,16 @@ public class BulletInfo : ScriptableObject
         {
             switch (deletePropertiesEdit[i])
             {
-                case DeletePropertyType.BaseDelete:
+                case DeletePropertyType.BASE_DELETE:
                     deleteProperties.Add(new BaseDeleteProperty());
                     break;
-                case DeletePropertyType.Laser:
+                case DeletePropertyType.LASER:
                     deleteProperties.Add(new LaserDeleteProperty());
                     break;
-                case DeletePropertyType.SummonBullet:
+                case DeletePropertyType.SUMMON_BULLET:
                     deleteProperties.Add(new DeleteAfterSummonBulletProperty());
                     break;
-                case DeletePropertyType.SummonPattern:
+                case DeletePropertyType.SUMMON_PATTERN:
                     deleteProperties.Add(new DeleteAfterSummonPatternProperty());
                     //
                     break;
