@@ -36,6 +36,8 @@ public class IllustratedBook : MonoBehaviour
     private Transform contentsParentObj;
     [SerializeField]
     private GameObject contentsPrefab;
+    [SerializeField]
+    private Sprite questionMarkSprite;
 
     private IllustratedBookType illustratedBookType;
     private BookSortingType bookSortingType;
@@ -56,6 +58,11 @@ public class IllustratedBook : MonoBehaviour
     [SerializeField]
     private Sprite unselectedImage;
     #endregion
+
+    public Sprite GetQuestionMarkSprite()
+    {
+        return questionMarkSprite;
+    }
 
     #region unityfunc
     void Awake()

@@ -11,6 +11,8 @@ public class IllustratedBookContents : MonoBehaviour, IPointerEnterHandler
     // 소모 아이템, 패시브 아이템 구분해야 할 듯?
     private enum ContentsType { WEAPON, ITEM }
 
+
+
     [SerializeField]
     protected Image image;
     [SerializeField]
@@ -45,7 +47,7 @@ public class IllustratedBookContents : MonoBehaviour, IPointerEnterHandler
         {
             case ContentsType.WEAPON:
                 // 임시
-                BookContentsView.Instance.ShowContentsInfo(weaponInfo.weaponName);
+                BookContentsView.Instance.ShowContentsInfo(weaponInfo);
                 break;
             case ContentsType.ITEM:
                 break;

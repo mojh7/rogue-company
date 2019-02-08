@@ -82,19 +82,24 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if(passiveDebugObj.activeSelf)
-            {
-                Debug.Log("패시브 아이템 테스트창 off");
-            }
-            else
-            {
-                Debug.Log("패시브 아이템 테스트창 on");
-            }
-            passiveDebugObj.SetActive(!passiveDebugObj.activeSelf);
-            effectTotalViewObj.SetActive(passiveDebugObj.activeSelf);
+            Temp();
         }
     }
     #endregion
+
+    public void Temp()
+    {
+        if (passiveDebugObj.activeSelf)
+        {
+            Debug.Log("패시브 아이템 테스트창 off");
+        }
+        else
+        {
+            Debug.Log("패시브 아이템 테스트창 on");
+        }
+        passiveDebugObj.SetActive(!passiveDebugObj.activeSelf);
+        effectTotalViewObj.SetActive(passiveDebugObj.activeSelf);
+    }
 
     // 임시로 만든 함수
     public void OnOffPassiveItems()

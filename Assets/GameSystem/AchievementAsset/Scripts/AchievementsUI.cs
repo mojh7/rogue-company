@@ -12,9 +12,16 @@ public class AchievementsUI : MonoBehaviour
     {
         achievementsUI.SetActive(false);	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public void OpenAchievementUI()
+    {
+        achievementsUI.SetActive(true);
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
+    }
+
+    public void CloseAchievementUI()
+    {
+        achievementsUI.SetActive(false);
+        AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
+    }
 }

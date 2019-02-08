@@ -6,6 +6,7 @@ using CharacterInfo;
 
 public class Weapon : Item
 {
+
     #region Variables
     public WeaponInfo originInfo;
     public WeaponInfo info;

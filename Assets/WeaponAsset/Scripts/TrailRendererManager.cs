@@ -19,6 +19,7 @@ public class TrailRendererManager : MonoBehaviourSingleton<TrailRendererManager>
         renderer.startWidth = info.startWidth;
         renderer.endWidth = info.endWidth;
         renderer.time = info.time;
+        renderer.colorGradient = info.colorGradient;
         renderer.Clear();
         return renderer;
     }
