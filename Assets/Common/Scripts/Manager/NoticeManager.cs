@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
 {
-    public Transform bkgTransform;
+    public RectTransform bkgTransform;
     public Text txt;
 
     private void Awake()
@@ -21,6 +21,7 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
         txt.text = str;
         StopCoroutine(ShowNoticeCoroutine());
         StartCoroutine(ShowNoticeCoroutine());
+        Debug.Log("ShowNotice");
     }
 
     private IEnumerator ShowNoticeCoroutine()
@@ -31,24 +32,24 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
         float alpha = 0;
         Color color = Color.white;
         color.a = 0;
-        bkgTransform.localScale = new Vector3(bkgTransform.localScale.x, 0, 0);
+        bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, 0);
         txt.color = color;
-        while(bkgTransform.localScale.y < 150)
+        while(bkgTransform.sizeDelta.y < 150)
         {
-            bkgTransform.localScale = new Vector3(bkgTransform.localScale.x, scaleY, 0);
-            scaleY += 150f * Time.fixedDeltaTime;
+            bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, scaleY);
+            scaleY += 4 * 150f * Time.fixedDeltaTime;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
         while (alpha < 255)
         {
             txt.color = color;
-            alpha += 255f * Time.fixedDeltaTime;
+            alpha += 510f * Time.fixedDeltaTime;
             color.a = alpha;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
-        yield return YieldInstructionCache.WaitForSeconds(2f);
+        yield return YieldInstructionCache.WaitForSeconds(0.5f);
         bkgTransform.gameObject.SetActive(false);
         txt.enabled = false;
     }

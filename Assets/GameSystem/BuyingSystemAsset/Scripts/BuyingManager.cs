@@ -58,6 +58,7 @@ public class BuyingManager : MonoBehaviourSingleton<BuyingManager>
                 CharacterSelect.Instance.UnlockCharacter(playerType);
                 CharacterSelectInfoView.Instance.ShowUnlockState();
                 NoticeManager.Instance.ShowNotice(Player.PLAYER_TYPE_NAME[(int)playerType] + " 캐릭터가 구매되었습니다.");
+                Debug.Log("캐릭터 구매 완료 : " + playerType);
                 CloseBuyingUI();
                 break;
             default:
