@@ -10,6 +10,8 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
     public RectTransform bkgTransform;
     public Text txt;
 
+    Coroutine showNoticeCoroutine;
+
     private void Awake()
     {
         bkgTransform.gameObject.SetActive(false);
@@ -19,8 +21,10 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
     public void ShowNotice(string str)
     {
         txt.text = str;
-        StopCoroutine(ShowNoticeCoroutine());
-        StartCoroutine(ShowNoticeCoroutine());
+
+        if(null != showNoticeCoroutine)
+            StopCoroutine(showNoticeCoroutine);
+        showNoticeCoroutine = StartCoroutine(ShowNoticeCoroutine());
         Debug.Log("ShowNotice");
     }
 
@@ -34,22 +38,39 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
         color.a = 0;
         bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, 0);
         txt.color = color;
-        while(bkgTransform.sizeDelta.y < 150)
+        float showSpeed = 5f;
+        float bkgHeight = 120f;
+        // on
+        while(bkgTransform.sizeDelta.y < bkgHeight)
         {
             bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, scaleY);
-            scaleY += 4 * 150f * Time.fixedDeltaTime;
+            scaleY += showSpeed * bkgHeight * Time.fixedDeltaTime;
+            if(alpha < 1f)
+            {
+                txt.color = color;
+                alpha += showSpeed * Time.fixedDeltaTime;
+                color.a = alpha;
+            }
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
 
-        while (alpha < 255)
-        {
-            txt.color = color;
-            alpha += 510f * Time.fixedDeltaTime;
-            color.a = alpha;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
+        scaleY = bkgHeight;
+        bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, scaleY);
 
         yield return YieldInstructionCache.WaitForSeconds(0.5f);
+        // off
+        while (bkgTransform.sizeDelta.y >= 0)
+        {
+            bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, scaleY);
+            scaleY -= showSpeed * bkgHeight * Time.fixedDeltaTime;
+            if (alpha >= 0)
+            {
+                txt.color = color;
+                alpha -= showSpeed * Time.fixedDeltaTime;
+                color.a = alpha;
+            }
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
         bkgTransform.gameObject.SetActive(false);
         txt.enabled = false;
     }
