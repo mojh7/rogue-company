@@ -46,6 +46,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
 
     #region userData variables
     private int gold;
+    private Dictionary<string, bool> characterUnLockState;
     #endregion
 
     #region gameSettingData variables
@@ -130,6 +131,32 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public CharacterInfo.AimType GetAimType() { return aimType; }
     public float GetMusicVolume() { return musicVolume; }
     public float GetSoundVolume() { return soundVolume; }
+    public Dictionary<string, bool> GetCharacterUnLockState()
+    {
+        return characterUnLockState;
+    }
+    public bool GetCharacterUnLockState(string key)
+    {
+        if (false == characterUnLockState.ContainsKey(key))
+        {
+            return false;
+        }
+        else
+        {
+            return characterUnLockState[key];
+        }
+    }
+    public bool GetCharacterUnLockState(int i)
+    {
+        if (false == characterUnLockState.ContainsKey(((Player.PlayerType)i).ToString()))
+        {
+            return false;
+        }
+        else
+        {
+            return characterUnLockState[((Player.PlayerType)i).ToString()];
+        }
+    }
     #endregion
 
     #region setter

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
- // armor 쉴드 개념 있는 아이템들 있어서 아예 player 데미지 입는 공식
- // 데미지 - 방어력으로 하고 저런 아이템 먹으면 방어력 수치 잠깐 올렸다가 내릴려고 함.
-
 [System.Serializable]
 [CreateAssetMenu(fileName = "PlayerData", menuName = "CharData/PlayerData")]
 public class PlayerData : ScriptableObject

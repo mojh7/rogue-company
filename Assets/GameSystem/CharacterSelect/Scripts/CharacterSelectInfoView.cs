@@ -26,13 +26,19 @@ public class CharacterSelectInfoView : MonoBehaviourSingleton<CharacterSelectInf
         infoViewUI.SetActive(false);
     }
 
+
+    public void BuyCharacter()
+    {
+        // 캐릭터 구매
+    }
+
     public void ShowCharacterInfoView(Player.PlayerType playerType)
     {
         infoViewUI.SetActive(true);
         this.playerType = playerType;
         int type = (int)playerType;
         playerData = GameDataManager.Instance.GetPlayerData(playerType);
-        characterTypeName.text = Player.PLAYER_TYPE_NAME[type];
+        characterTypeName.text = Player.PLAYER_TYPE_NAME[type] + " (잠금)";
         statsText.text = "HP       : " + playerData.HpMax + "\nSTAMINA  : " + playerData.StaminaMax + "\nCRITICAL : " + (playerData.CriticalChance*100) + "%";
         descriptionText.text = CHARACTER_DESCRIPTION[type];
     }

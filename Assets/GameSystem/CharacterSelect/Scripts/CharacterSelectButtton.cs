@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class CharacterSelectButtton : MonoBehaviour
 {
-    
-
     private Player.PlayerType playerType;
     [SerializeField]
     private Image folderImage;
@@ -24,6 +22,16 @@ public class CharacterSelectButtton : MonoBehaviour
         characterNameText.text = Player.PLAYER_TYPE_NAME[(int)playerType];
         folderImage.sprite = folderSprite;
         charcterImage.sprite = characterSprite;
+    }
+
+    public void UnLockCharacter()
+    {
+
+    }
+
+    public void LockCharacter()
+    {
+
     }
 
     public void UnSelectCharacterBtn()

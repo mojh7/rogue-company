@@ -15,8 +15,9 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
     private Transform contentsParentObj;
     [SerializeField]
     private GameObject characterSelectBtnPrefab;
-
     private CharacterSelectButtton[] characterSelectBtnList;
+
+    private Dictionary<string, bool> characterUnLockState;
 
     [Header("character button 생성을 위한 변수")]
     [SerializeField]
@@ -51,6 +52,8 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
 
     private void Init()
     {
+        GameDataManager.Instance.LoadData(GameDataManager.UserDataType.USER);
+
         int length = (int)Player.PlayerType.END;
         characterSelectBtnList = new CharacterSelectButtton[length];
         GameObject createdobj;
