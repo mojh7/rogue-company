@@ -30,14 +30,14 @@ public class CharacterSelectInfoView : MonoBehaviourSingleton<CharacterSelectInf
         infoViewUI.SetActive(false);
     }
 
-    public void ShowStartState()
+    public void ShowUnlockState()
     {
         characterTypeName.text = Player.PLAYER_TYPE_NAME[(int)playerType];
         startBtn.SetActive(true);
         buyBtn.SetActive(false);
     }
 
-    public void ShowBuyState()
+    public void ShowlockState()
     {
         characterTypeName.text = Player.PLAYER_TYPE_NAME[(int)playerType] + " (잠금)";
         startBtn.SetActive(false);
@@ -59,9 +59,9 @@ public class CharacterSelectInfoView : MonoBehaviourSingleton<CharacterSelectInf
         statsText.text = "HP       : " + playerData.HpMax + "\nSTAMINA  : " + playerData.StaminaMax + "\nCRITICAL : " + (playerData.CriticalChance*100) + "%";
         descriptionText.text = CHARACTER_DESCRIPTION[type];
         if (unlock)
-            ShowStartState();
+            ShowUnlockState();
         else
-            ShowBuyState();
+            ShowlockState();
     }
 
     public void SelectCharacter()

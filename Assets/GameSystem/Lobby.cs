@@ -22,4 +22,9 @@ public class Lobby : MonoBehaviourSingleton<Lobby>
     {
         goldTxt.text = gold.ToString();
     }
+
+    public void MakeMoney()
+    {
+        GameDataManager.Instance.MakeMoeny(123);
+    }
 }

@@ -7,7 +7,6 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
     public delegate void UnSelectAllCharacterBtn();
     public UnSelectAllCharacterBtn unSelectAllCharacterBtn;
 
-
     [SerializeField]
     private GameObject selectWindowUI;
 
@@ -54,7 +53,7 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
     {
         GameDataManager.Instance.LoadData(GameDataManager.UserDataType.USER);
         characterUnLockState = GameDataManager.Instance.GetCharacterUnLockState();
-
+        Debug.Log(characterUnLockState);
         int length = (int)Player.PlayerType.END;
         characterSelectBtnList = new CharacterSelectButtton[length];
         GameObject createdobj;

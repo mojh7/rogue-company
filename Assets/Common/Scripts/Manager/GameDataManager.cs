@@ -274,12 +274,38 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         }
     }
 
+    public bool LoadInitialUserData()
+    {
+        if (Instance.LoadData(UserDataType.USER))
+        {
+            Debug.Log("유저 데이터 로드");
+            LoadData(UserDataType.USER);
+            return true;
+        }
+        else
+        {
+            Debug.Log("유저 데이터 초기화");
+            characterUnLockState = new Dictionary<string, bool>();
+            characterUnLockState.Add(Player.PlayerType.SOCCER.ToString(), true);
+            for (int i = 1; i < (int)Player.PlayerType.END; i++)
+            {
+                characterUnLockState.Add(((Player.PlayerType)i).ToString(), false);
+            }
+            Savedata(UserDataType.USER);
+            Debug.Log(userData.GetCharacterUnLockState()["SOCCER"]);
+            Debug.Log(userData.GetCharacterUnLockState()["MUSIC"]);
+            Debug.Log(userData.GetCharacterUnLockState()["ARMY"]);
+            Debug.Log(userData.GetCharacterUnLockState()["FISH"]);
+        }
+        return false;
+    }
+
     public bool LoadInitialSettingData()
     {
-        if (GameDataManager.Instance.LoadData(GameDataManager.UserDataType.SETTING))
+        if (Instance.LoadData(UserDataType.SETTING))
         {
             Debug.Log("셋팅 데이터 초기 로드");
-            aimType = GameDataManager.Instance.GetAimType();
+            aimType = Instance.GetAimType();
             AudioManager.Instance.SetMusicVolume(musicVolume);
             AudioManager.Instance.SetSoundVolume(soundVolume);
             return true;
@@ -367,6 +393,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
                     userData = new UserData();
                 userData.SetGold(gold);
                 userData.SetCharacterUnLockState(characterUnLockState);
+                BinarySerialize(userData);
                 break;
             case UserDataType.SETTING:
                 if (gameSettingData == null)
@@ -408,6 +435,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
                     userData = UserDataDeserialize();
                     gold = userData.GetGold();
                     characterUnLockState = userData.GetCharacterUnLockState();
+                    Debug.Log("골드 : " + gold);
+                    Debug.Log("캐릭터 : " + characterUnLockState);
                     return true;
                 }
                 ResetData(UserDataType.USER);
