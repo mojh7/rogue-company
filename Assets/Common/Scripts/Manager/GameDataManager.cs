@@ -160,6 +160,11 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     #endregion
 
     #region setter
+    // user
+    public void SetGold(int gold) { this.gold = gold; }
+    public void SetCharacterUnLockState(Dictionary<string, bool> unlockState) { this.characterUnLockState = unlockState; }
+
+    // inGame
     public void SetKey() { key++; ShowUI(); }
     public void SetCoin() { coin++; ShowUI(); }
     public void SetFloor() { floor++; }
@@ -168,6 +173,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     public void SetPlayerType(Player.PlayerType _playerType) { playerType = _playerType; }
     public void SetMiscItems(List<int> _miscItems) { miscItems = _miscItems; }
 
+    // setting
     public void SetAimType(CharacterInfo.AimType aimType) { this.aimType = aimType; }
     public void SetMusicVolume(float musicVolume) { this.musicVolume = musicVolume; }
     public void SetSoundVolume(float soundVolume) { this.soundVolume = soundVolume; }
@@ -321,6 +327,10 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         switch (userDataType)
         {
             case UserDataType.USER:
+                if (userData == null)
+                    userData = new UserData();
+                userData.SetGold(gold);
+                userData.SetCharacterUnLockState(characterUnLockState);
                 break;
             case UserDataType.SETTING:
                 if (gameSettingData == null)
@@ -355,6 +365,16 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
         switch (userDataType)
         {
             case UserDataType.USER:
+                if (userData != null)
+                    userData = null;
+                if (File.Exists(dataPath[(int)userDataType]))
+                {
+                    userData = UserDataDeserialize();
+                    gold = userData.GetGold();
+                    characterUnLockState = userData.GetCharacterUnLockState();
+                    return true;
+                }
+                ResetData(UserDataType.USER);
                 break;
             case UserDataType.INGAME:
                 if (inGameData != null)
@@ -389,7 +409,7 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
                     soundVolume = gameSettingData.GetSoundVolume();
                     return true;
                 }
-                ResetData(UserDataType.INGAME);
+                ResetData(UserDataType.SETTING);
                 break;
             default:
                 break;

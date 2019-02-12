@@ -13,6 +13,10 @@ public class CharacterSelectInfoView : MonoBehaviourSingleton<CharacterSelectInf
     private Text statsText;
     [SerializeField]
     private Text descriptionText;
+    [SerializeField]
+    private GameObject startBtn;
+    [SerializeField]
+    private GameObject buyBtn;
     private Player.PlayerType playerType;
 
     private readonly string[] CHARACTER_DESCRIPTION = new string[]

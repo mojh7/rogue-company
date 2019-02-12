@@ -53,6 +53,7 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
     private void Init()
     {
         GameDataManager.Instance.LoadData(GameDataManager.UserDataType.USER);
+        characterUnLockState = GameDataManager.Instance.GetCharacterUnLockState();
 
         int length = (int)Player.PlayerType.END;
         characterSelectBtnList = new CharacterSelectButtton[length];
@@ -64,7 +65,7 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
             createdobj.name = "characterSelect_" + i;
             createdobj.transform.SetParent(contentsParentObj);
             characterSelectBtnList[i] = createdobj.GetComponent<CharacterSelectButtton>();
-            characterSelectBtnList[i].Init((Player.PlayerType)i, folderSprites[i], characterSprites[i]);
+            characterSelectBtnList[i].Init((Player.PlayerType)i, folderSprites[i], characterSprites[i], characterUnLockState[((Player.PlayerType)i).ToString()]);
             unSelectAllCharacterBtn += characterSelectBtnList[i].UnSelectCharacterBtn;
             createdobj.transform.localScale = new Vector3(1, 1, 1);
         }
@@ -75,6 +76,14 @@ public class CharacterSelect : MonoBehaviourSingleton<CharacterSelect>
     {
         GameDataManager.Instance.SetPlayerType(playerType);
         GameStateManager.Instance.LoadInGame();
+    }
+
+    public void UnlockCharacter(Player.PlayerType type)
+    {
+        characterUnLockState[type.ToString()] = true;
+        GameDataManager.Instance.SetCharacterUnLockState(characterUnLockState);
+        GameDataManager.Instance.Savedata(GameDataManager.UserDataType.USER);
+        characterSelectBtnList[(int)type].UnLockCharacter();
     }
     #endregion
 }

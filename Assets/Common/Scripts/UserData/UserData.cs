@@ -11,6 +11,7 @@ class UserData
 
     public UserData()
     {
+        gold = 0;
         characterUnLockState = new Dictionary<string, bool>();
         characterUnLockState.Add(Player.PlayerType.SOCCER.ToString(), true);
         for (int i = 1; i < (int)Player.PlayerType.END; i++)
@@ -29,6 +30,12 @@ class UserData
     #endregion
 
     #region setter
+    public void SetGold(int gold) { this.gold = gold; }
+
+    public void SetCharacterUnLockState(Dictionary<string, bool> unlockState)
+    {
+        characterUnLockState = unlockState;
+    }
     #endregion
 }
 
