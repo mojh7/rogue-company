@@ -65,6 +65,6 @@ public class CharacterSelectButtton : MonoBehaviour
         CharacterSelect.Instance.unSelectAllCharacterBtn();
         characterTextBkg.SetActive(true);
         characterNameText.color = Color.white;
-        CharacterSelectInfoView.Instance.ShowCharacterInfoView(playerType);
+        CharacterSelectInfoView.Instance.ShowCharacterInfoView(playerType, unlock);
     }
 }

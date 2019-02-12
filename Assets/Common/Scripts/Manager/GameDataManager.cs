@@ -88,6 +88,36 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
     }
     #endregion
 
+    #region use
+    public bool UseMoeny(int needfulMoney)
+    {
+        if (gold < needfulMoney)
+            return false;
+        else
+        {
+            gold -= needfulMoney;
+            if (GameStateManager.GameScene.LOBBY == GameStateManager.Instance.GetGameScene())
+            {
+                Lobby.Instance.UpdateGoldUI(gold);
+            }
+            Savedata(GameDataManager.UserDataType.USER);
+            return true;
+        }
+    }
+    #endregion
+
+    #region makeMoeny
+    public void MakeMoeny(int profit)
+    {
+        gold += profit;
+        if (GameStateManager.GameScene.LOBBY == GameStateManager.Instance.GetGameScene())
+        {
+            Lobby.Instance.UpdateGoldUI(gold);
+        }
+        Savedata(GameDataManager.UserDataType.USER);
+    }
+
+    #endregion
 
     #region getter
     public bool isFirst
@@ -108,29 +138,8 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             PlayerPrefs.SetInt("First", 1);
         }
     }
-    public int GetKey() { return key; }
-    public int GetCoin() { return coin; }
-    public int GetFloor() { return floor; }
-    public int GetKill() { return kill; }
-    public float GetTime() { return time; }
-    public Player.PlayerType GetPlayerType() { return playerType; }
-    public PlayerData GetPlayerData() { return playerData; }
-    public PlayerData GetPlayerData(Player.PlayerType playerType)
-    {
-        if(playerDatas == null)
-        {
-            playerDatas = PlayerManager.Instance.playerDatas;
-        }
-        return playerDatas[(int)playerType].Clone();
-    }
-    // 0531 모장현
-    public int[] GetWeaponIds() { return weaponIds; }
-    public int[] GetWeaponAmmos() { return weaponAmmos; }
-    public List<int> GetMiscItems() { return miscItems; }
-
-    public CharacterInfo.AimType GetAimType() { return aimType; }
-    public float GetMusicVolume() { return musicVolume; }
-    public float GetSoundVolume() { return soundVolume; }
+    // user
+    public int GetGold() { return gold; }
     public Dictionary<string, bool> GetCharacterUnLockState()
     {
         return characterUnLockState;
@@ -157,6 +166,33 @@ public class GameDataManager : MonoBehaviourSingleton<GameDataManager>
             return characterUnLockState[((Player.PlayerType)i).ToString()];
         }
     }
+
+    // ingame
+    public int GetKey() { return key; }
+    public int GetCoin() { return coin; }
+    public int GetFloor() { return floor; }
+    public int GetKill() { return kill; }
+    public float GetTime() { return time; }
+    public Player.PlayerType GetPlayerType() { return playerType; }
+    public PlayerData GetPlayerData() { return playerData; }
+    public PlayerData GetPlayerData(Player.PlayerType playerType)
+    {
+        if(playerDatas == null)
+        {
+            playerDatas = PlayerManager.Instance.playerDatas;
+        }
+        return playerDatas[(int)playerType].Clone();
+    }
+    // 0531 모장현
+    public int[] GetWeaponIds() { return weaponIds; }
+    public int[] GetWeaponAmmos() { return weaponAmmos; }
+    public List<int> GetMiscItems() { return miscItems; }
+
+    // setting
+    public CharacterInfo.AimType GetAimType() { return aimType; }
+    public float GetMusicVolume() { return musicVolume; }
+    public float GetSoundVolume() { return soundVolume; }
+   
     #endregion
 
     #region setter

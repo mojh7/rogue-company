@@ -30,21 +30,38 @@ public class CharacterSelectInfoView : MonoBehaviourSingleton<CharacterSelectInf
         infoViewUI.SetActive(false);
     }
 
-
-    public void BuyCharacter()
+    public void ShowStartState()
     {
-        // 캐릭터 구매
+        characterTypeName.text = Player.PLAYER_TYPE_NAME[(int)playerType];
+        startBtn.SetActive(true);
+        buyBtn.SetActive(false);
     }
 
-    public void ShowCharacterInfoView(Player.PlayerType playerType)
+    public void ShowBuyState()
+    {
+        characterTypeName.text = Player.PLAYER_TYPE_NAME[(int)playerType] + " (잠금)";
+        startBtn.SetActive(false);
+        buyBtn.SetActive(true);
+    }
+
+    public void ClickBuyBtn()
+    {
+        // 캐릭터 구매 버튼 클릭
+        Debug.Log("구매 버튼 클릭");
+    }
+
+    public void ShowCharacterInfoView(Player.PlayerType playerType, bool unlock)
     {
         infoViewUI.SetActive(true);
         this.playerType = playerType;
         int type = (int)playerType;
         playerData = GameDataManager.Instance.GetPlayerData(playerType);
-        characterTypeName.text = Player.PLAYER_TYPE_NAME[type] + " (잠금)";
         statsText.text = "HP       : " + playerData.HpMax + "\nSTAMINA  : " + playerData.StaminaMax + "\nCRITICAL : " + (playerData.CriticalChance*100) + "%";
         descriptionText.text = CHARACTER_DESCRIPTION[type];
+        if (unlock)
+            ShowStartState();
+        else
+            ShowBuyState();
     }
 
     public void SelectCharacter()
