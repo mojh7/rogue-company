@@ -48,6 +48,7 @@ public class CharacterSelectInfoView : MonoBehaviourSingleton<CharacterSelectInf
     {
         // 캐릭터 구매 버튼 클릭
         Debug.Log("구매 버튼 클릭");
+        BuyingManager.Instance.ShowCharacterBuying(playerType);
     }
 
     public void ShowCharacterInfoView(Player.PlayerType playerType, bool unlock)

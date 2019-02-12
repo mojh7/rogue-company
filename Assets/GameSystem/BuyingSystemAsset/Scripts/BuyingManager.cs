@@ -65,7 +65,7 @@ public class BuyingManager : MonoBehaviourSingleton<BuyingManager>
         }
     }
 
-    public void BuyingFailed()
+    private void BuyingFailed()
     {
         // TODO : 돈 부족 sfx
         NoticeManager.Instance.ShowNotice("포인트가 부족합니다.");
@@ -76,10 +76,12 @@ public class BuyingManager : MonoBehaviourSingleton<BuyingManager>
         goldTxt.text = GameDataManager.Instance.GetGold().ToString();
     }
 
-    public void ShowBuyingUI()
+    private void ShowBuyingUI()
     {
         UpdateCurrentGold();
+        priceTxt.text = price.ToString();
         descriptionTxt.text = description;
+        buyingUI.SetActive(true);
     }
 
     public void CloseBuyingUI()

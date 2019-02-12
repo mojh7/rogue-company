@@ -23,6 +23,11 @@ public class Lobby : MonoBehaviourSingleton<Lobby>
         goldTxt.text = gold.ToString();
     }
 
+    public void UseMoney()
+    {
+        GameDataManager.Instance.UseMoeny(100);
+    }
+
     public void MakeMoney()
     {
         GameDataManager.Instance.MakeMoeny(123);
