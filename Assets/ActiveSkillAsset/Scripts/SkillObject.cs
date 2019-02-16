@@ -16,11 +16,13 @@ public abstract class SkillObject : MonoBehaviour
     protected Vector3 scaleVector;
 
     protected bool isActive;
+    protected bool isCollisionable;
     protected bool isAvailable;
     #region skillDataParameter
     protected float radius;
     protected float amount;
     protected string animName;
+    protected float destroyTime;
     #endregion
 
     private void Awake()
@@ -38,6 +40,9 @@ public abstract class SkillObject : MonoBehaviour
         radius = skillData.Radius;
         amount = skillData.Amount;
         circleCollider.radius = radius;
+
+        if(radius > 0)
+            isCollisionable = true;
     }
     public void Init(string aniName)
     {
@@ -53,6 +58,7 @@ public abstract class SkillObject : MonoBehaviour
         this.customObject = customObject;
         this.enemyLayer = UtilityClass.GetEnemyLayer(null);
         this.enemyBulletLayer = UtilityClass.GetEnemyBulletLayer(null);
+        this.destroyTime = time;
         UtilityClass.Invoke(this, DestroyAndDeactive, time);
     }
     public void Init(ref Character caster, SkillData skillData, float time)
@@ -61,6 +67,7 @@ public abstract class SkillObject : MonoBehaviour
         this.caster = caster;
         this.enemyLayer = UtilityClass.GetEnemyLayer(caster);
         this.enemyBulletLayer = UtilityClass.GetEnemyBulletLayer(caster);
+        this.destroyTime = time;
         UtilityClass.Invoke(this, DestroyAndDeactive, time);
     }
     public void SetSkillData(List<SkillData> preSkillData, List<SkillData> postSkillData)
@@ -68,19 +75,20 @@ public abstract class SkillObject : MonoBehaviour
         this.preSkillData = preSkillData;
         this.postSkillData = postSkillData;
     }
-    protected void DestroyAndDeactive()
+    protected virtual void DestroyAndDeactive()
     {
         isAvailable = false;
         Destroy(this);
         this.gameObject.SetActive(false);
     }
 }
-
+/// <summary>
+/// 충돌 스킬
+/// </summary>
 public class CollisionSkillObject : SkillObject
 {
     protected StatusEffectInfo statusEffectInfo;
     protected CRangeEffect.EffectType effectType;
-
     public void Set(StatusEffectInfo statusEffectInfo)
     {
         this.statusEffectInfo = statusEffectInfo;
@@ -89,8 +97,15 @@ public class CollisionSkillObject : SkillObject
     {
         this.effectType = effectType;
     }
+    public void SetAnim(string animName)
+    {
+        animator.SetTrigger(animName);
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!isCollisionable)
+            return;
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer))
         {
             Character triggeredCharacter = collision.GetComponent<Character>();
@@ -119,12 +134,18 @@ public class CollisionSkillObject : SkillObject
     }
 }
 
+/// <summary>
+/// 날아가는 스킬
+/// </summary>
 public class ProjectileSkillObject : CollisionSkillObject
 {
     protected float directionDegree;
     protected float speed, acceleration;
     protected Vector3 direction;
     protected bool isDestroy = true;
+    protected bool isTimeBoom = false;
+    protected bool isReachBoom = false;
+    protected Vector3 dest;
 
     public void Set(string animName, float speed, float acceleration, Vector3 direction)
     {
@@ -145,10 +166,17 @@ public class ProjectileSkillObject : CollisionSkillObject
             return;
         StartCoroutine(CoroutineParticle(particleName, term));
     }
-    public void Set(bool isDestroy)
+    public void Set(bool isDestroy, bool isTimeBoom)
     {
         this.isDestroy = isDestroy;
+        this.isTimeBoom = isTimeBoom;
     }
+    public void SetReachBoom(Vector3 dest)
+    {
+        this.dest = dest;
+        isReachBoom = true;
+    }
+
     protected IEnumerator CoroutineParticle(string particleName, float term)
     {
         while (isActive)
@@ -162,8 +190,17 @@ public class ProjectileSkillObject : CollisionSkillObject
     {
         float elapsedDist = 0;
         float elapsedTime = 0;
+        float deltaTime = 0;
         while (speed > 0)
         {
+            if(isReachBoom)
+            {
+                if(Vector2.Distance(bodyTransform.localPosition,dest) < .1f)
+                {
+                    break;
+                }
+            }
+
             directionDegree = direction.GetDegFromVector();
             if (-90 <= directionDegree && directionDegree < 90)
             {
@@ -175,15 +212,26 @@ public class ProjectileSkillObject : CollisionSkillObject
                 scaleVector.x = -Mathf.Abs(scaleVector.x);
                 bodyTransform.localScale = scaleVector;
             }
-            bodyTransform.localPosition = bodyTransform.localPosition + direction * speed * Time.deltaTime;
-            elapsedDist += speed * Time.deltaTime;
-            elapsedTime += Time.deltaTime;
-            speed += acceleration * elapsedTime * Time.deltaTime;
+
+            deltaTime = Time.deltaTime;
+
+            bodyTransform.localPosition = bodyTransform.localPosition + direction * speed * deltaTime;
+            elapsedDist += speed * deltaTime;
+            elapsedTime += deltaTime;
+            speed += acceleration * elapsedTime * deltaTime;
+            
             if (!isActive)
                 break;
+            destroyTime -= deltaTime;
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         isActive = false;
+
+        while(destroyTime >=0)
+        {
+            destroyTime -= Time.deltaTime;
+            yield return YieldInstructionCache.WaitForSeconds(.1f);
+        }
 
         if (postSkillData != null && postSkillData.Count > 0)
         {
@@ -207,6 +255,8 @@ public class ProjectileSkillObject : CollisionSkillObject
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!isCollisionable)
+            return;
         base.OnTriggerEnter2D(collision);
 
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer) ||
@@ -227,12 +277,39 @@ public class ProjectileSkillObject : CollisionSkillObject
                 if (customObject)
                     item.Run(customObject, bodyTransform.position, ref lapsedTime);
             }
-            if(isDestroy)
+
+            if (isDestroy)
+            {
                 DestroyAndDeactive();
+            }
+        }
+    }
+
+    protected override void DestroyAndDeactive()
+    {
+        base.DestroyAndDeactive();
+        if (!isTimeBoom)
+            return;
+        float lapsedTime = 9999;
+
+        foreach (SkillData item in postSkillData)
+        {
+            if (null == item)
+                continue;
+            if (other)
+                item.Run(caster, other, bodyTransform.position, ref lapsedTime);
+            else if (caster)
+                item.Run(caster, bodyTransform.position, ref lapsedTime);
+            if (customObject)
+                item.Run(customObject, bodyTransform.position, ref lapsedTime);
         }
     }
 }
 
+/// <summary>
+/// 전달하는 스킬
+/// ex) 힐 버프 스킬을 피격자에게 전달
+/// </summary>
 public class PassSkillObject : ProjectileSkillObject
 {
     CharacterInfo.OwnerType target;
@@ -245,6 +322,8 @@ public class PassSkillObject : ProjectileSkillObject
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!isCollisionable)
+            return;
         if (UtilityClass.CheckLayer(collision.gameObject.layer, enemyLayer) ||
             UtilityClass.CheckLayer(collision.gameObject.layer, 14, 1))
         {

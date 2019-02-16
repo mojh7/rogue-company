@@ -62,7 +62,7 @@ public class CPassImporter : SkillData
         skillObject.Set(animName, speed, acceleration, destPos - srcPos);
         skillObject.Set(attachedParticleName);
         skillObject.Set(particleName, particleTerm);
-        skillObject.Set(isDestroy);
+        skillObject.Set(isDestroy, false);
 
         return BT.State.SUCCESS;
     }

@@ -13,6 +13,7 @@ public abstract class SkillData : ScriptableObject
     protected float time;
     [SerializeField]
     protected float coolTime;
+ 
     public float Radius
     {
         get { return radius; }

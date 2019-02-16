@@ -65,7 +65,7 @@ public class FloorRoomSetGroup : ScriptableObject
                 }
             }
          
-            return randomSets[0].roomSet;
+            return null;
         }
     }
 

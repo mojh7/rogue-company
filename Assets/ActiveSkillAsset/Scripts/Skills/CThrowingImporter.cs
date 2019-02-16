@@ -26,6 +26,9 @@ public class CThrowingImporter : SkillData
     float particleTerm;
     [SerializeField]
     bool isDestroy;
+    [SerializeField]
+    bool randomDest;
+
 
     public override State Run(CustomObject customObject, Vector3 pos, ref float lapsedTime)
     {
@@ -52,6 +55,12 @@ public class CThrowingImporter : SkillData
         {
             return BT.State.FAILURE;
         }
+        float nspeed = speed;
+        if (randomDest)
+        {
+            destPos = RoomManager.Instance.GetCurrentRoomAvailableArea();
+            nspeed += speed *.1f * Random.Range(-5, 5);
+        }
         GameObject gameObject = ResourceManager.Instance.skillPool.GetPooledObject();
         gameObject.transform.position = srcPos;
         ProjectileSkillObject skillObject = gameObject.AddComponent<ProjectileSkillObject>();
@@ -60,10 +69,10 @@ public class CThrowingImporter : SkillData
             skillObject.Init(other);
         skillObject.Init(ref caster, this, time);
         skillObject.Set(statusEffectInfo);
-        skillObject.Set(animName, speed, acceleration, destPos - srcPos);
+        skillObject.Set(animName, nspeed, acceleration, destPos - srcPos);
         skillObject.Set(attachedParticleName);
         skillObject.Set(particleName, particleTerm);
-        skillObject.Set(isDestroy);
+        skillObject.Set(isDestroy, true);
         return BT.State.SUCCESS;
     }
 

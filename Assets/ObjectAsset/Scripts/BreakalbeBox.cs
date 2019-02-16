@@ -5,7 +5,7 @@ using UnityEngine;
 public class BreakalbeBox : RandomSpriteObject
 {
     int duration;
-    const int durationMax = 5;
+    const int durationMax = 3;
     public override void SetAvailable()
     {
     }

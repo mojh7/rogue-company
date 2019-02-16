@@ -188,6 +188,8 @@ namespace Map
 
         public void AddNecessaryRoomSet(RoomSet _roomSet)
         {
+            if (_roomSet == null)
+                return;
             settedRoomSet.Add(_roomSet);
         } // 필수 방 세팅
 
