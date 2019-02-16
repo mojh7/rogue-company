@@ -12,6 +12,7 @@ public class RoomSet : ScriptableObject
     public int height;
     public int size;
     public int gage;
+
     public List<ObjectData> objectDatas;
     public RoomType roomType;
     public bool isLock;
@@ -36,15 +37,17 @@ public class RoomSet : ScriptableObject
 public struct ObjectData
 {
     public Vector2 position;
+    public Vector3 scale;
     public Sprite[] sprites;
     public bool isActive;
     public ObjectType objectType;
     public ObjectAbnormalType objectAbnormalType;
     public string className;
 
-    public ObjectData(Vector2 _position, ObjectType _objectType, ObjectAbnormalType objectAbnormalType, Sprite[] _sprites, string className = "")
+    public ObjectData(Vector2 _position,Vector3 _scale, ObjectType _objectType, ObjectAbnormalType objectAbnormalType, Sprite[] _sprites, string className = "")
     {
         this.position = _position;
+        this.scale = _scale;
         this.sprites = _sprites;
         this.objectType = _objectType;
         this.objectAbnormalType = objectAbnormalType;

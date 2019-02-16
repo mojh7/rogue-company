@@ -60,9 +60,10 @@ namespace Map
             {
                 map = new Map(size, mapSize.x, mapSize.y, maxSize.x * maxSize.y, miniSize.x * miniSize.y, maxHallRate, objectPool);
             }
-            map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[0].RoomSets);
-            map.AddNecessaryHallSet(RoomSetManager.Instance.FloorRoomSetGroups[0].HallSets);
-            map.AddNecessaryObjectSet(RoomSetManager.Instance.FloorRoomSetGroups[0].ObjectSets);
+            map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].RoomSets);
+            map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].RandomSets);
+            map.AddNecessaryHallSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].HallSets);
+            map.AddNecessaryObjectSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].ObjectSets);
             map.Generate();
             RoomManager.Instance.InitRoomList();
         }
@@ -183,6 +184,11 @@ namespace Map
                     break;
                 settedRoomSet.Add(_roomSet[i]);
             }
+        } // 필수 방 세팅
+
+        public void AddNecessaryRoomSet(RoomSet _roomSet)
+        {
+            settedRoomSet.Add(_roomSet);
         } // 필수 방 세팅
 
         public void AddNecessaryHallSet(RoomSet[] hallSet)
@@ -1094,6 +1100,7 @@ namespace Map
             {
                 customObjects.Add(objectPool.GetPooledObject());
                 customObjects[index].transform.localPosition = new Vector3(_roomSet.x * size + _roomSet.objectDatas[i].position.x, _roomSet.y * size + _roomSet.objectDatas[i].position.y, 0); //temp
+                customObjects[index].transform.localScale = new Vector3(_roomSet.objectDatas[i].scale.x, _roomSet.objectDatas[i].scale.y, _roomSet.objectDatas[i].scale.z); //temp
 
                 _roomSet.objectDatas[i].LoadObject(customObjects[index]);
                 index++;

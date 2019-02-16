@@ -11,6 +11,8 @@ public class FloorRoomSetGroup : ScriptableObject
     private RoomSet[] hallSets;
     [SerializeField]
     private ObjectSet[] objectSets;
+    [SerializeField]
+    private RandomRoomSet[] randomSets;   
 
     public RoomSet[] RoomSets
     {
@@ -33,4 +35,38 @@ public class FloorRoomSetGroup : ScriptableObject
             return objectSets;
         }
     }
+
+    public RoomSet RandomSets
+    {
+        get
+        {
+            float total = 0;
+            for (int i = 0; i < randomSets.Length; i++)
+            {
+                total += randomSets[i].probability;
+            }
+
+            Random.InitState((int)System.DateTime.Now.Ticks);
+
+            float randomPoint = Random.value * total;
+
+
+            for (int i = 0; i < randomSets.Length; i++)
+            {
+                total += randomSets[i].probability;
+
+                if (randomPoint < randomSets[i].probability)
+                {
+                    return randomSets[i].roomSet;
+                }
+                else
+                {
+                    randomPoint -= randomSets[i].probability;
+                }
+            }
+         
+            return randomSets[0].roomSet;
+        }
+    }
+
 }

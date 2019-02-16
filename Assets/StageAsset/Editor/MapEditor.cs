@@ -103,13 +103,13 @@ public class MapEditor : EditorWindow
         if (multipleSprite != null && spriteNum == 0)
         {
             Sprite[] objectSprites = GetSprites(multipleSprite);
-            objectData = new ObjectData(Vector3.zero, objectType, objectAbnormalType, objectSprites, npcType.ToString());
+            objectData = new ObjectData(Vector3.zero, Vector3.one, objectType, objectAbnormalType, objectSprites, npcType.ToString());
             objectData.LoadObject(gameObject);
             gameObject.GetComponent<SpriteRenderer>().sprite = objectSprites[0];
         }
         else
         {
-            objectData = new ObjectData(Vector3.zero, objectType, objectAbnormalType, objectSprites, npcType.ToString());
+            objectData = new ObjectData(Vector3.zero, Vector3.one, objectType, objectAbnormalType, objectSprites, npcType.ToString());
             objectData.LoadObject(gameObject);
             if(objectSprites != null)
                 if (objectSprites.Length > 0)
@@ -124,11 +124,11 @@ public class MapEditor : EditorWindow
         if (multipleSprite != null && spriteNum == 0)
         {
             Sprite[] objectSprites = GetSprites(multipleSprite);
-            currentData = new ObjectData(Vector3.zero, objectType, objectAbnormalType, objectSprites, npcType.ToString());
+            currentData = new ObjectData(Vector3.zero,Vector3.one, objectType, objectAbnormalType, objectSprites, npcType.ToString());
         }
         else
         {
-            currentData = new ObjectData(Vector3.zero, objectType, objectAbnormalType, objectSprites, npcType.ToString());
+            currentData = new ObjectData(Vector3.zero, Vector3.one, objectType, objectAbnormalType, objectSprites, npcType.ToString());
 
         }
         objectSprites = new Sprite[spriteNum];
@@ -164,7 +164,7 @@ public class MapEditor : EditorWindow
         gameObject.name = objectType.GetType().ToString();
         gameObject.transform.parent = roomObj.transform;
 
-        ObjectData objectData = new ObjectData(Vector3.zero, objectType, objectAbnormalType, objectSprites, npcType.ToString());
+        ObjectData objectData = new ObjectData(Vector3.zero, Vector3.one, objectType, objectAbnormalType, objectSprites, npcType.ToString());
         objectData.LoadObject(gameObject);
         Selection.activeObject = gameObject;
         return gameObject.GetComponent<CustomObject>();
@@ -195,7 +195,7 @@ public class MapEditor : EditorWindow
             if (child.GetComponent<CustomObject>() != null)
             {
                 CustomObject customObject = child.GetComponent<CustomObject>();
-                roomSet.Add(new ObjectData(customObject.transform.position, customObject.objectType, objectAbnormalType, customObject.sprites, customObject.GetType().ToString()));
+                roomSet.Add(new ObjectData(customObject.transform.position, customObject.transform.localScale, customObject.objectType, objectAbnormalType, customObject.sprites, customObject.GetType().ToString()));
             }
         }
         if (roomType == RoomType.MONSTER || roomType == RoomType.BOSS)
@@ -304,6 +304,8 @@ public class MapEditor : EditorWindow
         _objectData.LoadObject(gameObject);
         gameObject.name = _objectData.objectType.ToString();
         gameObject.transform.position = new Vector3(_objectData.position.x,_objectData.position.y,0);
+        gameObject.transform.localScale = new Vector3(_objectData.scale.x, _objectData.scale.y, _objectData.scale.y);
+
         gameObject.transform.parent = roomObj.transform;
         if(_objectData.sprites != null)
             if (_objectData.sprites.Length > 0)
