@@ -210,6 +210,8 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         float scaleX;
         float scaleY;
         float castingTime;
+        float dps;
+        float attackSpeed;
         float addDirVec;
         float addVerticalVec;
         #endregion
@@ -246,20 +248,25 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 
             float.TryParse(csvWeaponData[i]["damage"].ToString(), out damage);
             mainWeaponInfos[i].damage = damage;
-            //Debug.Log(damage);
 
             int.TryParse(csvWeaponData[i]["staminaConsumption"].ToString(), out staminaConsumption);
             mainWeaponInfos[i].staminaConsumption = staminaConsumption;
-            //Debug.Log(staminaConsumption);
 
             float.TryParse(csvWeaponData[i]["cooldown"].ToString(), out cooldown);
             mainWeaponInfos[i].cooldown = cooldown;
-            //Debug.Log(cooldown);
 
             int.TryParse(csvWeaponData[i]["ammoCapacity"].ToString(), out ammoCapacity);
             mainWeaponInfos[i].ammoCapacity = ammoCapacity;
             mainWeaponInfos[i].ammo = ammoCapacity;
-            //Debug.Log(ammoCapacity);
+
+            float.TryParse(csvWeaponData[i]["castingTime"].ToString(), out castingTime);
+            mainWeaponInfos[i].castingTime = castingTime;
+
+            float.TryParse(csvWeaponData[i]["dps"].ToString(), out dps);
+            mainWeaponInfos[i].dps = dps;
+
+            float.TryParse(csvWeaponData[i]["attackSpeed"].ToString(), out attackSpeed);
+            mainWeaponInfos[i].castingTime = attackSpeed;
 
             float.TryParse(csvWeaponData[i]["range"].ToString(), out range);
             mainWeaponInfos[i].range = range;
@@ -281,9 +288,6 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 
             float.TryParse(csvWeaponData[i]["scaleY"].ToString(), out scaleY);
             mainWeaponInfos[i].scaleY = scaleY;
-
-            float.TryParse(csvWeaponData[i]["castingTime"].ToString(), out castingTime);
-            mainWeaponInfos[i].castingTime = castingTime;
 
             float.TryParse(csvWeaponData[i]["addDirVec"].ToString(), out addDirVec);
             mainWeaponInfos[i].addDirVecMagnitude = addDirVec;
@@ -362,24 +366,6 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                 case WeaponType.RANGED_SPECIAL:
                     if (addDirVec == 0)
                         mainWeaponInfos[i].addDirVecMagnitude = 0.3f;
-                    break;
-                default:
-                    break;
-            }
-
-            //시전 시간
-            switch (mainWeaponInfos[i].attackAniType)
-            {
-                case AttackAniType.STRIKE:
-                    mainWeaponInfos[i].castingTime = 0.3f;
-                    break;
-                case AttackAniType.BLOW:
-                    mainWeaponInfos[i].castingTime = 0.2f;
-                    break;
-                case AttackAniType.SWING:
-                    mainWeaponInfos[i].castingTime = 0.3f;
-                    break;
-                case AttackAniType.SHOT:
                     break;
                 default:
                     break;

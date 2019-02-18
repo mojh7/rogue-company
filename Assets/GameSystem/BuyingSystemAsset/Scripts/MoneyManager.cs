@@ -11,6 +11,4 @@ public class MoneyManager : MonoBehaviourSingleton<MoneyManager>
         GameDataManager.Instance.LoadData(GameDataManager.UserDataType.USER);
         globalGold = GameDataManager.Instance.GetGold();
     }
-
-    
 }

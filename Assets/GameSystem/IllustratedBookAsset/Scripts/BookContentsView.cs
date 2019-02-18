@@ -33,10 +33,11 @@ public class BookContentsView : MonoBehaviourSingleton<BookContentsView>
         weaponImg.sprite = info.sprite;
 
         weaponInfoTxt.text =
-            "무기 이름   : " + info.weaponName + "\n무기 종류   : " + weaponTypeString[(int)info.weaponType - 1] +
+            "무기 이름   : " + info.weaponName +
+            "\n무기 종류   : " + weaponTypeString[(int)info.weaponType - 1] +
             "\n등급        : " + info.rating +
-            "\nDPS         : " + "추후에 추가" +
-            "\n공격 속도   : " + "추후에 추가" +
+            "\nDPS         : " + info.dps +
+            "\n공격 속도   : " + info.attackSpeed +
             "\n치명타 확률 : " + (info.criticalChance*100) + " %";
 
         // 근거리, 소요 스태미나 표시
@@ -46,12 +47,12 @@ public class BookContentsView : MonoBehaviourSingleton<BookContentsView>
         {
             weaponInfoTxt.text += "\n소모 스태미나 : " + info.staminaConsumption;
         }
-        // 원거리 집탄률 표시
+        // 원거리 탄창
         else if (WeaponType.PISTOL == info.weaponType || WeaponType.SHOTGUN == info.weaponType || WeaponType.MACHINEGUN == info.weaponType ||
             WeaponType.SNIPER_RIFLE == info.weaponType || WeaponType.LASER == info.weaponType || WeaponType.BOW == info.weaponType ||
             WeaponType.WAND == info.weaponType || WeaponType.RANGED_SPECIAL == info.weaponType || WeaponType.BOMB == info.weaponType)
         {
-            weaponInfoTxt.text += "\n집탄률      : " + "추후에 추가";
+            weaponInfoTxt.text += "\n탄약량      : " + ((info.ammoCapacity == -1) ? "oo" : info.ammoCapacity.ToString());
         }
 
         // 보류

@@ -47,6 +47,10 @@ public class WeaponInfo : ScriptableObject
     public TouchMode touchMode;         // 무기 공격 타입?? 일반 공격, 차징 공격
     public WeaponType weaponType;       // 무기 종류
 
+    [Header("정보 표시용")]
+    public float dps; // 소수 세 번째 자리에서 반올림 표시
+    public float attackSpeed; // 소수 세 번째 자리에서 반올림 표시
+
     [Header("일단 임시로 ammoCapacity 값 -1 => 탄창 무한대")]
     public int ammoCapacity;            // 탄약 량
     public int ammo;                    // 현재 탄약

@@ -88,7 +88,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
     }
 
 
-    /// <summary> WeaponSwitchButton UI Weapon Sprite View Update </summary>
+    /// <summary> 무기별 cost 표시 업데이트 </summary>
     public void UpdateAmmoView(WeaponInfo info)
     {
         if(info.ammoCapacity < 0)
