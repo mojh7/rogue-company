@@ -343,12 +343,12 @@ public class Weapon : Item
     }
 
     /// <summary>
-    /// 근거리 무기인지 아닌지 확인하기 -> 근거리면 true 반환 : 스태미너 소모하게 만들기
+    /// 근거리 무기인지 아닌지 체크
     /// </summary>
     /// <returns></returns>
-    private bool ShortWeapon()
+    public static bool IsMeleeWeapon(WeaponInfo info)
     {
-        // SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE,
+        // SPEAR, CLUB, SPORTING_GOODS, SWORD, CLEANING_TOOL, KNUCKLE, MELEE_SPECIAL
         switch (info.weaponType)
         {
             case WeaponType.SPEAR:

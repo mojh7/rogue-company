@@ -52,7 +52,7 @@ public class BookContentsView : MonoBehaviourSingleton<BookContentsView>
             WeaponType.SNIPER_RIFLE == info.weaponType || WeaponType.LASER == info.weaponType || WeaponType.BOW == info.weaponType ||
             WeaponType.WAND == info.weaponType || WeaponType.RANGED_SPECIAL == info.weaponType || WeaponType.BOMB == info.weaponType)
         {
-            weaponInfoTxt.text += "\n탄약량      : " + ((info.ammoCapacity == -1) ? "oo" : info.ammoCapacity.ToString());
+            weaponInfoTxt.text += "\n탄약량      : " + ((info.ammoCapacity == -1) ? "∞" : info.ammoCapacity.ToString());
         }
 
         // 보류

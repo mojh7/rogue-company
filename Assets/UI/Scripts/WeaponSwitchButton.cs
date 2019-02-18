@@ -13,6 +13,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
     [SerializeField] private Image NextImage;
     [SerializeField] float shakeAmount;
     [SerializeField] float shakeDuration;
+    [SerializeField] GameObject staminaImgObj;
 
     public void StartShake(float maxX, float maxY, float ShakeTime, bool tutorial)
     {
@@ -91,15 +92,22 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
     /// <summary> 무기별 cost 표시 업데이트 </summary>
     public void UpdateAmmoView(WeaponInfo info)
     {
-        if(info.ammoCapacity < 0)
+        if(Weapon.IsMeleeWeapon(info))
+        {
+            ammoViewText.text = "  -" + info.staminaConsumption;
+            staminaImgObj.SetActive(true);
+        }
+        else if(info.ammoCapacity < 0)
         {
             //∞
-            ammoViewText.text = "oo / oo";
+            ammoViewText.text = "∞ / ∞";
+            staminaImgObj.SetActive(false);
         }
         // string bulider??? 그걸로 합쳐야 빠를라나
         else
         {
             ammoViewText.text = info.ammo + " / " + info.ammoCapacity;
+            staminaImgObj.SetActive(false);
         }
     }
 
