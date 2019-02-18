@@ -370,16 +370,16 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
             //시전 시간
             switch (mainWeaponInfos[i].attackAniType)
             {
-                case AttackAniType.Strike:
+                case AttackAniType.STRIKE:
                     mainWeaponInfos[i].castingTime = 0.3f;
                     break;
-                case AttackAniType.Blow:
+                case AttackAniType.BLOW:
                     mainWeaponInfos[i].castingTime = 0.2f;
                     break;
-                case AttackAniType.Swing:
+                case AttackAniType.SWING:
                     mainWeaponInfos[i].castingTime = 0.3f;
                     break;
-                case AttackAniType.Shot:
+                case AttackAniType.SHOT:
                     break;
                 default:
                     break;

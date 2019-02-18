@@ -29,7 +29,7 @@ namespace WeaponAsset
     }
 
     // PISTOL, SHOTGUN, MACHINEGUN, SNIPLER_RIFLE, LASER, BOW
-    public enum AttackAniType { None, Blow, Strike, Swing, Punch, Shot }
+    public enum AttackAniType { NONE, BLOW, STRIKE, SWING, PUNCH, SHOT }
     public enum AttackType { MELEE, RANGED, TRAP }
     public enum TouchMode { NORMAL, CHARGE }
     public enum BulletType { PROJECTILE, LASER, MELEE, NULL, MINE, EXPLOSION }

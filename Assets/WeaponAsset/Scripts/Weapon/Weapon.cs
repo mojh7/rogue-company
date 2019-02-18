@@ -104,10 +104,12 @@ public class Weapon : Item
         sprite = info.sprite;
         weaponState = WeaponState.Idle;
         name = info.weaponName;
+        /*
         if (OwnerType.ENEMY == ownerType)
         {
             //enemy
         }
+        */
 
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
@@ -227,13 +229,14 @@ public class Weapon : Item
         {
             if (info.touchMode == TouchMode.NORMAL)
             {
+                Debug.Log("startAttack : " + Time.time);
                 Attack(0f);
             }
             else if (info.touchMode == TouchMode.CHARGE && weaponState == WeaponState.Idle)
             {
                 if (false == HasCostForAttack())
                 {
-                    Debug.Log("총알 혹은 스테미너 부족으로 인한 차징 공격 실패");
+                    //Debug.Log("총알 혹은 스테미너 부족으로 인한 차징 공격 실패");
                     return;
                 }
                 UpdateWeaponBuff();
@@ -250,6 +253,7 @@ public class Weapon : Item
     // 실제 공격 함수, 무기 상태를 Attack으로 바꾸고 공격 패턴 n사이클 실행.
     public void Attack(float damageIncreaseRate)
     {
+        Debug.Log("Attack : " + Time.time);
         if(HasCostForAttack())
         {
             UpdateWeaponBuff();
@@ -306,6 +310,7 @@ public class Weapon : Item
     // 재장전
     public void Reload()
     {
+        Debug.Log("리로드 진입 : " + Time.time);
         // 공격 딜레이에 재 장전
         StartCoroutine(ReloadTime());
     }
@@ -313,9 +318,10 @@ public class Weapon : Item
     /// <summary> 공격 애니메이션 play </summary>
     public void PlayAttackAnimation()
     {        
-        if(AttackAniType.None != info.attackAniType)
+        if(AttackAniType.NONE != info.attackAniType)
         {
             animator.SetTrigger(info.attackAniType.ToString());
+            Debug.Log("playerAttakAnimation : " + Time.time + ", " + animator.speed);
         }
     }
 
@@ -354,6 +360,7 @@ public class Weapon : Item
             case WeaponType.SWORD:
             case WeaponType.CLEANING_TOOL:
             case WeaponType.KNUCKLE:
+            case WeaponType.MELEE_SPECIAL:
                 return true;
             default:
                 return false;
@@ -386,6 +393,7 @@ public class Weapon : Item
     // 공격 패턴 사이클.
     private IEnumerator PatternCycle(float damageIncreaseRate)
     {
+        Debug.Log("Pattern 시작 : " + Time.time);
         // 총구 위치 보기용 for Debug
         if(OwnerType.PLAYER == ownerType)
         {
@@ -399,6 +407,7 @@ public class Weapon : Item
         {
             yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
         }
+        Debug.Log("CastingTime 이후 : " + Time.time + ", " + info.castingTime);
 
         // 공격 한 번 실행. (pattern cycle n번 실행)
         for (int i = 0; i < info.cycleRepetitionCount; i++)
@@ -472,6 +481,7 @@ public class Weapon : Item
         {
             yield return YieldInstructionCache.WaitForSeconds(info.cooldown);
         }
+        Debug.Log("리로드 끝 : " + Time.time + ", " + info.cooldown);
         weaponState = WeaponState.Idle;
     }
 

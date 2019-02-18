@@ -40,7 +40,7 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
         txt.color = color;
         float showSpeed = 5f;
         float bkgHeight = 120f;
-        // on
+        // show
         while(bkgTransform.sizeDelta.y < bkgHeight)
         {
             bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, scaleY);
@@ -58,7 +58,7 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
         bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, scaleY);
 
         yield return YieldInstructionCache.WaitForSeconds(0.5f);
-        // off
+        // hide
         while (bkgTransform.sizeDelta.y >= 0)
         {
             bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, scaleY);
