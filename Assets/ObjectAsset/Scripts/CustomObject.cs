@@ -24,6 +24,7 @@ public class CustomObject : MonoBehaviour
     public ObjectType objectType;
     public Sprite[] sprites;
     public object subParameter;
+    public ObjectAbnormalType objectAbnormalType;
 
     protected Sprite sprite;
     protected bool isActive;

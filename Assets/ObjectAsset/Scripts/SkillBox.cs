@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class SkillBox : BreakalbeBox
 {
-    [SerializeField]
-    ObjectAbnormalType objectAbnormalType;
-
     public override void Init()
     {
         base.Init();
