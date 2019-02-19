@@ -67,6 +67,7 @@ public class IllustratedBook : MonoBehaviour
     [SerializeField]
     private Sprite unselectedImage;
 
+    private int ratingLength;
     #endregion
 
     public Sprite GetQuestionMarkSprite()
@@ -88,7 +89,8 @@ public class IllustratedBook : MonoBehaviour
         bookSortingType = BookSortingType.ALL_RATING;
         weaponContentsList = new IllustratedBookContents[WeaponsData.Instance.GetWeaponInfosLength()];
         itemContentsList = new IllustratedBookContents[ItemsData.Instance.GetMiscItemInfosLength()];
-        int ratingLength = (int)Rating.E;
+        ratingLength = (int)Rating.E;
+
         setActiveWeaponContents = new SetActiveContents[ratingLength];
         setActiveItemContents = new SetActiveContents[ratingLength];
 
@@ -157,6 +159,36 @@ public class IllustratedBook : MonoBehaviour
         ShowSelectedTab(type);
     }
 
+    public void ChangeContentsDisplay()
+    {
+        ActiveOnSpecificRatingContent(illustratedBookType, (BookSortingType)sortDropdown.value);
+    }
+
+    private void ActiveOnSpecificRatingContent(IllustratedBookType type, BookSortingType sortingType)
+    {
+        if (BookSortingType.ALL_RATING == sortingType)
+        {
+            SetActiveAllRatingContents(type, true);
+            return;
+        }
+
+        SetActiveAllRatingContents(type, false);
+        switch (type)
+        {
+            case IllustratedBookType.WEAPON:
+                setActiveWeaponContents[(int)sortingType - 1](true);
+                break;
+            case IllustratedBookType.ITEM:
+                setActiveItemContents[(int)sortingType - 1](true);
+                break;
+            //case IllustratedBookType.MONSTER:
+            //    break;
+            default:
+                sortDropdownObj.SetActive(false);
+                break;
+        }
+    }
+
     private void SetActiveAllRatingContents(IllustratedBookType type, bool show)
     {
         switch (type)
@@ -205,24 +237,8 @@ public class IllustratedBook : MonoBehaviour
                 tabTexts[i].color = Color.white;
             }
         }
-        illustratedBookType = (IllustratedBookType)type;
     }
 
 
-    public void ChangeContentsDisplay(int displayType)
-    {
-        
-    }
-
-    public void ShowContentsInfo()
-    {
-        switch (illustratedBookType)
-        {
-            case IllustratedBookType.WEAPON:
-                break;
-            default:
-                break;
-        }
-    }
     #endregion
 }
