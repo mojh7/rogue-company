@@ -32,7 +32,10 @@ public class UsableItem : Item
     
     public Rating GetUsableItemRating() { return info.Rating; }
 
+    public System.Type GetInfoType() { return info.GetType(); } 
+
     public override string GetName() { return info.ItemName; }
+
 
     public override void Active()
     {
