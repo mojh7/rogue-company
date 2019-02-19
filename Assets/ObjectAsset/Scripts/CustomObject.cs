@@ -702,12 +702,28 @@ public class ItemContainer : RandomSpriteObject
     {
         textMesh.text = innerObject.GetName();
         childTextMesh.text = textMesh.text;
+        if (innerObject.GetType() == typeof(Weapon))
+        {
+            WeaponInfo info = ((Weapon)innerObject).info;
+            IngameNoticeManager.Instance.ShowWeaponInfo(info);
+            textMesh.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)info.rating - 1];
+            childTextMesh.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)info.rating - 1];
+            Debug.Log(CommonConstants.Instance.RATING_TXT_COLOR[(int)info.rating - 1]);
+        }
+        else if (innerObject.GetType() == typeof(UsableItem))
+        {
+            childTextMesh.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)innerObject.GetRating() - 1];
+        }
     }
 
     public override void DeIndicateInfo()
     {
         textMesh.text = "";
         childTextMesh.text = textMesh.text;
+        if (innerObject.GetType() == typeof(Weapon))
+        {
+            //IngameNoticeManager.Instance.HideWeaponInfo();
+        }
     }
 
     public override bool GetAvailable()

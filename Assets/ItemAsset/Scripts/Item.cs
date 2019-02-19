@@ -15,6 +15,7 @@ public abstract class Item : MonoBehaviour {
     public virtual void SubActive() { }
     public virtual string GetName() { return name; }
     public Sprite GetSprite() { return sprite; }
+
 }
 
 public class Coin : Item

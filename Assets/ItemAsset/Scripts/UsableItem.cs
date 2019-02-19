@@ -29,6 +29,8 @@ public class UsableItem : Item
         this.rating = info.Rating;
         spriteRenderer.sprite = info.Sprite;
     }
+    
+    public Rating GetUsableItemRating() { return info.Rating; }
 
     public override string GetName() { return info.ItemName; }
 

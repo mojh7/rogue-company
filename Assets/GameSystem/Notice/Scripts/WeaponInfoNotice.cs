@@ -16,7 +16,10 @@ public class WeaponInfoNotice : MonoBehaviour
     [SerializeField]
     private GameObject maskObj;
     [SerializeField]
-    private RectTransform maskTransform; 
+    private RectTransform maskTransform;
+
+    [SerializeField]
+    private Image bkgImg;
 
     //dps, critical, cost
     [SerializeField]
@@ -27,6 +30,9 @@ public class WeaponInfoNotice : MonoBehaviour
     private bool isActive;
     private bool isShowing;
     private bool isHiding;
+    private bool willHide;
+
+    private float lastShowingCallTime;
 
     private void Start()
     {
@@ -49,17 +55,22 @@ public class WeaponInfoNotice : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            HideWeaponInfo();
+            StartCoroutine(HideInfo());
         }
     }
 
     public void ShowWeaponInfo(WeaponInfo info)
     {
-        if (isActive || isShowing)
+        if (isShowing)
+        {
+            lastShowingCallTime = Time.time;
+        }
+        if (isActive || isHiding)
         {
             return;
         }
         isActive = true;
+        bkgImg.sprite = bkgImgByRating[(int)info.rating - 1];
         infoTxt[0].text = info.dps.ToString();
         infoTxt[1].text = (info.criticalChance * 100f).ToString() + "%";
         if(Weapon.IsMeleeWeapon(info))
@@ -75,14 +86,15 @@ public class WeaponInfoNotice : MonoBehaviour
         StartCoroutine(ShowInfo());
     }
 
-    public void HideWeaponInfo()
-    {
-        if (false == isActive || isHiding || isShowing)
-        {
-            return;
-        }
-        StartCoroutine(HideInfo());
-    }
+    //public void HideWeaponInfo()
+    //{
+    //    willHide = true;
+    //    if (false == isActive || isHiding || isShowing)
+    //    {
+    //        return;
+    //    }
+    //    StartCoroutine(HideInfo());
+    //}
 
 
     private IEnumerator ShowInfo()
@@ -100,7 +112,17 @@ public class WeaponInfoNotice : MonoBehaviour
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
         maskTransform.sizeDelta = new Vector2(maskWidthMax, 100f);
+
+        float currentTime = Time.time;
+        lastShowingCallTime = Time.time;
+        while (currentTime < lastShowingCallTime + 0.2f)
+        {
+            currentTime = Time.time;
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
         isShowing = false;
+
+        StartCoroutine(HideInfo());
     }
 
     private IEnumerator HideInfo()

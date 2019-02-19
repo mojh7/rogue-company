@@ -8,9 +8,8 @@ public class IngameNoticeManager : MonoBehaviourSingleton<IngameNoticeManager>
     [SerializeField]
     private WeaponInfoNotice weaponInfoNotice;
 
-
-    public void ShowWeaponInfo()
+    public void ShowWeaponInfo(WeaponInfo info)
     {
-        
+        weaponInfoNotice.ShowWeaponInfo(info);
     }
 }

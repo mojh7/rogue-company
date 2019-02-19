@@ -716,6 +716,7 @@ public class Player : Character
         playerHPUi.SetHpMax();
         playerHPUi.Notify();
     }
+
     // total을 안 거치고 바로 효과 적용하기 위해 구분함, 소모형 아이템 용 함수
     public override void ApplyConsumableItem(CharacterTargetEffect itemUseEffect)
     {
