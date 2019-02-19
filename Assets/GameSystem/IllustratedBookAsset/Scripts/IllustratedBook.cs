@@ -92,12 +92,6 @@ public class IllustratedBook : MonoBehaviour
         setActiveWeaponContents = new SetActiveContents[ratingLength];
         setActiveItemContents = new SetActiveContents[ratingLength];
 
-        for(int i = 0; i < 6; i++)
-        {
-            setActiveWeaponContents = null;
-            setActiveItemContents = null;
-        }
-
         weaponIndexbyRating = new List<int>[ratingLength];
         
         GameObject createdobj;
@@ -111,7 +105,7 @@ public class IllustratedBook : MonoBehaviour
             weaponContentsList[i] = createdobj.GetComponent<IllustratedBookContents>();
             weaponInfo = WeaponsData.Instance.GetWeaponInfo(i, CharacterInfo.OwnerType.PLAYER);
             weaponContentsList[i].Init(weaponInfo);
-            //setActiveWeaponContents[(int)weaponInfo.rating-1] += weaponContentsList[i].SetActiveContents;
+            setActiveWeaponContents[(int)weaponInfo.rating-1] += weaponContentsList[i].SetActiveContents;
             createdobj.transform.localScale = new Vector3(1, 1, 1);
         }
 
@@ -125,7 +119,7 @@ public class IllustratedBook : MonoBehaviour
             itemContentsList[i] = createdobj.GetComponent<IllustratedBookContents>();
             usableItemInfo = ItemsData.Instance.GetMiscItemInfo(i);
             itemContentsList[i].Init(usableItemInfo);
-            //setActiveItemContents[(int)usableItemInfo.Rating - 1] += itemContentsList[i].SetActiveContents;
+            setActiveItemContents[(int)usableItemInfo.Rating - 1] += itemContentsList[i].SetActiveContents;
             createdobj.transform.localScale = new Vector3(1, 1, 1);
         }
         bookUI.SetActive(false);
@@ -168,13 +162,13 @@ public class IllustratedBook : MonoBehaviour
         switch (type)
         {
             case IllustratedBookType.WEAPON:
-                for(int i = 0; i < WeaponsData.Instance.GetWeaponInfosLength(); i++)
+                for(int i = 0; i < (int)Rating.E; i++)
                 {
                     setActiveWeaponContents[i](show);
                 }
                 break;
             case IllustratedBookType.ITEM:
-                for (int i = 0; i < ItemsData.Instance.GetMiscItemInfosLength(); i++)
+                for (int i = 0; i < (int)Rating.E; i++)
                 {
                     setActiveItemContents[i](show);
                 }

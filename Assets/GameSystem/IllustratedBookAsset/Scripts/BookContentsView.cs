@@ -69,7 +69,7 @@ public class BookContentsView : MonoBehaviourSingleton<BookContentsView>
             "이름 : " + info.ItemName +
             "\n등급 : " + info.Rating +
             "\n설명 : " + info.Notes +
-            "\n\n★비밀 노트 : " + info.Memo;
+            "\n\n# 비밀 노트 : " + info.Memo;
     }
 
 }
