@@ -195,7 +195,7 @@ public class MapEditor : EditorWindow
             if (child.GetComponent<CustomObject>() != null)
             {
                 CustomObject customObject = child.GetComponent<CustomObject>();
-                roomSet.Add(new ObjectData(customObject.transform.position, customObject.transform.localScale, customObject.objectType, objectAbnormalType, customObject.sprites, customObject.GetType().ToString()));
+                roomSet.Add(new ObjectData(customObject.transform.position, customObject.transform.localScale, customObject.objectType, customObject.objectAbnormalType, customObject.sprites, customObject.GetType().ToString()));
             }
         }
         if (roomType == RoomType.MONSTER || roomType == RoomType.BOSS)
