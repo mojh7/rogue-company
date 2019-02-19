@@ -100,7 +100,7 @@ public class WeaponSwitchButton : MonoBehaviour, IPointerDownHandler,IPointerUpH
         else if(info.ammoCapacity < 0)
         {
             //∞
-            ammoViewText.text = "∞ / ∞";
+            ammoViewText.text = "∞";
             staminaImgObj.SetActive(false);
         }
         // string bulider??? 그걸로 합쳐야 빠를라나

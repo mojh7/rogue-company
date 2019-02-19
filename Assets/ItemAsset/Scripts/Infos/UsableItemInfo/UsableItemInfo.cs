@@ -69,4 +69,9 @@ public class UsableItemInfo : ScriptableObject
     {
         get { return rating; }
     }
+
+    public string Memo
+    {
+        get { return memo; }
+    }
 }

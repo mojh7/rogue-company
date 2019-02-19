@@ -14,9 +14,9 @@ public class BookContentsView : MonoBehaviourSingleton<BookContentsView>
 {
 
     [SerializeField]
-    private Image weaponImg;
+    private Image contentImg;
     [SerializeField]
-    private Text weaponInfoTxt;
+    private Text contentInfoTxt;
     [SerializeField]
     private Text descriptionTxt;
 
@@ -29,30 +29,26 @@ public class BookContentsView : MonoBehaviourSingleton<BookContentsView>
 
     public void ShowContentsInfo(WeaponInfo info)
     {
-    
-        weaponImg.sprite = info.sprite;
 
-        weaponInfoTxt.text =
-            "무기 이름   : " + info.weaponName +
-            "\n무기 종류   : " + weaponTypeString[(int)info.weaponType - 1] +
-            "\n등급        : " + info.rating +
-            "\nDPS         : " + info.dps +
-            "\n공격 속도   : " + info.attackSpeed +
+        contentImg.sprite = info.sprite;
+
+        contentInfoTxt.text =
+            "이름 : " + info.weaponName +
+            "\n종류 : " + weaponTypeString[(int)info.weaponType - 1] +
+            "\n등급 : " + info.rating +
+            "\nDPS : " + info.dps +
+            "\n공격 속도 : " + info.attackSpeed +
             "\n치명타 확률 : " + (info.criticalChance*100) + " %";
 
         // 근거리, 소요 스태미나 표시
-        if (WeaponType.SPEAR == info.weaponType || WeaponType.CLUB == info.weaponType || WeaponType.SPORTING_GOODS == info.weaponType ||
-            WeaponType.SWORD == info.weaponType || WeaponType.CLEANING_TOOL == info.weaponType || WeaponType.KNUCKLE == info.weaponType ||
-            WeaponType.MELEE_SPECIAL == info.weaponType)
+        if (Weapon.IsMeleeWeapon(info))
         {
-            weaponInfoTxt.text += "\n소모 스태미나 : " + info.staminaConsumption;
+            contentInfoTxt.text += "\n소모 스태미나 : " + info.staminaConsumption;
         }
         // 원거리 탄창
-        else if (WeaponType.PISTOL == info.weaponType || WeaponType.SHOTGUN == info.weaponType || WeaponType.MACHINEGUN == info.weaponType ||
-            WeaponType.SNIPER_RIFLE == info.weaponType || WeaponType.LASER == info.weaponType || WeaponType.BOW == info.weaponType ||
-            WeaponType.WAND == info.weaponType || WeaponType.RANGED_SPECIAL == info.weaponType || WeaponType.BOMB == info.weaponType)
+        else
         {
-            weaponInfoTxt.text += "\n탄약량      : " + ((info.ammoCapacity == -1) ? "∞" : info.ammoCapacity.ToString());
+            contentInfoTxt.text += "\n탄약량 : " + ((info.ammoCapacity == -1) ? "∞" : info.ammoCapacity.ToString());
         }
 
         // 보류
@@ -62,6 +58,18 @@ public class BookContentsView : MonoBehaviourSingleton<BookContentsView>
         else
             descriptionTxt.text = "설명 : " + info.description;
         */
+    }
+
+    public void ShowContentsInfo(UsableItemInfo info)
+    {
+
+        contentImg.sprite = info.Sprite;
+
+        contentInfoTxt.text =
+            "이름 : " + info.ItemName +
+            "\n등급 : " + info.Rating +
+            "\n설명 : " + info.Notes +
+            "\n\n★비밀 노트 : " + info.Memo;
     }
 
 }

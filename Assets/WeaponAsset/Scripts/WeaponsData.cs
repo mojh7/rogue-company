@@ -81,7 +81,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     }
 
     /// <summary>
-    /// Owner에 따른 Weapon Data 반환, ownerType 기본 값 Player
+    /// Owner에 따른 Weapon Data 원본 값(Clone은 따로 해야 함) 반환, ownerType 기본 값 Player
     /// </summary>
     /// <param name="id"></param>
     /// <param name="owner"></param>

@@ -89,14 +89,6 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
 
     public void Temp()
     {
-        if (passiveDebugObj.activeSelf)
-        {
-            Debug.Log("패시브 아이템 테스트창 off");
-        }
-        else
-        {
-            Debug.Log("패시브 아이템 테스트창 on");
-        }
         passiveDebugObj.SetActive(!passiveDebugObj.activeSelf);
         effectTotalViewObj.SetActive(passiveDebugObj.activeSelf);
     }

@@ -27,7 +27,8 @@ using UnityEngine.UI;
 public class IllustratedBook : MonoBehaviour
 {
     public enum IllustratedBookType { WEAPON, ITEM, MONSTER, BOSS_MONSTER }
-    public enum BookSortingType { ALL_RATING, S, A, B, C , D, E }   // 구분 어떻게 보여줄지
+    public enum BookSortingType { ALL_RATING, S, A, B, C, D, E }   // 구분 어떻게 보여줄지
+    private delegate void SetActiveContents(bool show);
 
     #region variables
     [SerializeField]
@@ -45,6 +46,14 @@ public class IllustratedBook : MonoBehaviour
     private List<int>[] weaponIndexbyRating;
     private IllustratedBookContents[] itemContentsList;
 
+    [SerializeField]
+    private GameObject sortDropdownObj;
+    [SerializeField]
+    private Dropdown sortDropdown;
+
+    private SetActiveContents[] setActiveWeaponContents;
+    private SetActiveContents[] setActiveItemContents;
+
     [Header("category tab 변수들")]
     [SerializeField]
     private Image[] tabImages;
@@ -57,6 +66,7 @@ public class IllustratedBook : MonoBehaviour
     private Sprite selectedImage;
     [SerializeField]
     private Sprite unselectedImage;
+
     #endregion
 
     public Sprite GetQuestionMarkSprite()
@@ -72,6 +82,111 @@ public class IllustratedBook : MonoBehaviour
     #endregion
 
     #region func
+    private void InitBook()
+    {
+        illustratedBookType = IllustratedBookType.WEAPON;
+        bookSortingType = BookSortingType.ALL_RATING;
+        weaponContentsList = new IllustratedBookContents[WeaponsData.Instance.GetWeaponInfosLength()];
+        itemContentsList = new IllustratedBookContents[ItemsData.Instance.GetMiscItemInfosLength()];
+        int ratingLength = (int)Rating.E;
+        setActiveWeaponContents = new SetActiveContents[ratingLength];
+        setActiveItemContents = new SetActiveContents[ratingLength];
+
+        for(int i = 0; i < 6; i++)
+        {
+            setActiveWeaponContents = null;
+            setActiveItemContents = null;
+        }
+
+        weaponIndexbyRating = new List<int>[ratingLength];
+        
+        GameObject createdobj;
+        WeaponInfo weaponInfo;
+        // weapon contents 생성
+        for (int i = WeaponsData.Instance.GetWeaponInfosLength()-1; i >= 0; i--)
+        {
+            createdobj = Instantiate(contentsPrefab);
+            createdobj.name = "weaponContents_" + i;
+            createdobj.transform.SetParent(contentsParentObj);
+            weaponContentsList[i] = createdobj.GetComponent<IllustratedBookContents>();
+            weaponInfo = WeaponsData.Instance.GetWeaponInfo(i, CharacterInfo.OwnerType.PLAYER);
+            weaponContentsList[i].Init(weaponInfo);
+            //setActiveWeaponContents[(int)weaponInfo.rating-1] += weaponContentsList[i].SetActiveContents;
+            createdobj.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        UsableItemInfo usableItemInfo;
+        // item contents 생성
+        for (int i = ItemsData.Instance.GetMiscItemInfosLength() - 1; i >= 0; i--)
+        {
+            createdobj = Instantiate(contentsPrefab);
+            createdobj.name = "itemContents_" + i;
+            createdobj.transform.SetParent(contentsParentObj);
+            itemContentsList[i] = createdobj.GetComponent<IllustratedBookContents>();
+            usableItemInfo = ItemsData.Instance.GetMiscItemInfo(i);
+            itemContentsList[i].Init(usableItemInfo);
+            //setActiveItemContents[(int)usableItemInfo.Rating - 1] += itemContentsList[i].SetActiveContents;
+            createdobj.transform.localScale = new Vector3(1, 1, 1);
+        }
+        bookUI.SetActive(false);
+
+        // category tab 초기화
+
+        tabLength = tabImages.Length;
+        ChangeCategory(0);
+        ShowSelectedTab(0);
+    }
+
+    public void ChangeCategory(int type)
+    {
+        illustratedBookType = (IllustratedBookType)type;
+        bookSortingType = BookSortingType.ALL_RATING;
+        sortDropdown.value = 0;
+        switch (illustratedBookType)
+        {
+            case IllustratedBookType.WEAPON:
+                sortDropdownObj.SetActive(true);
+                SetActiveAllRatingContents(IllustratedBookType.WEAPON, true);
+                SetActiveAllRatingContents(IllustratedBookType.ITEM, false);
+                break;
+            case IllustratedBookType.ITEM:
+                sortDropdownObj.SetActive(true);
+                SetActiveAllRatingContents(IllustratedBookType.WEAPON, false);
+                SetActiveAllRatingContents(IllustratedBookType.ITEM, true);
+                break;
+            //case IllustratedBookType.MONSTER:
+            //    break;
+            default:
+                sortDropdownObj.SetActive(false);
+                break;
+        }
+        ShowSelectedTab(type);
+    }
+
+    private void SetActiveAllRatingContents(IllustratedBookType type, bool show)
+    {
+        switch (type)
+        {
+            case IllustratedBookType.WEAPON:
+                for(int i = 0; i < WeaponsData.Instance.GetWeaponInfosLength(); i++)
+                {
+                    setActiveWeaponContents[i](show);
+                }
+                break;
+            case IllustratedBookType.ITEM:
+                for (int i = 0; i < ItemsData.Instance.GetMiscItemInfosLength(); i++)
+                {
+                    setActiveItemContents[i](show);
+                }
+                break;
+            //case IllustratedBookType.MONSTER:
+            //    break;
+            default:
+                sortDropdownObj.SetActive(false);
+                break;
+        }
+    }
+
     public void OpenBook()
     {
         bookUI.SetActive(true);
@@ -83,36 +198,8 @@ public class IllustratedBook : MonoBehaviour
         AudioManager.Instance.PlaySound(0, SOUNDTYPE.UI);
     }
 
-    private void InitBook()
-    {
-        illustratedBookType = IllustratedBookType.WEAPON;
-        bookSortingType = BookSortingType.ALL_RATING;
-        weaponContentsList = new IllustratedBookContents[WeaponsData.Instance.GetWeaponInfosLength()];
-        itemContentsList = new IllustratedBookContents[ItemsData.Instance.GetMiscItemInfosLength()];
 
-        int ratingLength = (int)Rating.E;
-        weaponIndexbyRating = new List<int>[ratingLength];
-        
-        GameObject createdobj;
-        // weapon contents 생성
-        for (int i = WeaponsData.Instance.GetWeaponInfosLength()-1; i >= 0; i--)
-        {
-            createdobj = Instantiate(contentsPrefab);
-            createdobj.name = "weaponContents_" + i;
-            createdobj.transform.SetParent(contentsParentObj);
-            weaponContentsList[i] = createdobj.GetComponent<IllustratedBookContents>();
-            weaponContentsList[i].Init(WeaponsData.Instance.GetWeaponInfo(i, CharacterInfo.OwnerType.PLAYER));
-            createdobj.transform.localScale = new Vector3(1, 1, 1);
-        }
-        bookUI.SetActive(false);
-
-        // category tab 초기화
-
-        tabLength = tabImages.Length;
-        ShowSelectedTab(0);
-    }
-
-    public void ShowSelectedTab(int type)
+    private void ShowSelectedTab(int type)
     {
         tabImages[type].sprite = selectedImage;
         tabTexts[type].color = Color.black;
@@ -127,9 +214,10 @@ public class IllustratedBook : MonoBehaviour
         illustratedBookType = (IllustratedBookType)type;
     }
 
-    private void ChangeCategory(int type)
+
+    public void ChangeContentsDisplay(int displayType)
     {
-        illustratedBookType = (IllustratedBookType)type;
+        
     }
 
     public void ShowContentsInfo()
