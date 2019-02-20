@@ -10,9 +10,9 @@ public class IngameNoticeManager : MonoBehaviourSingleton<IngameNoticeManager>
     #region common
     [Header("common variables")]
     private const float MASK_WIDTH_MIN = 0f;
-    private const float MASK_WIDTH_MAX = 496f;
+    private const float MASK_WIDTH_MAX = 498f;
     private const float MASK_HEIGHT_MIN = 0f;
-    private const float MASK_HEIGHT_MAX = 140f;
+    private const float MASK_HEIGHT_MAX = 136f;
     private float maskWidth = 0f;
     private Coroutine maskAniCoroutine;
     private bool isShowing;
