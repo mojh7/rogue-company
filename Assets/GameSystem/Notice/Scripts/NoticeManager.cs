@@ -7,20 +7,23 @@ using UnityEngine.UI;
 
 public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
 {
-    public RectTransform bkgTransform;
-    public Text txt;
+    [SerializeField]
+    private GameObject noticeUiObj;
+    [SerializeField]
+    private RectTransform bkgTransform;
+    [SerializeField]
+    private Text noticeTxt;
 
     Coroutine showNoticeCoroutine;
 
     private void Awake()
     {
-        bkgTransform.gameObject.SetActive(false);
-        txt.enabled = false;
+        noticeUiObj.SetActive(false);
     }
 
     public void ShowNotice(string str)
     {
-        txt.text = str;
+        noticeTxt.text = str;
 
         if(null != showNoticeCoroutine)
             StopCoroutine(showNoticeCoroutine);
@@ -30,14 +33,13 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
 
     private IEnumerator ShowNoticeCoroutine()
     {
-        bkgTransform.gameObject.SetActive(true);
-        txt.enabled = true;
+        noticeUiObj.SetActive(true);
         float scaleY = 0;
         float alpha = 0;
         Color color = Color.white;
         color.a = 0;
         bkgTransform.sizeDelta = new Vector2(bkgTransform.sizeDelta.x, 0);
-        txt.color = color;
+        noticeTxt.color = color;
         float showSpeed = 5f;
         float bkgHeight = 120f;
         // show
@@ -47,7 +49,7 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
             scaleY += showSpeed * bkgHeight * Time.fixedDeltaTime;
             if(alpha < 1f)
             {
-                txt.color = color;
+                noticeTxt.color = color;
                 alpha += showSpeed * Time.fixedDeltaTime;
                 color.a = alpha;
             }
@@ -65,13 +67,12 @@ public class NoticeManager : MonoBehaviourSingleton<NoticeManager>
             scaleY -= showSpeed * bkgHeight * Time.fixedDeltaTime;
             if (alpha >= 0)
             {
-                txt.color = color;
+                noticeTxt.color = color;
                 alpha -= showSpeed * Time.fixedDeltaTime;
                 color.a = alpha;
             }
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
-        bkgTransform.gameObject.SetActive(false);
-        txt.enabled = false;
+        noticeUiObj.SetActive(true);
     }
 }
