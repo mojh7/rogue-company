@@ -48,6 +48,8 @@ public class IngameNoticeManager : MonoBehaviourSingleton<IngameNoticeManager>
     [SerializeField]
     private GameObject itemInfoNoticeObj;
     [SerializeField]
+    private Image itemBkgGlowImg;
+    [SerializeField]
     private Image itemImg;
     [SerializeField]
     private Text itemDescTxt;
@@ -119,6 +121,7 @@ public class IngameNoticeManager : MonoBehaviourSingleton<IngameNoticeManager>
 
         bkgImg.sprite = bkgImgByRating[(int)info.Rating - 1];
         itemImg.sprite = info.Sprite;
+        itemBkgGlowImg.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)info.Rating - 1];
         itemDescTxt.text = info.Notes;
         lastShowingCallTime = Time.time;
         if (null == maskAniCoroutine)

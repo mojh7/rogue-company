@@ -8,6 +8,8 @@ public class Frame : MonoBehaviourSingleton<Frame>
     public UsableItemInfo itemInfo1, itemInfo2, itemInfo3;
     public ObjectAbnormalType objectAbnormalType;
     public Sprite[] sprites;
+
+    private int passiveItemId = 0;
 #if UNITY_EDITOR
     float deltaTime = 0.0f;
 
@@ -49,9 +51,17 @@ public class Frame : MonoBehaviourSingleton<Frame>
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            Debug.Log("숫자키 디버그 클래스 바로 찾기용 로그");
+            Debug.Log("패시브 아이템 랜덤 생성");
             UsableItem usableItem = ObjectPoolManager.Instance.CreateUsableItem();
             usableItem.Init(ItemsData.Instance.GetMiscItemInfo(-1));
+            ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            Debug.Log("패시브 아이템 순차 생성, id = " + passiveItemId);
+            UsableItem usableItem = ObjectPoolManager.Instance.CreateUsableItem();
+            usableItem.Init(ItemsData.Instance.GetMiscItemInfo(passiveItemId));
+            passiveItemId = (passiveItemId + 1) % ItemsData.Instance.GetMiscItemInfosLength();
             ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
         }
         if (!frame)
