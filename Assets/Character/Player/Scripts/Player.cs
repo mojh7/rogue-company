@@ -20,6 +20,9 @@ public class Player : Character
     #endregion
 
     #region variables
+    private const string RECOVERY_HP = "RecoveryHp";
+    private const string RECOVERY_STAMINA = "RecoveryStamina";
+
     // END 끝 지점 알려고 만든 것
     public enum PlayerType { SOCCER, MUSIC, FISH, ARMY, END }
     private Transform objTransform;
@@ -453,7 +456,7 @@ public class Player : Character
     protected override void RecoveryHp(float damage)
     {
         base.RecoveryHp(damage);
-        ParticleManager.Instance.PlayParticle("Hp", this.bodyTransform.position);
+        ParticleManager.Instance.PlayParticle(RECOVERY_HP, this.bodyTransform.position, 1f, bodyTransform);
         playerHPUi.Notify();
     }
 

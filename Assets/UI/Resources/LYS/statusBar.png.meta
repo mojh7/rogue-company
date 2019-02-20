@@ -9,6 +9,7 @@ TextureImporter:
     21300004: statusBar_2
     21300006: statusBar_3
     21300008: stamina_icon
+    21300010: hp_icon
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -99,7 +100,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 36
-        y: 84
+        y: 116
         width: 160
         height: 12
       alignment: 4
@@ -113,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 52
+        y: 84
         width: 196
         height: 30
       alignment: 4
@@ -127,7 +128,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 36
-        y: 38
+        y: 70
         width: 160
         height: 12
       alignment: 4
@@ -141,7 +142,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 6
+        y: 38
         width: 196
         height: 32
       alignment: 4
@@ -155,11 +156,25 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 6
-        y: 6
+        y: 38
         width: 18
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hp_icon
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 5
+        width: 30
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
