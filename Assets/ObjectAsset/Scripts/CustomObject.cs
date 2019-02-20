@@ -705,7 +705,7 @@ public class ItemContainer : RandomSpriteObject
         if (innerObject.GetType() == typeof(Weapon))
         {
             WeaponInfo info = ((Weapon)innerObject).info;
-            IngameNoticeManager.Instance.ShowWeaponInfo(info);
+            IngameNoticeManager.Instance.ShowInfoNotice(info);
             textMesh.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)info.rating - 1];
             //childTextMesh.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)info.rating - 1];
         }
@@ -713,6 +713,7 @@ public class ItemContainer : RandomSpriteObject
         {
             if(typeof(MiscItemInfo) == ((UsableItem)innerObject).GetInfoType())
             {
+                IngameNoticeManager.Instance.ShowInfoNotice(((UsableItem)innerObject).GetUsableItemInfo());
                 textMesh.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)innerObject.GetRating() - 1];
                 //childTextMesh.color = CommonConstants.Instance.RATING_TXT_COLOR[(int)innerObject.GetRating() - 1];
             }

@@ -46,7 +46,13 @@ public class Frame : MonoBehaviourSingleton<Frame>
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             ItemManager.Instance.CallItemBox(PlayerManager.Instance.GetPlayerPosition(), RoomType.BOSS);
-
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            Debug.Log("숫자키 디버그 클래스 바로 찾기용 로그");
+            UsableItem usableItem = ObjectPoolManager.Instance.CreateUsableItem();
+            usableItem.Init(ItemsData.Instance.GetMiscItemInfo(-1));
+            ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
         }
         if (!frame)
             return;
