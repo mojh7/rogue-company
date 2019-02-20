@@ -27,12 +27,14 @@ public class WeaponInfoNotice : MonoBehaviour
     [SerializeField]
     private Text[] infoTxt;
 
-    private bool isActive;
     private bool isShowing;
-    private bool isHiding;
-    private bool willHide;
 
     private float lastShowingCallTime;
+
+    private Coroutine maskAniCoroutine;
+    private const float MASK_WIDTH_MAX = 500f;
+    private const float MASK_WIDTH_MIN = 0f;
+    private float maskWidth = 0f;
 
     private void Start()
     {
@@ -41,9 +43,8 @@ public class WeaponInfoNotice : MonoBehaviour
 
     private void Init()
     {
-        isActive = false;
+        maskAniCoroutine = null;
         isShowing = false;
-        isHiding = false;
         maskObj.SetActive(false);
     }
 
@@ -53,23 +54,11 @@ public class WeaponInfoNotice : MonoBehaviour
         {
             ShowWeaponInfo(WeaponsData.Instance.GetWeaponInfo(Rating.E));
         }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartCoroutine(HideInfo());
-        }
     }
 
     public void ShowWeaponInfo(WeaponInfo info)
     {
-        if (isShowing)
-        {
-            lastShowingCallTime = Time.time;
-        }
-        if (isActive || isHiding)
-        {
-            return;
-        }
-        isActive = true;
+        isShowing = true;
         bkgImg.sprite = bkgImgByRating[(int)info.rating - 1];
         infoTxt[0].text = info.dps.ToString();
         infoTxt[1].text = (info.criticalChance * 100f).ToString() + "%";
@@ -83,7 +72,11 @@ public class WeaponInfoNotice : MonoBehaviour
             costImg.sprite = ammoImg;
             infoTxt[2].text = info.ammoCapacity.ToString();
         }
-        StartCoroutine(ShowInfo());
+        lastShowingCallTime = Time.time;
+        if(null == maskAniCoroutine)
+        {
+            maskAniCoroutine = StartCoroutine(MaskAnimation());
+        }
     }
 
     //public void HideWeaponInfo()
@@ -97,49 +90,61 @@ public class WeaponInfoNotice : MonoBehaviour
     //}
 
 
-    private IEnumerator ShowInfo()
+    private IEnumerator MaskAnimation()
     {
-        isShowing = true;
-        maskObj.SetActive(true);
-        maskTransform.sizeDelta = new Vector2(0, 100f);
         float showSpeed = 1500f;
-        float maskWidthMax = 500f;
-        float maskWidth = 0f;
-        while (maskTransform.sizeDelta.x < maskWidthMax)
-        {
-            maskTransform.sizeDelta = new Vector2(maskWidth, 100f);
-            maskWidth += Time.fixedDeltaTime * showSpeed;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-        maskTransform.sizeDelta = new Vector2(maskWidthMax, 100f);
-
-        float currentTime = Time.time;
-        lastShowingCallTime = Time.time;
-        while (currentTime < lastShowingCallTime + 0.2f)
-        {
-            currentTime = Time.time;
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
-        isShowing = false;
-
-        StartCoroutine(HideInfo());
-    }
-
-    private IEnumerator HideInfo()
-    {
-        isHiding = true;
         float hideSpeed = 1500f;
-        float maskWidthMin = 0f;
-        float maskWidth = 500f;
-        while (maskTransform.sizeDelta.x > maskWidthMin)
+        float currentTime = 0;
+        maskWidth = 0;
+        maskTransform.sizeDelta = new Vector2(MASK_WIDTH_MIN, 100f);
+        maskObj.SetActive(true);
+        while (true)
         {
-            maskTransform.sizeDelta = new Vector2(maskWidth, 100f);
-            maskWidth -= Time.fixedDeltaTime * hideSpeed;
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            if (isShowing)
+            {
+                if (maskTransform.sizeDelta.x < MASK_WIDTH_MAX)
+                {
+                    maskWidth += Time.fixedDeltaTime * showSpeed;
+                    maskTransform.sizeDelta = new Vector2(maskWidth, 100f);
+                }
+
+                if (maskTransform.sizeDelta.x > MASK_WIDTH_MAX)
+                {
+                    maskWidth = MASK_WIDTH_MAX;
+                    maskTransform.sizeDelta = new Vector2(MASK_WIDTH_MAX, 100f);
+                    currentTime = Time.time;
+                    lastShowingCallTime = Time.time;
+                }
+                else
+                {
+                    if (currentTime < lastShowingCallTime + 0.1f)
+                    {
+                        currentTime = Time.time;
+                    }
+                    else
+                    {
+                        isShowing = false;
+                    }
+                }
+            }
+            else
+            {
+                if (maskTransform.sizeDelta.x > MASK_WIDTH_MIN)
+                {
+                    maskWidth -= Time.fixedDeltaTime * hideSpeed;
+                    maskTransform.sizeDelta = new Vector2(maskWidth, 100f);
+                }
+                else
+                {
+                    maskWidth = MASK_WIDTH_MIN;
+                    maskTransform.sizeDelta = new Vector2(MASK_WIDTH_MIN, 100f);
+                    isShowing = false;
+                    maskObj.SetActive(false);
+                    maskAniCoroutine = null;
+                    break;
+                }
+            }
         }
-        maskTransform.sizeDelta = new Vector2(maskWidthMin, 100f);
-        isActive = false;
-        isHiding = false;
-        maskObj.SetActive(false);
     }
 }
