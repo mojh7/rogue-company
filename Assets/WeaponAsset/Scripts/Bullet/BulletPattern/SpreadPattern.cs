@@ -52,6 +52,8 @@ public class SpreadPattern : BulletPattern
                 dirDegree = ownerDirDegree();
             }
 
+            OwnerDash(info.dashInfo, info.canDash);
+
             AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
 
             createdObj = ObjectPoolManager.Instance.CreateBullet();

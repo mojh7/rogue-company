@@ -124,6 +124,23 @@ public abstract class BulletPattern
     public virtual void StopAttack() { }  // 공격 시도 시작 후 멈췄을 때
     public abstract void CreateBullet(float damageIncreaseRate);
 
+    protected void OwnerDash(DashInfo dashInfo, bool canDash)
+    {
+        if (!canDash)
+            return;
+        switch(ownerType)
+        {
+            case OwnerType.ENEMY:
+                weapon.GetOwnerEnemy().Dash(dashInfo.dashSpeed, dashInfo.distance);
+                break;
+            case OwnerType.PLAYER:
+                weapon.GetOwnerPlayer().Dash(dashInfo.dashSpeed, dashInfo.distance);
+                break;
+            default:
+                break;
+        }
+    }
+
     /// <summary>
     /// 값이 0이 아니면 => 값 전달하기, 값이 0이면 전달할 필요 X
     /// </summary>

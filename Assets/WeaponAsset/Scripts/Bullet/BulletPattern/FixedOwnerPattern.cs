@@ -56,6 +56,8 @@ public class FixedOwnerPattern : BulletPattern
     // 이미 저장된 정보 이용.
     public override void CreateBullet(float damageIncreaseRate)
     {
+        OwnerDash(info.dashInfo, info.canDash);
+
         AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
         createdObj = ObjectPoolManager.Instance.CreateBullet();
         createdBullet = createdObj.GetComponent<Bullet>();

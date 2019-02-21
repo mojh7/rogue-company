@@ -158,7 +158,7 @@ public class Player : Character
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Dash(500f);
+            Dash(750f, 50f);
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -215,7 +215,6 @@ public class Player : Character
         IsNotConsumeAmmo = false;
         isActiveMove = true;
         isActiveAttack = true;
-        isDash = false;
 
         DeactivateAbnormalComponents();
         directionVector = new Vector3(1, 0, 0);

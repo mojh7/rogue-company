@@ -59,6 +59,8 @@ public class Weapon : Item
     public DelGetPosition GetOwnerDirVec() { return ownerDirVec; }
     public DelGetPosition GetOwnerPos() { return ownerPos; }
     public BuffManager GetOwnerBuff() { return ownerBuff; }
+    public Character GetOwnerPlayer() { return player; }
+    public Character GetOwnerEnemy() { return enemy; }
     public WeaponState GetWeaponState() { return weaponState; }
     public int GetWeaponId() { return weaponId; }
     public AttackType GetAttackType() { return attackType; }

@@ -101,6 +101,8 @@ public class RowPattern : BulletPattern
                     muzzlePos = ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), 90) * info.additionalVerticalPos;
                 }
 
+                OwnerDash(info.dashInfo, info.canDash);
+
                 AutoSelectBulletInfo(info.bulletInfo, info.diffProbsBulletInfoList);
 
                 createdObj = ObjectPoolManager.Instance.CreateBullet();

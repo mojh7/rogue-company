@@ -26,6 +26,13 @@ public struct LineInfo
 }
 
 [System.Serializable]
+public struct DashInfo
+{
+    public float dashSpeed;
+    public float distance;
+}
+
+[System.Serializable]
 public struct CircleShapeInfo
 {
     public Vector2 centerOfCircle;
@@ -91,6 +98,10 @@ public class BulletPatternInfo : ScriptableObject
 
     [Header("여러 개의 총알 중 각각의 확률에 의해 bulletInfo 사용하고 싶을 때")]
     public DiffProbsBulletInfo[] diffProbsBulletInfoList;
+
+    [Header("Dash")]
+    public bool canDash = false;
+    public DashInfo dashInfo;
 
     [Header("BulletPattern 공통 속성")]
     public float addDirVecMagnitude;

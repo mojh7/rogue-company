@@ -295,6 +295,7 @@ public abstract class Character : MonoBehaviour
 
         isActiveAI = true;
         isCasting = false;
+        isDash = false;
         spawnType = CharacterInfo.SpawnType.NORMAL;
     }
 
@@ -544,14 +545,17 @@ public abstract class Character : MonoBehaviour
     protected abstract IEnumerator FreezeCoroutine(float effectiveTime);
     protected abstract IEnumerator StunCoroutine(float effectiveTime);
     protected abstract IEnumerator CharmCoroutine(float effectiveTime);
-    protected IEnumerator CheckDashEnded()
+    protected IEnumerator CheckDashEnded(float distance)
     {
+        float dashDistanceTotal = 0;
         while (true)
         {
-            Debug.Log(rgbody.velocity + " | " + rgbody.velocity.magnitude);
+            //Debug.Log(rgbody.velocity + " | " + rgbody.velocity.magnitude + " | " + dashDistanceTotal);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-            if (rgbody.velocity.magnitude < 0.2f)
+            dashDistanceTotal += rgbody.velocity.magnitude;
+            if (rgbody.velocity.magnitude < 0.2f || dashDistanceTotal >= distance)
             {
+                rgbody.velocity = Vector2.zero;
                 checkingDashEnded = null;
                 isDash = false;
                 break;
@@ -562,7 +566,6 @@ public abstract class Character : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log(rgbody.velocity + " | " + rgbody.velocity.magnitude);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
             if (rgbody.velocity.magnitude < 0.2f)
             {
@@ -589,18 +592,18 @@ public abstract class Character : MonoBehaviour
 
     protected abstract bool IsControlTypeAbnormal();
 
-    public void Dash(float dashSpeed)
+    public void Dash(float dashSpeed, float distance)
     {
         if(isDash)
         {
             StopCoroutine(checkingDashEnded);
-            checkingDashEnded = StartCoroutine(CheckDashEnded());
+            checkingDashEnded = StartCoroutine(CheckDashEnded(distance));
         }
 
         if (null == checkingDashEnded)
         {
             isDash = true;
-            checkingDashEnded = StartCoroutine(CheckDashEnded());
+            checkingDashEnded = StartCoroutine(CheckDashEnded(distance));
         }
 
         rgbody.velocity = Vector3.zero;
