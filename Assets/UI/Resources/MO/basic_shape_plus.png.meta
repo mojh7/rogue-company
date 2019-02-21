@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: 10c7d8b9467eccd4e86a4e9496f6cc79
-timeCreated: 1546741362
+guid: 3b7cabbf1a5137c469124ac0e0b929f8
+timeCreated: 1550749594
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: coinKey_0
-    21300002: coinKey_1
+    21300000: basic_shape_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -42,13 +41,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -92,27 +91,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: coinKey_0
+      name: basic_shape_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 85
-        width: 22
-        height: 22
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: coinKey_1
-      rect:
-        serializedVersion: 2
-        x: 17
-        y: 21
-        width: 30
-        height: 19
+        x: 7
+        y: 43
+        width: 12
+        height: 12
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

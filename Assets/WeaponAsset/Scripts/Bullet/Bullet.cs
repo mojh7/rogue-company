@@ -391,14 +391,9 @@ public class Bullet : MonoBehaviour
         lineRenderer.enabled = false;
         laserViewObj.SetActive(false);
 
-        if(BulletParticleType.NONE != info.bulletParticleType)
-        {
-            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform);
-        }
-
         ActivateTrailRenderer();
         ActivateColiider();
-        // sprite 애니메이션 적용
+        // sprite 애니메이션 적용 충돌체 크기 설정
         if (BulletAnimationType.NotPlaySpriteAnimation != info.spriteAnimation)
         {
             spriteAnimatorObj.SetActive(true);
@@ -427,12 +422,17 @@ public class Bullet : MonoBehaviour
             }
             setColliderSizeOfAniSprite = StartCoroutine(SetColliderSizeOfAniSprite());
         }
-        // sprite 애니메이션 미 적용
+        // sprite 애니메이션 미 적용 충돌체 크기 설정 
         else
         {
             spriteAnimatorObj.SetActive(false);
             spriteRenderer.sprite = info.bulletSprite;
             SetColliderSize(spriteRenderer, info.autoSizeRatio);
+        }
+
+        if (BulletParticleType.NONE != info.bulletParticleType)
+        {
+            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform);
         }
 
         if (info.isRandomSpeed)

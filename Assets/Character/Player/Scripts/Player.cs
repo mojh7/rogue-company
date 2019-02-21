@@ -21,7 +21,6 @@ public class Player : Character
 
     #region variables
     private const string RECOVERY_HP = "RecoveryHp";
-    private const string RECOVERY_STAMINA = "RecoveryStamina";
 
     // END 끝 지점 알려고 만든 것
     public enum PlayerType { SOCCER, MUSIC, FISH, ARMY, END }

@@ -184,6 +184,10 @@ public abstract class Character : MonoBehaviour
     {
         return bodyTransform.position;
     }
+    public Transform GetbodyTransform()
+    {
+        return bodyTransform;
+    }
     public virtual WeaponManager GetWeaponManager()
     {
         return weaponManager;

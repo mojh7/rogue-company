@@ -93,8 +93,8 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         if (particle == null)
             return null;
         particle.gameObject.transform.position = pos;
-        particle.gameObject.transform.localScale = one;
         particle.gameObject.transform.parent = parent;
+        particle.gameObject.transform.localScale = one;
         particle.Play();
         return particle;   
     }

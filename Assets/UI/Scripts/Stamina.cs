@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class Stamina : MonoBehaviourSingleton<Stamina>
 {
+    private const string RECOVERY_STAMINA = "RecoveryStamina";
     [SerializeField]
     private Text staminaText;
     private PlayerData playerData;
@@ -81,7 +82,7 @@ public class Stamina : MonoBehaviourSingleton<Stamina>
     /// </summary>
     public void RecoverStamina(int recoveryAmount = 3)
     {
-        ParticleManager.Instance.PlayParticle("Stamina", player.GetPosition());
+        ParticleManager.Instance.PlayParticle(RECOVERY_STAMINA, player.GetPosition(), 1f, player.GetbodyTransform());
         stamina += (int)(recoveryAmount * PlayerBuffManager.Instance.BuffManager.CharacterTargetEffectTotal.gettingStaminaMultiple);
         staminaImage.fillAmount += recoveryAmount / (float)maxStamina;
 
