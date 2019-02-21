@@ -161,6 +161,12 @@ public class Player : Character
             Debug.Log(isDash);
             Dash(1000f);
         }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            KnockBack(1000f, GetDirVector(), Vector2.zero, false);
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
         ChargeSkill();

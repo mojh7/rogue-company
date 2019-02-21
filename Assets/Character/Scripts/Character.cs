@@ -548,27 +548,26 @@ public abstract class Character : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log(rgbody.velocity.magnitude);
-            if (rgbody.velocity.magnitude < 0.1f)
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+            if (rgbody.velocity.magnitude < 0.2f)
             {
                 checkingDashEnded = null;
                 isDash = false;
                 break;
             }
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
     }
     protected IEnumerator CheckKnockbackEnded()
     {
         while (true)
         {
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
             if (rgbody.velocity.magnitude < 0.2f)
             {
                 SubRetrictsMovingCount();
                 checkingDashEnded = null;
                 break;
             }
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
         }
     }
     #endregion
@@ -598,6 +597,7 @@ public abstract class Character : MonoBehaviour
         }
 
         rgbody.velocity = Vector3.zero;
+        Debug.Log(GetDirVector());
         rgbody.AddForce(dashSpeed * GetDirVector());
     }
 
