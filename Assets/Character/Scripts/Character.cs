@@ -91,6 +91,7 @@ public abstract class Character : MonoBehaviour
     protected bool isActiveAI;
     protected bool isActiveMove;
     protected bool isActiveAttack;
+    protected bool isDash;
 
     protected float evadeCoolTime;
     protected bool canEvade = true;
@@ -127,7 +128,8 @@ public abstract class Character : MonoBehaviour
     protected float[] controlTypeAbnormalStatusesDurationMax;
     protected Coroutine[] controlTypeAbnormalStatusCoroutines;
 
-    protected Coroutine knockBackCheck;
+    protected Coroutine checkingknockBackEnded;
+    protected Coroutine checkingDashEnded;
     #endregion
 
     #region dataStruct
@@ -514,12 +516,11 @@ public abstract class Character : MonoBehaviour
 
     public void KnockBack(float knockBack, Vector2 bulletDir, Vector2 bulletPos, bool positionBasedKnockBack)
     {
-        //Debug.Log(name + ", " + knockBackCheck);
         // 기본 상태에서 넉백
-        if (null == knockBackCheck)
+        if (null == checkingknockBackEnded)
         {
             AddRetrictsMovingCount();
-            knockBackCheck = StartCoroutine(KnockBackCheck());
+            checkingknockBackEnded = StartCoroutine(CheckKnockbackEnded());
         }
 
         rgbody.velocity = Vector3.zero;
@@ -543,7 +544,33 @@ public abstract class Character : MonoBehaviour
     protected abstract IEnumerator FreezeCoroutine(float effectiveTime);
     protected abstract IEnumerator StunCoroutine(float effectiveTime);
     protected abstract IEnumerator CharmCoroutine(float effectiveTime);
-    protected abstract IEnumerator KnockBackCheck();
+    protected IEnumerator CheckDashEnded()
+    {
+        while (true)
+        {
+            Debug.Log(rgbody.velocity.magnitude);
+            if (rgbody.velocity.magnitude < 0.1f)
+            {
+                checkingDashEnded = null;
+                isDash = false;
+                break;
+            }
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+    }
+    protected IEnumerator CheckKnockbackEnded()
+    {
+        while (true)
+        {
+            if (rgbody.velocity.magnitude < 0.2f)
+            {
+                SubRetrictsMovingCount();
+                checkingDashEnded = null;
+                break;
+            }
+            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
+        }
+    }
     #endregion
 
     /// <summary>총알 외의 충돌로 인한 공격과 넉백 처리</summary>
@@ -560,6 +587,19 @@ public abstract class Character : MonoBehaviour
     }
 
     protected abstract bool IsControlTypeAbnormal();
+
+    public void Dash(float dashSpeed)
+    {
+        Debug.Log(checkingDashEnded);
+        if (null == checkingDashEnded)
+        {
+            isDash = true;
+            checkingDashEnded = StartCoroutine(CheckDashEnded());
+        }
+
+        rgbody.velocity = Vector3.zero;
+        rgbody.AddForce(dashSpeed * GetDirVector());
+    }
 
     public abstract bool Evade();
 

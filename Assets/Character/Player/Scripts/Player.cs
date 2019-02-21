@@ -155,6 +155,12 @@ public class Player : Character
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
         if (Input.GetKeyDown(KeyCode.Q))
             ActiveSkill();
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Debug.Log(isDash);
+            Dash(1000f);
+        }
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
         ChargeSkill();
@@ -204,6 +210,7 @@ public class Player : Character
         IsNotConsumeAmmo = false;
         isActiveMove = true;
         isActiveAttack = true;
+        isDash = false;
 
         DeactivateAbnormalComponents();
         directionVector = new Vector3(1, 0, 0);
@@ -603,11 +610,9 @@ public class Player : Character
     }
     private void Move()
     {
-        if (isEvade)
+        if (isEvade || !isActiveMove || isDash)
             return;
 
-        if (!isActiveMove)
-            return;
         if(isBattle)
         {
             totalSpeed = playerData.MoveSpeed + floorSpeed - battleSpeed;
@@ -920,24 +925,6 @@ public class Player : Character
         }
 
         StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.CHARM);
-    }
-
-    protected override IEnumerator KnockBackCheck()
-    {
-        while (true)
-        {
-            if (abnormalImmune == CharacterInfo.AbnormalImmune.ALL)
-            {
-                break;
-            }
-            if (rgbody.velocity.magnitude < 0.2f)
-            {
-                SubRetrictsMovingCount();
-                knockBackCheck = null;
-                break;
-            }
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
     }
 
     private IEnumerator Roll(Vector3 dir)

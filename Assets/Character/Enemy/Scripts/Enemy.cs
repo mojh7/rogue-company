@@ -155,8 +155,8 @@ public class Enemy : Character
             return;
         }
         pState = CharacterInfo.State.DIE;
-        if (null != knockBackCheck)
-            StopCoroutine(KnockBackCheck());
+        if (null != checkingknockBackEnded)
+            StopCoroutine(CheckDashEnded());
         // 실행 중인 상태이상 관련 코루틴이 있으면 코루틴 멈춤
         for (int i = 0; i < (int)AttackTypeAbnormalStatusType.END; i++)
         {
@@ -517,20 +517,6 @@ public class Enemy : Character
         }
 
         StopControlTypeAbnormalStatus(ControlTypeAbnormalStatusType.CHARM);
-    }
-
-    protected override IEnumerator KnockBackCheck()
-    {
-        while (true)
-        {
-            if (rgbody.velocity.magnitude < 0.2f)
-            {
-                SubRetrictsMovingCount();
-                knockBackCheck = null;
-                break;
-            }
-            yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
-        }
     }
     #endregion
 }
