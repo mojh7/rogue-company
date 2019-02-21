@@ -158,13 +158,12 @@ public class Player : Character
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Debug.Log(isDash);
-            Dash(1000f);
+            Dash(500f);
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            KnockBack(1000f, GetDirVector(), Vector2.zero, false);
+            KnockBack(250f, GetDirVector(), Vector2.zero, false);
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))

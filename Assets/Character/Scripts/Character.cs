@@ -548,6 +548,7 @@ public abstract class Character : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(rgbody.velocity + " | " + rgbody.velocity.magnitude);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
             if (rgbody.velocity.magnitude < 0.2f)
             {
@@ -561,6 +562,7 @@ public abstract class Character : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(rgbody.velocity + " | " + rgbody.velocity.magnitude);
             yield return YieldInstructionCache.WaitForSeconds(Time.fixedDeltaTime);
             if (rgbody.velocity.magnitude < 0.2f)
             {
@@ -589,7 +591,12 @@ public abstract class Character : MonoBehaviour
 
     public void Dash(float dashSpeed)
     {
-        Debug.Log(checkingDashEnded);
+        if(isDash)
+        {
+            StopCoroutine(checkingDashEnded);
+            checkingDashEnded = StartCoroutine(CheckDashEnded());
+        }
+
         if (null == checkingDashEnded)
         {
             isDash = true;
@@ -597,7 +604,6 @@ public abstract class Character : MonoBehaviour
         }
 
         rgbody.velocity = Vector3.zero;
-        Debug.Log(GetDirVector());
         rgbody.AddForce(dashSpeed * GetDirVector());
     }
 
