@@ -21,6 +21,8 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     private WeaponInfo[] enemyWeaponInfos;
     [SerializeField]
     private WeaponInfo[] testBasicWeaponInfos;
+    [SerializeField]
+    private WeaponInfo[] subWeaponInfos;
     private int ratingLength;
 
     [SerializeField]
@@ -52,6 +54,11 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                 break;
         }
         return 0;
+    }
+
+    public int GetSubWeaponInfosLength()
+    {
+        return subWeaponInfos.Length;
     }
 
     public int GetEnemyWeaponInfosLength()
@@ -117,6 +124,11 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         }
         return null;
     }
+
+    public WeaponInfo GetSubWeaponInfo(int id)
+    {
+        return subWeaponInfos[id];
+    }
     #endregion
 
     #region unityFunc
@@ -136,6 +148,9 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         {
             weaponInfoByRating[i] = new List<WeaponInfo>();
         }
+
+        for (int i = 0; i < subWeaponInfos.Length; i++)
+            subWeaponInfos[i].Init();
 
         switch (DebugSetting.Instance.weaponModeForDebug)
         {

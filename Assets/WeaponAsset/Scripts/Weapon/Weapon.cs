@@ -26,18 +26,20 @@ public class Weapon : Item
     private Transform objTransform;
     
 
-    private CharacterInfo.OwnerType ownerType;
+    protected CharacterInfo.OwnerType ownerType;
     private DelGetDirDegree ownerDirDegree;     // 소유자 각도
     private DelGetPosition ownerDirVec;         // 소유자 각도 벡터(vector3)
     private DelGetPosition ownerPos;            // 소유자 초기 위치(vector3)
     private Player player;
     private Enemy enemy;
+    
 
     private float chargedTime;
     private float chargingSpeed;
     private float chargingDamageIncrement;
     private bool canChargedAttack;              // 차징 공격 가능 여부, 초기에 true 상태
     private float chargedDamageIncreaseRate;    // 풀 차징 공격 데미지 상승률
+    private float satelliteAngle;
     private Coroutine chargingUpdate;
 
     private BuffManager ownerBuff;
@@ -45,7 +47,7 @@ public class Weapon : Item
     private WeaponTargetEffect totalInfo;
     private WeaponTargetEffect effectInfo;
 
-    [SerializeField] private int weaponId;
+    [SerializeField] protected int weaponId;
 
 
     // coroutine
@@ -97,7 +99,7 @@ public class Weapon : Item
     }
 
     /// <summary> weapon 초기화 기본 </summary>
-    public void BaseInit()
+    private void BaseInit()
     {
         objTransform = GetComponent<Transform>();
         weaponView = new WeaponView(objTransform, spriteRenderer);
@@ -115,15 +117,11 @@ public class Weapon : Item
         // 무기 고유 변수들 초기화
         canChargedAttack = true;
         chargedTime = 0;
-        if (WeaponType.SPEAR == info.weaponType || WeaponType.CLUB == info.weaponType || WeaponType.SPORTING_GOODS == info.weaponType ||
-            WeaponType.SWORD == info.weaponType || WeaponType.CLEANING_TOOL == info.weaponType || WeaponType.KNUCKLE == info.weaponType ||
-            WeaponType.MELEE_SPECIAL == info.weaponType)
+        if(IsMeleeWeapon(info))
         {
             attackType = AttackType.MELEE;
         }
-        else if (WeaponType.PISTOL == info.weaponType || WeaponType.SHOTGUN == info.weaponType || WeaponType.MACHINEGUN == info.weaponType ||
-            WeaponType.SNIPER_RIFLE == info.weaponType || WeaponType.LASER == info.weaponType || WeaponType.BOW == info.weaponType ||
-            WeaponType.WAND == info.weaponType || WeaponType.RANGED_SPECIAL == info.weaponType || WeaponType.BOMB == info.weaponType)
+        else
         {
             attackType = AttackType.RANGED;
         }
@@ -193,6 +191,12 @@ public class Weapon : Item
         }
     }
     
+    public void RegisterSubWeapon(WeaponManager weaponManager)
+    {
+        RegisterWeapon(weaponManager);
+        AutoMoving();
+    }
+
     public void ShowMuzzleFlash()
     {
         if(info.showsMuzzleFlash)
@@ -257,7 +261,6 @@ public class Weapon : Item
         {
             UpdateWeaponBuff();
             weaponState = WeaponState.Attack;
-            PlayAttackAnimation();
             if (AttackType.MELEE == attackType && false == PlayerManager.Instance.GetPlayer().IsNotConsumeStamina)
                 Stamina.Instance.ConsumeStamina(info.staminaConsumption);
             StartCoroutine(PatternCycle(damageIncreaseRate));
@@ -378,6 +381,29 @@ public class Weapon : Item
     }
     #endregion
 
+    #region SubWeaponFunc
+    public void UpdateBehavior()
+    {
+        AutoMoving();
+        AutoAttack();
+    }
+
+    private void AutoMoving()
+    {
+        Vector3 additinalPos = MathCalculator.VectorRotate(Vector3.right, satelliteAngle) * info.radius;
+        satelliteAngle += info.rotatedAnglePerSecond * Time.fixedDeltaTime;
+        objTransform.localPosition = additinalPos;
+        objTransform.rotation = Quaternion.Euler(0f, 0f, satelliteAngle);
+    }
+
+    private void AutoAttack()
+    {
+        if (SubWeaponAttackType.NON_TARGETING_WITH_MAIN_WEAPON == info.subWeaponAttackType || SubWeaponAttackType.TARGETING_WITH_MAIN_WEAPON == info.subWeaponAttackType ||
+            SubWeaponAttackType.AUTO_TARGETING_WITH_MAIN_WEAPON == info.subWeaponAttackType)
+            return;
+        Attack(1f);
+    }
+    #endregion
     #region coroutine
 
     private IEnumerator MuzzleFlash()
@@ -408,6 +434,7 @@ public class Weapon : Item
         // 공격 한 번 실행. (pattern cycle n번 실행)
         for (int i = 0; i < info.cycleRepetitionCount; i++)
         {
+            PlayAttackAnimation();
             // Pattern cycle 실행
             for (int j = 0; j < info.bulletPatternsLength; j++)
             {

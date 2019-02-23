@@ -63,6 +63,11 @@ public class WeaponInfo : ScriptableObject
     public float castingTime;           // 캐스팅 시간, 시전 시간
     public int staminaConsumption;    // 근접 무기 1회 공격시 스테미너 소모량
 
+    [Header("Sub Weapon 초당 회전 각, 반지름, 공격 타입")]
+    public float rotatedAnglePerSecond;
+    public float radius;
+    public SubWeaponAttackType subWeaponAttackType;
+
     public bool showsMuzzleFlash;       // 총구 화염 show on / off
     public MuzzleFlashType muzzleFlashType;
     [HideInInspector]
@@ -127,6 +132,10 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.cooldown = cooldown;
         clonedInfo.castingTime = castingTime;
         clonedInfo.staminaConsumption = staminaConsumption;
+
+        clonedInfo.rotatedAnglePerSecond = rotatedAnglePerSecond;
+        clonedInfo.radius = radius;
+        clonedInfo.subWeaponAttackType = subWeaponAttackType;
 
         clonedInfo.showsMuzzleFlash = showsMuzzleFlash;
         clonedInfo.muzzleFlashType = muzzleFlashType;

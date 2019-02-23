@@ -153,6 +153,7 @@ public class Player : Character
         */
 
         // 총구 방향(각도)에 따른 player 우측 혹은 좌측 바라 볼 때 반전되어야 할 object(sprite는 여기서, weaponManager는 스스로 함) scale 조정
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Q))
             ActiveSkill();
 
@@ -170,6 +171,7 @@ public class Player : Character
             Evade();
         ChargeSkill();
         spriteRenderer.sortingOrder = -Mathf.RoundToInt(bodyTransform.position.y * 100);
+#endif
         if (isEvade)
             return;
         if (-90 <= directionDegree && directionDegree < 90)
@@ -664,6 +666,7 @@ public class Player : Character
         weaponManager.RevealWeapon();
     }
     #endregion
+
     #region itemEffect
     public override void ApplyItemEffect()
     {

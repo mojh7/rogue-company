@@ -15,7 +15,8 @@ using CharacterInfo;
 /// Onwer(Player, Enmey, Object) 하위 자식 오브젝트로 붙어서
 /// Weapon을 담고 쓸 수 있도록 관리하는 Class, Player는 3개 쓸 예정
 /// </summary>
-public class WeaponManager : MonoBehaviour {
+public class WeaponManager : MonoBehaviour
+{
 
     #region constants
     private const int PLAYER_WEAPON_COUNT_MAX = 3;
@@ -23,14 +24,25 @@ public class WeaponManager : MonoBehaviour {
 
     #region variables
 
+    [Header("Main Weapon")]
     [SerializeField]
-    private List<Weapon> equipWeaponSlot;      // 무기 장착 슬룻
+    private List<Weapon> equippedWeaponSlot;      // 무기 장착 슬룻
     /// <summary> 현재 사용 무기 index </summary>
     [SerializeField] private int currentWeaponIndex;
     /// <summary> 현재 장착된 무기 갯수 </summary>
     [SerializeField] private int weaponCount;
     /// <summary> 무기를 장착할 수 있는 최대 갯수 </summary>
     [SerializeField] private int weaponCountMax;
+    /// <summary> 무기 drop and pick할 때 지정될 parnet object </summary>
+    [SerializeField]
+    private Transform registerPoint;
+
+    [Header("Sub Weapon")]
+    [SerializeField]
+    private List<Weapon> equippedSubWeaponSlot;
+    [SerializeField]
+    private Transform subWeaponParentTransform;
+
     private Transform objTransform;
     private BuffManager ownerBuff;
 
@@ -44,9 +56,6 @@ public class WeaponManager : MonoBehaviour {
     private DelGetPosition ownerDirVec;
     private DelGetPosition ownerPos;
 
-    /// <summary> 무기 drop and pick할 때 지정될 parnet object </summary>
-    [SerializeField]
-    private Transform registerPoint;
 
     /// <summary> 차징 게이지 script</summary> 
     public ChargeGauge chargeGauge; // inspector 창에서 붙임
@@ -76,7 +85,7 @@ public class WeaponManager : MonoBehaviour {
     private bool stopsUpdate;
     #endregion
     #region getter
-    public WeaponState GetWeaponState() { return equipWeaponSlot[currentWeaponIndex].GetWeaponState(); }
+    public WeaponState GetWeaponState() { return equippedWeaponSlot[currentWeaponIndex].GetWeaponState(); }
     public Vector3 GetPosition() { return objTransform.position; }
     public CharacterInfo.OwnerType GetOwnerType() { return ownerType; }
     public DelGetDirDegree GetOwnerDirDegree() { return ownerDirDegree; }
@@ -89,7 +98,7 @@ public class WeaponManager : MonoBehaviour {
         int[] weaponIds = new int[saveDataLength];
         for (int i = 0; i < weaponCount; i++)
         {
-            weaponIds[i] = equipWeaponSlot[i].GetWeaponId();
+            weaponIds[i] = equippedWeaponSlot[i].GetWeaponId();
             //Debug.Log("i : " + i + ", 무기장착 id : " + weaponIds[i]);
         }
         for (int i = weaponCount; i < weaponCountMax; i++)
@@ -105,7 +114,7 @@ public class WeaponManager : MonoBehaviour {
         int[] weaponAmmos = new int[saveDataLength];
         for (int i = 0; i < weaponCount; i++)
         {
-            weaponAmmos[i] = equipWeaponSlot[i].info.ammo;
+            weaponAmmos[i] = equippedWeaponSlot[i].info.ammo;
         }
         // Debug.Log(weaponCount + ", " + weaponCountMax + ", " + weaponAmmos[0] + ", " + weaponAmmos[1] + ", " + weaponAmmos[2] + ", ");
         return weaponAmmos;
@@ -137,7 +146,7 @@ public class WeaponManager : MonoBehaviour {
     }
     #endregion
 
-    #region UnityFunction
+    #region unityFunc
     void Awake()
     {
         objTransform = GetComponent<Transform>();
@@ -145,7 +154,8 @@ public class WeaponManager : MonoBehaviour {
         // Debug.Log("local pos : " + objTransform.localPosition); 디버그는 반올림으로 소숫점 1자리까지만 나오는 듯 x값 0.15 => 디버그 0.2, x값 0.25 => 디버그 0.3로 나옴
         posVector = objTransform.localPosition;   // weaponManager 초기 local Position 값, 좌 우 바뀔 때 x값만 -, + 부호로 바꿔줘서 사용
         rightDirectionPosX = posVector.x;
-        equipWeaponSlot = new List<Weapon>();
+        equippedWeaponSlot = new List<Weapon>();
+        equippedSubWeaponSlot = new List<Weapon>();
     }
 
     void Update()
@@ -153,7 +163,8 @@ public class WeaponManager : MonoBehaviour {
         if (stopsUpdate) return;
 
         //-------------------- Player 공격 테스트 용
-        if(OwnerType.PLAYER == ownerType)
+#if UNITY_EDITOR
+        if (OwnerType.PLAYER == ownerType)
         {
             if (Input.GetKey(KeyCode.Space))
             {
@@ -166,6 +177,7 @@ public class WeaponManager : MonoBehaviour {
                 AttackButtonUP();
             }
         }
+#endif
 
         // 바라보는 방향으로 무기 회전 및 position, scale 조정
         if (owner.GetRightDirection())
@@ -187,6 +199,14 @@ public class WeaponManager : MonoBehaviour {
             objTransform.rotation = Quaternion.Euler(0f, 0f, ownerDirDegree() - 180f);
         }
     }
+
+    void FixedUpdate()
+    {
+        for (int i = 0; i < equippedSubWeaponSlot.Count; i++)
+        {
+            equippedSubWeaponSlot[i].UpdateBehavior();
+        }
+    }
     #endregion
 
     #region Initialization
@@ -196,7 +216,7 @@ public class WeaponManager : MonoBehaviour {
         if (OwnerType.PLAYER == ownerType)
         {
             Weapon weapon;
-            equipWeaponSlot = new List<Weapon>();
+            equippedWeaponSlot = new List<Weapon>();
             currentWeaponIndex = 0;
             weaponCount = 0;
             // 튜토리얼 씬
@@ -218,7 +238,7 @@ public class WeaponManager : MonoBehaviour {
                     for (int i = 0; i < weaponCountMax; i++)
                     {
                         weapon = ObjectPoolManager.Instance.CreateWeapon(i) as Weapon;
-                        equipWeaponSlot.Add(weapon);
+                        equippedWeaponSlot.Add(weapon);
                         weapon.ObjTransform.SetParent(registerPoint, false);
                         weapon.RegisterWeapon(this);
                     }
@@ -232,7 +252,7 @@ public class WeaponManager : MonoBehaviour {
                         if (-1 == DebugSetting.Instance.startingWeaponInfos[i])
                             continue;
                         weapon = ObjectPoolManager.Instance.CreateWeapon(DebugSetting.Instance.startingWeaponInfos[i]) as Weapon;
-                        equipWeaponSlot.Add(weapon);
+                        equippedWeaponSlot.Add(weapon);
                         weapon.ObjTransform.SetParent(registerPoint, false);
                         weapon.RegisterWeapon(this);
                         weaponCount += 1;
@@ -245,7 +265,7 @@ public class WeaponManager : MonoBehaviour {
                     for (int i = 0; i < startingWeaponInfos.Length; i++)
                     {
                         weapon = ObjectPoolManager.Instance.CreateWeapon(startingWeaponInfos[i]) as Weapon;
-                        equipWeaponSlot.Add(weapon);
+                        equippedWeaponSlot.Add(weapon);
                         weapon.ObjTransform.SetParent(registerPoint, false);
                         weapon.RegisterWeapon(this);
                         weaponCount += 1;
@@ -268,7 +288,7 @@ public class WeaponManager : MonoBehaviour {
                     {
                         weapon = ObjectPoolManager.Instance.CreateWeapon(weaponIds[i]) as Weapon;
                         //Debug.Log("i : " + i + ", id : " + weaponIds[i] + ", ammo : " + weaponAmmos[i] + ", Name : " + weapon.GetName());
-                        equipWeaponSlot.Add(weapon);
+                        equippedWeaponSlot.Add(weapon);
                         weapon.ObjTransform.SetParent(registerPoint, false);
                         weapon.RegisterWeapon(this);
                         weapon.info.ammo = weaponAmmos[i];
@@ -307,9 +327,11 @@ public class WeaponManager : MonoBehaviour {
     #endregion
 
     #region Function
+
+
     public bool FillUpAmmo()
     {
-        return equipWeaponSlot[currentWeaponIndex].FillUpAmmo();
+        return equippedWeaponSlot[currentWeaponIndex].FillUpAmmo();
     }
 
     public bool WeaponEmpty()
@@ -324,14 +346,14 @@ public class WeaponManager : MonoBehaviour {
     {
         if (WeaponEmpty())
             return;
-        equipWeaponSlot[currentWeaponIndex].Hide();
+        equippedWeaponSlot[currentWeaponIndex].Hide();
     }
 
     public void RevealWeapon()
     {
         if (WeaponEmpty())
             return;
-        equipWeaponSlot[currentWeaponIndex].Reveal();
+        equippedWeaponSlot[currentWeaponIndex].Reveal();
     }
 
     /// <summary> 차징 공격에 사용되는 차징 게이지 UI Update </summary>
@@ -342,14 +364,14 @@ public class WeaponManager : MonoBehaviour {
 
     public void AttackWeapon(int index)
     {
-        if (WeaponState.Idle == equipWeaponSlot[currentWeaponIndex].GetWeaponState())
+        if (WeaponState.Idle == equippedWeaponSlot[currentWeaponIndex].GetWeaponState())
         {
             if (index != currentWeaponIndex)
             {
                 currentWeaponIndex = index;
                 UpdateCurrentWeapon();
             }
-            equipWeaponSlot[currentWeaponIndex].StartAttack();
+            equippedWeaponSlot[currentWeaponIndex].StartAttack();
         }
     }
 
@@ -358,7 +380,7 @@ public class WeaponManager : MonoBehaviour {
     {
         if (WeaponEmpty())
             return;
-        equipWeaponSlot[currentWeaponIndex].StartAttack();
+        equippedWeaponSlot[currentWeaponIndex].StartAttack();
     }
 
     /// <summary> 공격 버튼 뗐을 때 </summary>
@@ -366,7 +388,7 @@ public class WeaponManager : MonoBehaviour {
     {
         if (WeaponEmpty())
             return;
-        equipWeaponSlot[currentWeaponIndex].StopAttack();
+        equippedWeaponSlot[currentWeaponIndex].StopAttack();
     }
 
     /// <summary> 현재 착용 무기 대해서 내용 업데이트, 현재 착용 무기 외의 모든 무기 off </summary>
@@ -377,12 +399,12 @@ public class WeaponManager : MonoBehaviour {
 
         for (int i = 0; i < weaponCount; i++)
         {
-            equipWeaponSlot[i].gameObject.SetActive(false);
+            equippedWeaponSlot[i].gameObject.SetActive(false);
         }
-        equipWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
+        equippedWeaponSlot[currentWeaponIndex].gameObject.SetActive(true);
         if(OwnerType.PLAYER == ownerType)
         {
-            ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(equipWeaponSlot[currentWeaponIndex].GetWeaponSprite());
+            ControllerUI.Instance.WeaponSwitchButton.UpdateWeaponSprite(equippedWeaponSlot[currentWeaponIndex].GetWeaponSprite());
             // 0827 윤아 추가
             int nextWeaponIndex, prevWeaponIndex;
             if (currentWeaponIndex == 0)
@@ -402,9 +424,9 @@ public class WeaponManager : MonoBehaviour {
             }
             if (weaponCount >= 2)
             {
-                ControllerUI.Instance.WeaponSwitchButton.UpdateNextWeaponSprite(equipWeaponSlot[nextWeaponIndex].GetWeaponSprite());
-                ControllerUI.Instance.WeaponSwitchButton.UpdatePrevWeaponSprite(equipWeaponSlot[prevWeaponIndex].GetWeaponSprite());
-                ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(equipWeaponSlot[currentWeaponIndex].info);
+                ControllerUI.Instance.WeaponSwitchButton.UpdateNextWeaponSprite(equippedWeaponSlot[nextWeaponIndex].GetWeaponSprite());
+                ControllerUI.Instance.WeaponSwitchButton.UpdatePrevWeaponSprite(equippedWeaponSlot[prevWeaponIndex].GetWeaponSprite());
+                ControllerUI.Instance.WeaponSwitchButton.UpdateAmmoView(equippedWeaponSlot[currentWeaponIndex].info);
             }
         }
     }
@@ -420,7 +442,7 @@ public class WeaponManager : MonoBehaviour {
     /// <summary> 무기 교체, changeNextWepaon 값 true : 다음 무기, false : 이전 무기 </summary>
     public void ChangeWeapon(bool changeNextWeapon)
     {
-        if (WeaponState.Idle == equipWeaponSlot[currentWeaponIndex].GetWeaponState())
+        if (WeaponState.Idle == equippedWeaponSlot[currentWeaponIndex].GetWeaponState())
         {
             if (weaponCount == 1) return;
 
@@ -443,7 +465,7 @@ public class WeaponManager : MonoBehaviour {
         Weapon weapon = item as Weapon;
         if (weaponCount < weaponCountMax)
         {
-            equipWeaponSlot.Add(weapon);
+            equippedWeaponSlot.Add(weapon);
             weapon.ObjTransform.SetParent(registerPoint, false);
             weapon.RegisterWeapon(this);
             weaponCount++;
@@ -460,7 +482,7 @@ public class WeaponManager : MonoBehaviour {
         Weapon weapon = pickedWeapon as Weapon;
         if(WeaponEmpty())
         {
-            equipWeaponSlot.Add(weapon);
+            equippedWeaponSlot.Add(weapon);
             weapon.ObjTransform.SetParent(registerPoint, false);
             weapon.RegisterWeapon(this);
             currentWeaponIndex = weaponCount++;
@@ -469,13 +491,13 @@ public class WeaponManager : MonoBehaviour {
             return true;
         }
         // canPickAndDropWeapon 매번 update마다 바껴서 일단 임시로 1초간 무기 줍고 버리기 delay줌
-        if (weapon == null || WeaponState.Idle != equipWeaponSlot[currentWeaponIndex].GetWeaponState() || !canPickAndDropWeapon)
+        if (weapon == null || WeaponState.Idle != equippedWeaponSlot[currentWeaponIndex].GetWeaponState() || !canPickAndDropWeapon)
             return false;
 
         // 무기 습득하고 습득한 무기 착용
         if (weaponCount < weaponCountMax)
         {
-            equipWeaponSlot.Add(weapon);
+            equippedWeaponSlot.Add(weapon);
             weapon.ObjTransform.SetParent(registerPoint, false);
             weapon.RegisterWeapon(this);
             currentWeaponIndex = weaponCount++;
@@ -484,8 +506,8 @@ public class WeaponManager : MonoBehaviour {
         // 현재 착용중인 무기 버리고 습득 무기로 바꾸고 장착
         else
         {
-            Weapon dropedWeapon = equipWeaponSlot[currentWeaponIndex];
-            equipWeaponSlot[currentWeaponIndex] = weapon;
+            Weapon dropedWeapon = equippedWeaponSlot[currentWeaponIndex];
+            equippedWeaponSlot[currentWeaponIndex] = weapon;
             weapon.ObjTransform.SetParent(registerPoint, false);
             weapon.RegisterWeapon(this);
             UpdateCurrentWeapon();
@@ -507,9 +529,19 @@ public class WeaponManager : MonoBehaviour {
         weaponCount += 1;
         Weapon weapon = ObjectPoolManager.Instance.CreateWeapon();
         weapon.Init(weaponInfo, ownerType);
-        equipWeaponSlot.Add(weapon);
+        equippedWeaponSlot.Add(weapon);
         weapon.ObjTransform.SetParent(registerPoint, false);
         weapon.RegisterWeapon(this);
+    }
+
+    //0603 유성, 0807 모 수정
+    public void EquipSubWeapon(WeaponInfo weaponInfo)
+    {
+        Weapon weapon = ObjectPoolManager.Instance.CreateWeapon();
+        weapon.Init(weaponInfo, ownerType);
+        equippedSubWeaponSlot.Add(weapon);
+        weapon.ObjTransform.SetParent(subWeaponParentTransform, false);
+        weapon.RegisterSubWeapon(this);
     }
 
     /// <summary> Enemy용, 장착 된 무기 회수하여 오브젝트 풀로 되돌림 </summary>
@@ -517,9 +549,12 @@ public class WeaponManager : MonoBehaviour {
     {
         weaponCountMax = 0;
         weaponCount = 0;
-        for(int i = 0; i < equipWeaponSlot.Count; i++)
-            ObjectPoolManager.Instance.DeleteWeapon(equipWeaponSlot[i].gameObject);
-        equipWeaponSlot = new List<Weapon>();
+        for(int i = 0; i < equippedWeaponSlot.Count; i++)
+            ObjectPoolManager.Instance.DeleteWeapon(equippedWeaponSlot[i].gameObject);
+        for (int i = 0; i < equippedSubWeaponSlot.Count; i++)
+            ObjectPoolManager.Instance.DeleteWeapon(equippedSubWeaponSlot[i].gameObject);
+        equippedWeaponSlot = new List<Weapon>();
+        equippedSubWeaponSlot = new List<Weapon>();
     }
 
     #endregion

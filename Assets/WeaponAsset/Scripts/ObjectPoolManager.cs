@@ -70,7 +70,6 @@ public class ObjectPoolManager : MonoBehaviourSingleton<ObjectPoolManager> {
     public Weapon CreateWeapon()
     {
         GameObject createdObj = weaponPool.NewItem();
-        createdObj.GetComponent<Weapon>().Init(Random.Range(0, WeaponsData.Instance.GetWeaponInfosLength()));
         return createdObj.GetComponent<Weapon>();
     }
 

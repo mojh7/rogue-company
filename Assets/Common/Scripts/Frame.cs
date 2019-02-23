@@ -64,6 +64,11 @@ public class Frame : MonoBehaviourSingleton<Frame>
             passiveItemId = (passiveItemId + 1) % ItemsData.Instance.GetMiscItemInfosLength();
             ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
         }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            Debug.Log("Sub Weapon 장착");
+            PlayerManager.Instance.GetPlayer().GetWeaponManager().EquipSubWeapon(WeaponsData.Instance.GetSubWeaponInfo(0));
+        }
         if (!frame)
             return;
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;

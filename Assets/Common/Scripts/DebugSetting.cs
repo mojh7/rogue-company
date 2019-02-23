@@ -5,7 +5,7 @@ using UnityEngine;
 // 0806 모장현
 // 각종 디버그 및 테스트를 위한 on / off 변수들
 
-public enum WeaponModeForDebug { TEST, MAIN, SHAPE_SAMPLE, TEST_BOSS, TEST_BASIC_ENEMY }
+public enum WeaponModeForDebug { TEST, MAIN, SHAPE_SAMPLE, TEST_BOSS, TEST_BASIC_ENEMY, SUB }
 public enum WeaponEquipType { PLAYER_INFO, DEBUG, ALL}
 
 /// <summary>
