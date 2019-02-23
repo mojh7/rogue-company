@@ -381,6 +381,11 @@ public class WeaponManager : MonoBehaviour
         if (WeaponEmpty())
             return;
         equippedWeaponSlot[currentWeaponIndex].StartAttack();
+
+        for(int i = 0; i < equippedSubWeaponSlot.Count; i++)
+        {
+            equippedSubWeaponSlot[i].StartAttack();
+        }
     }
 
     /// <summary> 공격 버튼 뗐을 때 </summary>
@@ -389,6 +394,10 @@ public class WeaponManager : MonoBehaviour
         if (WeaponEmpty())
             return;
         equippedWeaponSlot[currentWeaponIndex].StopAttack();
+        for (int i = 0; i < equippedSubWeaponSlot.Count; i++)
+        {
+            equippedSubWeaponSlot[i].StopAttack();
+        }
     }
 
     /// <summary> 현재 착용 무기 대해서 내용 업데이트, 현재 착용 무기 외의 모든 무기 off </summary>

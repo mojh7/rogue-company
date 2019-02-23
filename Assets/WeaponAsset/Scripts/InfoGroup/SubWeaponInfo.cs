@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum SubWeaponAttackType
 {
+    NONE,
     NON_TARGETING_AUTO_ATTACK,
     TARGETING_AUTO_ATTACK,
     AUTO_TARGETING_AUTO_ATTACK,

@@ -174,13 +174,13 @@ public abstract class Character : MonoBehaviour
     {
         return isRightDirection;
     }
-    public virtual Vector3 GetDirVector()
-    {
-        return directionVector;
-    }
     public virtual float GetDirDegree()
     {
         return directionDegree;
+    }
+    public virtual Vector3 GetDirVector()
+    {
+        return directionVector;
     }
     public virtual Vector3 GetPosition()
     {

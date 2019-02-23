@@ -32,14 +32,16 @@ public class Weapon : Item
     private DelGetPosition ownerPos;            // 소유자 초기 위치(vector3)
     private Player player;
     private Enemy enemy;
-    
+
+    // for Sub Weapon
+    private Vector3 additinalPos;
+    private float satelliteAngle;
 
     private float chargedTime;
     private float chargingSpeed;
     private float chargingDamageIncrement;
     private bool canChargedAttack;              // 차징 공격 가능 여부, 초기에 true 상태
     private float chargedDamageIncreaseRate;    // 풀 차징 공격 데미지 상승률
-    private float satelliteAngle;
     private Coroutine chargingUpdate;
 
     private BuffManager ownerBuff;
@@ -66,6 +68,15 @@ public class Weapon : Item
     public WeaponState GetWeaponState() { return weaponState; }
     public int GetWeaponId() { return weaponId; }
     public AttackType GetAttackType() { return attackType; }
+
+    public float GetSubWeaponDirDegree() { return satelliteAngle; }
+    public Vector3 GetSubWeaponDirVec() { return Vector3.right.RotateRadians(satelliteAngle); }
+    public Vector3 GetSubWeaponPos()
+    {
+        Debug.Log(33333333);
+        Debug.Log(ownerPos() + additinalPos);
+        return ownerPos() + additinalPos;
+    }
     #endregion
     #region UnityFunction
     private void Update()
@@ -193,7 +204,35 @@ public class Weapon : Item
     
     public void RegisterSubWeapon(WeaponManager weaponManager)
     {
-        RegisterWeapon(weaponManager);
+        Debug.Log("RegisterSubWeapon");
+        this.weaponManager = weaponManager;
+        ownerType = weaponManager.GetOwnerType();
+        switch (ownerType)
+        {
+            case OwnerType.PLAYER:
+                player = PlayerManager.Instance.GetPlayer();
+                break;
+            case OwnerType.ENEMY:
+                enemy = weaponManager.GetEnemy();
+                break;
+            default:
+                break;
+        }
+
+        additinalPos = Vector3.zero;
+        satelliteAngle = 0;
+        ownerDirDegree = weaponManager.GetOwnerDirDegree();//GetSubWeaponDirDegree;
+        ownerDirVec = weaponManager.GetOwnerDirVec();//GetSubWeaponDirVec;
+        ownerPos = () => { return weaponManager.GetOwnerPos()() + additinalPos; };
+        ownerBuff = weaponManager.GetOwnerBuff();
+        totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
+        effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)info.weaponType];
+
+        // 공격 패턴(bulletPattern) 초기화
+        for (int i = 0; i < info.bulletPatternsLength; i++)
+        {
+            info.bulletPatterns[i].Init(this);
+        }        
         AutoMoving();
     }
 
@@ -390,7 +429,7 @@ public class Weapon : Item
 
     private void AutoMoving()
     {
-        Vector3 additinalPos = MathCalculator.VectorRotate(Vector3.right, satelliteAngle) * info.radius;
+        additinalPos = MathCalculator.VectorRotate(Vector3.right, satelliteAngle) * info.radius;
         satelliteAngle += info.rotatedAnglePerSecond * Time.fixedDeltaTime;
         objTransform.localPosition = additinalPos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, satelliteAngle);
