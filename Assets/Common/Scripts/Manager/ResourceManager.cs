@@ -9,4 +9,5 @@ public class ResourceManager : MonoBehaviourSingleton<ResourceManager> {
     public GameObject wallPrefab;
     public ObjectPool itemPool;
     public ObjectPool skillPool;
+    public ObjectSet skillTrapObj;
 }

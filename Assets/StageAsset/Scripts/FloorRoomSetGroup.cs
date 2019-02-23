@@ -6,6 +6,16 @@ using UnityEngine;
 public class FloorRoomSetGroup : ScriptableObject
 {
     [SerializeField]
+    private string _floorName = null;
+
+    public string floorName
+    {
+        get
+        {
+            return _floorName;
+        }
+    }
+    [SerializeField]
     private RoomSet[] roomSets;
     [SerializeField]
     private RoomSet[] hallSets;

@@ -60,11 +60,20 @@ namespace Map
             {
                 map = new Map(size, mapSize.x, mapSize.y, maxSize.x * maxSize.y, miniSize.x * miniSize.y, maxHallRate, objectPool);
             }
+
+            if(RoomSetManager.Instance.FloorRoomSetGroups.Length <= _floor)
+            {
+                _floor = RoomSetManager.Instance.FloorRoomSetGroups.Length - 1;
+            }
             map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].RoomSets);
             map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].RandomSets);
             map.AddNecessaryHallSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].HallSets);
             map.AddNecessaryObjectSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].ObjectSets);
             map.Generate();
+            if(_floor > 5)
+            {
+                map.CreateTrap();
+            }
             RoomManager.Instance.InitRoomList();
         }
         public Map GetMap()
@@ -122,6 +131,23 @@ namespace Map
         } // 생성자
 
         #region public
+        public void CreateTrap()
+        {
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if(rooms[i].isRoom)
+                {
+                    int count = (int)(rooms[i].width * rooms[i].height * .5f);
+
+                    for (int c = 0; c < count; c++)
+                    {
+                        GameObject obj = objectPool.GetPooledObject();
+                        obj.transform.localPosition = rooms[i].GetAvailableArea();
+                        ResourceManager.Instance.skillTrapObj.objectData.LoadObject(obj);
+                    }
+                }
+            }
+        }
         public List<Rect> GetList(out Rect currentRoom)
         {
             currentRoom = halls[0];

@@ -10,6 +10,7 @@ public class DestoyTrapObj : RandomSpriteObject
         objectType = ObjectType.DESTROYTRAPOBJ;
 
         polygonCollider2D.isTrigger = true;
+        EraseShadow();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

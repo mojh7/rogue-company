@@ -449,7 +449,9 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     #endregion
     public void SetFloorText()
     {
-        floorT.text = (5 + GameDataManager.Instance.GetFloor()).ToString() + "F";
+        int floor = GameDataManager.Instance.GetFloor();
+       
+        floorT.text = RoomSetManager.Instance.FloorRoomSetGroups[floor].floorName;
     }
 
     public void ClearRoom(Map.Rect _room, float percent)
