@@ -131,6 +131,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     {
         GameObject obj = ResourceManager.Instance.objectPool.GetPooledObject();
         int floor = InGameManager.Instance.GetFloor();
+        floor = (int)(floor * .5f);
         Rating rating = Rating.NORATING;
         switch (roomType)
         {
@@ -156,6 +157,8 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public void SetItemBox(ItemBox itemBox)
     {
         int floor = InGameManager.Instance.GetFloor();
+        floor = (int)(floor * .5f);
+
         Rating rating = Rating.NORATING;
         rating = GetRating(floor, iEventboxPercentage);
 
@@ -167,6 +170,8 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public void SetTrapBox(TrapBox trapBox)
     {
         int floor = InGameManager.Instance.GetFloor();
+        floor = (int)(floor * .5f);
+
         Rating rating = Rating.NORATING;
         rating = GetRating(floor, iEventboxPercentage);
 
@@ -178,6 +183,7 @@ public class ItemManager : MonoBehaviourSingleton<ItemManager> {
     public Rating GetStoreItemRating()
     {
         int floor = InGameManager.Instance.GetFloor();
+        floor = (int)(floor * .5f);
 
         return GetRating(floor, iRestboxPercentage);
     }

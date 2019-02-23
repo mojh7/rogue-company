@@ -42,8 +42,8 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
         playTime = GameDataManager.Instance.GetTime();
         kill = GameDataManager.Instance.GetKill();
         coin = GameDataManager.Instance.GetCoin();
-        currentFloor = GameDataManager.Instance.GetFloor() + 6;
-        preFloor = 10; // test용
+        currentFloor = GameDataManager.Instance.GetFloor();
+        preFloor = 3; // test용
         reward = 0;
     }
 
@@ -84,14 +84,15 @@ public class GameOverUI : MonoBehaviourSingleton<GameOverUI> {
 
     private void BuildingFloor(int floor, bool isPre)
     {
-        floorI[floor - 6].gameObject.SetActive(true);
+        floor = (int)(floor * .5f);
+        floorI[floor].gameObject.SetActive(true);
         if (isPre)
         {
-            floorI[floor - 6].color = new Color(.5f, .5f, .5f);  
+            floorI[floor].color = new Color(.5f, .5f, .5f);  
         }
         else
         {
-            floorI[floor - 6].color = Color.red;
+            floorI[floor].color = Color.red;
         }
     }
 

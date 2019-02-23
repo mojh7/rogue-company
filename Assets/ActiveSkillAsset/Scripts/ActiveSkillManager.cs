@@ -64,7 +64,7 @@ public class ActiveSkillManager : MonoBehaviourSingleton<ActiveSkillManager>
         Vector3 shadowDest = caster.GetCharacterComponents().ShadowTransform.localPosition - upVector;
         float startTime = Time.time;
         float elapsedTime = 0;
-        float durationOfFlight = 0.5f;
+        float durationOfFlight = 1;
         while (elapsedTime < durationOfFlight)
         {
             elapsedTime = Time.time - startTime;
