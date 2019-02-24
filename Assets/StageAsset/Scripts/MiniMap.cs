@@ -479,13 +479,13 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
         SetFloorText();
         renderer = minimapObj.GetComponent<RawImage>();
         roomList = RoomManager.Instance.GetRoomList(); //리스트 받아오기
-        minmapSizeWidth = Map.MapManager.Instance.mapSize.x * pixelNum; // 미니맵 전체 픽셀 사이즈
-        minmapSizeHeight = Map.MapManager.Instance.mapSize.y * pixelNum;
-        mapSize = Map.MapManager.Instance.size;
-        mapSizeWidth = mapSize * Map.MapManager.Instance.mapSize.x; // 실제 맵 크기
-        mapSizeHeight = mapSize * Map.MapManager.Instance.mapSize.y;
+        minmapSizeWidth = Map.MapManager.Instance.currentMapSet.mapSize.x * pixelNum; // 미니맵 전체 픽셀 사이즈
+        minmapSizeHeight = Map.MapManager.Instance.currentMapSet.mapSize.y * pixelNum;
+        mapSize = 3;
+        mapSizeWidth = mapSize * Map.MapManager.Instance.currentMapSet.mapSize.x; // 실제 맵 크기
+        mapSizeHeight = mapSize * Map.MapManager.Instance.currentMapSet.mapSize.y;
 
-        if (Map.MapManager.Instance.mapSize.x * pixelNum > Map.MapManager.Instance.mapSize.y * pixelNum)
+        if (Map.MapManager.Instance.currentMapSet.mapSize.x * pixelNum > Map.MapManager.Instance.currentMapSet.mapSize.y * pixelNum)
             minimapObj.GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth * (float)mapSizeWidth / mapSizeHeight, minimapBaseHeight);
         else
             minimapObj.GetComponent<RectTransform>().sizeDelta = new Vector2(minimapBaseWidth, minimapBaseHeight * (float)mapSizeHeight / mapSizeWidth);
@@ -614,8 +614,8 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     
     bool FixedPlayer()
     {
-        float maxValue = 34 * mapSize / 3  * Map.MapManager.Instance.mapSize.x / 15;
-        float minValue = 11.1f * mapSize / 3 * Map.MapManager.Instance.mapSize.x / 15;
+        float maxValue = 34 * mapSize / 3  * Map.MapManager.Instance.currentMapSet.mapSize.x / 15;
+        float minValue = 11.1f * mapSize / 3 * Map.MapManager.Instance.currentMapSet.mapSize.x / 15;
 
         bool isX = playerPositon.x >= maxValue || playerPositon.x <= minValue;
         bool isY = playerPositon.y >= maxValue || playerPositon.y <= minValue;

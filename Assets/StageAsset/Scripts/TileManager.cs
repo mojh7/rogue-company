@@ -13,8 +13,6 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
 
     [Space]
 
-    [SerializeField]
-    private RandomTile []floorTile;
     public RandomTile cafeTile;
     public RandomTile restTile;
     public RandomTile hallTile;
@@ -25,12 +23,6 @@ public class TileManager : MonoBehaviourSingleton<TileManager> {
     public RuleTile wallRuleTile_v;
     public RuleTile fogTile;
 
-    public RandomTile GetSpriteTile()
-    {
-        Random.InitState((int)System.DateTime.Now.Ticks);
-        int rand = Random.Range(0, floorTile.Length);
-        return floorTile[rand];
-    }
 
     //[SerializeField]
     //private MultiSpriteTile multiSprite;

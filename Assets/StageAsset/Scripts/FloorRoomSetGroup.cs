@@ -6,6 +6,11 @@ using UnityEngine;
 public class FloorRoomSetGroup : ScriptableObject
 {
     [SerializeField]
+    Map.MapSetting mapSetting;
+    [SerializeField]
+    private RandomTile _floorTile = null;
+
+    [SerializeField]
     private string _floorName = null;
 
     public string floorName
@@ -78,5 +83,18 @@ public class FloorRoomSetGroup : ScriptableObject
             return null;
         }
     }
-
+    public RandomTile FloorTile
+    {
+        get
+        {
+            return _floorTile;
+        }
+    }
+    public Map.MapSetting MapSetting
+    {
+        get
+        {
+            return mapSetting;
+        }
+    }
 }

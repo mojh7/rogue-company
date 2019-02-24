@@ -7,22 +7,39 @@ namespace Map
 {
     public enum LinkedShape { NONE, HORIZONTAL, VERTICAL };
 
-    public class MapManager : MonoBehaviourSingleton<MapManager>
+    [System.Serializable]
+    public class MapSetting
     {
-        [SerializeField]
-        ObjectPool objectPool;
         [Space(10)]
         [Header("맵의 크기")]
         public Vector2Int mapSize;
         [Header("방의 크기")]
-        public Vector2Int maxSize, miniSize;
-        //public int height = 1, max = 17, mini = 6;
+        public int maxRoomSize, miniRoomSize;
         public float maxHallRate = 0.15f;
-        public int size = 5;
+    }
+
+    /// <summary>
+    /// maxSize = 12,12;
+    /// maxRoom = 16, minRoom 6;
+    /// size 3;
+    /// hall = .1f;
+    /// </summary>
+    public class MapManager : MonoBehaviourSingleton<MapManager>
+    {
+        [SerializeField]
+        ObjectPool objectPool;
+
+        const int size = 3;
         [SerializeField]
         bool Debug;
         bool isBossRush;
         Map map;
+        public MapSetting currentMapSet
+        {
+            private set;
+            get;
+        }
+
         private void Awake()
         {
             if(!Debug)
@@ -48,27 +65,29 @@ namespace Map
         }
         public void GenerateMap(int _floor)
         {
+            if (RoomSetManager.Instance.FloorRoomSetGroups.Length <= _floor)
+            {
+                _floor = RoomSetManager.Instance.FloorRoomSetGroups.Length - 1;
+            }
+            FloorRoomSetGroup floorRoomSetGroup = RoomSetManager.Instance.FloorRoomSetGroups[_floor];
+            currentMapSet = floorRoomSetGroup.MapSetting;
             if (map != null)
             {
                 map = null;
             }
             if (isBossRush)
             {
-                map = new BossRushMap(size, mapSize.x, mapSize.y, maxSize.x * maxSize.y, miniSize.x * miniSize.y, maxHallRate, objectPool);
+                map = new BossRushMap(size, currentMapSet.mapSize.x, currentMapSet.mapSize.y, currentMapSet.maxRoomSize, currentMapSet.miniRoomSize, currentMapSet.maxHallRate, objectPool);
             }
             else
             {
-                map = new Map(size, mapSize.x, mapSize.y, maxSize.x * maxSize.y, miniSize.x * miniSize.y, maxHallRate, objectPool);
+                map = new Map(size, currentMapSet.mapSize.x, currentMapSet.mapSize.y, currentMapSet.maxRoomSize, currentMapSet.miniRoomSize, currentMapSet.maxHallRate, objectPool);
             }
 
-            if(RoomSetManager.Instance.FloorRoomSetGroups.Length <= _floor)
-            {
-                _floor = RoomSetManager.Instance.FloorRoomSetGroups.Length - 1;
-            }
-            map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].RoomSets);
-            map.AddNecessaryRoomSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].RandomSets);
-            map.AddNecessaryHallSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].HallSets);
-            map.AddNecessaryObjectSet(RoomSetManager.Instance.FloorRoomSetGroups[_floor].ObjectSets);
+            map.AddNecessaryRoomSet(floorRoomSetGroup.RoomSets);
+            map.AddNecessaryRoomSet(floorRoomSetGroup.RandomSets);
+            map.AddNecessaryHallSet(floorRoomSetGroup.HallSets);
+            map.AddNecessaryObjectSet(floorRoomSetGroup.ObjectSets);
             map.Generate();
             if(_floor > 5)
             {
@@ -406,7 +425,7 @@ namespace Map
 
         void DrawTile()
         {
-            TileBase floor = TileManager.Instance.GetSpriteTile();
+            TileBase floor = RoomSetManager.Instance.FloorRoomSetGroups[0].FloorTile;
             TileBase shadow = TileManager.Instance.shadowTile;
             TileBase wallRuleTile_h = TileManager.Instance.wallRuleTile_h;
             TileBase wallRuleTile_v = TileManager.Instance.wallRuleTile_v;

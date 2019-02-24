@@ -116,9 +116,9 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
                 clearedRoom++;
             }
         }
-        mapSize = MapManager.Instance.size;
-        maskSize = new Vector2(MapManager.Instance.mapSize.x * mapSize + 0.5f, MapManager.Instance.mapSize.y * mapSize + 1.5f);
-        zeroVector = new Vector2(MapManager.Instance.mapSize.x * mapSize * 0.5f + 0.5f, MapManager.Instance.mapSize.y * mapSize * 0.5f - 0.5f);
+        mapSize = 3;
+        maskSize = new Vector2(MapManager.Instance.currentMapSet.mapSize.x * mapSize + 0.5f, MapManager.Instance.currentMapSet.mapSize.y * mapSize + 1.5f);
+        zeroVector = new Vector2(MapManager.Instance.currentMapSet.mapSize.x * mapSize * 0.5f + 0.5f, MapManager.Instance.currentMapSet.mapSize.y * mapSize * 0.5f - 0.5f);
         EconomySystem.Instance.InitFloorData(roomList);
         LockDoor();
     } // 룸리스트 받아오기
