@@ -434,9 +434,9 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
     {
         UIManager.Instance.TogglePreventObj();
         EnemyManager.Instance.CreateBossData();
-        CutSceneUI.Instance.SetText(EnemyManager.Instance.GetBossName());
         CutSceneUI.Instance.SetCharacter(EnemyManager.Instance.GetBossSprite());
-        CutSceneUI.Instance.ShowCutScene(Vector2.right, Vector2.down, Vector2.up);
+        CutSceneUI.Instance.BossCutScene(Vector2.right, Vector2.down, Vector2.right);
+        CutSceneUI.Instance.SetText(EnemyManager.Instance.GetBossName());
     }
 
     void BossSceneEnd()

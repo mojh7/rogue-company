@@ -11,6 +11,7 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
     [SerializeField] private Text text;
     [Space]
     [SerializeField] private GameObject storyPanel;
+    [SerializeField] private Animator storyAnim;
 
     /// <summary>
     /// Show cutscene
@@ -18,7 +19,7 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
     /// <param name="_bgDir">배경화면이 날아오는 방향</param>
     /// <param name="_chDir">캐릭터이미지가 날아오는 방향</param>
     /// <param name="_textDir">문자가 날아오는 방향</param>
-    public void ShowCutScene(Vector2 _bgDir, Vector2 _chDir, Vector2 _textDir)
+    public void BossCutScene(Vector2 _bgDir, Vector2 _chDir, Vector2 _textDir)
     {
         UIManager.Instance.SetActivedBool(true);
         Vector2 bgDest = bgImage.rectTransform.localPosition;
@@ -37,7 +38,6 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
         MoveToTarget(chImage.transform, chDest, 0.6f);
         MoveToTarget(text.transform, textDest, 0.7f);
     }
-    public void Hide() { bossPanel.SetActive(false); UIManager.Instance.SetActivedBool(false); }
     public void SetCharacter(Sprite _sprite)
     {
         chImage.sprite = _sprite;
@@ -69,4 +69,12 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
 
     }
 
+    public void ShowCtuScene(int floor)
+    {
+        UIManager.Instance.SetActivedBool(true);
+        storyPanel.SetActive(true);
+        storyAnim.SetInteger("Floor", floor);
+    }
+
+    public void Hide() { bossPanel.SetActive(false); storyPanel.SetActive(false); UIManager.Instance.SetActivedBool(false); }
 }
