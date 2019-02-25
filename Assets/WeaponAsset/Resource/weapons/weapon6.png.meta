@@ -4,10 +4,35 @@ timeCreated: 1549584612
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: weapon6_0
+    21300000: weapon_50
     21300002: weapon_50
-    21300004: weapon_51
-    21300006: weapon_52
+    21300004: weapon_50
+    21300006: weapon_50
+    21300008: weapon_50
+    21300010: weapon_53_0
+    21300012: weapon_53_1
+    21300014: weapon_54_0
+    21300016: weapon_54_1
+    21300018: weapon_55_0
+    21300020: weapon_55_1
+    21300022: weapon_56
+    21300024: weapon_63
+    21300026: weapon_67
+    21300028: weapon_57
+    21300030: weapon_64
+    21300032: weapon_68
+    21300034: weapon_58
+    21300036: weapon_69
+    21300038: weapon_59
+    21300040: weapon_65
+    21300042: weapon_70
+    21300044: weapon_60
+    21300046: weapon_61
+    21300048: weapon_71
+    21300050: weapon_62
+    21300052: weapon_66
+    21300054: weapon_51
+    21300056: weapon_52
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -94,29 +119,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: weapon6_0
-      rect:
-        serializedVersion: 2
-        x: 24
-        y: 344
-        width: 24
-        height: 14
-      alignment: 9
-      pivot: {x: 0.3523089, y: 0.46961975}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
       name: weapon_50
       rect:
         serializedVersion: 2
-        x: 19
-        y: 317
+        x: 16
+        y: 215
         width: 34
         height: 14
-      alignment: 9
-      pivot: {x: 0.32485586, y: 0.41898236}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -125,12 +136,12 @@ TextureImporter:
       name: weapon_51
       rect:
         serializedVersion: 2
-        x: 20
-        y: 291
+        x: 65
+        y: 213
         width: 33
         height: 18
-      alignment: 9
-      pivot: {x: 0.31954852, y: 0.5}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,12 +150,320 @@ TextureImporter:
       name: weapon_52
       rect:
         serializedVersion: 2
-        x: 20
-        y: 275
+        x: 112
+        y: 218
         width: 34
         height: 10
-      alignment: 9
-      pivot: {x: 0.30817547, y: 0.4007538}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_53_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 174
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_53_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 174
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_54_0
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 174
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_54_1
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 174
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_55_0
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 175
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_55_1
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 175
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_56
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 146
+        width: 29
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_63
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 141
+        width: 28
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_67
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 146
+        width: 41
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_57
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 128
+        width: 29
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_64
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 106
+        width: 39
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_68
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 127
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_58
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 110
+        width: 29
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_69
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 113
+        width: 17
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_59
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 90
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_65
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 62
+        width: 44
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_70
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 80
+        width: 42
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_60
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 70
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_61
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 37
+        width: 40
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_71
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 52
+        width: 24
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_62
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 11
+        width: 40
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: weapon_66
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 27
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -119,20 +119,6 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: weapon2_
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 218
-        width: 24
-        height: 17
-      alignment: 9
-      pivot: {x: 0.27131048, y: 0.36706004}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
       name: weapon_7
       rect:
         serializedVersion: 2
@@ -291,11 +277,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 34
-        y: 124
+        y: 126
         width: 19
-        height: 17
+        height: 15
       alignment: 9
-      pivot: {x: 0.0066176965, y: 0.34037602}
+      pivot: {x: 0.25703087, y: 0.3209076}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
