@@ -465,6 +465,7 @@ public class Weapon : Item
                 PlayerManager.Instance.GetPlayer().UpdateMuzzlePosition(Vector3.zero, false);
         }
 
+        PlayAttackAnimation();
         if (0 < info.castingTime)
         {
             yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
@@ -473,7 +474,14 @@ public class Weapon : Item
         // 공격 한 번 실행. (pattern cycle n번 실행)
         for (int i = 0; i < info.cycleRepetitionCount; i++)
         {
-            PlayAttackAnimation();
+            if(0 < i)
+            {
+                PlayAttackAnimation();
+                if (0 < info.castingTime)
+                {
+                    yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
+                }
+            }
             // Pattern cycle 실행
             for (int j = 0; j < info.bulletPatternsLength; j++)
             {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponAsset;
 
 /* DeleteProperty class
  * 총알이 삭제(회수) 될 때에 관련된 클래스
@@ -60,7 +61,9 @@ public abstract class DeleteProperty : BulletProperty
         if(null != bulletParticle)
         {
             bulletParticle.transform.parent = ParticleManager.Instance.GetBodyTransform();
-            UtilityClass.Invoke(ParticleManager.Instance, () => bulletParticle.gameObject.SetActive(false), 0.3f);
+            bulletParticle.gameObject.transform.localScale = Vector3.one;
+            bulletParticle.gameObject.SetActive(false);
+            //UtilityClass.Invoke(ParticleManager.Instance, () => bulletParticle.gameObject.SetActive(false), 0f);
             bullet.SetBulletParticle(null);
         }
     }
