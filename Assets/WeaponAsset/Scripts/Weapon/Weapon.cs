@@ -477,10 +477,10 @@ public class Weapon : Item
             if(0 < i)
             {
                 PlayAttackAnimation();
-                if (0 < info.castingTime)
+                /*if (0 < info.castingTime)
                 {
                     yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
-                }
+                }*/
             }
             // Pattern cycle 실행
             for (int j = 0; j < info.bulletPatternsLength; j++)

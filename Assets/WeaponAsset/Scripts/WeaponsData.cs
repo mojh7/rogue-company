@@ -281,7 +281,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
             mainWeaponInfos[i].dps = dps;
 
             float.TryParse(csvWeaponData[i]["attackSpeed"].ToString(), out attackSpeed);
-            mainWeaponInfos[i].castingTime = attackSpeed;
+            mainWeaponInfos[i].attackSpeed = attackSpeed;
 
             float.TryParse(csvWeaponData[i]["range"].ToString(), out range);
             mainWeaponInfos[i].range = range;
