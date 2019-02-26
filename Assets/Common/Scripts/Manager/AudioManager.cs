@@ -14,11 +14,16 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 {
     private MusicController musicController;
     private SoundController soundController;
-
+    private float sfxVolume;
 
     [Header("디버그용, 배경음악 안 듣고 싶을 때 꺼주세요")]
     public bool canPlayMusic;
 
+
+    public float GetSFXVolume()
+    {
+        return sfxVolume;
+    }
 
     void Awake()
     {
@@ -99,6 +104,7 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 
     public void SetSoundVolume(float volume)
     {
+        sfxVolume = volume;
         soundController.SetVolume(volume);
     }
 
