@@ -55,6 +55,7 @@ public class Weapon : Item
     // coroutine
 
     #endregion
+
     #region getter / setter
     public Sprite GetWeaponSprite() { return spriteRenderer.sprite; }
     public Transform ObjTransform { get { return objTransform; } set { objTransform = value; } }
@@ -71,14 +72,11 @@ public class Weapon : Item
 
     public float GetSubWeaponDirDegree() { return satelliteAngle; }
     public Vector3 GetSubWeaponDirVec() { return Vector3.right.RotateRadians(satelliteAngle); }
-    public Vector3 GetSubWeaponPos()
-    {
-        Debug.Log(33333333);
-        Debug.Log(ownerPos() + additinalPos);
-        return ownerPos() + additinalPos;
-    }
+    
+    public Vector3 GetScale() { return new Vector3(info.scaleX, info.scaleY, 1f); }
     #endregion
-    #region UnityFunction
+
+    #region unityFunc
     private void Update()
     {
         spriteRenderer.sortingOrder = -Mathf.RoundToInt((transform.position.y - 0.5f) * 100);
@@ -86,6 +84,7 @@ public class Weapon : Item
     #endregion
 
     #region initialization
+
     //6.02 이유성
     public void Init(WeaponInfo weaponInfo, OwnerType ownerType = OwnerType.PLAYER)
     {
@@ -139,7 +138,7 @@ public class Weapon : Item
     }
     #endregion
 
-    #region Function
+    #region func
     public bool FillUpAmmo()
     {
         // oo 총 이거나 총알 꽉찼을 때, 근거리 무기일 때 false
@@ -443,6 +442,7 @@ public class Weapon : Item
         Attack(1f);
     }
     #endregion
+
     #region coroutine
 
     private IEnumerator MuzzleFlash()

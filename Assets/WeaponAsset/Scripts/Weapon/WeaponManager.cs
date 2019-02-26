@@ -493,6 +493,7 @@ public class WeaponManager : MonoBehaviour
         {
             equippedWeaponSlot.Add(weapon);
             weapon.ObjTransform.SetParent(registerPoint, false);
+            weapon.ObjTransform.localScale = weapon.GetScale();
             weapon.RegisterWeapon(this);
             currentWeaponIndex = weaponCount++;
             UpdateCurrentWeapon();
@@ -522,12 +523,12 @@ public class WeaponManager : MonoBehaviour
             UpdateCurrentWeapon();
             GameObject obj = ItemManager.Instance.CreateItem(dropedWeapon, transform.position);
             dropedWeapon.ObjTransform.SetParent(obj.transform, false);
-            dropedWeapon.ObjTransform.localScale = Vector3.one;
+            dropedWeapon.ObjTransform.localScale = dropedWeapon.GetScale();
         }
         StartCoroutine(PickAndDropWeaponDelay());
         weapon.ObjTransform.localRotation = Quaternion.identity;
+        weapon.ObjTransform.localScale = weapon.GetScale();
         //weapon.ObjTransform.localScale = new Vector3(Mathf.Abs(weapon.ObjTransform.localScale.x), weapon.ObjTransform.localScale.y, weapon.ObjTransform.localScale.z);
-        weapon.ObjTransform.localScale = Vector3.one;       
         return true;
     }
 
@@ -571,14 +572,7 @@ public class WeaponManager : MonoBehaviour
     IEnumerator PickAndDropWeaponDelay()
     {
         canPickAndDropWeapon = false;
-        yield return YieldInstructionCache.WaitForSeconds(2.0f);
+        yield return YieldInstructionCache.WaitForSeconds(0.5f);
         canPickAndDropWeapon = true;
     }
-}
-
-// 시간 남으면 추가적으로 만들고 아님 말고
-// 공격키 누를 때(쿨타임 다름), 상시 알아서 공격, 특정 조건일 때??
-public class SubWeaponManager : WeaponManager
-{
-    
 }
