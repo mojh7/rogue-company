@@ -29,6 +29,7 @@ public class BulletParticlePresetInfo
 {
     public BulletParticleType presetType;
     public BulletImpactType bulletImpactType;
+    public float lifeTime = -1;
     public ColliderType colliderType;
     public Vector3 startRotation;
     public float autoSizeRatio = 1f;

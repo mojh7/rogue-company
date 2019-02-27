@@ -53,6 +53,7 @@ public class Bullet : MonoBehaviour
     private Coroutine deleteOnlifeTime;
     private Coroutine setColliderSizeOfAniSprite;
 
+    private float startDirDegree;
     private Vector3 dirVector; // 총알 방향 벡터
     private float dirDegree;   // 총알 방향 각도.
 
@@ -180,6 +181,7 @@ public class Bullet : MonoBehaviour
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+        startDirDegree = direction;
 
         SetBulletPresetType();
         SetBulletPresetInfo();
@@ -212,13 +214,12 @@ public class Bullet : MonoBehaviour
         objTransform.position = pos;
         objTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
         objTransform.localScale = new Vector3(info.scaleX, info.scaleY, 1f);
+        startDirDegree = direction;
 
         SetBulletPresetType();
         SetBulletPresetInfo();
 
         UpdateTransferBulletInfo();
-
-        //Debug.Log(name + " , " + info.damage);
 
         // Owner 정보 초기화
         InitOwnerInfo(ownerType);
@@ -432,7 +433,14 @@ public class Bullet : MonoBehaviour
 
         if (BulletParticleType.NONE != info.bulletParticleType)
         {
-            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation);
+            if (-90 <= startDirDegree && startDirDegree < 90)
+            {
+                bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation, true);
+            }
+            else
+            {
+                bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation, false);
+            }            
         }
 
         if (info.isRandomSpeed)
@@ -562,6 +570,8 @@ public class Bullet : MonoBehaviour
             {
                 info.bulletImpactType = bulletParticlePresetInfo.bulletImpactType;
 
+                if (-1 == info.lifeTime)
+                    info.lifeTime = bulletParticlePresetInfo.lifeTime;
                 if (ColliderType.NONE == info.colliderType)
                     info.colliderType = bulletParticlePresetInfo.colliderType;
                 if (1 == info.autoSizeRatio && 1 != bulletParticlePresetInfo.autoSizeRatio)

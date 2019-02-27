@@ -63,6 +63,7 @@ public abstract class DeleteProperty : BulletProperty
             bulletParticle.transform.parent = ParticleManager.Instance.GetBodyTransform();
             bulletParticle.gameObject.transform.localScale = Vector3.one;
             bulletParticle.gameObject.SetActive(false);
+            bulletParticle.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
             //UtilityClass.Invoke(ParticleManager.Instance, () => bulletParticle.gameObject.SetActive(false), 0f);
             bullet.SetBulletParticle(null);
         }

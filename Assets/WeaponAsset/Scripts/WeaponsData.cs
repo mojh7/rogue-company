@@ -234,7 +234,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 
         //int size = csvWeaponData.Count;
         int size = GetWeaponInfosLength();
-        Debug.Log(size);
+        Debug.Log("csv 적용, count = " + size);
         for (int i = 0; i < size; i++)
         {
             mainWeaponInfos[i].weaponName = (string)csvWeaponData[i]["name"];
