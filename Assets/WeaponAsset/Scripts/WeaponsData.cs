@@ -232,7 +232,9 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
         #endregion
 
 
-        int size = csvWeaponData.Count;
+        //int size = csvWeaponData.Count;
+        int size = GetWeaponInfosLength();
+        Debug.Log(size);
         for (int i = 0; i < size; i++)
         {
             mainWeaponInfos[i].weaponName = (string)csvWeaponData[i]["name"];
@@ -357,36 +359,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                 default:
                     break;
             }
-
-            switch (weaponType)
-            {
-                case WeaponType.SPEAR:
-                case WeaponType.CLUB:
-                case WeaponType.SPORTING_GOODS:
-                case WeaponType.SWORD:
-                case WeaponType.CLEANING_TOOL:
-                    if (addDirVec == 0)
-                        mainWeaponInfos[i].addDirVecMagnitude = 1.2f;
-                    break;
-                case WeaponType.KNUCKLE:
-                case WeaponType.SHOTGUN:
-                case WeaponType.BOW:
-                case WeaponType.WAND:
-                case WeaponType.SNIPER_RIFLE:
-                    if (addDirVec == 0)
-                        mainWeaponInfos[i].addDirVecMagnitude = 0.5f;
-                    break;
-                case WeaponType.LASER:
-                case WeaponType.MACHINEGUN:
-                case WeaponType.RANGED_SPECIAL:
-                    if (addDirVec == 0)
-                        mainWeaponInfos[i].addDirVecMagnitude = 0.3f;
-                    break;
-                default:
-                    break;
-            }
         }
-
     }
     #endregion
 }

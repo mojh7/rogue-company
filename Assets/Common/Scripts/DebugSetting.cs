@@ -6,7 +6,7 @@ using UnityEngine;
 // 각종 디버그 및 테스트를 위한 on / off 변수들
 
 public enum WeaponModeForDebug { TEST, MAIN, SHAPE_SAMPLE, TEST_BOSS, TEST_BASIC_ENEMY, SUB }
-public enum WeaponEquipType { PLAYER_INFO, DEBUG, ALL}
+public enum WeaponEquipType { PLAYER_INFO, DEBUG, ALL, RANDOM }
 
 /// <summary>
 /// 디버그용 셋팅, 변수들

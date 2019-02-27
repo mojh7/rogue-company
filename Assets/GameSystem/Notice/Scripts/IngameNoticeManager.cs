@@ -94,6 +94,7 @@ public class IngameNoticeManager : MonoBehaviourSingleton<IngameNoticeManager>
         weaponInfoNoticeObj.SetActive(true);
 
         bkgImg.sprite = bkgImgByRating[(int)info.rating - 1];
+        
         infoTxt[0].text = info.dps.ToString();
         infoTxt[1].text = (info.criticalChance * 100f).ToString() + " %";
         if(Weapon.IsMeleeWeapon(info))

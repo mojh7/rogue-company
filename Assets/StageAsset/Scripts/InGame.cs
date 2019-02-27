@@ -12,6 +12,6 @@ public class InGame : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Instance.PlayMusic(4);
+            AudioManager.Instance.PlayMusic(4);
     }
 }

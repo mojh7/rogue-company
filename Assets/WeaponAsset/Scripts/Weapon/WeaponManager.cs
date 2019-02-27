@@ -273,6 +273,25 @@ public class WeaponManager : MonoBehaviour
                             return;
                     }
                 }
+
+                else if (WeaponEquipType.RANDOM == DebugSetting.Instance.weaponEquipType)
+                {
+                    Debug.Log(DebugSetting.Instance.weaponEquipType);
+                    weaponCountMax = 3;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 18)) as Weapon;
+                    equippedWeaponSlot.Add(weapon);
+                    weapon.ObjTransform.SetParent(registerPoint, false);
+                    weapon.RegisterWeapon(this);
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(18, 36)) as Weapon;
+                    equippedWeaponSlot.Add(weapon);
+                    weapon.ObjTransform.SetParent(registerPoint, false);
+                    weapon.RegisterWeapon(this);
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(36, 53)) as Weapon;
+                    equippedWeaponSlot.Add(weapon);
+                    weapon.ObjTransform.SetParent(registerPoint, false);
+                    weapon.RegisterWeapon(this);
+                    weaponCount = 3;
+                }
                 //Debug.Log("새 게임 무기 초기화, weaponCnt, cntMax = " + weaponCount + ", " + weaponCountMax);
             }
             // 저장된 데이터를 로드한 게임 일 때

@@ -122,6 +122,9 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.touchMode = touchMode;
         clonedInfo.weaponType = weaponType;
 
+        clonedInfo.dps = dps;
+        clonedInfo.attackSpeed = attackSpeed;
+
         clonedInfo.ammoCapacity = ammoCapacity;
         clonedInfo.ammo = ammo;
         clonedInfo.chargeTimeMax = chargeTimeMax;

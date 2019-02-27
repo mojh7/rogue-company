@@ -10,6 +10,30 @@ public class Frame : MonoBehaviourSingleton<Frame>
     public Sprite[] sprites;
 
     private int passiveItemId = 0;
+
+    public void CreateRandomItem()
+    {
+        UsableItem usableItem = ObjectPoolManager.Instance.CreateUsableItem();
+        usableItem.Init(ItemsData.Instance.GetMiscItemInfo(-1));
+        ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
+    }
+
+    public void CreateRandomWeapon()
+    {
+        ItemManager.Instance.CallItemBox(PlayerManager.Instance.GetPlayerPosition(), RoomType.BOSS);
+    }
+
+    public void CreateHP()
+    {
+        UsableItem usableItem = ObjectPoolManager.Instance.CreateUsableItem();
+        usableItem.Init(itemInfo1);
+        ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
+    }
+
+    public void CreateKey()
+    {
+        ItemManager.Instance.DropKey(PlayerManager.Instance.GetPlayerPosition());
+    }
 #if UNITY_EDITOR
     float deltaTime = 0.0f;
 

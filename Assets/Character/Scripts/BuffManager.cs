@@ -215,10 +215,17 @@ public class BuffManager : MonoBehaviour
 
     public void AddPassiveItme(UsableItemInfo info)
     {
-        // Debug.Log("passive 등록 id : " + passiveId);
-        PassiveIds.Add(info.GetId());
-        PassiveItemSlot.Instance.UpdatePassiveItemUI();
-        PassiveItemForDebug.Instance.UpdatePassiveItemUI();
+        if (PassiveIds.Count < 25)
+        {
+            PassiveIds.Add(info.GetId());
+            PassiveItemSlot.Instance.UpdatePassiveItemUI();
+            PassiveItemForDebug.Instance.UpdatePassiveItemUI();
+        }
+        else
+        {
+            Debug.Log("패시브 아이템 꽉참");
+            return;
+        }
     }
     /// <summary> 효과 등록 </summary>
     /// <param name="itemUseEffect">효과 내용</param>
@@ -227,11 +234,36 @@ public class BuffManager : MonoBehaviour
     {
         Coroutine removeCoroutine = null;
 
+        switch (effectApplyType)
+        {
+            case EffectApplyType.BUFF:
+                buffEffects.Add(itemUseEffect);
+                buffEffectsLength += 1;
+                break;
+            case EffectApplyType.PASSIVE:
+                if (passiveEffectsLength <= 24)
+                {
+                    passiveEffects.Add(itemUseEffect);
+                    passiveEffectsLength += 1;
+                }
+                else
+                {
+                    Debug.Log("패시브 아이템 꽉참");
+                    return;
+                }
+                break;
+            case EffectApplyType.CONSUMABLE_BUFF:
+                ConsumableCharacterBuff consumableCharacterBuff
+                    = new ConsumableCharacterBuff(itemUseEffect as CharacterTargetEffect, effectiveTime, removeCoroutine);
+                consumableBuffs.Add(consumableCharacterBuff);
+                break;
+            default:
+                break;
+        }
+
         if (typeof(CharacterTargetEffect) == itemUseEffect.GetType())
         {
             CharacterTargetEffect targetEffect = itemUseEffect as CharacterTargetEffect;
-            //characterTargetEffects.Add(targetEffect);
-            //characterTargetEffectsLength += 1;
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
             if (effectiveTime > 0)
             {
@@ -265,26 +297,6 @@ public class BuffManager : MonoBehaviour
             UpdateTargetEffectTotal(targetEffect, TargetEffectTotalUpdateType.REGISTER);
             if (effectiveTime > 0)
                 StartCoroutine(RemoveBuffEffect(targetEffect, effectiveTime));
-        }
-
-        switch (effectApplyType)
-        {
-            case EffectApplyType.BUFF:
-                buffEffects.Add(itemUseEffect);
-                buffEffectsLength += 1;
-                break;
-            case EffectApplyType.PASSIVE:
-                passiveEffects.Add(itemUseEffect);
-
-                passiveEffectsLength += 1;
-                break;
-            case EffectApplyType.CONSUMABLE_BUFF:
-                ConsumableCharacterBuff consumableCharacterBuff
-                    = new ConsumableCharacterBuff(itemUseEffect as CharacterTargetEffect, effectiveTime, removeCoroutine);
-                consumableBuffs.Add(consumableCharacterBuff);
-                break;
-            default:
-                break;
         }
     }
 

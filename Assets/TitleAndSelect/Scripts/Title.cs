@@ -10,7 +10,11 @@ public class Title : MonoBehaviour
     }
     private void Start()
     {
-        AudioManager.Instance.PlayMusic(0);
+        int a = Random.Range(0, 2);
+        if(a == 0)
+            AudioManager.Instance.PlayMusic(0);
+        else
+            AudioManager.Instance.PlayMusic(8);
     }
 }
 
