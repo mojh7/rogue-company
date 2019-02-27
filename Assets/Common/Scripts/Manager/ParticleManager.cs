@@ -87,14 +87,17 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
 
 
     // func for mo
-    public ParticleSystem PlayBulletParticle(string str, Vector2 pos, Transform parent)
+    public ParticleSystem PlayBulletParticle(string str, Vector2 pos, Transform parent, Vector3 rotation)
     {
         ParticleSystem particle = ParticlePool.Instance.GetAvailabeParticle(str);
         if (particle == null)
             return null;
+        Debug.Log(particle.gameObject.transform.localRotation);
         particle.gameObject.transform.position = pos;
         particle.gameObject.transform.parent = parent;
         particle.gameObject.transform.localScale = one;
+        Debug.Log(particle.gameObject.transform.localRotation);
+        particle.gameObject.transform.localRotation = Quaternion.Euler(rotation);
         particle.Play();
         return particle;   
     }

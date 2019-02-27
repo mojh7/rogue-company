@@ -432,7 +432,7 @@ public class Bullet : MonoBehaviour
 
         if (BulletParticleType.NONE != info.bulletParticleType)
         {
-            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform);
+            bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation);
         }
 
         if (info.isRandomSpeed)

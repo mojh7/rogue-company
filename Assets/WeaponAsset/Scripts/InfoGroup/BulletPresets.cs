@@ -30,6 +30,7 @@ public class BulletParticlePresetInfo
     public BulletParticleType presetType;
     public BulletImpactType bulletImpactType;
     public ColliderType colliderType;
+    public Vector3 startRotation;
     public float autoSizeRatio = 1f;
     public Vector2 manualSize;
     public Vector2 colliderOffset;

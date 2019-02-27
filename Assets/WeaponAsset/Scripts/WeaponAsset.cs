@@ -58,7 +58,7 @@ namespace WeaponAsset
         BulletRed, BulletYellow, BulletGreen, BulletBlue, BulletPurple, BulletModular,
         SparkleMissileRed, SparkleMissileYellow, SparkleMissileGreen, SparkleMissileBlue, SparkleMissilePurple, SparkleMissileModular,
         SymbolMissileRed, SymbolMissileYellow, SymbolMissileGreen, SymbolMissileBlue, SymbolMissilePurple, SymbolMissileModular,
-        LaserRed, LaserYellow, LaserGreen, LaserBlue, LaserPurple, LaserModular,
+        LaserRed, LaserYellow, LaserGreen, LaserBlue, LaserPurple, LaserModular, SlashBlue
     }
     public enum ImpactParticleType { NONE, BASIC }
     public enum TrailParticleType { NONE, BASIC }
