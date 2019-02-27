@@ -435,10 +435,12 @@ public class Bullet : MonoBehaviour
         {
             if (-90 <= startDirDegree && startDirDegree < 90)
             {
+                Debug.Log("1 : " + startDirDegree);
                 bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation, true);
             }
             else
             {
+                Debug.Log("2 : " + startDirDegree);
                 bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation, false);
             }            
         }
