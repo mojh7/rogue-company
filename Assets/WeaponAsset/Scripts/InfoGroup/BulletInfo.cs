@@ -123,8 +123,6 @@ public class BulletInfo : ScriptableObject
     [Header("회전 각 max, -1일 경우 계속 회전")]
     public float angleOfSpriteRotationMax;
 
-    [Header("particle 적용 유무")]
-    public bool showsParticle;
     [Header("각도(rotation) 고정 유무")]
     public bool isFixedAngle;
     [Header("넉백 방향 True : position 차이 기반, False : Bullet direction 기반")]
@@ -247,7 +245,6 @@ public class BulletInfo : ScriptableObject
         showsRotationAnimation = false;
         angleOfSpriteRotationPerSecond = 360f;
         angleOfSpriteRotationMax = -1;
-        showsParticle = false;
         isFixedAngle = false;
 
         bounceAble = false;
@@ -327,7 +324,6 @@ public class BulletInfo : ScriptableObject
         clonedInfo.showsRotationAnimation = showsRotationAnimation;
         clonedInfo.angleOfSpriteRotationPerSecond = angleOfSpriteRotationPerSecond;
         clonedInfo.angleOfSpriteRotationMax = angleOfSpriteRotationMax;
-        clonedInfo.showsParticle = showsParticle;
         clonedInfo.isFixedAngle = isFixedAngle;
         clonedInfo.positionBasedKnockBack = positionBasedKnockBack;
 

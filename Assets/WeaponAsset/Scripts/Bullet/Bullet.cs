@@ -39,7 +39,6 @@ public class Bullet : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteAniRenderer;
     [SerializeField] private SpriteRenderer spriteRenderer;
     private Animator animator;
-    [SerializeField] private GameObject paticleObj;
 
     [SerializeField] private GameObject laserViewObj;
     [SerializeField] private Transform laserStartPoint;
@@ -254,7 +253,6 @@ public class Bullet : MonoBehaviour
         SetColliderActive(false);
         lineRenderer.enabled = true;
 
-        paticleObj.SetActive(false);
         lineRenderer.startColor = Color.blue;
         lineRenderer.endColor = Color.cyan;
         lineRenderer.startWidth = info.laserSize;
@@ -475,9 +473,6 @@ public class Bullet : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(info.soundId, SOUNDTYPE.WEAPON);
         }
-
-        // 파티클이 포함되어있는 오브젝트 on/ off
-        paticleObj.SetActive(info.showsParticle);
 
         if (true == info.canBlockBullet)
         {

@@ -97,6 +97,8 @@ public class ParticleManager : MonoBehaviourSingleton<ParticleManager> {
         particle.gameObject.transform.localScale = one;
         if(canStartRotation)
             particle.gameObject.transform.localRotation = Quaternion.Euler(rotation);
+        else
+            particle.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
         particle.Play();
         return particle;   
     }
