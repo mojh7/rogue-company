@@ -320,8 +320,6 @@ public class Weapon : Item
             weaponState = WeaponState.Attack;
             if (AttackType.MELEE == attackType && false == PlayerManager.Instance.GetPlayer().IsNotConsumeStamina)
                 Stamina.Instance.ConsumeStamina(info.staminaConsumption);
-            Debug.Log(isFullCharged);
-            Debug.Log(info.canSpecialPatternWhenFullyCharged);
             if (isFullCharged && info.canSpecialPatternWhenFullyCharged)
                 StartCoroutine(PatternCycleWhenFullCharged(damageIncreaseRate));
             else

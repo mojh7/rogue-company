@@ -278,15 +278,15 @@ public class WeaponManager : MonoBehaviour
                 {
                     Debug.Log(DebugSetting.Instance.weaponEquipType);
                     weaponCountMax = 3;
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 18)) as Weapon;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(0, 19)) as Weapon;
                     equippedWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(18, 36)) as Weapon;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(19, 38)) as Weapon;
                     equippedWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);
-                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(36, 53)) as Weapon;
+                    weapon = ObjectPoolManager.Instance.CreateWeapon(Random.Range(38, 57)) as Weapon;
                     equippedWeaponSlot.Add(weapon);
                     weapon.ObjTransform.SetParent(registerPoint, false);
                     weapon.RegisterWeapon(this);

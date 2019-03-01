@@ -12,6 +12,11 @@ public class InGame : MonoBehaviour
 
     private void Start()
     {
+        int a = Random.Range(0, 2);
+        if (a == 0)
             AudioManager.Instance.PlayMusic(4);
+        else
+            AudioManager.Instance.PlayMusic(9);
+        //AudioManager.Instance.PlayMusic(4);
     }
 }

@@ -319,7 +319,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                 case WeaponType.SHOTGUN:
                 case WeaponType.MACHINEGUN:
                 case WeaponType.SNIPER_RIFLE:
-                    mainWeaponInfos[i].showsMuzzleFlash = true;
+                    //mainWeaponInfos[i].showsMuzzleFlash = true;
                     break;
                 case WeaponType.LASER:
                     //mainWeaponInfos[i].cooldown = 0f;
@@ -327,7 +327,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
                     mainWeaponInfos[i].cameraShakeTime = 0f;
                     break;
                 default:
-                    mainWeaponInfos[i].showsMuzzleFlash = false;
+                    //mainWeaponInfos[i].showsMuzzleFlash = false;
                     break;
             }
 
