@@ -86,12 +86,15 @@ public class WeaponInfo : ScriptableObject
 
     [Header("공격 한 번에 n번 Cycle 실행")]
     public int cycleRepetitionCount = 1;
-    // edit용 총알 패턴 정보
+    [Header("기본 공격 pattern cycle")]
     public BulletPatternEditInfo[] bulletPatternEditInfos; // 패턴 종류, 해당 패턴 id
-    // 총알 패턴 정보
-    public List<BulletPattern> bulletPatterns; // 패턴 종류, 해당 패턴 id
-    [HideInInspector]
-    public int bulletPatternsLength;
+    public BulletPattern[] bulletPatterns; // 패턴 종류, 해당 패턴 id
+
+    [Header("풀 차징 공격 pattern cycle")]
+    public bool canSpecialPatternWhenFullyCharged;
+    public BulletPatternEditInfo[] bulletPatternEditInfosWhenFullyCharged;
+    public BulletPattern[] bulletPatternsWhenFullyCharged;
+
 
     public WeaponInfo()
     {
@@ -151,14 +154,20 @@ public class WeaponInfo : ScriptableObject
         clonedInfo.additionalVerticalPos = additionalVerticalPos;
 
         clonedInfo.cycleRepetitionCount = cycleRepetitionCount; 
-        clonedInfo.bulletPatterns = new List<BulletPattern>();
-        clonedInfo.bulletPatternsLength = bulletPatternsLength;
 
-        for (int i = 0; i < clonedInfo.bulletPatternsLength; i++)
+        clonedInfo.bulletPatterns = new BulletPattern[bulletPatternEditInfos.Length];
+        clonedInfo.canSpecialPatternWhenFullyCharged = canSpecialPatternWhenFullyCharged;
+        clonedInfo.bulletPatternsWhenFullyCharged = new BulletPattern[bulletPatternEditInfosWhenFullyCharged.Length];
+
+        for (int i = 0; i < clonedInfo.bulletPatterns.Length; i++)
         {
-            clonedInfo.bulletPatterns.Add(bulletPatterns[i].Clone());
+            clonedInfo.bulletPatterns[i] = bulletPatterns[i].Clone();
         }
 
+        for (int i = 0; i < clonedInfo.bulletPatternsWhenFullyCharged.Length; i++)
+        {
+            clonedInfo.bulletPatternsWhenFullyCharged[i] = bulletPatternsWhenFullyCharged[i].Clone();
+        }
         return clonedInfo;
     }
 
@@ -175,11 +184,16 @@ public class WeaponInfo : ScriptableObject
         // bulletPatternEditInfo를 토대로 실제 원래의 bulletPatterns 만들기, 각각 info마다 다운캐스팅으로 매개변수 넣어줌
         muzzleFlashName = muzzleFlashType.ToString();
 
-        bulletPatternsLength = bulletPatternEditInfos.Length;
-        bulletPatterns = new List<BulletPattern>();
-        for(int i = 0; i < bulletPatternsLength; i++)
+        bulletPatterns = new BulletPattern[bulletPatternEditInfos.Length];
+        for(int i = 0; i < bulletPatterns.Length; i++)
         {
-            bulletPatterns.Add(BulletPatternInfo.CreatePatternInfo(bulletPatternEditInfos[i], ownerType).Clone());
+            bulletPatterns[i] = BulletPatternInfo.CreatePatternInfo(bulletPatternEditInfos[i], ownerType).Clone();
+        }
+
+        bulletPatternsWhenFullyCharged = new BulletPattern[bulletPatternEditInfosWhenFullyCharged.Length];
+        for (int i = 0; i < bulletPatternsWhenFullyCharged.Length; i++)
+        {
+            bulletPatternsWhenFullyCharged[i] = BulletPatternInfo.CreatePatternInfo(bulletPatternEditInfosWhenFullyCharged[i], ownerType).Clone();
         }
     }
 

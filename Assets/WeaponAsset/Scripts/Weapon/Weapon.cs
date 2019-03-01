@@ -49,6 +49,7 @@ public class Weapon : Item
     private WeaponTargetEffect totalInfo;
     private WeaponTargetEffect effectInfo;
 
+    private bool isFullCharged;
     [SerializeField] protected int weaponId;
 
 
@@ -74,6 +75,17 @@ public class Weapon : Item
     public Vector3 GetSubWeaponDirVec() { return Vector3.right.RotateRadians(satelliteAngle); }
     
     public Vector3 GetScale() { return new Vector3(info.scaleX, info.scaleY, 1f); }
+    public Vector3 GetMuzzlePos()
+    {
+        if (-90 <= ownerDirDegree() && ownerDirDegree() < 90)
+        {
+            return ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), 90) * info.additionalVerticalPos;
+        }
+        else
+        {
+            return ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), -90) * info.additionalVerticalPos;
+        }
+    }
     #endregion
 
     #region unityFunc
@@ -169,6 +181,18 @@ public class Weapon : Item
         //무기 습득에 쓸거같음
     }
 
+    private void InitBulletPattern()
+    {
+        for (int i = 0; i < info.bulletPatterns.Length; i++)
+        {
+            info.bulletPatterns[i].Init(this);
+        }
+        for (int i = 0; i < info.bulletPatternsWhenFullyCharged.Length; i++)
+        {
+            info.bulletPatternsWhenFullyCharged[i].Init(this);
+        }
+    }
+
     /// <summary> weaponManager에 처음 등록될 때 onwer 정보 얻어오고 bulletPattern 정보 초기화 </summary>
     public void RegisterWeapon(WeaponManager weaponManager)
     {
@@ -194,11 +218,7 @@ public class Weapon : Item
         totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)info.weaponType];
 
-        // 공격 패턴(bulletPattern) 초기화
-        for (int i = 0; i < info.bulletPatternsLength; i++)
-        {
-            info.bulletPatterns[i].Init(this);
-        }
+        InitBulletPattern();
     }
     
     public void RegisterSubWeapon(WeaponManager weaponManager)
@@ -227,11 +247,7 @@ public class Weapon : Item
         totalInfo = ownerBuff.WeaponTargetEffectTotal[0];
         effectInfo = ownerBuff.WeaponTargetEffectTotal[(int)info.weaponType];
 
-        // 공격 패턴(bulletPattern) 초기화
-        for (int i = 0; i < info.bulletPatternsLength; i++)
-        {
-            info.bulletPatterns[i].Init(this);
-        }        
+        InitBulletPattern();
         AutoMoving();
     }
 
@@ -265,6 +281,8 @@ public class Weapon : Item
         return true;
     }
 
+    #region attack func
+
     // startAttack -> attack
     public void StartAttack()
     {
@@ -281,6 +299,7 @@ public class Weapon : Item
                     //Debug.Log("총알 혹은 스테미너 부족으로 인한 차징 공격 실패");
                     return;
                 }
+                isFullCharged = false;
                 UpdateWeaponBuff();
                 weaponState = WeaponState.Charge;
                 // 차징 코루틴 실행
@@ -301,7 +320,12 @@ public class Weapon : Item
             weaponState = WeaponState.Attack;
             if (AttackType.MELEE == attackType && false == PlayerManager.Instance.GetPlayer().IsNotConsumeStamina)
                 Stamina.Instance.ConsumeStamina(info.staminaConsumption);
-            StartCoroutine(PatternCycle(damageIncreaseRate));
+            Debug.Log(isFullCharged);
+            Debug.Log(info.canSpecialPatternWhenFullyCharged);
+            if (isFullCharged && info.canSpecialPatternWhenFullyCharged)
+                StartCoroutine(PatternCycleWhenFullCharged(damageIncreaseRate));
+            else
+                StartCoroutine(PatternCycle(damageIncreaseRate));
         }
         else
         {
@@ -320,7 +344,7 @@ public class Weapon : Item
     {
         if (info.touchMode == TouchMode.NORMAL)
         {
-            for (int i = 0; i < info.bulletPatternsLength; i++)
+            for (int i = 0; i < info.bulletPatterns.Length; i++)
             {
                 info.bulletPatterns[i].StopAttack();
             }
@@ -354,6 +378,8 @@ public class Weapon : Item
         StartCoroutine(ReloadTime());
     }
 
+
+    #endregion
     /// <summary> 공격 애니메이션 play </summary>
     public void PlayAttackAnimation()
     {        
@@ -406,17 +432,7 @@ public class Weapon : Item
         }
     }
 
-    public Vector3 GetMuzzlePos()
-    {
-        if (-90 <= ownerDirDegree() && ownerDirDegree() < 90)
-        {
-            return ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), 90) * info.additionalVerticalPos;
-        }
-        else
-        {
-            return ownerPos() + ownerDirVec() * info.addDirVecMagnitude + MathCalculator.VectorRotate(ownerDirVec(), -90) * info.additionalVerticalPos;
-        }
-    }
+    
     #endregion
 
     #region SubWeaponFunc
@@ -483,7 +499,7 @@ public class Weapon : Item
                 }*/
             }
             // Pattern cycle 실행
-            for (int j = 0; j < info.bulletPatternsLength; j++)
+            for (int j = 0; j < info.bulletPatterns.Length; j++)
             {
                 for (int k = 0; k < info.bulletPatterns[j].GetExeuctionCount(); k++)
                 {
@@ -524,10 +540,92 @@ public class Weapon : Item
                 }
             }
         }
-        for (int i = 0; i < info.bulletPatternsLength; i++)
+        for (int i = 0; i < info.bulletPatterns.Length; i++)
         {
             //info.bulletPatterns[i].InitAdditionalAngle();
             info.bulletPatterns[i].InitAdditionalVariables();
+        }
+
+        if (WeaponType.LASER != info.weaponType)
+        {
+            Reload();
+        }
+        else
+        {
+            weaponState = WeaponState.Idle;
+        }
+    }
+
+    private IEnumerator PatternCycleWhenFullCharged(float damageIncreaseRate)
+    {
+        // 총구 위치 보기용 for Debug
+        if (OwnerType.PLAYER == ownerType)
+        {
+            if (DebugSetting.Instance.showsMuzzlePos)
+                PlayerManager.Instance.GetPlayer().UpdateMuzzlePosition(GetMuzzlePos(), true);
+            else
+                PlayerManager.Instance.GetPlayer().UpdateMuzzlePosition(Vector3.zero, false);
+        }
+
+        PlayAttackAnimation();
+        if (0 < info.castingTime)
+        {
+            yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
+        }
+
+        // 공격 한 번 실행. (pattern cycle n번 실행)
+        for (int i = 0; i < info.cycleRepetitionCount; i++)
+        {
+            if (0 < i)
+            {
+                PlayAttackAnimation();
+            }
+            // Pattern cycle 실행
+            for (int j = 0; j < info.bulletPatternsWhenFullyCharged.Length; j++)
+            {
+                for (int k = 0; k < info.bulletPatternsWhenFullyCharged[j].GetExeuctionCount(); k++)
+                {
+                    if (OwnerType.ENEMY == ownerType)
+                    {
+                        if (false == enemy.GetIsAcitveAttack())
+                        {
+                            //Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
+                            Reload();
+                            yield break;
+                        }
+                    }
+                    if (false == HasCostForAttack() && AttackType.RANGED == attackType)
+                    {
+                        //Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
+                        Reload();
+                        yield break;
+                    }
+
+                    ShowMuzzleFlash();
+                    //공격 사운드 실행
+                    if (-1 != info.soundId)
+                    {
+                        AudioManager.Instance.PlaySound(info.soundId, SOUNDTYPE.WEAPON);
+                    }
+                    else if ("NONE" != info.soundName && "" != info.soundName)
+                    {
+                        AudioManager.Instance.PlaySound(info.soundName, SOUNDTYPE.WEAPON);
+                    }
+                    CameraController.Instance.Shake(info.cameraShakeAmount, info.cameraShakeTime);
+                    info.bulletPatternsWhenFullyCharged[j].StartAttack(damageIncreaseRate, ownerType);
+                    //info.bulletPatterns[j].IncreaseAdditionalAngle();
+                    info.bulletPatternsWhenFullyCharged[j].CalcAdditionalValuePerExecution();
+                    if (0 < info.bulletPatternsWhenFullyCharged[j].GetDelay())
+                    {
+                        yield return YieldInstructionCache.WaitForSeconds(info.bulletPatternsWhenFullyCharged[j].GetDelay());
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < info.bulletPatternsWhenFullyCharged.Length; i++)
+        {
+            //info.bulletPatterns[i].InitAdditionalAngle();
+            info.bulletPatternsWhenFullyCharged[i].InitAdditionalVariables();
         }
 
         if (WeaponType.LASER != info.weaponType)
@@ -565,6 +663,7 @@ public class Weapon : Item
             chargedTime += Time.fixedDeltaTime * chargingSpeed;
             weaponManager.UpdateChargingUI(chargedTime / info.chargeTimeMax);
         }
+        isFullCharged = true;
         chargedTime = info.chargeTimeMax;
         weaponManager.UpdateChargingUI(chargedTime / info.chargeTimeMax);
     }
