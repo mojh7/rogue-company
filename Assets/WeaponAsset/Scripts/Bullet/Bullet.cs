@@ -433,12 +433,12 @@ public class Bullet : MonoBehaviour
         {
             if (-90 <= startDirDegree && startDirDegree < 90)
             {
-                Debug.Log("1 : " + startDirDegree);
+                //Debug.Log("1 : " + startDirDegree);
                 bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation, true);
             }
             else
             {
-                Debug.Log("2 : " + startDirDegree);
+                //Debug.Log("2 : " + startDirDegree);
                 bulletParticle = ParticleManager.Instance.PlayBulletParticle(info.bulletParticleType.ToString(), objTransform.position, objTransform, bulletParticlePresetInfo.startRotation, false);
             }            
         }
@@ -866,6 +866,14 @@ public class Bullet : MonoBehaviour
 
     public void ActivateTrailRenderer()
     {
+        if(info.isTrailUnderSprite)
+        {
+            spriteRenderer.sortingOrder = 1;
+        }
+        else
+        {
+            spriteRenderer.sortingOrder = 0;
+        }
         if (info.canActivateTrailRenderer)
         {
             trailRenderer = TrailRendererManager.Instance.ActivateTrailRenderer(info.trailRendererInfo, transform);

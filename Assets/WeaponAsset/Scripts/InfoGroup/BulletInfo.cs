@@ -77,7 +77,7 @@ public class BulletInfo : ScriptableObject
     public bool isRandomSpeed;
     public float speedRandomMinRatio;
     public float speedRandomMaxRatio;
-    public float range;         // 사정거리
+    public float range;
     public float scaleX;
     public float scaleY;
 
@@ -86,6 +86,7 @@ public class BulletInfo : ScriptableObject
     public AnimationCurve laserDirCurve;
 
     public bool canActivateTrailRenderer;
+    public bool isTrailUnderSprite;
     public TrailRendererInfo trailRendererInfo;
 
     public int pierceCount;
@@ -98,8 +99,6 @@ public class BulletInfo : ScriptableObject
     public bool isRandomLifeTime;
     public float lifeTimeRandomMinRatio;
     public float lifeTimeRandomMaxRatio;
-
-
 
     [Tooltip("총알 생성 시 발생 소리, 0이상 이면 적용")]
     public int soundId;
@@ -300,6 +299,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.laserDirCurve = laserDirCurve;
 
         clonedInfo.canActivateTrailRenderer = canActivateTrailRenderer;
+        clonedInfo.isTrailUnderSprite = isTrailUnderSprite;
         clonedInfo.trailRendererInfo = trailRendererInfo;
         clonedInfo.pierceCount = pierceCount;
         clonedInfo.bounceAble = bounceAble;
