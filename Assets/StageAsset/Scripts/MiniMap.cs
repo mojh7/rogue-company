@@ -450,7 +450,10 @@ public class MiniMap : MonoBehaviourSingleton<MiniMap>
     public void SetFloorText()
     {
         int floor = GameDataManager.Instance.GetFloor();
-       
+        if (RoomSetManager.Instance.FloorRoomSetGroups.Length <= floor)
+        {
+            floor = RoomSetManager.Instance.FloorRoomSetGroups.Length - 1;
+        }
         floorT.text = RoomSetManager.Instance.FloorRoomSetGroups[floor].floorName;
     }
 
