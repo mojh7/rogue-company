@@ -278,12 +278,12 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         {
             ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition()), RoomType.BOSS);
             ItemManager.Instance.DropKey(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Vector3.right));
-            for (int i = 0; i < currentRoom.customObjects.Length; i++)
+        }
+        for (int i = 0; i < currentRoom.customObjects.Length; i++)
+        {
+            if (currentRoom.customObjects[i].GetComponent<Portal>() != null)
             {
-                if (currentRoom.customObjects[i].GetComponent<Portal>() != null)
-                {
-                    currentRoom.customObjects[i].GetComponent<Portal>().Possible();
-                }
+                currentRoom.customObjects[i].GetComponent<Portal>().Possible();
             }
         }
         NeignborDraw(currentRoom);
