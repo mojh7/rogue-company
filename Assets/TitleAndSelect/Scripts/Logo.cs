@@ -17,7 +17,7 @@ public class Logo : MonoBehaviourSingleton<Logo>
         GameDataManager.Instance.LoadInitialUserData();
         GameDataManager.Instance.LoadInitialSettingData();
         LoadLogo();
-        AudioManager.Instance.PlaySound("BRIDGE_OPENING_SOUND", SOUNDTYPE.UI);
+        AudioManager.Instance.PlaySound("bridgeOpeningSound", SOUNDTYPE.UI);
         GameStateManager.Instance.SetGameScene(GameStateManager.GameScene.LOGO);
     }
 
