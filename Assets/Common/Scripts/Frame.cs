@@ -20,6 +20,9 @@ public class Frame : MonoBehaviourSingleton<Frame>
 
     public void CreateRandomWeapon()
     {
+        UsableItem usableItem = ObjectPoolManager.Instance.CreateUsableItem();
+        usableItem.Init(itemInfo1);
+        ItemManager.Instance.CreateItem(usableItem, PlayerManager.Instance.GetPlayerPosition());
         ItemManager.Instance.CallItemBox(PlayerManager.Instance.GetPlayerPosition(), RoomType.BOSS);
     }
 
