@@ -170,8 +170,9 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.LeftShift))
             Evade();
         ChargeSkill();
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(bodyTransform.position.y * 100);
 #endif
+
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(bodyTransform.position.y * 100);
         if (isEvade)
             return;
         if (-90 <= directionDegree && directionDegree < 90)
