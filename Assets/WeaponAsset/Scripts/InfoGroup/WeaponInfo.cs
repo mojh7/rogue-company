@@ -190,10 +190,13 @@ public class WeaponInfo : ScriptableObject
             bulletPatterns[i] = BulletPatternInfo.CreatePatternInfo(bulletPatternEditInfos[i], ownerType).Clone();
         }
 
-        bulletPatternsWhenFullyCharged = new BulletPattern[bulletPatternEditInfosWhenFullyCharged.Length];
-        for (int i = 0; i < bulletPatternsWhenFullyCharged.Length; i++)
+        if(0 < bulletPatternEditInfosWhenFullyCharged.Length)
         {
-            bulletPatternsWhenFullyCharged[i] = BulletPatternInfo.CreatePatternInfo(bulletPatternEditInfosWhenFullyCharged[i], ownerType).Clone();
+            bulletPatternsWhenFullyCharged = new BulletPattern[bulletPatternEditInfosWhenFullyCharged.Length];
+            for (int i = 0; i < bulletPatternsWhenFullyCharged.Length; i++)
+            {
+                bulletPatternsWhenFullyCharged[i] = BulletPatternInfo.CreatePatternInfo(bulletPatternEditInfosWhenFullyCharged[i], ownerType).Clone();
+            }
         }
     }
 
