@@ -172,7 +172,7 @@ public class BuffManager : MonoBehaviour
 
             // 곱 옵션 - 곱 연산
             decreaseDamageAfterPierceReduction = 1f,
-            cooldownReduction = 1f,
+            cooldownDecrease = 1f,
             accuracyIncrement = 1f,
 
             ammoCapacityIncrement = 0,
@@ -191,7 +191,7 @@ public class BuffManager : MonoBehaviour
             WeaponTargetEffectTotal[i] = new WeaponTargetEffect()
             {
                 decreaseDamageAfterPierceReduction = 1f,
-                cooldownReduction = 1f,
+                cooldownDecrease = 1f,
                 accuracyIncrement = 1f
             };
         }
@@ -513,14 +513,14 @@ public class BuffManager : MonoBehaviour
             if (1 == sign)
             {
                 WeaponTargetEffectTotal[index].decreaseDamageAfterPierceReduction *= (1.0f - targetEffect.decreaseDamageAfterPierceReduction);
-                WeaponTargetEffectTotal[index].cooldownReduction *= (1.0f - targetEffect.cooldownReduction);
+                WeaponTargetEffectTotal[index].cooldownDecrease *= (1.0f - targetEffect.cooldownDecrease);
                 WeaponTargetEffectTotal[index].accuracyIncrement *= (1.0f - targetEffect.accuracyIncrement);
                 // WeaponTargetEffectTotal[index] *= (1.0f - targetEffect);
             }
             else
             {
                 WeaponTargetEffectTotal[index].decreaseDamageAfterPierceReduction /= (1.0f - targetEffect.decreaseDamageAfterPierceReduction);
-                WeaponTargetEffectTotal[index].cooldownReduction /= (1.0f - targetEffect.cooldownReduction);
+                WeaponTargetEffectTotal[index].cooldownDecrease /= (1.0f - targetEffect.cooldownDecrease);
                 WeaponTargetEffectTotal[index].accuracyIncrement /= (1.0f - targetEffect.accuracyIncrement);
                 // WeaponTargetEffectTotal[index] /= (1.0f - targetEffect);
             }

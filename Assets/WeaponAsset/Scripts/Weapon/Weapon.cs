@@ -49,6 +49,9 @@ public class Weapon : Item
     private WeaponTargetEffect totalInfo;
     private WeaponTargetEffect effectInfo;
 
+    private float cooldownDecrease = 1f;
+    private float aniSpeed = 1f;
+
     private bool isFullCharged;
     [SerializeField] protected int weaponId;
 
@@ -390,8 +393,12 @@ public class Weapon : Item
 
     public void UpdateWeaponBuff()
     {
-        // 공격 속도 증가 
-        info.cooldown = originInfo.cooldown * totalInfo.cooldownReduction * effectInfo.cooldownReduction;
+        cooldownDecrease = totalInfo.cooldownDecrease * effectInfo.cooldownDecrease;
+        aniSpeed = 1f / cooldownDecrease;
+        // 재사용 대기 시간 감소 
+        info.cooldown = originInfo.cooldown * cooldownDecrease;
+        animator.speed = aniSpeed;
+
         // 차징 속도 증가
         chargingSpeed = 1f * (totalInfo.chargingSpeedIncrement + effectInfo.chargingSpeedIncrement);
         // 차징 데미지 증가
@@ -482,7 +489,7 @@ public class Weapon : Item
         PlayAttackAnimation();
         if (0 < info.castingTime)
         {
-            yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
+            yield return YieldInstructionCache.WaitForSeconds(info.castingTime * cooldownDecrease);
         }
 
         // 공격 한 번 실행. (pattern cycle n번 실행)
@@ -533,7 +540,7 @@ public class Weapon : Item
                     info.bulletPatterns[j].CalcAdditionalValuePerExecution();
                     if (0 < info.bulletPatterns[j].GetDelay())
                     {
-                        yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[j].GetDelay());
+                        yield return YieldInstructionCache.WaitForSeconds(info.bulletPatterns[j].GetDelay() * cooldownDecrease);
                     }
                 }
             }
@@ -568,7 +575,7 @@ public class Weapon : Item
         PlayAttackAnimation();
         if (0 < info.castingTime)
         {
-            yield return YieldInstructionCache.WaitForSeconds(info.castingTime);
+            yield return YieldInstructionCache.WaitForSeconds(info.castingTime * cooldownDecrease);
         }
 
         // 공격 한 번 실행. (pattern cycle n번 실행)
@@ -587,14 +594,12 @@ public class Weapon : Item
                     {
                         if (false == enemy.GetIsAcitveAttack())
                         {
-                            //Debug.Log("공격 AI stop으로 인한 공격 사이클 멈춤");
                             Reload();
                             yield break;
                         }
                     }
                     if (false == HasCostForAttack() && AttackType.RANGED == attackType)
                     {
-                        //Debug.Log("공격 사이클 내에 총알 부족으로 인한 공격 멈춤");
                         Reload();
                         yield break;
                     }

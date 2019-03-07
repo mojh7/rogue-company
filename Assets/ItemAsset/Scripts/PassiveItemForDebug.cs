@@ -193,7 +193,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             "8.bulletSpeedIncrement\n" +
             
             "1.decreaseDamageAfterPierceReduction\n" +
-            "2.cooldownReduction\n" +
+            "2.cooldownDecrease\n" +
             "3.accuracyIncrement\n" +
 
             "1.increasePierceCount\n" +
@@ -248,7 +248,7 @@ public class PassiveItemForDebug : MonoBehaviourSingleton<PassiveItemForDebug>
             weaponTotal.bulletSpeedIncrement + "\n" +
 
             weaponTotal.decreaseDamageAfterPierceReduction + "\n" +
-            weaponTotal.cooldownReduction + "\n" +
+            weaponTotal.cooldownDecrease + "\n" +
             weaponTotal.accuracyIncrement + "\n" +
 
             weaponTotal.increasePierceCount + "\n" +
