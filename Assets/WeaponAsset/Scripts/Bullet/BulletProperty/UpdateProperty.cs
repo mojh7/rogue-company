@@ -35,6 +35,15 @@ public abstract class UpdateProperty : BulletProperty
     protected float lifeTime;
     public abstract UpdateProperty Clone();
     public abstract void Update();
+
+    protected void CheckBulletLifeTime(float timeCount)
+    {
+        if(timeCount >= bullet.info.lifeTime)
+        {
+            bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.TIME_LIMIT);
+            delDestroyBullet();
+        }
+    }
 }
 
 /// <summary>
@@ -85,7 +94,7 @@ public class StraightMoveProperty : UpdateProperty
         }
         if (timeCount >= lifeTime)
         {
-            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
+            bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
         timeCount += Time.fixedDeltaTime;
@@ -191,18 +200,8 @@ public class AccelerationMotionProperty : UpdateProperty
             }
         }
 
-        //distance += moveSpeed * Time.fixedDeltaTime;
-        // 사정거리 넘어가면 delete 속성 실행
-        /*if (distance >= range)
-        {
-            delDestroyBullet();
-        }*/
         timeCount += Time.fixedDeltaTime;
-        if (timeCount >= lifeTime)
-        {
-            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
-            delDestroyBullet();
-        }
+        CheckBulletLifeTime(timeCount);
     }
 }
 
@@ -221,7 +220,6 @@ public class LaserUpdateProperty : UpdateProperty
     private int layerMask;
     private Vector3 pos;
     private Vector2 laserSize;
-    private bool AttackAble;
 
     private float timeForCollision;
 
@@ -393,16 +391,6 @@ public class HomingProperty : UpdateProperty
         timeCount = 0;
         homingStartTime = bullet.info.homingStartTime;
         homingEndTime = bullet.info.homingEndTime;
-
-        if (bullet.info.speed != 0)
-        {
-            lifeTime = bullet.info.range / bullet.info.speed;
-        }
-        else
-        {
-            lifeTime = 10f;
-        }
-
     }
 
     public override UpdateProperty Clone()
@@ -417,14 +405,10 @@ public class HomingProperty : UpdateProperty
         {
             return;
         }
-        if (timeCount >= lifeTime)
-        {
-            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
-            delDestroyBullet();
-        }
+        CheckBulletLifeTime(timeCount);
 
         // owner 별로 유도 대상이 다름.
-        if(CharacterInfo.OwnerType.PLAYER == bullet.GetOwnerType())
+        if (CharacterInfo.OwnerType.PLAYER == bullet.GetOwnerType())
         {
             enemyTotal = EnemyManager.Instance.GetAliveEnemyTotal();
 
@@ -665,12 +649,8 @@ public class SpiralProperty : UpdateProperty
             }
             return;
         }
-        
-        if (timeCount >= lifeTime)
-        {
-            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
-            delDestroyBullet();
-        }
+
+        CheckBulletLifeTime(timeCount);
     }
 
     private void CalcRotateAngle()
@@ -729,12 +709,8 @@ public class RotationProperty : UpdateProperty
             timeCount += Time.fixedDeltaTime;
             durationTimeIndex += 1;
         }
-        
-        if (timeCount >= lifeTime)
-        {
-            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
-            delDestroyBullet();
-        }
+
+        CheckBulletLifeTime(timeCount);
     }
 }
 
@@ -841,7 +817,7 @@ public class ChildUpdateProperty : UpdateProperty
         timeCount += Time.fixedDeltaTime;
         if (timeCount >= lifeTime - Time.fixedDeltaTime)
         {
-            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
+            bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.TIME_LIMIT);
             delDestroyBullet();
         }
     }
@@ -866,10 +842,6 @@ public class SpeedCurveProperty : UpdateProperty
     {
         bullet.SetVelocity(bullet.info.speedCurve.Evaluate(timeCount));
         timeCount += Time.fixedDeltaTime;
-        if (timeCount >= lifeTime)
-        {
-            bullet.SetDeletedCondition(Bullet.DeletedCondition.TIME_LIMIT);
-            delDestroyBullet();
-        }
+        CheckBulletLifeTime(timeCount);
     }
 }

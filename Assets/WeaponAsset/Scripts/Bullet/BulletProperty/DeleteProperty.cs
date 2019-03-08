@@ -40,7 +40,7 @@ public abstract class DeleteProperty : BulletProperty
 
     protected void CreateImpact()
     {
-        if (WeaponAsset.BulletImpactType.NONE != bullet.info.bulletImpactType)
+        if (WeaponAsset.BulletImpactType.NONE != bullet.info.bulletImpactType && (bullet.GetDeletedCondition() & bullet.info.impactCondition) != 0)
         {
             ParticleManager.Instance.PlayParticle(bullet.info.bulletImpactType.ToString(), bulletTransform.position);
         }
@@ -48,7 +48,7 @@ public abstract class DeleteProperty : BulletProperty
 
     protected void ResetDeletedCondition()
     {
-        bullet.SetDeletedCondition(Bullet.DeletedCondition.ALIVE);
+        bullet.SetDeletedCondition(0x00000000);
     }
 
     protected void RemoveBulletParticle()
@@ -160,7 +160,7 @@ public class DeleteAfterSummonPatternProperty : DeleteProperty
     {
         base.DestroyBullet();
         CreateImpact();
-        if (Bullet.DeletedCondition.COLLISION_TARGET != bullet.GetDeletedCondition())
+        if (WeaponAsset.DeletedCondition.COLLISION_TARGET != bullet.GetDeletedCondition())
         {
             dirDegree = bullet.GetDirDegree();
             dirVec = bullet.GetDirVector();

@@ -57,6 +57,8 @@ public class BulletInfo : ScriptableObject
     public BulletPresetType bulletPresetType;
     public BulletParticleType bulletParticleType;
     public BulletImpactType bulletImpactType;
+    [EnumFlags]
+    public DeletedCondition impactCondition;
 
     public bool appliesCollisionByParticlePresets;
 
@@ -218,6 +220,7 @@ public class BulletInfo : ScriptableObject
     public void InitFieldValue()
     {
         ownerType = CharacterInfo.OwnerType.PLAYER;
+        impactCondition = (DeletedCondition)(-1);
 
         speedRandomMinRatio = 1f;
         speedRandomMaxRatio = 1f;
@@ -275,6 +278,7 @@ public class BulletInfo : ScriptableObject
         clonedInfo.bulletType = bulletType;
         clonedInfo.bulletPresetType = bulletPresetType;
         clonedInfo.bulletParticleType = bulletParticleType;
+        clonedInfo.impactCondition = impactCondition; 
         clonedInfo.appliesCollisionByParticlePresets = appliesCollisionByParticlePresets;
 
         clonedInfo.bulletName = bulletName;

@@ -94,6 +94,14 @@ namespace WeaponAsset
 
     public enum ColliderType { NONE, BEAM, AUTO_SIZE_BOX, AUTO_SIZE_CIRCLE, MANUAL_SIZE_BOX, MANUAL_SIZE_CIRCLE, MANUAL_SIZE_RHOMBUS, MANUAL_SIZE_TRIANGLE }
 
+    public enum DeletedCondition
+    {
+        //ALIVE = 0x00000000,
+        TIME_LIMIT = 0x00000001,
+        COLLISION_OBJECT = 0x00000002,
+        COLLISION_TARGET = 0x00000004
+    }
+
     public enum BulletAnimationType
     {
         NotPlaySpriteAnimation,

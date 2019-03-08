@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region variables
-    public enum DeletedCondition { ALIVE, TIME_LIMIT, COLLISION_OBJECT, COLLISION_TARGET }
+    
 
     public BulletInfo info;
     public Transform objTransform;
