@@ -9,6 +9,7 @@ TextureImporter:
     21300004: ppt_unSelected
     21300006: ppt_save_green_img
     21300008: ppt_save_blue_img
+    21300010: ppt_save_purple_img
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -140,12 +141,12 @@ TextureImporter:
       name: ppt_save_green_img
       rect:
         serializedVersion: 2
-        x: 20
+        x: 19
         y: 33
         width: 15
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -154,7 +155,21 @@ TextureImporter:
       name: ppt_save_blue_img
       rect:
         serializedVersion: 2
-        x: 36
+        x: 35
+        y: 33
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ppt_save_purple_img
+      rect:
+        serializedVersion: 2
+        x: 51
         y: 33
         width: 15
         height: 15
