@@ -32,6 +32,8 @@ using WeaponAsset;
 
 public abstract class DeleteProperty : BulletProperty
 {
+    private const int NOTHING = 0;
+
     public abstract DeleteProperty Clone();
     public virtual void DestroyBullet()
     {
@@ -40,7 +42,7 @@ public abstract class DeleteProperty : BulletProperty
 
     protected void CreateImpact()
     {
-        if (WeaponAsset.BulletImpactType.NONE != bullet.info.bulletImpactType && (bullet.GetDeletedCondition() & bullet.info.impactCondition) != 0)
+        if (WeaponAsset.BulletImpactType.NONE != bullet.info.bulletImpactType && NOTHING != (bullet.GetDeletedCondition() & bullet.info.impactCondition))
         {
             ParticleManager.Instance.PlayParticle(bullet.info.bulletImpactType.ToString(), bulletTransform.position);
         }
@@ -48,7 +50,7 @@ public abstract class DeleteProperty : BulletProperty
 
     protected void ResetDeletedCondition()
     {
-        bullet.SetDeletedCondition(0x00000000);
+        bullet.SetDeletedCondition(0);
     }
 
     protected void RemoveBulletParticle()

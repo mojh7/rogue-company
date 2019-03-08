@@ -5,4 +5,6 @@ using UnityEngine;
 public class CommonConstants : MonoBehaviourSingleton<CommonConstants>
 {
     public Color[] RATING_TXT_COLOR;
+
+    //public static string PLAYER_LAYER;
 }

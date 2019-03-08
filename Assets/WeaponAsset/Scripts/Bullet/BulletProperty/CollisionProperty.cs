@@ -161,6 +161,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             }
             else if (UtilityClass.CheckLayer(coll.gameObject.layer, 18))
             {
+                bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.COLLISION_OBJECT);
                 delDestroyBullet();
             }
             // Enemy가 Player공격 : 관통 처리 o, 공격 o
@@ -173,7 +174,10 @@ class BaseNormalCollisionProperty : CollisionProperty
                     Ignore(ref coll);
                     pierceCount -= 1;
                     if (pierceCount == 0)
+                    {
+                        bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.COLLISION_TARGET);
                         delDestroyBullet();
+                    }
                     DecreaseDamageAfterPierce();
                 }
                 return;
@@ -191,6 +195,7 @@ class BaseNormalCollisionProperty : CollisionProperty
             }
             else if (UtilityClass.CheckLayer(coll.gameObject.layer, 20))
             {
+                bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.COLLISION_OBJECT);
                 delDestroyBullet();
             }
             // Player(16)가 Enemy(13) 공격 : 관통 처리 o, 공격 o
@@ -203,7 +208,10 @@ class BaseNormalCollisionProperty : CollisionProperty
                     Ignore(ref coll);
                     pierceCount -= 1;
                     if (pierceCount == 0)
+                    {
+                        bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.COLLISION_TARGET);
                         delDestroyBullet();
+                    }
                     DecreaseDamageAfterPierce();
                 }
                 return;
@@ -257,6 +265,7 @@ class BaseNormalCollisionProperty : CollisionProperty
         else
         {
             // 총알 회수
+            bullet.SetDeletedCondition(WeaponAsset.DeletedCondition.COLLISION_OBJECT);
             delDestroyBullet();
         }
     }
