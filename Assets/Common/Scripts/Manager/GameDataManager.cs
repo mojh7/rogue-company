@@ -18,7 +18,7 @@ using System.Runtime.Serialization.Formatters.Binary;
  * 도감 코텐츠 해금 여부(콘텐츠 처음 접하면 열리게 or 아무런 조건 없이 모든 정보 오픈)
  * 업적 관련
  * 
- * UserInDungeonData : 던전 내에서의 정보
+ * UserInDungeonData : 인게임, 던전 내에서의 정보
  * 던전 코인
  * 던전 키
  * 무기 정보(id, 탄약)
