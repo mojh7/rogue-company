@@ -69,7 +69,7 @@ public class CutSceneUI : MonoBehaviourSingleton<CutSceneUI> {
 
     }
 
-    public void ShowCtuScene(int floor)
+    public void ShowCutScene(int floor)
     {
         UIManager.Instance.SetActivedBool(true);
         storyPanel.SetActive(true);

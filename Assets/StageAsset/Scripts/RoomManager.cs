@@ -278,6 +278,7 @@ public class RoomManager : MonoBehaviourSingleton<RoomManager> {
         {
             ItemManager.Instance.CallItemBox(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition()), RoomType.BOSS);
             ItemManager.Instance.DropKey(currentRoom.GetNearestAvailableArea(PlayerManager.Instance.GetPlayerPosition() + Vector3.right));
+			CutSceneUI.Instance.ShowCutScene((GameDataManager.Instance.GetFloor() / 2) + 1);
         }
         for (int i = 0; i < currentRoom.customObjects.Length; i++)
         {

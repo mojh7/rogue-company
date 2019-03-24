@@ -27,7 +27,7 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
 
     [SerializeField]
     // 런타임 때 결정되는 정보들.
-    private List<WeaponInfo>[] weaponInfoByRating;
+    private List<WeaponInfo>[] weaponInfoByRating = null;
 
     [Header("true하고 실행 시 엑셀 내용으로 무기 초기화")]
     [SerializeField]
@@ -79,10 +79,14 @@ public class WeaponsData : MonoBehaviourSingleton<WeaponsData>
     public WeaponInfo GetWeaponInfo(Rating rating)
     {
         if (Rating.NORATING == rating)
+        {
             return null;
+        }
         int ratingIndex = (int)(rating - 1);
         if (0 >= weaponInfoByRating[ratingIndex].Count)
+        {
             return null;
+        }
         int weaponIndex = Random.Range(0, weaponInfoByRating[ratingIndex].Count);
         return weaponInfoByRating[ratingIndex][weaponIndex];
     }
