@@ -297,6 +297,7 @@ public abstract class Character : MonoBehaviour
         isCasting = false;
         isDash = false;
         spawnType = CharacterInfo.SpawnType.NORMAL;
+        DeactivateAbnormalComponents();
     }
 
     public virtual void ActiveSkill()
@@ -570,7 +571,7 @@ public abstract class Character : MonoBehaviour
             if (rgbody.velocity.magnitude < 0.2f)
             {
                 SubRetrictsMovingCount();
-                checkingDashEnded = null;
+                checkingknockBackEnded = null;
                 break;
             }
         }
@@ -631,11 +632,11 @@ public abstract class Character : MonoBehaviour
     {
         restrictMovingCount = 0;
         restrictAttackingCount = 0;
+
         for (int i = 0; i < (int)AttackTypeAbnormalStatusType.END; i++)
         {
             isAttackTypeAbnormalStatuses[i] = false;
             attackTypeAbnormalStatusCoroutines[i] = null;
-            controlTypeAbnormalStatusesDurationMax[i] = 0;
         }
 
         for (int i = 0; i < (int)ControlTypeAbnormalStatusType.END; i++)

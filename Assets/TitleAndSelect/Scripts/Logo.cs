@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class Logo : MonoBehaviourSingleton<Logo>
 {
 
     public Image bridgeLogoImage;
-    public Image backGround;
     public Image teamLogoImage;
-    [SerializeField] private Sprite[] logoSprite;
+    public RectTransform teamLogoRectTransform;
 
     private void Start()
     {
@@ -34,6 +34,7 @@ public class Logo : MonoBehaviourSingleton<Logo>
     public void LoadLogo()
     {
         StartCoroutine(FadeLogo(bridgeLogoImage));
+        StartCoroutine(AnimationLogo(teamLogoImage));
     }
     IEnumerator FadeLogo(Image image)
     {
@@ -44,17 +45,12 @@ public class Logo : MonoBehaviourSingleton<Logo>
                 image.color = new Color(1, 1, 1, (float)i / 10);
                 yield return YieldInstructionCache.WaitForSeconds(0.05f);
             }
+            yield return YieldInstructionCache.WaitForSeconds(0.5f);
             for (int i = 10; i >= 0; i--)
             {
                 image.color = new Color(1, 1, 1, (float)i / 10);
-                yield return YieldInstructionCache.WaitForSeconds(0.05f);
+                yield return YieldInstructionCache.WaitForSeconds(0.08f);
             }
-            if (image != teamLogoImage)
-            {
-                StartCoroutine(AnimationLogo(teamLogoImage));
-            }
-            else
-                LoadTitle();
         }
     }
 
@@ -63,22 +59,18 @@ public class Logo : MonoBehaviourSingleton<Logo>
     {
         if (image != null)
         {
-            for (int i = 0; i < 10; i++)
-            {
-                backGround.color = new Color(0, 0, 0, (float)i / 10);
-                yield return YieldInstructionCache.WaitForSeconds(0.05f);
-            }
+            Vector2 teamLogoSize = new Vector2(600, 0);
             image.gameObject.SetActive(true);
-            backGround.color = new Color(0, 0, 0);
-            for (int i = 0; i < logoSprite.Length; i++)
+            for (int i = 0; i < 15; i++)
             {
-                image.sprite = logoSprite[i];
-                yield return YieldInstructionCache.WaitForSeconds(0.1f);
+                teamLogoRectTransform.sizeDelta = teamLogoSize;
+                teamLogoSize.y += 250f / 15;
+                yield return YieldInstructionCache.WaitForSeconds(0.02f);
             }
-            image.gameObject.SetActive(false);
-            for (int i = 10; i >= 0; i--)
+            yield return YieldInstructionCache.WaitForSeconds(2f);
+            for (int i = 20; i >= 0; i--)
             {
-                backGround.color = new Color(0, 0, 0, (float)i / 10);
+                image.color = new Color(255, 255, 255, (float)i / 20);
                 yield return YieldInstructionCache.WaitForSeconds(0.05f);
             }
         }

@@ -219,7 +219,6 @@ public class Player : Character
         isActiveMove = true;
         isActiveAttack = true;
 
-        DeactivateAbnormalComponents();
         directionVector = new Vector3(1, 0, 0);
         shieldCount = 0;
         evadeCoolTime = 0.05f;
@@ -236,7 +235,7 @@ public class Player : Character
         
         TimeController.Instance.PlayStart();
 
-        DeactivateAbnormalComponents();
+        
         poisonDamagePerUnit = AbnormalStatusConstants.PLAYER_TARGET_POISON_INFO.FIXED_DAMAGE_PER_UNIT;
         burnDamagePerUnit = AbnormalStatusConstants.PLAYER_TARGET_BURN_INFO.FIXED_DAMAGE_PER_UNIT;
         InitStatusEffects();
