@@ -54,7 +54,6 @@ public class Logo : MonoBehaviourSingleton<Logo>
         }
     }
 
-    // 수정 필요함.. 리소스 크기대로 잘라주세요 흑흑흑..
     IEnumerator AnimationLogo(Image image)
     {
         if (image != null)
@@ -62,7 +61,7 @@ public class Logo : MonoBehaviourSingleton<Logo>
             Vector2 teamLogoSize = new Vector2(600, 0);
             Vector3 teamLogoRotation = new Vector3(0, 0, 0);
             image.gameObject.SetActive(true);
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 16; i++)
             {
                 image.color = new Color(1, 1, 1, (float)i / 15);
                 teamLogoRectTransform.sizeDelta = teamLogoSize;
