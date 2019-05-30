@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class Logo : MonoBehaviourSingleton<Logo>
 {
-
-    public Image bridgeLogoImage;
-    public Image teamLogoImage;
-    public RectTransform teamLogoRectTransform;
+    [SerializeField] private Image bridgeLogoImg;
+    [SerializeField] private Image teamLogoImg;
+    [SerializeField] private RectTransform teamLogoRectTransform;
+    [SerializeField] private Image fadeImg;
 
     private void Start()
     {
@@ -33,8 +33,8 @@ public class Logo : MonoBehaviourSingleton<Logo>
     }
     public void LoadLogo()
     {
-        StartCoroutine(FadeLogo(bridgeLogoImage));
-        StartCoroutine(AnimationLogo(teamLogoImage));
+        StartCoroutine(FadeLogo(bridgeLogoImg));
+        StartCoroutine(AnimationLogo(teamLogoImg));
     }
     IEnumerator FadeLogo(Image image)
     {
@@ -74,10 +74,11 @@ public class Logo : MonoBehaviourSingleton<Logo>
             for (int i = 20; i >= 0; i--)
             {
                 image.color = new Color(1, 1, 1, (float)i / 20);
+                fadeImg.color = new Color(0, 0, 0, (float)(20-i) / 20);
                 yield return YieldInstructionCache.WaitForSeconds(0.05f);
             }
         }
-        if (image == teamLogoImage)
+        if (image == teamLogoImg)
             LoadTitle();
     }
 }

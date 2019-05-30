@@ -571,21 +571,18 @@ public class BuffManager : MonoBehaviour
 
     private IEnumerator RemoveBuffEffect(CharacterTargetEffect targetEffect, float effectiveTime)
     {
-        float time = 0;
         yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
         RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
     }
 
     private IEnumerator RemoveBuffEffect(InGameTargetEffect targetEffect, float effectiveTime)
     {
-        float time = 0;
         yield return YieldInstructionCache.WaitForSeconds(effectiveTime);
         RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
     }
 
     private IEnumerator RemoveBuffEffect(WeaponTargetEffect targetEffect, float effectiveTime)
     {
-        float time = 0;
         yield return YieldInstructionCache.WaitForSeconds(Time.fixedTime);
         RemoveTargetEffect(targetEffect, EffectApplyType.BUFF);
     }
