@@ -1,7 +1,10 @@
 # 프로젝트 명 : 로그 컴퍼니(Rogue Company)
 
-![title](https://user-images.githubusercontent.com/34932546/58801326-2b5ea880-8645-11e9-806a-17d1968d5b97.png)
 >- Promotion Video : https://www.youtube.com/watch?v=Bu6-mhlF8NQ
+
+## About Game Image
+![title_scene](./ForReadMe/title.png)
+![lobby_scene](./ForReadMe/lobby.png)
 
 ## About Team
 > 팀 슈팅스타는 기획자 2명, 프로그래머 3명, 아트 2명 총 7명으로 구성되어 있습니다.
@@ -16,9 +19,16 @@
 >- 절차적 맵 생성 기반(Procedural Map Generation)의 각 Stage에 따른 Random Map 구현
 >- Map에 등장하여 Player와 상호작용 할 수 있는 여러 오브젝트(문, 부셔지는 오브젝트, 무기 상자, 아이템 상자, 코인 등) 구현
 
+>- Monster, Bullet, Item, Particle등의 객체를 오브젝트 풀로 만들어 재활용 할 수 있도록 성능을 높임.
+
 >- 여러가지 아이템(소모품, 버프, 패시브) 구현
->- 근접 무기, 권총, 샷건, 레이저, 수류탄 무기 등 다양한 공격 패턴을 가지는 무기(80개) 개발, 다양한 공격 패턴 제작을 위해 다양한 Bullet Pattern 구현
->- 콘텐츠(무기, 아이템, 몬스터) 도감 시스템 구현 
+>- 근접 무기, 권총, 샷건, 레이저, 수류탄 무기 등 다양한 공격 패턴을 가지는 무기(약 50개 이상) 개발
+>- 다양한 각도와 위치의 탄막 패턴 생성을 위해 여러 패턴의 템플릿 Bullet Pattern(MultiDir, Row, Laser, Spread)Class 구현
+>- 화상, 빙결, 스턴, 슬로우 등 상태이상 구현
+>- 데코레이터 패턴을 참고하여 Bullet Class내의 Property(Collision, Update, Delete Property) Class를 포함하여 Bullet이 여러가지 충돌, 운동, 삭제 속성을 가지도록 구현(몬스터 관통, 벽 오브젝트에 튕겨짐, 가속도 운동, 회전 운동, 유도탄, 총알 삭제 후 파열탄 생성 등)  
+>- Parent Bullet을 중심으로 Child Bullet을 생성하여 삼각형, 사각형, 별 모양, +, x, 알파벳 등 특수한 모양의 탄막 패턴 구현, Parent Bullet의 알맞은 UpdateProperty를 추가하여 다양한 운동 궤적을 그릴 수 있도록 구현(등속도, 가속도, 회전, 삼각함수)
+>- Excel에서 작업한 무기 데이터 내용 csv으로 만들어 Unity 내에서 csv 파싱 후 WeaponInfo Data에 적용할 수 있도록 구현
+>- 콘텐츠 도감(무기, 아이템, 몬스터) 시스템, UI 구현
  
 
 ![12123123](https://user-images.githubusercontent.com/34932546/58801761-67463d80-8646-11e9-9dfd-73d498853e63.gif)
