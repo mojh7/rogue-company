@@ -43,6 +43,6 @@
 >- 18.02.10 Team Building(기획2, 개발3, 아트1 총6명으로 시작, 대학생 게임 개발 연합 동아리 Bridge)
 >- 18.06.27 스마일게이트 멤버십(SGM) 창작 부문 10기 최종 선발 및 활동 시작
 >- 18.08.23 아트1명 추가 모집(기획2, 개발3, 아트2 총 7명)
->- 19.02.27 Bridge소속으로 참여한 2018 하반기 LINE 전국 대학교 게임개발동아리 공모전 20표 중 9표로 1위 및 팀 사정으로 동아리 팀 프로젝트 종료
+>- 19.02.27 Bridge소속으로 참여한 2018 하반기 LINE 전국 대학교 게임개발동아리 공모전 20표 중 9표로 1위 달성, 팀 사정으로 동아리 팀 프로젝트 종료 후 1인 개발 전환
 >- 19.04.23 Unity Made With Unity Korea Awards 2019 제출(참가), https://connect.unity.com/p/mwu-korea-2019-rogeukeompeoni-rogue-company-syutingseuta-1 
->- 19.05.30 1인 개발 전환, Git Repository 변경 : https://github.com/Janghyun-mo/New-RougeCompany (19.12.04 기준 Private Repository, 안드로이드 플랫폼 출시 목표를 위해 개발 진행 중)
+>- 19.05.30 1인 개발 전환에 따른 Git Repository 변경 : https://github.com/Janghyun-mo/New-RougeCompany (19.12.04 기준 Private Repository, 안드로이드 플랫폼 출시 목표를 위해 개발 진행 중)
