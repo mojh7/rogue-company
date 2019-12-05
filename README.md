@@ -2,13 +2,23 @@
 
 >- Promotion Video : https://www.youtube.com/watch?v=Bu6-mhlF8NQ
 
-## About Game Image
+## Game Image
+
 ![title_scene](./ForReadMe/title.png)
-![lobby_scene](./ForReadMe/lobby.png)
+![lobby_scene](/ForReadMe/lobby.png)
 
-![12123123](https://user-images.githubusercontent.com/34932546/58801761-67463d80-8646-11e9-9dfd-73d498853e63.gif)
-![skill2](https://user-images.githubusercontent.com/34932546/58801665-25b59280-8646-11e9-9ef6-dbae16022b82.gif)
+<img src="./ForReadMe/weapon_flower.gif" width="420" height="237"> <img src="./ForReadMe/weapon_fan.gif" width="420" height="237"/>
+<img src="./ForReadMe/weapon_cat.gif" width="420" height="237"> <img src="./ForReadMe/weapon_cat2.gif" width="420" height="237"/>
+<img src="./ForReadMe/weapon_wand1.gif" width="420" height="237"> <img src="./ForReadMe/weapon_wand2.gif" width="420" height="237"/>
+<img src="./ForReadMe/weapon_grenade.gif" width="420" height="237"> <img src="./ForReadMe/weapon_shuriken.gif" width="420" height="237"/>
+<img src="./ForReadMe/weapon_boomerang.gif" width="420" height="237"> <img src="./ForReadMe/weapon_badminton_racket.gif" width="420" height="237"/>
+<img src="./ForReadMe/weapon_ruler.gif" width="420" height="237"> <img src="./ForReadMe/weapon_stapler.gif" width="420" height="237"/>
+<img src="./ForReadMe/item.gif" width="420" height="237"> <img src="./ForReadMe/item2.gif" width="420" height="237"/>
+<img src="./ForReadMe/coins.gif" width="420" height="237"> <img src="./ForReadMe/healing_potion.gif" width="420" height="237"/>
+<img src="./ForReadMe/weapon_info_ui.gif" width="420" height="237"> <img src="./ForReadMe/.gif" width="420" height="237"/>
 
+
+<img src="https://user-images.githubusercontent.com/34932546/58801761-67463d80-8646-11e9-9dfd-73d498853e63.gif" width="420" height="230">  <img src="https://user-images.githubusercontent.com/34932546/58801665-25b59280-8646-11e9-9ef6-dbae16022b82.gif" width="420" height="230"/>
 ## About Team
 > 팀 슈팅스타는 기획자 2명, 프로그래머 3명, 아트 2명 총 7명으로 구성되어 있습니다.
 
