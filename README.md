@@ -15,8 +15,11 @@
 <img src="./ForReadMe/weapon_ruler.gif" width="420" height="237"> <img src="./ForReadMe/weapon_stapler.gif" width="420" height="237"/>
 <img src="./ForReadMe/item.gif" width="420" height="237"> <img src="./ForReadMe/item2.gif" width="420" height="237"/>
 <img src="./ForReadMe/coins.gif" width="420" height="237"> <img src="./ForReadMe/healing_potion.gif" width="420" height="237"/>
-<img src="./ForReadMe/weapon_info_ui.gif" width="420" height="237"> <img src="./ForReadMe/.gif" width="420" height="237"/>
-
+<img src="./ForReadMe/weapon_info_ui.gif" width="420" height="237"> <img src="./ForReadMe/boss1.gif" width="420" height="237"/>
+<img src="./ForReadMe/boss2.gif" width="420" height="237"> <img src="./ForReadMe/boss3.gif" width="420" height="237"/>
+<img src="./ForReadMe/boss4.gif" width="420" height="237"> <img src="./ForReadMe/bullet_pattern_1.gif" width="420" height="237"/>
+<img src="./ForReadMe/bullet_pattern_2.gif" width="420" height="237"> <img src="./ForReadMe/bullet_pattern_3.gif" width="420" height="237"/>
+<img src="./ForReadMe/bullet_pattern_4.gif" width="420" height="237"> <img src="./ForReadMe/bullet_pattern_5.gif" width="420" height="237"/>
 
 <img src="https://user-images.githubusercontent.com/34932546/58801761-67463d80-8646-11e9-9dfd-73d498853e63.gif" width="420" height="230">  <img src="https://user-images.githubusercontent.com/34932546/58801665-25b59280-8646-11e9-9ef6-dbae16022b82.gif" width="420" height="230"/>
 ## About Team
